@@ -24,18 +24,15 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             var curriculums = Storage.GetCurriculums(Storage.GetCurrentUser());
 
-            return View
-            (
-                curriculums
-                    .Select(item => new ViewCurriculumModel
+            return View(
+                curriculums.Select(item => new ViewCurriculumModel
                     {
                         Id = item.Id,
                         GroupName = Storage.GetGroup(item.UserGroupRef).Name,
                         DisciplineName = Storage.GetDiscipline(item.DisciplineRef).Name,
                         StartDate = Converter.ToString(item.StartDate),
                         EndDate = Converter.ToString(item.EndDate),
-                    })
-            );
+                    }));
         }
 
         [HttpGet]
@@ -132,7 +129,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         public ActionResult Details(int id)
         {
             var cur = Storage.GetCurriculum(id);
-            
+
             return View(cur);
         }
 
@@ -141,10 +138,14 @@ namespace IUDICO.CurriculumManagement.Controllers
         public ActionResult EditTopic(int id)
         {
             var topic = Storage.GetCurriculumChapterTopic(id);
-            var model = new CreateCurriculumChapterTopicModel(topic.MaxScore, topic.BlockTopicAtTesting,
-                                                              topic.BlockCurriculumAtTesting, topic.TestStartDate,
-                                                              topic.TestEndDate, topic.TheoryStartDate,
-                                                              topic.TheoryEndDate);
+            var model = new CreateCurriculumChapterTopicModel(
+                topic.MaxScore,
+                topic.BlockTopicAtTesting,
+                topic.BlockCurriculumAtTesting,
+                topic.TestStartDate,
+                topic.TestEndDate,
+                topic.TheoryStartDate,
+                topic.TheoryEndDate);
             return PartialView("EditTopic", model);
         }
 
@@ -168,16 +169,16 @@ namespace IUDICO.CurriculumManagement.Controllers
                 if (ModelState.IsValid)
                 {
                     Storage.UpdateCurriculumChapterTopic(curriculumChapterTopic);
-                    return Json(new {success = "true"});
+                    return Json(new { success = "true" });
                 }
 
                 return Json(new { success = false, id = id, html = PartialViewAsString("EditTopic", model) });
             }
             catch (Exception ex)
             {
-                return Json(new {success = false, html = ex.Message});
+                return Json(new { success = false, html = ex.Message });
             }
-            
+
         }
     }
 }

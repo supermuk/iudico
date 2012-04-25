@@ -16,8 +16,8 @@ namespace IUDICO.DisciplineManagement
 {
     public class DisciplineManagementPlugin : IWindsorInstaller, IPlugin
     {
-        //protected IDisciplineStorage _DisciplineStorage { get; set; }
-        protected IWindsorContainer _Container;
+        // protected IDisciplineStorage _DisciplineStorage { get; set; }
+        protected IWindsorContainer container;
 
         #region IWindsorInstaller Members
 
@@ -32,14 +32,13 @@ namespace IUDICO.DisciplineManagement
                 Component.For<IPlugin>().Instance(this).LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<IDisciplineStorage>().ImplementedBy<CachedDisciplineStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<IDisciplineStorage>().ImplementedBy<DatabaseDisciplineStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<IDisciplineService>().ImplementedBy<DisciplineService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
-            );
+                Component.For<IDisciplineService>().ImplementedBy<DisciplineService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
 
-            //temporary hack
-            _Container = container;
-            //_LmsService = container.Resolve<ILmsService>();
-            //_DisciplineStorage = new CachedDisciplineStorage(new DatabaseDisciplineStorage(container.Resolve<ILmsService>()), container.Resolve<ICacheProvider>());
-            //_DisciplineStorage = container.Resolve<IDisciplineStorage>();
+            // temporary hack
+            this.container = container;
+            // _LmsService = container.Resolve<ILmsService>();
+            // _DisciplineStorage = new CachedDisciplineStorage(new DatabaseDisciplineStorage(container.Resolve<ILmsService>()), container.Resolve<ICacheProvider>());
+            // _DisciplineStorage = container.Resolve<IDisciplineStorage>();
         }
 
         #endregion
@@ -47,14 +46,14 @@ namespace IUDICO.DisciplineManagement
         #region IPlugin Members
         public string GetName()
         {
-            return Localization.getMessage("DisciplineManagement");
+            return Localization.GetMessage("DisciplineManagement");
         }
 
         public IEnumerable<Action> BuildActions()
         {
             return new[]
             {
-                new Action(Localization.getMessage("DisciplineManagement"), "Discipline/Index")
+                new Action(Localization.GetMessage("DisciplineManagement"), "Discipline/Index")
             };
         }
 
@@ -62,7 +61,7 @@ namespace IUDICO.DisciplineManagement
         {
             return new[]
             {
-                new MenuItem(Localization.getMessage("Disciplines"), "Discipline", "Index")
+                new MenuItem(Localization.GetMessage("Disciplines"), "Discipline", "Index")
             };
         }
 
@@ -71,69 +70,61 @@ namespace IUDICO.DisciplineManagement
             routes.MapRoute(
                 "Discipline",
                 "Discipline/{DisciplineID}/{action}",
-                new { controller = "Discipline" }
-            );
+                new { controller = "Discipline" });
 
             routes.MapRoute(
                 "Disciplines",
                 "Discipline/{action}",
-                new { controller = "Discipline", action = "Index" }
-            );
+                new { controller = "Discipline", action = "Index" });
 
             routes.MapRoute(
                "Chapter",
                "Chapter/{ChapterId}/{action}",
-               new { controller = "Chapter" }
-            );
+                new { controller = "Chapter" });
 
             routes.MapRoute(
                 "Chapters",
                 "Discipline/{DisciplineId}/Chapter/{action}",
-                new { controller = "Chapter" }
-            );
+                new { controller = "Chapter" });
 
             routes.MapRoute(
                "ChapterAction",
                "ChapterAction/{action}",
-               new { controller = "Chapter" }
-            );
+                new { controller = "Chapter" });
 
             routes.MapRoute(
                "Topic",
                "Topic/{TopicId}/{action}",
-               new { controller = "Topic" }
-            );
+                new { controller = "Topic" });
 
             routes.MapRoute(
                 "Topics",
                 "Chapter/{ChapterId}/Topic/{action}",
-                new { controller = "Topic" }
-            );
+                new { controller = "Topic" });
 
             routes.MapRoute(
                "TopicAction",
                "TopicAction/{action}",
-               new { controller = "Topic" }
-            );
+                new { controller = "Topic" });
         }
 
         public void Update(string evt, params object[] data)
         {
-            var _DisciplineStorage = _Container.Resolve<IDisciplineStorage>();
+            var disciplineStorage = this.container.Resolve<IDisciplineStorage>();
 
             switch (evt)
             {
                 case UserNotifications.CourseDelete:
-                    //delete connected Topics
+                    // delete connected Topics
                     var courseId = ((Course)data[0]).Id;
-                    //curriculumStorage.MakeDisciplineInvalid(courseId);
-                    var topicIds = _DisciplineStorage.GetTopicsByCourseId(courseId).Select(item => item.Id);
-                    _DisciplineStorage.DeleteTopics(topicIds);
+                    // curriculumStorage.MakeDisciplineInvalid(courseId);
+                    var topicIds = disciplineStorage.GetTopicsByCourseId(courseId).Select(item => item.Id);
+                    disciplineStorage.DeleteTopics(topicIds);
                     break;
                 case UserNotifications.UserDelete:
-                    //delete connected Disciplines(Curriculums)
-                    var disciplineIds = _DisciplineStorage.GetDisciplines((User)data[0]).Select(item => item.Id);
-                    _DisciplineStorage.DeleteDisciplines(disciplineIds);
+                    // delete connected Disciplines(Curriculums)
+                    var disciplineIds = disciplineStorage.GetDisciplines((User)data[0]).Select(item => item.Id);
+                    disciplineStorage.DeleteDisciplines(disciplineIds);
                     break;
             }
         }

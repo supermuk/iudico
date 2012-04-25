@@ -6,7 +6,7 @@
 
 <% using (Ajax.BeginForm("Share", "Discipline", new { }, new AjaxOptions { OnFailure = "onFailure", OnSuccess = "onShareDisciplineSuccess" }))
     {%>
-        <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+        <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         
         <% Html.RenderPartial("ShareUserList", Model); %>
 <% } %>

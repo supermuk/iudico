@@ -21,8 +21,8 @@ namespace IUDICO.CurriculumManagement.Controllers
         /// <param name="disciplineStorage">The discipline storage.</param>
         public CurriculumBaseController(ICurriculumStorage disciplineStorage)
         {
-            Storage = disciplineStorage;
-            Validator = new Validator(Storage);
+            this.Storage = disciplineStorage;
+            this.Validator = new Validator(this.Storage);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             foreach (string error in errors)
             {
-                ModelState.AddModelError(string.Empty, error);//should be string.Empty!
+                ModelState.AddModelError(string.Empty, error); // should be string.Empty!
             }
         }
     }

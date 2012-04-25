@@ -15,6 +15,6 @@
     <% using (Html.BeginForm("Import", "Discipline", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {%>
             <input type="file" id="inputFileUpload" name="fileUpload" style="visibility: hidden; position:absolute;"/>
-            <a id="linkImport" href="#"><%=IUDICO.DisciplineManagement.Localization.getMessage("Import")%></a>
+            <a id="linkImport" href="#"><%=IUDICO.DisciplineManagement.Localization.GetMessage("Import")%></a>
     <%} %>
 </div>

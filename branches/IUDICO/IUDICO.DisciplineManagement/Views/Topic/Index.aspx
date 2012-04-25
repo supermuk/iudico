@@ -13,12 +13,12 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.DisciplineManagement.Models
                 });
 
                 if (ids.length == 0) {
-                    alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("PleaseSelectTopicsDelete") %>");
+                    alert("<%=IUDICO.DisciplineManagement.Localization.GetMessage("PleaseSelectTopicsDelete") %>");
 
                     return false;
                 }
 
-                var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedTopics") %>");
+                var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.GetMessage("AreYouSureYouWantDeleteSelectedTopics") %>");
 
                 if (answer == false) {
                     return false;
@@ -33,14 +33,14 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.DisciplineManagement.Models
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> ");
+                            alert("<%=IUDICO.DisciplineManagement.Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> ");
                         }
                     }
                 });
             });
         });
         function deleteItem(id) {
-            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedTopic") %>");
+            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.GetMessage("AreYouSureYouWantDeleteSelectedTopic") %>");
 
             if (answer == false) {
                 return;
@@ -56,7 +56,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.DisciplineManagement.Models
                         $("tr[id=" + item + "]").remove();
                     }
                     else {
-                        alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+                        alert("<%=IUDICO.DisciplineManagement.Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                     }
                 }
             });
@@ -64,43 +64,43 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.DisciplineManagement.Models
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.DisciplineManagement.Localization.getMessage("Topics")%>
+    <%=IUDICO.DisciplineManagement.Localization.GetMessage("Topics")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.DisciplineManagement.Localization.getMessage("TopicsFor")%>
+        <%=IUDICO.DisciplineManagement.Localization.GetMessage("TopicsFor")%>
     </h2>
     <h4>
-        <%=ViewData["DisciplineName"]%><%=IUDICO.DisciplineManagement.Localization.getMessage("Next")%><%=ViewData["ChapterName"]%></h4>
+        <%=ViewData["DisciplineName"]%><%=IUDICO.DisciplineManagement.Localization.GetMessage("Next")%><%=ViewData["ChapterName"]%></h4>
     <p>
-        <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("AddTopic"), "Create")%>
+        <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.GetMessage("AddTopic"), "Create")%>
         <a id="DeleteMany" href="#">
-            <%=IUDICO.DisciplineManagement.Localization.getMessage("DeleteSelected")%></a>
+            <%=IUDICO.DisciplineManagement.Localization.GetMessage("DeleteSelected")%></a>
     </p>
     <table>
         <tr>
             <th>
             </th>
             <th>
-                <%=IUDICO.DisciplineManagement.Localization.getMessage("TopicName")%>
+                <%=IUDICO.DisciplineManagement.Localization.GetMessage("TopicName")%>
             </th>
             <th>
-                <%=IUDICO.DisciplineManagement.Localization.getMessage("Created")%>
+                <%=IUDICO.DisciplineManagement.Localization.GetMessage("Created")%>
             </th>
             <th>
-                <%=IUDICO.DisciplineManagement.Localization.getMessage("Updated")%>
+                <%=IUDICO.DisciplineManagement.Localization.GetMessage("Updated")%>
             </th>
             <th>
-                <%=IUDICO.DisciplineManagement.Localization.getMessage("TestTopicType")%>
+                <%=IUDICO.DisciplineManagement.Localization.GetMessage("TestTopicType")%>
             </th>
             <th>
-                <%=IUDICO.DisciplineManagement.Localization.getMessage("TestCourseName")%>
+                <%=IUDICO.DisciplineManagement.Localization.GetMessage("TestCourseName")%>
             </th>
             <th>
-                <%=IUDICO.DisciplineManagement.Localization.getMessage("TheoryTopicType")%>
+                <%=IUDICO.DisciplineManagement.Localization.GetMessage("TheoryTopicType")%>
             </th>
             <th>
-                <%=IUDICO.DisciplineManagement.Localization.getMessage("TheoryCourseName")%>
+                <%=IUDICO.DisciplineManagement.Localization.GetMessage("TheoryCourseName")%>
             </th>
             <th>
             </th>
@@ -133,20 +133,20 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.DisciplineManagement.Models
                 <%: item.TheoryCourseName%>
             </td>
             <td>
-                <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("Edit"), "Edit", new { TopicID = item.Id })%>
+                <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.GetMessage("Edit"), "Edit", new { TopicID = item.Id })%>
                 |
-                <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("Up"), "TopicUp", new { TopicID = item.Id })%>
+                <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.GetMessage("Up"), "TopicUp", new { TopicID = item.Id })%>
                 |
-                <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("Down"), "TopicDown", new { TopicID = item.Id })%>
+                <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.GetMessage("Down"), "TopicDown", new { TopicID = item.Id })%>
                 | <a href="#" onclick="deleteItem(<%: item.Id %>)">
-                    <%=IUDICO.DisciplineManagement.Localization.getMessage("Delete")%></a>
+                    <%=IUDICO.DisciplineManagement.Localization.GetMessage("Delete")%></a>
             </td>
         </tr>
         <% } %>
     </table>
     <div>
         <br />
-       <%: Html.RouteLink(IUDICO.DisciplineManagement.Localization.getMessage("BackToChapters"), "Chapters", new { action = "Index", DisciplineId = ViewData["DisciplineId"] }, null)%>
+       <%: Html.RouteLink(IUDICO.DisciplineManagement.Localization.GetMessage("BackToChapters"), "Chapters", new { action = "Index", DisciplineId = ViewData["DisciplineId"] }, null)%>
 
     </div>
 </asp:Content>

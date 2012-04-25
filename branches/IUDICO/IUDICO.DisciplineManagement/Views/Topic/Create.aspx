@@ -10,23 +10,23 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.DisciplineManagement.Models.ViewDataCla
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.DisciplineManagement.Localization.getMessage("CreateTopic") %>
+    <%=IUDICO.DisciplineManagement.Localization.GetMessage("CreateTopic") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.DisciplineManagement.Localization.getMessage("CreateTopicFor") %></h2>
+        <%=IUDICO.DisciplineManagement.Localization.GetMessage("CreateTopicFor") %></h2>
     <h4>
-        <%=ViewData["DisciplineName"]%><%=IUDICO.DisciplineManagement.Localization.getMessage("Next")%><%=ViewData["ChapterName"]%>
+        <%=ViewData["DisciplineName"]%><%=IUDICO.DisciplineManagement.Localization.GetMessage("Next")%><%=ViewData["ChapterName"]%>
     </h4>
     <% Html.EnableClientValidation(); %>
 
     <% using (Html.BeginForm("Create", "Topic"))
        {%>
-        <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+        <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
 
         <fieldset>
-            <legend><%=IUDICO.DisciplineManagement.Localization.getMessage("Fields")%></legend>
+            <legend><%=IUDICO.DisciplineManagement.Localization.GetMessage("Fields")%></legend>
 
             <%= Html.EditorForModel() %>
 
@@ -51,10 +51,10 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.DisciplineManagement.Models.ViewDataCla
             </div>--%>
         </fieldset>
         <p>
-            <input type="submit" value="<%=IUDICO.DisciplineManagement.Localization.getMessage("Create") %>" />
+            <input type="submit" value="<%=IUDICO.DisciplineManagement.Localization.GetMessage("Create") %>" />
         </p>
     <% } %>
     <div>
-        <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("BackToList"), "Index", new { ChapterId = Model.ChapterId })%>
+        <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.GetMessage("BackToList"), "Index", new { ChapterId = Model.ChapterId })%>
     </div>
 </asp:Content>

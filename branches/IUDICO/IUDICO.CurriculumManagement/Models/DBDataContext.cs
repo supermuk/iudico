@@ -17,31 +17,31 @@ namespace IUDICO.CurriculumManagement.Models
         public DBDataContext() :
             base(global::System.Configuration.ConfigurationManager.ConnectionStrings["IUDICOConnectionString"].ConnectionString, mappingSource)
         {
-            OnCreated();
+            this.OnCreated();
         }
 
         public DBDataContext(string connection) :
             base(connection, mappingSource)
         {
-            OnCreated();
+            this.OnCreated();
         }
 
         public DBDataContext(System.Data.IDbConnection connection) :
             base(connection, mappingSource)
         {
-            OnCreated();
+            this.OnCreated();
         }
 
         public DBDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
             base(connection, mappingSource)
         {
-            OnCreated();
+            this.OnCreated();
         }
 
         public DBDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) :
             base(connection, mappingSource)
         {
-            OnCreated();
+            this.OnCreated();
         }
 
         public System.Data.Linq.Table<Curriculum> Curriculums
@@ -102,17 +102,17 @@ namespace IUDICO.CurriculumManagement.Models
 
         IMockableTable<Curriculum> IDataContext.Curriculums
         {
-            get { return new MockableTable<Curriculum>(Curriculums); }
+            get { return new MockableTable<Curriculum>(this.Curriculums); }
         }
 
         IMockableTable<CurriculumChapter> IDataContext.CurriculumChapters
         {
-            get { return new MockableTable<CurriculumChapter>(CurriculumChapters); }
+            get { return new MockableTable<CurriculumChapter>(this.CurriculumChapters); }
         }
 
         IMockableTable<CurriculumChapterTopic> IDataContext.CurriculumChapterTopics
         {
-            get { return new MockableTable<CurriculumChapterTopic>(CurriculumChapterTopics); }
+            get { return new MockableTable<CurriculumChapterTopic>(this.CurriculumChapterTopics); }
         }
     }
 }

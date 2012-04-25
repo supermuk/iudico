@@ -11,22 +11,22 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculum")%>
+    <%=IUDICO.CurriculumManagement.Localization.GetMessage("CreateCurriculum")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("CreateCurriculum")%></h2>
+        <%=IUDICO.CurriculumManagement.Localization.GetMessage("CreateCurriculum")%></h2>
     <% Html.EnableClientValidation(); %>
 
     <% using (Html.BeginForm())
        {%>
-        <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+        <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         <% Html.RenderPartial("EditorForCurriculumModel", Model); %>
         <p>
-            <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Create") %>" />
+            <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.GetMessage("Create") %>" />
         </p>
     <% } %>
     <div>
-        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "Index")%>
+        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.GetMessage("BackToList"), "Index")%>
     </div>
 </asp:Content>

@@ -8,123 +8,118 @@ namespace IUDICO.DisciplineManagement.Models
 {
     public class DisciplineService : IDisciplineService
     {
-        private readonly IDisciplineStorage _disciplineStorage;
+        private readonly IDisciplineStorage disciplineStorage;
 
         public DisciplineService(IDisciplineStorage disciplineStorage)
         {
-            _disciplineStorage = disciplineStorage;
+            this.disciplineStorage = disciplineStorage;
         }
 
         #region IDisciplineService Members
 
         public IList<Discipline> GetDisciplines(IEnumerable<int> ids)
         {
-            return _disciplineStorage.GetDisciplines(ids);
+            return this.disciplineStorage.GetDisciplines(ids);
         }
 
         public Discipline GetDiscipline(int id)
         {
-            return _disciplineStorage.GetDiscipline(id);
+            return this.disciplineStorage.GetDiscipline(id);
         }
-
-        //public IList<Discipline> GetDisciplinesWithTopicsOwnedByUser(User user)
-        //{
-        //    return _disciplineStorage.GetDisciplinesWithTopicsOwnedByUser(user);
-        //}
 
         public IList<Discipline> GetDisciplines()
         {
-            return _disciplineStorage.GetDisciplines();
+            return this.disciplineStorage.GetDisciplines();
         }
 
         public IList<Discipline> GetDisciplines(User user)
         {
-            return _disciplineStorage.GetDisciplines(user);
+            return this.disciplineStorage.GetDisciplines(user);
         }
 
         public IList<Discipline> GetDisciplines(Func<Discipline, bool> predicate)
         {
-            return _disciplineStorage.GetDisciplines(predicate);
+            return this.disciplineStorage.GetDisciplines(predicate);
         }
 
         public IList<Chapter> GetChapters(int disciplineId)
         {
-            return _disciplineStorage.GetChapters(item => item.DisciplineRef == disciplineId);
+            return this.disciplineStorage.GetChapters(item => item.DisciplineRef == disciplineId);
         }
 
         public IList<Chapter> GetChapters(IEnumerable<int> ids)
         {
-            return _disciplineStorage.GetChapters(ids);
+            return this.disciplineStorage.GetChapters(ids);
         }
 
         public Chapter GetChapter(int id)
         {
-            return _disciplineStorage.GetChapter(id);
+            return this.disciplineStorage.GetChapter(id);
         }
 
         public IList<Topic> GetTopicsByChapterId(int chapterId)
         {
-            return _disciplineStorage.GetTopics(item => item.ChapterRef == chapterId);
+            return this.disciplineStorage.GetTopics(item => item.ChapterRef == chapterId);
         }
 
         public IList<Topic> GetTopics(IEnumerable<int> ids)
         {
-            return _disciplineStorage.GetTopics(ids);
+            return this.disciplineStorage.GetTopics(ids);
         }
 
         public IList<Topic> GetTopics()
         {
-            return _disciplineStorage.GetTopics(item => true);
+            return this.disciplineStorage.GetTopics(item => true);
         }
 
         public Topic GetTopic(int id)
         {
-            return _disciplineStorage.GetTopic(id);
+            return this.disciplineStorage.GetTopic(id);
         }
 
         public IList<Group> GetGroupsAssignedToTopic(int topicId)
         {
-            return _disciplineStorage.GetGroupsAssignedToTopic(topicId);
+            return this.disciplineStorage.GetGroupsAssignedToTopic(topicId);
         }
 
         public IEnumerable<Discipline> GetDisciplinesByGroupId(int groupId)
         {
-            return _disciplineStorage.GetDisciplinesByGroupId(groupId);
+            return this.disciplineStorage.GetDisciplinesByGroupId(groupId);
         }
 
         public IList<Topic> GetTopicsByDisciplineId(int disciplineId)
         {
-            return _disciplineStorage.GetTopicsByDisciplineId(disciplineId);
+            return this.disciplineStorage.GetTopicsByDisciplineId(disciplineId);
         }
 
         public IEnumerable<Topic> GetTopicsByGroupId(int groupId)
         {
-            return _disciplineStorage.GetTopicsByGroupId(groupId);
+            return this.disciplineStorage.GetTopicsByGroupId(groupId);
         }
 
         public IEnumerable<Topic> GetTopicsOwnedByUser(User owner)
         {
-            return _disciplineStorage.GetTopicsOwnedByUser(owner);
+            return this.disciplineStorage.GetTopicsOwnedByUser(owner);
         }
 
         public TopicType GetTopicType(int id)
         {
-            return _disciplineStorage.GetTopicType(id);
+            return this.disciplineStorage.GetTopicType(id);
         }
 
         public IList<TopicType> GetTopicTypes()
         {
-            return _disciplineStorage.GetTopicTypes();
+            return this.disciplineStorage.GetTopicTypes();
         }
 
         public IList<TopicType> GetTheoryTopicTypes()
         {
-            return _disciplineStorage.GetTheoryTopicTypes();
+            return this.disciplineStorage.GetTheoryTopicTypes();
         }
 
         public IList<TopicType> GetTestTopicTypes()
         {
-            return _disciplineStorage.GetTestTopicTypes();
+            return this.disciplineStorage.GetTestTopicTypes();
         }
 
         #endregion

@@ -88,7 +88,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
         public static void AreEqual(IList<TopicDescription> expected, IList<TopicDescription> actual)
         {
-            Assert.AreEqual(expected.ToList().Count, actual.ToList().Count);
+            Assert.AreEqual(expected.Count(), actual.Count());
             foreach (TopicDescription exp in expected)
             {
                 TopicDescription act = actual.SingleOrDefault(item => item.Topic == exp.Topic);
@@ -98,8 +98,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                 }
                 else
                 {
-                    Assert.Fail("Expected topic description with topic={0} doesn't exists in actual collection",
-                                exp.Topic);
+                    Assert.Fail(
+                        "Expected topic description with topic={0} doesn't exists in actual collection", exp.Topic);
                 }
             }
         }

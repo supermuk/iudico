@@ -38,63 +38,67 @@ namespace IUDICO.DisciplineManagement.Models.ViewDataClasses
 
         public CreateTopicModel(IList<Course> courses, Topic topic)
         {
-            //Test course
-            TestCourses = courses
+            // Test course
+            this.TestCourses = courses
                     .Select(item => new SelectListItem
                     {
                         Text = item.Name,
                         Value = item.Id.ToString(),
                         Selected = false
-                    })
-                    .ToList();
-            TestCourses.Insert(0, new SelectListItem()
-            {
-                Text = Localization.getMessage("NoCourse"),
+                    }).ToList();
+            this.TestCourses.Insert(
+                0,
+                new SelectListItem
+                    {
+                        Text = Localization.GetMessage("NoCourse"),
                 Value = Constants.NoCourseId.ToString(),
                 Selected = false
             });
-            TestCourses.Insert(0, new SelectListItem()
-            {
-                Text = Converter.ToString(TopicTypeEnum.TestWithoutCourse),
+            this.TestCourses.Insert(
+                0,
+                new SelectListItem()
+                    {
+                        Text = Converter.ToString(TopicTypeEnum.TestWithoutCourse),
                 Value = Constants.TestWithoutCourseId.ToString(),
                 Selected = false
             });
 
             switch (topic.TestTopicTypeRef)
             {
-                case ((int) TopicTypeEnum.TestWithoutCourse):
-                    TestCourseId = Constants.TestWithoutCourseId;
+                case ((int)TopicTypeEnum.TestWithoutCourse):
+                    this.TestCourseId = Constants.TestWithoutCourseId;
                     break;
                 case (null):
-                    TestCourseId = Constants.NoCourseId;
+                    this.TestCourseId = Constants.NoCourseId;
                     break;
                 default:
-                    TestCourseId = topic.TestCourseRef.Value;
+                    this.TestCourseId = topic.TestCourseRef.Value;
                     break;
             }
 
-            //Theory course
-            TheoryCourses = courses
+            // Theory course
+            this.TheoryCourses = courses
                     .Select(item => new SelectListItem
                     {
                         Text = item.Name,
                         Value = item.Id.ToString(),
                         Selected = false
-                    })
-                    .ToList();
-            TheoryCourses.Insert(0, new SelectListItem()
-            {
-                Text = Localization.getMessage("NoCourse"),
-                Value = Constants.NoCourseId.ToString(),
-                Selected = false
-            });
+                    }).ToList();
+            this.TheoryCourses.Insert(
+                0,
+                new SelectListItem
+                    {
+                        Text = Localization.GetMessage("NoCourse"),
+                        Value = Constants.NoCourseId.ToString(),
+                        Selected = false
+                    });
 
-            TheoryCourseId = topic.TheoryTopicTypeRef == null
+            this.TheoryCourseId = topic.TheoryTopicTypeRef == null
                                  ? Constants.NoCourseId
                                  : topic.TheoryCourseRef.Value;
 
-            TopicName = topic.Name;
-            ChapterId = topic.ChapterRef;
+            this.TopicName = topic.Name;
+            this.ChapterId = topic.ChapterRef;
         }
     }
 }

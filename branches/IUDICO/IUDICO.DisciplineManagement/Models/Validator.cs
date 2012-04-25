@@ -1,6 +1,5 @@
 ﻿using System;
 using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.DisciplineManagement.Models.Storage;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +16,7 @@ namespace IUDICO.DisciplineManagement.Models
 
         public Validator(IDisciplineStorage storage)
         {
-            _storage = storage;
+            this._storage = storage;
         }
 
         /// <summary>
@@ -29,14 +28,14 @@ namespace IUDICO.DisciplineManagement.Models
         public ValidationStatus ValidateDisciplineSharing(int disciplineId, IList<Guid> sharewith)
         {
             var validationStatus = new ValidationStatus();
-            var actualSharedUsers = _storage.GetDisciplineSharedUsers(disciplineId);
+            var actualSharedUsers = this._storage.GetDisciplineSharedUsers(disciplineId);
             foreach (var user in actualSharedUsers)
             {
-                //If we want to unshare user
+                // If we want to unshare user
                 if (!sharewith.Contains(user.Id))
                 {
-                    //if it already contains curriculums
-                    if (_storage.GetCurriculums(c => c.DisciplineRef == disciplineId).Any())
+                    // if it already contains curriculums
+                    if (this._storage.GetCurriculums(c => c.DisciplineRef == disciplineId).Any())
                     {
                         validationStatus.AddLocalizedError("CanNotUnshareUser", user.Name);
                     }
@@ -54,7 +53,7 @@ namespace IUDICO.DisciplineManagement.Models
         public ValidationStatus ValidateTopic(Topic data)
         {
             var validationStatus = new ValidationStatus();
-            if (!String.IsNullOrEmpty(data.Name) && data.Name.Length > Constants.MaxStringFieldLength)
+            if (!string.IsNullOrEmpty(data.Name) && data.Name.Length > Constants.MaxStringFieldLength)
             {
                 validationStatus.AddLocalizedError("NameCanNotBeLongerThan", Constants.MaxStringFieldLength);
             }

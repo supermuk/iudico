@@ -83,7 +83,7 @@ namespace IUDICO.DisciplineManagement.Controllers
             try
             {
                 sharewith = sharewith ?? new List<Guid>();
-                //AddValidationErrorsToModelState(Validator.ValidateDisciplineSharing(disciplineId, sharewith).Errors);
+                // AddValidationErrorsToModelState(Validator.ValidateDisciplineSharing(disciplineId, sharewith).Errors);
                 if (ModelState.IsValid)
                 {
                     Storage.UpdateDisciplineSharing(disciplineId, sharewith);
