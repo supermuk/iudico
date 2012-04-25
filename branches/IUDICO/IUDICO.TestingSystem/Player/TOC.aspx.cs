@@ -1,52 +1,51 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-// MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
-// MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
-// NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE.
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="TOC.aspx.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.Globalization;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
-using Microsoft.LearningComponents;
-using Microsoft.LearningComponents.Storage;
-using System.IO;
-using System.Web.UI;
-using IUDICO.TestingSystem;//using Resources;
-
-
 
 namespace Microsoft.LearningComponents.Frameset
 {
     public partial class Frameset_TOC : BwpFramesetPage
     {
-        TocHelper m_tocHelper; 
+        private TocHelper mTocHelper;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
-                m_tocHelper = new TocHelper();
-                m_tocHelper.ProcessPageLoad(Response, PStore, ProcessViewParameter, 
-                                    ProcessAttemptIdParameter, ProcessViewRequest, RegisterError, 
-                                    IUDICO.TestingSystem.Localization.getMessage("TOC_SubmitAttempt"));
+                this.mTocHelper = new TocHelper();
+                this.mTocHelper.ProcessPageLoad(
+                    this.Response,
+                    this.PStore,
+                    this.ProcessViewParameter,
+                    this.ProcessAttemptIdParameter,
+                    this.ProcessViewRequest,
+                    this.RegisterError,
+                    IUDICO.TestingSystem.Localization.GetMessage("TOC_SubmitAttempt"));
             }
             catch (Exception ex)
             {
-                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnexpectedErrorTitle")),
-                                ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnexpectedError"), HttpUtility.HtmlEncode(ex.Message)), false);
+                this.RegisterError(
+                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("FRM_UnexpectedErrorTitle")),
+                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("FRM_UnexpectedError"), HttpUtility.HtmlEncode(ex.Message)),
+                    false);
             }
         }
 
         #region called from aspx
+
         /// <summary>
         /// Write the html for the table of contents to the response.
         /// </summary>
         /// <returns></returns>
         public void WriteToc()
         {
-            m_tocHelper.TocElementsHtml();
+            this.mTocHelper.TocElementsHtml();
         }
 
         /// <summary>

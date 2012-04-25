@@ -1,20 +1,29 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="FramesetHelper.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
+
+// using Resources;
 
 using System;
-using System.Data;
 using System.Configuration;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using Microsoft.LearningComponents.Storage;
+
+using IUDICO.TestingSystem;
+
 using Microsoft.LearningComponents;
-using System.Text;
-using System.Globalization;
-using IUDICO.TestingSystem;//using Resources;
-using System.Diagnostics.CodeAnalysis;
+using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.LearningComponents.Frameset
 {
@@ -61,28 +70,30 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public class FramesetHelper
     {
-        private LearningSession m_session;
+        private LearningSession mSession;
 
         /// <summary>
         /// Process the PageLoad event on the Frameset.aspx page. 
         /// </summary>
         /// <param name="packageStore">The package store containing the packages for the sessions in the frameset.</param>
-        /// <param name="TryGetViewInfo">Delegate to retrieve the requested view.</param>
-        /// <param name="TryGetAttemptInfo">Delegate to retrieve the requested attempt.</param>
-        /// <param name="ProcessViewRequest">Delegate to process a request for a specific view.</param>
+        /// <param name="tryGetViewInfo">Delegate to retrieve the requested view.</param>
+        /// <param name="tryGetAttemptInfo">Delegate to retrieve the requested attempt.</param>
+        /// <param name="processViewRequest">Delegate to process a request for a specific view.</param>
         /// <remarks>
         /// This method will never throw an exception.</remarks>
-        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly")]   // parameters called as methods are cased as methods
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]   // parameters are validated
-        public void ProcessPageLoad(PackageStore packageStore,
-                                    TryGetViewInfo TryGetViewInfo,
-                                    TryGetAttemptInfo TryGetAttemptInfo,
-                                    ProcessViewRequest ProcessViewRequest)
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly")]
+        // parameters called as methods are cased as methods
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameters are validated
+        public void ProcessPageLoad(
+            PackageStore packageStore,
+            TryGetViewInfo tryGetViewInfo,
+            TryGetAttemptInfo tryGetAttemptInfo,
+            ProcessViewRequest processViewRequest)
         {
             // These should never be a problem, however fxcop complains about them.
-            FramesetUtil.ValidateNonNullParameter("TryGetViewInfo", TryGetViewInfo);
-            FramesetUtil.ValidateNonNullParameter("TryGetAttemptInfo", TryGetAttemptInfo);
-            FramesetUtil.ValidateNonNullParameter("ProcessViewRequest", ProcessViewRequest);
+            FramesetUtil.ValidateNonNullParameter("tryGetViewInfo", tryGetViewInfo);
+            FramesetUtil.ValidateNonNullParameter("tryGetAttemptInfo", tryGetAttemptInfo);
+            FramesetUtil.ValidateNonNullParameter("processViewRequest", processViewRequest);
             FramesetUtil.ValidateNonNullParameter("packageStore", packageStore);
 
             // Session information that may be required
@@ -90,8 +101,10 @@ namespace Microsoft.LearningComponents.Frameset
             AttemptItemIdentifier attemptId; // not required for all views
 
             // Get View information. It determines what else to look for.
-            if (!TryGetViewInfo(true, out view))
+            if (!tryGetViewInfo(true, out view))
+            {
                 return;
+            }
 
             // Based on View, request other information
             switch (view)
@@ -99,19 +112,20 @@ namespace Microsoft.LearningComponents.Frameset
                 case SessionView.Execute:
                     {
                         // AttemptId is required
-                        if (!TryGetAttemptInfo(true, out attemptId))
+                        if (!tryGetAttemptInfo(true, out attemptId))
+                        {
                             return;
+                        }
 
                         // Create the session
-                        m_session = new StoredLearningSession(view, attemptId, packageStore);
-                        
-                        StoredLearningSession slsSession = m_session as StoredLearningSession;
+                        this.mSession = new StoredLearningSession(view, attemptId, packageStore);
 
-                        if (!ProcessViewRequest(SessionView.Execute, slsSession))
+                        StoredLearningSession slsSession = this.mSession as StoredLearningSession;
+
+                        if (!processViewRequest(SessionView.Execute, slsSession))
                         {
                             if (slsSession.AttemptStatus == AttemptStatus.Completed)
                             {
-
                             }
                             return;
                         }
@@ -176,41 +190,49 @@ namespace Microsoft.LearningComponents.Frameset
                             default:
                                 break;
                         }
-
                     }
                     break;
                 case SessionView.RandomAccess:
                     {
                         // AttemptId is required
-                        if (!TryGetAttemptInfo(true, out attemptId))
+                        if (!tryGetAttemptInfo(true, out attemptId))
+                        {
                             return;
+                        }
 
-                        StoredLearningSession slsSession = new StoredLearningSession(SessionView.RandomAccess, attemptId, packageStore);
-                        
-                        m_session = slsSession;
+                        StoredLearningSession slsSession = new StoredLearningSession(
+                            SessionView.RandomAccess, attemptId, packageStore);
 
-                        if (!ProcessViewRequest(SessionView.RandomAccess, slsSession ))
+                        this.mSession = slsSession;
+
+                        if (!processViewRequest(SessionView.RandomAccess, slsSession))
+                        {
                             return;
+                        }
 
                         // Move to the first activity with a resource.
-                        PostableFrameHelper.MoveToNextActivity(m_session);
+                        PostableFrameHelper.MoveToNextActivity(this.mSession);
                     }
                     break;
                 case SessionView.Review:
                     {
                         // AttemptId is required
-                        if (!TryGetAttemptInfo(true, out attemptId))
+                        if (!tryGetAttemptInfo(true, out attemptId))
+                        {
                             return;
+                        }
 
                         // Create the session
                         StoredLearningSession slsSession = new StoredLearningSession(view, attemptId, packageStore);
-                        m_session = slsSession;
+                        this.mSession = slsSession;
 
-                        if (!ProcessViewRequest(SessionView.Review, m_session))
+                        if (!processViewRequest(SessionView.Review, this.mSession))
+                        {
                             return;
+                        }
 
                         // Access a property. If the user doesn't have permission, this will throw exception
-                        if (m_session.HasCurrentActivity)
+                        if (this.mSession.HasCurrentActivity)
                         {
                             // This is good. The 'if' statement is here to make compiler happy.
                         }
@@ -224,7 +246,10 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public SessionView View
         {
-            get { return m_session.View; }
+            get
+            {
+                return this.mSession.View;
+            }
         }
 
         /// <summary>
@@ -234,7 +259,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return ((StoredLearningSession)m_session).AttemptId;
+                return ((StoredLearningSession)this.mSession).AttemptId;
             }
         }
 
@@ -245,13 +270,17 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                if (m_session == null)
+                if (this.mSession == null)
+                {
                     return "&nbsp;";
+                }
 
                 // If the package is LRM, then if it has SCOs, they are 1.2 format
-                PackageFormat scoFormat = m_session.PackageFormat;
+                PackageFormat scoFormat = this.mSession.PackageFormat;
                 if (scoFormat == PackageFormat.Lrm)
+                {
                     scoFormat = PackageFormat.V1p2;
+                }
 
                 PlainTextString textVersion = new PlainTextString(scoFormat.ToString());
                 return new HtmlString(textVersion).ToString();
@@ -265,20 +294,25 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                if (m_session == null)
+                if (this.mSession == null)
+                {
                     return "false";
+                }
 
-                if (!m_session.HasCurrentActivity)
+                if (!this.mSession.HasCurrentActivity)
+                {
                     return "false";
+                }
 
-                if (m_session.CurrentActivityResourceType == ResourceType.Sco)
+                if (this.mSession.CurrentActivityResourceType == ResourceType.Sco)
+                {
                     return "true";
+                }
 
                 return "false";
             }
         }
     }
-
 
 #pragma warning disable 1591
     // Ids that uniquely identify strings to be displayed in the frameset. The specific frameset
@@ -286,18 +320,31 @@ namespace Microsoft.LearningComponents.Frameset
     public enum FramesetStringId
     {
         MoveToActivityFailedHtml,
+
         MoveToNextFailedHtml,
+
         MoveToPreviousFailedHtml,
+
         SubmitPageTitleHtml,
+
         SubmitPageMessageHtml,
+
         SubmitPageMessageNoCurrentActivityHtml,
+
         SubmitPageSaveButtonHtml,
+
         CannotDisplayContentTitle,
+
         SessionIsNotActiveMsg,
+
         ActivityIsNotActiveMsg,
+
         ParameterRequiredTitleHtml,
+
         ParameterRequiredMsgHtml,
+
         SelectActivityMessageHtml,
+
         SelectActivityTitleHtml
     }
 #pragma warning restore 1591

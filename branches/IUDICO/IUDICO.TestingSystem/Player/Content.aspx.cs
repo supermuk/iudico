@@ -1,30 +1,32 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-// MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
-// MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
-// NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE.
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Content.aspx.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
+
+// using Resources;
+
 using System;
-using System.Globalization;
-using System.Threading;
-using System.Xml.XPath;
-using System.Xml;
-using Microsoft.LearningComponents;
-using Microsoft.LearningComponents.Storage;
-using System.IO;
-using System.Web;
-using System.Web.UI;
 using System.Collections.Generic;
-using IUDICO.TestingSystem;//using Resources;
+using System.Globalization;
+using System.IO;
+using System.Text;
+using System.Threading;
+using System.Web;
 using System.Web.Caching;
 using System.Web.Hosting;
-using System.Text;
+using System.Xml;
+using System.Xml.XPath;
+
+using IUDICO.TestingSystem;
+
+using Microsoft.LearningComponents.Storage;
 
 // Views supported in this page: Execute. 
-// 
 // Displays the content frame. The URL to this page is of the form:
 // For attempt-based sessions:
 // Content.aspx?PF="post-file path information"
-// 
 // The post-file-path information is parsed as follows:
 // For attempt-based sessions:
 //     /view/attemptId/view-specific-information/path-to-resource
@@ -32,24 +34,23 @@ using System.Text;
 //         if (view = Execute)
 //             view-specific-information is not provided
 //     where path-to-resource is optional. If not provided, the default resource of the current activity will be used.
-// 
-//
+
 namespace Microsoft.LearningComponents.Frameset
 {
     public partial class Frameset_Content : BwpFramesetPage
     {
-        ContentHelper m_contentHelper;
+        private ContentHelper mContentHelper;
 
         // The path to the requested content. This may be part of the url (if we are running without  
         // an http module) or a URL parameter (with http module). We run in both modes because 
         // VS.NET does not parse URLs of the form: /.../Content.aspx/0/1/foo.gif correctly without 
         // the assistance of the module.
-        string m_contentPath;
+        private string mContentPath;
 
         // pfParts[0] = "", pfParts[1] = view, pfParts[2] = extra view data, everything else is path or extra data for attempt views
-        string[] m_contentPathParts;
+        private string[] mContentPathParts;
 
-        SessionView m_view;
+        private SessionView mView;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -59,27 +60,30 @@ namespace Microsoft.LearningComponents.Frameset
                 // an http module) or a URL parameter (with http module). We run in both modes because 
                 // VS.NET does not parse URLs of the form: /.../Content.aspx/0/1/foo.gif correctly without 
                 // the assistance of the module.
-                m_contentPath = GetContentPath();
+                this.mContentPath = this.GetContentPath();
                 bool isPosted = false;
-                if (String.CompareOrdinal(Request.HttpMethod, "POST") == 0)
+                if (string.CompareOrdinal(this.Request.HttpMethod, "POST") == 0)
+                {
                     isPosted = true;
+                }
 
-                m_contentHelper = new ContentHelper(Request, Response, FramesetPath);
-                m_contentHelper.ProcessPageLoad(PStore,
-                                                    String.IsNullOrEmpty(m_contentPath),
-                                                    isPosted,
-                                                    GetViewInfo,
-                                                    GetAttemptInfo,
-                                                    GetActivityInfo,
-                                                    GetResourcePath,
-                                                    AppendContentFrameDetails,
-                                                    UpdateRenderContext,
-                                                    ProcessPostedData,
-                                                    ProcessViewRequest,
-                                                    ProcessPostedDataComplete,
-                                                    RegisterError,
-                                                    GetErrorInfo,
-                                                    GetMessage);
+                this.mContentHelper = new ContentHelper(this.Request, this.Response, this.FramesetPath);
+                this.mContentHelper.ProcessPageLoad(
+                    this.PStore,
+                    string.IsNullOrEmpty(this.mContentPath),
+                    isPosted,
+                    this.GetViewInfo,
+                    this.GetAttemptInfo,
+                    this.GetActivityInfo,
+                    this.GetResourcePath,
+                    AppendContentFrameDetails,
+                    this.UpdateRenderContext,
+                    this.ProcessPostedData,
+                    this.ProcessViewRequest,
+                    this.ProcessPostedDataComplete,
+                    this.RegisterError,
+                    this.GetErrorInfo,
+                    this.GetMessage);
             }
             catch (ThreadAbortException)
             {
@@ -88,12 +92,14 @@ namespace Microsoft.LearningComponents.Frameset
             }
             catch (Exception e2)
             {
-                ClearError();
-                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionTitle")),
-                   ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_UnknownExceptionMsg"), HttpUtility.HtmlEncode(e2.Message.Replace("\r\n", " "))), false);
-                
+                this.ClearError();
+                this.RegisterError(
+                    ResHelper.GetMessage(Localization.GetMessage("FRM_UnknownExceptionTitle")),
+                    ResHelper.GetMessage(Localization.GetMessage("FRM_UnknownExceptionMsg"), HttpUtility.HtmlEncode(e2.Message.Replace("\r\n", " "))),
+                    false);
+
                 // Clear any existing response information so that the error gets rendered correctly.
-                Response.Clear();   
+                this.Response.Clear();
             }
         }
 
@@ -104,16 +110,18 @@ namespace Microsoft.LearningComponents.Frameset
 
             // Get the parts of the content path (parameter PF) value
             // pfParts[0] = "", pfParts[1] = view, pfParts[2] = extra view data, everything else is path or extra data for attempt views
-            m_contentPathParts = m_contentPath.Split(new char[] { '/' });
+            this.mContentPathParts = this.mContentPath.Split(new[] { '/' });
 
             // First section is view -- it must exist in all cases.
-            string strView = m_contentPathParts[1];
-            if (String.IsNullOrEmpty(strView))
+            string strView = this.mContentPathParts[1];
+            if (string.IsNullOrEmpty(strView))
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ParameterRequiredTitle"), FramesetQueryParameter.View),
-                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ParameterRequiredMsg"), FramesetQueryParameter.View), false);
+                    this.RegisterError(
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_ParameterRequiredTitle"), FramesetQueryParameter.View),
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_ParameterRequiredMsg"), FramesetQueryParameter.View),
+                        false);
                 }
                 return false;
             }
@@ -125,8 +133,10 @@ namespace Microsoft.LearningComponents.Frameset
                 {
                     if (showErrorPage)
                     {
-                        RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
-                                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, strView), false);
+                        this.RegisterError(
+                            ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
+                            ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, strView),
+                            false);
                     }
                     return false;
                 }
@@ -135,27 +145,29 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, strView), false);
+                    this.RegisterError(
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, strView),
+                        false);
                 }
                 return false;
             }
-            m_view = view;
+            this.mView = view;
             return true;
         }
 
         public bool GetAttemptInfo(bool showErrorPage, out AttemptItemIdentifier attemptId)
         {
-            attemptId = null;    
+            attemptId = null;
 
             long attemptKey;
             bool isValid = false;
 
             // For views based on an attempt, AttemptId is required
             // It must be a positive long value. 
-            if (m_contentPathParts.Length >= 3)
+            if (this.mContentPathParts.Length >= 3)
             {
-                if (long.TryParse(m_contentPathParts[2], out attemptKey))
+                if (long.TryParse(this.mContentPathParts[2], out attemptKey))
                 {
                     if (attemptKey > 0)
                     {
@@ -168,8 +180,10 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ContentCannotBeDisplayedTitle")),
-                            ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ContentCannotBeDisplayedMsg")), false);
+                    this.RegisterError(
+                         ResHelper.GetMessage(Localization.GetMessage("CON_ContentCannotBeDisplayedTitle")),
+                         ResHelper.GetMessage(Localization.GetMessage("CON_ContentCannotBeDisplayedMsg")),
+                         false);
                 }
                 return false;
             }
@@ -185,21 +199,25 @@ namespace Microsoft.LearningComponents.Frameset
             // activity id must be provided
             activityId = -1;
             bool isValid = false;
-            if (m_contentPathParts.Length >= 4)
+            if (this.mContentPathParts.Length >= 4)
             {
-                string strActivityId = m_contentPathParts[3];
+                string strActivityId = this.mContentPathParts[3];
                 if (long.TryParse(strActivityId, out activityId))
                 {
                     if (activityId > 0)
+                    {
                         isValid = true;
+                    }
                 }
             }
             if (!isValid)
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ContentCannotBeDisplayedTitle")),
-                            ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CON_ContentCannotBeDisplayedMsg")), false);
+                    this.RegisterError(
+                        ResHelper.GetMessage(Localization.GetMessage("CON_ContentCannotBeDisplayedTitle")),
+                        ResHelper.GetMessage(Localization.GetMessage("CON_ContentCannotBeDisplayedMsg")),
+                        false);
                 }
                 return false;
             }
@@ -209,15 +227,18 @@ namespace Microsoft.LearningComponents.Frameset
 
         public string GetResourcePath()
         {
-            if (m_view == SessionView.Review)
+            if (this.mView == SessionView.Review)
             {
-                return m_contentPath.Substring(m_contentPathParts[1].Length + m_contentPathParts[2].Length + m_contentPathParts[3].Length + 4);
+                return
+                    this.mContentPath.Substring(this.mContentPathParts[1].Length + this.mContentPathParts[2].Length + this.mContentPathParts[3].Length + 4);
             }
-            else if (m_view == SessionView.Execute)
+            else if (this.mView == SessionView.Execute)
             {
                 // Get the relative path to the resource. This may not exist, and that's ok. If it exists, its it the portion
                 // of param that follows the view and attempt id. The 3 below is the forward slashes.
-                return m_contentPath.Substring(m_contentPathParts[1].Length + m_contentPathParts[2].Length + 3);
+                return
+                    this.mContentPath.Substring(
+                        this.mContentPathParts[1].Length + this.mContentPathParts[2].Length + 3);
             }
             return string.Empty;
         }
@@ -233,7 +254,7 @@ namespace Microsoft.LearningComponents.Frameset
             string contentPath = null;
 
             // See if there is information after the Content.aspx string in the raw URL
-            string rawUrl = Request.Url.AbsolutePath;
+            string rawUrl = this.Request.Url.AbsolutePath;
             int beginContext = rawUrl.IndexOf("Frameset/Content.aspx/", StringComparison.InvariantCultureIgnoreCase);
             if (beginContext > 0)
             {
@@ -245,9 +266,9 @@ namespace Microsoft.LearningComponents.Frameset
 
             // There was no information in the URL after the Content.aspx reference, so check if there is a 
             // URL parameter. The URL parameter will only exist if there was an HttpModule to create it.
-            if (String.IsNullOrEmpty(contentPath))
+            if (string.IsNullOrEmpty(contentPath))
             {
-                contentPath = Request.QueryString[FramesetQueryParameter.ContentFilePath];
+                contentPath = this.Request.QueryString[FramesetQueryParameter.ContentFilePath];
             }
 
             return contentPath;
@@ -266,13 +287,16 @@ namespace Microsoft.LearningComponents.Frameset
         public void UpdateRenderContext(RenderContext context, StringBuilder scriptBlock, LearningSession session)
         {
             // Set values other than Response and RelativePath
-            context.EmbeddedUIResourcePath = new Uri(Request.Url, "Images/");
+            context.EmbeddedUIResourcePath = new Uri(this.Request.Url, "Images/");
 
             // Set values that map to file extensions
-            SetMappings(context.MimeTypeMapping, context.IisCompatibilityModeExtensions);
-            
-            if (scriptBlock == null)    // This is not the primary resource, so nothing else matters
+            this.SetMappings(context.MimeTypeMapping, context.IisCompatibilityModeExtensions);
+
+            // This is not the primary resource, so nothing else matters
+            if (scriptBlock == null)
+            {
                 return;
+            }
 
             // Basic Web Player never shows correct answers or reviewer info
             context.ShowCorrectAnswers = false;
@@ -282,7 +306,8 @@ namespace Microsoft.LearningComponents.Frameset
         /// <summary>
         /// Allow application to process posted data. 
         /// </summary>
-        public bool ProcessPostedData(LearningSession session, HttpRequest request, Dictionary<string, HttpPostedFile> fileCollection)
+        public bool ProcessPostedData(
+            LearningSession session, HttpRequest request, Dictionary<string, HttpPostedFile> fileCollection)
         {
             // Verify that posted files map to files that actually exist. 
             HttpFileCollection files = request.Files;
@@ -298,8 +323,8 @@ namespace Microsoft.LearningComponents.Frameset
                 // collection.
                 // If the contentLength == 0 and fileName != emptyString, then user is trying to attach a file
                 // that has no contents. This is not allowed.
-                if ((String.IsNullOrEmpty(filename) && (postedFile.ContentLength == 0))
-                        || (!String.IsNullOrEmpty(filename) && (postedFile.ContentLength > 0)))
+                if ((string.IsNullOrEmpty(filename) && (postedFile.ContentLength == 0))
+                    || (!string.IsNullOrEmpty(filename) && (postedFile.ContentLength > 0)))
                 {
                     fileCollection.Add(fileId, postedFile);
                 }
@@ -308,7 +333,8 @@ namespace Microsoft.LearningComponents.Frameset
                     // This is not a valid file.
                     if (firstError)
                     {
-                        messageBuffer.Append(IUDICO.TestingSystem.Localization.getMessage("CON_AttachedFileDoesNotExistHtml"));
+                        messageBuffer.Append(
+                            IUDICO.TestingSystem.Localization.GetMessage("CON_AttachedFileDoesNotExistHtml"));
                         messageBuffer.Append("\r\n<br><br><ul>\r\n");
                         firstError = false;
                     }
@@ -319,15 +345,24 @@ namespace Microsoft.LearningComponents.Frameset
             if (!firstError)
             {
                 messageBuffer.Append("</ul><br>");
-                messageBuffer.Append(IUDICO.TestingSystem.Localization.getMessage("CON_FileAttachmentErrorEndHtml"));
-                
-                // Add information for the 'Continue' link
-                JScriptString js = new JScriptString(ResHelper.FormatInvariant("API_GetFramesetManager().DoChoice(\"{0}\");",
-                                    FramesetUtil.GetStringInvariant(session.CurrentActivityId)));
-                messageBuffer.AppendFormat(CultureInfo.CurrentCulture, "<br><br><a href='{0}' >{1}</a>",
-                                js.ToJavascriptProtocol(), HttpUtility.HtmlEncode(IUDICO.TestingSystem.Localization.getMessage("HID_ReloadCurrentContent")));
+                messageBuffer.Append(IUDICO.TestingSystem.Localization.GetMessage("CON_FileAttachmentErrorEndHtml"));
 
-                RegisterError(IUDICO.TestingSystem.Localization.getMessage("CON_FileAttachmentErrorTitleHtml"), messageBuffer.ToString(), false);
+                // Add information for the 'Continue' link
+                JScriptString js =
+                    new JScriptString(
+                        ResHelper.FormatInvariant(
+                            "API_GetFramesetManager().DoChoice(\"{0}\");",
+                            FramesetUtil.GetStringInvariant(session.CurrentActivityId)));
+                messageBuffer.AppendFormat(
+                    CultureInfo.CurrentCulture,
+                    "<br><br><a href='{0}' >{1}</a>",
+                    js.ToJavascriptProtocol(),
+                    HttpUtility.HtmlEncode(IUDICO.TestingSystem.Localization.GetMessage("HID_ReloadCurrentContent")));
+
+                this.RegisterError(
+                    IUDICO.TestingSystem.Localization.GetMessage("CON_FileAttachmentErrorTitleHtml"),
+                    messageBuffer.ToString(),
+                    false);
             }
 
             return true;
@@ -346,9 +381,10 @@ namespace Microsoft.LearningComponents.Frameset
         /// Set the mime mapping values into the <paramref name="mimeMapping"/> collection.
         /// The name is the extension (eg, "txt"), the value is the mime type.
         /// </summary>
-        private void SetMappings(IDictionary<string, string> mimeMapping, ICollection<string> iisCompatibilityModeExtensions)
+        private void SetMappings(
+            IDictionary<string, string> mimeMapping, ICollection<string> iisCompatibilityModeExtensions)
         {
-            XPathNavigator contentNav = GetMimeMappingXml();
+            XPathNavigator contentNav = this.GetMimeMappingXml();
 
             XPathNodeIterator nodeIter = contentNav.Select("/contentTypes/contentType");
             Dictionary<string, string> results = new Dictionary<string, string>(nodeIter.Count);
@@ -356,53 +392,61 @@ namespace Microsoft.LearningComponents.Frameset
             while (nodeIter.MoveNext())
             {
                 XPathNavigator current = nodeIter.Current;
-                string extension = current.GetAttribute("extension", String.Empty);
-                mimeMapping.Add(extension, current.GetAttribute("mime", String.Empty));
+                string extension = current.GetAttribute("extension", string.Empty);
+                mimeMapping.Add(extension, current.GetAttribute("mime", string.Empty));
 
-                if (current.GetAttribute("iiscompatmode", String.Empty).CompareTo("true") == 0)
+                if (current.GetAttribute("iiscompatmode", string.Empty).CompareTo("true") == 0)
+                {
                     iisCompatibilityModeExtensions.Add(extension);
+                }
             }
         }
 
-        private const string MIME_MAPPING = "MimeMapping";
+        private const string MimeMapping = "MimeMapping";
 
         /// <summary>
         /// Retrieve the mime mapping xml from the cache (if it's there) or the file system (if it's not).
         /// </summary>
         private XPathNavigator GetMimeMappingXml()
         {
-            if (Cache[MIME_MAPPING] != null)
+            if (this.Cache[MimeMapping] != null)
             {
-                return (XPathNavigator)Cache[MIME_MAPPING];
+                return (XPathNavigator)this.Cache[MimeMapping];
             }
 
             // It's not in the cache, so add it.
-            string mimeMappingPath = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"App_Data\ContentTypeMapping.xml");
+            string mimeMappingPath = Path.Combine(
+                HostingEnvironment.ApplicationPhysicalPath, @"App_Data\ContentTypeMapping.xml");
             XmlDocument mappings = new XmlDocument();
             mappings.Load(mimeMappingPath);
             XPathNavigator contentNav = mappings.CreateNavigator();
-            Cache.Insert(MIME_MAPPING, contentNav, new CacheDependency(mimeMappingPath));
+            this.Cache.Insert(MimeMapping, contentNav, new CacheDependency(mimeMappingPath));
             return contentNav;
         }
-        
+
         #region called from aspx
-        private Uri m_framesetPath;
+
+        private Uri mFramesetPath;
+
         public Uri FramesetPath
         {
-            get{
-                if (m_framesetPath == null)
+            get
+            {
+                if (this.mFramesetPath == null)
                 {
                     // Need to get the Frameset directory, so that include files work. 
                     // We have to do the following path magic in order to account for the fact that the 
                     // current URL is of arbitrary depth.
-                    //Request.Url.OriginalString
-                    string currentExecutionPath = Request.Url.OriginalString; //Request.CurrentExecutionFilePath;
+                    // Request.Url.OriginalString
+                    string currentExecutionPath = this.Request.Url.OriginalString; // Request.CurrentExecutionFilePath;
                     // Find the part of the first instance of /Frameset/Content.aspx and then get a substring that is the 
                     // current url, up to the end of the /Frameset/.
-                    string framesetPath  = currentExecutionPath.Substring(0, currentExecutionPath.IndexOf("/Frameset/Content.aspx", StringComparison.OrdinalIgnoreCase) + 10);
-                    m_framesetPath = new Uri(framesetPath, UriKind.Absolute);
+                    string framesetPath = currentExecutionPath.Substring(
+                        0,
+                        currentExecutionPath.IndexOf("/Frameset/Content.aspx", StringComparison.OrdinalIgnoreCase) + 10);
+                    this.mFramesetPath = new Uri(framesetPath, UriKind.Absolute);
                 }
-                return m_framesetPath;
+                return this.mFramesetPath;
             }
         }
 
@@ -412,7 +456,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 bool hasError, errorAsInfo;
                 string errorTitle, errorMsg;
-                GetErrorInfo(out hasError, out errorTitle, out errorMsg, out errorAsInfo);
+                this.GetErrorInfo(out hasError, out errorTitle, out errorMsg, out errorAsInfo);
 
                 return errorTitle;
             }
@@ -424,7 +468,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 bool hasError, errorAsInfo;
                 string errorTitle, errorMsg;
-                GetErrorInfo(out hasError, out errorTitle, out errorMsg, out errorAsInfo);
+                this.GetErrorInfo(out hasError, out errorTitle, out errorMsg, out errorAsInfo);
 
                 return errorMsg;
             }
@@ -434,19 +478,22 @@ namespace Microsoft.LearningComponents.Frameset
         // is displayed. Note that this includes the case where the 'submit' page is displayed.
         public void WriteFrameMgrInit()
         {
-            m_contentHelper.WriteFrameMgrInit();
+            this.mContentHelper.WriteFrameMgrInit();
         }
 
         public string ErrorIcon
         {
             get
             {
-                if (ErrorAsInfo)
+                if (this.ErrorAsInfo)
+                {
                     return "Info.gif";
+                }
 
                 return "Error.gif";
             }
         }
+
         #endregion
     }
 }

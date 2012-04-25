@@ -1,20 +1,29 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="FramesetPage.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
+
+// using Resources;
 
 using System;
-using System.Data;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Globalization;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
+
+using IUDICO.TestingSystem;
+
 using Microsoft.LearningComponents;
-using System.Globalization;
 using Microsoft.LearningComponents.Storage;
-using IUDICO.TestingSystem;//using Resources;
-using System.Text;
-using System.Collections.Generic;
 
 namespace Microsoft.LearningComponents.Frameset
 {
@@ -24,56 +33,56 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public class BwpFramesetPage : PageHelper
     {
-        private FramesetPageHelper m_helper;
+        private FramesetPageHelper mHelper;
 
         public string GetMessage(FramesetStringId stringId)
         {
             switch (stringId)
             {
                 case FramesetStringId.MoveToNextFailedHtml:
-                    return IUDICO.TestingSystem.Localization.getMessage("HID_MoveNextFailedHtml");
+                    return IUDICO.TestingSystem.Localization.GetMessage("HID_MoveNextFailedHtml");
                 case FramesetStringId.MoveToPreviousFailedHtml:
-                    return IUDICO.TestingSystem.Localization.getMessage("HID_MovePreviousFailedHtml");
+                    return IUDICO.TestingSystem.Localization.GetMessage("HID_MovePreviousFailedHtml");
                 case FramesetStringId.MoveToActivityFailedHtml:
-                    return IUDICO.TestingSystem.Localization.getMessage("HID_MoveToActivityFailedHtml");
+                    return IUDICO.TestingSystem.Localization.GetMessage("HID_MoveToActivityFailedHtml");
                 case FramesetStringId.SubmitPageTitleHtml:
-                    return IUDICO.TestingSystem.Localization.getMessage("HID_SubmitPageTitleHtml");
+                    return IUDICO.TestingSystem.Localization.GetMessage("HID_SubmitPageTitleHtml");
                 case FramesetStringId.SubmitPageMessageHtml:
-                    return IUDICO.TestingSystem.Localization.getMessage("HID_SubmitPageMessageHtml");
+                    return IUDICO.TestingSystem.Localization.GetMessage("HID_SubmitPageMessageHtml");
                 case FramesetStringId.SubmitPageMessageNoCurrentActivityHtml:
-                    return IUDICO.TestingSystem.Localization.getMessage("HID_SubmitPageMessageNoCurrentActivityHtml");
+                    return IUDICO.TestingSystem.Localization.GetMessage("HID_SubmitPageMessageNoCurrentActivityHtml");
                 case FramesetStringId.SubmitPageSaveButtonHtml:
-                    return IUDICO.TestingSystem.Localization.getMessage("POST_SubmitHtml");
+                    return IUDICO.TestingSystem.Localization.GetMessage("POST_SubmitHtml");
                 case FramesetStringId.CannotDisplayContentTitle:
-                    return IUDICO.TestingSystem.Localization.getMessage("FRM_CannotDisplayContentTitle");
+                    return IUDICO.TestingSystem.Localization.GetMessage("FRM_CannotDisplayContentTitle");
                 case FramesetStringId.SessionIsNotActiveMsg:
-                    return IUDICO.TestingSystem.Localization.getMessage("FRM_SessionIsNotActiveMsg");
+                    return IUDICO.TestingSystem.Localization.GetMessage("FRM_SessionIsNotActiveMsg");
                 case FramesetStringId.ActivityIsNotActiveMsg:
-                    return IUDICO.TestingSystem.Localization.getMessage("FRM_ActivityIsNotActiveMsg");
+                    return IUDICO.TestingSystem.Localization.GetMessage("FRM_ActivityIsNotActiveMsg");
                 case FramesetStringId.SelectActivityTitleHtml:
-                    return IUDICO.TestingSystem.Localization.getMessage("HID_SelectActivityTitleHtml");
+                    return IUDICO.TestingSystem.Localization.GetMessage("HID_SelectActivityTitleHtml");
                 case FramesetStringId.SelectActivityMessageHtml:
-                    return IUDICO.TestingSystem.Localization.getMessage("HID_SelectActivityMsgHtml");
+                    return IUDICO.TestingSystem.Localization.GetMessage("HID_SelectActivityMsgHtml");
                 default:
-                    throw new InvalidOperationException(IUDICO.TestingSystem.Localization.getMessage("FRM_ResourceNotFound"));
+                    throw new InvalidOperationException(
+                        IUDICO.TestingSystem.Localization.GetMessage("FRM_ResourceNotFound"));
             }
         }
 
         public BwpFramesetPage()
             : base()
         {
-            
         }
 
         private FramesetPageHelper FramesetHelper
         {
             get
             {
-                if (m_helper == null)
+                if (this.mHelper == null)
                 {
-                    m_helper = new FramesetPageHelper(Request);
+                    this.mHelper = new FramesetPageHelper(this.Request);
                 }
-                return m_helper;
+                return this.mHelper;
             }
         }
 
@@ -83,7 +92,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public bool ProcessViewRequest(SessionView view, LearningSession session)
         {
-            Completed = false;
+            this.Completed = false;
             switch (view)
             {
                 case SessionView.Execute:
@@ -93,15 +102,19 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             if (slsSession.AttemptStatus == AttemptStatus.Completed)
                             {
-                                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidAttemptStatusForViewTitle")),
-                                         ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ExecuteViewCompletedSessionMsg")), false);
-                                Completed = true;
+                                this.RegisterError(
+                                    ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidAttemptStatusForViewTitle")),
+                                    ResHelper.GetMessage(Localization.GetMessage("FRM_ExecuteViewCompletedSessionMsg")),
+                                    false);
+                                this.Completed = true;
                                 return false;
                             }
                             else if (slsSession.AttemptStatus == AttemptStatus.Abandoned)
                             {
-                                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidAttemptStatusForViewTitle")),
-                                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ExecuteViewAbandonedSessionMsg")), false);
+                                this.RegisterError(
+                                    ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidAttemptStatusForViewTitle")),
+                                    ResHelper.GetMessage(Localization.GetMessage("FRM_ExecuteViewAbandonedSessionMsg")),
+                                    false);
                                 return false;
                             }
                         }
@@ -110,13 +123,17 @@ namespace Microsoft.LearningComponents.Frameset
 
                 case SessionView.Review:
                     // BWP does not provide review view
-                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ViewNotSupportedTitle")),
-                                         ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ReviewViewNotSupportedMsg")), false);
+                    this.RegisterError(
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_ViewNotSupportedTitle")),
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_ReviewViewNotSupportedMsg")),
+                        false);
                     break;
 
                 case SessionView.RandomAccess:
-                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ViewNotSupportedTitle")),
-                                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_RAViewNotSupportedMsg")), false);
+                    this.RegisterError(
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_ViewNotSupportedTitle")),
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_RAViewNotSupportedMsg")),
+                        false);
                     break;
             }
             return true;
@@ -131,7 +148,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <param name="asInfo">If true, display as information message.</param>
         protected virtual void RegisterError(string shortDescription, string message, bool asInfo)
         {
-            FramesetHelper.RegisterError(shortDescription, message, asInfo);
+            this.FramesetHelper.RegisterError(shortDescription, message, asInfo);
         }
 
         /// <summary>
@@ -139,7 +156,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         protected void ClearError()
         {
-            FramesetHelper.ClearError();
+            this.FramesetHelper.ClearError();
         }
 
         /// <summary>
@@ -151,7 +168,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <returns>True if the parameter existed.</returns>
         public bool GetRequiredParameter(string name, out string value)
         {
-            return FramesetHelper.TryGetRequiredParameter(name, out value);
+            return this.FramesetHelper.TryGetRequiredParameter(name, out value);
         }
 
         /// <summary>
@@ -169,8 +186,10 @@ namespace Microsoft.LearningComponents.Frameset
 
             attemptId = null;
 
-            if (!GetRequiredParameter(FramesetQueryParameter.AttemptId, out attemptParam))
+            if (!this.GetRequiredParameter(FramesetQueryParameter.AttemptId, out attemptParam))
+            {
                 return false;
+            }
 
             // Try converting it to a long value. It must be positive.
             try
@@ -178,9 +197,13 @@ namespace Microsoft.LearningComponents.Frameset
                 long attemptKey = long.Parse(attemptParam, NumberFormatInfo.InvariantInfo);
 
                 if (attemptKey <= 0)
+                {
                     isValid = false;
+                }
                 else
+                {
                     attemptId = new AttemptItemIdentifier(attemptKey);
+                }
             }
             catch (FormatException)
             {
@@ -189,8 +212,10 @@ namespace Microsoft.LearningComponents.Frameset
 
             if (!isValid && showErrorPage)
             {
-                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.AttemptId),
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.AttemptId, attemptParam), false);
+                this.RegisterError(
+                     ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.AttemptId),
+                     ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.AttemptId, attemptParam),
+                     false);
             }
 
             return isValid;
@@ -203,7 +228,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public bool ProcessViewParameter(bool showErrorPage, out SessionView view)
         {
-            return FramesetHelper.TryProcessViewParameter(showErrorPage, out view);
+            return this.FramesetHelper.TryProcessViewParameter(showErrorPage, out view);
         }
 
         public static void AppendContentFrameDetails(LearningSession session, StringBuilder sb)
@@ -211,7 +236,7 @@ namespace Microsoft.LearningComponents.Frameset
             // The URL for attempt-based content frames is:
             // http://<...basicWebApp>/Content.aspx/<view>/<attemptId>/otherdata/
             // the otherdata depends on the view
-            sb.Append(String.Format(CultureInfo.CurrentCulture, "/{0}", Convert.ToInt32(session.View)));
+            sb.Append(string.Format(CultureInfo.CurrentCulture, "/{0}", Convert.ToInt32(session.View)));
 
             StoredLearningSession slsSession = session as StoredLearningSession;
             sb.AppendFormat("/{0}", slsSession.AttemptId.GetKey().ToString());
@@ -219,7 +244,10 @@ namespace Microsoft.LearningComponents.Frameset
 
         protected bool HasError
         {
-            get { return FramesetHelper.HasError; }
+            get
+            {
+                return this.FramesetHelper.HasError;
+            }
         }
 
         /// <summary>
@@ -227,7 +255,10 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public bool ShowError
         {
-            get { return FramesetHelper.ShowError; }
+            get
+            {
+                return this.FramesetHelper.ShowError;
+            }
         }
 
         /// <summary>
@@ -242,7 +273,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return FramesetHelper.ErrorTitle;
+                return this.FramesetHelper.ErrorTitle;
             }
         }
 
@@ -253,7 +284,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return FramesetHelper.ErrorMsg;
+                return this.FramesetHelper.ErrorMsg;
             }
         }
 
@@ -261,7 +292,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return FramesetHelper.ErrorAsInfo;
+                return this.FramesetHelper.ErrorAsInfo;
             }
         }
 
@@ -270,10 +301,10 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public void GetErrorInfo(out bool hasError, out string errorTitle, out string errorMsg, out bool asInfo)
         {
-            hasError = HasError;
-            errorTitle = ErrorTitle;
-            errorMsg = ErrorMsg;
-            asInfo = ErrorAsInfo;
+            hasError = this.HasError;
+            errorTitle = this.ErrorTitle;
+            errorMsg = this.ErrorMsg;
+            asInfo = this.ErrorAsInfo;
         }
     }
 }

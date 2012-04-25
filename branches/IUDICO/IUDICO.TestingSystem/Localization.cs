@@ -1,13 +1,20 @@
-﻿using IUDICO.Common;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Localization.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using IUDICO.Common;
+
 namespace IUDICO.TestingSystem
 {
     public class Localization
     {
-        private static LocalizationMessageProvider provider = new LocalizationMessageProvider("TestingSystem");
+        private static readonly LocalizationMessageProvider Provider = new LocalizationMessageProvider("TestingSystem");
 
-        public static string getMessage(string search)
+        public static string GetMessage(string search)
         {
-            return provider.GetMessage(search);
+            return Provider.GetMessage(search);
         }
     }
 }

@@ -1,19 +1,20 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="FrmPageHelper.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
+
+// using Resources;
 
 using System;
-using System.Data;
-using System.Configuration;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using Microsoft.LearningComponents;
-using System.Globalization;
-using Microsoft.LearningComponents.Storage;
-using IUDICO.TestingSystem;//using Resources;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Web;
+
+using IUDICO.TestingSystem;
+
+using Microsoft.LearningComponents.Storage;
 
 // This file includes code that is shared across multiple pages within both BasicWebPlayer and SLK framesets.
 
@@ -25,19 +26,22 @@ namespace Microsoft.LearningComponents.Frameset
     public class FramesetPageHelper
     {
         // Error page display information
-        private bool m_hasError;    // if true, there was an error to display
-        private string m_errorTitle;    // the title of the error page
-        private string m_errorMsg;      // the message of the error
-        private bool m_errorAsInfo;
+        private bool mHasError; // if true, there was an error to display
 
-        private HttpRequest m_request; 
+        private string mErrorTitle; // the title of the error page
+
+        private string mErrorMsg; // the message of the error
+
+        private bool mErrorAsInfo;
+
+        private HttpRequest mRequest;
 
         /// <summary>Initializes a new instance of <see cref="FramesetPageHelper"/>.</summary>
         /// <param name="request">The current HttpRequest.</param>
         public FramesetPageHelper(HttpRequest request)
             : base()
         {
-            m_request = request;
+            this.mRequest = request;
         }
 
         /// <summary>
@@ -49,12 +53,12 @@ namespace Microsoft.LearningComponents.Frameset
         /// <param name="asInfo">If true, display as information message.</param>
         public void RegisterError(string shortDescription, string message, bool asInfo)
         {
-            if (!m_hasError)
+            if (!this.mHasError)
             {
-                m_hasError = true;
-                m_errorMsg = message;
-                m_errorTitle = shortDescription;
-                m_errorAsInfo = asInfo;
+                this.mHasError = true;
+                this.mErrorMsg = message;
+                this.mErrorTitle = shortDescription;
+                this.mErrorAsInfo = asInfo;
             }
         }
 
@@ -63,9 +67,9 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public void ClearError()
         {
-            m_hasError = false;
-            m_errorMsg = null;
-            m_errorTitle = null;
+            this.mHasError = false;
+            this.mErrorMsg = null;
+            this.mErrorTitle = null;
         }
 
         /// <summary>
@@ -77,7 +81,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <returns>True if the parameter existed.</returns>
         public bool TryGetRequiredParameter(string name, out string value)
         {
-            return TryGetRequiredParameter(true, name, out value);
+            return this.TryGetRequiredParameter(true, name, out value);
         }
 
         /// <summary>
@@ -88,13 +92,15 @@ namespace Microsoft.LearningComponents.Frameset
         [SuppressMessage("Microsoft.Design", "CA1021:AvoidOutParameters")]
         public bool TryGetRequiredParameter(bool showErrorPage, string name, out string value)
         {
-            value = m_request.QueryString[name];
-            if (String.IsNullOrEmpty(value))
+            value = this.mRequest.QueryString[name];
+            if (string.IsNullOrEmpty(value))
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ParameterRequiredTitle"), name),
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_ParameterRequiredMsg"), name), false);
+                    this.RegisterError(
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_ParameterRequiredTitle"), name),
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_ParameterRequiredMsg"), name),
+                        false);
                 }
                 return false;
             }
@@ -115,8 +121,10 @@ namespace Microsoft.LearningComponents.Frameset
             // Default value to make compiler happy
             view = SessionView.Execute;
 
-            if (!TryGetRequiredParameter(FramesetQueryParameter.View, out viewParam))
+            if (!this.TryGetRequiredParameter(FramesetQueryParameter.View, out viewParam))
+            {
                 return false;
+            }
 
             try
             {
@@ -126,8 +134,10 @@ namespace Microsoft.LearningComponents.Frameset
                 {
                     if (showErrorPage)
                     {
-                        RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
-                                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, viewParam), false);
+                        this.RegisterError(
+                             ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
+                             ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, viewParam),
+                             false);
                     }
                     return false;
                 }
@@ -136,8 +146,10 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 if (showErrorPage)
                 {
-                    RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, viewParam), false);
+                    this.RegisterError(
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.View),
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.View, viewParam),
+                        false);
                 }
                 return false;
             }
@@ -159,9 +171,10 @@ namespace Microsoft.LearningComponents.Frameset
 
             attemptId = null;
 
-            if (!TryGetRequiredParameter(showErrorPage, FramesetQueryParameter.AttemptId, out attemptParam))
+            if (!this.TryGetRequiredParameter(showErrorPage, FramesetQueryParameter.AttemptId, out attemptParam))
+            {
                 return false;
-
+            }
 
             // Try converting it to a long value. It must be positive.
             try
@@ -169,9 +182,13 @@ namespace Microsoft.LearningComponents.Frameset
                 long attemptKey = long.Parse(attemptParam, NumberFormatInfo.InvariantInfo);
 
                 if (attemptKey <= 0)
+                {
                     isValid = false;
+                }
                 else
+                {
                     attemptId = new AttemptItemIdentifier(attemptKey);
+                }
             }
             catch (FormatException)
             {
@@ -180,8 +197,10 @@ namespace Microsoft.LearningComponents.Frameset
 
             if (!isValid && showErrorPage)
             {
-                RegisterError(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.AttemptId),
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.AttemptId, attemptParam), false);
+                this.RegisterError(
+                    ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterTitle"), FramesetQueryParameter.AttemptId),
+                    ResHelper.GetMessage(Localization.GetMessage("FRM_InvalidParameterMsg"), FramesetQueryParameter.AttemptId, attemptParam),
+                    false);
             }
 
             return isValid;
@@ -190,7 +209,10 @@ namespace Microsoft.LearningComponents.Frameset
         /// <summary>Shows if the page has an error.</summary>
         public bool HasError
         {
-            get { return m_hasError; }
+            get
+            {
+                return this.mHasError;
+            }
         }
 
         /// <summary>
@@ -198,7 +220,10 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public bool ShowError
         {
-            get { return m_hasError; }
+            get
+            {
+                return this.mHasError;
+            }
         }
 
         /// <summary>
@@ -206,7 +231,10 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public string ErrorTitle
         {
-            get { return m_errorTitle; }
+            get
+            {
+                return this.mErrorTitle;
+            }
         }
 
         /// <summary>
@@ -214,13 +242,19 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public string ErrorMsg
         {
-            get { return m_errorMsg; }
+            get
+            {
+                return this.mErrorMsg;
+            }
         }
 
         /// <summary>If true show an error as information.</summary>
         public bool ErrorAsInfo
         {
-            get { return m_errorAsInfo; }
+            get
+            {
+                return this.mErrorAsInfo;
+            }
         }
     }
 
@@ -232,14 +266,22 @@ namespace Microsoft.LearningComponents.Frameset
     {
 #pragma warning disable 1591
         public const string DoNext = "N";
+
         public const string DoPrevious = "P";
+
         public const string DoSave = "S";
+
         public const string DoTerminate = "T";
+
         public const string DoChoice = "C";
+
         public const string DoTocChoice = "TC"; // Force new attempt on the current activity
+
         public const string DoIsChoiceValid = "V";
+
         public const string DoIsNavigationValid = "NV";
-        public const string DoSubmit = "DS";    // Do the submission or end the grading session
+
+        public const string DoSubmit = "DS"; // Do the submission or end the grading session
 #pragma warning restore 1591
     }
 
@@ -250,18 +292,31 @@ namespace Microsoft.LearningComponents.Frameset
     {
 #pragma warning disable 1591
         public const string ActivityId = "hidActivityId";
+
         public const string AttemptId = "hidAttemptId";
+
         public const string Command = "hidCommand";
+
         public const string CommandData = "hidCommandData";
+
         public const string ContentHref = "hidContentHref";
+
         public const string DataModel = "hidDataModel";
+
         public const string ErrorMessage = "hidErrorMessage";
+
         public const string IsNavigationValidResponse = "hidIsNavValid";
+
         public const string PostFrame = "hidPostFrame";
+
         public const string ShowUI = "hidShowUI";
+
         public const string Title = "hidTitle";
+
         public const string View = "hidView";
+
         public const string ObjectiveIdMap = "hidObjectiveIdMap";
+
         public const string TocState = "hidTocState";
 #pragma warning restore 1591
     }
@@ -271,14 +326,13 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public static class ResHelper
     {
-
         /// <summary>
         /// Return a message formated for the current culture. resource is the string from the resource file which may have replacement
         /// tokens (e.g., {0}) in it. 
         /// </summary>
         public static string GetMessage(string resource, params string[] values)
         {
-            return String.Format(CultureInfo.CurrentUICulture, resource, values);
+            return string.Format(CultureInfo.CurrentUICulture, resource, values);
         }
 
         /// <summary>
@@ -286,7 +340,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public static string FormatInvariant(string toFormat, params string[] values)
         {
-            return String.Format(CultureInfo.InvariantCulture, toFormat, values);
+            return string.Format(CultureInfo.InvariantCulture, toFormat, values);
         }
 
         /// <summary>
@@ -294,7 +348,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public static string Format(string toFormat, params string[] values)
         {
-            return String.Format(CultureInfo.CurrentCulture, toFormat, values);
+            return string.Format(CultureInfo.CurrentCulture, toFormat, values);
         }
     }
 

@@ -1,60 +1,72 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="ChangeActivityHelper.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.Data;
 using System.Configuration;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
+
 using Microsoft.LearningComponents.Storage;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.LearningComponents.Frameset
 {
-
     /// <summary>
     /// Changes the current activity and notifies the frameset.
     /// </summary>
-    public class ChangeActivityHelper : PostableFrameHelper // technically, this is not postable, but has some of the same requirements
+    public class ChangeActivityHelper : PostableFrameHelper
     {
-        private SessionView m_view;
-        private AttemptItemIdentifier m_attemptId;
-        private long m_activityId;
+        // technically, this is not postable, but has some of the same requirements
+        private SessionView mView;
+
+        private AttemptItemIdentifier mAttemptId;
+
+        private long mActivityId;
 
         /// <summary>Initializes a new instance of <see cref="ChangeActivityHelper"/>.</summary>
-        public ChangeActivityHelper(HttpRequest request, HttpResponse response) : base(request, response, null) { }
+        public ChangeActivityHelper(HttpRequest request, HttpResponse response)
+            : base(request, response, null)
+        {
+        }
 
         /// <summary>Processes the page.</summary>
         [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly")]
         [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]
-        public void ProcessPageLoad(TryGetViewInfo TryGetViewInfo,
-                                    TryGetAttemptInfo TryGetAttemptInfo,
-                                    TryGetActivityInfo TryGetActivityInfo,
-                                    RegisterError registerError,
-                                    GetErrorInfo getErrorInfo,
-                                    GetFramesetMsg getFramesetMessage)
+        public void ProcessPageLoad(
+            TryGetViewInfo tryGetViewInfo,
+            TryGetAttemptInfo tryGetAttemptInfo,
+            TryGetActivityInfo tryGetActivityInfo,
+            RegisterError registerError,
+            GetErrorInfo getErrorInfo,
+            GetFramesetMsg getFramesetMessage)
         {
-            RegisterError = registerError;
-            GetErrorInfo = getErrorInfo;
-            GetFramesetMsg = getFramesetMessage;
+            this.RegisterError = registerError;
+            this.GetErrorInfo = getErrorInfo;
+            this.GetFramesetMsg = getFramesetMessage;
 
             // This page simply causes the frameset to request to move to a different activity. It does not verify that 
             // the user is authorized to do this. If the user is not authorized, the subsequent request will fail.
 
-            if (!TryGetViewInfo(true, out m_view))
+            if (!tryGetViewInfo(true, out this.mView))
             {
                 return;
             }
 
-            if (!TryGetAttemptInfo(true, out m_attemptId))
+            if (!tryGetAttemptInfo(true, out this.mAttemptId))
             {
-               return;
+                return;
             }
 
-            if (!TryGetActivityInfo(true, out m_activityId))
+            if (!tryGetActivityInfo(true, out this.mActivityId))
             {
                 return;
             }
@@ -63,18 +75,34 @@ namespace Microsoft.LearningComponents.Frameset
         /// <summary>Writes the frame manager initialization javascript.</summary>
         public void WriteFrameMgrInit()
         {
-            Response.Write(ResHelper.Format("frameMgr.SetAttemptId({0});\r\n", FramesetUtil.GetString(m_attemptId)));
-            Response.Write(ResHelper.Format("frameMgr.SetView({0});\r\n", FramesetUtil.GetString(m_view)));
-            Response.Write("frameMgr.SetPostFrame(\"frameHidden\");\r\n");
-            Response.Write("frameMgr.SetPostableForm(GetHiddenFrame().contentWindow.document.forms[0]);\r\n");
+            this.Response.Write(
+                ResHelper.Format("frameMgr.SetAttemptId({0});\r\n", FramesetUtil.GetString(this.mAttemptId)));
+            this.Response.Write(ResHelper.Format("frameMgr.SetView({0});\r\n", FramesetUtil.GetString(this.mView)));
+            this.Response.Write("frameMgr.SetPostFrame(\"frameHidden\");\r\n");
+            this.Response.Write("frameMgr.SetPostableForm(GetHiddenFrame().contentWindow.document.forms[0]);\r\n");
 
             // Tell frameMgr to move to new activity
-            Response.Write(ResHelper.Format("frameMgr.DoChoice(\"{0}\", true);\r\n", FramesetUtil.GetStringInvariant(m_activityId)));
+            this.Response.Write(
+                ResHelper.Format(
+                    "frameMgr.DoChoice(\"{0}\", true);\r\n", FramesetUtil.GetStringInvariant(this.mActivityId)));
         }
 
         /// <summary>The html for an error message.</summary>
-        public string ErrorMessageHtml { get { return ErrorMessage; } }
+        public string ErrorMessageHtml
+        {
+            get
+            {
+                return this.ErrorMessage;
+            }
+        }
+
         /// <summary>The html for an error title.</summary>
-        public string ErrorTitleHtml { get { return ErrorTitle; } }
+        public string ErrorTitleHtml
+        {
+            get
+            {
+                return this.ErrorTitle;
+            }
+        }
     }
 }

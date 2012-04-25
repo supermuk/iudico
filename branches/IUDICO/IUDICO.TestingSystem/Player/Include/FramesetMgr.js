@@ -16,21 +16,25 @@ NAVOPEN_FRAME = "frameNavOpen";
 TITLE_FRAME = "frameTitle";
 TOC_FRAME = "frameToc";
 MAIN_FRAME = "frameLearnTask";
-PARENTUI_FRAMESET = "framesetParentUI"
-
+PARENTUI_FRAMESET = "framesetParentUI";
 // Commands
 CMD_NEXT = "N";
 CMD_PREVIOUS = "P";
-CMD_SAVE = "S"; // aka. Commit
+CMD_SAVE = "S";
+// aka. Commit
 CMD_TERMINATE = "T";
 CMD_CHOICE = "C";
-CMD_TOC_CHOICE = "TC";  // The TOC is choosing an activity
-CMD_IS_CHOICE_VALID = "V";  // Is selecting an activity valid?
-CMD_IS_NAV_VALID = "NV";     // Is non-choice nav command valid?
-CMD_DO_SUBMIT = "DS";   // Do the submission of the attempt
+CMD_TOC_CHOICE = "TC";
+// The TOC is choosing an activity
+CMD_IS_CHOICE_VALID = "V";
+// Is selecting an activity valid?
+CMD_IS_NAV_VALID = "NV";
+// Is non-choice nav command valid?
+CMD_DO_SUBMIT = "DS";
+// Do the submission of the attempt
 
 var L_ServerErrorTitle_TXT = "Unable to Process Request";
-var L_FormSubmitFailed_TXT = "The page could not be saved because one or more answers is invalid. If you are attaching a file, verify that the file path is correct."
+var L_FormSubmitFailed_TXT = "The page could not be saved because one or more answers is invalid. If you are attaching a file, verify that the file path is correct.";
 
 function FindFrmMgr(win) {
     var frmDepthCount = 0;
@@ -48,6 +52,7 @@ function FindFrmMgr(win) {
 
 
 // Recurse up the frame hierarchy to find the FramesetManager object.
+
 function API_GetFramesetManager() {
     return FindFrmMgr(window);
 }
@@ -62,32 +67,32 @@ function FramesetManager() {
     this.Cancel = FM_Cancel;
     this.Terminate = FM_Terminate;
     this.Save = FM_Save;
-    this.IsNavigationValid = FM_IsNavigationValid;  // request to see if navigation is valid
-    this.CommitDataModel = FM_CommitDataModel;  // called by the rteSite to send data to the server, requires passing the datamodel values
+    this.IsNavigationValid = FM_IsNavigationValid; // request to see if navigation is valid
+    this.CommitDataModel = FM_CommitDataModel; // called by the rteSite to send data to the server, requires passing the datamodel values
     this.ShowActivityId = null; // value set by toc frame
     this.ResetActivityId = null; // value set by toc frame
     this.SetTocNodes = null; // value set by toc frame
     this.ClearContentFrameAndPost = FM_ClearContentFrameAndPost;
-    this.ContentIsCleared = FM_ContentIsCleared;    // callback when content frame has been cleared
-    this.SetTitle = FM_SetTitle;    // Saves the title value. Must call UpdateTitle to make it change.
-    this.SetNavVisibility = FM_SetNavVisibility;    // Sets the nav visibility state. Must call UpdateNavVisibility to make it change.
-    this.SetContentFrameUrl = FM_SetContentFrameUrl;    // Sets the url that will be loaded into the content frame.
-    this.SetPostFrame = FM_SetPostFrame;    // Sets the frame to post when post is required. Call DoPost to post the frame.
-    this.SetView = FM_SetView;  // Sets the view of the current session. 
+    this.ContentIsCleared = FM_ContentIsCleared; // callback when content frame has been cleared
+    this.SetTitle = FM_SetTitle; // Saves the title value. Must call UpdateTitle to make it change.
+    this.SetNavVisibility = FM_SetNavVisibility; // Sets the nav visibility state. Must call UpdateNavVisibility to make it change.
+    this.SetContentFrameUrl = FM_SetContentFrameUrl; // Sets the url that will be loaded into the content frame.
+    this.SetPostFrame = FM_SetPostFrame; // Sets the frame to post when post is required. Call DoPost to post the frame.
+    this.SetView = FM_SetView; // Sets the view of the current session. 
     this.SetAttemptId = FM_SetAttemptId;
-    this.SetActivityId = FM_SetActivityId;  // Set the id of the current activity
-    this.ShowErrorMessage = FM_ShowErrorMessage;    // Show error message in content frame
-    this.SetIsNavigationValid = FM_SetIsNavigationValid;   // update with server response re: is navigation valid
-    this.SetDataModelValues = FM_SetDataModelValues;    // does not commit them
-    this.SetErrorMessage = FM_SetErrorMessage;  // Set an error message to be show when frames are loaded.
+    this.SetActivityId = FM_SetActivityId; // Set the id of the current activity
+    this.ShowErrorMessage = FM_ShowErrorMessage; // Show error message in content frame
+    this.SetIsNavigationValid = FM_SetIsNavigationValid; // update with server response re: is navigation valid
+    this.SetDataModelValues = FM_SetDataModelValues; // does not commit them
+    this.SetErrorMessage = FM_SetErrorMessage; // Set an error message to be show when frames are loaded.
     this.InitDataModelValues = FM_InitDataModelValues;
-    this.InitNewActivity = FM_InitNewActivity;  // called when a new activity has been loaded -- reinitialize the RTE if needed
-    this.TrainingComplete = FM_TrainingComplete;    // sets messages to display because training is not complete
-    this.IsTrainingComplete = FM_IsTrainingComplete;    // returns true if training is done
+    this.InitNewActivity = FM_InitNewActivity; // called when a new activity has been loaded -- reinitialize the RTE if needed
+    this.TrainingComplete = FM_TrainingComplete; // sets messages to display because training is not complete
+    this.IsTrainingComplete = FM_IsTrainingComplete; // returns true if training is done
     this.SetPostableForm = FM_SetPostableForm;
-    this.PostIsComplete = FM_PostIsComplete;    // Indicates an in-process post operation has finished
-    this.DoSubmit = FM_DoSubmit;    // submit the attempt as complete
-    this.IsClosing = FM_IsClosing;  // returns true if the frameset is closing.
+    this.PostIsComplete = FM_PostIsComplete; // Indicates an in-process post operation has finished
+    this.DoSubmit = FM_DoSubmit; // submit the attempt as complete
+    this.IsClosing = FM_IsClosing; // returns true if the frameset is closing.
     this.getContentFrame = GetContentFrame;
     this.getHiddenFrame = GetHiddenFrame;
 
@@ -109,35 +114,35 @@ function FramesetManager() {
     this.HasContentError = FM_HasContentError;
 
     // private methods to handle events 
-    this.RegisterReadyStateChange = FM_RegisterReadyStateChange_ContentFrame;   // register for readystate change events
-    this.WaitForContentCompleted = FM_WaitForContentCompleted;   // wait for a specified number of times that the content frame loading is complete
+    this.RegisterReadyStateChange = FM_RegisterReadyStateChange_ContentFrame; // register for readystate change events
+    this.WaitForContentCompleted = FM_WaitForContentCompleted; // wait for a specified number of times that the content frame loading is complete
     this.ReadyForNavigation = FM_ReadyForNavigation; // returns true if the frameset manager is in a state that accepts navigation commands
-    this.ReadyStateReceived = FM_ReadyStateReceived;    // decrements the number of times to wait for the content frame
+    this.ReadyStateReceived = FM_ReadyStateReceived; // decrements the number of times to wait for the content frame
 
     // "private" data for the object
-    this.m_title = "&nbsp;";    // title to display in title frame
+    this.m_title = "&nbsp;"; // title to display in title frame
     this.m_showNext = false;
     this.m_showPrevious = false;
     this.m_showAbandon = false;
     this.m_showExit = false;
     this.m_showSave = false;
-    this.m_contentFrameUrl = null;  // url to load in content frame
-    this.m_postFrameName = null;    // the name of the frame to be posted when a post is required
+    this.m_contentFrameUrl = null; // url to load in content frame
+    this.m_postFrameName = null; // the name of the frame to be posted when a post is required
     this.m_view = 0;
     this.m_attemptId = "-1";
     this.m_activityId = "-1";
-    this.m_dataModelValues = null;  // string containing data model values to post
-    this.m_objectiveIdMap = null;   // map n to id for objectives. Only used to post back to server -- not used on client.
-    this.m_contentFrameErrorTitle = null;   // title (text format) for error message display
+    this.m_dataModelValues = null; // string containing data model values to post
+    this.m_objectiveIdMap = null; // map n to id for objectives. Only used to post back to server -- not used on client.
+    this.m_contentFrameErrorTitle = null; // title (text format) for error message display
     this.m_contentFrameErrorMessage = null; // error message (text format) to display in content frame
     this.m_contentFrameErrorAsInfo = false; // if true, display error as info message
     this.m_pendingCommand = null;
     this.m_pendingCommandData = null;
     this.m_isTrainingComplete = false;
     this.m_postableForm = null; // the form element that should be posted
-    this.m_postInProgress = false;  // If true, we're waiting for a return from posted data. Nothing more can be posted.
+    this.m_postInProgress = false; // If true, we're waiting for a return from posted data. Nothing more can be posted.
     this.m_waitForContentCount = 0;
-    this.m_isClosing = false;   // if true, the frameset is closing
+    this.m_isClosing = false; // if true, the frameset is closing
 
     // To process commands
     this.m_commandMgr = new CommandMgr();
@@ -159,17 +164,20 @@ function FM_DebugLog(strMessage) {
 
 // Get the api object for the specified scormVersion
 // rteRequired is true if the first activity requires the rte.
+
 function FM_GetRteApi(scormVersion, rteRequired) {
     return this.m_rteSite.GetRteApi(scormVersion, rteRequired);
 }
 
 // Register the frameName as the frame to be posted to the server when 
 // a post is required.
+
 function FM_SetPostFrame(frameName) {
     this.m_postFrameName = frameName;
 }
 
 // Register that the frame has loaded. 
+
 function FM_RegisterFrameLoad(frameName) {
     this.m_framesRegistered[frameName] = true;
     if (AllFramesRegistered(this.m_framesRegistered)) {
@@ -177,8 +185,7 @@ function FM_RegisterFrameLoad(frameName) {
         if (this.IsTrainingComplete()) {
             HideUIControls();
             this.ShowErrorMessage(this.m_contentFrameErrorTitle, this.m_contentFrameErrorMessage, true);
-        }
-        else {
+        } else {
             // Register for ready state changes in content frame
             this.RegisterReadyStateChange();
 
@@ -186,13 +193,12 @@ function FM_RegisterFrameLoad(frameName) {
             UpdateNavVisibility(this.m_showNext, this.m_showPrevious, this.m_showAbandon, this.m_showExit, this.m_showSave);
             UpdateTitle(this.m_title);
 
-            this.ShowActivityId(this.m_activityId);    // tell TOC about the activity
+            this.ShowActivityId(this.m_activityId); // tell TOC about the activity
 
             // If there was an error in server processing, don't render content frame. Instead, show error message.
             if (this.m_contentFrameErrorMessage != null) {
                 this.ShowErrorMessage(this.m_contentFrameErrorTitle, this.m_contentFrameErrorMessage, this.m_contentFrameErrorAsInfo);
-            }
-            else {
+            } else {
                 LoadContentFrame(this.m_contentFrameUrl);
             }
         }
@@ -203,6 +209,7 @@ function FM_RegisterFrameLoad(frameName) {
 
 
 // Event handler for readyStateChangeEvent.
+
 function OnReadyStateChange_ContentFrame() {
     // Note that this is IE-specific behavior and would require retesting to verify support other browsers
 
@@ -213,6 +220,7 @@ function OnReadyStateChange_ContentFrame() {
 }
 
 // Register for the ready state change event on the window.
+
 function FM_RegisterReadyStateChange_ContentFrame() {
     /* readystatechange is IE specific, so only wire up the event for IE.
     * For other browers decrement m_waitForContentCount as this is only called from RegisterFrameLoad anyway
@@ -221,13 +229,13 @@ function FM_RegisterReadyStateChange_ContentFrame() {
     var contentFrame = GetContentFrame();
     if (contentFrame.onreadystatechange != undefined) {
         GetContentFrame().onreadystatechange = OnReadyStateChange_ContentFrame;
-    }
-    else {
+    } else {
         g_frameMgr.ReadyStateReceived();
     }
 }
 
 // Wait for the specified number of times the content frame is loaded before allowing another navigation request
+
 function FM_WaitForContentCompleted(iCount) {
     this.DebugLog("WaitForContentCompleted: Begin. Count = " + iCount);
     if (!this.ReadyForNavigation() && (iCount > 0))
@@ -248,6 +256,7 @@ function FM_ReadyStateReceived() {
 }
 
 // Returns true if the object is ready to accept navigation commands
+
 function FM_ReadyForNavigation() {
     this.DebugLog("ReadyForNavigation: Begin. m_waitForContentCount = " + this.m_waitForContentCount);
     var isReady = (this.m_waitForContentCount <= 0);
@@ -256,6 +265,7 @@ function FM_ReadyForNavigation() {
 }
 
 // Note that the training has been completed. The message should be displayed.
+
 function FM_TrainingComplete(strTitle, strMessage) {
     this.m_contentFrameErrorTitle = strTitle;
     this.m_contentFrameErrorMessage = strMessage;
@@ -264,11 +274,13 @@ function FM_TrainingComplete(strTitle, strMessage) {
 }
 
 // Returns true if the training has been completed.
+
 function FM_IsTrainingComplete() {
     return this.m_isTrainingComplete;
 }
 
 // Hides the UI controls frameset. 
+
 function HideUIControls() {
     frames[MAIN_FRAME].document.getElementById("navigationColumn").style.width = "0";
 
@@ -278,15 +290,17 @@ function HideUIControls() {
 }
 
 // Returns true if all frames have been registered as loaded.
+
 function AllFramesRegistered(framesRegistered) {
     return (framesRegistered[HIDDEN_FRAME]
         && framesRegistered[TITLE_FRAME]
-        && framesRegistered[TOC_FRAME]
-        && framesRegistered[NAVOPEN_FRAME]
-        && framesRegistered[NAVCLOSED_FRAME]);
+            && framesRegistered[TOC_FRAME]
+                && framesRegistered[NAVOPEN_FRAME]
+                    && framesRegistered[NAVCLOSED_FRAME]);
 }
 
 // Return the document in the Title frame.
+
 function GetTitleDoc() {
     return document.getElementById(TITLE_FRAME).contentWindow.document;
 }
@@ -310,6 +324,7 @@ function GetHiddenFrame() {
 
 
 // Set all values in the various frames and then make them visible.
+
 function FM_MakeFramesVisible() {
     // Make title and toc visible
     GetTitleDoc().getElementById("txtTitle").style.display = "block";
@@ -317,12 +332,14 @@ function FM_MakeFramesVisible() {
 }
 
 // Save the value to set the title string to. Later, call UpdateTitle to change the contents of the frame.
+
 function FM_SetTitle(title) {
     this.m_title = title;
 }
 
 
 // Update the title string in the Title Frame.
+
 function UpdateTitle(title) {
     var titleDoc = GetTitleDoc();
     titleDoc.getElementById("txtTitle").innerHTML = title;
@@ -330,6 +347,7 @@ function UpdateTitle(title) {
 
 // Returns true if the frameset is closing.
 // If isClosing has a value, this sets its value.
+
 function FM_IsClosing(isClosing) {
     if (isClosing != undefined)
         this.m_isClosing = isClosing;
@@ -339,6 +357,7 @@ function FM_IsClosing(isClosing) {
 
 // strCommand is the pending navigation request that should be executed after the 
 // content frame has been cleared.
+
 function FM_ClearContentFrameAndPost(command, commandData) {
     this.DebugLog("ClearContentFrameAndPost: Begin");
     this.DebugLog("\tCommand: " + command + " CommandData: " + commandData);
@@ -351,10 +370,9 @@ function FM_ClearContentFrameAndPost(command, commandData) {
         // Save the command information in case the content frame triggers more commands
         this.m_pendingCommand = command;
         this.m_pendingCommandData = commandData;
-        this.Save();    // save any unsaved data from RTE
+        this.Save(); // save any unsaved data from RTE
         LoadContentFrame("./ClearContent.aspx");
-    }
-    else {
+    } else {
         g_frameMgr.WaitForContentCompleted(2);
         this.m_commandMgr.SetCommand(command, commandData);
         this.DoPost();
@@ -366,6 +384,7 @@ function FM_ClearContentFrameAndPost(command, commandData) {
 // Returns false if there was no pending command data. This indicates an error condition 
 // such as the user clicking back button to get to this page, so clearcontent page will
 // show an error. In other cases, return true.
+
 function FM_ContentIsCleared() {
     this.DebugLog("ContentIsCleared: Begin");
     if (this.m_pendingCommand == null) {
@@ -382,7 +401,7 @@ function FM_ContentIsCleared() {
 
     this.m_commandMgr.SetCommand(this.m_pendingCommand, this.m_pendingCommandData);
 
-    this.DoPost();  // post, not save, since there is no RTE object at this point
+    this.DoPost(); // post, not save, since there is no RTE object at this point
 
     this.m_pendingCommand = null;
     this.m_pendingCommandData = null;
@@ -417,6 +436,7 @@ function FM_DoPrevious() {
 // if bReinitializeCurrentActivity is true, then even if the current activity is the 
 // same as the selected one, the activity is reinitialized. This should only be set to true
 // by the table of contents.
+
 function FM_DoChoice(activityId, bDoNotClearContentFrame, bReinitializeCurrentActivity) {
     this.DebugLog("DoChoice command received. ActivityId = " + activityId);
     if (bDoNotClearContentFrame == true) {
@@ -427,8 +447,7 @@ function FM_DoChoice(activityId, bDoNotClearContentFrame, bReinitializeCurrentAc
         this.WaitForContentCompleted(1);
         this.m_commandMgr.SetCommand(CMD_CHOICE, activityId);
         this.DoPost();
-    }
-    else {
+    } else {
         var command = CMD_CHOICE;
         if (bReinitializeCurrentActivity == true)
             command = CMD_TOC_CHOICE;
@@ -484,12 +503,14 @@ function FM_Save() {
 
 // strCommand is either CMD_IS_CHOICE_VALID or CMD_IS_NAV_VALID. The strCommandData is either the CMD (eg, CMD_NEXT) or the 
 // activityid being requested.
+
 function FM_IsNavigationValid(strCommand, strCommandData) {
     this.m_commandMgr.SetCommand(strCommand, strCommandData);
     this.DoPost();
 }
 
 // strNavResponse is of the form command@Evalue@N -- where command is either "N", "P" or "C,<strActivityId>".
+
 function FM_SetIsNavigationValid(strNavResponse) {
     // Tell the api site the response
     this.m_rteSite.SetValidNavigationCommands(strNavResponse);
@@ -498,6 +519,7 @@ function FM_SetIsNavigationValid(strNavResponse) {
 // Update the data model values on the server. The values string is not processed by
 // this function. It is simply passed to the server. This function returns true if the data 
 // was posted to the server. 
+
 function FM_CommitDataModel(strDataModelValues) {
     this.DebugLog("CommitDataModel: Begin");
     // If the view is Review, then return false (not saved)
@@ -521,7 +543,7 @@ function FM_CommitDataModel(strDataModelValues) {
 
     this.m_commandMgr.SetCommand(CMD_SAVE);
 
-    var didPost = false;    // true if data is posted
+    var didPost = false; // true if data is posted
     didPost = this.DoPost();
 
     this.DebugLog("CommitDataModel: End. Data posted.");
@@ -530,6 +552,7 @@ function FM_CommitDataModel(strDataModelValues) {
 }
 
 // Set the values that will update the UI navigation controls
+
 function FM_SetNavVisibility(showNext, showPrevious, showAbandon, showExit, showSave) {
     this.m_showNext = showNext;
     this.m_showPrevious = showPrevious;
@@ -540,6 +563,7 @@ function FM_SetNavVisibility(showNext, showPrevious, showAbandon, showExit, show
 
 
 // Update the frames that display the navigation UI. (Currently, abandon and exit are ignored.)
+
 function UpdateNavVisibility(showNext, showPrevious, showAbandon, showExit, showSave) {
     var frame = GetNavFrame(NAVOPEN_FRAME);
     var navDoc = frame.contentWindow.document;
@@ -557,6 +581,7 @@ function UpdateNavVisibility(showNext, showPrevious, showAbandon, showExit, show
 }
 
 // Helper function to set the visibility style of a div based on showUI.
+
 function SetVisibility(div, showUI) {
     var visibility;
 
@@ -569,6 +594,7 @@ function SetVisibility(div, showUI) {
 }
 
 // Set the url of the content frame. To load the url into the frame, call LoadContentFrame().
+
 function FM_SetContentFrameUrl(url) {
     this.DebugLog("SetContentFrameUrl: Begin. Url = " + url);
     this.m_contentFrameUrl = url;
@@ -576,6 +602,7 @@ function FM_SetContentFrameUrl(url) {
 }
 
 // Do a GET request into the content frame.
+
 function LoadContentFrame(url) {
     g_frameMgr.DebugLog("SetContentFrameUrl: Begin. Url = " + url);
     if ((url == null) || (url == undefined) || (url == ""))
@@ -587,6 +614,7 @@ function LoadContentFrame(url) {
 }
 
 // Sets (does not commit) data model values
+
 function FM_SetDataModelValues(strDataModelValues) {
     this.m_dataModelValues = strDataModelValues;
 }
@@ -602,6 +630,7 @@ var MAX_RETRY = 50;
 
 // Set the values in hidden fields in m_postableForm, then post that frame.
 // Returns true only if the form is submitted.
+
 function FM_DoPost(bIsRetry) {
     this.DebugLog("DoPost: Begin. isRetry = " + bIsRetry);
 
@@ -619,8 +648,7 @@ function FM_DoPost(bIsRetry) {
     if (form == undefined) {
         try {
             form = frames[MAIN_FRAME].document.getElementById(this.m_postFrameName).contentWindow.document.forms[0];
-        }
-        catch (e) {
+        } catch(e) {
             // do nothing
         }
 
@@ -632,8 +660,7 @@ function FM_DoPost(bIsRetry) {
             if (g_retryCount < MAX_RETRY) {
                 setTimeout("API_GetFramesetManager().DoPost( true )", 500);
                 this.DebugLog("DoPost: End. Try again.");
-            }
-            else {
+            } else {
                 this.DebugLog("DoPost: End. ** MAX RETRY count exceeded.");
             }
             return false;
@@ -660,8 +687,7 @@ function FM_DoPost(bIsRetry) {
         // Submit the form
         form.submit();
         formSubmitted = true;
-    }
-    catch (e) {
+    } catch(e) {
         alert(L_FormSubmitFailed_TXT);
 
     }
@@ -677,10 +703,9 @@ function FM_DoPost(bIsRetry) {
         this.m_contentFrameErrorAsInfo = false;
         this.m_framesRegistered[this.m_postFrameName] = false;
         this.m_commandMgr.ClearCommands();
-    }
-    else {
+    } else {
         this.m_postInProgress = false;
-        this.WaitForContentCompleted(0);    // not waiting for anything
+        this.WaitForContentCompleted(0); // not waiting for anything
         this.ResetActivityId(); // fix TOC to show the activity id before this request
     }
 
@@ -698,16 +723,14 @@ function FM_PostIsComplete() {
         if (this.IsClosing()) {
             // If there is nothing waiting to be posted, then close the window if that is a pending command.
             top.close();
-        }
-        else
+        } else
             return;
     }
 
     if (this.m_commandMgr.HasCommands())  // If there are more things to post, do it
     {
         this.DoPost();
-    }
-    else if (this.IsClosing()) {
+    } else if (this.IsClosing()) {
         // If there is nothing waiting to be posted, then close the window if that is a pending command.
         top.close();
     }
@@ -716,6 +739,7 @@ function FM_PostIsComplete() {
 
 // Set the hidden control with the specified 'ctrlName' to have the 'ctrlValue'. 
 // If the control doesn't already exist in the form, create it.
+
 function SetHiddenControl(form, ctrlName, ctrlValue) {
     //var ctrl = form.item( ctrlName );
     var ctrl = form[ctrlName];
@@ -730,8 +754,7 @@ function SetHiddenControl(form, ctrlName, ctrlValue) {
         else
             elInput.value = ctrlValue;
         form.appendChild(elInput);
-    }
-    else {
+    } else {
         if (ctrlValue == null)
             ctrl.value = "";
         else
@@ -754,6 +777,7 @@ function FM_SetActivityId(strActivityId) {
 
 // Store the new data model values. Setting this will clear any existing data model values.
 // See the RteSiteApi definition for explaination of encoding of strDataModelValues.
+
 function FM_InitDataModelValues(strDataModelValues, strObjectiveIdMap) {
     this.DebugLog("InitDataModelValues: Begin. strDataModelValues = " + strDataModelValues);
     this.m_rteSite.InitDataModelValues(strDataModelValues);
@@ -762,17 +786,18 @@ function FM_InitDataModelValues(strDataModelValues, strObjectiveIdMap) {
 
 // Reset internal state to allow identifying a new activity
 // rteRequired is true if the new activity requires the RTE
+
 function FM_InitNewActivity(rteRequired) {
     this.m_rteSite.Init(rteRequired);
 }
 
 // Store the error message (html encoded) to display to the user as a result of processing 
 // data on the server.
+
 function FM_SetErrorMessage(strMessageHtml, strTitleHtml, bAsInfo) {
     if (strTitleHtml == undefined) {
         this.m_contentFrameErrorTitle = L_ServerErrorTitle_TXT;
-    }
-    else {
+    } else {
         this.m_contentFrameErrorTitle = strTitleHtml;
     }
 
@@ -786,12 +811,13 @@ function FM_SetErrorMessage(strMessageHtml, strTitleHtml, bAsInfo) {
 
 // Display the error message to the user in the content frame. This replaces anything currently in the content frame.
 // bAsInfo: If false or undefined, show as error. If true, show as info.
+
 function FM_ShowErrorMessage(strTitleHtml, strMessageHtml, bAsInfo) {
     // the html to write to the content frame
     var strContentHtml;
     var imgFile = (bAsInfo) ? "Info.gif" : "Error.gif";
 
-    strContentHtml = "<html>"
+    strContentHtml = "<html>";
     strContentHtml += "<head><LINK rel=\"stylesheet\" type=\"text/css\" href=\"./Theme/Styles.css\"/>";
     strContentHtml += "<script src=\"./Include/FramesetMgr.js\"></script>";
     strContentHtml += "</head>";
@@ -828,11 +854,11 @@ function FM_ShowErrorMessage(strTitleHtml, strMessageHtml, bAsInfo) {
 
 function CommandMgr() {
     // The "public" api for the object
-    this.SetCommand = CM_SetCommand;    // Saves the command and its associated data. Some commands do not have data.
-    this.GetCommands = CM_GetCommands;  // Gets the serialized string representing commands to send to the server.
-    this.GetCommandData = CM_GetCommandData;    // Gets the serialized string representing command data to send to the server.
-    this.HasCommands = CM_HasCommands;  // If true, there are commands remaining to be sent.
-    this.ClearCommands = CM_ClearCommands;  // Clears the list of pending commands.
+    this.SetCommand = CM_SetCommand; // Saves the command and its associated data. Some commands do not have data.
+    this.GetCommands = CM_GetCommands; // Gets the serialized string representing commands to send to the server.
+    this.GetCommandData = CM_GetCommandData; // Gets the serialized string representing command data to send to the server.
+    this.HasCommands = CM_HasCommands; // If true, there are commands remaining to be sent.
+    this.ClearCommands = CM_ClearCommands; // Clears the list of pending commands.
 
     // Private data
     this.m_commands = new Array();
@@ -840,6 +866,7 @@ function CommandMgr() {
 }
 
 // Saves the command and its associated data. Some commands do not have data.
+
 function CM_SetCommand(command, commandData) {
     this.m_commands.push(command);
 
@@ -851,9 +878,10 @@ function CM_SetCommand(command, commandData) {
 
 // Gets the serialized string representing commands to send to the server.
 // Commands are sent separated by semi-colons.
+
 function CM_GetCommands() {
     var i;
-    var cmdsToSend = "";    // return value
+    var cmdsToSend = ""; // return value
 
     // Command data is encoded with @C separating each set of data
     for (i in this.m_commands) {
@@ -865,9 +893,10 @@ function CM_GetCommands() {
 
 // Gets the serialized string representing command data to send to the server.
 // Command data is send with @C separating them.
+
 function CM_GetCommandData() {
     var i;
-    var dataToSend = "";    // return value
+    var dataToSend = ""; // return value
 
     // Command data is encoded with @C separating each set of data
     for (i in this.m_commandData) {
@@ -882,19 +911,22 @@ function CM_GetCommandData() {
 }
 
 // If true, there are commands remaining to be sent.
+
 function CM_HasCommands() {
     return (this.m_commands.length > 0);
 }
 
 // Clears the list of pending commands.
+
 function CM_ClearCommands() {
     this.m_commands = new Array();
     this.m_commandData = new Array();
 }
 
 // Encode the data for being sent to the server. Returns the encoded value.
+
 function EncodeCommandData(data) {
-    return data.replace(/@/g, "@A").replace(/</g, "@L").replace(/>/g, "@G");
+    return data.replace( /@/g , "@A").replace( /</g , "@L").replace( />/g , "@G");
 }
 
 /************** Log object **********************/
