@@ -14,20 +14,24 @@ namespace IUDICO.UnitTests.Analytics
         [Category("TrainingSetAddTest")]
         public void TrainingSetAdd()
         {
-            TrainingSet set = new TrainingSet(3);
-            set.AddRecord(new double[] { 3.0, 4.0, 5.0 });
-            set.AddRecord(new double[] { 3.0, 4.0, 5.0 });
-            set.AddRecord(new double[] { 3.0, 4.0, 5.0 });
+            var set = new TrainingSet(3);
+
+            set.AddRecord(new[] { 3.0, 4.0, 5.0 });
+            set.AddRecord(new[] { 3.0, 4.0, 5.0 });
+            set.AddRecord(new[] { 3.0, 4.0, 5.0 });
+            
             Assert.AreEqual(set.GetCountOfRecords(), 3);
+            
             try
             {
-                set.AddRecord(new double[] { 3.0, 4.0, 5.0, 6.0 });
+                set.AddRecord(new[] { 3.0, 4.0, 5.0, 6.0 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.Pass();
                 return;
             }
+
             Assert.Fail();
         }
 
@@ -35,7 +39,8 @@ namespace IUDICO.UnitTests.Analytics
         [Category("TrainingSetGetDimmensionCountTest")]
         public void TrainingSetGetDimmensionCount()
         {
-            TrainingSet set = new TrainingSet(3);
+            var set = new TrainingSet(3);
+
             Assert.AreEqual(set.GetDimensionsCount(), 3);
         }
     }
