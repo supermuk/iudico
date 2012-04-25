@@ -4,27 +4,9 @@ using IUDICO.UnitTests.Base;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
-    using System.Configuration;
-
     [TestFixture]
     public class UpgradeSeleniumTester : SimpleWebTest
     {
-        public static string BrowserWait
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["SELENIUM_WAIT"];
-            }
-        }
-
-        public static string browserUrl
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["SELENIUM_URL"];
-            }
-        }
-
         [Test]
         public void LoginAsAdmin()
         {

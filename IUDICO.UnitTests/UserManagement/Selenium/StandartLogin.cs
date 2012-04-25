@@ -19,7 +19,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [Test]
         public void StandartLoginInvalid()
         {
-            this.DefaultLogin("invalid","user");
+            this.DefaultLogin("invalid", "user");
             Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
         }
     }

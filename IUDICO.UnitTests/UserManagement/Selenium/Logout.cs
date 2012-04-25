@@ -1,8 +1,5 @@
-﻿using System;
-using System.Text;
-using IUDICO.UnitTests.Base;
+﻿using IUDICO.UnitTests.Base;
 using NUnit.Framework;
-using Selenium;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
@@ -15,7 +12,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
         }
     }
