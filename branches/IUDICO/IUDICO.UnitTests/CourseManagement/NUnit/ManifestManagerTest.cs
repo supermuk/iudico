@@ -7,18 +7,18 @@ using NUnit.Framework;
 namespace IUDICO.UnitTests.CourseManagement.NUnit
 {
     [TestFixture]
-    public class ManifestManagerTest
+    public class ManifestManagerTest : BaseCourseManagementTest
     {
         [Test]
         [Category("ManifestManegerTest")]
         public void AddOrganizationTest()
         {
-            Organizations organizations = new Organizations();
-            Organization organization = new Organization {Identifier = "organization1", Title = "Title"};
+            var organizations = new Organizations();
+            var organization = new Organization { Identifier = "organization1", Title = "Title" };
 
             ManifestManager.AddOrganization(organizations, organization);
 
-            Organization org = organizations.OrganizationsList.Single(i => i.Title == "Title");
+            var org = organizations.OrganizationsList.Single(i => i.Title == "Title");
             Assert.AreEqual("organization1", org.Identifier);
         }
 
@@ -26,9 +26,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("ManifestManegerTest")]
         public void AddResourceTest()
         {
-            IUDICO.CourseManagement.Models.ManifestModels.ResourceModels.Resources resources =
-                new IUDICO.CourseManagement.Models.ManifestModels.ResourceModels.Resources();
-            Resource resource = new Resource {Base = "Base", Identifier = "Identifier"};
+            var resources = new IUDICO.CourseManagement.Models.ManifestModels.ResourceModels.Resources();
+            var resource = new Resource { Base = "Base", Identifier = "Identifier" };
 
             ManifestManager.AddResource(resources, resource);
 
