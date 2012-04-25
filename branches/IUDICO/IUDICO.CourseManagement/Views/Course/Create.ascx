@@ -6,7 +6,7 @@
 <% Html.EnableClientValidation(); %>
 
 <% using (Ajax.BeginForm("Create", "Course", new { }, new AjaxOptions() { OnFailure = "onFailure", OnSuccess = "onCreateCourseSuccess" })) { %>
-        <%: Html.ValidationSummary(true, IUDICO.CourseManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+        <%: Html.ValidationSummary(true, IUDICO.CourseManagement.Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
 
         <%: Html.EditorForModel() %>
 

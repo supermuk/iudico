@@ -6,7 +6,7 @@
 <%@ Import Namespace="IUDICO.CourseManagement.Models.ManifestModels" %>
 <%@ Import Namespace="System.Security.Policy" %>
 <asp:Content ID="TitleContent1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.CourseManagement.Localization.getMessage("EditingCourse")%>
+    <%=IUDICO.CourseManagement.Localization.GetMessage("EditingCourse")%>
 </asp:Content>
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>"
@@ -167,21 +167,21 @@
                             "create": {
                                 "separator_before": false,
                                 "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("CreateNode") %>",
+                                "label": "<%=IUDICO.CourseManagement.Localization.GetMessage("CreateNode") %>",
                                 "action": function (obj) { this.create(obj); },
                                 "_disabled": node.attr("rel") == "default"
                             },
                             "create_folder": {
                                 "separator_before": false,
                                 "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("CreateFolder") %>",
+                                "label": "<%=IUDICO.CourseManagement.Localization.GetMessage("CreateFolder") %>",
                                 "action": function (obj) { this.create(obj, "last", {"attr": {"rel": "folder"}}); },
                                 "_disabled": node.attr("rel") == "default"
                             },
                             "edit": {
                                 "separator_before": true,
                                 "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Edit") %>",
+                                "label": "<%=IUDICO.CourseManagement.Localization.GetMessage("Edit") %>",
                                 "action": function (obj) {
                                     this.get_container().triggerHandler("edit_node.jstree", { "obj": obj });
                                 }                                
@@ -189,7 +189,7 @@
                             "preview": {
                                 "separator_before": false,
                                 "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Preview") %>",
+                                "label": "<%=IUDICO.CourseManagement.Localization.GetMessage("Preview") %>",
                                 "action": function (obj) {
                                     this.get_container().triggerHandler("preview_node.jstree", { "obj": obj });
                                 },
@@ -198,33 +198,33 @@
                             "rename": {
                                 "separator_before": true,
                                 "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Rename") %>",
+                                "label": "<%=IUDICO.CourseManagement.Localization.GetMessage("Rename") %>",
                                 "action": function (obj) { this.rename(obj); }
                             },
                             "delete": {
                                 "separator_before": false,
                                 "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Delete") %>",
+                                "label": "<%=IUDICO.CourseManagement.Localization.GetMessage("Delete") %>",
                                 "action": function (obj) { if (this.is_selected(obj)) { this.remove(); } else { this.remove(obj); } }
                             },
                             "cut": {
                                 "separator_before": true,
                                 "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Cut") %>",
+                                "label": "<%=IUDICO.CourseManagement.Localization.GetMessage("Cut") %>",
                                 "action": function (obj) { this.cut(obj); }
                             },
                             "copy": {
                                 "separator_before": false,
                                 "icon": false,
                                 "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Copy") %>",
+                                "label": "<%=IUDICO.CourseManagement.Localization.GetMessage("Copy") %>",
                                 "action": function (obj) { this.copy(obj); }
                             },
                             "paste": {
                                 "separator_before": false,
                                 "icon": false,
                                 "separator_after": false,
-                                "label": "<%=IUDICO.CourseManagement.Localization.getMessage("Paste") %>",
+                                "label": "<%=IUDICO.CourseManagement.Localization.GetMessage("Paste") %>",
                                 "action": function (obj) { this.paste(obj); },
                                 "_disabled" : !(this.data.crrm.ct_nodes || this.data.crrm.cp_nodes) || node.attr("rel") == "default"
                             }
@@ -395,10 +395,10 @@
     </script>
     <script type="text/javascript">
         function onSavePropertiesSuccess() {
-            alert("<%=IUDICO.CourseManagement.Localization.getMessage("PropertiesSavedSuccessfully")%>");
+            alert("<%=IUDICO.CourseManagement.Localization.GetMessage("PropertiesSavedSuccessfully")%>");
         }
         function onSavePropertiesFailure() {
-            alert("<%=IUDICO.CourseManagement.Localization.getMessage("PropertiesSavedSuccessfully")%>");
+            alert("<%=IUDICO.CourseManagement.Localization.GetMessage("PropertiesSavedSuccessfully")%>");
         }
     </script>
     <script type="text/javascript">
@@ -476,60 +476,60 @@
     </div>
     <div class="ui-layout-north">
         <h1>
-            <%=IUDICO.CourseManagement.Localization.getMessage("EditingCourse")%>
+            <%=IUDICO.CourseManagement.Localization.GetMessage("EditingCourse")%>
             "<%= Model.Name %>"</h1>
-        <%= Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("BackToList"), "Index", "Course")%>
+        <%= Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("BackToList"), "Index", "Course")%>
     </div>
     <div class="ui-layout-south ui-widget-header ui-corner-all">
     </div>
     <div class="ui-layout-east">
         <div id="patterns" style="display: none;">
             <div>
-                <%=IUDICO.CourseManagement.Localization.getMessage("SelectPattern")%>:</div>
+                <%=IUDICO.CourseManagement.Localization.GetMessage("SelectPattern")%>:</div>
             <div>
                 <%=  Html.DropDownList("SequencingPatterns", ViewData["SequencingPatternsList"] as List<SelectListItem>)%>
             </div>
             <div id="sequencingPatternDataHolder" style="display: none;">
-                <%=IUDICO.CourseManagement.Localization.getMessage("CountOfTests")%>:
+                <%=IUDICO.CourseManagement.Localization.GetMessage("CountOfTests")%>:
                 <input type="text" id="sequencingPatternData" value="0" style="width: 50px;" />
             </div>
             <div>
-                <input type="button" id="ApplyPattern" value="<%=IUDICO.CourseManagement.Localization.getMessage("Apply")%>" /></div>
+                <input type="button" id="ApplyPattern" value="<%=IUDICO.CourseManagement.Localization.GetMessage("Apply")%>" /></div>
         </div>
         <div id="accordion" style="display: none;">
             <h3>
                 <a href="#" id="ControlMode">
-                    <%=IUDICO.CourseManagement.Localization.getMessage("ControlMode") %></a></h3>
+                    <%=IUDICO.CourseManagement.Localization.GetMessage("ControlMode") %></a></h3>
             <div id="ControlModeProperties">
             </div>
             <h3>
                 <a href="#" id="LimitConditions">
-                    <%=IUDICO.CourseManagement.Localization.getMessage("LimitConditions") %></a></h3>
+                    <%=IUDICO.CourseManagement.Localization.GetMessage("LimitConditions") %></a></h3>
             <div id="LimitConditionsProperties">
             </div>
             <h3>
                 <a href="#" id="RandomizationControls">
-                    <%=IUDICO.CourseManagement.Localization.getMessage("RandomizationControls")%></a></h3>
+                    <%=IUDICO.CourseManagement.Localization.GetMessage("RandomizationControls")%></a></h3>
             <div id="RandomizationControlsProperties">
             </div>
             <h3>
                 <a href="#" id="ConstrainedChoiceConsiderations">
-                    <%=IUDICO.CourseManagement.Localization.getMessage("ConstrainedChoiceConsiderations")%></a></h3>
+                    <%=IUDICO.CourseManagement.Localization.GetMessage("ConstrainedChoiceConsiderations")%></a></h3>
             <div id="ConstrainedChoiceConsiderationsProperties">
             </div>
             <h3>
                 <a href="#" id="DeliveryControls">
-                    <%=IUDICO.CourseManagement.Localization.getMessage("DeliveryControls")%></a></h3>
+                    <%=IUDICO.CourseManagement.Localization.GetMessage("DeliveryControls")%></a></h3>
             <div id="DeliveryControlsProperties">
             </div>
             <h3>
                 <a href="#" id="RollupRules">
-                    <%=IUDICO.CourseManagement.Localization.getMessage("RollupRules")%></a></h3>
+                    <%=IUDICO.CourseManagement.Localization.GetMessage("RollupRules")%></a></h3>
             <div id="RollupRulesProperties">
             </div>
             <h3>
                 <a href="#" id="RollupConsiderations">
-                    <%=IUDICO.CourseManagement.Localization.getMessage("RollupConsiderations")%></a></h3>
+                    <%=IUDICO.CourseManagement.Localization.GetMessage("RollupConsiderations")%></a></h3>
             <div id="RollupConsiderationsProperties">
             </div>
         </div>

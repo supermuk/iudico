@@ -14,7 +14,7 @@
     </td>
     <td>
         <div class="course-created-label">
-            <%: Model.Shared ? Model.OwnerName : IUDICO.CourseManagement.Localization.getMessage("me") %>
+            <%: Model.Shared ? Model.OwnerName : IUDICO.CourseManagement.Localization.GetMessage("me") %>
         </div>
     </td>
     <td>
@@ -26,16 +26,16 @@
         <a href="#" onclick="editCourse(<%: Model.Id %>)">Edit</a>
         |
         <% if(Model.Locked) { %>
-        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Publish"), "Publish", new { CourseID = Model.Id })%>
+        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("Publish"), "Publish", new { CourseID = Model.Id })%>
         <% }
            else
            { %>
-        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Unlock"), "Parse", "Course", new { CourseID = Model.Id }, null)%>
+        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("Unlock"), "Parse", "Course", new { CourseID = Model.Id }, null)%>
         <% }  %>
         |
-        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage(Model.Locked ? "Download" : "Export"), "Export", new { CourseID = Model.Id })%>
+        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage(Model.Locked ? "Download" : "Export"), "Export", new { CourseID = Model.Id })%>
         |
-        <%: Ajax.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Delete"), "Delete", new { CourseID = Model.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + Model.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
+        <%: Ajax.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("Delete"), "Delete", new { CourseID = Model.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + Model.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
         |
         <a href="#" onclick="shareCourse(<%: Model.Id %>)">Share</a>
     </td>

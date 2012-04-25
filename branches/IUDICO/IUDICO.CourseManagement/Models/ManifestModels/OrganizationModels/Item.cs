@@ -10,8 +10,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
     {
         public Item()
         {
-            IsVisible = true;
-            Items = new List<Item>();
+            this.IsVisible = true;
+            this.Items = new List<Item>();
         }
         
         /// <summary>
@@ -20,10 +20,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         /// <param name="resourceId"></param>
         public Item(string resourceId)
         {
-            IsVisible = true;
-            IdentifierRef = resourceId;
-            Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid();
-            Items = new List<Item>();
+            this.IsVisible = true;
+            this.IdentifierRef = resourceId;
+            this.Identifier = ConstantStrings.ItemIdPrefix + Guid.NewGuid();
+            this.Items = new List<Item>();
         }
 
         #region Members
@@ -33,7 +33,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         {
             get
             {
-                return IdentifierRef == null;
+                return this.IdentifierRef == null;
             }
         }
 
@@ -57,13 +57,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 
         #region XmlElements
 
-        [XmlElement(SCORM.Title, Namespace=SCORM.ImscpNamespaceV1P3)]
+        [XmlElement(SCORM.Title, Namespace = SCORM.ImscpNamespaceV1P3)]
         public string Title;
 
-        [XmlElement(SCORM.Item, Namespace=SCORM.ImscpNamespaceV1P3)]
+        [XmlElement(SCORM.Item, Namespace = SCORM.ImscpNamespaceV1P3)]
         public List<Item> Items;
 
-        [XmlElement(SCORM.Metadata, Namespace=SCORM.ImscpNamespaceV1P3)]
+        [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1P3)]
         public MetadataModels.Metadata Metadata;
 
         [XmlElement(SCORM.TimeLimitActionV1P3, Namespace = SCORM.AdlcpNamespaceV1P3)]
@@ -71,13 +71,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 
         public bool ShouldSerializeTimeLimitAction()
         {
-            return TimeLimitAction.HasValue;
+            return this.TimeLimitAction.HasValue;
         }
 
-        [XmlElement(SCORM.DataFromLmsV1P3, Namespace=SCORM.AdlcpNamespaceV1P3)]
+        [XmlElement(SCORM.DataFromLmsV1P3, Namespace = SCORM.AdlcpNamespaceV1P3)]
         public string DataFromLMS;
 
-        [XmlElement(SCORM.CompletionThreshold, Namespace=SCORM.AdlcpNamespaceV1P3)]
+        [XmlElement(SCORM.CompletionThreshold, Namespace = SCORM.AdlcpNamespaceV1P3)]
         public CompletionThreshold CompletionThreshold;
 
         [XmlElement(SCORM.Sequencing, Namespace = SCORM.ImsssNamespace)]
@@ -85,8 +85,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
 
         [XmlElement(SCORM.Presentation)]
         public Presentation Presentation;
-        
-        [XmlElement(SCORM.Data, Namespace=SCORM.AdlcpNamespaceV1P3)]
+
+        [XmlElement(SCORM.Data, Namespace = SCORM.AdlcpNamespaceV1P3)]
         public List<Map> Data;
 
         #endregion

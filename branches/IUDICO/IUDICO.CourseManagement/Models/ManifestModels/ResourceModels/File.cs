@@ -12,7 +12,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
 
         public File(string href)
         {
-            Href = href;
+            this.Href = href;
         }
 
         #region XmlAttributes

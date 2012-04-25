@@ -129,9 +129,9 @@
         internal const string RuleCondition = "ruleCondition"; // <imsss:ruleCondition>
         internal const string RuleConditions = "ruleConditions"; // <imsss:ruleConditions>
         internal const string SharedDataGlobalToSystem = "sharedDataGlobalToSystem"; // adlcp:sharedDataGlobalToSystem
-        internal const string Schema = "schema"; //<imscp:shema>
+        internal const string Schema = "schema"; // <imscp:shema>
         internal const string SchemaName = "ADL SCORM";
-        internal const string SchemaVersion = "schemaversion"; //<imscp:shemaversion>
+        internal const string SchemaVersion = "schemaversion"; // <imscp:shemaversion>
         internal const string SchemaVersion2004 = "2004 4th Edition";
         internal const string SatisfiedByMeasure = "satisfiedByMeasure"; // <imsss:objective>/satisfiedByMeasure
         internal const string SCO = "sco";

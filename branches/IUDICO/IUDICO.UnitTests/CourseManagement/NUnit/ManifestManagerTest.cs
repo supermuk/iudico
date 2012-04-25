@@ -18,7 +18,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
             ManifestManager.AddOrganization(organizations, organization);
 
-            Organization org = organizations._Organizations.Single(i => i.Title == "Title");
+            Organization org = organizations.OrganizationsList.Single(i => i.Title == "Title");
             Assert.AreEqual("organization1", org.Identifier);
         }
 
@@ -32,7 +32,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
             ManifestManager.AddResource(resources, resource);
 
-            Resource res = resources._Resources.Single(i => i.Base == "Base");
+            Resource res = resources.ResourcesList.Single(i => i.Base == "Base");
 
             Assert.AreEqual("Identifier", res.Identifier);
         }

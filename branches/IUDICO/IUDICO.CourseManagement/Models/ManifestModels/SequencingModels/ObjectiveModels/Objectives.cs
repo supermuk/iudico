@@ -13,7 +13,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.Objecti
         public Objective PrivaryObjective;
 
         [XmlElement(SCORM.Objective)]
-        public List<Objective> _Objectives;
+        public List<Objective> ObjectivesList;
 
         #endregion
     }

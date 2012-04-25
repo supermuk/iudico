@@ -9,12 +9,6 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     [Serializable]
     public class Sequencing
     {
-        #region Members
-
-        private bool InSequencingCollection;
-
-        #endregion
-
         #region XmlAttributes
 
         [XmlAttribute(SCORM.Id)]

@@ -8,9 +8,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     {
         public DeliveryControls()
         {
-            Tracked = true;
-            CompletionSetByContent = false;
-            ObjectiveSetByContent = false;
+            this.Tracked = true;
+            this.CompletionSetByContent = false;
+            this.ObjectiveSetByContent = false;
         }
         #region XmlAttributes
 

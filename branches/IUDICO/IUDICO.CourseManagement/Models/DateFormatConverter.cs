@@ -7,7 +7,7 @@ namespace IUDICO.CourseManagement.Models
     {
         public static string DataConvert(DateTime date)
         {
-            string dataformat = string.Empty;
+            string dataformat;
             DateTime now = DateTime.Now;
             if (date.Year < now.Year)
             {
@@ -21,7 +21,7 @@ namespace IUDICO.CourseManagement.Models
             {
                 dataformat = "{0:t}";
             }
-            return String.Format(dataformat, date);
+            return string.Format(dataformat, date);
         }
     }
 }
