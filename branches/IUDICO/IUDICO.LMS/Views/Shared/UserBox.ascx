@@ -26,13 +26,13 @@
         <input type="text" id="loginUsername" placeholder="<%=IUDICO.LMS.Localization.GetMessage("Loginn") %>" name="loginUsername" size="40" />
         <input type="password" id="loginPassword" placeholder="<%=IUDICO.LMS.Localization.GetMessage("Password") %>"  name="loginPassword" size="40" />
 
-        <input type="submit" value="<%=IUDICO.LMS.Localization.GetMessage("Ok") %>" class="okButton" />
+        <input id="loginDefaultButton" type="submit" value="<%=IUDICO.LMS.Localization.GetMessage("Ok") %>" class="okButton" />
     </form>
 
     <form action="<%: Url.Action("Login", "Account")  %>" method="post">
 	    <input type="text" id="loginIdentifier" placeholder="<%=IUDICO.LMS.Localization.GetMessage("OpenID") %>" name="loginIdentifier" size="40" />
 	    
-        <input type="submit" value="<%=IUDICO.LMS.Localization.GetMessage("Ok")%>" class="okButton" />
+        <input id="loginOpenIdButton" type="submit" value="<%=IUDICO.LMS.Localization.GetMessage("Ok")%>" class="okButton" />
 	</form>
 <%
     }
