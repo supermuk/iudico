@@ -1,37 +1,44 @@
-﻿using System.Collections.Generic;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="TestingSystemPlugin.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System.Collections.Generic;
 using System.Web.Mvc;
+
 using Castle.MicroKernel.Registration;
-using IUDICO.Common.Models;
-using IUDICO.Common.Models.Plugin;
-using IUDICO.Common.Models.Services;
-using IUDICO.Common.Models.Notifications;
-using IUDICO.TestingSystem.Models;
 using Castle.Windsor;
 
+using IUDICO.Common.Models;
+using IUDICO.Common.Models.Notifications;
+using IUDICO.Common.Models.Plugin;
+using IUDICO.Common.Models.Services;
+using IUDICO.TestingSystem.Models;
 
 namespace IUDICO.TestingSystem
 {
+    using System.Web.Routing;
+
+    using Castle.MicroKernel.SubSystems.Configuration;
+
     public class TestingSystemPlugin : IWindsorInstaller, IPlugin
     {
         #region IWindsorInstaller Members
 
-        public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                AllTypes
-                    .FromThisAssembly()
-                    .BasedOn<IController>()
-                    .Configure(c => c.LifeStyle.Transient
-                                        .Named(c.Implementation.Name)),
+                AllTypes.FromThisAssembly().BasedOn<IController>().Configure(c => c.LifeStyle.Transient.Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<TestingSystemPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ITestingService>().ImplementedBy<TestingService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<IMlcProxy>().ImplementedBy<MlcProxy>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
-                );
+                Component.For<IMlcProxy>().ImplementedBy<MlcProxy>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
         }
 
         #endregion
 
         #region IPlugin Members
+
         public string GetName()
         {
             return "Testing System";
@@ -44,12 +51,12 @@ namespace IUDICO.TestingSystem
 
         public IEnumerable<MenuItem> BuildMenuItems()
         {
-            return new MenuItem[] {};
+            return new MenuItem[] { };
         }
 
-        public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
+        public void RegisterRoutes(RouteCollection routes)
         {
-           routes.MapPageRoute(
+            routes.MapPageRoute(
                 "PlayerFrameset",
                 "Player/Frameset/{page}.aspx",
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/{page}.aspx");
@@ -89,25 +96,21 @@ namespace IUDICO.TestingSystem
                 "PlayerContentEleven",
                 "Player/Frameset/Content.aspx/{one}/{two}/{three}/{four}/{five}/{six}/{seven}/{eight}/{nine}/{ten}/{eleven}",
                 "~/Plugins/IUDICO.TestingSystem.dll/IUDICO.TestingSystem/Player/Content.aspx");
-            
+
             routes.MapRoute(
                 "Training",
                 "Training/Play/{curriculumChapterTopicId}/{courseId}/{topicType}",
-                new { controller = "Training", action = "Play"});
+                new { controller = "Training", action = "Play" });
         }
 
         public void Update(string name, params object[] data)
         {
-           
         }
 
         public void Setup(IWindsorContainer container)
         {
-            
         }
 
         #endregion
-
-        
     }
 }

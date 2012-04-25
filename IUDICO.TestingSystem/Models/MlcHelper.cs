@@ -1,14 +1,22 @@
-﻿using System;
-using System.Data;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="MlcHelper.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.IO;
 using System.Web;
 using System.Web.Configuration;
-using Microsoft.LearningComponents;
-using Microsoft.LearningComponents.Storage;
+
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
+
+using Microsoft.LearningComponents;
+using Microsoft.LearningComponents.Storage;
 
 namespace IUDICO.TestingSystem.Models
 {
@@ -20,22 +28,34 @@ namespace IUDICO.TestingSystem.Models
 
         protected IUserService UserService
         {
-            get { return LmsSevice.FindService<IUserService>(); }
+            get
+            {
+                return this.LmsSevice.FindService<IUserService>();
+            }
         }
 
         protected ICourseService CourseService
         {
-            get { return LmsSevice.FindService<ICourseService>(); }
+            get
+            {
+                return this.LmsSevice.FindService<ICourseService>();
+            }
         }
 
         protected IDisciplineService DisciplineService
         {
-            get { return LmsSevice.FindService<IDisciplineService>(); }
+            get
+            {
+                return this.LmsSevice.FindService<IDisciplineService>();
+            }
         }
 
         protected ICurriculumService CurriculumService
         {
-            get { return LmsSevice.FindService<ICurriculumService>(); }
+            get
+            {
+                return this.LmsSevice.FindService<ICurriculumService>();
+            }
         }
 
         #endregion
@@ -44,7 +64,7 @@ namespace IUDICO.TestingSystem.Models
 
         public MlcHelper(ILmsService lmsService)
         {
-            LmsSevice = lmsService;
+            this.LmsSevice = lmsService;
         }
 
         #endregion
@@ -54,22 +74,22 @@ namespace IUDICO.TestingSystem.Models
         /// <summary>
         /// Holds the value of the <c>LStore</c> property.
         /// </summary>
-        private LearningStore _lstore;
+        private LearningStore lstore;
 
         /// <summary>
         /// Holds the value of the <c>PStoreDirectoryPath</c> property.
         /// </summary>
-        private string _pstoreDirectoryPath;
+        private string pstoreDirectoryPath;
 
         /// <summary>
         /// Holds the value of the <c>PStore</c> property.
         /// </summary>
-        private FileSystemPackageStore _pstore;
+        private FileSystemPackageStore pstore;
 
         /// <summary>
         /// Holds the value of the <c>LStoreConnectionString</c> property.
         /// </summary>
-        private string _lstoreConnectionString;
+        private string lstoreConnectionString;
 
         #endregion
 
@@ -84,18 +104,20 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (_pstoreDirectoryPath == null)
+                if (this.pstoreDirectoryPath == null)
                 {
                     // set <_pstoreDirectoryPath> to the full path to the
                     // directory
                     var path = HttpContext.Current == null
-                               ? Path.Combine(Environment.CurrentDirectory, "Site")
-                               : HttpContext.Current.Request.PhysicalApplicationPath;
+                                   ? Path.Combine(Environment.CurrentDirectory, "Site")
+                                   : HttpContext.Current.Request.PhysicalApplicationPath;
                     if (path == null)
+                    {
                         throw new NullReferenceException("Can't retrieve path to Player Packages folder");
-                    _pstoreDirectoryPath = Path.Combine(path, @"Data\PlayerPackages");
+                    }
+                    this.pstoreDirectoryPath = Path.Combine(path, @"Data\PlayerPackages");
                 }
-                return _pstoreDirectoryPath;
+                return this.pstoreDirectoryPath;
             }
             set
             {
@@ -103,7 +125,7 @@ namespace IUDICO.TestingSystem.Models
                 {
                     throw new ArgumentException("Packages store directory path should be a valid string!");
                 }
-                _pstoreDirectoryPath = value;
+                this.pstoreDirectoryPath = value;
             }
         }
 
@@ -114,7 +136,7 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                Guid result = GetCurrentIudicoUser().Id;
+                Guid result = this.GetCurrentIudicoUser().Id;
                 return result;
             }
         }
@@ -128,11 +150,12 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (string.IsNullOrEmpty(_lstoreConnectionString))
+                if (string.IsNullOrEmpty(this.lstoreConnectionString))
                 {
-                    _lstoreConnectionString = WebConfigurationManager.AppSettings["learningComponentsConnnectionString"];
+                    this.lstoreConnectionString =
+                        WebConfigurationManager.AppSettings["learningComponentsConnnectionString"];
                 }
-                return _lstoreConnectionString;
+                return this.lstoreConnectionString;
             }
         }
 
@@ -144,12 +167,14 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (_lstore == null || _lstore.UserKey != CurrentIudicoUserKey.ToString())
+                if (this.lstore == null || this.lstore.UserKey != this.CurrentIudicoUserKey.ToString())
                 {
-                    _lstore = new LearningStore(
-                        LStoreConnectionString, CurrentIudicoUserKey.ToString(), ImpersonationBehavior.UseOriginalIdentity);
+                    this.lstore = new LearningStore(
+                        this.LStoreConnectionString,
+                        this.CurrentIudicoUserKey.ToString(),
+                        ImpersonationBehavior.UseOriginalIdentity);
                 }
-                return _lstore;
+                return this.lstore;
             }
         }
 
@@ -163,12 +188,12 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (_pstore == null || _pstore.LearningStore != LStore)
+                if (this.pstore == null || this.pstore.LearningStore != this.LStore)
                 {
-                    _pstore = new FileSystemPackageStore(LStore,
-                        PStoreDirectoryPath, ImpersonationBehavior.UseOriginalIdentity);
+                    this.pstore = new FileSystemPackageStore(
+                        this.LStore, this.PStoreDirectoryPath, ImpersonationBehavior.UseOriginalIdentity);
                 }
-                return _pstore;
+                return this.pstore;
             }
         }
 
@@ -183,9 +208,8 @@ namespace IUDICO.TestingSystem.Models
         /// <returns>User object representing currently loggined iudico user.</returns>
         private User GetCurrentIudicoUser()
         {
-            return UserService.GetCurrentUser();
+            return this.UserService.GetCurrentUser();
         }
-
 
         /// <summary>
         /// Uses <c>RequestCurrentUserInfo</c> and checks user existance
@@ -195,10 +219,10 @@ namespace IUDICO.TestingSystem.Models
         /// <returns>UserItemIdentifier value which represents UserItem primary ID.</returns>
         protected UserItemIdentifier GetCurrentUserIdentifier()
         {
-            LearningStoreJob job = LStore.CreateJob();
-            RequestCurrentUserInfo(job);
+            LearningStoreJob job = this.LStore.CreateJob();
+            this.RequestCurrentUserInfo(job);
             ReadOnlyCollection<object> results = job.Execute();
-            UserItemIdentifier result = CheckCurrentUserIdentifier((DataTable)results[0]);
+            UserItemIdentifier result = this.CheckCurrentUserIdentifier((DataTable)results[0]);
             return result;
         }
 
@@ -223,25 +247,23 @@ namespace IUDICO.TestingSystem.Models
                 // the user isn't listed in the UserItem table -- add them...
 
                 // set <userName> to the name of the user that SCORM will use
-                string userName = GetCurrentIudicoUser().Name;
+                string userName = this.GetCurrentIudicoUser().Name;
 
                 // create the UserItem for this user in LearningStore; we use
                 // AddOrUpdateItem() instead of AddItem() in case this learner
                 // was added by another application between the check above and
                 // the code below
-                var job = LStore.CreateJob();
+                var job = this.LStore.CreateJob();
                 var uniqueValues = new Dictionary<string, object>();
-                uniqueValues[Schema.UserItem.Key] = CurrentIudicoUserKey.ToString();
+                uniqueValues[Schema.UserItem.Key] = this.CurrentIudicoUserKey.ToString();
                 var addValues = new Dictionary<string, object>();
                 addValues[Schema.UserItem.Name] = userName;
-                job.AddOrUpdateItem(Schema.UserItem.ItemTypeName,
-                    uniqueValues, addValues, null, true);
+                job.AddOrUpdateItem(Schema.UserItem.ItemTypeName, uniqueValues, addValues, null, true);
                 userId = new UserItemIdentifier(job.Execute<LearningStoreItemIdentifier>());
             }
             else
             {
-                userId = new UserItemIdentifier((LearningStoreItemIdentifier)
-                    results[0][Schema.Me.UserId]);
+                userId = new UserItemIdentifier((LearningStoreItemIdentifier)results[0][Schema.Me.UserId]);
             }
 
             // return a UserItemIdentifier object
@@ -271,8 +293,7 @@ namespace IUDICO.TestingSystem.Models
             // table) and <userName> to their full name (e.g. "Karen Berg"); if
             // there's no UserItem for the user, add one and set <userId> to its
             // ID
-            LearningStoreQuery query = LStore.CreateQuery(
-                Schema.Me.ViewName);
+            LearningStoreQuery query = this.LStore.CreateQuery(Schema.Me.ViewName);
             query.AddColumn(Schema.Me.UserId);
             query.AddColumn(Schema.Me.UserName);
             job.PerformQuery(query);

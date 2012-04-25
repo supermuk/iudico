@@ -1,84 +1,140 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="PostableFrameHelper.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
+
+// using Resources;
 
 using System;
-using System.Data;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
+using System.Xml;
+
+using IUDICO.TestingSystem;
+
 using Microsoft.LearningComponents;
 using Microsoft.LearningComponents.Storage;
-using System.Text;
-using IUDICO.TestingSystem;//using Resources;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Xml;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.LearningComponents.Frameset
 {
     /// <summary>
     /// The base class for frameset helper classes that support the postable frames (content and hidden)
     /// </summary>
-    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")] // postable == a frame that can be posted
+    [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly")]
+    // postable == a frame that can be posted
     public class PostableFrameHelper
     {
 #pragma warning disable 1591
-        private StoredLearningSession m_session;
+        private StoredLearningSession mSession;
 
-        private bool m_activityHasChanged;
-        private Uri m_embeddedUIPath;    // path to the folder containing subfolders 'Theme' and 'Images'
+        private bool mActivityHasChanged;
+
+        private Uri mEmbeddedUIPath; // path to the folder containing subfolders 'Theme' and 'Images'
+
         protected Uri EmbeddedUIPath
         {
-            get { return m_embeddedUIPath; }
+            get
+            {
+                return this.mEmbeddedUIPath;
+            }
         }
 
-        private RegisterError m_registerError;
+        private RegisterError mRegisterError;
+
         protected RegisterError RegisterError
-        { 
-            get { return m_registerError; }
-            set { m_registerError = value; }
+        {
+            get
+            {
+                return this.mRegisterError;
+            }
+            set
+            {
+                this.mRegisterError = value;
+            }
         }
 
-        private GetErrorInfo m_errorInfo;
-        protected GetErrorInfo GetErrorInfo 
-        { 
-            get { return m_errorInfo; }
-            set { m_errorInfo = value; }
+        private GetErrorInfo mErrorInfo;
+
+        protected GetErrorInfo GetErrorInfo
+        {
+            get
+            {
+                return this.mErrorInfo;
+            }
+            set
+            {
+                this.mErrorInfo = value;
+            }
         }
 
-        private HttpRequest m_request;
-        protected HttpRequest Request { get { return m_request; } }
+        private HttpRequest mRequest;
 
-        private HttpResponse m_response;
-        protected HttpResponse Response { get { return m_response; } }
-
-        private AppendContentFrameDetails m_contentFrameDetails;
-        protected AppendContentFrameDetails AppendContentFrameDetails 
-        { 
-            get { return m_contentFrameDetails; }
-            set { m_contentFrameDetails = value; }
+        protected HttpRequest Request
+        {
+            get
+            {
+                return this.mRequest;
+            }
         }
 
+        private HttpResponse mResponse;
 
-        private GetFramesetMsg m_getFramesetMsg;
+        protected HttpResponse Response
+        {
+            get
+            {
+                return this.mResponse;
+            }
+        }
+
+        private AppendContentFrameDetails mContentFrameDetails;
+
+        protected AppendContentFrameDetails AppendContentFrameDetails
+        {
+            get
+            {
+                return this.mContentFrameDetails;
+            }
+            set
+            {
+                this.mContentFrameDetails = value;
+            }
+        }
+
+        private GetFramesetMsg mGetFramesetMsg;
+
         protected GetFramesetMsg GetFramesetMsg
         {
-            get { return m_getFramesetMsg; }
-            set { m_getFramesetMsg = value; }
+            get
+            {
+                return this.mGetFramesetMsg;
+            }
+            set
+            {
+                this.mGetFramesetMsg = value;
+            }
         }
 
         protected const string SubmitId = "SUBMIT";
 
         public PostableFrameHelper(HttpRequest request, HttpResponse response, Uri embeddedUIPath)
         {
-            m_request = request;
-            m_response = response;
-            m_embeddedUIPath = embeddedUIPath;
+            this.mRequest = request;
+            this.mResponse = response;
+            this.mEmbeddedUIPath = embeddedUIPath;
         }
 #pragma warning restore 1591
 
@@ -87,14 +143,26 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public StoredLearningSession Session
         {
-            get { return m_session; }
-            set { m_session = value; }
+            get
+            {
+                return this.mSession;
+            }
+            set
+            {
+                this.mSession = value;
+            }
         }
 
         /// <summary>
         /// Return true if the session data model cannot be written to
         /// </summary>
-        protected bool SessionIsReadOnly { get { return (m_session.View == SessionView.Review); } }
+        protected bool SessionIsReadOnly
+        {
+            get
+            {
+                return (this.mSession.View == SessionView.Review);
+            }
+        }
 
         /// <summary>
         /// Return true if the current session is no longer active.
@@ -105,17 +173,20 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 // If the session is not execute, the end state is set by the app.
                 // In the case of Execute, look at attempt status to determine if it's finished.
-                if (m_session.View != SessionView.Execute)
-                    return m_sessionEnded;
+                if (this.mSession.View != SessionView.Execute)
+                {
+                    return this.mSessionEnded;
+                }
 
-                return (m_session.AttemptStatus != AttemptStatus.Active);
+                return (this.mSession.AttemptStatus != AttemptStatus.Active);
             }
             set
             {
-                m_sessionEnded = value;
+                this.mSessionEnded = value;
             }
         }
-        private bool m_sessionEnded;    
+
+        private bool mSessionEnded;
 
         /// <summary>
         /// Returns true if the current activity in the session requires the client-side RTE.
@@ -125,14 +196,18 @@ namespace Microsoft.LearningComponents.Frameset
             get
             {
                 // If there is no current activity, the RTE is not required
-                if (!m_session.HasCurrentActivity)
+                if (!this.mSession.HasCurrentActivity)
+                {
                     return false;
+                }
 
                 // If this is Execute view and the current activity is not active, the RTE is not required.
-                if ((m_session.View == SessionView.Execute) && (!m_session.CurrentActivityIsActive))
+                if ((this.mSession.View == SessionView.Execute) && (!this.mSession.CurrentActivityIsActive))
+                {
                     return false;
+                }
 
-                return (m_session.CurrentActivityResourceType == ResourceType.Sco);
+                return (this.mSession.CurrentActivityResourceType == ResourceType.Sco);
             }
         }
 
@@ -143,11 +218,12 @@ namespace Microsoft.LearningComponents.Frameset
         protected bool IsCurrentActiveActivity(long activityId)
         {
             // If there is no current activity, or the current activity is not active, then return false
-            if ((!m_session.HasCurrentActivity)
-                || (!m_session.CurrentActivityIsActive))
+            if ((!this.mSession.HasCurrentActivity) || (!this.mSession.CurrentActivityIsActive))
+            {
                 return false;
+            }
 
-            return (m_session.CurrentActivityId == activityId);
+            return (this.mSession.CurrentActivityId == activityId);
         }
 
         /// <summary>
@@ -156,18 +232,24 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         protected bool ActivityHasChanged
         {
-            get { return m_activityHasChanged; }
-            set { m_activityHasChanged = value; }
+            get
+            {
+                return this.mActivityHasChanged;
+            }
+            set
+            {
+                this.mActivityHasChanged = value;
+            }
         }
 
         /// <summary>
         /// Moves the session to the next activity with a resource. 
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameter is validated
-        internal protected static void MoveToNextActivity(LearningSession session)
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameter is validated
+        protected internal static void MoveToNextActivity(LearningSession session)
         {
             session.MoveToNext();
-            
+
             // If this is RA view, make sure the activity has a resource
             if (session.View == SessionView.RandomAccess)
             {
@@ -187,7 +269,9 @@ namespace Microsoft.LearningComponents.Frameset
         protected static bool ProcessNavigationRequests(LearningSession session)
         {
             if (session.View != SessionView.Execute)
+            {
                 return false;
+            }
 
             // View is execute, so call the method
             return session.ProcessNavigationRequests();
@@ -196,7 +280,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <summary>
         /// Moves the session to the previous activity with a resource. 
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameter is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameter is validated
         protected static void MoveToPreviousActivity(LearningSession session)
         {
             session.MoveToPrevious();
@@ -215,15 +299,14 @@ namespace Microsoft.LearningComponents.Frameset
         /// Moves to requested activity. In RA view, if that activity does not have a resource, it 
         /// moves to the first child that does.
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameter is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameter is validated
         protected static void MoveToActivity(LearningSession session, long activityId)
         {
             FramesetUtil.ValidateNonNullParameter("session", session);
             session.MoveToActivity(activityId);
 
             // If this is random access view, make sure to move to an activity that has a resource.
-            if ((session.View == SessionView.RandomAccess) 
-                        && (session.CurrentActivityResourceType == ResourceType.None))
+            if ((session.View == SessionView.RandomAccess) && (session.CurrentActivityResourceType == ResourceType.None))
             {
                 MoveToNextActivity(session);
             }
@@ -234,13 +317,14 @@ namespace Microsoft.LearningComponents.Frameset
         /// resource may be relative or absolute.
         /// </summary>
         /// <returns>The url, in Ascii format, for the content frame.</returns>
-        [SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings"),    // the url is needed in string form
-        SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]    // this does too much work to be property
+        [SuppressMessage("Microsoft.Design", "CA1055:UriReturnValuesShouldNotBeStrings")]
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        // this does too much work to be property
         protected string GetContentFrameUrl()
         {
             StringBuilder sb = new StringBuilder(4096);
 
-            Uri entryPoint = Session.CurrentActivityEntryPoint;
+            Uri entryPoint = this.Session.CurrentActivityEntryPoint;
 
             if (entryPoint.IsAbsoluteUri)
             {
@@ -254,27 +338,29 @@ namespace Microsoft.LearningComponents.Frameset
                 // The URL for attempt-based content frames in BWP is:
                 // http://<...basicWebApp>/Content.aspx/<view>/<attemptId>/otherdata/
                 // the otherdata depends on the view
-                //sb.Append("?PF=\"");
+                // sb.Append("?PF=\"");
                 sb.Append("Content.aspx");
-                AppendContentFrameDetails(Session, sb);
+                this.AppendContentFrameDetails(this.Session, sb);
                 sb.Append("/");
 
-                sb.Append(Session.CurrentActivityEntryPoint.OriginalString);
+                sb.Append(this.Session.CurrentActivityEntryPoint.OriginalString);
 
                 // If there were query parameters, append them
-                string parameters = Session.CurrentActivityResourceParameters;
-                if (!String.IsNullOrEmpty(parameters))
+                string parameters = this.Session.CurrentActivityResourceParameters;
+                if (!string.IsNullOrEmpty(parameters))
                 {
                     // parameters is defined in SCORM as already being encoded
                     if (!parameters.StartsWith("?", StringComparison.Ordinal))
+                    {
                         sb.Append("?");
+                    }
                     sb.Append(parameters);
                 }
-                //sb.Append("\"");
+                // sb.Append("\"");
             }
 
             return sb.ToString();
-        }  
+        }
 
 #pragma warning disable 1591
         protected bool HasError
@@ -285,7 +371,7 @@ namespace Microsoft.LearningComponents.Frameset
                 string errorTitle;
                 string errorMsg;
                 bool asInfo;
-                GetErrorInfo(out hasError, out errorTitle, out errorMsg, out asInfo);
+                this.GetErrorInfo(out hasError, out errorTitle, out errorMsg, out asInfo);
                 return hasError;
             }
         }
@@ -298,7 +384,7 @@ namespace Microsoft.LearningComponents.Frameset
                 string errorTitle;
                 string errorMsg;
                 bool asInfo;
-                GetErrorInfo(out hasError, out errorTitle, out errorMsg, out asInfo);
+                this.GetErrorInfo(out hasError, out errorTitle, out errorMsg, out asInfo);
                 return errorMsg;
             }
         }
@@ -311,7 +397,7 @@ namespace Microsoft.LearningComponents.Frameset
                 string errorTitle;
                 string errorMsg;
                 bool asInfo;
-                GetErrorInfo(out hasError, out errorTitle, out errorMsg, out asInfo);
+                this.GetErrorInfo(out hasError, out errorTitle, out errorMsg, out asInfo);
                 return errorTitle;
             }
         }
@@ -324,7 +410,7 @@ namespace Microsoft.LearningComponents.Frameset
                 string errorTitle;
                 string errorMsg;
                 bool asInfo;
-                GetErrorInfo(out hasError, out errorTitle, out errorMsg, out asInfo);
+                this.GetErrorInfo(out hasError, out errorTitle, out errorMsg, out asInfo);
                 return asInfo;
             }
         }
@@ -337,7 +423,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <param name="message"></param>
         protected void WriteError(PlainTextString message)
         {
-            WriteError(message, false);
+            this.WriteError(message, false);
         }
 
         /// <summary>
@@ -347,7 +433,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <param name="message">The message to display to the user.</param>
         /// <param name="allowReloadCurrentActivity">If true, a link will appear with the message to reload the 
         /// current activity.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameter is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameter is validated
         protected void WriteError(PlainTextString message, bool allowReloadCurrentActivity)
         {
             FramesetUtil.ValidateNonNullParameter("message", message);
@@ -358,11 +444,19 @@ namespace Microsoft.LearningComponents.Frameset
             // re-initialize the RTE object at this point.
             if (allowReloadCurrentActivity)
             {
-                JScriptString js = new JScriptString(ResHelper.FormatInvariant("API_GetFramesetManager().DoChoice(\"{0}\");", 
-                                    FramesetUtil.GetStringInvariant(m_session.CurrentActivityId)));
+                JScriptString js =
+                    new JScriptString(
+                        ResHelper.FormatInvariant(
+                            "API_GetFramesetManager().DoChoice(\"{0}\");",
+                            FramesetUtil.GetStringInvariant(this.mSession.CurrentActivityId)));
                 string origMessage = message.ToString();
                 StringBuilder sb = new StringBuilder(origMessage.Length * 2);
-                sb.Append(ResHelper.Format("{0}<br><br><a href='{1}' >{2}</a>",origMessage, js.ToJavascriptProtocol(), IUDICO.TestingSystem.Localization.getMessage("HID_ReloadCurrentContent")));
+                sb.Append(
+                    ResHelper.Format(
+                        "{0}<br><br><a href='{1}' >{2}</a>",
+                        origMessage,
+                        js.ToJavascriptProtocol(),
+                        IUDICO.TestingSystem.Localization.GetMessage("HID_ReloadCurrentContent")));
 
                 msgToDisplay = sb.ToString();
             }
@@ -370,7 +464,8 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 msgToDisplay = message.ToString();
             }
-            RegisterError(IUDICO.TestingSystem.Localization.getMessage("HID_ServerErrorTitle"), msgToDisplay, false);
+            this.RegisterError(
+                IUDICO.TestingSystem.Localization.GetMessage("HID_ServerErrorTitle"), msgToDisplay, false);
         }
 
         /// <summary>
@@ -380,17 +475,17 @@ namespace Microsoft.LearningComponents.Frameset
         /// <param name="messageHtml">The message to display.</param>
         /// <param name="titleHtml">The title of the message to display.</param>
         /// <param name="saveButtonHtml">The button text to display on the submit button.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameter is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameter is validated
         protected void WriteSubmitPage(string titleHtml, string messageHtml, string saveButtonHtml)
         {
             FramesetUtil.ValidateNonNullParameter("messageHtml", messageHtml);
             string msgToDisplay;
-            bool hasCurrentActivity = Session.HasCurrentActivity;
+            bool hasCurrentActivity = this.Session.HasCurrentActivity;
 
             // The message will contain a link to submit the attempt.
             StringBuilder sb = new StringBuilder(messageHtml.Length * 2 + 500);
             sb.AppendLine("<script>");
-            
+
             // If there is a current activity to return to, allow the user to do that.
             if (hasCurrentActivity)
             {
@@ -399,7 +494,10 @@ namespace Microsoft.LearningComponents.Frameset
                 sb.AppendLine(" var frameMgr = API_GetFramesetManager();");
                 sb.AppendLine(" if (frameMgr.ReadyForNavigation())");
                 sb.AppendLine(" {");
-                sb.AppendLine(ResHelper.Format("     frameMgr.DoChoice(\"{0}\");", FramesetUtil.GetStringInvariant(m_session.CurrentActivityId)));
+                sb.AppendLine(
+                    ResHelper.Format(
+                        "     frameMgr.DoChoice(\"{0}\");",
+                        FramesetUtil.GetStringInvariant(this.mSession.CurrentActivityId)));
                 sb.AppendLine(" }");
                 sb.AppendLine(" event.cancelBubble = true;");
                 sb.AppendLine(" event.returnValue = false;");
@@ -417,25 +515,39 @@ namespace Microsoft.LearningComponents.Frameset
             sb.AppendLine(" event.returnValue = false;");
             sb.AppendLine("}");
             sb.AppendLine("</script>");
-            sb.AppendLine(ResHelper.Format("{0}<br><br><input type='button' value='{1}' id='submitBtn' onClick='onSubmit(event)'/>", messageHtml, saveButtonHtml));
+            sb.AppendLine(
+                ResHelper.Format(
+                    "{0}<br><br><input type='button' value='{1}' id='submitBtn' onClick='onSubmit(event)'/>",
+                    messageHtml,
+                    saveButtonHtml));
 
             if (hasCurrentActivity)
             {
-                sb.AppendLine(ResHelper.Format("&nbsp;&nbsp;<input type='button' value='{0}' id='cancelBtn' onClick='onCancel(event)'/>", IUDICO.TestingSystem.Localization.getMessage("POST_ContinueHtml")));
+                sb.AppendLine(
+                    ResHelper.Format(
+                        "&nbsp;&nbsp;<input type='button' value='{0}' id='cancelBtn' onClick='onCancel(event)'/>",
+                        IUDICO.TestingSystem.Localization.GetMessage("POST_ContinueHtml")));
             }
 
             msgToDisplay = sb.ToString();
-            RegisterError(titleHtml, msgToDisplay, true);
+            this.RegisterError(titleHtml, msgToDisplay, true);
 
-            SubmitPageDisplayed = true;
+            this.SubmitPageDisplayed = true;
         }
 
-        private bool m_submitPageDisplayed;
+        private bool mSubmitPageDisplayed;
+
         /// <summary>True if the submit page is displayed.</summary>
         protected bool SubmitPageDisplayed
         {
-            get { return m_submitPageDisplayed; }
-            private set { m_submitPageDisplayed = value; }
+            get
+            {
+                return this.mSubmitPageDisplayed;
+            }
+            private set
+            {
+                this.mSubmitPageDisplayed = value;
+            }
         }
 
         /// <summary>
@@ -446,10 +558,11 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                Uri themeFolder = new Uri(m_embeddedUIPath, new Uri("Theme", UriKind.Relative));
+                Uri themeFolder = new Uri(this.mEmbeddedUIPath, new Uri("Theme", UriKind.Relative));
                 return themeFolder.OriginalString;
             }
         }
+
         /// <summary>
         /// If the current activity is not active, then try moving to it. SequencingException is not
         /// thrown from this method, since if it didn't work there is nothing the caller can do to 
@@ -459,9 +572,9 @@ namespace Microsoft.LearningComponents.Frameset
         {
             try
             {
-                if (m_session.HasCurrentActivity && (!m_session.CurrentActivityIsActive))
+                if (this.mSession.HasCurrentActivity && (!this.mSession.CurrentActivityIsActive))
                 {
-                    m_session.MoveToActivity(m_session.CurrentActivityId);
+                    this.mSession.MoveToActivity(this.mSession.CurrentActivityId);
                 }
             }
             catch (SequencingException)
@@ -471,42 +584,43 @@ namespace Microsoft.LearningComponents.Frameset
 
         /// <summary>Gets the commands for the frame.</summary>
         /// <returns></returns>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]   // this method does too much work to be a property
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        // this method does too much work to be a property
         protected ReadOnlyCollection<CommandInfo> GetCommands()
         {
-            string postedCommand = Request.Form[HiddenFieldNames.Command];
-            string postedCommandData = Request.Form[HiddenFieldNames.CommandData];
-            
+            string postedCommand = this.Request.Form[HiddenFieldNames.Command];
+            string postedCommandData = this.Request.Form[HiddenFieldNames.CommandData];
+
             // If there is no posted command, then return an empty collection. This may happen when the content (for instance LRM)
             // posts itself.
-            if (String.IsNullOrEmpty(postedCommand))
+            if (string.IsNullOrEmpty(postedCommand))
             {
                 return new ReadOnlyCollection<CommandInfo>(new List<CommandInfo>());
             }
 
             // Commands are semi-colon separated. 
-            string[] commands = postedCommand.Split(new char[] { ';' });
+            string[] commands = postedCommand.Split(new[] { ';' });
             int numCommands = commands.Length;
             string[] commandData = null;
-            
+
             List<CommandInfo> commandList = new List<CommandInfo>(numCommands);
 
             // Command data are separated by @C, and encoded
-            if (!String.IsNullOrEmpty(postedCommandData))
+            if (!string.IsNullOrEmpty(postedCommandData))
             {
                 postedCommandData = postedCommandData.Replace("@G", ">").Replace("@L", "<").Replace("@A", "@");
-                commandData = postedCommandData.Split(new string[] { "@C" }, StringSplitOptions.None);
+                commandData = postedCommandData.Split(new[] { "@C" }, StringSplitOptions.None);
             }
 
             int i = 0;
-            foreach(string cmd in commands)
+            foreach (string cmd in commands)
             {
-                if (String.IsNullOrEmpty(cmd))
+                if (string.IsNullOrEmpty(cmd))
                 {
                     i++;
                     continue;
                 }
-               
+
                 commandList.Add(new CommandInfo(cmd, commandData[i]));
                 i++;
             }
@@ -520,13 +634,14 @@ namespace Microsoft.LearningComponents.Frameset
         ///  where strActivityId is the numeric activity id
         ///      if (false) the node should be disabled
         /// </summary>
-        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]   // this does too much work to be a property
+        [SuppressMessage("Microsoft.Design", "CA1024:UsePropertiesWhereAppropriate")]
+        // this does too much work to be a property
         protected string GetTocStates()
         {
             StringBuilder sb = new StringBuilder(1000);
-            TableOfContentsElement root = Session.GetTableOfContents(true);
-            
-            GetTocNodeState(sb, root);
+            TableOfContentsElement root = this.Session.GetTableOfContents(true);
+
+            this.GetTocNodeState(sb, root);
 
             return sb.ToString();
         }
@@ -538,12 +653,15 @@ namespace Microsoft.LearningComponents.Frameset
         {
             if (element.IsVisible)
             {
-                buffer.AppendFormat("{0},{1};", XmlConvert.ToString(element.ActivityId), element.IsValidChoiceNavigationDestination ? "true" : "false");
+                buffer.AppendFormat(
+                    "{0},{1};",
+                    XmlConvert.ToString(element.ActivityId),
+                    element.IsValidChoiceNavigationDestination ? "true" : "false");
             }
-            
+
             foreach (TableOfContentsElement child in element.Children)
             {
-                GetTocNodeState(buffer, child);
+                this.GetTocNodeState(buffer, child);
             }
         }
     }
@@ -553,14 +671,15 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public class CommandInfo
     {
-        private string m_data;
-        private string m_command;
+        private string mData;
+
+        private string mCommand;
 
         /// <summary>Initializes a new instance of <see cref="CommandInfo"/>.</summary>
         /// <param name="command">The command name.</param>
         public CommandInfo(string command)
         {
-            m_command = command;
+            this.mCommand = command;
         }
 
         /// <summary>Initializes a new instance of <see cref="CommandInfo"/>.</summary>
@@ -568,14 +687,26 @@ namespace Microsoft.LearningComponents.Frameset
         /// <param name="data">The command data.</param>
         public CommandInfo(string command, string data)
         {
-            m_command = command;
-            m_data = data;
+            this.mCommand = command;
+            this.mData = data;
         }
 
         /// <summary>The name of the command.</summary>
-        public string Command { get { return m_command; } }
+        public string Command
+        {
+            get
+            {
+                return this.mCommand;
+            }
+        }
 
         /// <summary>The data of the command.</summary>
-        public string CommandData { get { return m_data; } }
+        public string CommandData
+        {
+            get
+            {
+                return this.mData;
+            }
+        }
     }
 }

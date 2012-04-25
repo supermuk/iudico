@@ -1,4 +1,10 @@
-﻿using Microsoft.LearningComponents.Storage;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="QueryCondition.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using Microsoft.LearningComponents.Storage;
 
 namespace IUDICO.TestingSystem.Models.VOs
 {
@@ -18,9 +24,9 @@ namespace IUDICO.TestingSystem.Models.VOs
 
         public QueryCondition(string columnName, LearningStoreConditionOperator conditionOperator, object value)
         {
-            ColumnName = columnName;
-            ConditionOperator = conditionOperator;
-            Value = value;
+            this.ColumnName = columnName;
+            this.ConditionOperator = conditionOperator;
+            this.Value = value;
         }
 
         public QueryCondition(string columnName, object value)

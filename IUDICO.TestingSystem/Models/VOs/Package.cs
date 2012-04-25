@@ -1,4 +1,11 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="Package.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
+
 using Microsoft.LearningComponents;
 
 namespace IUDICO.TestingSystem.Models.VOs
@@ -21,15 +28,14 @@ namespace IUDICO.TestingSystem.Models.VOs
 
         public Package()
         {
-
         }
 
         public Package(long ownerId, DateTime? uploadDateTime, string fileName, int courseId)
         {
-            Owner = ownerId;
-            UploadDateTime = uploadDateTime;
-            FileName = fileName;
-            CourseID = courseId;
+            this.Owner = ownerId;
+            this.UploadDateTime = uploadDateTime;
+            this.FileName = fileName;
+            this.CourseID = courseId;
         }
 
         #endregion

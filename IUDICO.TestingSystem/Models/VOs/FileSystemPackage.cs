@@ -1,5 +1,12 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="FileSystemPackage.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.ComponentModel;
+
 using Microsoft.LearningComponents;
 
 namespace IUDICO.TestingSystem.Models.VOs
@@ -18,13 +25,14 @@ namespace IUDICO.TestingSystem.Models.VOs
         public FileSystemPackage(string folderPath)
             : base()
         {
-            FolderPath = folderPath;
+            this.FolderPath = folderPath;
         }
 
-        public FileSystemPackage(string folderPath, long ownerId, DateTime? uploadDateTime, string fileName, int courseId)
+        public FileSystemPackage(
+            string folderPath, long ownerId, DateTime? uploadDateTime, string fileName, int courseId)
             : base(ownerId, uploadDateTime, fileName, courseId)
         {
-            FolderPath = folderPath;
+            this.FolderPath = folderPath;
         }
 
         #endregion
@@ -33,7 +41,7 @@ namespace IUDICO.TestingSystem.Models.VOs
 
         public override PackageReader GetPackageReader()
         {
-            var reader = new FileSystemPackageReader(FolderPath);
+            var reader = new FileSystemPackageReader(this.FolderPath);
 
             return reader;
         }

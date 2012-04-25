@@ -1,39 +1,49 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-// MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
-// MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
-// NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE.
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="MainFrames.aspx.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using Microsoft.LearningComponents;
 using System.Globalization;
+
 using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.LearningComponents.Frameset
 {
-
     public partial class Frameset_MainFrames : BwpFramesetPage
     {
-        AttemptItemIdentifier m_attemptId;
-        SessionView m_view;
+        private AttemptItemIdentifier mAttemptId;
+
+        private SessionView mView;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!ProcessAttemptIdParameter(false, out m_attemptId))
+            if (!this.ProcessAttemptIdParameter(false, out this.mAttemptId))
+            {
                 return;
+            }
 
-            if (!ProcessViewParameter(false, out m_view))
+            if (!this.ProcessViewParameter(false, out this.mView))
+            {
                 return;
+            }
         }
 
         #region called from aspx
+
         public string HiddenFrameUrl
         {
             get
             {
-                string strUrl = String.Format(CultureInfo.CurrentCulture, "Hidden.aspx?{0}={1}&{2}={3}&{4}=1",
-                    FramesetQueryParameter.View, Convert.ToInt32(m_view),
-                    FramesetQueryParameter.AttemptId, m_attemptId.GetKey().ToString(),
+                string strUrl = string.Format(
+                    CultureInfo.CurrentCulture,
+                    "Hidden.aspx?{0}={1}&{2}={3}&{4}=1",
+                    FramesetQueryParameter.View,
+                    Convert.ToInt32(this.mView),
+                    FramesetQueryParameter.AttemptId,
+                    this.mAttemptId.GetKey().ToString(),
                     FramesetQueryParameter.Init);
                 UrlString hiddenUrl = new UrlString(strUrl);
                 return hiddenUrl.ToAscii();
@@ -44,12 +54,16 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                string strUrl = String.Format(CultureInfo.CurrentCulture, "TOC.aspx?View={0}&AttemptId={1}", m_view.ToString(), m_attemptId.GetKey().ToString());
+                string strUrl = string.Format(
+                    CultureInfo.CurrentCulture,
+                    "TOC.aspx?View={0}&AttemptId={1}",
+                    this.mView.ToString(),
+                    this.mAttemptId.GetKey().ToString());
                 UrlString hiddenUrl = new UrlString(strUrl);
                 return hiddenUrl.ToAscii();
             }
         }
-        #endregion
 
+        #endregion
     }
 }

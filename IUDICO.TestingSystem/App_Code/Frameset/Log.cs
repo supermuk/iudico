@@ -1,34 +1,49 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Log.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.Data;
 using System.Configuration;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using System.IO;
-using System.Diagnostics.CodeAnalysis;
 
 #if DEBUG
+
 namespace Microsoft.LearningComponents.Frameset
 {
     /// <summary>
     /// Summary description for Log
     /// </summary>
-    public sealed class Log :IDisposable
+    public sealed class Log : IDisposable
     {
         // NOTE: Change return value to enable logging.
         [SuppressMessage("Microsoft.Performance", "CA1822:MarkMembersAsStatic")]
-        private bool IsLogEnabled { get { return false; } }
-        private bool m_isDisposed;
+        private bool IsLogEnabled
+        {
+            get
+            {
+                return false;
+            }
+        }
 
-        private const string FILENAME = @"c:\backup\framesetLog.txt";
+        private bool mIsDisposed;
 
-        string m_filePath;
-        StreamWriter m_writer; 
+        private const string Filename = @"c:\backup\framesetLog.txt";
+
+        private string mFilePath;
+
+        private StreamWriter mWriter;
+
         /// <summary>
         /// Open the log. 
         /// </summary>
@@ -36,62 +51,72 @@ namespace Microsoft.LearningComponents.Frameset
         private Log(string filePath)
         {
             // Even in debug builds don't log anything unless compiled to do so.
-            if (!IsLogEnabled)
+            if (!this.IsLogEnabled)
+            {
                 return;
+            }
 
-            m_writer = File.AppendText(filePath);
-            m_filePath = filePath;
+            this.mWriter = File.AppendText(filePath);
+            this.mFilePath = filePath;
         }
 
         /// <summary>Initializes a new instance of <see cref="Log"/>.</summary>
-        public Log() : this(FILENAME)
+        public Log()
+            : this(Filename)
         {
         }
 
         /// <summary>See <see cref="IDisposable.Dispose"/>.</summary>
         public void Dispose()
         {
-            if (m_isDisposed)
+            if (this.mIsDisposed)
             {
                 return;
             }
 
             // Even in debug builds don't log anything unless compiled to do so.
-            if (!IsLogEnabled)
+            if (!this.IsLogEnabled)
             {
                 return;
             }
 
-            if (m_writer != null)
+            if (this.mWriter != null)
             {
-                m_writer.Dispose();
-                m_writer = null;
+                this.mWriter.Dispose();
+                this.mWriter = null;
             }
-            m_isDisposed = true;
+            this.mIsDisposed = true;
 
             GC.SuppressFinalize(this);
         }
-
 
         /// <summary>Writes a message to the log.</summary>
         /// <param name="message">The message to write.</param>
         public void WriteMessage(string message)
         {
             // Even in debug builds don't log anything unless compiled to do so.
-            if (!IsLogEnabled)
+            if (!this.IsLogEnabled)
+            {
                 return;
+            }
 
-            m_writer.Write("\r\nLog Entry : ");
-            m_writer.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(),
-                                            DateTime.Now.ToLongDateString());
-            m_writer.WriteLine("  :{0}", message);
-            m_writer.WriteLine ("-------------------------------");
+            this.mWriter.Write("\r\nLog Entry : ");
+            this.mWriter.WriteLine("{0} {1}", DateTime.Now.ToLongTimeString(), DateTime.Now.ToLongDateString());
+            this.mWriter.WriteLine("  :{0}", message);
+            this.mWriter.WriteLine("-------------------------------");
             // Update the underlying file.
-            m_writer.Flush(); 
+            this.mWriter.Flush();
         }
 
         /// <summary>The log file path.</summary>
-        public string FilePath { get { return m_filePath; } }
+        public string FilePath
+        {
+            get
+            {
+                return this.mFilePath;
+            }
+        }
     }
 }
+
 #endif

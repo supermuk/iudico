@@ -1,16 +1,16 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-// MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
-// MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
-// NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE.
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Frameset.aspx.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
+
+// using Resources;
 
 using System;
 using System.Globalization;
-using System.Text;
-using Microsoft.LearningComponents;
-using Microsoft.LearningComponents.Storage;
-using IUDICO.TestingSystem;//using Resources;
 using System.IO;
+using System.Text;
 
 namespace Microsoft.LearningComponents.Frameset
 {
@@ -25,15 +25,15 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public partial class Frameset_Frameset : BwpFramesetPage
     {
-        private FramesetHelper m_framesetHelper; 
+        private FramesetHelper mFramesetHelper;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
-
-                m_framesetHelper = new FramesetHelper();
-                m_framesetHelper.ProcessPageLoad(PStore, ProcessViewParameter, ProcessAttemptIdParameter, ProcessViewRequest);
+                this.mFramesetHelper = new FramesetHelper();
+                this.mFramesetHelper.ProcessPageLoad(
+                    this.PStore, this.ProcessViewParameter, this.ProcessAttemptIdParameter, this.ProcessViewRequest);
             }
             catch (System.Threading.ThreadAbortException)
             {
@@ -41,25 +41,29 @@ namespace Microsoft.LearningComponents.Frameset
             }
             catch (FileNotFoundException)
             {
-                Response.StatusCode = 404;
-                Response.StatusDescription = "Not Found";
+                this.Response.StatusCode = 404;
+                this.Response.StatusDescription = "Not Found";
             }
             catch (System.Web.HttpException)
             {
                 // Something wrong with the http connection, so in this case do not set the response
                 // headers.
-                RegisterError(IUDICO.TestingSystem.Localization.getMessage("FRM_NotAvailableTitleHtml"), IUDICO.TestingSystem.Localization.getMessage("FRM_NotAvailableHtml"), false);
+                this.RegisterError(
+                    IUDICO.TestingSystem.Localization.GetMessage("FRM_NotAvailableTitleHtml"),
+                    IUDICO.TestingSystem.Localization.GetMessage("FRM_NotAvailableHtml"),
+                    false);
             }
             catch (Exception)
             {
                 // Doesn't matter why.
-                Response.StatusCode = 500;
-                Response.StatusDescription = "Internal Server Error";
-                RegisterError(IUDICO.TestingSystem.Localization.getMessage("FRM_NotAvailableTitleHtml"), IUDICO.TestingSystem.Localization.getMessage("FRM_NotAvailableHtml"), false);
+                this.Response.StatusCode = 500;
+                this.Response.StatusDescription = "Internal Server Error";
+                this.RegisterError(
+                    IUDICO.TestingSystem.Localization.GetMessage("FRM_NotAvailableTitleHtml"),
+                    IUDICO.TestingSystem.Localization.GetMessage("FRM_NotAvailableHtml"),
+                    false);
             }
         }
-
-        
 
         #region Called From Aspx    // the following methods are called from in-place aspx code
 
@@ -71,11 +75,19 @@ namespace Microsoft.LearningComponents.Frameset
             get
             {
                 StringBuilder frames = new StringBuilder(4096);
-                int view = Convert.ToInt32(m_framesetHelper.View);
-                frames.Append(String.Format(CultureInfo.CurrentUICulture, "MainFrames.aspx?{0}={1}&",
-                                                FramesetQueryParameter.View, view.ToString()));
-                frames.Append(String.Format(CultureInfo.CurrentUICulture, "{0}={1}",
-                                                FramesetQueryParameter.AttemptId, m_framesetHelper.AttemptId.GetKey()));
+                int view = Convert.ToInt32(this.mFramesetHelper.View);
+                frames.Append(
+                    string.Format(
+                        CultureInfo.CurrentUICulture,
+                        "MainFrames.aspx?{0}={1}&",
+                        FramesetQueryParameter.View,
+                        view.ToString()));
+                frames.Append(
+                    string.Format(
+                        CultureInfo.CurrentUICulture,
+                        "{0}={1}",
+                        FramesetQueryParameter.AttemptId,
+                        this.mFramesetHelper.AttemptId.GetKey()));
                 return new UrlString(frames.ToString()).ToAscii();
             }
         }
@@ -87,7 +99,8 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                PlainTextString text = new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("FRM_Title")));
+                PlainTextString text =
+                    new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("FRM_Title")));
                 HtmlString html = new HtmlString(text);
                 return html.ToString();
             }
@@ -98,7 +111,10 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public string ScormVersionHtml
         {
-            get { return m_framesetHelper.ScormVersionHtml; }
+            get
+            {
+                return this.mFramesetHelper.ScormVersionHtml;
+            }
         }
 
         /// <summary>
@@ -106,7 +122,10 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public string RteRequired
         {
-            get { return m_framesetHelper.RteRequired; }
+            get
+            {
+                return this.mFramesetHelper.RteRequired;
+            }
         }
 
         #endregion  // called from aspx

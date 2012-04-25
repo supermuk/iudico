@@ -6,54 +6,55 @@
 
 
 <!-- MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
-     MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
-     LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
-     NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
+    MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
+    NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
      
-        <html>
-        <head>
-        <% /*  NOTE: The following HTML is *ONLY* ever rendered if there was an error in displaying the content page, and 
+<html>
+    <head>
+        <%
+            /*  NOTE: The following HTML is *ONLY* ever rendered if there was an error in displaying the content page, and 
              the content frame is currently the postable frame. In most normal processing, the entire page is replaced with 
-             the content rendered from the package. */ %>
+             the content rendered from the package. */
+%>
 
-        <link rel="stylesheet" type="text/css" href="<%=FramesetPath %>Theme/Styles.css"/>
-        <script type="text/javascript" src="<%=FramesetPath %>Include/FramesetMgr.js"></script>
+        <link rel="stylesheet" type="text/css" href="<%=this.FramesetPath%>Theme/Styles.css"/>
+        <script type="text/javascript" src="<%=this.FramesetPath%>Include/FramesetMgr.js"> </script>
         <script type="text/javascript">
-        function OnLoad()
-        {        
+        function OnLoad() {
             // Get frameset manager
             frameMgr = API_GetFramesetManager();
-            
+
             // Set data on frameset manager
-            <%  WriteFrameMgrInit();  %>
-            
-            frameMgr.WaitForContentCompleted(0);    // since it's an error condition, don't wait for any more content frame loads
+            <% this.WriteFrameMgrInit();%> ;
+            frameMgr.WaitForContentCompleted(0); // since it's an error condition, don't wait for any more content frame loads
         }
         
         </script>
-        </head>
-        <body class="ErrorBody" onload="OnLoad();">
+    </head>
+    <body class="ErrorBody" onload="OnLoad();">
         <form id="formId" runat="server">
-        <% if (HasError) { %>
-        <table border="0" width="100%" id="table1" style="border-collapse: collapse">
-        <tr>
-        <td width="60">
-        <p align="center">
-        <img border="0" src="<%=FramesetPath %>Theme/<%=ErrorIcon%>" width="49" height="49"></td>
-        <td class="ErrorTitle">
-        <%=ErrorTitleHtml %>                
-        </td></tr>
-        <tr>
-        <td width="61">&nbsp;</td>
-        <td width="100%"><hr></td>
-        </tr>
-        <tr>
-        <td width="61">&nbsp;</td>
-        <td class="ErrorMessage">
-        <%=ErrorMessageHtml %>
-        </td></tr>
-        </table>
-        <% } %>
+            <% if (this.HasError)
+               { %>
+            <table border="0" width="100%" id="table1" style="border-collapse: collapse">
+                <tr>
+                    <td width="60">
+                        <p align="center">
+                        <img border="0" src="<%=this.FramesetPath%>Theme/<%=this.ErrorIcon%>" width="49" height="49"></td>
+                    <td class="ErrorTitle">
+                        <%=this.ErrorTitleHtml%>                
+                    </td></tr>
+                <tr>
+                    <td width="61">&nbsp;</td>
+                    <td width="100%"><hr></td>
+                </tr>
+                <tr>
+                    <td width="61">&nbsp;</td>
+                    <td class="ErrorMessage">
+                        <%=this.ErrorMessageHtml%>
+                    </td></tr>
+            </table>
+            <% } %>
         </form>
-        </body>
-        </html>
+    </body>
+</html>

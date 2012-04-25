@@ -1,23 +1,32 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Rte1p2DataModelConverter.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
+
+// using Resources;
 
 using System;
-using System.Data;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
 using System.Xml;
-using IUDICO.TestingSystem;//using Resources;
+
+using IUDICO.TestingSystem;
+
 using Microsoft.LearningComponents.DataModel;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Globalization;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.LearningComponents.Frameset
 {
@@ -34,7 +43,6 @@ namespace Microsoft.LearningComponents.Frameset
         internal Rte1p2DataModelConverter(SessionView view, LearningDataModel dataModel)
             : base(view, dataModel)
         {
-
         }
 
         /// <summary>
@@ -51,98 +59,105 @@ namespace Microsoft.LearningComponents.Frameset
         public override void SetValue(PlainTextString inName, PlainTextString inValue)
         {
             // It's not valid to call in Review mode
-            if (View == SessionView.Review)
-                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_InvalidViewOnSetValue")));
+            if (this.View == SessionView.Review)
+            {
+                throw new InvalidOperationException(
+                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("CONV_InvalidViewOnSetValue")));
+            }
 
-            CurrentElementName = inName.ToString();
-            string[] nameParts = CurrentElementName.Split('.');
+            this.CurrentElementName = inName.ToString();
+            string[] nameParts = this.CurrentElementName.Split('.');
 
             string value = inValue.ToString();
 
             if (nameParts[0] == "cmi")
             {
                 if (nameParts.Length < 2)
-                    throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
+                {
+                    throw new InvalidOperationException(
+                        ResHelper.GetMessage(
+                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                            this.CurrentElementName));
+                }
 
                 switch (nameParts[1])
                 {
                     case "core":
                         {
-                            SetCoreValues(nameParts, value);
+                            this.SetCoreValues(nameParts, value);
                             break;
                         }
 
                     case "suspend_data":
                         {
-                            DataModel.SuspendData = value;
+                            this.DataModel.SuspendData = value;
                             break;
                         }
                     case "comments":
                         {
-                            SetCommentsFromLearner(value);
+                            this.SetCommentsFromLearner(value);
                             break;
                         }
                     case "objectives":
                         {
-                            VerifyElementNameTokens(4, nameParts);
-                            SetObjectives(CurrentElementName.Substring(15) ,value);
+                            this.VerifyElementNameTokens(4, nameParts);
+                            this.SetObjectives(this.CurrentElementName.Substring(15), value);
                             break;
                         }
                     case "student_preference":
                         {
-                            VerifyElementNameTokens(3, nameParts);
-                            SetLearnerPreferences(nameParts[2], value);
+                            this.VerifyElementNameTokens(3, nameParts);
+                            this.SetLearnerPreferences(nameParts[2], value);
                             break;
                         }
                     case "interactions":
                         {
-                            SetInteractions(CurrentElementName.Substring(17), value);
+                            this.SetInteractions(this.CurrentElementName.Substring(17), value);
                             break;
                         }
 
                     default:
                         // All other values are read-only (or invalid names). This will throw exception.
-                        SetReadOnlyValue();
+                        this.SetReadOnlyValue();
                         break;
                 }
-
             }
             else
             {
-                DataModel.ExtensionData[CurrentElementName] = value;
+                this.DataModel.ExtensionData[this.CurrentElementName] = value;
             }
         }
 
         // Set cmi.core.* values
         private void SetCoreValues(string[] nameParts, string value)
         {
-            VerifyElementNameTokens(3, nameParts);
+            this.VerifyElementNameTokens(3, nameParts);
 
             switch (nameParts[2])
             {
                 case "lesson_location":
-                    DataModel.Location = value;
+                    this.DataModel.Location = value;
                     break;
                 case "lesson_status":
-                    SetLessonStatus(value);
+                    this.SetLessonStatus(value);
                     break;
                 case "exit":
-                    SetExit(value);
+                    this.SetExit(value);
                     break;
                 case "session_time":
-                    DataModel.SessionTime = TimeSpanFromRte(value);
+                    this.DataModel.SessionTime = this.TimeSpanFromRte(value);
                     break;
                 case "score":
                     {
-                        VerifyElementNameTokens(3, nameParts);
+                        this.VerifyElementNameTokens(3, nameParts);
                         string scorePart = nameParts[3];
 
                         // If this is setting the raw score, then we need to also increment/decrement the values in 
                         // DataModel.EvaluationPoints by the change in the raw score
-                        float? oldRawPoints = DataModel.Score.Raw;
+                        float? oldRawPoints = this.DataModel.Score.Raw;
 
                         // This sets the values in DataModel.Score.*
-                        SetScore(scorePart, value);
+                        this.SetScore(scorePart, value);
 
                         // If this is setting the raw score, then we need to also increment/decrement the values in 
                         // DataModel.EvaluationPoints by the change in the raw score
@@ -151,15 +166,19 @@ namespace Microsoft.LearningComponents.Frameset
                             // This will not fail, since it's already been parsed by SetScore(...).
                             float newRawPoints = float.Parse(value, NumberFormatInfo.InvariantInfo);
                             if (oldRawPoints == null)
-                                DataModel.EvaluationPoints = newRawPoints;
+                            {
+                                this.DataModel.EvaluationPoints = newRawPoints;
+                            }
                             else
-                                DataModel.EvaluationPoints += (newRawPoints - oldRawPoints);
+                            {
+                                this.DataModel.EvaluationPoints += (newRawPoints - oldRawPoints);
+                            }
                         }
                     }
                     break;
                 default:
                     // Any other valid value is read only.  This will throw exception.
-                    SetReadOnlyValue();
+                    this.SetReadOnlyValue();
                     break;
             }
         }
@@ -172,24 +191,24 @@ namespace Microsoft.LearningComponents.Frameset
             switch (value)
             {
                 case "passed":
-                    DataModel.LessonStatus = LessonStatus.Passed;
+                    this.DataModel.LessonStatus = LessonStatus.Passed;
                     break;
                 case "completed":
-                    DataModel.LessonStatus = LessonStatus.Completed;
+                    this.DataModel.LessonStatus = LessonStatus.Completed;
                     break;
                 case "failed":
-                    DataModel.LessonStatus = LessonStatus.Failed;
+                    this.DataModel.LessonStatus = LessonStatus.Failed;
                     break;
                 case "incomplete":
-                    DataModel.LessonStatus = LessonStatus.Incomplete;
+                    this.DataModel.LessonStatus = LessonStatus.Incomplete;
                     break;
                 case "browsed":
-                    DataModel.LessonStatus = LessonStatus.Browsed;
+                    this.DataModel.LessonStatus = LessonStatus.Browsed;
                     break;
                 case "not attempted":
-                    DataModel.LessonStatus = LessonStatus.NotAttempted;
+                    this.DataModel.LessonStatus = LessonStatus.NotAttempted;
                     break;
-                default: 
+                default:
                     break;
             }
         }
@@ -198,26 +217,38 @@ namespace Microsoft.LearningComponents.Frameset
         protected override TimeSpan TimeSpanFromRte(string rteTimeSpan)
         {
             // Format is (HH)HH:MM:SS(.SS) where () represents optional elements
-            
+
             MatchCollection matches = Regex.Matches(rteTimeSpan, @"^(\d{2,4}):(\d\d):(\d\d)(?:\.(\d{1,2}))?$");
 
             if (matches.Count != 1)
-                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), rteTimeSpan, CurrentElementName));
+            {
+                throw new InvalidOperationException(
+                    ResHelper.GetMessage(
+                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                        rteTimeSpan,
+                        this.CurrentElementName));
+            }
 
             GroupCollection groups = matches[0].Groups;
             if (groups.Count != 5)
-                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), rteTimeSpan, CurrentElementName));
+            {
+                throw new InvalidOperationException(
+                    ResHelper.GetMessage(
+                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                        rteTimeSpan,
+                        this.CurrentElementName));
+            }
 
             TimeSpan retVal;
             try
             {
-                int hours = Int32.Parse(groups[1].Value, NumberFormatInfo.InvariantInfo);
-                int mins = Int32.Parse(groups[2].Value, NumberFormatInfo.InvariantInfo);
-                int secs = Int32.Parse(groups[3].Value, NumberFormatInfo.InvariantInfo);
+                int hours = int.Parse(groups[1].Value, NumberFormatInfo.InvariantInfo);
+                int mins = int.Parse(groups[2].Value, NumberFormatInfo.InvariantInfo);
+                int secs = int.Parse(groups[3].Value, NumberFormatInfo.InvariantInfo);
 
-                if (!String.IsNullOrEmpty(groups[4].Value))
+                if (!string.IsNullOrEmpty(groups[4].Value))
                 {
-                    int ms = Int32.Parse(groups[4].Value, NumberFormatInfo.InvariantInfo);
+                    int ms = int.Parse(groups[4].Value, NumberFormatInfo.InvariantInfo);
                     retVal = new TimeSpan(0, hours, mins, secs, ms);
                 }
                 else
@@ -225,11 +256,15 @@ namespace Microsoft.LearningComponents.Frameset
                     retVal = new TimeSpan(hours, mins, secs);
                 }
 
-                return retVal; 
+                return retVal;
             }
             catch (FormatException)
             {
-                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), rteTimeSpan, CurrentElementName));
+                throw new InvalidOperationException(
+                    ResHelper.GetMessage(
+                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                        rteTimeSpan,
+                        this.CurrentElementName));
             }
         }
 
@@ -254,11 +289,10 @@ namespace Microsoft.LearningComponents.Frameset
                 default:
                     break;
             }
-            DataModel.NavigationRequest.ExitMode = exitMode;
+            this.DataModel.NavigationRequest.ExitMode = exitMode;
         }
 
-        
-        private Dictionary<int, Objective> m_objectivesByIndex;
+        private Dictionary<int, Objective> mObjectivesByIndex;
 
         /// <summary>
         /// Collection of interactions, including any pending objectives, keyed 
@@ -268,19 +302,19 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                if (m_objectivesByIndex == null)
+                if (this.mObjectivesByIndex == null)
                 {
-                    m_objectivesByIndex = new Dictionary<int, Objective>(DataModel.Objectives.Count + 10);
+                    this.mObjectivesByIndex = new Dictionary<int, Objective>(this.DataModel.Objectives.Count + 10);
 
                     int n = 0;
-                    foreach (Objective objective in DataModel.Objectives)
+                    foreach (Objective objective in this.DataModel.Objectives)
                     {
-                        m_objectivesByIndex.Add(n, objective);
+                        this.mObjectivesByIndex.Add(n, objective);
                         n++;
                     }
                 }
 
-                return m_objectivesByIndex;
+                return this.mObjectivesByIndex;
             }
         }
 
@@ -290,38 +324,47 @@ namespace Microsoft.LearningComponents.Frameset
         /// <param name="subElementName">The portion of the name following "cmi.interactions.". 
         /// In the example above, "x.y.z".</param>
         /// <param name="value">The value for the element</param>
-        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]   // large switch statement
+        [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")] // large switch statement
         private void SetInteractions(string subElementName, string value)
         {
             string[] elementParts = subElementName.Split('.');
             if (elementParts.Length < 2)
-                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
+            {
+                throw new InvalidOperationException(
+                    ResHelper.GetMessage(
+                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                        this.CurrentElementName));
+            }
 
             int index;
             if (!int.TryParse(elementParts[0], out index))
+            {
                 return;
+            }
 
             Interaction interaction;
-            if (index < InteractionsByIndex.Count)
+            if (index < this.InteractionsByIndex.Count)
             {
                 // It's already in the list, so find the object
-                interaction = InteractionsByIndex[index];
+                interaction = this.InteractionsByIndex[index];
             }
             else
             {
                 // It's a new Interaction. Add it to the list of pending Interactions and 
                 // add it to the mapping table.
-                interaction = DataModel.CreateInteraction();
-                PendingInteractions.Add(interaction);
-                InteractionsByIndex.Add(index, interaction);
+                interaction = this.DataModel.CreateInteraction();
+                this.PendingInteractions.Add(interaction);
+                this.InteractionsByIndex.Add(index, interaction);
             }
 
             switch (elementParts[1])
             {
                 case "id":
                     {
-                        if (String.CompareOrdinal(value, interaction.Id) != 0)
+                        if (string.CompareOrdinal(value, interaction.Id) != 0)
+                        {
                             interaction.Id = value;
+                        }
                     }
                     break;
                 case "type":
@@ -333,19 +376,27 @@ namespace Microsoft.LearningComponents.Frameset
                     {
                         // First find 'x' in the element name interactions.n.objectives.x.id.
                         if (elementParts.Length < 4)
-                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
+                        {
+                            throw new InvalidOperationException(
+                                ResHelper.GetMessage(
+                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                                    this.CurrentElementName));
+                        }
 
                         int objIndex;
                         if (!int.TryParse(elementParts[2], out objIndex))
                         {
-                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
+                            throw new InvalidOperationException(
+                                ResHelper.GetMessage(
+                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                                    this.CurrentElementName));
                         }
 
                         InteractionObjective objective;
                         bool isNewObjective = false;
                         if (objIndex >= interaction.Objectives.Count)
                         {
-                            objective = DataModel.CreateInteractionObjective();
+                            objective = this.DataModel.CreateInteractionObjective();
                             isNewObjective = true;
                         }
                         else
@@ -353,8 +404,10 @@ namespace Microsoft.LearningComponents.Frameset
                             objective = interaction.Objectives[objIndex];
                         }
 
-                        if (String.CompareOrdinal(value, objective.Id) != 0)
+                        if (string.CompareOrdinal(value, objective.Id) != 0)
+                        {
                             objective.Id = value;
+                        }
 
                         if (isNewObjective)
                         {
@@ -374,12 +427,20 @@ namespace Microsoft.LearningComponents.Frameset
 
                         // First find 'x' in the element name interactions.n.correct_responses.x.y.
                         if (elementParts.Length < 4)
-                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
+                        {
+                            throw new InvalidOperationException(
+                                ResHelper.GetMessage(
+                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                                    this.CurrentElementName));
+                        }
 
                         int responseIndex;
                         if (!int.TryParse(elementParts[2], out responseIndex))
                         {
-                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
+                            throw new InvalidOperationException(
+                                ResHelper.GetMessage(
+                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                                    this.CurrentElementName));
                         }
 
                         CorrectResponse response;
@@ -387,7 +448,7 @@ namespace Microsoft.LearningComponents.Frameset
                         if (responseIndex >= interaction.CorrectResponses.Count)
                         {
                             // It's a new one
-                            response = DataModel.CreateCorrectResponse();
+                            response = this.DataModel.CreateCorrectResponse();
                             isNewResponse = true;
                         }
                         else
@@ -398,7 +459,12 @@ namespace Microsoft.LearningComponents.Frameset
                         }
 
                         if (elementParts[3] != "pattern")
-                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
+                        {
+                            throw new InvalidOperationException(
+                                ResHelper.GetMessage(
+                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                                    this.CurrentElementName));
+                        }
 
                         response.Pattern = value;
 
@@ -413,7 +479,11 @@ namespace Microsoft.LearningComponents.Frameset
                         float weighting;
                         if (!float.TryParse(value, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out weighting))
                         {
-                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
+                            throw new InvalidOperationException(
+                                ResHelper.GetMessage(
+                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                                    value,
+                                    this.CurrentElementName));
                         }
                         interaction.Weighting = weighting;
                     }
@@ -428,11 +498,22 @@ namespace Microsoft.LearningComponents.Frameset
                                 {
                                     // Unfortunately, cannot use XmlConvert because it doesn't accept 't' and 'f'.
                                     if ((value == "t") || (value == "true") || (value == "1"))
+                                    {
                                         interaction.LearnerResponse = true;
+                                    }
                                     else if (((value == "f") || (value == "false") || (value == "0")))
+                                    {
                                         interaction.LearnerResponse = false;
+                                    }
                                     else
-                                        throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
+                                    {
+                                        throw new InvalidOperationException(
+                                            ResHelper.GetMessage(
+                                                IUDICO.TestingSystem.Localization.GetMessage(
+                                                    "CONV_SetValueInvalidValue"),
+                                                value,
+                                                this.CurrentElementName));
+                                    }
                                 }
                                 break;
                             case InteractionType.Numeric:
@@ -469,11 +550,16 @@ namespace Microsoft.LearningComponents.Frameset
                                     float resultNumeric;
                                     try
                                     {
-                                        resultNumeric = (float)XmlConvert.ToDouble(value);                                        
+                                        resultNumeric = (float)XmlConvert.ToDouble(value);
                                     }
                                     catch (FormatException)
                                     {
-                                        throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
+                                        throw new InvalidOperationException(
+                                            ResHelper.GetMessage(
+                                                IUDICO.TestingSystem.Localization.GetMessage(
+                                                    "CONV_SetValueInvalidValue"),
+                                                value,
+                                                this.CurrentElementName));
                                     }
                                     interaction.Result.NumericResult = resultNumeric;
                                     interaction.Result.State = InteractionResultState.Numeric;
@@ -484,22 +570,29 @@ namespace Microsoft.LearningComponents.Frameset
                     break;
                 case "latency":
                     {
-                        interaction.Latency = TimeSpanFromRte(value);
+                        interaction.Latency = this.TimeSpanFromRte(value);
                     }
                     break;
                 default:
-                    throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
+                    throw new InvalidOperationException(
+                        ResHelper.GetMessage(
+                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                            this.CurrentElementName));
             }
-
         }
 
         // Set the score field (eg, "raw") on a Score object.
         protected override void SetScoreSubField(string scoreField, string value, Score score)
         {
-
             float scoreValue;
             if (!float.TryParse(value, NumberStyles.Float, NumberFormatInfo.InvariantInfo, out scoreValue))
-                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
+            {
+                throw new InvalidOperationException(
+                    ResHelper.GetMessage(
+                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                        value,
+                        this.CurrentElementName));
+            }
 
             switch (scoreField)
             {
@@ -519,7 +612,10 @@ namespace Microsoft.LearningComponents.Frameset
                     }
                     break;
                 default:
-                    throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
+                    throw new InvalidOperationException(
+                        ResHelper.GetMessage(
+                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                            this.CurrentElementName));
             }
         }
 
@@ -530,29 +626,37 @@ namespace Microsoft.LearningComponents.Frameset
                 case "audio":
                     {
                         int level;
-                        if (Int32.TryParse(value, out level))
+                        if (int.TryParse(value, out level))
                         {
-                            DataModel.Learner.AudioLevel = (float)level;
+                            this.DataModel.Learner.AudioLevel = (float)level;
                             return;
                         }
                         // couldn't parse it...
-                        throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
+                        throw new InvalidOperationException(
+                            ResHelper.GetMessage(
+                                IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                                value,
+                                this.CurrentElementName));
                     }
                 case "language":
                     {
-                        DataModel.Learner.Language = value;
+                        this.DataModel.Learner.Language = value;
                         return;
                     }
                 case "speed":
                     {
                         int deliverySpeed;
-                        if (Int32.TryParse(value, out deliverySpeed))
+                        if (int.TryParse(value, out deliverySpeed))
                         {
-                            DataModel.Learner.DeliverySpeed = (float)deliverySpeed;
+                            this.DataModel.Learner.DeliverySpeed = (float)deliverySpeed;
                             return;
                         }
                         // couldn't parse it
-                        throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
+                        throw new InvalidOperationException(
+                            ResHelper.GetMessage(
+                                IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                                value,
+                                this.CurrentElementName));
                     }
                 case "text":
                     {
@@ -560,63 +664,77 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             AudioCaptioning captioning;
                             captioning = (AudioCaptioning)Enum.Parse(typeof(AudioCaptioning), value);
-                            DataModel.Learner.AudioCaptioning = captioning;
+                            this.DataModel.Learner.AudioCaptioning = captioning;
                             return;
                         }
                         catch
                         {
-                            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
+                            throw new InvalidOperationException(
+                                ResHelper.GetMessage(
+                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                                    value,
+                                    this.CurrentElementName));
                         }
                     }
-
             }
 
             // If we got here, the element name wasn't valid
-            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
+            throw new InvalidOperationException(
+                ResHelper.GetMessage(
+                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"), this.CurrentElementName));
         }
 
-        
         // In 1.2, there is just one string for comments
         private void SetCommentsFromLearner(string value)
         {
             // If there are no comments, then add a new one. Otherwise, update the existing one.
-            if (DataModel.CommentsFromLearner.Count == 0)
+            if (this.DataModel.CommentsFromLearner.Count == 0)
             {
-                Comment comment = DataModel.CreateComment();
+                Comment comment = this.DataModel.CreateComment();
                 comment.CommentText = value;
-                DataModel.CommentsFromLearner.Add(comment);
+                this.DataModel.CommentsFromLearner.Add(comment);
             }
             else
             {
-                DataModel.CommentsFromLearner[0].CommentText = value;
+                this.DataModel.CommentsFromLearner[0].CommentText = value;
             }
         }
 
         // Set cmi.objectives.n.<x> values. SubElementName is n.<x>
         private void SetObjectives(string subElementName, string value)
         {
-            string[] elementParts = subElementName.Split('.');            
+            string[] elementParts = subElementName.Split('.');
 
             if (elementParts.Length < 2)
-                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
-            
+            {
+                throw new InvalidOperationException(
+                    ResHelper.GetMessage(
+                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                        this.CurrentElementName));
+            }
+
             int index;
             if (!int.TryParse(elementParts[0], out index))
-                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
-            
+            {
+                throw new InvalidOperationException(
+                    ResHelper.GetMessage(
+                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                        this.CurrentElementName));
+            }
+
             Objective objective;
-            
-            if (index < ObjectivesByIndex.Count)
+
+            if (index < this.ObjectivesByIndex.Count)
             {
                 // It's already in the list, so find the object
-                objective = ObjectivesByIndex[index];
+                objective = this.ObjectivesByIndex[index];
             }
             else
             {
                 // It's a new objective. Add it to the list of pending objectives.
-                objective = DataModel.CreateObjective();
-                PendingObjectives.Add(objective);
-                ObjectivesByIndex.Add(index, objective);
+                objective = this.DataModel.CreateObjective();
+                this.PendingObjectives.Add(objective);
+                this.ObjectivesByIndex.Add(index, objective);
             }
 
             switch (elementParts[1])
@@ -625,14 +743,16 @@ namespace Microsoft.LearningComponents.Frameset
                     objective.Id = value;
                     break;
                 case "score":
-                    SetScoreSubField(elementParts[2], value, objective.Score);
+                    this.SetScoreSubField(elementParts[2], value, objective.Score);
                     break;
                 case "status":
-                    objective.Status = GetLessonStatus(value);
+                    objective.Status = this.GetLessonStatus(value);
                     break;
                 default:
-                    throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), CurrentElementName));
-
+                    throw new InvalidOperationException(
+                        ResHelper.GetMessage(
+                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                            this.CurrentElementName));
             }
         }
 
@@ -654,7 +774,11 @@ namespace Microsoft.LearningComponents.Frameset
                 case "not attempted":
                     return LessonStatus.NotAttempted;
                 default:
-                    throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidValue"), value, CurrentElementName));
+                    throw new InvalidOperationException(
+                        ResHelper.GetMessage(
+                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                            value,
+                            this.CurrentElementName));
             }
         }
 
@@ -677,8 +801,10 @@ namespace Microsoft.LearningComponents.Frameset
                     return "unanticipated";
                 case InteractionResultState.Numeric:
                     {
-                        if (result.NumericResult != null) 
+                        if (result.NumericResult != null)
+                        {
                             return RteFloatValue((float)result.NumericResult);
+                        }
                     }
                     break;
                 default:
@@ -693,7 +819,9 @@ namespace Microsoft.LearningComponents.Frameset
         public static string GetRteTimeSpan(TimeSpan? ts)
         {
             if (ts == null)
-                return "";
+            {
+                return string.Empty;
+            }
 
             TimeSpan ts2 = ts.Value;
             return GetRteTimeSpan(ts2.Hours, ts2.Minutes, ts2.Seconds, ts2.Milliseconds);
@@ -706,7 +834,12 @@ namespace Microsoft.LearningComponents.Frameset
 
         private static string GetRteTimeSpan(int hours, int min, int sec, int ms)
         {
-            return ResHelper.GetMessage("{0}:{1}:{2}.{3}", RteIntValue(hours, "D4"), RteIntValue(min, "D2"), RteIntValue(sec, "D2"), RteIntValue(ms, "D2"));
+            return ResHelper.GetMessage(
+                "{0}:{1}:{2}.{3}",
+                RteIntValue(hours, "D4"),
+                RteIntValue(min, "D2"),
+                RteIntValue(sec, "D2"),
+                RteIntValue(ms, "D2"));
         }
 
         /// <summary>
@@ -716,9 +849,11 @@ namespace Microsoft.LearningComponents.Frameset
         {
             // If there is a comment, return it. We only send one comment in 1.2.
             if ((comments.Count > 0) && (comments[0].CommentText != null))
+            {
                 return comments[0].CommentText;
+            }
 
-            return "";
+            return string.Empty;
         }
 
         /// <summary>
@@ -730,9 +865,11 @@ namespace Microsoft.LearningComponents.Frameset
         {
             // If there is a comment, return it. We only send one comment in 1.2.
             if ((comments.Count > 0) && (comments[0].CommentText != null))
+            {
                 return comments[0].CommentText;
+            }
 
-            return "";
+            return string.Empty;
         }
 
         /// <summary>
@@ -764,7 +901,9 @@ namespace Microsoft.LearningComponents.Frameset
         public static string GetRteFloat(float? value)
         {
             if (value == null)
-                return "";
+            {
+                return string.Empty;
+            }
 
             return RteFloatValue(value.Value);
         }
@@ -772,13 +911,14 @@ namespace Microsoft.LearningComponents.Frameset
         #endregion  // GetValue helper functions
 
         #region GetValues as RTE strings
+
         /// <summary>
         /// Return the encoded string of all current data model values to pass to the client. This method
         /// reinitializes the ObjectiveIndexer and InteractionIndexer values. 
         /// </summary>
         public override DataModelValues GetDataModelValues(AddDataModelValue addDataModelValue)
         {
-            StringBuilder dataModelValuesBuffer = new StringBuilder(4096);  // data model values
+            StringBuilder dataModelValuesBuffer = new StringBuilder(4096); // data model values
             string n;
 
             LearningDataModel dm = this.DataModel;
@@ -789,14 +929,14 @@ namespace Microsoft.LearningComponents.Frameset
 
             // cmi.core values
             addDataModelValue(dataModelValuesBuffer, "cmi.core.lesson_location", dm.Location);
-            addDataModelValue(dataModelValuesBuffer, "cmi.core.credit", GetRteCredit(dm.Credit, View));
+            addDataModelValue(dataModelValuesBuffer, "cmi.core.credit", GetRteCredit(dm.Credit, this.View));
             addDataModelValue(dataModelValuesBuffer, "cmi.core.lesson_status", GetRteLessonStatus(dm.LessonStatus));
             addDataModelValue(dataModelValuesBuffer, "cmi.core.entry", GetRteEntry(dm.Entry));
 
-            addDataModelScore(addDataModelValue, dataModelValuesBuffer, "cmi.core.score", dm.Score);
+            AddDataModelScore(addDataModelValue, dataModelValuesBuffer, "cmi.core.score", dm.Score);
 
             addDataModelValue(dataModelValuesBuffer, "cmi.core.total_time", GetRteTimeSpan(dm.TotalTime));
-            addDataModelValue(dataModelValuesBuffer, "cmi.core.lesson_mode", GetRteMode(View));
+            addDataModelValue(dataModelValuesBuffer, "cmi.core.lesson_mode", GetRteMode(this.View));
 
             addDataModelValue(dataModelValuesBuffer, "cmi.suspend_data", dm.SuspendData);
             addDataModelValue(dataModelValuesBuffer, "cmi.launch_data", dm.LaunchData);
@@ -804,18 +944,28 @@ namespace Microsoft.LearningComponents.Frameset
             addDataModelValue(dataModelValuesBuffer, "cmi.comments_from_lms", GetRteCommentFromLms(dm.CommentsFromLms));
 
             int objCountOrig = dm.Objectives.Count; // num objectives in data model
-            int objCountToClient = 0;   // num objectives sent to client
+            int objCountToClient = 0; // num objectives sent to client
             for (int i = 0; i < objCountOrig; i++)
             {
                 Objective objective = dm.Objectives[i];
 
                 n = XmlConvert.ToString(objCountToClient);
-                addDataModelValue(dataModelValuesBuffer, ResHelper.FormatInvariant("cmi.objectives.{0}.id", n), objective.Id);
+                addDataModelValue(
+                    dataModelValuesBuffer, ResHelper.FormatInvariant("cmi.objectives.{0}.id", n), objective.Id);
 
-                addDataModelScore(addDataModelValue, dataModelValuesBuffer, ResHelper.FormatInvariant("cmi.objectives.{0}.score", n), objective.Score);
-                
+                AddDataModelScore(
+                    addDataModelValue,
+                    dataModelValuesBuffer,
+                    ResHelper.FormatInvariant("cmi.objectives.{0}.score", n),
+                    objective.Score);
+
                 if (objective.Status != null)
-                    addDataModelValue(dataModelValuesBuffer, ResHelper.FormatInvariant("cmi.objectives.{0}.status", n), GetRteLessonStatus(objective.Status.Value));
+                {
+                    addDataModelValue(
+                        dataModelValuesBuffer,
+                        ResHelper.FormatInvariant("cmi.objectives.{0}.status", n),
+                        GetRteLessonStatus(objective.Status.Value));
+                }
 
                 objCountToClient++;
             }
@@ -823,45 +973,66 @@ namespace Microsoft.LearningComponents.Frameset
 
             // cmi.student_data
             addDataModelValue(dataModelValuesBuffer, "cmi.student_data.mastery_score", GetRteFloat(dm.MasteryScore));
-            addDataModelValue(dataModelValuesBuffer, "cmi.student_data.max_time_allowed", GetRteTimeSpan(dm.MaxTimeAllowed));
-            addDataModelValue(dataModelValuesBuffer, "cmi.student_data.time_limit_action", GetTimeLimitAction(dm.TimeLimitAction));
+            addDataModelValue(
+                dataModelValuesBuffer, "cmi.student_data.max_time_allowed", GetRteTimeSpan(dm.MaxTimeAllowed));
+            addDataModelValue(
+                dataModelValuesBuffer, "cmi.student_data.time_limit_action", GetTimeLimitAction(dm.TimeLimitAction));
 
             // cmi.student_preference
             addDataModelValue(dataModelValuesBuffer, "cmi.student_preference.audio", GetRteFloat(learner.AudioLevel));
             addDataModelValue(dataModelValuesBuffer, "cmi.student_preference.language", learner.Language);
             addDataModelValue(dataModelValuesBuffer, "cmi.student_preference.speed", GetRteFloat(learner.DeliverySpeed));
-            addDataModelValue(dataModelValuesBuffer, "cmi.student_preference.text", GetRteAudioCaptioning(learner.AudioCaptioning));
+            addDataModelValue(
+                dataModelValuesBuffer, "cmi.student_preference.text", GetRteAudioCaptioning(learner.AudioCaptioning));
 
             // Interactions
             int numInterations = dm.Interactions.Count;
-            addDataModelValue(dataModelValuesBuffer, "cmi.interactions._count", numInterations.ToString(NumberFormatInfo.InvariantInfo));
+            addDataModelValue(
+                dataModelValuesBuffer,
+                "cmi.interactions._count",
+                numInterations.ToString(NumberFormatInfo.InvariantInfo));
 
             int count = 0;
             foreach (Interaction interaction in dm.Interactions)
             {
                 n = XmlConvert.ToString(count);
-                
+
                 // Not intuitive: interaction.n.id, time, weighting, student_response and type are write only in Scorm 1.2, so don't add them here.
 
                 int numObjectives = interaction.Objectives.Count;
                 for (int j = 0; j < numObjectives; j++)
                 {
                     InteractionObjective obj = interaction.Objectives[j];
-                    addDataModelValue(dataModelValuesBuffer, ResHelper.FormatInvariant("cmi.interactions.{0}.objectives.{1}.id", n, RteIntValue(j)), obj.Id);
+                    addDataModelValue(
+                        dataModelValuesBuffer,
+                        ResHelper.FormatInvariant("cmi.interactions.{0}.objectives.{1}.id", n, RteIntValue(j)),
+                        obj.Id);
                 }
-                addDataModelValue(dataModelValuesBuffer, ResHelper.FormatInvariant("cmi.interactions.{0}.objectives._count", n), RteIntValue(numObjectives));
-                
+                addDataModelValue(
+                    dataModelValuesBuffer,
+                    ResHelper.FormatInvariant("cmi.interactions.{0}.objectives._count", n),
+                    RteIntValue(numObjectives));
+
                 int numResponses = interaction.CorrectResponses.Count;
-                addDataModelValue(dataModelValuesBuffer, ResHelper.FormatInvariant("cmi.interactions.{0}.correct_responses._count", n), RteIntValue(numResponses));
+                addDataModelValue(
+                    dataModelValuesBuffer,
+                    ResHelper.FormatInvariant("cmi.interactions.{0}.correct_responses._count", n),
+                    RteIntValue(numResponses));
                 for (int resI = 0; resI < numResponses; resI++)
                 {
                     CorrectResponse response = interaction.CorrectResponses[resI];
                     if (response.Pattern != null)
-                        addDataModelValue(dataModelValuesBuffer, ResHelper.FormatInvariant("cmi.interactions.{0}.correct_responses.{1}.pattern", n, RteIntValue(resI)), response.Pattern);
+                    {
+
+                        addDataModelValue(
+                            dataModelValuesBuffer,
+                            ResHelper.FormatInvariant("cmi.interactions.{0}.correct_responses.{1}.pattern", n, RteIntValue(resI)),
+                            response.Pattern);
+                    }
                 }
 
                 count++;
-            }   // end interactions
+            } // end interactions
 
             return new DataModelValues(new PlainTextString(dataModelValuesBuffer.ToString()));
         }
@@ -869,23 +1040,25 @@ namespace Microsoft.LearningComponents.Frameset
         /// <summary>
         /// Adds the subfields of a score to the datamodel values to send to the client.
         /// </summary>
-        private static void addDataModelScore(AddDataModelValue addDataModelValue, StringBuilder dataModelValuesBuffer, string cmiName, Score score)
+        private static void AddDataModelScore(
+            AddDataModelValue addDataModelValue, StringBuilder dataModelValuesBuffer, string cmiName, Score score)
         {
             string rteValue;
             float? tmpFloat;
 
             tmpFloat = score.Raw;
-            rteValue = (tmpFloat == null) ? "" : RteDataModelConverter.RteFloatValue((float)tmpFloat);
+            rteValue = (tmpFloat == null) ? string.Empty : RteDataModelConverter.RteFloatValue((float)tmpFloat);
             addDataModelValue(dataModelValuesBuffer, ResHelper.FormatInvariant("{0}.raw", cmiName), rteValue);
 
             tmpFloat = score.Minimum;
-            rteValue = (tmpFloat == null) ? "" : RteDataModelConverter.RteFloatValue((float)tmpFloat);
+            rteValue = (tmpFloat == null) ? string.Empty : RteDataModelConverter.RteFloatValue((float)tmpFloat);
             addDataModelValue(dataModelValuesBuffer, ResHelper.FormatInvariant("{0}.min", cmiName), rteValue);
 
             tmpFloat = score.Maximum;
-            rteValue = (tmpFloat == null) ? "" : RteDataModelConverter.RteFloatValue((float)tmpFloat);
+            rteValue = (tmpFloat == null) ? string.Empty : RteDataModelConverter.RteFloatValue((float)tmpFloat);
             addDataModelValue(dataModelValuesBuffer, ResHelper.FormatInvariant("{0}.max", cmiName), rteValue);
         }
+
         #endregion // GetValues as RTE strings
     }
 }

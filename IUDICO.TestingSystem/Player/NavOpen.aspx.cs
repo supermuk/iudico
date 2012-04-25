@@ -1,43 +1,51 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-// MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
-// MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
-// NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE.
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="NavOpen.aspx.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using IUDICO.TestingSystem;//using Resources;
 
 namespace Microsoft.LearningComponents.Frameset
 {
-
     public partial class Frameset_NavOpen : PageHelper
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
         }
+
         #region called from aspx
+
         public static string NextTitleHtml
         {
             get
             {
-                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("NAV_NextTitle")));
+                PlainTextString titleTxt =
+                    new PlainTextString(
+                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("NAV_NextTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }
+
         public static string PreviousTitleHtml
         {
             get
             {
-                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("NAV_PrevTitle")));
+                PlainTextString titleTxt =
+                    new PlainTextString(
+                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("NAV_PrevTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }
+
         public static string SaveTitleHtml
         {
             get
             {
-                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("NAV_SaveTitle")));
+                PlainTextString titleTxt =
+                    new PlainTextString(
+                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("NAV_SaveTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }
@@ -46,10 +54,13 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                PlainTextString titleTxt = new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("NAV_MinimizeTitle")));
+                PlainTextString titleTxt =
+                    new PlainTextString(
+                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("NAV_MinimizeTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }
+
         #endregion
     }
 }

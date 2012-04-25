@@ -1,16 +1,21 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-// MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
-// MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
-// NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE.
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Hidden.aspx.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
+
+// using Resources;
 
 using System;
 using System.Threading;
 using System.Web;
+
 using IUDICO.Common.Models.Notifications;
 using IUDICO.Common.Models.Shared.Statistics;
-using IUDICO.TestingSystem;//using Resources;
+using IUDICO.TestingSystem;
 using IUDICO.TestingSystem.Models;
+
 using Microsoft.LearningComponents.Storage;
 
 // This file contains the BWP-specific hidden frame rendering code. Most of the actual work is done in the code shared
@@ -26,16 +31,25 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public partial class Frameset_Hidden : BwpFramesetPage
     {
-        HiddenHelper m_hiddenHelper;
+        private HiddenHelper mHiddenHelper;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
-                m_hiddenHelper = new HiddenHelper(Request, Response, FramesetPath);
-                m_hiddenHelper.ProcessPageLoad(PStore, GetSessionTitle, ProcessViewParameter, ProcessAttemptIdParameter,
-                                                AppendContentFrameDetails, RegisterError, GetErrorInfo, ProcessSessionEnd, ProcessViewRequest,
-                                                GetMessage, IsPostBack);
+                this.mHiddenHelper = new HiddenHelper(this.Request, this.Response, this.FramesetPath);
+                this.mHiddenHelper.ProcessPageLoad(
+                    this.PStore,
+                    this.GetSessionTitle,
+                    this.ProcessViewParameter,
+                    this.ProcessAttemptIdParameter,
+                    AppendContentFrameDetails,
+                    this.RegisterError,
+                    this.GetErrorInfo,
+                    this.ProcessSessionEnd,
+                    this.ProcessViewRequest,
+                    this.GetMessage,
+                    this.IsPostBack);
             }
             catch (ThreadAbortException)
             {
@@ -43,11 +57,12 @@ namespace Microsoft.LearningComponents.Frameset
             }
             catch (Exception ex)
             {
-                ClearError();
-                RegisterError(ResHelper.GetMessage(Localization.getMessage("FRM_UnknownExceptionTitle")),
-                                ResHelper.GetMessage(Localization.getMessage("FRM_UnknownExceptionMsg"), HttpUtility.HtmlEncode(ex.Message.Replace("\r\n", " "))), false);
+                this.ClearError();
+                this.RegisterError(
+                    ResHelper.GetMessage(Localization.GetMessage("FRM_UnknownExceptionTitle")),
+                    ResHelper.GetMessage(Localization.GetMessage("FRM_UnknownExceptionMsg"), HttpUtility.HtmlEncode(ex.Message.Replace("\r\n", " "))),
+                    false);
             }
-        
         }
 
         /// <summary>
@@ -55,7 +70,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public void WriteHiddenControls()
         {
-            m_hiddenHelper.WriteHiddenControls();
+            this.mHiddenHelper.WriteHiddenControls();
         }
 
         /// <summary>
@@ -63,7 +78,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public void WriteFrameMgrInit()
         {
-            m_hiddenHelper.WriteFrameMgrInit();
+            this.mHiddenHelper.WriteFrameMgrInit();
         }
 
         /// <summary>
@@ -90,26 +105,27 @@ namespace Microsoft.LearningComponents.Frameset
                     switch (slsSession.AttemptStatus)
                     {
                         case AttemptStatus.Abandoned:
-                            messageTitle = Localization.getMessage("HID_SessionAbandonedTitle");
-                            message = Localization.getMessage("FRM_ExecuteViewAbandonedSessionMsg");
+                            messageTitle = Localization.GetMessage("HID_SessionAbandonedTitle");
+                            message = Localization.GetMessage("FRM_ExecuteViewAbandonedSessionMsg");
                             break;
                         case AttemptStatus.Completed:
                             AttemptResult attemptResult;
                             try
                             {
-                                attemptResult = ServicesProxy.Instance.TestingService.GetResult(slsSession.AttemptId.GetKey());
+                                attemptResult =
+                                    ServicesProxy.Instance.TestingService.GetResult(slsSession.AttemptId.GetKey());
                             }
                             catch (InvalidOperationException)
                             {
                                 attemptResult = null;
                             }
                             ServicesProxy.Instance.LmsService.Inform(TestingNotifications.TestCompleted, attemptResult);
-                            messageTitle = Localization.getMessage("HID_SessionCompletedTitle");
-                            message = Localization.getMessage("FRM_ExecuteViewCompletedSessionMsg");
+                            messageTitle = Localization.GetMessage("HID_SessionCompletedTitle");
+                            message = Localization.GetMessage("FRM_ExecuteViewCompletedSessionMsg");
                             break;
                         case AttemptStatus.Suspended:
-                            messageTitle = Localization.getMessage("HID_SessionSuspendedTitle");
-                            message = Localization.getMessage("FRM_ExecuteViewSuspendedSessionMsg");
+                            messageTitle = Localization.GetMessage("HID_SessionSuspendedTitle");
+                            message = Localization.GetMessage("FRM_ExecuteViewSuspendedSessionMsg");
                             break;
                     }
                 }
@@ -119,23 +135,27 @@ namespace Microsoft.LearningComponents.Frameset
         /// <summary>
         /// Gets the uri path to the frameset directory.
         /// </summary>
-        private Uri m_framesetPath;
+        private Uri mFramesetPath;
+
         public Uri FramesetPath
         {
-            get{
-                if (m_framesetPath == null)
+            get
+            {
+                if (this.mFramesetPath == null)
                 {
                     // Need to get the Frameset directory, so that include files work. 
                     // We have to do the following path magic in order to account for the fact that the 
                     // current URL is of arbitrary depth.
-                    //Request.Url.OriginalString
-                    string currentExecutionPath = Request.Url.OriginalString; //Request.CurrentExecutionFilePath;
+                    // Request.Url.OriginalString
+                    string currentExecutionPath = this.Request.Url.OriginalString; // Request.CurrentExecutionFilePath;
                     // Find the part of the first instance of /Frameset/Hidden.aspx and then get a substring that is the 
                     // current url, up to the end of the /Frameset/.
-                    string framesetPath = currentExecutionPath.Substring(0, currentExecutionPath.IndexOf("/Frameset/Hidden.aspx", StringComparison.OrdinalIgnoreCase) + 10);
-                    m_framesetPath = new Uri(framesetPath, UriKind.Absolute);
+                    string framesetPath = currentExecutionPath.Substring(
+                        0,
+                        currentExecutionPath.IndexOf("/Frameset/Hidden.aspx", StringComparison.OrdinalIgnoreCase) + 10);
+                    this.mFramesetPath = new Uri(framesetPath, UriKind.Absolute);
                 }
-                return m_framesetPath;
+                return this.mFramesetPath;
             }
         }
     }
