@@ -76,5 +76,40 @@ namespace IUDICO.UnitTests.Base
 
             Assert.AreEqual(string.Empty, this.verificationErrors.ToString());
         }
+
+        protected void DefaultLogin(string username, string password)
+        {
+            this.selenium.Open("/");
+            this.selenium.Type("id=loginPassword", username);
+            this.selenium.Type("id=loginUsername", password);
+            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
+        }
+
+        protected void DefaultLogin()
+        {
+            this.DefaultLogin("lex", "lex");
+        }
+
+        protected void LoginOpenId(string openId, string openIdLogin, string openIdPass)
+        {
+            this.selenium.Type("id=loginIdentifier", openId);
+            this.selenium.Click("//form[contains(@action, '/Account/Login')]/input[2]");
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
+
+            if (!this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"))
+            {
+                this.selenium.Type("id=login_user", openIdLogin);
+                this.selenium.Type("id=login_password", openIdPass);
+                this.selenium.Click("//input[@id='loginlj_submit']");
+                this.selenium.WaitForPageToLoad(this.seleniumWait);
+
+                if (this.selenium.GetLocation().Contains("http://www.livejournal.com"))
+                {
+                    this.selenium.Click("//input[@name='yes:once']");
+                    this.selenium.WaitForPageToLoad(this.seleniumWait);
+                }
+            }
+        }
     }
 }

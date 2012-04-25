@@ -41,7 +41,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
                 selenium.Open("/");
                 selenium.Type("loginPassword", "lex");
                 selenium.Type("loginUsername", "lex");
-                selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+                selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
                 selenium.WaitForPageToLoad("30000");
                 selenium.Click("link=Account");
                 selenium.WaitForPageToLoad("30000");
@@ -61,7 +61,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
                 selenium.Open("/");
                 selenium.Type("loginPassword", "lex");
                 selenium.Type("loginUsername", "lex");
-                selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+                selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
                 selenium.WaitForPageToLoad("30000");
                 selenium.Click("link=Users");
                 selenium.WaitForPageToLoad("30000");
@@ -85,6 +85,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
             this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            
             Assert.IsTrue(this.selenium.IsElementPresent("avatar"));
         }
     }
