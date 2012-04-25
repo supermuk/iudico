@@ -295,6 +295,11 @@ namespace IUDICO.UserManagement.Models.Storage
                 {
                     var username = record.GetValueOrNull("Username");
 
+                    if (string.IsNullOrEmpty(username))
+                    {
+                        throw new ArgumentNullException("Username", "Invalid username");
+                    }
+
                     if (this.UsernameExists(username))
                     {
                         continue;
@@ -446,7 +451,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public void EditAccount(EditModel editModel)
         {
             var db = this.GetDbContext();
-            var user = db.Users.Single(u => u.Username == this.GetIdentityName());
+            var user = db.Users.Single(u => u.Username == this.GetIdentityName() && u.Deleted == false);
 
             user.Name = editModel.Name;
             user.OpenId = editModel.OpenId ?? string.Empty;
@@ -462,7 +467,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = this.GetDbContext();
 
-            var user = db.Users.Single(u => u.Username == this.GetIdentityName());
+            var user = db.Users.Single(u => u.Username == this.GetIdentityName() && u.Deleted == false);
 
             user.Password = this.EncryptPassword(changePasswordModel.NewPassword);
 
