@@ -82,7 +82,7 @@ namespace IUDICO.UnitTests.Base
             this.selenium.Open("/");
             this.selenium.Type("id=loginPassword", username);
             this.selenium.Type("id=loginUsername", password);
-            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
+            this.selenium.Click("id=loginDefaultButton");
             this.selenium.WaitForPageToLoad(this.seleniumWait);
         }
 
@@ -95,7 +95,7 @@ namespace IUDICO.UnitTests.Base
         {
             this.selenium.Open("/");
             this.selenium.Type("id=loginIdentifier", openId);
-            this.selenium.Click("//form[contains(@action, '/Account/Login')]/input[2]");
+            this.selenium.Click("id=loginOpenIdButton");
             this.selenium.WaitForPageToLoad(this.seleniumWait);
 
             if (!this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"))

@@ -16,7 +16,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             Thread.Sleep(3000);
             Assert.IsTrue(this.selenium.IsElementPresent("id=myDataTable_length"));
         }
@@ -26,9 +26,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             this.DefaultLogin();
 
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             Thread.Sleep(3000);
             Assert.IsTrue(this.selenium.IsElementPresent("id=myDataTable_info"));
         }
@@ -38,9 +38,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             this.DefaultLogin();
 
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             Thread.Sleep(3000);
             Assert.IsTrue(this.selenium.IsElementPresent("css=div.DataTables_sort_wrapper"));
         }
@@ -51,7 +51,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             Thread.Sleep(3000);
             Assert.IsTrue(this.selenium.IsElementPresent("id=myDataTable_filter"));
         }
@@ -61,7 +61,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             this.DefaultLogin();
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             Thread.Sleep(3000);
             Assert.IsTrue(this.selenium.IsElementPresent("css=span.ui-icon.ui-icon-triangle-1-e"));
         }
@@ -71,7 +71,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             this.DefaultLogin();
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             Assert.IsTrue(this.selenium.IsElementPresent("css=h2"));
         }
     }

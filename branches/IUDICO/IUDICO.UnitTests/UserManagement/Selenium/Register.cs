@@ -1,7 +1,6 @@
 ﻿using IUDICO.UnitTests.Base;
 using NUnit.Framework;
-using Selenium;
-using System.Text;
+
 using System;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
@@ -14,7 +13,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             this.selenium.Open("/");
             this.selenium.Click("link=Register");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
 
             var guid = Guid.NewGuid();
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
@@ -24,7 +23,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Type("id=Email", "CreateUserSuccess@UniqueUserId.com");
             this.selenium.Type("id=Name", "name");
             this.selenium.Click("//input[@value='Register']");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait+"0");
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             Assert.IsTrue(this.selenium.IsTextPresent("Registered"));
         }
 
@@ -33,13 +32,13 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             this.selenium.Open("/");
             this.selenium.Click("link=Register");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
 
             var guid = Guid.NewGuid();
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
             this.selenium.Type("id=Name", "nestor");
             this.selenium.Click("//input[@value='Register']");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             Assert.IsTrue(this.selenium.GetLocation().EndsWith("/Account/Register"));
         }
     }
