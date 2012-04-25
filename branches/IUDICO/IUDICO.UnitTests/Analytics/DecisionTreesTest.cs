@@ -18,10 +18,11 @@ namespace IUDICO.UnitTests.Analytics
         [Category("DecisionTreesCreationTest")]
         public void DecisionTreesCreation()
         {
-            var listOfStudents = GetStudentListForPMI43();
-            string[] normal = new string[] { "2", "13", "6" };
-            string[] anomalies = new string[] {"8", "10"};
+            var listOfStudents = this.GetStudentListForPMI43();
+            var normal = new[] { "2", "13", "6" };
+            var anomalies = new[] { "8", "10" };
             var trainingSets = TrainingSetsCreator.GenerateTrainingSets(listOfStudents, normal, anomalies);
+
             Assert.AreEqual(trainingSets[0].GetCountOfRecords(), 12);
             Assert.AreEqual(trainingSets[1].GetCountOfRecords(), 6);
             Assert.AreEqual(trainingSets[2].GetCountOfRecords(), 2);
@@ -29,8 +30,8 @@ namespace IUDICO.UnitTests.Analytics
 
         public IEnumerable<KeyValuePair<User, double[]>> GetStudentListForPMI43()
         {
-            List<KeyValuePair<User, double[]>> result = new List<KeyValuePair<User, double[]>>();
-            Random rnd = new Random(System.Environment.TickCount);
+            var result = new List<KeyValuePair<User, double[]>>();
+            var rnd = new Random(Environment.TickCount);
 
             #region PMI-43
             User user = new User();
