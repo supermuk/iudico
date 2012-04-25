@@ -93,6 +93,7 @@ namespace IUDICO.UnitTests.Base
 
         protected void LoginOpenId(string openId, string openIdLogin, string openIdPass)
         {
+            this.selenium.Open("/");
             this.selenium.Type("id=loginIdentifier", openId);
             this.selenium.Click("//form[contains(@action, '/Account/Login')]/input[2]");
             this.selenium.WaitForPageToLoad(this.seleniumWait);
@@ -109,6 +110,15 @@ namespace IUDICO.UnitTests.Base
                     this.selenium.Click("//input[@name='yes:once']");
                     this.selenium.WaitForPageToLoad(this.seleniumWait);
                 }
+            }
+        }
+
+        protected void Logout()
+        {
+            if (this.selenium.IsElementPresent("//a[contains(@href, '/Account/Logout')]"))
+            {
+                this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
+                this.selenium.WaitForPageToLoad(this.seleniumWait);
             }
         }
     }

@@ -51,12 +51,15 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         public void DisplayUserAvatar()
         {
             this.DefaultLogin();
+
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             
             Assert.IsTrue(this.selenium.IsElementPresent("avatar"));
+
+            this.Logout();
         }
     }
 }

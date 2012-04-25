@@ -1,9 +1,6 @@
 using System;
-using System.Text;
 using IUDICO.UnitTests.Base;
 using NUnit.Framework;
-using Selenium;
-
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
@@ -19,9 +16,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
 
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             this.selenium.Click("//a[contains(@href, '/User/Create')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             this.selenium.Type("id=Username", "nestor");
             this.selenium.Type("id=Password", "1");
             this.selenium.Type("id=Email", "yavorskyy.nestor@gmail.com");
@@ -29,11 +26,11 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Type("id=UserId", "id_nestor");
             this.selenium.Type("id=OpenId", "yavora.livejournal.com");
             this.selenium.Click("//input[@value='Create']");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
 
-            this.LoginOpenId("yavorskyy.nestor@gmail.com","nestor","1");
+            this.LoginOpenId("yavorskyy.nestor@gmail.com", "nestor", "1");
 
             Assert.IsTrue(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
         }

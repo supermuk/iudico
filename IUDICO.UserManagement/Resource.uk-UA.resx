@@ -216,7 +216,7 @@
   <data name="FullName" xml:space="preserve">
     <value>Прізвище, ім'я</value>
   </data>
-  <data name="FullNameRequiered" xml:space="preserve">
+  <data name="FullNameRequired" xml:space="preserve">
     <value>Прізвище, ім'я є обов'язкове</value>
   </data>
   <data name="GetGroups" xml:space="preserve">
