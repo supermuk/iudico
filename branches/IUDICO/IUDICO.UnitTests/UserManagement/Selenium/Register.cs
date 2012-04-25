@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using IUDICO.UnitTests.Base;
+using NUnit.Framework;
 using Selenium;
 using System.Text;
 using System;
@@ -6,35 +7,8 @@ using System;
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
     [TestFixture]
-    public class Register
+    public class Register : SimpleWebTest
     {
-        private ISelenium selenium;
-
-        private StringBuilder verificationErrors;
-
-        [SetUp]
-        public void SetupTest()
-        {
-            this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", UpgradeSeleniumTester.browserUrl);
-            this.selenium.Start();
-            this.verificationErrors = new StringBuilder();
-        }
-
-        [TearDown]
-        public void TeardownTest()
-        {
-            try
-            {
-                this.selenium.Stop();
-            }
-            catch (Exception)
-            {
-                // Ignore errors if unable to close the browser
-            }
-
-            Assert.AreEqual(string.Empty, this.verificationErrors.ToString());
-        }
-
         [Test]
         public void RegisterValid()
         {
@@ -50,7 +24,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Type("id=Email", "CreateUserSuccess@UniqueUserId.com");
             this.selenium.Type("id=Name", "name");
             this.selenium.Click("//input[@value='Register']");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait+"0");
             Assert.IsTrue(this.selenium.IsTextPresent("Registered"));
         }
 

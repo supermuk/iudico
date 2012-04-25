@@ -30,10 +30,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             this.DefaultLogin();
             
-            selenium.WaitForPageToLoad(this.seleniumWait);
             selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad(this.seleniumWait);
-
+            
             Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }
         /*
