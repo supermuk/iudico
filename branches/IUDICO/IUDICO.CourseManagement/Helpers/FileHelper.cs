@@ -5,9 +5,9 @@ namespace IUDICO.CourseManagement.Helpers
 {
     public static class FileHelper
     {
-        public static void FileCopy(string fromPath, string toPath, bool overwrite)
+        public static void FileCopy(string frompath, string topath, bool overwrite)
         {
-            File.Copy(fromPath, toPath, overwrite);
+            File.Copy(frompath, topath, overwrite);
         }
 
         public static void FileDelete(string path)
@@ -35,21 +35,21 @@ namespace IUDICO.CourseManagement.Helpers
             Directory.CreateDirectory(path);
         }
 
-        public static void DirectoryCopy(string fromPath, string toPath)
+        public static void DirectoryCopy(string frompath, string topath)
         {
-            if(!Directory.Exists(fromPath))
+            if (!Directory.Exists(frompath))
             {
                 return;
             }
 
-            foreach (var dirPath in Directory.GetDirectories(fromPath, "*", SearchOption.AllDirectories))
+            foreach (var dirPath in Directory.GetDirectories(frompath, "*", SearchOption.AllDirectories))
             {
-                Directory.CreateDirectory(dirPath.Replace(fromPath, toPath));
+                Directory.CreateDirectory(dirPath.Replace(frompath, topath));
             }
 
-            foreach (var newPath in Directory.GetFiles(fromPath, "*.*", SearchOption.AllDirectories))
+            foreach (var newPath in Directory.GetFiles(frompath, "*.*", SearchOption.AllDirectories))
             {
-                File.Copy(newPath, newPath.Replace(fromPath, toPath));
+                File.Copy(newPath, newPath.Replace(frompath, topath));
             }
         }
 

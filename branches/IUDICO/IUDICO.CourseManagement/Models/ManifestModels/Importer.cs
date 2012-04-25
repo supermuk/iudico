@@ -13,26 +13,26 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 {
     public class Importer
     {
-        protected Manifest _Manifest;
-        protected Course _Course;
-        protected ICourseStorage _CourseStorage;
-        protected string _CoursePath;
-        protected string _CourseTempPath;
+        protected Manifest manifest;
+        protected Course course;
+        protected ICourseStorage courseStorage;
+        protected string coursePath;
+        protected string courseTempPath;
 
         public Importer(Manifest manifest, Course course, ICourseStorage courseStorage)
         {
-            _Manifest = manifest;
-            _Course = course;
-            _CourseStorage = courseStorage;
-            _CoursePath = _CourseStorage.GetCoursePath(_Course.Id);
-            _CourseTempPath = _CourseStorage.GetCourseTempPath(_Course.Id);
+            this.manifest = manifest;
+            this.course = course;
+            this.courseStorage = courseStorage;
+            this.coursePath = this.courseStorage.GetCoursePath(this.course.Id);
+            this.courseTempPath = this.courseStorage.GetCourseTempPath(this.course.Id);
         }
 
         public void Import()
         {
-            foreach (var item in _Manifest.Organizations[_Manifest.Organizations.Default].Items)
+            foreach (var item in this.manifest.Organizations[this.manifest.Organizations.Default].Items)
             {
-                ProcessItem(item, null);
+                this.ProcessItem(item, null);
             }
         }
 
@@ -42,31 +42,31 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
             var node = new Node
             {
-                CourseId = _Course.Id,
+                CourseId = this.course.Id,
                 Name = item.Title,
                 IsFolder = item.IsParent,
                 ParentId = (parent != null ? (int?)parent.Id : null),
                 Sequencing = xml.SerializeToXElemet(item.Sequencing)
             };
 
-            _CourseStorage.AddNode(node);
+            this.courseStorage.AddNode(node);
 
             if (item.IsParent && item.Items.Count > 0)
             {
                 foreach (var subitem in item.Items)
                 {
-                    ProcessItem(subitem, node);
+                    this.ProcessItem(subitem, node);
                 }
             }
             else
             {   
                 if (item.IdentifierRef != null)
                 {
-                    var resource = _Manifest.Resources._Resources.Where(r => r.Identifier == item.IdentifierRef).FirstOrDefault();
+                    var resource = this.manifest.Resources.ResourcesList.Where(r => r.Identifier == item.IdentifierRef).FirstOrDefault();
 
                     if (resource != null)
                     {
-                        ProcessResource(node, resource);
+                        this.ProcessResource(node, resource);
 
                         return;
                     }
@@ -76,28 +76,28 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         
         protected void ProcessResource(Node node, Resource resource)
         {
-            var nodePath = _CourseStorage.GetNodePath(node.Id);
-            var coursePath = _CourseStorage.GetCoursePath(node.CourseId);
+            var nodePath = this.courseStorage.GetNodePath(node.Id);
+            var coursePath = this.courseStorage.GetCoursePath(node.CourseId);
 
-            File.Copy(Path.Combine(_CourseTempPath, resource.Href), nodePath + ".html", true);
+            File.Copy(Path.Combine(this.courseTempPath, resource.Href), nodePath + ".html", true);
 
             foreach (var file in resource.Files)
             {
                 if (file.Href != resource.Href)
                 {
-                    File.Copy(Path.Combine(_CourseTempPath, file.Href), Path.Combine(coursePath, file.Href));
+                    File.Copy(Path.Combine(this.courseTempPath, file.Href), Path.Combine(coursePath, file.Href));
                 }
             }
 
             foreach (var dependency in resource.Dependencies)
             {
-                var depResource = _Manifest.Resources._Resources.Where(r => r.Identifier == dependency.IdentifierRef).FirstOrDefault();
+                var depResource = this.manifest.Resources.ResourcesList.Where(r => r.Identifier == dependency.IdentifierRef).FirstOrDefault();
 
                 if (depResource != null)
                 {
-                    _Manifest.Resources._Resources.Remove(depResource);
+                    this.manifest.Resources.ResourcesList.Remove(depResource);
 
-                    ProcessDependencyResource(node, depResource);
+                    this.ProcessDependencyResource(node, depResource);
                 }
             }
         }
@@ -106,21 +106,21 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         {
             foreach (var file in resource.Files)
             {
-                if (!File.Exists(Path.Combine(_CoursePath, file.Href)))
+                if (!File.Exists(Path.Combine(this.coursePath, file.Href)))
                 {
-                    File.Copy(Path.Combine(_CourseTempPath, file.Href), Path.Combine(_CoursePath, file.Href));
+                    File.Copy(Path.Combine(this.courseTempPath, file.Href), Path.Combine(this.coursePath, file.Href));
                 }
             }
 
             foreach (var dependency in resource.Dependencies)
             {
-                var depResource = _Manifest.Resources._Resources.Where(r => r.Identifier == dependency.IdentifierRef).FirstOrDefault();
+                var depResource = this.manifest.Resources.ResourcesList.Where(r => r.Identifier == dependency.IdentifierRef).FirstOrDefault();
 
                 if (depResource != null)
                 {
-                    _Manifest.Resources._Resources.Remove(depResource);
+                    this.manifest.Resources.ResourcesList.Remove(depResource);
 
-                    ProcessDependencyResource(node, depResource);
+                    this.ProcessDependencyResource(node, depResource);
                 }
             }
         }

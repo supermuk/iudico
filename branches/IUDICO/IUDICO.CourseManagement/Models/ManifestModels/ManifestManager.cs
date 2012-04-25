@@ -10,9 +10,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 {
     public class ManifestManager
     {
-        private int _ItemsCount = 0;
-        private int _OrganizationsCount = 0;
-        private int _ResourcesCount = 0;
+        private int itemsCount = 0;
+        private int organizationsCount = 0;
+        private int resourcesCount = 0;
 
         public static void Serialize(Manifest manifest, StreamWriter writer)
         {
@@ -32,7 +32,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         {
             return new Item()
                        {
-                           Identifier = ConstantStrings.ItemIdPrefix + _ItemsCount++,
+                           Identifier = ConstantStrings.ItemIdPrefix + this.itemsCount++,
                            IdentifierRef = resourceId,
                        };
         }
@@ -41,7 +41,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         {
             return new Organization()
                        {
-                           Identifier = ConstantStrings.OrganizationIdPrefix + _OrganizationsCount++
+                           Identifier = ConstantStrings.OrganizationIdPrefix + this.organizationsCount++
                        };
         }
 
@@ -49,10 +49,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         {
             var resource = new Resource()
                                {
-                                   Identifier = ConstantStrings.ResourceIdPrefix + _ResourcesCount++,
+                                   Identifier = ConstantStrings.ResourceIdPrefix + this.resourcesCount++,
                                    ScormType = type
                                };
-            if(files != null)
+            if (files != null)
             {
                 resource.Files = files;
             }
@@ -82,13 +82,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
         public static Organizations AddOrganization(Organizations organizations, Organization organization)
         {
-            organizations._Organizations.Add(organization);
+            organizations.OrganizationsList.Add(organization);
             return organizations;
         }
 
         public static Resources AddResource(Resources resources, Resource resource)
         {
-            resources._Resources.Add(resource);
+            resources.ResourcesList.Add(resource);
             return resources;
         }
 

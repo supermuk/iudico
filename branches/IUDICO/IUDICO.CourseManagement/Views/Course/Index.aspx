@@ -34,12 +34,12 @@
                 });
 
                 if (ids.length == 0) {
-                    alert("<%=IUDICO.CourseManagement.Localization.getMessage("PleaseSelectCoursesDelete") %>");
+                    alert("<%=IUDICO.CourseManagement.Localization.GetMessage("PleaseSelectCoursesDelete") %>");
                     
                     return false;
                 }
 
-                var answer = confirm("<%=IUDICO.CourseManagement.Localization.getMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CourseManagement.Localization.getMessage("selectedCourses") %>");
+                var answer = confirm("<%=IUDICO.CourseManagement.Localization.GetMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CourseManagement.Localization.GetMessage("selectedCourses") %>");
 
                 if (answer == false) {
                     return false;
@@ -54,7 +54,7 @@
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("<%=IUDICO.CourseManagement.Localization.getMessage("ErrorOccuredDuringProccessingRequest") %>");
+                            alert("<%=IUDICO.CourseManagement.Localization.GetMessage("ErrorOccuredDuringProccessingRequest") %>");
                         }
                     }
                 });
@@ -208,19 +208,19 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.CourseManagement.Localization.getMessage("Courses")%>
+    <%=IUDICO.CourseManagement.Localization.GetMessage("Courses")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <p>
-        <a href="#" onclick="addCourse();"><%:IUDICO.CourseManagement.Localization.getMessage("CreateNew")%></a>
+        <a href="#" onclick="addCourse();"><%:IUDICO.CourseManagement.Localization.GetMessage("CreateNew")%></a>
         |
-        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("Import"), "Import")%>
+        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("Import"), "Import")%>
         | <a id="DeleteMany" href="#">
-            <%=IUDICO.CourseManagement.Localization.getMessage("DeleteSelected")%></a>
+            <%=IUDICO.CourseManagement.Localization.GetMessage("DeleteSelected")%></a>
     </p>
     <div style="float: inherit; width: 400px;">
         <h2>
-            <%=IUDICO.CourseManagement.Localization.getMessage("Allcourses")%>:</h2>
+            <%=IUDICO.CourseManagement.Localization.GetMessage("Allcourses")%>:</h2>
     </div>
     <div>
         <% if (Model.Count() > 0)
@@ -232,16 +232,16 @@
                         <input type="checkbox" id="CoursesCheckAll" />
                     </th>
                     <th>
-                        <%=IUDICO.CourseManagement.Localization.getMessage("Title")%>
+                        <%=IUDICO.CourseManagement.Localization.GetMessage("Title")%>
                     </th>
                     <th>
-                        <%=IUDICO.CourseManagement.Localization.getMessage("Owner")%>
+                        <%=IUDICO.CourseManagement.Localization.GetMessage("Owner")%>
                     </th>
                     <th>
-                        <%=IUDICO.CourseManagement.Localization.getMessage("Last modified")%>
+                        <%=IUDICO.CourseManagement.Localization.GetMessage("Last modified")%>
                     </th>
                     <th>
-                        <%=IUDICO.CourseManagement.Localization.getMessage("Actions")%>
+                        <%=IUDICO.CourseManagement.Localization.GetMessage("Actions")%>
                     </th>
                 </tr>
             </thead>
@@ -254,7 +254,7 @@
         <% }
            else
            {%>
-            <%=IUDICO.CourseManagement.Localization.getMessage("NoCourses")%>
+            <%=IUDICO.CourseManagement.Localization.GetMessage("NoCourses")%>
         <% } %>
     </div>
     <div id="shareDialog">

@@ -23,29 +23,29 @@ namespace IUDICO.CourseManagement.Controllers
 {
     public class NodeController : CourseBaseController
     {
-        protected Course _CurrentCourse;
-        private readonly ICourseStorage _Storage;
+        protected Course currentCourse;
+        private readonly ICourseStorage storage;
 
         public NodeController(ICourseStorage courseStorage)
         {
-            _Storage = courseStorage;
+            this.storage = courseStorage;
         }
 
         protected override void Initialize(RequestContext requestContext)
         {
             base.Initialize(requestContext);
-            //StorageFactory factory = new StorageFactory();
-            //Storage = factory.CreateStorage(StorageType.Mixed);
+            // StorageFactory factory = new StorageFactory();
+            // Storage = factory.CreateStorage(StorageType.Mixed);
 
             var courseId = Convert.ToInt32(requestContext.RouteData.Values["CourseID"]);
-            _CurrentCourse = _Storage.GetCourse(courseId);
+            this.currentCourse = this.storage.GetCourse(courseId);
 
-            if (_CurrentCourse == null)
+            if (this.currentCourse == null)
             {
                 requestContext.HttpContext.Response.Redirect("/Course/Index");
             }
 
-            //LmsService.Inform("yo/andrij", "test1", "test2");
+            // LmsService.Inform("yo/andrij", "test1", "test2");
 
             base.Initialize(requestContext);
         }
@@ -57,21 +57,21 @@ namespace IUDICO.CourseManagement.Controllers
                                                      {
                                                          new SelectListItem
                                                              {
-                                                                 Text = Localization.getMessage("Default"),
+                                                                 Text = Localization.GetMessage("Default"),
                                                                  Value = SequencingPattern.OrganizationDefaultSequencingPattern.ToString()
                                                              },
                                                          new SelectListItem
                                                              {
-                                                                 Text = Localization.getMessage("ControlChapter"),
+                                                                 Text = Localization.GetMessage("ControlChapter"),
                                                                  Value = SequencingPattern.ControlChapterSequencingPattern.ToString()
                                                              },
                                                          new SelectListItem
                                                              {
-                                                                 Text = Localization.getMessage("RandomSet"),
+                                                                 Text = Localization.GetMessage("RandomSet"),
                                                                  Value = SequencingPattern.RandomSetSequencingPattern.ToString()
                                                              }
                                                      };
-            return View(_CurrentCourse);
+            return View(this.currentCourse);
         }
 
         [HttpPost]
@@ -79,7 +79,7 @@ namespace IUDICO.CourseManagement.Controllers
         {
             try
             {
-                var nodes = _Storage.GetNodes(_CurrentCourse.Id, id).ToJsTrees();
+                var nodes = this.storage.GetNodes(this.currentCourse.Id, id).ToJsTrees();
 
                 return Json(nodes);
             }
@@ -94,9 +94,9 @@ namespace IUDICO.CourseManagement.Controllers
         {
             try
             {
-                node.CourseId = _CurrentCourse.Id;
+                node.CourseId = this.currentCourse.Id;
 
-                var id = _Storage.AddNode(node);
+                var id = this.storage.AddNode(node);
 
                 if (id != null)
                 {
@@ -118,7 +118,7 @@ namespace IUDICO.CourseManagement.Controllers
         {
             try
             {
-                _Storage.DeleteNode(id);
+                this.storage.DeleteNode(id);
 
                 return Json(new { status = true });
             }
@@ -133,10 +133,10 @@ namespace IUDICO.CourseManagement.Controllers
         {
             try
             {
-                var node = _Storage.GetNode(id);
+                var node = this.storage.GetNode(id);
                 node.Name = name;
 
-                _Storage.UpdateNode(id, node);
+                this.storage.UpdateNode(id, node);
 
                 return Json(new { status = true });
             }
@@ -151,27 +151,20 @@ namespace IUDICO.CourseManagement.Controllers
         {
             try
             {
-                var node = _Storage.GetNode(id);
+                var node = this.storage.GetNode(id);
 
                 if (copy)
                 {
-                    var newId = _Storage.CreateCopy(node, parentId, position);
+                    var newId = this.storage.CreateCopy(node, parentId, position);
 
-                    if (newId != null)
-                    {
-                        return Json(new { status = true, id = newId });
-                    }
-                    else
-                    {
-                        return Json(new { status = false });
-                    }
+                    return Json(new { status = true, id = newId });
                 }
                 else
                 {
                     node.ParentId = parentId;
                     node.Position = position;
 
-                    _Storage.UpdateNode(id, node);
+                    this.storage.UpdateNode(id, node);
 
                     return Json(new { status = true, id = id });
                 }
@@ -187,43 +180,41 @@ namespace IUDICO.CourseManagement.Controllers
         {
             try
             {
-                return Json(new { data = _Storage.GetNodeContents(id), status = true });
+                return Json(new { data = this.storage.GetNodeContents(id), status = true });
             }
             catch (Exception)
             {
-                return Json(new { status = true, data = "" });
+                return Json(new { status = true, data = string.Empty });
             }
         }
 
         [HttpPost]
         public JsonResult Preview(int id)
         {
-            var path = Path.Combine(HttpContext.Request.ApplicationPath, _Storage.GetPreviewNodePath(id)).Replace('\\', '/');
+            var path = Path.Combine(HttpContext.Request.ApplicationPath, this.storage.GetPreviewNodePath(id)).Replace('\\', '/');
 
-            if (_Storage.GetNode(id).IsFolder)
+            if (this.storage.GetNode(id).IsFolder)
             {
                 throw new Exception();
             }
 
-            return Json(new {status = true, path = path});
+            return Json(new { status = true, path = path });
         }
 
         [HttpPost]
         [ValidateInput(false)]
         public void Edit(int id, string data)
         {
-            _Storage.UpdateNodeContents(id, data);
-
-            //return Json(new { result = true });
+            this.storage.UpdateNodeContents(id, data);
         }
 
         [HttpPost]
         public JsonResult ApplyPattern(int id, SequencingPattern pattern, int data)
         {
-            var node = _Storage.GetNode(id);
+            var node = this.storage.GetNode(id);
             var xml = new XmlSerializer(typeof(Sequencing));
 
-            var xelement = id == 0 ? _CurrentCourse.Sequencing : node.Sequencing;
+            var xelement = id == 0 ? this.currentCourse.Sequencing : node.Sequencing;
 
             var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
 
@@ -242,13 +233,13 @@ namespace IUDICO.CourseManagement.Controllers
 
             if (id == 0)
             {
-                _CurrentCourse.Sequencing = xml.SerializeToXElemet(sequencing);
-                _Storage.UpdateCourse(_CurrentCourse.Id, _CurrentCourse);
+                this.currentCourse.Sequencing = xml.SerializeToXElemet(sequencing);
+                this.storage.UpdateCourse(this.currentCourse.Id, this.currentCourse);
             }
             else
             {
                 node.Sequencing = xml.SerializeToXElemet(sequencing);
-                _Storage.UpdateNode(id, node);
+                this.storage.UpdateNode(id, node);
             }
 
             return Json(new { status = true });
@@ -259,9 +250,9 @@ namespace IUDICO.CourseManagement.Controllers
         {
             var xml = new XmlSerializer(typeof(Sequencing));
 
-            var xelement = id == 0 ? _CurrentCourse.Sequencing : _Storage.GetNode(id).Sequencing;
+            var xelement = id == 0 ? this.currentCourse.Sequencing : this.storage.GetNode(id).Sequencing;
 
-            var sequencing = xelement == null ? new Sequencing() : (Sequencing) xml.DeserializeXElement(xelement);
+            var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
             
             NodeProperty model;
 
@@ -298,7 +289,7 @@ namespace IUDICO.CourseManagement.Controllers
                 throw new NotImplementedException();
             }
 
-            model.CourseId = _CurrentCourse.Id;
+            model.CourseId = this.currentCourse.Id;
             model.NodeId = id;
             model.Type = type;
 
@@ -308,10 +299,10 @@ namespace IUDICO.CourseManagement.Controllers
         [HttpPost]
         public JsonResult SaveProperties(int nodeId, string type)
         {
-            var node = _Storage.GetNode(nodeId);
+            var node = this.storage.GetNode(nodeId);
             var xml = new XmlSerializer(typeof(Sequencing));
 
-            var xelement = nodeId == 0 ? _CurrentCourse.Sequencing : node.Sequencing;
+            var xelement = nodeId == 0 ? this.currentCourse.Sequencing : node.Sequencing;
 
             var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
             
@@ -364,15 +355,15 @@ namespace IUDICO.CourseManagement.Controllers
                 throw new NotImplementedException();
             }
 
-            if(nodeId == 0)
+            if (nodeId == 0)
             {
-                _CurrentCourse.Sequencing = xml.SerializeToXElemet(sequencing);
-                _Storage.UpdateCourse(_CurrentCourse.Id, _CurrentCourse);
+                this.currentCourse.Sequencing = xml.SerializeToXElemet(sequencing);
+                this.storage.UpdateCourse(this.currentCourse.Id, this.currentCourse);
             }
             else
             {
                 node.Sequencing = xml.SerializeToXElemet(sequencing);
-                _Storage.UpdateNode(nodeId, node);
+                this.storage.UpdateNode(nodeId, node);
             }
             
 
@@ -380,13 +371,13 @@ namespace IUDICO.CourseManagement.Controllers
         }
         
         [HttpGet]
-        public ActionResult Images(int nodeId, string FileName)
+        public ActionResult Images(int nodeId, string fileName)
         {
-            var path = Path.Combine(@"\Data\Courses\", _CurrentCourse.Id.ToString());
+            var path = Path.Combine(@"\Data\Courses\", this.currentCourse.Id.ToString());
             path = Path.Combine(path, "Node");
             path = Path.Combine(path, nodeId.ToString());
             path = Path.Combine(path, "Images");
-            path = Path.Combine(path, FileName);
+            path = Path.Combine(path, fileName);
             return File(path, "image/png");
         }
     }

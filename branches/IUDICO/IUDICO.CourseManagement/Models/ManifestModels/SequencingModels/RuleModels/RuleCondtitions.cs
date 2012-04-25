@@ -17,7 +17,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RuleMod
         #region XmlElements
 
         [XmlElement(SCORM.RuleCondition, Namespace = SCORM.ImsssNamespace)]
-        public List<RuleCondition> _RuleConditions;
+        public List<RuleCondition> RuleConditionsList;
 
         #endregion
     }

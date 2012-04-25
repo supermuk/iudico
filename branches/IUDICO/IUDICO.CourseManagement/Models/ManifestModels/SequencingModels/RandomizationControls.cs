@@ -8,9 +8,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     {
         public RandomizationControls()
         {
-            RandomizationTiming = Timing.Never;
-            SelectionTiming = Timing.Never;
-            ReorderChildren = false;
+            this.RandomizationTiming = Timing.Never;
+            this.SelectionTiming = Timing.Never;
+            this.ReorderChildren = false;
         }
         #region XmlAttributes
 
@@ -36,7 +36,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         public bool ReorderChildren { get; set; } // = false;
 
         [XmlAttribute(SCORM.SelectionTiming)]
-        public Timing SelectionTiming { get; set; }// = Timing.Never;
+        public Timing SelectionTiming { get; set; } // = Timing.Never;
 
         #endregion
     }

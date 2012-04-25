@@ -8,9 +8,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     {
         public ControlMode()
         {
-            Choice = true;
-            ChoiceExit = true;
-            Flow = false;
+            this.Choice = true;
+            this.ChoiceExit = true;
+            this.Flow = false;
 
         }
 
@@ -22,7 +22,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// the activity.
         /// </summary>
         [XmlAttribute(SCORM.Choice)]
-        public bool Choice { get; set; }//= true;
+        public bool Choice { get; set; } // = true;
 
         /// <summary>
         /// Indicates that an active child of 
@@ -30,14 +30,14 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         /// choice sequencing request is processed.
         /// </summary>
         [XmlAttribute(SCORM.ChoiceExit)]
-        public bool ChoiceExit { get; set; }//= true;
+        public bool ChoiceExit { get; set; } // = true;
 
         /// <summary>
         /// Indicates the flow sequencing requests is 
         /// permitted (or not permitted if value = false) to the children of this activity/
         /// </summary>
         [XmlAttribute(SCORM.Flow)] 
-        public bool Flow { get; set; }//= false;
+        public bool Flow { get; set; } // = false;
 
         /// <summary>
         ///  Indicates that backward targets 
