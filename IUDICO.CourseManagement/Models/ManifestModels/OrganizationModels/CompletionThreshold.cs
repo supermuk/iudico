@@ -9,7 +9,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         #region XmlAttributes
 
         [XmlAttribute(SCORM.CompletedByMeasure)]
-        public bool CompletedByMeasure = false;
+        public bool CompletedByMeasure;
 
         [XmlAttribute(SCORM.MinProgressMeasure)]
         public float MinProgressMeasure;

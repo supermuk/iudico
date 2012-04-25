@@ -13,20 +13,20 @@
             $('#sharewith').multiselect2side({
                 selectedPosition: 'right',
                 moveOptions: false,
-                labelsx: '<%=IUDICO.CourseManagement.Localization.getMessage("AllUsers") %>',
-                labeldx: '<%=IUDICO.CourseManagement.Localization.getMessage("SharedWith") %>'
+                labelsx: '<%=IUDICO.CourseManagement.Localization.GetMessage("AllUsers") %>',
+                labeldx: '<%=IUDICO.CourseManagement.Localization.GetMessage("SharedWith") %>'
             });
         });
     </script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.CourseManagement.Localization.getMessage("Create") %>
+	<%=IUDICO.CourseManagement.Localization.GetMessage("Create") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.CourseManagement.Localization.getMessage("Create") %></h2>
+    <h2><%=IUDICO.CourseManagement.Localization.GetMessage("Create") %></h2>
 
     <% Html.EnableClientValidation(); %>
 
@@ -34,7 +34,7 @@
         <%: Html.ValidationSummary(true) %>
 
         <fieldset>
-            <legend><%=IUDICO.CourseManagement.Localization.getMessage("Fields") %></legend>
+            <legend><%=IUDICO.CourseManagement.Localization.GetMessage("Fields") %></legend>
             
             <%= Html.EditorForModel() %>
             
@@ -49,7 +49,7 @@
             </select>
 
             <p>
-                <input type="submit" value=<%=IUDICO.CourseManagement.Localization.getMessage("Create") %> />
+                <input type="submit" value=<%=IUDICO.CourseManagement.Localization.GetMessage("Create") %> />
             </p>
         </fieldset>
 
@@ -57,7 +57,7 @@
     
 
     <div>
-        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.getMessage("BackToList"), "Index")%>
+        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>

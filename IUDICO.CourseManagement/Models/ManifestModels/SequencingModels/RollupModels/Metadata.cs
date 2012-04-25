@@ -18,7 +18,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
         private sealed class Metadata
         {
             [DisplayName("Rollup Objective Satisfied")]
-            public bool RollupObjectiveSatisfied { get; set; }// = true;
+            public bool RollupObjectiveSatisfied { get; set; } // = true;
             [DisplayName("Rollup Objective Satisfied")]
             public bool RollupProgressCompletion { get; set; } // = true;
             [DisplayName("Objective Measure Weight")]
@@ -47,28 +47,27 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
                                {
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (ChildActivitySet), ChildActivitySet.All),
+                                           Text = Enum.GetName(typeof(ChildActivitySet), ChildActivitySet.All),
                                            Value = ChildActivitySet.All.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (ChildActivitySet), ChildActivitySet.Any),
+                                           Text = Enum.GetName(typeof(ChildActivitySet), ChildActivitySet.Any),
                                            Value = ChildActivitySet.Any.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (ChildActivitySet), ChildActivitySet.AtLeastCount),
+                                           Text = Enum.GetName(typeof(ChildActivitySet), ChildActivitySet.AtLeastCount),
                                            Value = ChildActivitySet.AtLeastCount.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text =
-                                               Enum.GetName(typeof (ChildActivitySet), ChildActivitySet.AtLeastPercent),
+                                           Text = Enum.GetName(typeof(ChildActivitySet), ChildActivitySet.AtLeastPercent),
                                            Value = ChildActivitySet.AtLeastPercent.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Enum.GetName(typeof (ChildActivitySet), ChildActivitySet.None),
+                                           Text = Enum.GetName(typeof(ChildActivitySet), ChildActivitySet.None),
                                            Value = ChildActivitySet.None.ToString()
                                        }
                                };
@@ -110,22 +109,25 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
                                {
                                    new SelectListItem
                                        {
-                                           Text =Localization.getMessage(Enum.GetName(typeof (Required), Required.Always)),
+                                           Text = Localization.GetMessage(Enum.GetName(typeof(Required), Required.Always)),
                                            Value = Required.Always.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text =Localization.getMessage(Enum.GetName(typeof (Required), Required.IfAttempted)),
+                                           Text =
+                                               Localization.GetMessage(Enum.GetName(typeof(Required), Required.IfAttempted)),
                                            Value = Required.IfAttempted.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Localization.getMessage(Enum.GetName(typeof (Required), Required.IfNotSkipped)),
+                                           Text =
+                                               Localization.GetMessage(Enum.GetName(typeof(Required), Required.IfNotSkipped)),
                                            Value = Required.IfNotSkipped.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Localization.getMessage(Enum.GetName(typeof (Required), Required.IfNotSuspended)),
+                                           Text =
+                                               Localization.GetMessage(Enum.GetName(typeof(Required), Required.IfNotSuspended)),
                                            Value = Required.IfNotSuspended.ToString()
                                        }
                                };
@@ -144,7 +146,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
             public Required RequiredForNotSatisfied { get; set; } // = Required.Always;
             [DisplayName("Required For Completed")]
             [DropDownList(SourceProperty = "RequiredList")]
-            public Required RequiredForCompleted { get; set; }// = Required.Always;
+            public Required RequiredForCompleted { get; set; } // = Required.Always;
             [DisplayName("Required For Incomplete")]
             [DropDownList(SourceProperty = "RequiredList")]
             public Required RequiredForIncomplete { get; set; } // = Required.Always;

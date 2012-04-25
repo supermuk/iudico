@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace IUDICO.CourseManagement.Models
+﻿namespace IUDICO.CourseManagement.Models
 {
     public enum ResourceTypes
     {

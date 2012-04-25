@@ -6,8 +6,8 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.MetadataModels
     {
         public ManifestMetadata()
         {
-            Schema = SCORM.SchemaName;
-            SchemaVersion = SCORM.SchemaVersion2004;
+            this.Schema = SCORM.SchemaName;
+            this.SchemaVersion = SCORM.SchemaVersion2004;
         }
 
         #region XmlElements
@@ -19,7 +19,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.MetadataModels
         public string SchemaVersion;
 
         [XmlElement(SCORM.Manifest)]
-        Metadata _Metadata;
+        public Metadata Metadata;
 
         #endregion
     }

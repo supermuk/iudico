@@ -7,6 +7,6 @@
         
         <%: Html.EditorForModel(Model) %>
         <p>
-            <input type="submit" value=<%=IUDICO.CourseManagement.Localization.getMessage("Save") %> />
+            <input type="submit" value=<%=IUDICO.CourseManagement.Localization.GetMessage("Save") %> />
         </p>
     <% } %>

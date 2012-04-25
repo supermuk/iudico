@@ -19,7 +19,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
         public static Sequencing ApplyControlChapterSequencing(Sequencing sequencing)
         {
-            if(sequencing.ControlMode == null)
+            if (sequencing.ControlMode == null)
             {
                 sequencing.ControlMode = new ControlMode();
             }
@@ -29,7 +29,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
             sequencing.ControlMode.ChoiceExit = false;
 
 
-            if(sequencing.LimitConditions == null)
+            if (sequencing.LimitConditions == null)
             {
                 sequencing.LimitConditions = new LimitConditions();
             }

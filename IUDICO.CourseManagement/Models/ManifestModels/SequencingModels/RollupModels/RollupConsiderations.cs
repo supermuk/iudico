@@ -8,11 +8,11 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
     {
         public RollupConsiderations()
         {
-            RequiredForSatisfied = Required.Always;
-            RequiredForNotSatisfied = Required.Always;
-            RequiredForCompleted = Required.Always;
-            RequiredForIncomplete = Required.Always;
-            MeasureSatisfactionIfActive = true;
+            this.RequiredForSatisfied = Required.Always;
+            this.RequiredForNotSatisfied = Required.Always;
+            this.RequiredForCompleted = Required.Always;
+            this.RequiredForIncomplete = Required.Always;
+            this.MeasureSatisfactionIfActive = true;
         }
         #region XmlAttributes
 
@@ -23,7 +23,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
         public Required RequiredForNotSatisfied { get; set; } // = Required.Always;
 
         [XmlAttribute(SCORM.RequiredForCompleted)]
-        public Required RequiredForCompleted { get; set; }// = Required.Always;
+        public Required RequiredForCompleted { get; set; } // = Required.Always;
 
         [XmlAttribute(SCORM.RequiredForIncomplete)]
         public Required RequiredForIncomplete { get; set; } // = Required.Always;

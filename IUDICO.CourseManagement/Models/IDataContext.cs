@@ -4,7 +4,7 @@ namespace IUDICO.CourseManagement.Models
 {
     public interface IDataContext : IMockableDataContext
     {
-        //IMockableTable<User> Users { get; }
+        // IMockableTable<User> Users { get; }
         IMockableTable<Course> Courses { get; }
         IMockableTable<CourseUser> CourseUsers { get; }
         IMockableTable<Node> Nodes { get; }

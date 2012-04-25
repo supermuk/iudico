@@ -10,7 +10,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
     {
         public RollupRules()
         {
-            _RollupRules = new List<RollupRule>();
+            this.RollupRulesList = new List<RollupRule>();
         }
 
         #region XmlAttributes
@@ -43,7 +43,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
         #region XmlElements
 
         [XmlElement(SCORM.RollupRule)]
-        public List<RollupRule> _RollupRules { get; set; }
+        public List<RollupRule> RollupRulesList { get; set; }
 
         #endregion
     }

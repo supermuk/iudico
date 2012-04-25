@@ -17,7 +17,7 @@ namespace IUDICO.CourseManagement.Models
 
     public static class XmlSerializerExtensions
     {
-        public static XElement SerializeToXElemet(this XmlSerializer xs, object  o)
+        public static XElement SerializeToXElemet(this XmlSerializer xs, object o)
         {
             var d = new XDocument();
             

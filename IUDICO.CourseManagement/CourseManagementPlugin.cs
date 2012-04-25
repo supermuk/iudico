@@ -18,20 +18,20 @@ namespace IUDICO.CourseManagement
 {
     public class CourseManagementPlugin : IWindsorInstaller, IPlugin
     {
-        IWindsorContainer _Container;
+        IWindsorContainer container;
 
         ICourseStorage CourseStorage
         {
             get
             {
-                return _Container.Resolve<ICourseStorage>();
+                return this.container.Resolve<ICourseStorage>();
             }
         }
 
         #region IPlugin Members
         public string GetName()
         {
-            return Localization.getMessage("CourseManagement");
+            return Localization.GetMessage("CourseManagement");
         }
 
         public IEnumerable<Action> BuildActions()
@@ -39,17 +39,17 @@ namespace IUDICO.CourseManagement
 
             return new Action[]
             {
-                new Action(Localization.getMessage("GetCourses"), "Course/Index"),
-                new Action(Localization.getMessage("CreateCourse"), "Course/Create")
+                new Action(Localization.GetMessage("GetCourses"), "Course/Index"),
+                new Action(Localization.GetMessage("CreateCourse"), "Course/Create")
             };
-            //actions.Add(new Action(Localization.getMessage("EditCourse"), "Course/Index", Role.Teacher));
+            // actions.Add(new Action(Localization.getMessage("EditCourse"), "Course/Index", Role.Teacher));
         }
 
         public IEnumerable<MenuItem> BuildMenuItems()
         {
             return new MenuItem[]
             {
-                new MenuItem(Localization.getMessage("Courses"), "Course", "Index")
+                new MenuItem(Localization.GetMessage("Courses"), "Course", "Index")
             };
         }
 
@@ -58,32 +58,27 @@ namespace IUDICO.CourseManagement
             routes.MapRoute(
                 "Images",
                 "Course/{CourseID}/Node/{NodeID}/Images/{FileName}",
-                new {controller = "Node", action = "Images", CourseID = 0, FileName = ""}
-                );
+                new { controller = "Node", action = "Images", CourseID = 0, FileName = string.Empty });
 
             routes.MapRoute(
                 "Node",
                 "Course/{CourseID}/Node/{NodeID}/{action}",
-                new { controller = "Node", CourseID = 0 }
-            );
+                new { controller = "Node", CourseID = 0 });
 
             routes.MapRoute(
                 "Nodes",
                 "Course/{CourseID}/Node/{action}",
-                new { controller = "Node", action = "Index", CourseID = 0 }
-            );
+                new { controller = "Node", action = "Index", CourseID = 0 });
 
             routes.MapRoute(
                 "Course",
                 "Course/{CourseID}/{action}",
-                new { controller = "Course" }
-            );
+                new { controller = "Course" });
 
             routes.MapRoute(
                 "Courses",
                 "Course/{action}",
-                new { controller = "Course", action = "Index" }
-            );
+                new { controller = "Course", action = "Index" });
         }
 
         public void Setup(IWindsorContainer container)
@@ -94,11 +89,11 @@ namespace IUDICO.CourseManagement
         public void Update(string evt, params object[] data)
         {
             // handle appropriate events
-            switch(evt)
+            switch (evt)
             {
                 case UserNotifications.UserDelete:
                 var user = (User)data[0];
-                //courseStorage.DeleteCourseUsers(user.Id);
+                // courseStorage.DeleteCourseUsers(user.Id);
                 break;
             }
         }
@@ -114,12 +109,11 @@ namespace IUDICO.CourseManagement
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<CourseManagementPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                //Component.For<ICourseStorage>().ImplementedBy<CachedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                // Component.For<ICourseStorage>().ImplementedBy<CachedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<ICourseStorage>().ImplementedBy<MixedCourseStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<ICourseService>().ImplementedBy<CourseService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
-            );
-            
-            this._Container = container;
+                Component.For<ICourseService>().ImplementedBy<CourseService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
+
+            this.container = container;
         }
         #endregion
     }

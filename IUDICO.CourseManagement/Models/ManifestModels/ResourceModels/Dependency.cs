@@ -12,7 +12,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
 
         public Dependency(string identidierRef)
         {
-            IdentifierRef = identidierRef;
+            this.IdentifierRef = identidierRef;
         }
 
         #region XmlAttributes

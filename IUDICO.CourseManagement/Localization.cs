@@ -5,7 +5,7 @@ namespace IUDICO.CourseManagement
     {
         private static LocalizationMessageProvider provider = new LocalizationMessageProvider("CourseManagement");
 
-        public static string getMessage(string search)
+        public static string GetMessage(string search)
         {
             return provider.GetMessage(search);
         }

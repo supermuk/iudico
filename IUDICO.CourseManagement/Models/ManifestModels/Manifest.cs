@@ -15,10 +15,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
     {
         public Manifest()
         {
-            Identifier = ConstantStrings.ManifestId;
-            Organizations = new Organizations();
-            Resources = new Resources();
-            Metadata = new ManifestMetadata();
+            this.Identifier = ConstantStrings.ManifestId;
+            this.Organizations = new Organizations();
+            this.Resources = new Resources();
+            this.Metadata = new ManifestMetadata();
         }
 
         #region XmlAttributes
@@ -39,7 +39,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
         [XmlElement(SCORM.Metadata, Namespace = SCORM.ImscpNamespaceV1P3)]
         public ManifestMetadata Metadata;
 
-        [XmlElement(SCORM.Organizations, Namespace=SCORM.ImscpNamespaceV1P3)]
+        [XmlElement(SCORM.Organizations, Namespace = SCORM.ImscpNamespaceV1P3)]
         public Organizations Organizations;
 
         [XmlElement(SCORM.Resources, Namespace = SCORM.ImscpNamespaceV1P3)]

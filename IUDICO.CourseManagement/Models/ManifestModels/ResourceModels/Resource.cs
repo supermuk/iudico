@@ -10,9 +10,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
     {
         public Resource()
         {
-            Files = new List<File>();
-            Dependencies = new List<Dependency>();
-            Type = SCORM.Webcontent;
+            this.Files = new List<File>();
+            this.Dependencies = new List<Dependency>();
+            this.Type = SCORM.Webcontent;
         }
 
         #region XmlAttributes

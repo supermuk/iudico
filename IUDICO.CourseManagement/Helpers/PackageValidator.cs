@@ -16,9 +16,8 @@ namespace IUDICO.CourseManagement.Helpers
                 ValidationBehavior.LogWarning,
                 ValidationBehavior.LogWarning,
                 ValidationBehavior.LogError,
-                ValidationBehavior.LogWarning
-                );
-            
+                ValidationBehavior.LogWarning);
+
             ValidationResults results;
 
             var messages = new List<string>();
@@ -29,7 +28,7 @@ namespace IUDICO.CourseManagement.Helpers
             }
             catch (InvalidPackageException ex)
             {
-                messages.Add(String.Format("Package is invalid.{0}", ex.Message));
+                messages.Add(string.Format("Package is invalid.{0}", ex.Message));
 
                 return messages;
             }
@@ -38,11 +37,11 @@ namespace IUDICO.CourseManagement.Helpers
             {
                 if (result.IsError)
                 {
-                    messages.Add(String.Format("MLC Error: {0}", result.Message));
+                    messages.Add(string.Format("MLC Error: {0}", result.Message));
                 }
                 else
                 {
-                    messages.Add(String.Format("SCORM Warning: {0}", result.Message));
+                    messages.Add(string.Format("SCORM Warning: {0}", result.Message));
                 }
             }
 

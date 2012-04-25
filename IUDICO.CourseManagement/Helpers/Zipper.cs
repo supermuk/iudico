@@ -29,11 +29,11 @@ namespace IUDICO.CourseManagement.Helpers
             }
         }
 
-        private const int _ReadBufferSize = 2048;
+        private const int ReadBufferSize = 2048;
 
         public static void ExtractZipFile(string zipFileName, string dirName)
         {
-            var data = new byte[_ReadBufferSize];
+            var data = new byte[ReadBufferSize];
             
             using (var zipStream = new ZipInputStream(File.OpenRead(zipFileName)))
             {
@@ -59,7 +59,7 @@ namespace IUDICO.CourseManagement.Helpers
                         {
                             int readed;
 
-                            while ((readed = zipStream.Read(data, 0, _ReadBufferSize)) > 0)
+                            while ((readed = zipStream.Read(data, 0, ReadBufferSize)) > 0)
                             {
                                 fileStream.Write(data, 0, readed);
                             }

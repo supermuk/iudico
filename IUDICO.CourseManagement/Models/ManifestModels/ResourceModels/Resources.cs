@@ -9,13 +9,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.ResourceModels
     {
         public Resources()
         {
-            _Resources = new List<Resource>();
+            this.ResourcesList = new List<Resource>();
         }
 
         #region XmlElements
 
         [XmlElement(SCORM.Resource, Namespace = SCORM.ImscpNamespaceV1P3)]
-        public List<Resource> _Resources;
+        public List<Resource> ResourcesList;
 
         #endregion
     }

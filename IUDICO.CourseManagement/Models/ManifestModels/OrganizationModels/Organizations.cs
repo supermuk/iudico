@@ -11,7 +11,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
     {
         public Organizations()
         {
-            _Organizations = new List<Organization>();
+            this.OrganizationsList = new List<Organization>();
         }
 
         #region XmlAttributes
@@ -24,7 +24,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         #region XmlElements
 
         [XmlElement(SCORM.Organization, Namespace = SCORM.ImscpNamespaceV1P3)]
-        public List<Organization> _Organizations;
+        public List<Organization> OrganizationsList;
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         {
             get
             {
-                return _Organizations.Single(i => i.Identifier == identifier);
+                return this.OrganizationsList.Single(i => i.Identifier == identifier);
             }
         }
 
@@ -42,19 +42,19 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.OrganizationModels
         {
             get
             {
-                return _Organizations[index];
+                return this.OrganizationsList[index];
             }
             set
             {
-                _Organizations[index] = value;
+                this.OrganizationsList[index] = value;
             }
         }
 
         public string AddOrganization(Organization organization)
         {
-            organization.Identifier = ConstantStrings.OrganizationIdPrefix + _Organizations.Count();
+            organization.Identifier = ConstantStrings.OrganizationIdPrefix + this.OrganizationsList.Count();
             
-            _Organizations.Add(organization);
+            this.OrganizationsList.Add(organization);
             
             return organization.Identifier;
         }

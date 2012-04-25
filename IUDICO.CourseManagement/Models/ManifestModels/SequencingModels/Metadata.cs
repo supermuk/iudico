@@ -98,17 +98,17 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
                                {
                                    new SelectListItem
                                        {
-                                           Text =Localization.getMessage(Enum.GetName(typeof (Timing), Timing.Never)),
+                                           Text = Localization.GetMessage(Enum.GetName(typeof(Timing), Timing.Never)),
                                            Value = Timing.Never.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Localization.getMessage(Enum.GetName(typeof (Timing), Timing.Once)),
+                                           Text = Localization.GetMessage(Enum.GetName(typeof(Timing), Timing.Once)),
                                            Value = Timing.Once.ToString()
                                        },
                                    new SelectListItem
                                        {
-                                           Text = Localization.getMessage(Enum.GetName(typeof (Timing), Timing.OnEachNewAttempt)),
+                                           Text = Localization.GetMessage(Enum.GetName(typeof(Timing), Timing.OnEachNewAttempt)),
                                            Value = Timing.OnEachNewAttempt.ToString()
                                        }
                                };
@@ -125,7 +125,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
             [DisplayName("Reorder Children")]
             public bool ReorderChildren { get; set; } // = false;
             [DropDownList(OptionLabel = "Selection Timing", SourceProperty = "TimingList")]
-            public Timing SelectionTiming { get; set; }// = Timing.Never;
+            public Timing SelectionTiming { get; set; } // = Timing.Never;
 
             [ScaffoldColumn(false)]
             [XmlIgnore]
@@ -176,7 +176,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         {
             get
             {
-                return Localization.getMessage(base.DisplayName);
+                return Localization.GetMessage(base.DisplayName);
             }
         }
     }
