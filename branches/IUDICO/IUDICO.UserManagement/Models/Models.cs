@@ -99,7 +99,7 @@ namespace IUDICO.UserManagement.Models
         [EmailAddress]
         public string Email { get; set; }
 
-        [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
+        [LocalizedRequired(ErrorMessage = "FullNameRequired")]
         [LocalizedDisplayName("FullName")]
         public string Name { get; set; }
     }
@@ -122,7 +122,7 @@ namespace IUDICO.UserManagement.Models
         [ScaffoldColumn(false)]
         public Guid Id { get; set; }
 
-        [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
+        [LocalizedRequired(ErrorMessage = "FullNameRequired")]
         [LocalizedDisplayName("FullName")]
         public string Name { get; set; }
 
@@ -188,7 +188,7 @@ namespace IUDICO.UserManagement.Models
         public Guid Id { get; set; }
 
         [LocalizedDisplayName("FullName")]
-        [LocalizedRequired(ErrorMessage = "FullNameRequiered")]
+        [LocalizedRequired(ErrorMessage = "FullNameRequired")]
         [StringLength(200, ErrorMessage = "Name can not be longer than 200")]
         public string Name { get; set; }
 

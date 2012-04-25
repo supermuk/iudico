@@ -15,14 +15,17 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             this.selenium.Type("id=Name", "lex");
             this.selenium.Type("id=Email", "lex@iudico.com");
             this.selenium.Click("//input[@value='Save']");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait+"0");
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
+
             Assert.IsTrue(this.selenium.IsTextPresent("lex"));
+
+            this.Logout();
         }
 
         [Test]
@@ -31,13 +34,16 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
             this.selenium.Type("id=Name", string.Empty);
             this.selenium.Click("//input[@value='Save']");
-            this.selenium.WaitForPageToLoad(UpgradeSeleniumTester.BrowserWait);
-            Assert.IsTrue(this.selenium.IsTextPresent("Full name is requiered"));
+            this.selenium.WaitForPageToLoad(this.seleniumWait);
+
+            Assert.IsTrue(this.selenium.IsTextPresent(IUDICO.UserManagement.Localization.GetMessage("FullNameRequired")));
+
+            this.Logout();
         }
     }
 }
