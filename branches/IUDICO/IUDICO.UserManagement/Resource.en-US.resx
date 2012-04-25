@@ -216,8 +216,8 @@
   <data name="FullName" xml:space="preserve">
     <value>Full name</value>
   </data>
-  <data name="FullNameRequiered" xml:space="preserve">
-    <value>Full name is requiered</value>
+  <data name="FullNameRequired" xml:space="preserve">
+    <value>Full name is required</value>
   </data>
   <data name="GetGroups" xml:space="preserve">
     <value>Get Groups</value>
