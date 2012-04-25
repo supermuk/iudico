@@ -1,15 +1,15 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-
-// MICROSOFT PROVIDES SAMPLE CODE "AS IS" AND WITH ALL FAULTS, AND WITHOUT ANY WARRANTY WHATSOEVER.  
-// MICROSOFT EXPRESSLY DISCLAIMS ALL WARRANTIES WITH RESPECT TO THE SOURCE CODE, INCLUDING BUT NOT 
-// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THERE IS 
-// NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE.
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="HttpModule.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
-using System.Web;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Text;
+using System.Web;
 
 // Sample HttpModule from msdn: http://msdn.microsoft.com/library/default.asp?url=/library/en-us/cpguide/html/cpconCustomHttpModules.asp
 
@@ -19,9 +19,12 @@ namespace Microsoft.LearningComponents.Frameset
     public class FramesetModule : IHttpModule
     {
         /// <summary>The name of the module.</summary>
-        public static String ModuleName
+        public static string ModuleName
         {
-            get { return "FramesetContentModule"; }
+            get
+            {
+                return "FramesetContentModule";
+            }
         }
 
         // Register for HttpApplication events by adding handler.
@@ -42,7 +45,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// After processing, the URL will be of the form:
         /// http://server/application/Frameset/Content.aspx?ResPath=/view/view data/optional_resource_path
         /// </summary>
-        private void Application_BeginRequest(Object source, EventArgs e)
+        private void Application_BeginRequest(object source, EventArgs e)
         {
             // See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnaspp/html/urlrewriting.asp 
 
@@ -62,12 +65,14 @@ namespace Microsoft.LearningComponents.Frameset
                 if (postFilePath.Length > 0)
                 {
                     if (newQuery.Length > 0)
+                    {
                         newQuery.Append("&");
+                    }
                     newQuery.Append(FramesetQueryParameter.ContentFilePath);
                     newQuery.Append("=");
                     newQuery.Append(postFilePath);
                 }
-                context.RewritePath(filePath, "", newQuery.ToString());
+                context.RewritePath(filePath, string.Empty, newQuery.ToString());
             }
         }
 
@@ -80,14 +85,18 @@ namespace Microsoft.LearningComponents.Frameset
             foreach (string name in queryValues.Keys)
             {
                 if (firstParam)
+                {
                     firstParam = false;
+                }
                 else
+                {
                     query.Append("&");
+                }
                 query.Append(name);
                 if (queryValues[name].Length > 0)
                 {
                     string value = queryValues[name];
-                    if (!String.IsNullOrEmpty(value))
+                    if (!string.IsNullOrEmpty(value))
                     {
                         query.Append("=");
                         query.Append(value);
@@ -102,4 +111,3 @@ namespace Microsoft.LearningComponents.Frameset
         }
     }
 }
-

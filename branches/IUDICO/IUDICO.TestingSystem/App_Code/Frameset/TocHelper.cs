@@ -1,20 +1,29 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="TocHelper.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
+
+// using Resources;
 
 using System;
-using System.Data;
 using System.Configuration;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
+
+using IUDICO.TestingSystem;
+
 using Microsoft.LearningComponents.Storage;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Globalization;
-using IUDICO.TestingSystem;//using Resources;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Microsoft.LearningComponents.Frameset
 {
@@ -23,80 +32,98 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public class TocHelper
     {
-        LearningSession m_session;
-        
-        private HttpResponse m_response;
-        private HttpResponse Response { get { return m_response; } }
-        
-        // The text for the submit page link. This is only used in Execute & RandomAccess (SLK only) views.
-        private string m_submitPageLinkText;
+        private LearningSession mSession;
 
-       /// <summary>Processes the page.</summary>
-        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes"), // catch is to allow shared code between framesets
-       SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly"),     // methods are cased as method names 
-       SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]      // arguments are validated
-        public void ProcessPageLoad(HttpResponse response, 
-                                        PackageStore packageStore,
-                                        TryGetViewInfo TryGetViewInfo,
-                                        TryGetAttemptInfo TryGetAttemptInfo,
-                                        ProcessViewRequest ProcessViewRequest,
-                                        RegisterError RegisterError,
-                                        string submitPageLinkText)
+        private HttpResponse mResponse;
+
+        private HttpResponse Response
+        {
+            get
+            {
+                return this.mResponse;
+            }
+        }
+
+        // The text for the submit page link. This is only used in Execute & RandomAccess (SLK only) views.
+        private string mSubmitPageLinkText;
+
+        /// <summary>Processes the page.</summary>
+        [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes")]
+        [SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // arguments are validated
+        public void ProcessPageLoad(
+            HttpResponse response,
+            PackageStore packageStore,
+            TryGetViewInfo tryGetViewInfo,
+            TryGetAttemptInfo tryGetAttemptInfo,
+            ProcessViewRequest processViewRequest,
+            RegisterError registerError,
+            string submitPageLinkText)
         {
             FramesetUtil.ValidateNonNullParameter("packageStore", packageStore);
-            FramesetUtil.ValidateNonNullParameter("TryGetViewInfo", TryGetViewInfo);
-            FramesetUtil.ValidateNonNullParameter("TryGetAttemptInfo", TryGetAttemptInfo);
-            FramesetUtil.ValidateNonNullParameter("RegisterError", RegisterError);
+            FramesetUtil.ValidateNonNullParameter("tryGetViewInfo", tryGetViewInfo);
+            FramesetUtil.ValidateNonNullParameter("tryGetAttemptInfo", tryGetAttemptInfo);
+            FramesetUtil.ValidateNonNullParameter("registerError", registerError);
 
-            m_response = response;
-            m_submitPageLinkText = submitPageLinkText;
-                        
+            this.mResponse = response;
+            this.mSubmitPageLinkText = submitPageLinkText;
+
             AttemptItemIdentifier attemptId;
             SessionView view;
 
-            if (!TryGetViewInfo(true, out view))
-                return;
-
-            // This is an attempt-based session
-            if (!TryGetAttemptInfo(true, out attemptId))
+            if (!tryGetViewInfo(true, out view))
             {
                 return;
             }
 
-            m_session = new StoredLearningSession(view, new AttemptItemIdentifier(attemptId), packageStore);
+            // This is an attempt-based session
+            if (!tryGetAttemptInfo(true, out attemptId))
+            {
+                return;
+            }
+
+            this.mSession = new StoredLearningSession(view, new AttemptItemIdentifier(attemptId), packageStore);
 
             // If user cannot access the session, then remove the reference to the session.
-            if (!ProcessViewRequest(view, m_session))
-                m_session = null;
+            if (!processViewRequest(view, this.mSession))
+            {
+                this.mSession = null;
+            }
         }
 
         /// <summary>
         /// Write TOC Html elements for the table of contents
         /// </summary>
         /// <returns></returns>
-        public void TocElementsHtml(HttpRequest Request, string AssignmentGradingViewName)
+        public void TocElementsHtml(HttpRequest request, string assignmentGradingViewName)
         {
             // If there was an error on page load, do nothing here.
-            if (m_session == null)
-                return; 
-
-            TableOfContentsElement toc = m_session.GetTableOfContents(true);    // get toc without sequencing information
-            using (HtmlStringWriter sw = new HtmlStringWriter(Response.Output))
+            if (this.mSession == null)
             {
-                sw.Indent = 2;  // start at table level 2, since that's where we are
+                return;
+            }
 
-                WriteTocEntry(sw, toc);
+            TableOfContentsElement toc = this.mSession.GetTableOfContents(true);
+                // get toc without sequencing information
+            using (HtmlStringWriter sw = new HtmlStringWriter(this.Response.Output))
+            {
+                sw.Indent = 2; // start at table level 2, since that's where we are
 
-                string SLKView =  Request.QueryString["SlkView"];
-                
+                this.WriteTocEntry(sw, toc);
+
+                string slkView = request.QueryString["SlkView"];
+
                 // Write the TOC entry to submit the training, only in Execute view or RandomAccess (SLK only) views
 
-                if ((m_session.View == SessionView.Execute)
-                    || ((m_session.View == SessionView.Review) && (SLKView.ToLower() == AssignmentGradingViewName.ToLower())))
-                    WriteSubmitPageEntry(sw);
+                if ((this.mSession.View == SessionView.Execute)
+                    ||
+                    ((this.mSession.View == SessionView.Review)
+                     && (slkView.ToLower() == assignmentGradingViewName.ToLower())))
+                {
+                    this.WriteSubmitPageEntry(sw);
+                }
             }
         }
-
 
         /// <summary>
         /// Write TOC Html elements for the table of contents
@@ -106,20 +133,24 @@ namespace Microsoft.LearningComponents.Frameset
         public void TocElementsHtml()
         {
             // If there was an error on page load, do nothing here.
-            if (m_session == null)
-                return;
-
-            TableOfContentsElement toc = m_session.GetTableOfContents(true);    // get toc without sequencing information
-            using (HtmlStringWriter sw = new HtmlStringWriter(Response.Output))
+            if (this.mSession == null)
             {
-                sw.Indent = 2;  // start at table level 2, since that's where we are
+                return;
+            }
 
-                WriteTocEntry(sw, toc);
+            TableOfContentsElement toc = this.mSession.GetTableOfContents(true);
+                // get toc without sequencing information
+            using (HtmlStringWriter sw = new HtmlStringWriter(this.Response.Output))
+            {
+                sw.Indent = 2; // start at table level 2, since that's where we are
+
+                this.WriteTocEntry(sw, toc);
 
                 // Write the TOC entry to submit the training, only in Execute view or RandomAccess (SLK only) views
-                if ((m_session.View == SessionView.Execute)
-                    || (m_session.View == SessionView.RandomAccess))
-                    WriteSubmitPageEntry(sw);
+                if ((this.mSession.View == SessionView.Execute) || (this.mSession.View == SessionView.RandomAccess))
+                {
+                    this.WriteSubmitPageEntry(sw);
+                }
             }
         }
 
@@ -131,7 +162,8 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return Regex.Match(typeof(LearningStore).Assembly.FullName, @"\bVersion=(\d+\.\d+\.\d+\.\d+)").Groups[1].Value;
+                return
+                    Regex.Match(typeof(LearningStore).Assembly.FullName, @"\bVersion=(\d+\.\d+\.\d+\.\d+)").Groups[1].Value;
             }
         }
 
@@ -142,7 +174,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("TOC_InvalidJsVersion"));
+                return ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("TOC_InvalidJsVersion"));
             }
         }
 
@@ -152,7 +184,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <param name="sw">The string writer to write the toc entry to.</param>
         /// <param name="currentElement">The element that will be written to the string writer. The element 
         /// and all its children will be written.</param>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameter is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameter is validated
         private void WriteTocEntry(HtmlStringWriter sw, TableOfContentsElement currentElement)
         {
             FramesetUtil.ValidateNonNullParameter("sw", sw);
@@ -171,15 +203,19 @@ namespace Microsoft.LearningComponents.Frameset
                 sw.AddAttribute("activityId", activityIdHtml);
                 sw.AddAttribute("isValidChoice", (currentElement.IsValidChoiceNavigationDestination ? "true" : "false"));
                 sw.AddAttribute(HtmlTextWriterAttribute.Id, ResHelper.FormatInvariant("div{0}", activityIdHtml));
-                sw.RenderBeginTag(HtmlTextWriterTag.Div);   // #Div1
+                sw.RenderBeginTag(HtmlTextWriterTag.Div); // #Div1
 
                 if (currentElement.IsVisible)
                 {
                     sw.AddAttribute(HtmlTextWriterAttribute.Id, ResHelper.FormatInvariant("icon{0}", activityIdHtml));
                     if (currentElement.HasVisibleChildren)
+                    {
                         sw.AddAttribute(HtmlTextWriterAttribute.Src, "Theme/MinusBtn.gif");
+                    }
                     else
+                    {
                         sw.AddAttribute(HtmlTextWriterAttribute.Src, "Theme/Leaf.gif");
+                    }
                     sw.AddAttribute(HtmlTextWriterAttribute.Align, "absMiddle");
                     sw.RenderBeginTag(HtmlTextWriterTag.Img);
                     sw.RenderEndTag();
@@ -198,8 +234,9 @@ namespace Microsoft.LearningComponents.Frameset
                         sw.AddAttribute("class", "disable");
                     }
 
-                    sw.AddAttribute(HtmlTextWriterAttribute.Style,
-                                        ResHelper.FormatInvariant("FONT-WEIGHT: normal;visibility:{0}", (currentElement.IsVisible ? "visible" : "hidden")));
+                    sw.AddAttribute(
+                        HtmlTextWriterAttribute.Style,
+                        ResHelper.FormatInvariant("FONT-WEIGHT: normal;visibility:{0}", (currentElement.IsVisible ? "visible" : "hidden")));
                     sw.AddAttribute(HtmlTextWriterAttribute.Title, titleHtml);
                     sw.RenderBeginTag(HtmlTextWriterTag.A);
                     sw.WriteHtml(titleHtml);
@@ -214,15 +251,17 @@ namespace Microsoft.LearningComponents.Frameset
                 bool clusterStarted = false;
                 if (currentElement.IsVisible)
                 {
-                    sw.AddAttribute(HtmlTextWriterAttribute.Id, ResHelper.FormatInvariant("divCluster{0}", activityIdHtml));
-                    sw.AddAttribute(HtmlTextWriterAttribute.Style, "MARGIN-TOP: 5px; DISPLAY: block; MARGIN-LEFT: 18px;");
+                    sw.AddAttribute(
+                        HtmlTextWriterAttribute.Id, ResHelper.FormatInvariant("divCluster{0}", activityIdHtml));
+                    sw.AddAttribute(
+                        HtmlTextWriterAttribute.Style, "MARGIN-TOP: 5px; DISPLAY: block; MARGIN-LEFT: 18px;");
                     sw.RenderBeginTag(HtmlTextWriterTag.Div);
                     clusterStarted = true;
                 }
 
                 foreach (TableOfContentsElement childElement in currentElement.Children)
                 {
-                    WriteTocEntry(sw, childElement);
+                    this.WriteTocEntry(sw, childElement);
                 }
 
                 if (clusterStarted)
@@ -234,7 +273,7 @@ namespace Microsoft.LearningComponents.Frameset
 
             if (RenderThisNode(currentElement))
             {
-                sw.RenderEndTag();  // div (see #Div1, above)
+                sw.RenderEndTag(); // div (see #Div1, above)
                 sw.WriteLine();
             }
         }
@@ -247,11 +286,15 @@ namespace Microsoft.LearningComponents.Frameset
         {
             // If this element is visible, then return true
             if (element.IsVisible)
+            {
                 return true;
+            }
 
             // If this element is a leaf node, the node will be rendered (but not visible)
             if (element.Children.Count == 0)
+            {
                 return true;
+            }
 
             // In all other cases, don't render this element
             return false;
@@ -265,14 +308,14 @@ namespace Microsoft.LearningComponents.Frameset
         {
             string activityId = "SUBMIT";
             HtmlString activityIdHtml = new PlainTextString(activityId).ToHtmlString();
-            HtmlString titleHtml = new PlainTextString(m_submitPageLinkText).ToHtmlString();
+            HtmlString titleHtml = new PlainTextString(this.mSubmitPageLinkText).ToHtmlString();
 
             sw.AddAttribute(HtmlTextWriterAttribute.Class, new PlainTextString("NodeParent"));
             sw.AddAttribute("activityId", activityIdHtml);
             sw.AddAttribute("isValidChoice", "true");
             sw.AddAttribute(HtmlTextWriterAttribute.Id, ResHelper.FormatInvariant("div{0}", activityIdHtml));
-            sw.RenderBeginTag(HtmlTextWriterTag.Div);   // #Div1
-                      
+            sw.RenderBeginTag(HtmlTextWriterTag.Div); // #Div1
+
             sw.AddAttribute(HtmlTextWriterAttribute.Id, ResHelper.FormatInvariant("icon{0}", activityIdHtml));
             sw.AddAttribute(HtmlTextWriterAttribute.Src, "Theme/Leaf.gif");
             sw.AddAttribute(HtmlTextWriterAttribute.Align, "absMiddle");
@@ -292,8 +335,8 @@ namespace Microsoft.LearningComponents.Frameset
             sw.RenderBeginTag(HtmlTextWriterTag.A);
             sw.WriteHtml(titleHtml);
             sw.RenderEndTag();
-        
-            sw.RenderEndTag();  // div (see #Div1, above)
+
+            sw.RenderEndTag(); // div (see #Div1, above)
             sw.WriteLine();
         }
     }

@@ -1,4 +1,11 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ServicesProxy.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
+
 using IUDICO.Common.Models.Services;
 
 namespace IUDICO.TestingSystem.Models
@@ -17,11 +24,11 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (LmsService == null)
+                if (this.LmsService == null)
                 {
                     throw new NullReferenceException("You should initialize LMSService first!");
                 }
-                return LmsService.FindService<ICourseService>();
+                return this.LmsService.FindService<ICourseService>();
             }
         }
 
@@ -29,11 +36,11 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (LmsService == null)
+                if (this.LmsService == null)
                 {
                     throw new NullReferenceException("You should initialize LMSService first!");
                 }
-                return LmsService.FindService<IDisciplineService>();
+                return this.LmsService.FindService<IDisciplineService>();
             }
         }
 
@@ -41,11 +48,11 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (LmsService == null)
+                if (this.LmsService == null)
                 {
                     throw new NullReferenceException("You should initialize LMSService first!");
                 }
-                return LmsService.FindService<ISearchService>();
+                return this.LmsService.FindService<ISearchService>();
             }
         }
 
@@ -53,11 +60,11 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (LmsService == null)
+                if (this.LmsService == null)
                 {
                     throw new NullReferenceException("You should initialize LMSService first!");
                 }
-                return LmsService.FindService<IStatisticsService>();
+                return this.LmsService.FindService<IStatisticsService>();
             }
         }
 
@@ -65,23 +72,23 @@ namespace IUDICO.TestingSystem.Models
         {
             get
             {
-                if (LmsService == null)
+                if (this.LmsService == null)
                 {
                     throw new NullReferenceException("You should initialize LMSService first!");
                 }
-                return LmsService.FindService<IUserService>();
+                return this.LmsService.FindService<IUserService>();
             }
         }
-        
+
         public ITestingService TestingService
         {
             get
             {
-                if (LmsService == null)
+                if (this.LmsService == null)
                 {
                     throw new NullReferenceException("You should initialize LMSService first!");
                 }
-                return LmsService.FindService<ITestingService>();
+                return this.LmsService.FindService<ITestingService>();
             }
         }
 
@@ -89,10 +96,14 @@ namespace IUDICO.TestingSystem.Models
 
         #region Singleton Implementation
 
-        private static ServicesProxy _Instance;
+        private static ServicesProxy instance;
+
         public static ServicesProxy Instance
         {
-            get { return _Instance ?? (_Instance = new ServicesProxy()); }
+            get
+            {
+                return instance ?? (instance = new ServicesProxy());
+            }
         }
 
         #endregion
@@ -105,7 +116,7 @@ namespace IUDICO.TestingSystem.Models
         private ServicesProxy()
         {
         }
-        
+
         #endregion
 
         #region Public Methods
@@ -117,7 +128,7 @@ namespace IUDICO.TestingSystem.Models
         /// <param name="service">ILmsService represents Lms Service.</param>
         public void Initialize(ILmsService service)
         {
-            LmsService = service;
+            this.LmsService = service;
         }
 
         #endregion

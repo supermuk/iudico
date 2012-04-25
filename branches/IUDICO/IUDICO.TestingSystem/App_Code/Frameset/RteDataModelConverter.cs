@@ -1,23 +1,32 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="RteDataModelConverter.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
+
+// using Resources;
 
 using System;
-using System.Data;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Configuration;
+using System.Data;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using System.Web.UI.HtmlControls;
-using Microsoft.LearningComponents.DataModel;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
 using System.Xml;
-using System.Text.RegularExpressions;
-using IUDICO.TestingSystem;//using Resources;
-using System.Collections.ObjectModel;
-using System.Diagnostics.CodeAnalysis;    
+
+using IUDICO.TestingSystem;
+
+using Microsoft.LearningComponents.DataModel;
 
 namespace Microsoft.LearningComponents.Frameset
 {
@@ -29,20 +38,23 @@ namespace Microsoft.LearningComponents.Frameset
     /// <remarks>Derived classes support the version-specific features of SCORM 2004 and 1.2.</remarks>
     internal abstract class RteDataModelConverter
     {
-        LearningDataModel m_dm;
-        SessionView m_view;
+        private LearningDataModel mDm;
+
+        private SessionView mView;
 
         // Information required to do SetValue calls
         private delegate void DataModelSetDelegate(string subElementName, string value);
-        
-        // Changes to m_dm that are pending in this session. They are added to data model when FinishSetValue
+
+        // Changes to mDm that are pending in this session. They are added to data model when FinishSetValue
         // is called.
-        List<Objective> m_pendingObjectives;
-        List<Interaction> m_pendingInteractions;
+        private List<Objective> mPendingObjectives;
 
-        string m_currentElementName;  // the name of the element currently being processed. This is used only for error reporting.
+        private List<Interaction> mPendingInteractions;
 
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameter is validated
+        private string mCurrentElementName;
+        // the name of the element currently being processed. This is used only for error reporting.
+
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameter is validated
         public static RteDataModelConverter Create(LearningSession session)
         {
             FramesetUtil.ValidateNonNullParameter("session", session);
@@ -51,45 +63,66 @@ namespace Microsoft.LearningComponents.Frameset
                 case PackageFormat.V1p2:
                 case PackageFormat.Lrm:
                     return new Rte1p2DataModelConverter(session.View, session.CurrentActivityDataModel);
-                case PackageFormat.V1p3:                    
+                case PackageFormat.V1p3:
                     return new Rte2004DataModelConverter(session.View, session.CurrentActivityDataModel);
-            }            
+            }
             return null;
         }
 
         /// <summary>
         /// Constructor. Create a converter based on a data model.
         /// </summary>
-        protected RteDataModelConverter(SessionView view, LearningDataModel dataModel) 
+        protected RteDataModelConverter(SessionView view, LearningDataModel dataModel)
         {
-            m_dm = dataModel;
-            m_view = view;
-            m_pendingInteractions = new List<Interaction>();
-            m_pendingObjectives = new List<Objective>();
-        }      
+            this.mDm = dataModel;
+            this.mView = view;
+            this.mPendingInteractions = new List<Interaction>();
+            this.mPendingObjectives = new List<Objective>();
+        }
 
-        public LearningDataModel DataModel { get { return m_dm; } }
+        public LearningDataModel DataModel
+        {
+            get
+            {
+                return this.mDm;
+            }
+        }
 
-        protected SessionView View { get { return m_view; } }
+        protected SessionView View
+        {
+            get
+            {
+                return this.mView;
+            }
+        }
 
         /// <summary>
         /// The current element being processed. Used only for error messages.
         /// </summary>
-        protected string CurrentElementName 
-        { 
-            get { return m_currentElementName; }
-            set { m_currentElementName = value; }
+        protected string CurrentElementName
+        {
+            get
+            {
+                return this.mCurrentElementName;
+            }
+            set
+            {
+                this.mCurrentElementName = value;
+            }
         }
 
-        List<string> m_objectiveIndexer = new List<string>();  // index is "n" and value is id
+        private List<string> mObjectiveIndexer = new List<string>(); // index is "n" and value is id
 
-        Dictionary<string, Objective> m_objectiveIdMap; // key = id, value is Objective
+        private Dictionary<string, Objective> mObjectiveIdMap; // key = id, value is Objective
 
         // List in which the index is the 'n' in cmi.objectives.n.success_status. The value is the id of the
         // objective -- that is the 'id' in cmi.objectives.n.id.
         public List<string> ObjectiveIndexer
         {
-            get { return m_objectiveIndexer; }
+            get
+            {
+                return this.mObjectiveIndexer;
+            }
         }
 
         // Return dictionary of mapping between objective id and objective object
@@ -97,19 +130,19 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                if (m_objectiveIdMap == null)
+                if (this.mObjectiveIdMap == null)
                 {
-                    m_objectiveIdMap = new Dictionary<string, Objective>(m_dm.Objectives.Count);
-                    foreach (Objective o in m_dm.Objectives)
+                    this.mObjectiveIdMap = new Dictionary<string, Objective>(this.mDm.Objectives.Count);
+                    foreach (Objective o in this.mDm.Objectives)
                     {
-                        m_objectiveIdMap.Add(o.Id, o);
+                        this.mObjectiveIdMap.Add(o.Id, o);
                     }
                 }
-                return m_objectiveIdMap;
+                return this.mObjectiveIdMap;
             }
         }
 
-        private Dictionary<int, Interaction> m_interactionsByIndex;
+        private Dictionary<int, Interaction> mInteractionsByIndex;
 
         /// <summary>
         /// Collection of interactions, including any pending interactions, keyed 
@@ -119,23 +152,37 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                if (m_interactionsByIndex == null)
+                if (this.mInteractionsByIndex == null)
                 {
-                    m_interactionsByIndex = new Dictionary<int, Interaction>(DataModel.Interactions.Count + 10);
+                    this.mInteractionsByIndex = new Dictionary<int, Interaction>(
+                        this.DataModel.Interactions.Count + 10);
                     int n = 0;
-                    foreach (Interaction interaction in DataModel.Interactions)
+                    foreach (Interaction interaction in this.DataModel.Interactions)
                     {
-                        m_interactionsByIndex.Add(n, interaction);
+                        this.mInteractionsByIndex.Add(n, interaction);
                         n++;
                     }
                 }
 
-                return m_interactionsByIndex;
+                return this.mInteractionsByIndex;
             }
         }
 
-        protected List<Interaction> PendingInteractions { get { return m_pendingInteractions; } }
-        protected List<Objective> PendingObjectives { get { return m_pendingObjectives; } }
+        protected List<Interaction> PendingInteractions
+        {
+            get
+            {
+                return this.mPendingInteractions;
+            }
+        }
+
+        protected List<Objective> PendingObjectives
+        {
+            get
+            {
+                return this.mPendingObjectives;
+            }
+        }
 
         #region SetValue delegates        
 
@@ -151,13 +198,18 @@ namespace Microsoft.LearningComponents.Frameset
 
         // Check if there are the correct number of name tokens in the aray. If not, throw exception.
         // For instance, if the element name is "cmi.comments_from_learner.n.comment", then 4 tokens are required (cmi, comments_from_learner, n, comment).
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameter is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameter is validated
         protected void VerifyElementNameTokens(int numberRequired, string[] nameTokens)
         {
             FramesetUtil.ValidateNonNullParameter("nameTokens", nameTokens);
 
             if (nameTokens.Length < numberRequired)
-                throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInvalidName"), m_currentElementName));
+            {
+                throw new InvalidOperationException(
+                    ResHelper.GetMessage(
+                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                        this.mCurrentElementName));
+            }
         }
 
         // Complete the process of setting values. Allows processing SetValue calls that required multiple, dependent 
@@ -167,27 +219,31 @@ namespace Microsoft.LearningComponents.Frameset
         {
             List<string> errors = new List<string>();
 
-            foreach (Objective obj in m_pendingObjectives)
+            foreach (Objective obj in this.mPendingObjectives)
             {
                 try
                 {
-                    m_dm.Objectives.Add(obj);
+                    this.mDm.Objectives.Add(obj);
                 }
                 catch (Exception e)
                 {
-                    errors.Add(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueObjective"), e.Message));
+                    errors.Add(
+                        ResHelper.GetMessage(
+                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueObjective"), e.Message));
                 }
             }
 
-            foreach (Interaction interaction in m_pendingInteractions)
+            foreach (Interaction interaction in this.mPendingInteractions)
             {
                 try
                 {
-                    m_dm.Interactions.Add(interaction);
+                    this.mDm.Interactions.Add(interaction);
                 }
                 catch (Exception e)
                 {
-                    errors.Add(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueInteraction"), e.Message));
+                    errors.Add(
+                        ResHelper.GetMessage(
+                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInteraction"), e.Message));
                 }
             }
 
@@ -197,20 +253,20 @@ namespace Microsoft.LearningComponents.Frameset
         // SetValue called on any read-only element. subElementName is ignored.
         protected void SetReadOnlyValue()
         {
-            throw new InvalidOperationException(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.getMessage("CONV_SetValueReadOnly"), m_currentElementName));
-        }      
-
+            throw new InvalidOperationException(
+                ResHelper.GetMessage(
+                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueReadOnly"), this.mCurrentElementName));
+        }
 
         protected void SetSuspendData(string value)
         {
-            m_dm.SuspendData = value;
+            this.mDm.SuspendData = value;
         }
 
-        
         // subElementName is e.g., 'raw' in cmi.score.raw
         protected void SetScore(string subElementName, string value)
         {
-            SetScoreSubField(subElementName, value, m_dm.Score);
+            this.SetScoreSubField(subElementName, value, this.mDm.Score);
         }
 
         // Set the score field (eg, "raw") on a Score object.
@@ -218,7 +274,7 @@ namespace Microsoft.LearningComponents.Frameset
 
         protected void SetSessionTime(string value)
         {
-            m_dm.SessionTime = TimeSpanFromRte(value);
+            this.mDm.SessionTime = this.TimeSpanFromRte(value);
         }
 
         protected abstract TimeSpan TimeSpanFromRte(string rteTimeSpan);
@@ -250,7 +306,7 @@ namespace Microsoft.LearningComponents.Frameset
                     return InteractionType.Other;
             }
         }
-       
+
         #endregion
 
         #region Translation from LearningDataModel types to RTE strings
@@ -306,14 +362,16 @@ namespace Microsoft.LearningComponents.Frameset
                 case EntryMode.Resume:
                     return "resume";
                 default:
-                    return "";
+                    return string.Empty;
             }
         }
 
         public static string GetRteInteractionType(InteractionType? type)
         {
             if (type == null)
-                return String.Empty;
+            {
+                return string.Empty;
+            }
 
             switch (type)
             {
@@ -342,13 +400,12 @@ namespace Microsoft.LearningComponents.Frameset
             }
         }
 
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // parameter is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // parameter is validated
         public static string GetRteLearnerResponse(object response)
         {
             FramesetUtil.ValidateNonNullParameter("response", response);
             Type responseType = response.GetType();
-            if ((responseType == Type.GetType("System.Boolean")) 
-                        || (responseType == Type.GetType("bool")))
+            if ((responseType == Type.GetType("System.Boolean")) || (responseType == Type.GetType("bool")))
             {
                 bool br = (bool)response;
                 return (br ? "true" : "false");
@@ -367,7 +424,6 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public abstract string GetRteResult(InteractionResult result);
 
-
         /// <summary>
         /// Gets the RTE string that represents time limit action.
         /// </summary>
@@ -375,7 +431,6 @@ namespace Microsoft.LearningComponents.Frameset
         {
             switch (action)
             {
-                
                 case TimeLimitAction.ContinueWithMessage:
                     return "continue,message";
                 case TimeLimitAction.ExitNoMessage:
@@ -415,6 +470,7 @@ namespace Microsoft.LearningComponents.Frameset
                     return "normal";
             }
         }
+
         #endregion  // LearningDataModel to RTE string conversions
 
         #region GetValues - return data model values in string (RTE) form
@@ -437,17 +493,18 @@ namespace Microsoft.LearningComponents.Frameset
     /// </summary>
     public class DataModelValues
     {
-        private PlainTextString m_dataModelValues;
-        private PlainTextString m_objectiveIdMap;
+        private PlainTextString mDataModelValues;
+
+        private PlainTextString mObjectiveIdMap;
 
         internal DataModelValues(PlainTextString dataModelValues, PlainTextString objectiveIdMap)
         {
-            m_dataModelValues = dataModelValues;
-            m_objectiveIdMap = objectiveIdMap;
+            this.mDataModelValues = dataModelValues;
+            this.mObjectiveIdMap = objectiveIdMap;
         }
 
         internal DataModelValues(PlainTextString dataModelValues)
-            : this(dataModelValues, "")
+            : this(dataModelValues, string.Empty)
         {
         }
 
@@ -456,15 +513,27 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public PlainTextString Values
         {
-            get { return m_dataModelValues; }
-            set { m_dataModelValues = value; }
+            get
+            {
+                return this.mDataModelValues;
+            }
+            set
+            {
+                this.mDataModelValues = value;
+            }
         }
 
         /// <summary>The objective id map.</summary>
         public PlainTextString ObjectiveIdMap
         {
-            get { return m_objectiveIdMap; }
-            set { m_objectiveIdMap = value; }
+            get
+            {
+                return this.mObjectiveIdMap;
+            }
+            set
+            {
+                this.mObjectiveIdMap = value;
+            }
         }
     }
 }

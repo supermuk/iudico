@@ -466,10 +466,20 @@
     <Analyzer AnalyzerId="StyleCop.CSharp.NamingRules">
       <AnalyzerSettings>
         <CollectionProperty Name="Hungarian">
+          <Value>as</Value>
+          <Value>dm</Value>
+          <Value>id</Value>
+          <Value>in</Value>
           <Value>is</Value>
-		  <Value>ts</Value>
-		  <Value>tr</Value>
-		  <Value>x</Value>
+          <Value>kv</Value>
+          <Value>m</Value>
+          <Value>nv</Value>
+          <Value>on</Value>
+          <Value>to</Value>
+          <Value>tr</Value>
+          <Value>ts</Value>
+          <Value>v</Value>
+          <Value>x</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>

@@ -1,5 +1,12 @@
-﻿using System;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ZipPackage.cs" company="">
+//   
+// </copyright>
+// --------------------------------------------------------------------------------------------------------------------
+
+using System;
 using System.ComponentModel;
+
 using Microsoft.LearningComponents;
 
 namespace IUDICO.TestingSystem.Models.VOs
@@ -18,13 +25,13 @@ namespace IUDICO.TestingSystem.Models.VOs
         public ZipPackage(string zipPath)
             : base()
         {
-            ZipPath = zipPath;
+            this.ZipPath = zipPath;
         }
 
         public ZipPackage(string zipPath, long ownerId, DateTime? uploadDateTime, string fileName, int courseId)
             : base(ownerId, uploadDateTime, fileName, courseId)
         {
-            ZipPath = zipPath;
+            this.ZipPath = zipPath;
         }
 
         #endregion
@@ -33,7 +40,7 @@ namespace IUDICO.TestingSystem.Models.VOs
 
         public override PackageReader GetPackageReader()
         {
-            var reader = new ZipPackageReader(ZipPath);
+            var reader = new ZipPackageReader(this.ZipPath);
 
             return reader;
         }

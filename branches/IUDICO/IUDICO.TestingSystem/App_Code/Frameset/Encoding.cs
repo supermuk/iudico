@@ -1,27 +1,26 @@
-/* Copyright (c) Microsoft Corporation. All rights reserved. */
-
-// Encoding.cs
-//
-// Strongly-typed string classes representing various encodings.
-//
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright company="" file="Encoding.cs">
+//   
+// </copyright>
+// 
+// --------------------------------------------------------------------------------------------------------------------
 
 #region Using directives
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.UI;
-using System.Diagnostics.CodeAnalysis;
 
 #endregion
 
 namespace Microsoft.LearningComponents.Frameset
 {
-
     /**
 
     <summary>
@@ -40,14 +39,16 @@ namespace Microsoft.LearningComponents.Frameset
     <seealso cref="HtmlStringWriter" />
 
     */
-    [DebuggerDisplay("{m_plaintext}")]
+
+    [DebuggerDisplay("{mPlaintext}")]
     [SuppressMessage("Microsoft.Naming", "CA1702:CompoundWordsShouldBeCasedCorrectly")] // PlainText is ok as is
-    public class PlainTextString // see TODO#1 above
+    public class PlainTextString
     {
+        // see TODO#1 above
         /// <summary>
         /// The string value wrapped by this class.
         /// </summary>
-        private string m_plaintext;
+        private string mPlaintext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlainTextString"/> class.
@@ -69,7 +70,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <param name="plaintext">Initial value of the object.</param>
         public PlainTextString(string plaintext)
         {
-            m_plaintext = plaintext;
+            this.mPlaintext = plaintext;
         }
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public PlainTextString(HtmlString htmlText)
         {
-            m_plaintext = HttpUtility.HtmlDecode(htmlText);
+            this.mPlaintext = HttpUtility.HtmlDecode(htmlText);
         }
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public override string ToString()
         {
-            return m_plaintext;
+            return this.mPlaintext;
         }
 
         /// <summary>
@@ -123,11 +124,11 @@ namespace Microsoft.LearningComponents.Frameset
         /// <remarks>
         /// TODO
         /// </remarks>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // it is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // it is validated
         public static implicit operator string(PlainTextString plaintext)
         {
             FramesetUtil.ValidateNonNullParameter("plaintext", plaintext);
-            return plaintext.m_plaintext;
+            return plaintext.mPlaintext;
         }
 
         /// <summary>
@@ -452,14 +453,16 @@ namespace Microsoft.LearningComponents.Frameset
     <seealso cref="HtmlStringWriter" />
 
     */
-    [DebuggerDisplay("{m_html}")]
-    public class HtmlString // see TODO#1 above
+
+    [DebuggerDisplay("{mHtml}")]
+    public class HtmlString
     {
+        // see TODO#1 above
         /// <summary>
         /// The string value wrapped by this class.
         /// </summary>
         ///
-        private string m_html;
+        private string mHtml;
 
         /// <summary>
         /// Represents a string containing HTML.
@@ -468,7 +471,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <param name="html">Html to initialize the representation.</param>
         public HtmlString(string html)
         {
-            m_html = html;
+            this.mHtml = html;
         }
 
         /// <summary>
@@ -480,7 +483,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// </remarks>
         public HtmlString(PlainTextString plaintext)
         {
-            m_html = HttpUtility.HtmlEncode(plaintext);
+            this.mHtml = HttpUtility.HtmlEncode(plaintext);
         }
 
         /// <summary>
@@ -492,7 +495,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// </returns>
         public override string ToString()
         {
-            return m_html;
+            return this.mHtml;
         }
 
         /// <summary>
@@ -511,8 +514,11 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public static implicit operator string(HtmlString html)
         {
-            if (html == null) return null;
-            return html.m_html;
+            if (html == null)
+            {
+                return null;
+            }
+            return html.mHtml;
         }
 
         /// <summary>
@@ -567,13 +573,15 @@ namespace Microsoft.LearningComponents.Frameset
     <seealso cref="HtmlStringWriter" />
 
     */
-    [DebuggerDisplay("{m_jscript}")]
-    public class JScriptString // see TODO#1 above
+
+    [DebuggerDisplay("{mJscript}")]
+    public class JScriptString
     {
+        // see TODO#1 above
         /// <summary>
         /// The string value wrapped by this class.
         /// </summary>
-        private string m_jscript;
+        private string mJscript;
 
         /// <summary>
         /// TODO
@@ -587,7 +595,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public JScriptString(string jscript)
         {
-            m_jscript = jscript;
+            this.mJscript = jscript;
         }
 
         /// <summary>
@@ -624,13 +632,17 @@ namespace Microsoft.LearningComponents.Frameset
         /// <remarks>
         /// TODO
         /// </remarks>
-        [SuppressMessage("Microsoft.Naming", "CA1720:AvoidTypeNamesInParameters")]   // singleQuote is not a single
+        [SuppressMessage("Microsoft.Naming", "CA1720:AvoidTypeNamesInParameters")] // singleQuote is not a single
         public static JScriptString QuoteString(string plaintext, bool singleQuote)
         {
             if (singleQuote)
+            {
                 return InternalQuoteString(plaintext, '\'');
+            }
             else
+            {
                 return InternalQuoteString(plaintext, '"');
+            }
         }
 
         /// <summary>
@@ -649,35 +661,36 @@ namespace Microsoft.LearningComponents.Frameset
         /// TODO
         /// </remarks>
         /// 
-        private static JScriptString InternalQuoteString(string jscript,
-            char quoteChar)
+        private static JScriptString InternalQuoteString(string jscript, char quoteChar)
         {
             if (jscript == null)
-                jscript = String.Empty;
+            {
+                jscript = string.Empty;
+            }
             jscript = jscript.Replace(@"\", @"\\");
-            jscript = jscript.Replace(new String(quoteChar, 1), @"\" + quoteChar);
+            jscript = jscript.Replace(new string(quoteChar, 1), @"\" + quoteChar);
             return new JScriptString(quoteChar + jscript + quoteChar);
         }
 
         /// <summary>See <see cref="object.ToString"/>.</summary>
         public override string ToString()
         {
-            return m_jscript;
+            return this.mJscript;
         }
 
         /// <summary>Converts to a javascript call.</summary>
         /// <returns>Add javascript: to start and replaces % with %25.</returns>
         public string ToJavascriptProtocol()
         {
-            return "javascript:" + m_jscript.Replace("%", "%25");
+            return "javascript:" + this.mJscript.Replace("%", "%25");
         }
 
         /// <summary>Implicit conversion of JScriptString to string.</summary>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // it is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // it is validated
         public static implicit operator string(JScriptString jscript)
         {
             FramesetUtil.ValidateNonNullParameter("jscript", jscript);
-            return jscript.m_jscript;
+            return jscript.mJscript;
         }
 
         /// <summary>Explicit conversion of string to JScriptString.</summary>
@@ -691,40 +704,42 @@ namespace Microsoft.LearningComponents.Frameset
     /// Represents a string that can be typed into the address bar of a Web
     /// browser, or a substring of such a string.
     /// </summary>
-    [DebuggerDisplay("{m_url}")]
-    public class UrlString 
+    [DebuggerDisplay("{mUrl}")]
+    public class UrlString
     {
         /// <summary>
         /// The string value wrapped by this class.
         /// </summary>
-        private string m_url;
+        private string mUrl;
 
         /// <summary>Initializes a new instance of <see cref="UrlString"/>.</summary>
         /// <param name="url">The string value representing a url.</param>
-        [SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads")]    // the class operates on strings
+        [SuppressMessage("Microsoft.Design", "CA1057:StringUriOverloadsCallSystemUriOverloads")]
+        // the class operates on strings
         public UrlString(string url)
         {
-            m_url = url;
+            this.mUrl = url;
         }
 
         /// <summary>Initializes a new instance of <see cref="UrlString"/>.</summary>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // it is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // it is validated
         public UrlString(Uri uri)
         {
             FramesetUtil.ValidateNonNullParameter("uri", uri);
-            m_url = uri.AbsoluteUri;
+            this.mUrl = uri.AbsoluteUri;
         }
 
         /// <summary>Implicitly converts a UrlString to a string.</summary>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // it is validated
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // it is validated
         public static implicit operator string(UrlString url)
         {
             FramesetUtil.ValidateNonNullParameter("url", url);
-            return url.m_url;
+            return url.mUrl;
         }
 
         /// <summary>Explicitly converts a string to a UrlString.</summary>
-        [SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings")] // the class operates on strings, so creating an object so that a string can be read is not ideal
+        [SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings")]
+        // the class operates on strings, so creating an object so that a string can be read is not ideal
         public static explicit operator UrlString(string url)
         {
             return new UrlString(url);
@@ -733,7 +748,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <summary>See <see cref="object.ToString"/>.</summary>
         public override string ToString()
         {
-            return m_url;
+            return this.mUrl;
         }
 
         /// <summary>
@@ -799,35 +814,43 @@ namespace Microsoft.LearningComponents.Frameset
             // (that would change the meaning of the URL); instead, we look for
             // non-ASCII characters and only convert them
 
-            // point <ich> to the first non-ASCII character in <m_url>; if none is
+            // point <ich> to the first non-ASCII character in <mUrl>; if none is
             // found, no conversion is required
             int ich = 0;
             while (true)
             {
-                if (ich >= m_url.Length)
+                if (ich >= this.mUrl.Length)
+                {
                     return this; // no non-ASCII characters, so no conversion needed
-                if (m_url[ich] > '\x7F')
+                }
+                if (this.mUrl[ich] > '\x7F')
+                {
                     break;
+                }
                 ich++;
             }
 
-            // loop once for each character in <m_url> after <ich>; set <ascii>
+            // loop once for each character in <mUrl> after <ich>; set <ascii>
             // to the ASCII representation of runs of ASCII and non-ASCII characters
-            // in <m_url>; the idea is to reduce the number of times that
+            // in <mUrl>; the idea is to reduce the number of times that
             // HttpUtility.UrlEncode() is called to reduce overhead
-            StringBuilder ascii = new StringBuilder(m_url.Length * 2);
-            ascii.Append(m_url.Substring(0, ich));
-            StringBuilder nonAscii = new StringBuilder(m_url.Length - ich);
+            StringBuilder ascii = new StringBuilder(this.mUrl.Length * 2);
+            ascii.Append(this.mUrl.Substring(0, ich));
+            StringBuilder nonAscii = new StringBuilder(this.mUrl.Length - ich);
             // contiguous run of non-ASCII characters
             while (true)
             {
                 // set <ch> to the input character, or '\0' if we're at the end
                 // of the URL
                 char ch;
-                if (ich < m_url.Length)
-                    ch = m_url[ich];
+                if (ich < this.mUrl.Length)
+                {
+                    ch = this.mUrl[ich];
+                }
                 else
+                {
                     ch = '\0';
+                }
 
                 // if <ch> is an input ASCII character or we reached the end of the
                 // input string, and <nonAscii> contains previously-gathered input
@@ -840,13 +863,19 @@ namespace Microsoft.LearningComponents.Frameset
 
                 // if we reached the end of the input string, we're done
                 if (ch == '\0')
+                {
                     break;
+                }
 
                 // process <ch>
                 if (ch <= '\x7F')
+                {
                     ascii.Append(ch); // <ch> is ASCII
+                }
                 else
+                {
                     nonAscii.Append(ch); // <ch> is Unicode
+                }
 
                 // continue loop
                 ich++;
@@ -940,56 +969,61 @@ namespace Microsoft.LearningComponents.Frameset
         /// </p>
         ///
         /// </example>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2234:PassSystemUriObjectsInsteadOfStrings")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage",
+            "CA2234:PassSystemUriObjectsInsteadOfStrings")]
         public UrlString ToUnicode()
         {
-            // Point <ich> to the first % character in <m_url>; if none is
+            // Point <ich> to the first % character in <mUrl>; if none is
             // found, no conversion is required, so just return.
             int ich = 0;
-            ich = m_url.IndexOf('%');
-            if (ich == -1) // no unicode characters, so no conversion needed
+            ich = this.mUrl.IndexOf('%');
+            // no unicode characters, so no conversion needed
+            if (ich == -1)
+            {
                 return this;
+            }
 
             // Length of input string.
-            int urlLength = m_url.Length;
+            int urlLength = this.mUrl.Length;
 
             // Algorithm: Search for runs of one or more "%xx" sequences (where xx is hexadecimal,
             // 80 to FF); unicodeBytes is the current run.  Example:
-            // Input: m_url = "http://localhost/LaNi%25%c3%b1a.htm"
+            // Input: mUrl = "http://localhost/LaNi%25%c3%b1a.htm"
             // State after "parsing" everything except "a.htm":
-            //   unicodeBytes = C3, B1
-            //   unicode = "http://localhost/LaNi%25ñ"
+            // unicodeBytes = C3, B1
+            // unicode = "http://localhost/LaNi%25ñ"
             // (then unicodeBytes is emptied)
 
             // The current list of unicode chars to translate.
             byte[] unicodeBytes = new byte[urlLength];
-            int iByte = 0;    // index into the uncodeBytes array for the next entry in the array
+            int @byte = 0; // index into the uncodeBytes array for the next entry in the array
 
             // The output buffer.
-            StringBuilder unicode = new StringBuilder(m_url.Length);
-            unicode.Append(m_url.Substring(0, ich));
+            StringBuilder unicode = new StringBuilder(this.mUrl.Length);
+            unicode.Append(this.mUrl.Substring(0, ich));
 
             // Keep track of whether we are currently in the middle of a run of unicode chars
             bool inUnicodeRun;
 
-            while (ich < urlLength)    // while there are more chars within the input string...
+            while (ich < urlLength)
             {
-                inUnicodeRun = (m_url[ich] == '%'); // check if next char may start a new run
+                // while there are more chars within the input string...
+                inUnicodeRun = (this.mUrl[ich] == '%'); // check if next char may start a new run
                 // (don't know if this is a run yet -- it may be e.g. "%20")
 
                 // If this isn't a unicode run, just append char to output buffer.
                 if (!inUnicodeRun)
                 {
                     // Copy all of the non-unicode chars until the next % to the output.
-                    int nextUnicode = m_url.IndexOf('%', ich);
+                    int nextUnicode = this.mUrl.IndexOf('%', ich);
                     if (nextUnicode == -1)
                     {
-                        unicode.Append(m_url, ich, urlLength - ich);    // no more unicode chars
+                        unicode.Append(this.mUrl, ich, urlLength - ich); // no more unicode chars
                         ich = urlLength;
                     }
                     else
                     {
-                        unicode.Append(m_url, ich, nextUnicode - ich);
+                        unicode.Append(this.mUrl, ich, nextUnicode - ich);
                         ich = nextUnicode;
                     }
                 }
@@ -1004,113 +1038,120 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             int unicodeByte1 = 0, unicodeByte2 = 0, unicodeByte3 = 0;
 
-                            if (!GetEncodedValue(ich, ref unicodeByte1))
+                            if (!this.GetEncodedValue(ich, ref unicodeByte1))
                             {
                                 // It wasn't a valid number, so put the % into output string
-                                EndUnicodeRun(unicodeBytes, ref iByte, unicode, false, ref inUnicodeRun, ref ich);
+                                this.EndUnicodeRun(unicodeBytes, ref @byte, unicode, false, ref inUnicodeRun, ref ich);
                             }
                             else if ((unicodeByte1 & 0x80) == 0)
                             {
                                 // It does not require conversion, so add it to the output.
-                                EndUnicodeRun(unicodeBytes, ref iByte, unicode, false, ref inUnicodeRun, ref ich);
+                                this.EndUnicodeRun(unicodeBytes, ref @byte, unicode, false, ref inUnicodeRun, ref ich);
                             }
                             else if ((unicodeByte1 & 0xE0) == 0xC0)
                             {
                                 // In order for this to be valid, there must be another %HH value following
                                 // this one.
-                                if (GetEncodedValue(ich + 3, ref unicodeByte2))
+                                if (this.GetEncodedValue(ich + 3, ref unicodeByte2))
                                 {
-                                    unicodeBytes[iByte++] = (byte)unicodeByte1;
-                                    unicodeBytes[iByte++] = (byte)unicodeByte2;
-                                    ich += 6;   // skip the next 6 chars from input string (two %HH sequences)
+                                    unicodeBytes[@byte++] = (byte)unicodeByte1;
+                                    unicodeBytes[@byte++] = (byte)unicodeByte2;
+                                    ich += 6; // skip the next 6 chars from input string (two %HH sequences)
                                 }
                                 else
                                 {
                                     // It wasn't a valid unicode char, so put the string into output string
-                                    EndUnicodeRun(unicodeBytes, ref iByte, unicode, true, ref inUnicodeRun, ref ich);
+                                    this.EndUnicodeRun(
+                                        unicodeBytes, ref @byte, unicode, true, ref inUnicodeRun, ref ich);
                                 }
-
                             }
                             else if ((unicodeByte1 & 0xF0) == 0xE0)
                             {
                                 // In order for this to be valid, there must be two more %HH values following 
                                 // this one.
-                                if (GetEncodedValue(ich + 3, ref unicodeByte2)
-                                    && GetEncodedValue(ich + 6, ref unicodeByte3))
+                                if (this.GetEncodedValue(ich + 3, ref unicodeByte2)
+                                    && this.GetEncodedValue(ich + 6, ref unicodeByte3))
                                 {
-                                    unicodeBytes[iByte++] = (byte)unicodeByte1;
-                                    unicodeBytes[iByte++] = (byte)unicodeByte2;
-                                    unicodeBytes[iByte++] = (byte)unicodeByte3;
+                                    unicodeBytes[@byte++] = (byte)unicodeByte1;
+                                    unicodeBytes[@byte++] = (byte)unicodeByte2;
+                                    unicodeBytes[@byte++] = (byte)unicodeByte3;
 
-                                    ich += 9;   // skip the next 6 chars from input string (three %HH sequences)
+                                    ich += 9; // skip the next 6 chars from input string (three %HH sequences)
                                 }
                                 else
                                 {
-                                    EndUnicodeRun(unicodeBytes, ref iByte, unicode, false, ref inUnicodeRun, ref ich);
+                                    this.EndUnicodeRun(
+                                        unicodeBytes, ref @byte, unicode, false, ref inUnicodeRun, ref ich);
                                 }
                             }
                             else
                             {
                                 // It does not require conversion, so add it to the output.
-                                EndUnicodeRun(unicodeBytes, ref iByte, unicode, false, ref inUnicodeRun, ref ich);
+                                this.EndUnicodeRun(unicodeBytes, ref @byte, unicode, false, ref inUnicodeRun, ref ich);
                             }
                         }
                         else
                         {
                             // no translation needed -- end of string of unicode encodings. So, add the rest of the 
                             // string and return.
-                            EndUnicodeRun(unicodeBytes, ref iByte, unicode, true, ref inUnicodeRun, ref ich);
+                            this.EndUnicodeRun(unicodeBytes, ref @byte, unicode, true, ref inUnicodeRun, ref ich);
                         }
 
                         // If it so far seems that the next character could be part of the run, check it. Otherwise effectively
                         // this breaks out of the while loop.
-                        inUnicodeRun = inUnicodeRun ? ((ich < urlLength) && (m_url[ich] == '%')) : false;
+                        inUnicodeRun = inUnicodeRun ? ((ich < urlLength) && (this.mUrl[ich] == '%')) : false;
                     }
 
                     // We just processed the final unicode char in the run, then append unicode characters to the output
-                    AppendUnicodeChars(unicodeBytes, ref iByte, unicode);
+                    AppendUnicodeChars(unicodeBytes, ref @byte, unicode);
                 }
             }
-            return new UrlString(unicode.ToString()); ;
+            return new UrlString(unicode.ToString());
         }
 
         #region Private_ToUnicodeHelpers
+
         /// <summary>
         /// Process a character that indicates it is the end of a unicode run. The method writes the current character (or,
-        /// optionally the remainder of the string) in m_url and puts it into the output buffer after first writing the 
+        /// optionally the remainder of the string) in mUrl and puts it into the output buffer after first writing the 
         /// characters in the unicode run.
         /// </summary>
         /// <param name="unicodeBytes">The list of bytes that were part of the run. They will be written to the output
         /// buffer. The list cannot be null, but may be empty.</param>
-        /// <param name="iByte">Number of bytes in the array. (This is not the size of the array, but rather the number 
+        /// <param name="byte">Number of bytes in the array. (This is not the size of the array, but rather the number 
         /// of bytes stored in the array.)</param>
         /// <param name="output">The output buffer to flush the unicode run and current character. It cannot be null.</param>
-        /// <param name="flushInput">If true, the remainder of m_url (starting from ich) will be written to the output
+        /// <param name="flushInput">If true, the remainder of mUrl (starting from ich) will be written to the output
         /// buffer and ich is incremented accordingly.</param>
         /// <param name="inUnicodeRun">Bool indicating whether currently in the midst of a run of unicode 
         /// chars. On return, this will be set to false.</param>
-        /// <param name="ich">The position of the current character in m_url.</param>
-        private void EndUnicodeRun(byte[] unicodeBytes, ref int iByte, StringBuilder output, bool flushInput,
-                                    ref bool inUnicodeRun, ref int ich)
+        /// <param name="ich">The position of the current character in mUrl.</param>
+        private void EndUnicodeRun(
+            byte[] unicodeBytes,
+            ref int @byte,
+            StringBuilder output,
+            bool flushInput,
+            ref bool inUnicodeRun,
+            ref int ich)
         {
-            AppendUnicodeChars(unicodeBytes, ref iByte, output);
+            AppendUnicodeChars(unicodeBytes, ref @byte, output);
             if (flushInput)
             {
                 // output remainder of input string
-                output.Append(m_url, ich, m_url.Length - ich);
-                ich = m_url.Length;
+                output.Append(this.mUrl, ich, this.mUrl.Length - ich);
+                ich = this.mUrl.Length;
             }
             else
             {
                 // output only one char of input string
-                output.Append(m_url[ich]);
+                output.Append(this.mUrl[ich]);
                 ich++;
             }
             inUnicodeRun = false;
         }
 
         /// <summary>
-        /// Takes a startLocation in m_url that contains a %, return the integer that is the next two digits if those 
+        /// Takes a startLocation in mUrl that contains a %, return the integer that is the next two digits if those 
         /// digits are within the range for unicode characters (ie, valid hex).
         /// </summary>
         /// <param name="startLocation">This should indicate the location of a % character.</param>
@@ -1119,7 +1160,7 @@ namespace Microsoft.LearningComponents.Frameset
         /// <returns>True if a valid integer is returned in <P>charValue</P>.</returns>
         private bool GetEncodedValue(int startLocation, ref int charValue)
         {
-            string s1 = m_url.Substring(startLocation + 1, 2);
+            string s1 = this.mUrl.Substring(startLocation + 1, 2);
             try
             {
                 // Base 16 conversion to int. If the string is not hex, this will throw FormatException.
@@ -1140,19 +1181,24 @@ namespace Microsoft.LearningComponents.Frameset
         /// to unicode characters. May contain 0 elements, but cannot be null. The list of bytes must contain 
         /// precisely enough bytes to result in a list of characters. Extra bytes will be lost -- so don't send 
         /// any in!</param>
-        /// <param name="iByte">The index of the next byte to be added to the <P>unicodeBytes</P> array.</param>
+        /// <param name="byte">The index of the next byte to be added to the <P>unicodeBytes</P> array.</param>
         /// <param name="output">The output string to append the unicode characters to. Cannot be null.</param>
-        private static void AppendUnicodeChars(byte[] unicodeBytes, ref int iByte, StringBuilder output)
+        private static void AppendUnicodeChars(byte[] unicodeBytes, ref int @byte, StringBuilder output)
         {
             // If the the unicodeBytes array is empty, do nothing.
-            if (iByte == 0)
+            if (@byte == 0)
+            {
                 return;
+            }
 
-            output.Append(Encoding.UTF8.GetChars(unicodeBytes, 0, iByte));
-            iByte = 0;   // Since they have been written, remove them from pending byte array
-            for (int i = 0; i < iByte; i++)
+            output.Append(Encoding.UTF8.GetChars(unicodeBytes, 0, @byte));
+            @byte = 0; // Since they have been written, remove them from pending byte array
+            for (int i = 0; i < @byte; i++)
+            {
                 unicodeBytes[i] = 0;
+            }
         }
+
         #endregion
     }
 
@@ -1175,14 +1221,16 @@ namespace Microsoft.LearningComponents.Frameset
     <seealso cref="UrlString" />
 
     */
-    public class HtmlStringWriter : IDisposable// see TODO#1 above
+
+    public class HtmlStringWriter : IDisposable
     {
+        // see TODO#1 above
         /// <summary>
         /// The HtmlTextWriter wrapped by this class.  This HtmlTextWriter may
         /// write into a StringBuilder, a TextWriter, or a given HtmlTextWriter,
         /// depending on which /// HtmlStringWriter constructor to use.
         /// </summary>
-        private HtmlTextWriter m_htmlTextWriter;
+        private HtmlTextWriter mHtmlTextWriter;
 
         /// <summary>
         /// TODO
@@ -1196,7 +1244,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb, CultureInfo.InvariantCulture);
-            m_htmlTextWriter = new HtmlTextWriter(sw);
+            this.mHtmlTextWriter = new HtmlTextWriter(sw);
         }
 
         /// <summary>
@@ -1213,7 +1261,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             StringBuilder sb = new StringBuilder(capacity);
             StringWriter sw = new StringWriter(sb, CultureInfo.InvariantCulture);
-            m_htmlTextWriter = new HtmlTextWriter(sw);
+            this.mHtmlTextWriter = new HtmlTextWriter(sw);
         }
 
         /// <summary>See <see cref="IDisposable.Dispose"/>.</summary>
@@ -1221,13 +1269,12 @@ namespace Microsoft.LearningComponents.Frameset
         {
             if (disposing)
             {
-                if (m_htmlTextWriter != null)
+                if (this.mHtmlTextWriter != null)
                 {
-                    m_htmlTextWriter.Dispose();
+                    this.mHtmlTextWriter.Dispose();
                 }
             }
         }
-
 
         /// <summary>
         /// TODO
@@ -1245,7 +1292,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             StringBuilder sb = new StringBuilder(capacity);
             StringWriter sw = new StringWriter(sb, CultureInfo.InvariantCulture);
-            m_htmlTextWriter = new HtmlTextWriter(sw, tab);
+            this.mHtmlTextWriter = new HtmlTextWriter(sw, tab);
         }
 
         /// <summary>
@@ -1260,7 +1307,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public HtmlStringWriter(TextWriter writer)
         {
-            m_htmlTextWriter = new HtmlTextWriter(writer);
+            this.mHtmlTextWriter = new HtmlTextWriter(writer);
         }
 
         /// <summary>
@@ -1275,7 +1322,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public HtmlStringWriter(HtmlTextWriter writer)
         {
-            m_htmlTextWriter = writer;
+            this.mHtmlTextWriter = writer;
         }
 
         /// <summary>
@@ -1292,7 +1339,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public HtmlStringWriter(TextWriter writer, string tab)
         {
-            m_htmlTextWriter = new HtmlTextWriter(writer, tab);
+            this.mHtmlTextWriter = new HtmlTextWriter(writer, tab);
         }
 
         /// <summary>
@@ -1309,7 +1356,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public void AddAttribute(string name, PlainTextString plaintext)
         {
-            m_htmlTextWriter.AddAttribute(name, plaintext);
+            this.mHtmlTextWriter.AddAttribute(name, plaintext);
         }
 
         /// <summary>
@@ -1324,10 +1371,9 @@ namespace Microsoft.LearningComponents.Frameset
         /// TODO
         /// </remarks>
         ///
-        public void AddAttribute(HtmlTextWriterAttribute key,
-            PlainTextString plaintext)
+        public void AddAttribute(HtmlTextWriterAttribute key, PlainTextString plaintext)
         {
-            m_htmlTextWriter.AddAttribute(key, plaintext);
+            this.mHtmlTextWriter.AddAttribute(key, plaintext);
         }
 
         /// <summary>
@@ -1344,7 +1390,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public void AddAttribute(string name, HtmlString html)
         {
-            m_htmlTextWriter.AddAttribute(name, (string)html, false);
+            this.mHtmlTextWriter.AddAttribute(name, (string)html, false);
         }
 
         /// <summary>
@@ -1361,7 +1407,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public void AddAttribute(HtmlTextWriterAttribute key, HtmlString html)
         {
-            m_htmlTextWriter.AddAttribute(key, (string)html, false);
+            this.mHtmlTextWriter.AddAttribute(key, (string)html, false);
         }
 
         /// <summary>
@@ -1375,13 +1421,11 @@ namespace Microsoft.LearningComponents.Frameset
         /// <remarks>
         /// TODO
         /// </remarks>
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // it is being validated
-        public void AddJavascriptProtocolAttribute(string name,
-            JScriptString jscript)
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // it is being validated
+        public void AddJavascriptProtocolAttribute(string name, JScriptString jscript)
         {
             FramesetUtil.ValidateNonNullParameter("jscript", jscript);
-            m_htmlTextWriter.AddAttribute(name, jscript.ToJavascriptProtocol(),
-                false);
+            this.mHtmlTextWriter.AddAttribute(name, jscript.ToJavascriptProtocol(), false);
         }
 
         /// <summary>
@@ -1396,13 +1440,11 @@ namespace Microsoft.LearningComponents.Frameset
         /// TODO
         /// </remarks>
         ///
-        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")]    // it is being validated
-        public void AddJavascriptProtocolAttribute(HtmlTextWriterAttribute key,
-            JScriptString jscript)
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // it is being validated
+        public void AddJavascriptProtocolAttribute(HtmlTextWriterAttribute key, JScriptString jscript)
         {
             FramesetUtil.ValidateNonNullParameter("jscript", jscript);
-            m_htmlTextWriter.AddAttribute(key, jscript.ToJavascriptProtocol(),
-                false);
+            this.mHtmlTextWriter.AddAttribute(key, jscript.ToJavascriptProtocol(), false);
         }
 
         /// <summary>
@@ -1417,7 +1459,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public void RenderBeginTag(string tagName)
         {
-            m_htmlTextWriter.RenderBeginTag(tagName);
+            this.mHtmlTextWriter.RenderBeginTag(tagName);
         }
 
         /// <summary>
@@ -1432,7 +1474,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public void RenderBeginTag(HtmlTextWriterTag tagKey)
         {
-            m_htmlTextWriter.RenderBeginTag(tagKey);
+            this.mHtmlTextWriter.RenderBeginTag(tagKey);
         }
 
         /// <summary>
@@ -1445,7 +1487,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public void RenderEndTag()
         {
-            m_htmlTextWriter.RenderEndTag();
+            this.mHtmlTextWriter.RenderEndTag();
         }
 
         /// <summary>
@@ -1454,7 +1496,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public void EndRender()
         {
-            m_htmlTextWriter.EndRender();
+            this.mHtmlTextWriter.EndRender();
         }
 
         /// <summary>
@@ -1462,14 +1504,20 @@ namespace Microsoft.LearningComponents.Frameset
         /// </summary>
         public int Indent
         {
-            get { return m_htmlTextWriter.Indent; } 
-            set  { m_htmlTextWriter.Indent = value;  }
+            get
+            {
+                return this.mHtmlTextWriter.Indent;
+            }
+            set
+            {
+                this.mHtmlTextWriter.Indent = value;
+            }
         }
 
         /// <summary>Writes a blank line.</summary>
         public void WriteLine()
         {
-            m_htmlTextWriter.WriteLine();
+            this.mHtmlTextWriter.WriteLine();
         }
 
         /// <summary>
@@ -1484,7 +1532,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public void WriteText(PlainTextString plaintext)
         {
-            m_htmlTextWriter.WriteEncodedText(plaintext);
+            this.mHtmlTextWriter.WriteEncodedText(plaintext);
         }
 
         /// <summary>
@@ -1499,7 +1547,7 @@ namespace Microsoft.LearningComponents.Frameset
         ///
         public void WriteHtml(HtmlString html)
         {
-            m_htmlTextWriter.Write(html);
+            this.mHtmlTextWriter.Write(html);
         }
 
         /// <summary>
@@ -1515,27 +1563,22 @@ namespace Microsoft.LearningComponents.Frameset
         /// <remarks>
         /// TODO
         /// </remarks>
-        [SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates"), // this warning can be ignored by application code
-        SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // it is being validated
+        [SuppressMessage("Microsoft.Usage", "CA2225:OperatorOverloadsHaveNamedAlternates")]
+        [SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods")] // it is being validated
         public static implicit operator TextWriter(HtmlStringWriter writer)
         {
-
             FramesetUtil.ValidateNonNullParameter("writer", writer);
-            return writer.m_htmlTextWriter;
-
+            return writer.mHtmlTextWriter;
         }
 
         #region IDisposable Members
 
         void IDisposable.Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        
-
         #endregion
     }
-
 }
