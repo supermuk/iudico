@@ -1,64 +1,35 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UserManagementTests.cs" company="">
-//   
-// </copyright>
-// <summary>
-//   The user management tests.
-// </summary>
-// --------------------------------------------------------------------------------------------------------------------
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data.Linq;
+using System.IO;
+using System.Linq;
+using IUDICO.Common.Models;
+using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
+using IUDICO.UserManagement.Models;
+using IUDICO.UserManagement.Models.Storage;
+using Moq;
+using Moq.Protected;
 
 namespace IUDICO.UnitTests.UserManagement
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Data.Linq;
-    using System.IO;
-    using System.Linq;
-
-    using IUDICO.Common.Models;
-    using IUDICO.Common.Models.Services;
-    using IUDICO.Common.Models.Shared;
-    using IUDICO.UserManagement.Models;
-    using IUDICO.UserManagement.Models.Storage;
-
-    using Moq;
-    using Moq.Protected;
-
-    /// <summary>
-    /// The user management tests.
-    /// </summary>
+{  
     public class UserManagementTests
     {
         #region Protected members
 
-        /// <summary>
-        /// The instance.
-        /// </summary>
         protected static UserManagementTests instance;
 
         #endregion
 
         #region Public properties
 
-        /// <summary>
-        /// Gets or sets MockDataContext.
-        /// </summary>
         public Mock<IDataContext> MockDataContext { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets MockLmsService.
-        /// </summary>
         public Mock<ILmsService> MockLmsService { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets MockStorage.
-        /// </summary>
         public Mock<DatabaseUserStorage> MockStorage { get; protected set; }
 
-        /// <summary>
-        /// Gets DataContext.
-        /// </summary>
         public IDataContext DataContext
         {
             get
@@ -67,9 +38,6 @@ namespace IUDICO.UnitTests.UserManagement
             }
         }
 
-        /// <summary>
-        /// Gets LmsService.
-        /// </summary>
         public ILmsService LmsService
         {
             get
@@ -78,9 +46,6 @@ namespace IUDICO.UnitTests.UserManagement
             }
         }
 
-        /// <summary>
-        /// Gets Storage.
-        /// </summary>
         public IUserStorage Storage
         {
             get
@@ -89,61 +54,25 @@ namespace IUDICO.UnitTests.UserManagement
             }
         }
 
-        /// <summary>
-        /// Gets or sets Users.
-        /// </summary>
         public Mock<ITable> Users { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets Groups.
-        /// </summary>
         public Mock<ITable> Groups { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets GroupUsers.
-        /// </summary>
         public Mock<ITable> GroupUsers { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets UserRoles.
-        /// </summary>
         public Mock<ITable> UserRoles { get; protected set; }
 
         #endregion
 
-        /// <summary>
-        /// The user comparer.
-        /// </summary>
         public class UserComparer : IEqualityComparer<User>
         {
             #region Implementation of IEqualityComparer<in User>
 
-            /// <summary>
-            /// The equals.
-            /// </summary>
-            /// <param name="x">
-            /// The x.
-            /// </param>
-            /// <param name="y">
-            /// The y.
-            /// </param>
-            /// <returns>
-            /// The equals.
-            /// </returns>
             public bool Equals(User x, User y)
             {
                 return x.Username == y.Username && x.Email == y.Email;
             }
 
-            /// <summary>
-            /// The get hash code.
-            /// </summary>
-            /// <param name="obj">
-            /// The obj.
-            /// </param>
-            /// <returns>
-            /// The get hash code.
-            /// </returns>
             public int GetHashCode(User obj)
             {
                 return (obj.Username + obj.Email).GetHashCode();
@@ -152,43 +81,16 @@ namespace IUDICO.UnitTests.UserManagement
             #endregion
         }
 
-        /// <summary>
-        /// The test users.
-        /// </summary>
-        /// <param name="users">
-        /// The users.
-        /// </param>
-        /// <param name="inserted">
-        /// The inserted.
-        /// </param>
-        /// <returns>
-        /// The test users.
-        /// </returns>
         public bool TestUsers(IEnumerable<User> users, IEnumerable<User> inserted)
         {
             return inserted.Except(users, new UserComparer()).Count() == 0;
         }
 
-        /// <summary>
-        /// The test users.
-        /// </summary>
-        /// <param name="user">
-        /// The user.
-        /// </param>
-        /// <param name="expected">
-        /// The expected.
-        /// </param>
-        /// <returns>
-        /// The test users.
-        /// </returns>
         public bool TestUsers(User user, User expected)
         {
             return (new UserComparer()).Equals(user, expected);
         }
 
-        /// <summary>
-        /// Prevents a default instance of the <see cref="UserManagementTests"/> class from being created.
-        /// </summary>
         private UserManagementTests()
         {
             this.MockDataContext = new Mock<IDataContext>();
@@ -206,37 +108,21 @@ namespace IUDICO.UnitTests.UserManagement
             this.ChangeCurrentUser("panza");
         }
 
-        /// <summary>
-        /// The get instance.
-        /// </summary>
-        /// <returns>
-        /// </returns>
         public static UserManagementTests GetInstance()
         {
             return instance ?? (instance = new UserManagementTests());
         }
 
-        /// <summary>
-        /// The setup.
-        /// </summary>
         public void Setup()
         {
             this.MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this.MockDataContext.Object);
-            this.MockStorage.Protected().Setup<string>("GetPath").Returns(
-                Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS"));
-            this.MockStorage.Setup(
-                s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).
-                Returns(true);
+            this.MockStorage.Protected().Setup<string>("GetPath").Returns(Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS"));
+            this.MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
-            this.MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns(
-                (string username) => this.GetUserRoles(username));
-            this.MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns(
-                (User user) => this.GetGroupsByUser(user));
+            this.MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns((string username) => this.GetUserRoles(username));
+            this.MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns((User user) => this.GetGroupsByUser(user));
         }
 
-        /// <summary>
-        /// The setup tables.
-        /// </summary>
         public void SetupTables()
         {
             var mockUserData = new[]
@@ -269,37 +155,17 @@ namespace IUDICO.UnitTests.UserManagement
 
         #region Mocked Functions
 
-        /// <summary>
-        /// The change current user.
-        /// </summary>
-        /// <param name="user">
-        /// The user.
-        /// </param>
         public void ChangeCurrentUser(User user)
         {
             this.MockStorage.Setup(s => s.GetCurrentUser()).Returns(user);
             this.MockStorage.Protected().Setup<string>("GetIdentityName").Returns(user.Username);
         }
 
-        /// <summary>
-        /// The change current user.
-        /// </summary>
-        /// <param name="username">
-        /// The username.
-        /// </param>
         public void ChangeCurrentUser(string username)
         {
             this.ChangeCurrentUser(this.Storage.GetUser(u => u.Username == username));
         }
 
-        /// <summary>
-        /// The get user roles.
-        /// </summary>
-        /// <param name="username">
-        /// The username.
-        /// </param>
-        /// <returns>
-        /// </returns>
         protected IEnumerable<Role> GetUserRoles(string username)
         {
             var user = this.Storage.GetUser(u => u.Username == username);
@@ -307,14 +173,6 @@ namespace IUDICO.UnitTests.UserManagement
             return this.DataContext.UserRoles.Where(ur => ur.UserRef == user.Id).Select(ur => (Role)ur.RoleRef);
         }
 
-        /// <summary>
-        /// The get groups by user.
-        /// </summary>
-        /// <param name="user">
-        /// The user.
-        /// </param>
-        /// <returns>
-        /// </returns>
         protected IEnumerable<Group> GetGroupsByUser(User user)
         {
             var groupIds = this.DataContext.GroupUsers.Where(gu => gu.UserRef == user.Id).Select(gu => gu.GroupRef);

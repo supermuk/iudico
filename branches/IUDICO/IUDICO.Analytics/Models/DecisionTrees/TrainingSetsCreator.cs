@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using Accord.Math;
-using Accord.MachineLearning;
 using Accord.MachineLearning.DecisionTrees;
 using Accord.MachineLearning.DecisionTrees.Learning;
 using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models.Shared.CurriculumManagement;
-using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Analytics.Models.AnomalyDetectionAlg;
 
 namespace IUDICO.Analytics.Models.DecisionTrees
@@ -18,42 +12,47 @@ namespace IUDICO.Analytics.Models.DecisionTrees
     /// </summary>
     public class TrainingSetsCreator
     {
-        public static TrainingSet[] generateTrainingSets(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks, string[] normalRecords, string[] anomalies)
+        public static TrainingSet[] GenerateTrainingSets(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks, string[] normalRecords, string[] anomalies)
         {
-            int countOfEntries = normalRecords.Length + anomalies.Length;
-            double[][] inputData = new double[countOfEntries][];
-            int[] outputData = new int[countOfEntries];
-            int counter = 0;
-            foreach (KeyValuePair<User, double[]> studentAndMarks in studentsAndMarks)
+            var countOfEntries = normalRecords.Length + anomalies.Length;
+            var inputData = new double[countOfEntries][];
+            var outputData = new int[countOfEntries];
+            var counter = 0;
+
+            foreach (var studentAndMarks in studentsAndMarks)
             {
                 if (normalRecords.Contains(studentAndMarks.Key.OpenId))
                 {
                     inputData[counter] = studentAndMarks.Value;
                     outputData[counter++] = 1;
                 }
-                if (anomalies.Contains(studentAndMarks.Key.OpenId))
+
+                if (!anomalies.Contains(studentAndMarks.Key.OpenId))
                 {
-                    inputData[counter] = studentAndMarks.Value;
-                    outputData[counter++] = 0;
+                    continue;
                 }
+
+                inputData[counter] = studentAndMarks.Value;
+                outputData[counter++] = 0;
             }
 
-            int countOfFeatures = studentsAndMarks.ElementAt(0).Value.Length;
-            DecisionVariable[] features = new DecisionVariable[countOfFeatures];
-            features[0] = new DecisionVariable("0", DecisionAttributeKind.Continuous,new AForge.DoubleRange(80,1200));
-            for(int i = 1; i < countOfFeatures; i++)
+            var countOfFeatures = studentsAndMarks.ElementAt(0).Value.Length;
+            var features = new DecisionVariable[countOfFeatures];
+            features[0] = new DecisionVariable("0", DecisionAttributeKind.Continuous, new AForge.DoubleRange(80, 1200));
+            
+            for (var i = 1; i < countOfFeatures; i++)
             {
                 features[i] = new DecisionVariable(i.ToString(), DecisionAttributeKind.Continuous, new AForge.DoubleRange(0, 10));
             }
 
             // Create the Decision tree with only 2 result values
-            DecisionTree tree = new DecisionTree(features, 2);
+            var tree = new DecisionTree(features, 2);
 
             // Creates a new instance of the C4.5 learning algorithm
-            C45Learning c45 = new C45Learning(tree);
+            var c45 = new C45Learning(tree);
 
             // Learn the decision tree
-            double error = c45.Run(inputData, outputData);
+            var error = c45.Run(inputData, outputData);
 
             // Split all data into normal and anomalies
             var setOfNormalRecords = studentsAndMarks.Where(x => tree.Compute(x.Value) == 1);
@@ -61,24 +60,26 @@ namespace IUDICO.Analytics.Models.DecisionTrees
                         
             // Split normal records into 2 groups (one for training set and one for anomaly detection ocurency detection)
             var setOfNormalRecordsList = setOfNormalRecords.ToList();
-            int splitCount = setOfNormalRecordsList.Count * 2 / 3;
-            var setOfNormalRecords_Tr1 = setOfNormalRecordsList.GetRange(0, splitCount);
-            var setOfNormalRecords_Tr2 = setOfNormalRecordsList.GetRange(splitCount, setOfNormalRecordsList.Count - splitCount);
+            var splitCount = setOfNormalRecordsList.Count * 2 / 3;
+            var setOfNormalRecordsTr1 = setOfNormalRecordsList.GetRange(0, splitCount);
+            var setOfNormalRecordsTr2 = setOfNormalRecordsList.GetRange(splitCount, setOfNormalRecordsList.Count - splitCount);
             // Create Training Sets
-            TrainingSet trSetNormalFirst = createTrainingSetFromResources(setOfNormalRecords_Tr1);
-            TrainingSet trSetNormalSecond = createTrainingSetFromResources(setOfNormalRecords_Tr2);
-            TrainingSet trSetAnomalies = createTrainingSetFromResources(setOfAnomalies);
+            var trSetNormalFirst = CreateTrainingSetFromResources(setOfNormalRecordsTr1);
+            var trSetNormalSecond = CreateTrainingSetFromResources(setOfNormalRecordsTr2);
+            var trSetAnomalies = CreateTrainingSetFromResources(setOfAnomalies);
 
-            return new TrainingSet[] { trSetNormalFirst, trSetNormalSecond, trSetAnomalies };
+            return new[] { trSetNormalFirst, trSetNormalSecond, trSetAnomalies };
         }
 
-        private static TrainingSet createTrainingSetFromResources(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks)
+        private static TrainingSet CreateTrainingSetFromResources(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks)
         {
-            TrainingSet resultTrainingSet = new TrainingSet(studentsAndMarks.First().Value.Length);
-            foreach (KeyValuePair<User, double[]> studentAndMark in studentsAndMarks)
+            var resultTrainingSet = new TrainingSet(studentsAndMarks.First().Value.Length);
+            
+            foreach (var studentAndMark in studentsAndMarks)
             {
-                resultTrainingSet.addRecord(studentAndMark.Value);
+                resultTrainingSet.AddRecord(studentAndMark.Value);
             }
+
             return resultTrainingSet;
         }
     }

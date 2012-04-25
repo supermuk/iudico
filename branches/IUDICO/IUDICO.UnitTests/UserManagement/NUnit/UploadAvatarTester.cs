@@ -9,15 +9,15 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     [TestFixture]
     internal class UploadAvatarTester
     {
-        protected UserManagementTests _Tests = UserManagementTests.GetInstance();
+        protected UserManagementTests tests = UserManagementTests.GetInstance();
 
-        protected string _IudicoPath = Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS");
+        protected string iudicoPath = Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS");
 
         private class MemoryFile : HttpPostedFileBase
         {
-            private Stream stream;
-            private string contentType;
-            private string fileName;
+            private readonly Stream stream;
+            private readonly string contentType;
+            private readonly string fileName;
 
             public MemoryFile(Stream stream, string contentType, string fileName)
             {
@@ -28,29 +28,32 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             public override int ContentLength
             {
-                get { return (int) stream.Length; }
+                get
+                {
+                    return (int)this.stream.Length;
+                }
             }
 
             public override string ContentType
             {
-                get { return contentType; }
+                get { return this.contentType; }
             }
 
             public override string FileName
             {
-                get { return fileName; }
+                get { return this.fileName; }
             }
 
             public override Stream InputStream
             {
-                get { return stream; }
+                get { return this.stream; }
             }
 
             public override void SaveAs(string filename)
             {
                 using (var file = File.Open(filename, FileMode.CreateNew))
                 {
-                    stream.CopyTo(file);
+                    this.stream.CopyTo(file);
                 }
             }
         }
@@ -59,20 +62,22 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void UploadNewPhoto()
         {
-            Guid id = Guid.NewGuid();
+            var id = Guid.NewGuid();
 
-            string filePath = Path.Combine(Path.Combine(_IudicoPath, @"Data\Avatars"), Path.GetFileName("test.png"));
+            var filePath = Path.Combine(Path.Combine(this.iudicoPath, @"Data\Avatars"), Path.GetFileName("test.png"));
 
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            using (var fileStream = new FileStream(filePath, FileMode.Open))
             {
-                string fileType = "image/png";
+                const string FileType = "image/png";
+                var postedFile = new MemoryFile(fileStream, FileType, filePath);
 
-                MemoryFile postedFile = new MemoryFile(fileStream, fileType, filePath);
-                _Tests.Storage.UploadAvatar(id, postedFile);
+                this.tests.Storage.UploadAvatar(id, postedFile);
             }
 
-            filePath = Path.Combine(Path.Combine(_IudicoPath, @"Data\Avatars"), Path.GetFileName(id + ".png"));
-            FileInfo fileInfo = new FileInfo(filePath);
+            filePath = Path.Combine(Path.Combine(this.iudicoPath, @"Data\Avatars"), Path.GetFileName(id + ".png"));
+            
+            var fileInfo = new FileInfo(filePath);
+
             Assert.IsTrue(fileInfo.Exists);
         }
 
@@ -80,23 +85,24 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void ReplaceExistingPhoto()
         {
-            Guid id = Guid.NewGuid();
-            string filePath = Path.Combine(Path.Combine(_IudicoPath, @"Data\Avatars"), Path.GetFileName("test.png"));
-            string fileType = "image/png";
+            var id = Guid.NewGuid();
+            var filePath = Path.Combine(Path.Combine(this.iudicoPath, @"Data\Avatars"), Path.GetFileName("test.png"));
+            const string FileType = "image/png";
 
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            using (var fileStream = new FileStream(filePath, FileMode.Open))
             {
-                MemoryFile postedFile = new MemoryFile(fileStream, fileType, filePath);
-                _Tests.Storage.UploadAvatar(id, postedFile);
+                var postedFile = new MemoryFile(fileStream, FileType, filePath);
 
-                filePath = Path.Combine(Path.Combine(_IudicoPath, @"Data\Avatars"), Path.GetFileName("test2.png"));
+                this.tests.Storage.UploadAvatar(id, postedFile);
+
+                filePath = Path.Combine(Path.Combine(this.iudicoPath, @"Data\Avatars"), Path.GetFileName("test2.png"));
             }
 
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            using (var fileStream = new FileStream(filePath, FileMode.Open))
             {
-                MemoryFile postedFile = new MemoryFile(fileStream, fileType, filePath);
+                var postedFile = new MemoryFile(fileStream, FileType, filePath);
 
-                Assert.IsTrue(_Tests.Storage.UploadAvatar(id, postedFile) == 2);
+                Assert.IsTrue(this.tests.Storage.UploadAvatar(id, postedFile) == 2);
             }
         }
 
@@ -104,28 +110,31 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void UploadNullFile()
         {
-            Guid id = Guid.NewGuid();
+            var id = Guid.NewGuid();
 
-            Assert.IsTrue(_Tests.Storage.UploadAvatar(id, null) == -1);
+            Assert.IsTrue(this.tests.Storage.UploadAvatar(id, null) == -1);
         }
 
         // Delete existing photo -> check if the file is being deleted
         [Test]
         public void DeleteExixtingPhoto()
         {
-            Guid id = Guid.NewGuid();
-            string filePath = Path.Combine(Path.Combine(_IudicoPath, @"Data\Avatars"), Path.GetFileName("test.png"));
-            string fileType = "image/png";
+            var id = Guid.NewGuid();
+            var filePath = Path.Combine(Path.Combine(this.iudicoPath, @"Data\Avatars"), Path.GetFileName("test.png"));
+            const string FileType = "image/png";
 
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            using (var fileStream = new FileStream(filePath, FileMode.Open))
             {
-                MemoryFile postedFile = new MemoryFile(fileStream, fileType, filePath);
-                _Tests.Storage.UploadAvatar(id, postedFile);
-                _Tests.Storage.DeleteAvatar(id);
+                var postedFile = new MemoryFile(fileStream, FileType, filePath);
+
+                this.tests.Storage.UploadAvatar(id, postedFile);
+                this.tests.Storage.DeleteAvatar(id);
             }
 
-            filePath = Path.Combine(Path.Combine(_IudicoPath, @"Data\Avatars"), Path.GetFileName(id + ".png"));
-            FileInfo fileInfo = new FileInfo(filePath);
+            filePath = Path.Combine(Path.Combine(this.iudicoPath, @"Data\Avatars"), Path.GetFileName(id + ".png"));
+
+            var fileInfo = new FileInfo(filePath);
+
             Assert.IsTrue(fileInfo.Exists == false);
         }
 
@@ -133,18 +142,19 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void DeleteNotExistingPhoto()
         {
-            Guid id = Guid.NewGuid();
-            string filePath = Path.Combine(Path.Combine(_IudicoPath, @"Data\Avatars"), Path.GetFileName("test.png"));
-            string fileType = "image/png";
+            var id = Guid.NewGuid();
+            var filePath = Path.Combine(Path.Combine(this.iudicoPath, @"Data\Avatars"), Path.GetFileName("test.png"));
+            const string FileType = "image/png";
 
-            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            using (var fileStream = new FileStream(filePath, FileMode.Open))
             {
-                MemoryFile postedFile = new MemoryFile(fileStream, fileType, filePath);
-                _Tests.Storage.UploadAvatar(id, postedFile);
-                _Tests.Storage.DeleteAvatar(id);
+                var postedFile = new MemoryFile(fileStream, FileType, filePath);
+
+                this.tests.Storage.UploadAvatar(id, postedFile);
+                this.tests.Storage.DeleteAvatar(id);
             }
 
-            Assert.IsTrue(_Tests.Storage.DeleteAvatar(id) == -1);
+            Assert.IsTrue(this.tests.Storage.DeleteAvatar(id) == -1);
         }
     }
 }

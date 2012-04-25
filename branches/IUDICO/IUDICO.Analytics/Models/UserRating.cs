@@ -8,7 +8,7 @@ namespace IUDICO.Analytics.Models
         public UserRating(User user, double score)
         {
             User = user;
-            Score = score;
+            this.Score = score;
         }
 
         public User User { get; protected set; }
@@ -18,7 +18,7 @@ namespace IUDICO.Analytics.Models
 
         public int CompareTo(UserRating other)
         {
-            return other.Score.CompareTo(Score);
+            return other.Score.CompareTo(this.Score);
         }
 
         #endregion

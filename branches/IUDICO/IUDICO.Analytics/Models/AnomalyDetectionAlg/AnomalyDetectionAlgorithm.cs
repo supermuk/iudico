@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using IUDICO.Analytics.Models.AnomalyDetectionAlg.Accuracy;
 using Accord.Math;
 using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models.Shared.CurriculumManagement;
-using IUDICO.Common.Models.Shared.Statistics;
 
 namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
 {
@@ -30,10 +26,12 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
         /// <param name="nonAnomaliesSet">This is TrainingSet class object. Must contain training set with ONLY normal records.</param>
         /// <param name="anomaliesSet">This is TrainingSet class object. Must contain training set with ONLY ANOMALY records.</param>
         /// <returns></returns>
-        public PxFormula trainAlgorithm (TrainingSet trainingSet, TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet)
+        public PxFormula TrainAlgorithm(TrainingSet trainingSet, TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet)
         {
-            PxFormula formula = calcFormula(trainingSet);
-            accuracy.calcAccuracy(nonAnomaliesSet, anomaliesSet, formula);
+            var formula = CalcFormula(trainingSet);
+            
+            this.accuracy.CalcAccuracy(nonAnomaliesSet, anomaliesSet, formula);
+
             return formula;
         }
 
@@ -42,26 +40,23 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
         /// </summary>
         /// <param name="trainingSet">This is TrainingSet class object. Must contain training set with ONLY normal records.</param>
         /// <returns>PxFormula class object with setted nu vector and sigma matrix values.</returns>
-        private PxFormula calcFormula (TrainingSet trainingSet)
+        private static PxFormula CalcFormula(TrainingSet trainingSet)
         {
-            int training_set_count = trainingSet.getCountOfRecords();
-            int size = trainingSet.getAllRecords().First().Length;
+            var trainingSetCount = trainingSet.GetCountOfRecords();
+            var size = trainingSet.GetAllRecords().First().Length;
+
             // calculate nu vector value
-            double[] nu = new double[size];
-            foreach (double[] feature_vector in trainingSet.getAllRecords())
-            {
-                nu = Matrix.Add(nu, feature_vector);
-            }
-            nu = Matrix.Divide(nu,training_set_count);
+            var nu = new double[size];
+
+            nu = trainingSet.GetAllRecords().Aggregate(nu, (current, featureVector) => current.Add(featureVector));
+            nu = nu.Divide(trainingSetCount);
 
             // calculate sigme matrix
-            double[,] sigma = new double[size, size];
-            foreach (double[] feature_vector in trainingSet.getAllRecords())
-            {
-                double[] x_nu = Matrix.Subtract(feature_vector, nu);
-                sigma = Matrix.Add(sigma, Matrix.Multiply(Matrix.ColumnVector(x_nu), Matrix.RowVector(x_nu)));
-            }
-            sigma = Matrix.Divide(sigma, training_set_count);
+            var sigma = new double[size, size];
+
+            sigma = trainingSet.GetAllRecords().Select(featureVector => featureVector.Subtract(nu)).Aggregate(sigma, (current, xNu) => current.Add(Matrix.ColumnVector(xNu).Multiply(Matrix.RowVector(xNu))));
+
+            sigma = sigma.Divide(trainingSetCount);
 
             // return PxFormula class object with setted nu and sigma values
             return new PxFormula(nu, sigma);
@@ -71,18 +66,18 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
         /// Set accuracy for this training process. All accuracy clases must implement IAccuracy interface.
         /// </summary>
         /// <param name="newAccuracy">Object that implement IAccuracy interface</param>
-        public void setAccuracy (IAccuracy newAccuracy)
+        public void SetAccuracy(IAccuracy newAccuracy)
         {
-            accuracy = newAccuracy;
+            this.accuracy = newAccuracy;
         }
 
         /// <summary>
         /// Get accuracy from this object. All accuracy clases must implement IAccuracy interface.
         /// </summary>
         /// <param name="newAccuracy">Object that implement IAccuracy interface</param>
-        public IAccuracy getAccuracy()
+        public IAccuracy GetAccuracy()
         {
-            return accuracy;
+            return this.accuracy;
         }
 
         /// <summary>
@@ -93,19 +88,14 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
         /// <param name="trainingSet2Normal">Cross validation set with only normal records</param>
         /// <param name="trainingSet2Anomalies">Cross validation set with inly anomalies records</param>
         /// <returns></returns>
-        public static IEnumerable<KeyValuePair<KeyValuePair<User, double[]>, bool>> runAlg(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks, TrainingSet trainingSet1, TrainingSet trainingSet2Normal, TrainingSet trainingSet2Anomalies)
+        public static IEnumerable<KeyValuePair<KeyValuePair<User, double[]>, bool>> RunAlg(IEnumerable<KeyValuePair<User, double[]>> studentsAndMarks, TrainingSet trainingSet1, TrainingSet trainingSet2Normal, TrainingSet trainingSet2Anomalies)
         {            
-            AnomalyDetectionAlgorithm train = new AnomalyDetectionAlgorithm();
-            var formula = train.trainAlgorithm(trainingSet1, trainingSet2Normal, trainingSet2Anomalies);
-            List<KeyValuePair<KeyValuePair<User, double[]>, bool>> res = new List<KeyValuePair<KeyValuePair<User, double[]>, bool>>();
-            foreach (KeyValuePair<User, double[]> studentAndMark in studentsAndMarks)
-            {
-                bool isAnomaly = formula.isAnomaly(studentAndMark.Value);
+            var train = new AnomalyDetectionAlgorithm();
+            var formula = train.TrainAlgorithm(trainingSet1, trainingSet2Normal, trainingSet2Anomalies);
 
-                res.Add(new KeyValuePair<KeyValuePair<User, double[]>, bool>(studentAndMark, isAnomaly));
-            }
-
-            return res;
+            return (from studentAndMark in studentsAndMarks
+                    let isAnomaly = formula.IsAnomaly(studentAndMark.Value)
+                    select new KeyValuePair<KeyValuePair<User, double[]>, bool>(studentAndMark, isAnomaly)).ToList();
         }
     }
 }

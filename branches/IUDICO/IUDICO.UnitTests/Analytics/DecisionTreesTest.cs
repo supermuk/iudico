@@ -21,10 +21,10 @@ namespace IUDICO.UnitTests.Analytics
             var listOfStudents = GetStudentListForPMI43();
             string[] normal = new string[] { "2", "13", "6" };
             string[] anomalies = new string[] {"8", "10"};
-            var trainingSets = TrainingSetsCreator.generateTrainingSets(listOfStudents, normal, anomalies);
-            Assert.AreEqual(trainingSets[0].getCountOfRecords(), 12);
-            Assert.AreEqual(trainingSets[1].getCountOfRecords(), 6);
-            Assert.AreEqual(trainingSets[2].getCountOfRecords(), 2);
+            var trainingSets = TrainingSetsCreator.GenerateTrainingSets(listOfStudents, normal, anomalies);
+            Assert.AreEqual(trainingSets[0].GetCountOfRecords(), 12);
+            Assert.AreEqual(trainingSets[1].GetCountOfRecords(), 6);
+            Assert.AreEqual(trainingSets[2].GetCountOfRecords(), 2);
         }
 
         public IEnumerable<KeyValuePair<User, double[]>> GetStudentListForPMI43()

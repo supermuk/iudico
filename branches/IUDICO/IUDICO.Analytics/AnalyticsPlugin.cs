@@ -78,8 +78,7 @@ namespace IUDICO.Analytics
             routes.MapRoute(
                 "AnomalyDetection",
                 "AnomalyDetection/{action}",
-                new { controller = "AnomalyDetection", action = "Index" }
-                );
+                new { controller = "AnomalyDetection", action = "Index" });
         }
 
         public void Update(string evt, params object[] data)

@@ -7,24 +7,24 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     [TestFixture]
     public class SeeGroupsDetails
     {
-        protected UserManagementTests _Tests = UserManagementTests.GetInstance();
+        protected UserManagementTests tests = UserManagementTests.GetInstance();
 
         [Test]
         public void GetGroupExisting()
         {
-            var group = new Group {Id = 12, Name = "pmi31"};
+            var group = new Group { Id = 12, Name = "pmi31" };
 
-            _Tests.Storage.CreateGroup(group);
+            this.tests.Storage.CreateGroup(group);
 
-            Assert.AreEqual(group, _Tests.Storage.GetGroup(group.Id));
+            Assert.AreEqual(group, this.tests.Storage.GetGroup(group.Id));
 
-            _Tests.Storage.DeleteGroup(group.Id);
+            this.tests.Storage.DeleteGroup(group.Id);
         }
 
         [Test]
         public void GetGroupNonExisting()
         {
-            Assert.AreEqual(null, _Tests.Storage.GetGroup(123));
+            Assert.AreEqual(null, this.tests.Storage.GetGroup(123));
         }
 
         protected class GroupComparer : IEqualityComparer<Group>

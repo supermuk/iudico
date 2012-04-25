@@ -1,20 +1,22 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<System.Collections.Generic.Dictionary<System.String, System.String>>" %>
+﻿<%@ Assembly Name="IUDICO.UserManagement" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<System.Collections.Generic.Dictionary<System.String, System.String>>" %>
+<%@ Import Namespace="IUDICO.UserManagement" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	CreatedMultiple
+	<%=Localization.GetMessage("CreatedMultiple")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>CreatedMultiple</h2>
+    <h2><%=Localization.GetMessage("CreatedMultiple")%></h2>
 
-    Created following users:
+    <%=Localization.GetMessage("CreatedFollowingUsers")%>:
 
     <table width="100%">
         <thead>
             <tr>
-                <th>Username</th>
-                <th>Password</th>
+                <th><%=Localization.GetMessage("Username")%></th>
+                <th><%=Localization.GetMessage("Password")%></th>
             </tr>
         </thead>
 

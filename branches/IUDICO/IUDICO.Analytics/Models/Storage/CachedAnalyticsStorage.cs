@@ -10,14 +10,14 @@ namespace IUDICO.Analytics.Models.Storage
 {
     public class CachedAnalyticsStorage : IAnalyticsStorage
     {
-        private readonly IAnalyticsStorage _storage;
-        private readonly ICacheProvider _cacheProvider;
+        private readonly IAnalyticsStorage storage;
+        private readonly ICacheProvider cacheProvider;
         private readonly object lockObject = new object();
 
         public CachedAnalyticsStorage(IAnalyticsStorage storage, ICacheProvider cacheProvider)
         {
-            _storage = storage;
-            _cacheProvider = cacheProvider;
+            this.storage = storage;
+            this.cacheProvider = cacheProvider;
         }
         /*
         public void RefreshState()
@@ -27,114 +27,114 @@ namespace IUDICO.Analytics.Models.Storage
         */
         public IEnumerable<ForecastingTree> GetAllForecastingTrees()
         {
-            return _cacheProvider.Get<IEnumerable<ForecastingTree>>("forecastingtrees", @lockObject, () => _storage.GetAllForecastingTrees(), DateTime.Now.AddDays(1), "forecastingtrees");
+            return this.cacheProvider.Get("forecastingtrees", @lockObject, () => this.storage.GetAllForecastingTrees(), DateTime.Now.AddDays(1), "forecastingtrees");
         }
 
         public IEnumerable<ForecastingTree> GetForecastingTrees(Guid userRef)
         {
-            return _cacheProvider.Get<IEnumerable<ForecastingTree>>("forecastingtrees-" + userRef, @lockObject, () => _storage.GetAllForecastingTrees().Where(f => f.UserRef == userRef), DateTime.Now.AddDays(1), "forecastingtrees");
+            return this.cacheProvider.Get("forecastingtrees-" + userRef, @lockObject, () => this.storage.GetAllForecastingTrees().Where(f => f.UserRef == userRef), DateTime.Now.AddDays(1), "forecastingtrees");
         }
 
         public IEnumerable<TopicStat> GetRecommenderTopics(User user)
         {
-            return _cacheProvider.Get<IEnumerable<TopicStat>>("recommendertopics-" + user.Username, @lockObject, () => _storage.GetRecommenderTopics(user), DateTime.Now.AddDays(1), "recommendertopics-" + user.Username);
+            return this.cacheProvider.Get("recommendertopics-" + user.Username, @lockObject, () => this.storage.GetRecommenderTopics(user), DateTime.Now.AddDays(1), "recommendertopics-" + user.Username);
         }
 
         public IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount)
         {
-            return GetRecommenderTopics(user).Take(amount);
+            return this.GetRecommenderTopics(user).Take(amount);
 
             // return _cacheProvider.Get<IEnumerable<TopicStat>>("recommendertopics-" + user.Username + "", @lockObject, () => _storage.GetRecommenderTopics(user), DateTime.Now.AddDays(1), "recommendertopics-" + user.Username);
         }
 
         public IEnumerable<Tag> GetTags()
         {
-            return _cacheProvider.Get<IEnumerable<Tag>>("tags", @lockObject, () => _storage.GetTags(), DateTime.Now.AddDays(1), "tags");
+            return this.cacheProvider.Get("tags", @lockObject, () => this.storage.GetTags(), DateTime.Now.AddDays(1), "tags");
         }
 
         public Tag GetTag(int id)
         {
-            return _cacheProvider.Get<Tag>("tag-" + id, @lockObject, () => _storage.GetTag(id), DateTime.Now.AddDays(1), "tag-" + id);    
+            return this.cacheProvider.Get("tag-" + id, @lockObject, () => this.storage.GetTag(id), DateTime.Now.AddDays(1), "tag-" + id);    
         }
 
         public ViewTagDetails GetTagDetails(int id)
         {
-            return _cacheProvider.Get<ViewTagDetails>("tagdetails-" + id, @lockObject, () => _storage.GetTagDetails(id), DateTime.Now.AddDays(1), "tagdetails-" + id, "tag-" + id);
+            return this.cacheProvider.Get("tagdetails-" + id, @lockObject, () => this.storage.GetTagDetails(id), DateTime.Now.AddDays(1), "tagdetails-" + id, "tag-" + id);
         }
 
         public ViewTagDetails GetTagDetailsWithTopics(int id)
         {
-            return _cacheProvider.Get<ViewTagDetails>("tagdetails-full-" + id, @lockObject, () => _storage.GetTagDetailsWithTopics(id), DateTime.Now.AddDays(1), "tagdetails-" + id, "tag-" + id);
+            return this.cacheProvider.Get("tagdetails-full-" + id, @lockObject, () => this.storage.GetTagDetailsWithTopics(id), DateTime.Now.AddDays(1), "tagdetails-" + id, "tag-" + id);
         }
 
         public void CreateTag(Tag feature)
         {
-            _storage.CreateTag(feature);
+            this.storage.CreateTag(feature);
 
-            _cacheProvider.Invalidate("tags");
+            this.cacheProvider.Invalidate("tags");
         }
 
         public void EditTag(int id, Tag feature)
         {
-            _storage.EditTag(id, feature);
+            this.storage.EditTag(id, feature);
             
-            _cacheProvider.Invalidate("tags", "tag-" + id);
+            this.cacheProvider.Invalidate("tags", "tag-" + id);
         }
 
         public void DeleteTag(int id)
         {
-            _storage.DeleteTag(id);
+            this.storage.DeleteTag(id);
 
-            _cacheProvider.Invalidate("tags", "tag-" + id);
+            this.cacheProvider.Invalidate("tags", "tag-" + id);
         }
 
         public void EditTags(int id, IEnumerable<int> topics)
         {
-            _storage.EditTags(id, topics);
+            this.storage.EditTags(id, topics);
 
-            _cacheProvider.Invalidate("tags", "tag-" + id);
+            this.cacheProvider.Invalidate("tags", "tag-" + id);
         }
 
         public Dictionary<int, IEnumerable<TopicScore>> GetTopicScores()
         {
-            return _cacheProvider.Get<Dictionary<int, IEnumerable<TopicScore>>>("topicscores", @lockObject, () => _storage.GetTopicScores(), DateTime.Now.AddDays(1), "topicscores"); 
+            return this.cacheProvider.Get("topicscores", @lockObject, () => this.storage.GetTopicScores(), DateTime.Now.AddDays(1), "topicscores"); 
         }
 
         public Dictionary<Guid, IEnumerable<UserScore>> GetUserScores()
         {
-            return _cacheProvider.Get<Dictionary<Guid, IEnumerable<UserScore>>>("userscores", @lockObject, () => _storage.GetUserScores(), DateTime.Now.AddDays(1), "userscores");
+            return this.cacheProvider.Get("userscores", @lockObject, () => this.storage.GetUserScores(), DateTime.Now.AddDays(1), "userscores");
         }
 
         public void UpdateUserScores(Guid id)
         {
-            _cacheProvider.Invalidate("userscores");
+            this.cacheProvider.Invalidate("userscores");
         }
 
         public void UpdateTopicScores(int id)
         {
-            _cacheProvider.Invalidate("topicscores");
+            this.cacheProvider.Invalidate("topicscores");
         }
 
         #region Anomaly detection
 
         public IEnumerable<Topic> AvailebleTopics()
         {
-            return _storage.AvailebleTopics();
+            return this.storage.AvailebleTopics();
         }
 
         public IEnumerable<Group> AvailebleGroups(int topicId)
         {
-            return _storage.AvailebleGroups(topicId);
+            return this.storage.AvailebleGroups(topicId);
         }
 
         public IEnumerable<KeyValuePair<User, double[]>> GetAllStudentListForTraining(int topicId)
         {
-            return _storage.GetAllStudentListForTraining(topicId);
+            return this.storage.GetAllStudentListForTraining(topicId);
         }
 
         public IEnumerable<KeyValuePair<User, double[]>> GetStudentListForTraining(int topicId, int groupId)
         {
-            return _storage.GetStudentListForTraining(topicId, groupId);
+            return this.storage.GetStudentListForTraining(topicId, groupId);
         }
 
         #endregion
