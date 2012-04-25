@@ -9,30 +9,30 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.DisciplineManagement.Localization.getMessage("CreateDiscipline")%>
+	<%=IUDICO.DisciplineManagement.Localization.GetMessage("CreateDiscipline")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.DisciplineManagement.Localization.getMessage("CreateDiscipline")%></h2>
+    <h2><%=IUDICO.DisciplineManagement.Localization.GetMessage("CreateDiscipline")%></h2>
 
     <% Html.EnableClientValidation(); %>
 
     <% using (Html.BeginForm()) {%>
-        <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+        <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
 
         <fieldset>
-            <legend><%=IUDICO.DisciplineManagement.Localization.getMessage("Fields")%></legend>
+            <legend><%=IUDICO.DisciplineManagement.Localization.GetMessage("Fields")%></legend>
             
             <%= Html.EditorForModel() %>
         </fieldset>
         <p>
-            <input type="submit" value="<%=IUDICO.DisciplineManagement.Localization.getMessage("Create")%>" />
+            <input type="submit" value="<%=IUDICO.DisciplineManagement.Localization.GetMessage("Create")%>" />
         </p>
     <% } %>
 
     <div>
-        <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("BackToList"), "Index")%>
+        <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.GetMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>

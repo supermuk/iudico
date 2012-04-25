@@ -30,9 +30,9 @@ namespace IUDICO.DisciplineManagement.Models
         {
             switch (topicType)
             {
-                case TopicTypeEnum.Test: return Localization.getMessage("TopicType.Test");
-                case TopicTypeEnum.Theory: return Localization.getMessage("TopicType.Theory");
-                case TopicTypeEnum.TestWithoutCourse: return Localization.getMessage("TopicType.TestWithoutCourse");
+                case TopicTypeEnum.Test: return Localization.GetMessage("TopicType.Test");
+                case TopicTypeEnum.Theory: return Localization.GetMessage("TopicType.Theory");
+                case TopicTypeEnum.TestWithoutCourse: return Localization.GetMessage("TopicType.TestWithoutCourse");
                 default: throw new ArgumentOutOfRangeException();
             }
         }
@@ -40,8 +40,8 @@ namespace IUDICO.DisciplineManagement.Models
         public static string ToString(DateTime? value)
         {
             return value.HasValue ?
-                String.Format("{0:g}", value.Value) :
-                Localization.getMessage("DateNotSpecified");
+                string.Format("{0:g}", value.Value) :
+                Localization.GetMessage("DateNotSpecified");
         }
 
         public static IList<ShareUser> ToShareUsers(this IEnumerable<User> users, bool isShared)
@@ -90,18 +90,18 @@ namespace IUDICO.DisciplineManagement.Models
                 TestCourseName =
                     topic.TestCourseRef.HasValue && topic.TestCourseRef != Constants.TestWithoutCourseId
                         ? storage.GetCourse(topic.TestCourseRef.Value).Name
-                        : String.Empty,
+                        : string.Empty,
                 TestTopicType = topic.TestTopicTypeRef.HasValue
                                     ? ToString(
                                         storage.GetTopicType(topic.TestTopicTypeRef.Value))
-                                    : String.Empty,
+                                    : string.Empty,
                 TheoryCourseName = topic.TheoryCourseRef.HasValue
                                        ? storage.GetCourse(topic.TheoryCourseRef.Value).Name
-                                       : String.Empty,
+                                       : string.Empty,
                 TheoryTopicType = topic.TheoryTopicTypeRef.HasValue
                                       ? ToString(
                                           storage.GetTopicType(topic.TheoryTopicTypeRef.Value))
-                                      : String.Empty,
+                                      : string.Empty,
                 TopicName = topic.Name
             };
         }

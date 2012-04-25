@@ -5,10 +5,10 @@
 <% Html.EnableClientValidation(); %>
 
 <% using (Ajax.BeginForm("EditTopic", "Curriculum", new { }, new AjaxOptions() { OnFailure = "onFailure", OnSuccess = "onEditTopicSuccess" })) { %>
-    <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+    <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
 
     <fieldset>
-        <legend><%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
+        <legend><%=IUDICO.CurriculumManagement.Localization.GetMessage("Fields")%></legend>
             
         <%= Html.EditorForModel() %>
 

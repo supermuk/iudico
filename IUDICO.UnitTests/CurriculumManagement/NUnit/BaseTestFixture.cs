@@ -13,36 +13,36 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
     {
         #region Protected members
 
-        protected DisciplineCurriculumTestEngine _Tests = DisciplineCurriculumTestEngine.GetInstance();
+        protected DisciplineCurriculumTestEngine tests = DisciplineCurriculumTestEngine.GetInstance();
 
-        protected IDisciplineStorage _Storage
+        protected IDisciplineStorage Storage
         {
-            get { return _Tests.DisciplineStorage; }
+            get { return this.tests.DisciplineStorage; }
         }
 
-        protected ICurriculumStorage _CurriculumStorage
+        protected ICurriculumStorage CurriculumStorage
         {
-            get { return _Tests.CurriculumStorage; }
+            get { return this.tests.CurriculumStorage; }
         }
 
-        protected ILmsService _LmsService
+        protected ILmsService LmsService
         {
-            get { return _Tests.LmsService; }
+            get { return this.tests.LmsService; }
         }
 
-        protected ICourseService _CourseService
+        protected ICourseService CourseService
         {
-            get { return _Tests.CourseService; }
+            get { return this.tests.CourseService; }
         }
 
-        protected IUserService _UserService
+        protected IUserService UserService
         {
-            get { return _Tests.UserService; }
+            get { return this.tests.UserService; }
         }
 
-        protected DataPreparer _DataPreparer
+        protected DataPreparer DataPreparer
         {
-            get { return _Tests.DataPreparer; }
+            get { return this.tests.DataPreparer; }
         }
 
         protected T GetController<T>() where T : PluginController
@@ -50,27 +50,27 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             PluginController controller;
             if (typeof(T) == typeof(DisciplineController))
             {
-                controller = new DisciplineController(_Storage);
+                controller = new DisciplineController(this.Storage);
             }
             else if (typeof(T) == typeof(ChapterController))
             {
-                controller = new ChapterController(_Storage);
+                controller = new ChapterController(this.Storage);
             }
             else if (typeof(T) == typeof(TopicController))
             {
-                controller = new TopicController(_Storage);
+                controller = new TopicController(this.Storage);
             }
             else if (typeof(T) == typeof(CurriculumController))
             {
-                controller = new CurriculumController(_CurriculumStorage);
+                controller = new CurriculumController(this.CurriculumStorage);
             }
             else if (typeof(T) == typeof(CurriculumChapterController))
             {
-                controller = new CurriculumChapterController(_CurriculumStorage);
+                controller = new CurriculumChapterController(this.CurriculumStorage);
             }
             else if (typeof(T) == typeof(CurriculumChapterTopicController))
             {
-                controller = new CurriculumChapterTopicController(_CurriculumStorage);
+                controller = new CurriculumChapterTopicController(this.CurriculumStorage);
             }
             else
             {
@@ -86,7 +86,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         [SetUp]
         public void InitializeTest()
         {
-            _Tests.ClearTables();
+            this.tests.ClearTables();
         }
     }
 }

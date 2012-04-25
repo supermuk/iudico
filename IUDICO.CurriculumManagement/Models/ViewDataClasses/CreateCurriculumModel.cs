@@ -51,30 +51,35 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
         {
         }
 
-        public CreateCurriculumModel(IEnumerable<Group> groups, int groupId,
-            IEnumerable<Discipline> disciplines, int disciplineId,
-            DateTime? startDate, DateTime? endDate, bool isCreateModel)
+        public CreateCurriculumModel(
+            IEnumerable<Group> groups,
+            int groupId,
+            IEnumerable<Discipline> disciplines,
+            int disciplineId,
+            DateTime? startDate,
+            DateTime? endDate,
+            bool isCreateModel)
         {
-            Groups = groups
+            this.Groups = groups
                      .Select(item => new SelectListItem
                      {
                          Text = item.Name,
                          Value = item.Id.ToString(),
                          Selected = false
                      });
-            GroupId = groupId;
-            Disciplines = disciplines
+            this.GroupId = groupId;
+            this.Disciplines = disciplines
                      .Select(item => new SelectListItem
                      {
                          Text = item.Name,
                          Value = item.Id.ToString(),
                          Selected = false
                      });
-            DisciplineId = disciplineId;
-            SetTimeline = startDate.HasValue && endDate.HasValue;
-            StartDate = startDate ?? DateTime.Now;
-            EndDate = endDate ?? DateTime.Now;
-            IsCreateModel = isCreateModel;
+            this.DisciplineId = disciplineId;
+            this.SetTimeline = startDate.HasValue && endDate.HasValue;
+            this.StartDate = startDate ?? DateTime.Now;
+            this.EndDate = endDate ?? DateTime.Now;
+            this.IsCreateModel = isCreateModel;
         }
     }
 }

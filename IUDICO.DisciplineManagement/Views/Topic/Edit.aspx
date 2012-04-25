@@ -9,23 +9,23 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.DisciplineManagement.Models.ViewDataCla
     <script src="/Scripts/Microsoft/MicrosoftMvcValidation.js" type="text/javascript"></script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.DisciplineManagement.Localization.getMessage("EditTopic") %>
+    <%=IUDICO.DisciplineManagement.Localization.GetMessage("EditTopic") %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.DisciplineManagement.Localization.getMessage("EditTopic") %></h2>
+        <%=IUDICO.DisciplineManagement.Localization.GetMessage("EditTopic") %></h2>
     <h4>
-        <%=ViewData["DisciplineName"]%><%=IUDICO.DisciplineManagement.Localization.getMessage("Next")%><%=ViewData["ChapterName"]%>
-        <%=IUDICO.DisciplineManagement.Localization.getMessage("Next")%><%=ViewData["TopicName"]%>
+        <%=ViewData["DisciplineName"]%><%=IUDICO.DisciplineManagement.Localization.GetMessage("Next")%><%=ViewData["ChapterName"]%>
+        <%=IUDICO.DisciplineManagement.Localization.GetMessage("Next")%><%=ViewData["TopicName"]%>
     </h4>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm("Edit", "Topic"))
        {%>
 
-        <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+        <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
 
         <fieldset>
-            <legend><%=IUDICO.DisciplineManagement.Localization.getMessage("Fields")%></legend>
+            <legend><%=IUDICO.DisciplineManagement.Localization.GetMessage("Fields")%></legend>
             <%= Html.EditorForModel() %>
    
 <%--        <div class="editor-label">
@@ -49,10 +49,10 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.DisciplineManagement.Models.ViewDataCla
         </div>--%>
     </fieldset>
     <p>
-        <input type="submit" value="<%=IUDICO.DisciplineManagement.Localization.getMessage("Update") %>" />
+        <input type="submit" value="<%=IUDICO.DisciplineManagement.Localization.GetMessage("Update") %>" />
     </p>
     <% } %>
     <div>
-        <%: Html.RouteLink(IUDICO.DisciplineManagement.Localization.getMessage("BackToList"), "Topics", new { action = "Index", ChapterId = Model.ChapterId })%>
+        <%: Html.RouteLink(IUDICO.DisciplineManagement.Localization.GetMessage("BackToList"), "Topics", new { action = "Index", ChapterId = Model.ChapterId })%>
     </div>
 </asp:Content>

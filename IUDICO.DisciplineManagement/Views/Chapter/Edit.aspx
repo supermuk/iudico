@@ -8,30 +8,30 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.DisciplineManagement.Localization.getMessage("EditChapter")%>
+	<%=IUDICO.DisciplineManagement.Localization.GetMessage("EditChapter")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.DisciplineManagement.Localization.getMessage("EditChapter")%></h2>
+    <h2><%=IUDICO.DisciplineManagement.Localization.GetMessage("EditChapter")%></h2>
     <% Html.EnableClientValidation(); %>
-    <h4><%=ViewData["DisciplineName"]%><%=IUDICO.DisciplineManagement.Localization.getMessage("Next")%><%=Model.Name%></h4>
+    <h4><%=ViewData["DisciplineName"]%><%=IUDICO.DisciplineManagement.Localization.GetMessage("Next")%><%=Model.Name%></h4>
     <% using (Html.BeginForm()) {%>
-        <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+        <%: Html.ValidationSummary(true, IUDICO.DisciplineManagement.Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         
         <fieldset>
-            <legend><%=IUDICO.DisciplineManagement.Localization.getMessage("Fields")%></legend>
+            <legend><%=IUDICO.DisciplineManagement.Localization.GetMessage("Fields")%></legend>
             
             <%= Html.EditorForModel()%>
         </fieldset>
         <p>
-            <input type="submit" value="<%=IUDICO.DisciplineManagement.Localization.getMessage("Update")%>" />
+            <input type="submit" value="<%=IUDICO.DisciplineManagement.Localization.GetMessage("Update")%>" />
         </p>
     <% } %>
 
     <div>
         <br />
-        <%: Html.RouteLink(IUDICO.DisciplineManagement.Localization.getMessage("BackToList"), "Chapters", new { action = "Index", DisciplineId = HttpContext.Current.Session["DisciplineId"] })%>
+        <%: Html.RouteLink(IUDICO.DisciplineManagement.Localization.GetMessage("BackToList"), "Chapters", new { action = "Index", DisciplineId = HttpContext.Current.Session["DisciplineId"] })%>
     </div>
 
 </asp:Content>

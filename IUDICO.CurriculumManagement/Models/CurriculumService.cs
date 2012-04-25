@@ -10,36 +10,36 @@ namespace IUDICO.CurriculumManagement.Models
 {
     public class CurriculumService : ICurriculumService
     {
-        private readonly ICurriculumStorage _curriculumStorage;
+        private readonly ICurriculumStorage curriculumStorage;
 
         public CurriculumService(ICurriculumStorage curriculumStorage)
         {
-            _curriculumStorage = curriculumStorage;
+            this.curriculumStorage = curriculumStorage;
         }
 
         public IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate)
         {
-            return _curriculumStorage.GetCurriculums(predicate);
+            return this.curriculumStorage.GetCurriculums(predicate);
         }
 
         public IList<TopicDescription> GetTopicDescriptions(User user)
         {
-            return _curriculumStorage.GetTopicDescriptions(user);
+            return this.curriculumStorage.GetTopicDescriptions(user);
         }
 
         public IEnumerable<TopicDescription> GetTopicDescriptionsByTopics(IEnumerable<Topic> topics, User user)
         {
-            return _curriculumStorage.GetTopicDescriptionsByTopics(topics, user);
+            return this.curriculumStorage.GetTopicDescriptionsByTopics(topics, user);
         }
 
         public CurriculumChapterTopic GetCurriculumChapterTopicById(int curriculumChapterTopicId)
         {
-            return _curriculumStorage.GetCurriculumChapterTopic(curriculumChapterTopicId);
+            return this.curriculumStorage.GetCurriculumChapterTopic(curriculumChapterTopicId);
         }
 
         public bool CanPassCurriculumChapterTopic(User user, CurriculumChapterTopic curriculumChapterTopic, TopicTypeEnum topicType)
         {
-            return _curriculumStorage.CanPassCurriculumChapterTopic(user, curriculumChapterTopic, topicType);
+            return this.curriculumStorage.CanPassCurriculumChapterTopic(user, curriculumChapterTopic, topicType);
         }
     }
 }

@@ -12,34 +12,34 @@ namespace IUDICO.UnitTests.CurriculumManagement
         public Moq.Mock<HttpRequestBase> Request { get; private set; }
         public Moq.Mock<HttpResponseBase> Response { get; private set; }
         public RouteData RouteData { get; private set; }
-        public ContextMocks(Controller onController)
+        public ContextMocks(Controller controller)
         {
             // Define all the common context objects, plus relationships between them
-            HttpContext = new Moq.Mock<HttpContextBase>();
-            Request = new Moq.Mock<HttpRequestBase>();
-            Response = new Moq.Mock<HttpResponseBase>();
+            this.HttpContext = new Moq.Mock<HttpContextBase>();
+            this.Request = new Moq.Mock<HttpRequestBase>();
+            this.Response = new Moq.Mock<HttpResponseBase>();
             RouteData = new RouteData();
-            HttpContext.Setup(x => x.Request).Returns(Request.Object);
-            HttpContext.Setup(x => x.Response).Returns(Response.Object);
-            HttpContext.Setup(x => x.Session).Returns(new FakeSessionState());
+            this.HttpContext.Setup(x => x.Request).Returns(this.Request.Object);
+            this.HttpContext.Setup(x => x.Response).Returns(this.Response.Object);
+            this.HttpContext.Setup(x => x.Session).Returns(new FakeSessionState());
 
-            Request.Setup(x => x.Cookies).Returns(new HttpCookieCollection());
-            Response.Setup(x => x.Cookies).Returns(new HttpCookieCollection());
-            Request.Setup(x => x.QueryString).Returns(new NameValueCollection());
-            Request.Setup(x => x.Form).Returns(new NameValueCollection());
+            this.Request.Setup(x => x.Cookies).Returns(new HttpCookieCollection());
+            this.Response.Setup(x => x.Cookies).Returns(new HttpCookieCollection());
+            this.Request.Setup(x => x.QueryString).Returns(new NameValueCollection());
+            this.Request.Setup(x => x.Form).Returns(new NameValueCollection());
             // Apply the mock context to the supplied controller instance
-            var rc = new RequestContext(HttpContext.Object, RouteData);
-            onController.ControllerContext = new ControllerContext(rc, onController);
+            var rc = new RequestContext(this.HttpContext.Object, this.RouteData);
+            controller.ControllerContext = new ControllerContext(rc, controller);
         }
 
         // Use a fake HttpSessionStateBase, because it's hard to mock it with Moq
         private class FakeSessionState : HttpSessionStateBase
         {
-            readonly Dictionary<string, object> _items = new Dictionary<string, object>();
+            readonly Dictionary<string, object> items = new Dictionary<string, object>();
             public override object this[string name]
             {
-                get { return _items.ContainsKey(name) ? _items[name] : null; }
-                set { _items[name] = value; }
+                get { return this.items.ContainsKey(name) ? this.items[name] : null; }
+                set { this.items[name] = value; }
             }
         }
     }

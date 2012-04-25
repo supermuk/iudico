@@ -12,7 +12,7 @@
 </script>
 <fieldset>
     <legend>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("Fields")%></legend>
+        <%=IUDICO.CurriculumManagement.Localization.GetMessage("Fields")%></legend>
     <% if (Model.IsCreateModel)
        {%>
         <div class="editor-label">

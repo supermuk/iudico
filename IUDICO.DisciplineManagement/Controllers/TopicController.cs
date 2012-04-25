@@ -36,38 +36,38 @@ namespace IUDICO.DisciplineManagement.Controllers
             }
         }
 
-        //[Allow(Role = Role.Teacher)]
-        //public ActionResult Index(int chapterId)
-        //{
-        //    var topics = Storage.GetTopics(item => item.ChapterRef == chapterId);
-        //    var chapter = Storage.GetChapter(chapterId);
-        //    var discipline = Storage.GetDiscipline(chapter.DisciplineRef);
+/*        [Allow(Role = Role.Teacher)]
+        public ActionResult Index(int chapterId)
+        {
+            var topics = Storage.GetTopics(item => item.ChapterRef == chapterId);
+            var chapter = Storage.GetChapter(chapterId);
+            var discipline = Storage.GetDiscipline(chapter.DisciplineRef);
 
-        //    ViewData["DisciplineName"] = discipline.Name;
-        //    ViewData["ChapterName"] = chapter.Name;
-        //    ViewData["DisciplineId"] = chapter.DisciplineRef;
-        //    return View(
-        //        topics.Select(item => new ViewTopicModel
-        //        {
-        //            Id = item.Id,
-        //            Created = Converter.ToString(item.Created),
-        //            Updated = Converter.ToString(item.Updated),
-        //            TestCourseName = item.TestCourseRef.HasValue && item.TestCourseRef != Constants.NoCourseId ?
-        //                Storage.GetCourse(item.TestCourseRef.Value).Name :
-        //                String.Empty,
-        //            TestTopicType = item.TestTopicTypeRef.HasValue ?
-        //                Converter.ToString(Storage.GetTopicType(item.TestTopicTypeRef.Value)) :
-        //                String.Empty,
-        //            TheoryCourseName = item.TheoryCourseRef.HasValue ?
-        //                Storage.GetCourse(item.TheoryCourseRef.Value).Name :
-        //                String.Empty,
-        //            TheoryTopicType = item.TheoryTopicTypeRef.HasValue ?
-        //                Converter.ToString(Storage.GetTopicType(item.TheoryTopicTypeRef.Value)) :
-        //                String.Empty,
-        //            TopicName = item.Name
-        //        })
-        //    );
-        //}
+            ViewData["DisciplineName"] = discipline.Name;
+            ViewData["ChapterName"] = chapter.Name;
+            ViewData["DisciplineId"] = chapter.DisciplineRef;
+            return View(
+                topics.Select(item => new ViewTopicModel
+                {
+                    Id = item.Id,
+                    Created = Converter.ToString(item.Created),
+                    Updated = Converter.ToString(item.Updated),
+                    TestCourseName = item.TestCourseRef.HasValue && item.TestCourseRef != Constants.NoCourseId ?
+                        Storage.GetCourse(item.TestCourseRef.Value).Name :
+                        String.Empty,
+                    TestTopicType = item.TestTopicTypeRef.HasValue ?
+                        Converter.ToString(Storage.GetTopicType(item.TestTopicTypeRef.Value)) :
+                        String.Empty,
+                    TheoryCourseName = item.TheoryCourseRef.HasValue ?
+                        Storage.GetCourse(item.TheoryCourseRef.Value).Name :
+                        String.Empty,
+                    TheoryTopicType = item.TheoryTopicTypeRef.HasValue ?
+                        Converter.ToString(Storage.GetTopicType(item.TheoryTopicTypeRef.Value)) :
+                        String.Empty,
+                    TopicName = item.Name
+                })
+            );
+        }*/
 
 
         [HttpGet]

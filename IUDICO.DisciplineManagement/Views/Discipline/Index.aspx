@@ -43,11 +43,11 @@
                 });
 
                 if (ids.length == 0) {
-                    alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("PleaseSelectDisciplinesDelete") %>");
+                    alert("<%=IUDICO.DisciplineManagement.Localization.GetMessage("PleaseSelectDisciplinesDelete") %>");
                     return false;
                 }
 
-                var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedDisciplines") %>");
+                var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.GetMessage("AreYouSureYouWantDeleteSelectedDisciplines") %>");
 
                 if (answer == false) {
                     return false;
@@ -62,7 +62,7 @@
     		                    $("td input:checked").parents("tr").remove();
     		                }
     		                else {
-    		                    alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+    		                    alert("<%=IUDICO.DisciplineManagement.Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
     		                }
                     }
                 });
@@ -227,7 +227,7 @@
         
         
         function deleteDiscipline(id) {
-            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedDiscipline") %>");
+            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.GetMessage("AreYouSureYouWantDeleteSelectedDiscipline") %>");
 
             if (answer == false) {
                 return;
@@ -243,14 +243,14 @@
     		                $(".child-of-discipline" + id).remove();
                     }
                     else {
-    		                alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+    		                alert("<%=IUDICO.DisciplineManagement.Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                     }
                 }
             });
         }
         
         function deleteChapter(id) {
-            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
+            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.GetMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
 
             if (answer == false) {
                 return;
@@ -266,14 +266,14 @@
     		                $(".child-of-chapter" + id).remove();
                     }
                     else {
-    		                alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+    		                alert("<%=IUDICO.DisciplineManagement.Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                     }
                 }
             });
         }
     	
         function deleteTopic(id) {
-            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.getMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
+            var answer = confirm("<%=IUDICO.DisciplineManagement.Localization.GetMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
 
             if (answer == false) {
                 return;
@@ -288,7 +288,7 @@
     		            $("#topic" + id).remove();
                 }
                 else {
-    		            alert("<%=IUDICO.DisciplineManagement.Localization.getMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+    		            alert("<%=IUDICO.DisciplineManagement.Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                 }
                 }
             });
@@ -434,7 +434,7 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.DisciplineManagement.Localization.getMessage("Disciplines")%>
+    <%=IUDICO.DisciplineManagement.Localization.GetMessage("Disciplines")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -443,13 +443,13 @@
 	<link href="<%=  Html.ResolveUrl("~/Scripts/treetable/stylesheets/jquery.treeTable.css")%>" rel="stylesheet" type="text/css" />
 	
     <h2>
-        <%=IUDICO.DisciplineManagement.Localization.getMessage("Disciplines")%></h2>
+        <%=IUDICO.DisciplineManagement.Localization.GetMessage("Disciplines")%></h2>
     <div>
-        <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("CreateNew"), "Create") %>
+        <%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.GetMessage("CreateNew"), "Create") %>
         |
         <% Html.RenderPartial("Import"); %>
         |
-        <a id="DeleteMany" href="#"><%=IUDICO.DisciplineManagement.Localization.getMessage("DeleteSelected")%></a>
+        <a id="DeleteMany" href="#"><%=IUDICO.DisciplineManagement.Localization.GetMessage("DeleteSelected")%></a>
     </div>
 	  <p></p>
 	<table id="disciplines" class="disciplineTable">
@@ -470,15 +470,15 @@
 				<td>	<%: String.Format("{0:g}", item.Created) %>		</td>
 				<td>	<%: String.Format("{0:g}", item.Updated) %>		</td>
 				<td>
-						<a href="#" onclick="addChapter(<%: item.Id %>);"><%=IUDICO.DisciplineManagement.Localization.getMessage("Add")%></a>
+						<a href="#" onclick="addChapter(<%: item.Id %>);"><%=IUDICO.DisciplineManagement.Localization.GetMessage("Add")%></a>
             |
-						<%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("Edit"), "Edit", new { DisciplineID = item.Id })%>
+						<%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.GetMessage("Edit"), "Edit", new { DisciplineID = item.Id })%>
             | 
-            <a href="#" onclick="shareDiscipline(<%: item.Id %>)"><%=IUDICO.DisciplineManagement.Localization.getMessage("Share")%></a>
+            <a href="#" onclick="shareDiscipline(<%: item.Id %>)"><%=IUDICO.DisciplineManagement.Localization.GetMessage("Share")%></a>
             |
-						<%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.getMessage("Export"), "Export", new { DisciplineID = item.Id })%>
+						<%: Html.ActionLink(IUDICO.DisciplineManagement.Localization.GetMessage("Export"), "Export", new { DisciplineID = item.Id })%>
             |
-						<a href="#" onclick="deleteDiscipline(<%: item.Id %>)"><%=IUDICO.DisciplineManagement.Localization.getMessage("Delete")%></a>
+						<a href="#" onclick="deleteDiscipline(<%: item.Id %>)"><%=IUDICO.DisciplineManagement.Localization.GetMessage("Delete")%></a>
 				</td>
 			</tr>
 		<% } %>

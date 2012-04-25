@@ -32,10 +32,8 @@ namespace IUDICO.CurriculumManagement.Controllers
             ViewData["CurriculumId"] = curriculum.Id;
             ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef).Name;
             ViewData["ChapterName"] = Storage.GetChapter(curriculumChapter.ChapterRef).Name;
-            return View
-            (
-                curriculumChapterTopics
-                .Select(item => new ViewCurriculumChapterTopicModel
+            return View(
+                curriculumChapterTopics.Select(item => new ViewCurriculumChapterTopicModel
                     {
                         Id = item.Id,
                         BlockCurriculumAtTesting = item.BlockCurriculumAtTesting,
@@ -45,9 +43,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                         TheoryStartDate = Converter.ToString(item.TheoryStartDate),
                         TheoryEndDate = Converter.ToString(item.TheoryEndDate),
                         MaxScore = item.MaxScore,
-                        TopicName = Storage.GetTopic(item.TopicRef).Name
-                    })
-            );
+                        TopicName = Storage.GetTopic(item.TopicRef).Name }));
         }
 
         [HttpGet]
@@ -58,10 +54,14 @@ namespace IUDICO.CurriculumManagement.Controllers
             var curriculumChapter = Storage.GetCurriculumChapter(curriculumChapterTopic.CurriculumChapterRef);
             var curriculum = Storage.GetCurriculum(curriculumChapter.CurriculumRef);
 
-            var model = new CreateCurriculumChapterTopicModel(curriculumChapterTopic.MaxScore,
-                curriculumChapterTopic.BlockTopicAtTesting, curriculumChapterTopic.BlockCurriculumAtTesting,
-                curriculumChapterTopic.TestStartDate, curriculumChapterTopic.TestEndDate,
-                curriculumChapterTopic.TheoryStartDate, curriculumChapterTopic.TheoryEndDate);
+            var model = new CreateCurriculumChapterTopicModel(
+                curriculumChapterTopic.MaxScore,
+                curriculumChapterTopic.BlockTopicAtTesting,
+                curriculumChapterTopic.BlockCurriculumAtTesting,
+                curriculumChapterTopic.TestStartDate,
+                curriculumChapterTopic.TestEndDate,
+                curriculumChapterTopic.TheoryStartDate,
+                curriculumChapterTopic.TheoryEndDate);
 
             Session["CurriculumChapterId"] = curriculumChapter.Id;
             ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef).Name;

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.CurriculumManagement.Controllers;
-using IUDICO.DisciplineManagement.Controllers;
-using IUDICO.DisciplineManagement.Models;
 using NUnit.Framework;
-using IUDICO.CurriculumManagement.Models.ViewDataClasses;
 
 namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 {
@@ -19,25 +14,23 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         [Test]
         public void AddCurriculum()
         {
-            _DataPreparer.CreateCurriculumsSet1();
-            var expectedItems = _DataPreparer.GetCurriculums();
+            this.DataPreparer.CreateCurriculumsSet1();
+            var expectedItems = this.DataPreparer.GetCurriculums();
             var controller = GetController<CurriculumController>();
 
-            //add curriculums
+            // add curriculums
             expectedItems.ForEach(item => controller.Create(item.ToCreateModel()));
-            //then add "special" curriculum
+            // then add "special" curriculum
             controller.Create(
                 new Curriculum
                 {
                     IsValid = false,
                     IsDeleted = true,
-                    DisciplineRef = _DataPreparer.DisciplineIds[0],
-                    UserGroupRef = _UserService.GetGroup(2).Id
-                }.ToCreateModel()
-            );
+                    DisciplineRef = this.DataPreparer.DisciplineIds[0],
+                    UserGroupRef = this.UserService.GetGroup(2).Id }.ToCreateModel());
 
-            expectedItems = _DataPreparer.GetCurriculums();
-            var allItems = _CurriculumStorage.GetCurriculums()
+            expectedItems = this.DataPreparer.GetCurriculums();
+            var allItems = this.CurriculumStorage.GetCurriculums()
                 .OrderBy(item => item.Id)
                 .ToList();
             var actualItems = allItems
@@ -49,556 +42,547 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.AreEqual(false, actualItem.IsDeleted);
             Assert.AreEqual(true, actualItem.IsValid);
 
-            //add bad curriculum
+            // add bad curriculum
             controller = GetController<CurriculumController>();
             controller.Create(
                 new Curriculum
                 {
-                    DisciplineRef = _DataPreparer.DisciplineIds[1],
-                    UserGroupRef = _UserService.GetGroup(1).Id,
-                    StartDate = DateTime.Now.AddDays(1), //bad start date
-                    EndDate = DateTime.Now
-                }.ToCreateModel()
-            );
+                    DisciplineRef = this.DataPreparer.DisciplineIds[1],
+                    UserGroupRef = this.UserService.GetGroup(1).Id,
+                    StartDate = DateTime.Now.AddDays(1), // bad start date
+                    EndDate = DateTime.Now }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
-            Assert.AreEqual(expectedItems.Count + 1, _CurriculumStorage.GetCurriculums().Count);
+            Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
 
-            //add bad curriculum
+            // add bad curriculum
             controller = GetController<CurriculumController>();
             controller.Create(
                 new Curriculum
                 {
-                    DisciplineRef = _DataPreparer.DisciplineIds[0], //curriculum with same group and discipline already exist!
-                    UserGroupRef = _UserService.GetGroup(2).Id,
+                    DisciplineRef = this.DataPreparer.DisciplineIds[0], // curriculum with same group and discipline already exist!
+                    UserGroupRef = this.UserService.GetGroup(2).Id,
                     StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
-                }.ToCreateModel()
-            );
+                    EndDate = DateTime.Now }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
-            Assert.AreEqual(expectedItems.Count + 1, _CurriculumStorage.GetCurriculums().Count);
+            Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
 
-            //add bad curriculum
+            // add bad curriculum
             controller = GetController<CurriculumController>();
             controller.Create(
                 new Curriculum
                 {
-                    DisciplineRef = -1, //disciplineId < 0
-                    UserGroupRef = _UserService.GetGroup(2).Id,
+                    DisciplineRef = -1, // disciplineId < 0
+                    UserGroupRef = this.UserService.GetGroup(2).Id,
                     StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
-                }.ToCreateModel()
-            );
+                    EndDate = DateTime.Now }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
-            Assert.AreEqual(expectedItems.Count + 1, _CurriculumStorage.GetCurriculums().Count);
+            Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
 
-            //add bad curriculum
+            // add bad curriculum
             controller = GetController<CurriculumController>();
             controller.Create(
                 new Curriculum
                 {
-                    DisciplineRef = _DataPreparer.DisciplineIds[0],
-                    UserGroupRef = -1, //groupId < 0
+                    DisciplineRef = this.DataPreparer.DisciplineIds[0],
+                    UserGroupRef = -1, // groupId < 0
                     StartDate = DateTime.Now,
-                    EndDate = DateTime.Now
-                }.ToCreateModel()
-            );
+                    EndDate = DateTime.Now }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
-            Assert.AreEqual(expectedItems.Count + 1, _CurriculumStorage.GetCurriculums().Count);
+            Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
 
-            //add bad curriculum
-            //controller = GetController<CurriculumController>();
-            //controller.Create(
-            //    new Curriculum
-            //    {
-            //        DisciplineRef = _DataPreparer.DisciplineIds[1],
-            //        UserGroupRef = _UserService.GetGroup(1).Id,
-            //        StartDate = DateTime.Now, //choose end date too!
-            //        EndDate = null
-            //    }.ToCreateModel()
-            //);
-            //Assert.AreEqual(false, controller.ModelState.IsValid);
-            //Assert.AreEqual(expectedItems.Count + 1, _CurriculumStorage.GetCurriculums().Count);
+            // add bad curriculum
+            // controller = GetController<CurriculumController>();
+            // controller.Create(
+            // new Curriculum
+            // {
+            // DisciplineRef = _DataPreparer.DisciplineIds[1],
+            // UserGroupRef = _UserService.GetGroup(1).Id,
+            // StartDate = DateTime.Now, //choose end date too!
+            // EndDate = null
+            // }.ToCreateModel()
+            // );
+            // Assert.AreEqual(false, controller.ModelState.IsValid);
+            // Assert.AreEqual(expectedItems.Count + 1, _CurriculumStorage.GetCurriculums().Count);
 
-            //add bad curriculum
+            // add bad curriculum
             controller = GetController<CurriculumController>();
             controller.Create(
                 new Curriculum
                 {
-                    DisciplineRef = _DataPreparer.DisciplineIds[1],
-                    UserGroupRef = _UserService.GetGroup(1).Id,
-                    StartDate = new DateTime(1100, 1, 1), //too small date
-                    EndDate = new DateTime(2400, 1, 1) //too big date
-                }.ToCreateModel()
-            );
+                    DisciplineRef = this.DataPreparer.DisciplineIds[1],
+                    UserGroupRef = this.UserService.GetGroup(1).Id,
+                    StartDate = new DateTime(1100, 1, 1), // too small date
+                    EndDate = new DateTime(2400, 1, 1) // too big date
+                }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
-            Assert.AreEqual(expectedItems.Count + 1, _CurriculumStorage.GetCurriculums().Count);
+            Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
         }
 
-        //[Test]
-        //public void UpdateCurriculum()
-        //{
-        //    IUserService userService = _Tests.LmsService.FindService<IUserService>();
-        //    Group gr = userService.GetGroup(2);
-
-        //    var disciplines = CreateDefaultData();
-        //    disciplines.ForEach(item => _Storage.AddDiscipline(item));
-
-        //    var curriculums =
-        //        disciplines.Select(item => new Curriculum {Discipline = item, UserGroupRef = gr.Id}).ToList();
-        //    var ids = curriculums.Select(item => _Storage.AddCurriculum(item)).ToList();
-
-        //    curriculums.Select((item, i) => i)
-        //        .ToList()
-        //        .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
-
-        //    var timelines = curriculums.Select(item => new Timeline
-        //                                                   {
-        //                                                       Curriculum = item,
-        //                                                       StartDate = new DateTime(2011, 12, 1),
-        //                                                       EndDate = new DateTime(2011, 12, 31)
-        //                                                   }).ToList();
-        //    timelines.ForEach(item => _Storage.AddTimeline(item));
-
-        //    var chapters = disciplines.Select(item => new Chapter {Discipline = item, Name = "Chapter"}).ToList();
-        //    var idsSt = chapters.Select(item => _Storage.AddChapter(item)).ToList();
-
-        //    List<Timeline> chapterTimeline = new List<Timeline>();
-        //    for (int i = 0; i < disciplines.Count; ++i)
-        //    {
-        //        chapterTimeline.Add(new Timeline
-        //                                {
-        //                                    Curriculum = curriculums[i],
-        //                                    ChapterRef = idsSt[i],
-        //                                    StartDate = new DateTime(2011, 12, 1 + i*3),
-        //                                    EndDate = new DateTime(2011, 12, 4 + i*3)
-        //                                });
-        //    }
-        //    chapterTimeline.ForEach(item => _Storage.AddTimeline(item));
-
-        //    var topic =
-        //        chapters.Select(item => new Topic {Name = "Topic", Chapter = item, TopicType = _Storage.GetTopicType(2)})
-        //            .ToList();
-        //    topic.ForEach(item => _Storage.AddTopic(item));
-
-        //    List<TopicAssignment> topicAssignments = new List<TopicAssignment>();
-        //    for (int i = 0; i < disciplines.Count; ++i)
-        //    {
-        //        topicAssignments.Add(new TopicAssignment
-        //                                 {
-        //                                     Curriculum = curriculums[i],
-        //                                     Topic = topic[i],
-        //                                     MaxScore = i*5
-        //                                 });
-        //    }
-        //    topicAssignments.ForEach(item => _Storage.AddTopicAssignment(item));
-
-        //    curriculums.ForEach(item => _Storage.UpdateCurriculum(item));
-
-        //    curriculums.Select((item, i) => i)
-        //        .ToList()
-        //        .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
-
-        //    try
-        //    {
-        //        _Storage.UpdateCurriculum(null);
-        //        Assert.Fail();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Assert.AreEqual(true, true);
-        //    }
-        //    try
-        //    {
-        //        _Storage.UpdateCurriculum(new Curriculum());
-        //        Assert.Fail();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Assert.AreEqual(true, true);
-        //    }
-        //}
-
-        //[Test]
-        //public void DeleteCurriculum()
-        //{
-        //    IUserService userService = _Tests.LmsService.FindService<IUserService>();
-        //    Group gr = userService.GetGroup(2);
-
-        //    var disciplines = CreateDefaultData();
-        //    disciplines.ForEach(item => _Storage.AddDiscipline(item));
-
-        //    var curriculums =
-        //        disciplines.Select(item => new Curriculum {Discipline = item, UserGroupRef = gr.Id}).ToList();
-
-        //    var timelines = curriculums.Select(item => new Timeline
-        //                                                   {
-        //                                                       Curriculum = item,
-        //                                                       StartDate = new DateTime(2011, 5, 1),
-        //                                                       EndDate = new DateTime(2011, 5, 31)
-        //                                                   }).ToList();
-        //    var idsT = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
-
-        //    var chapters = disciplines.Select(item => new Chapter {Discipline = item, Name = "Chapter"}).ToList();
-        //    var idsSt = chapters.Select(item => _Storage.AddChapter(item)).ToList();
-
-        //    List<Timeline> chapterTimeline = new List<Timeline>();
-        //    for (int i = 0; i < disciplines.Count; ++i)
-        //    {
-        //        chapterTimeline.Add(new Timeline
-        //                                {
-        //                                    Curriculum = curriculums[i],
-        //                                    ChapterRef = idsSt[i],
-        //                                    StartDate = new DateTime(2011, 5, 1 + i*4),
-        //                                    EndDate = new DateTime(2011, 5, 4 + i*4)
-        //                                });
-        //    }
-        //    var idsStT = chapterTimeline.Select(item => _Storage.AddTimeline(item)).ToList();
-
-        //    var topic =
-        //        chapters.Select(item => new Topic {Name = "Topic", Chapter = item, TopicType = _Storage.GetTopicType(2)})
-        //            .ToList();
-        //    topic.ForEach(item => _Storage.AddTopic(item));
-
-        //    List<TopicAssignment> topicAssignments = new List<TopicAssignment>();
-        //    for (int i = 0; i < disciplines.Count; ++i)
-        //    {
-        //        topicAssignments.Add(new TopicAssignment
-        //                                 {
-        //                                     Curriculum = curriculums[i],
-        //                                     Topic = topic[i],
-        //                                     MaxScore = i*5
-        //                                 });
-        //    }
-        //    var idsThA = topicAssignments.Select(item => _Storage.AddTopicAssignment(item)).ToList();
-
-
-        //    var ids = curriculums.Select(item => _Storage.AddCurriculum(item)).ToList();
-
-        //    curriculums.Select((item, i) => i)
-        //        .ToList()
-        //        .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
-
-
-        //    curriculums.ForEach(item => _Storage.DeleteCurriculum(item.Id));
-
-
-        //    curriculums.Select((item, i) => i)
-        //        .ToList()
-        //        .ForEach(i => Assert.AreEqual(null, _Storage.GetCurriculum(ids[i])));
-
-        //    Assert.AreEqual(0, _Storage.GetChapterTimelinesByCurriculumId(1).ToList().Count());
-        //    for (int i = 0; i < chapterTimeline.Count; ++i)
-        //    {
-        //        for (int j = 0; j < _Storage.GetChapterTimelinesByCurriculumId(ids[i]).ToList().Count; ++j)
-        //        {
-        //            Assert.AreEqual(null, _Storage.GetChapterTimelinesByCurriculumId(ids[i]).ToList()[j]);
-        //        }
-        //    }
-
-        //    //topicAssignments.Select((item, i) => i)
-        //    //    .ToList()
-        //    //    .ForEach(i => Assert.AreEqual(null, _Storage.GetTopicAssignment(idsThA[i])));
-
-        //    try
-        //    {
-        //        _Storage.DeleteCurriculum(ids.Max() + 1);
-        //        Assert.Fail();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Assert.AreEqual(true, true);
-        //    }
-        //}
-
-        //[Test]
-        //public void DeleteCurriculums()
-        //{
-        //    IUserService userService = _Tests.LmsService.FindService<IUserService>();
-        //    Group gr = userService.GetGroup(2);
-
-        //    var disciplines = CreateDefaultData();
-        //    disciplines.ForEach(item => _Storage.AddDiscipline(item));
-
-        //    var curriculums =
-        //        disciplines.Select(item => new Curriculum {Discipline = item, UserGroupRef = gr.Id}).ToList();
-
-        //    var timelines = curriculums.Select(item => new Timeline
-        //                                                   {
-        //                                                       Curriculum = item,
-        //                                                       StartDate = new DateTime(2011, 5, 1),
-        //                                                       EndDate = new DateTime(2011, 5, 31)
-        //                                                   }).ToList();
-        //    var idsT = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
-
-        //    var chapters = disciplines.Select(item => new Chapter {Discipline = item, Name = "Chapter"}).ToList();
-        //    var idsSt = chapters.Select(item => _Storage.AddChapter(item)).ToList();
-
-        //    List<Timeline> chapterTimeline = new List<Timeline>();
-        //    for (int i = 0; i < disciplines.Count; ++i)
-        //    {
-        //        chapterTimeline.Add(new Timeline
-        //                                {
-        //                                    Curriculum = curriculums[i],
-        //                                    ChapterRef = idsSt[i],
-        //                                    StartDate = new DateTime(2011, 5, 1 + i*4),
-        //                                    EndDate = new DateTime(2011, 5, 4 + i*4)
-        //                                });
-        //    }
-        //    var idsStT = chapterTimeline.Select(item => _Storage.AddTimeline(item)).ToList();
-
-        //    var topic =
-        //        chapters.Select(item => new Topic {Name = "Topic", Chapter = item, TopicType = _Storage.GetTopicType(2)})
-        //            .ToList();
-        //    topic.ForEach(item => _Storage.AddTopic(item));
-
-        //    List<TopicAssignment> topicAssignments = new List<TopicAssignment>();
-        //    for (int i = 0; i < disciplines.Count; ++i)
-        //    {
-        //        topicAssignments.Add(new TopicAssignment
-        //                                 {
-        //                                     Curriculum = curriculums[i],
-        //                                     Topic = topic[i],
-        //                                     MaxScore = i*5
-        //                                 });
-        //    }
-        //    var idsThA = topicAssignments.Select(item => _Storage.AddTopicAssignment(item)).ToList();
-
-
-        //    var ids = curriculums.Select(item => _Storage.AddCurriculum(item)).ToList();
-
-        //    curriculums.Select((item, i) => i)
-        //        .ToList()
-        //        .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
-
-
-        //    _Storage.DeleteCurriculums(ids);
-
-
-        //    curriculums.Select((item, i) => i)
-        //        .ToList()
-        //        .ForEach(i => Assert.AreEqual(null, _Storage.GetCurriculum(ids[i])));
-
-        //    for (int i = 0; i < chapterTimeline.Count; ++i)
-        //    {
-        //        for (int j = 0; j < _Storage.GetChapterTimelinesByCurriculumId(ids[i]).ToList().Count; ++j)
-        //        {
-        //            Assert.AreEqual(null, _Storage.GetChapterTimelinesByCurriculumId(ids[i]).ToList()[j]);
-        //        }
-        //    }
-        //    try
-        //    {
-        //        _Storage.DeleteCurriculums(null);
-        //        Assert.Fail();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Assert.AreEqual(true, true);
-        //    }
-        //}
-
-        //[Test]
-        //public void MakeCurriculumsInvalid()
-        //{
-        //    IUserService userService = _Tests.LmsService.FindService<IUserService>();
-        //    Group gr = userService.GetGroup(2);
-        //    int groupId = gr.Id;
-
-        //    var disciplines = CreateDefaultData();
-        //    disciplines.ForEach(item => _Storage.AddDiscipline(item));
-
-        //    var curriculums =
-        //        disciplines.Select(item => new Curriculum {Discipline = item, UserGroupRef = gr.Id}).ToList();
-
-        //    var timelines = curriculums.Select(item => new Timeline
-        //                                                   {
-        //                                                       Curriculum = item,
-        //                                                       StartDate = new DateTime(2011, 5, 1),
-        //                                                       EndDate = new DateTime(2011, 5, 31)
-        //                                                   }).ToList();
-        //    var idsT = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
-
-        //    var chapters = disciplines.Select(item => new Chapter {Discipline = item, Name = "Chapter"}).ToList();
-        //    var idsSt = chapters.Select(item => _Storage.AddChapter(item)).ToList();
-
-        //    List<Timeline> chapterTimeline = new List<Timeline>();
-        //    for (int i = 0; i < disciplines.Count; ++i)
-        //    {
-        //        chapterTimeline.Add(new Timeline
-        //                                {
-        //                                    Curriculum = curriculums[i],
-        //                                    ChapterRef = idsSt[i],
-        //                                    StartDate = new DateTime(2011, 7, 1 + i*5),
-        //                                    EndDate = new DateTime(2011, 7, 4 + i*5)
-        //                                });
-        //    }
-        //    var idsStT = chapterTimeline.Select(item => _Storage.AddTimeline(item)).ToList();
-
-        //    var topic =
-        //        chapters.Select(item => new Topic {Name = "Topic", Chapter = item, TopicType = _Storage.GetTopicType(2)})
-        //            .ToList();
-        //    topic.ForEach(item => _Storage.AddTopic(item));
-
-        //    List<TopicAssignment> topicAssignments = new List<TopicAssignment>();
-        //    for (int i = 0; i < disciplines.Count; ++i)
-        //    {
-        //        topicAssignments.Add(new TopicAssignment
-        //                                 {
-        //                                     Curriculum = curriculums[i],
-        //                                     Topic = topic[i],
-        //                                     MaxScore = i*5
-        //                                 });
-        //    }
-        //    var idsThA = topicAssignments.Select(item => _Storage.AddTopicAssignment(item)).ToList();
-
-
-        //    var ids = curriculums.Select(item => _Storage.AddCurriculum(item)).ToList();
-
-        //    curriculums.Select((item, i) => i)
-        //        .ToList()
-        //        .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
-
-
-        //    _Storage.MakeCurriculumsInvalid(groupId);
-
-
-        //    curriculums.Select((item, i) => i)
-        //        .ToList()
-        //        .ForEach(i => Assert.AreEqual(false, _Storage.GetCurriculum(ids[i]).IsValid));
-
-        //    try
-        //    {
-        //        _Storage.MakeCurriculumsInvalid(0);
-        //        Assert.Fail();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Assert.AreEqual(true, true);
-        //    }
-        //}
-
-        //[Test]
-        //public void GetCurriculum()
-        //{
-        //    IUserService userService = _Tests.LmsService.FindService<IUserService>();
-        //    Group gr = userService.GetGroup(2);
-
-        //    Discipline cur = new Discipline {Name = "Discipline"};
-        //    _Storage.AddDiscipline(cur);
-
-        //    Curriculum curAss = new Curriculum {Discipline = cur, UserGroupRef = gr.Id};
-        //    int curAssId = _Storage.AddCurriculum(curAss);
-
-        //    AdvAssert.AreEqual(curAss, _Storage.GetCurriculum(curAssId));
-
-        //    try
-        //    {
-        //        _Storage.GetCurriculum(0);
-        //        Assert.Fail();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Assert.AreEqual(true, true);
-        //    }
-        //}
-
-        //[Test]
-        //public void GetCurriculums()
-        //{
-        //    IUserService userService = _Tests.LmsService.FindService<IUserService>();
-        //    Group gr = userService.GetGroup(2);
-
-        //    Discipline cur = new Discipline {Name = "Discipline"};
-        //    _Storage.AddDiscipline(cur);
-
-        //    List<Curriculum> curAss = new List<Curriculum>();
-        //    curAss.Add(new Curriculum {Discipline = cur, UserGroupRef = gr.Id});
-
-        //    var curAssId = curAss.Select(item => _Storage.AddCurriculum(item)).ToList();
-
-        //    Assert.AreEqual(curAss, _Storage.GetCurriculums(curAssId));
-
-        //    try
-        //    {
-        //        _Storage.GetCurriculums(null);
-        //        Assert.Fail();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Assert.AreEqual(true, true);
-        //    }
-        //}
-
-        //[Test]
-        //public void GetDisciplineAssignmnetsByDisciplineId()
-        //{
-        //    IUserService userService = _Tests.LmsService.FindService<IUserService>();
-        //    Group gr = userService.GetGroup(2);
-
-        //    Discipline cur = new Discipline {Name = "Discipline"};
-        //    var curId = _Storage.AddDiscipline(cur);
-
-        //    List<Curriculum> curAss = new List<Curriculum>();
-        //    curAss.Add(new Curriculum {Discipline = cur, UserGroupRef = gr.Id});
-        //    curAss.ForEach(item => _Storage.AddCurriculum(item));
-
-        //    Assert.AreEqual(curAss, _Storage.GetDisciplineAssignmnetsByDisciplineId(curId).ToList());
-
-        //    try
-        //    {
-        //        _Storage.GetDisciplineAssignmnetsByDisciplineId(curId + 1);
-        //        Assert.Fail();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Assert.AreEqual(true, true);
-        //    }
-        //}
-
-        //[Test]
-        //public void GetCurriculumsByGroupId()
-        //{
-        //    IUserService userService = _Tests.LmsService.FindService<IUserService>();
-        //    Group gr = userService.GetGroup(2);
-        //    int groupId = gr.Id;
-
-        //    Discipline cur = new Discipline {Name = "Discipline"};
-        //    _Storage.AddDiscipline(cur);
-
-        //    List<Curriculum> curAss = new List<Curriculum>();
-        //    curAss.Add(new Curriculum {Discipline = cur, UserGroupRef = gr.Id});
-        //    curAss.ForEach(item => _Storage.AddCurriculum(item));
-
-        //    Assert.AreEqual(curAss, _Storage.GetCurriculumsByGroupId(groupId).ToList());
-
-        //    try
-        //    {
-        //        _Storage.GetDisciplineAssignmnetsByDisciplineId(groupId + 1);
-        //        Assert.Fail();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Assert.AreEqual(true, true);
-        //    }
-        //}
-
-        //[Test]
-        //public void GetDisciplineASsignments()
-        //{
-        //    IUserService userService = _Tests.LmsService.FindService<IUserService>();
-        //    Group gr = userService.GetGroup(2);
-        //    Group group = userService.GetGroup(1);
-
-        //    Discipline cur = new Discipline {Name = "Discipline"};
-        //    _Storage.AddDiscipline(cur);
-
-        //    List<Curriculum> curAss = new List<Curriculum>();
-        //    curAss.Add(new Curriculum {Discipline = cur, UserGroupRef = gr.Id});
-        //    curAss.Add(new Curriculum {Discipline = cur, UserGroupRef = group.Id});
-        //    curAss.Add(new Curriculum {Discipline = cur, UserGroupRef = gr.Id});
-        //    curAss.ForEach(item => _Storage.AddCurriculum(item));
-
-        //    Assert.AreEqual(curAss, _Storage.GetCurriculums().ToList());
-        //}
+/*        [Test]
+        public void UpdateCurriculum()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            var disciplines = CreateDefaultData();
+            disciplines.ForEach(item => _Storage.AddDiscipline(item));
+
+            var curriculums =
+                disciplines.Select(item => new Curriculum { Discipline = item, UserGroupRef = gr.Id }).ToList();
+            var ids = curriculums.Select(item => _Storage.AddCurriculum(item)).ToList();
+
+            curriculums.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
+
+            var timelines = curriculums.Select(item => new Timeline
+                                                           {
+                                                               Curriculum = item,
+                                                               StartDate = new DateTime(2011, 12, 1),
+                                                               EndDate = new DateTime(2011, 12, 31)
+                                                           }).ToList();
+            timelines.ForEach(item => _Storage.AddTimeline(item));
+
+            var chapters = disciplines.Select(item => new Chapter { Discipline = item, Name = "Chapter" }).ToList();
+            var idsSt = chapters.Select(item => _Storage.AddChapter(item)).ToList();
+
+            List<Timeline> chapterTimeline = new List<Timeline>();
+            for (int i = 0; i < disciplines.Count; ++i)
+            {
+                chapterTimeline.Add(new Timeline
+                                        {
+                                            Curriculum = curriculums[i],
+                                            ChapterRef = idsSt[i],
+                                            StartDate = new DateTime(2011, 12, 1 + i * 3),
+                                            EndDate = new DateTime(2011, 12, 4 + i * 3)
+                                        });
+            }
+            chapterTimeline.ForEach(item => _Storage.AddTimeline(item));
+
+            var topic =
+                chapters.Select(item => new Topic { Name = "Topic", Chapter = item, TopicType = _Storage.GetTopicType(2) })
+                    .ToList();
+            topic.ForEach(item => _Storage.AddTopic(item));
+
+            List<TopicAssignment> topicAssignments = new List<TopicAssignment>();
+            for (int i = 0; i < disciplines.Count; ++i)
+            {
+                topicAssignments.Add(new TopicAssignment
+                                         {
+                                             Curriculum = curriculums[i],
+                                             Topic = topic[i],
+                                             MaxScore = i * 5
+                                         });
+            }
+            topicAssignments.ForEach(item => _Storage.AddTopicAssignment(item));
+
+            curriculums.ForEach(item => _Storage.UpdateCurriculum(item));
+
+            curriculums.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
+
+            try
+            {
+                _Storage.UpdateCurriculum(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+            try
+            {
+                _Storage.UpdateCurriculum(new Curriculum());
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+
+        [Test]
+        public void DeleteCurriculum()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            var disciplines = CreateDefaultData();
+            disciplines.ForEach(item => _Storage.AddDiscipline(item));
+
+            var curriculums =
+                disciplines.Select(item => new Curriculum { Discipline = item, UserGroupRef = gr.Id }).ToList();
+
+            var timelines = curriculums.Select(item => new Timeline
+                                                           {
+                                                               Curriculum = item,
+                                                               StartDate = new DateTime(2011, 5, 1),
+                                                               EndDate = new DateTime(2011, 5, 31)
+                                                           }).ToList();
+            var idsT = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var chapters = disciplines.Select(item => new Chapter { Discipline = item, Name = "Chapter" }).ToList();
+            var idsSt = chapters.Select(item => _Storage.AddChapter(item)).ToList();
+
+            List<Timeline> chapterTimeline = new List<Timeline>();
+            for (int i = 0; i < disciplines.Count; ++i)
+            {
+                chapterTimeline.Add(new Timeline
+                                        {
+                                            Curriculum = curriculums[i],
+                                            ChapterRef = idsSt[i],
+                                            StartDate = new DateTime(2011, 5, 1 + i * 4),
+                                            EndDate = new DateTime(2011, 5, 4 + i * 4)
+                                        });
+            }
+            var idsStT = chapterTimeline.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var topic =
+                chapters.Select(item => new Topic { Name = "Topic", Chapter = item, TopicType = _Storage.GetTopicType(2) })
+                    .ToList();
+            topic.ForEach(item => _Storage.AddTopic(item));
+
+            List<TopicAssignment> topicAssignments = new List<TopicAssignment>();
+            for (int i = 0; i < disciplines.Count; ++i)
+            {
+                topicAssignments.Add(new TopicAssignment
+                                         {
+                                             Curriculum = curriculums[i],
+                                             Topic = topic[i],
+                                             MaxScore = i * 5
+                                         });
+            }
+            var idsThA = topicAssignments.Select(item => _Storage.AddTopicAssignment(item)).ToList();
+
+
+            var ids = curriculums.Select(item => _Storage.AddCurriculum(item)).ToList();
+
+            curriculums.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
+
+
+            curriculums.ForEach(item => _Storage.DeleteCurriculum(item.Id));
+
+
+            curriculums.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => Assert.AreEqual(null, _Storage.GetCurriculum(ids[i])));
+
+            Assert.AreEqual(0, _Storage.GetChapterTimelinesByCurriculumId(1).ToList().Count());
+            for (int i = 0; i < chapterTimeline.Count; ++i)
+            {
+                for (int j = 0; j < _Storage.GetChapterTimelinesByCurriculumId(ids[i]).ToList().Count; ++j)
+                {
+                    Assert.AreEqual(null, _Storage.GetChapterTimelinesByCurriculumId(ids[i]).ToList()[j]);
+                }
+            }
+
+            //topicAssignments.Select((item, i) => i)
+            //    .ToList()
+            //    .ForEach(i => Assert.AreEqual(null, _Storage.GetTopicAssignment(idsThA[i])));
+
+            try
+            {
+                _Storage.DeleteCurriculum(ids.Max() + 1);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+
+        [Test]
+        public void DeleteCurriculums()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            var disciplines = CreateDefaultData();
+            disciplines.ForEach(item => _Storage.AddDiscipline(item));
+
+            var curriculums =
+                disciplines.Select(item => new Curriculum { Discipline = item, UserGroupRef = gr.Id }).ToList();
+
+            var timelines = curriculums.Select(item => new Timeline
+                                                           {
+                                                               Curriculum = item,
+                                                               StartDate = new DateTime(2011, 5, 1),
+                                                               EndDate = new DateTime(2011, 5, 31)
+                                                           }).ToList();
+            var idsT = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var chapters = disciplines.Select(item => new Chapter { Discipline = item, Name = "Chapter" }).ToList();
+            var idsSt = chapters.Select(item => _Storage.AddChapter(item)).ToList();
+
+            List<Timeline> chapterTimeline = new List<Timeline>();
+            for (int i = 0; i < disciplines.Count; ++i)
+            {
+                chapterTimeline.Add(new Timeline
+                                        {
+                                            Curriculum = curriculums[i],
+                                            ChapterRef = idsSt[i],
+                                            StartDate = new DateTime(2011, 5, 1 + i * 4),
+                                            EndDate = new DateTime(2011, 5, 4 + i * 4)
+                                        });
+            }
+            var idsStT = chapterTimeline.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var topic =
+                chapters.Select(item => new Topic { Name = "Topic", Chapter = item, TopicType = _Storage.GetTopicType(2) })
+                    .ToList();
+            topic.ForEach(item => _Storage.AddTopic(item));
+
+            List<TopicAssignment> topicAssignments = new List<TopicAssignment>();
+            for (int i = 0; i < disciplines.Count; ++i)
+            {
+                topicAssignments.Add(new TopicAssignment
+                                         {
+                                             Curriculum = curriculums[i],
+                                             Topic = topic[i],
+                                             MaxScore = i * 5
+                                         });
+            }
+            var idsThA = topicAssignments.Select(item => _Storage.AddTopicAssignment(item)).ToList();
+
+
+            var ids = curriculums.Select(item => _Storage.AddCurriculum(item)).ToList();
+
+            curriculums.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
+
+
+            _Storage.DeleteCurriculums(ids);
+
+
+            curriculums.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => Assert.AreEqual(null, _Storage.GetCurriculum(ids[i])));
+
+            for (int i = 0; i < chapterTimeline.Count; ++i)
+            {
+                for (int j = 0; j < _Storage.GetChapterTimelinesByCurriculumId(ids[i]).ToList().Count; ++j)
+                {
+                    Assert.AreEqual(null, _Storage.GetChapterTimelinesByCurriculumId(ids[i]).ToList()[j]);
+                }
+            }
+            try
+            {
+                _Storage.DeleteCurriculums(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+
+        [Test]
+        public void MakeCurriculumsInvalid()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+            int groupId = gr.Id;
+
+            var disciplines = CreateDefaultData();
+            disciplines.ForEach(item => _Storage.AddDiscipline(item));
+
+            var curriculums =
+                disciplines.Select(item => new Curriculum { Discipline = item, UserGroupRef = gr.Id }).ToList();
+
+            var timelines = curriculums.Select(item => new Timeline
+                                                           {
+                                                               Curriculum = item,
+                                                               StartDate = new DateTime(2011, 5, 1),
+                                                               EndDate = new DateTime(2011, 5, 31)
+                                                           }).ToList();
+            var idsT = timelines.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var chapters = disciplines.Select(item => new Chapter { Discipline = item, Name = "Chapter" }).ToList();
+            var idsSt = chapters.Select(item => _Storage.AddChapter(item)).ToList();
+
+            List<Timeline> chapterTimeline = new List<Timeline>();
+            for (int i = 0; i < disciplines.Count; ++i)
+            {
+                chapterTimeline.Add(new Timeline
+                                        {
+                                            Curriculum = curriculums[i],
+                                            ChapterRef = idsSt[i],
+                                            StartDate = new DateTime(2011, 7, 1 + i * 5),
+                                            EndDate = new DateTime(2011, 7, 4 + i * 5)
+                                        });
+            }
+            var idsStT = chapterTimeline.Select(item => _Storage.AddTimeline(item)).ToList();
+
+            var topic =
+                chapters.Select(item => new Topic { Name = "Topic", Chapter = item, TopicType = _Storage.GetTopicType(2) })
+                    .ToList();
+            topic.ForEach(item => _Storage.AddTopic(item));
+
+            List<TopicAssignment> topicAssignments = new List<TopicAssignment>();
+            for (int i = 0; i < disciplines.Count; ++i)
+            {
+                topicAssignments.Add(new TopicAssignment
+                                         {
+                                             Curriculum = curriculums[i],
+                                             Topic = topic[i],
+                                             MaxScore = i * 5
+                                         });
+            }
+            var idsThA = topicAssignments.Select(item => _Storage.AddTopicAssignment(item)).ToList();
+
+
+            var ids = curriculums.Select(item => _Storage.AddCurriculum(item)).ToList();
+
+            curriculums.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
+
+
+            _Storage.MakeCurriculumsInvalid(groupId);
+
+
+            curriculums.Select((item, i) => i)
+                .ToList()
+                .ForEach(i => Assert.AreEqual(false, _Storage.GetCurriculum(ids[i]).IsValid));
+
+            try
+            {
+                _Storage.MakeCurriculumsInvalid(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+
+        [Test]
+        public void GetCurriculum()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            Discipline cur = new Discipline { Name = "Discipline" };
+            _Storage.AddDiscipline(cur);
+
+            Curriculum curAss = new Curriculum { Discipline = cur, UserGroupRef = gr.Id };
+            int curAssId = _Storage.AddCurriculum(curAss);
+
+            AdvAssert.AreEqual(curAss, _Storage.GetCurriculum(curAssId));
+
+            try
+            {
+                _Storage.GetCurriculum(0);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+
+        [Test]
+        public void GetCurriculums()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            Discipline cur = new Discipline { Name = "Discipline" };
+            _Storage.AddDiscipline(cur);
+
+            List<Curriculum> curAss = new List<Curriculum>();
+            curAss.Add(new Curriculum { Discipline = cur, UserGroupRef = gr.Id });
+
+            var curAssId = curAss.Select(item => _Storage.AddCurriculum(item)).ToList();
+
+            Assert.AreEqual(curAss, _Storage.GetCurriculums(curAssId));
+
+            try
+            {
+                _Storage.GetCurriculums(null);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+
+        [Test]
+        public void GetDisciplineAssignmnetsByDisciplineId()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+
+            Discipline cur = new Discipline { Name = "Discipline" };
+            var curId = _Storage.AddDiscipline(cur);
+
+            List<Curriculum> curAss = new List<Curriculum>();
+            curAss.Add(new Curriculum { Discipline = cur, UserGroupRef = gr.Id });
+            curAss.ForEach(item => _Storage.AddCurriculum(item));
+
+            Assert.AreEqual(curAss, _Storage.GetDisciplineAssignmnetsByDisciplineId(curId).ToList());
+
+            try
+            {
+                _Storage.GetDisciplineAssignmnetsByDisciplineId(curId + 1);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+
+        [Test]
+        public void GetCurriculumsByGroupId()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+            int groupId = gr.Id;
+
+            Discipline cur = new Discipline { Name = "Discipline" };
+            _Storage.AddDiscipline(cur);
+
+            List<Curriculum> curAss = new List<Curriculum>();
+            curAss.Add(new Curriculum { Discipline = cur, UserGroupRef = gr.Id });
+            curAss.ForEach(item => _Storage.AddCurriculum(item));
+
+            Assert.AreEqual(curAss, _Storage.GetCurriculumsByGroupId(groupId).ToList());
+
+            try
+            {
+                _Storage.GetDisciplineAssignmnetsByDisciplineId(groupId + 1);
+                Assert.Fail();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(true, true);
+            }
+        }
+
+        [Test]
+        public void GetDisciplineASsignments()
+        {
+            IUserService userService = _Tests.LmsService.FindService<IUserService>();
+            Group gr = userService.GetGroup(2);
+            Group group = userService.GetGroup(1);
+
+            Discipline cur = new Discipline { Name = "Discipline" };
+            _Storage.AddDiscipline(cur);
+
+            List<Curriculum> curAss = new List<Curriculum>();
+            curAss.Add(new Curriculum { Discipline = cur, UserGroupRef = gr.Id });
+            curAss.Add(new Curriculum { Discipline = cur, UserGroupRef = group.Id });
+            curAss.Add(new Curriculum { Discipline = cur, UserGroupRef = gr.Id });
+            curAss.ForEach(item => _Storage.AddCurriculum(item));
+
+            Assert.AreEqual(curAss, _Storage.GetCurriculums().ToList());
+        }*/
 
         #endregion
 

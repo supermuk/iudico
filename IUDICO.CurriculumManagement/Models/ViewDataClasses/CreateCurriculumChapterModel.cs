@@ -32,9 +32,9 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 
         public CreateCurriculumChapterModel(DateTime? startDate, DateTime? endDate)
         {
-            SetTimeline = startDate.HasValue;
-            StartDate = startDate ?? DateTime.Now;
-            EndDate = endDate ?? DateTime.Now;
+            this.SetTimeline = startDate.HasValue;
+            this.StartDate = startDate ?? DateTime.Now;
+            this.EndDate = endDate ?? DateTime.Now;
         }
     }
 }

@@ -11,29 +11,29 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.CurriculumManagement.Localization.getMessage("EditChapterTimelineFor")%>
+    <%=IUDICO.CurriculumManagement.Localization.GetMessage("EditChapterTimelineFor")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("EditChapterTimeline")%>
+        <%=IUDICO.CurriculumManagement.Localization.GetMessage("EditChapterTimeline")%>
     </h2>
     <h4>
         <%: ViewData["DisciplineName"]%>
-        <%= IUDICO.CurriculumManagement.Localization.getMessage("PrevNext")%>
+        <%= IUDICO.CurriculumManagement.Localization.GetMessage("PrevNext")%>
         <%: ViewData["GroupName"] %>
     </h4>
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
-        <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.getMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
+        <%: Html.ValidationSummary(true, IUDICO.CurriculumManagement.Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
         <% Html.RenderPartial("EditorForCurriculumChapterModel", Model); %>
         <p>
-            <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.getMessage("Update")%>" />
+            <input type="submit" value="<%=IUDICO.CurriculumManagement.Localization.GetMessage("Update")%>" />
         </p>
     <% } %>
     <div>
         <br />
-        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToList"), "CurriculumChapters", new { action = "Index", CurriculumId = HttpContext.Current.Session["CurriculumId"] })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.GetMessage("BackToList"), "CurriculumChapters", new { action = "Index", CurriculumId = HttpContext.Current.Session["CurriculumId"] })%>
     </div>
 </asp:Content>
 

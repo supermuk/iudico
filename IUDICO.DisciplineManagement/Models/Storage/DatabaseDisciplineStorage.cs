@@ -13,29 +13,29 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 {
     public class DatabaseDisciplineStorage : IDisciplineStorage
     {
-        private readonly ILmsService _lmsService;
-        private readonly LinqLogger _logger;
+        private readonly ILmsService lmsService;
+        private readonly LinqLogger logger;
 
         protected virtual IDataContext GetDbContext()
         {
             var context = new DBDataContext();
-            //context.DeferredLoadingEnabled = false;
+            // context.DeferredLoadingEnabled = false;
 #if DEBUG
-            context.Log = _logger;
+            context.Log = this.logger;
 #endif
 
-            return context;//new DBDataContext();
+            return context; // new DBDataContext();
         }
 
-        public  DatabaseDisciplineStorage(ILmsService lmsService, LinqLogger logger)
+        public DatabaseDisciplineStorage(ILmsService lmsService, LinqLogger logger)
         {
-            _lmsService = lmsService;
-            _logger = logger;
+            this.lmsService = lmsService;
+            this.logger = logger;
         }
 
         public DatabaseDisciplineStorage(ILmsService lmsService)
         {
-            _lmsService = lmsService;
+            this.lmsService = lmsService;
         }
 
         #region IStorageInterface Members
@@ -44,8 +44,8 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         private IEnumerable<User> GetUsersAvailableForSharing()
         {
-            var currentUser = GetCurrentUser();
-            return _lmsService.FindService<IUserService>()
+            var currentUser = this.GetCurrentUser();
+            return this.lmsService.FindService<IUserService>()
                 .GetUsers(user => user.Roles.Contains(Role.Teacher))
                 .Where(user => user.Id != currentUser.Id)
                 .ToList();
@@ -53,49 +53,49 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         private IEnumerable<User> GetUsers(List<Guid> ids)
         {
-            return _lmsService.FindService<IUserService>().GetUsers(item => ids.Contains(item.Id)).ToList();
+            return this.lmsService.FindService<IUserService>().GetUsers(item => ids.Contains(item.Id)).ToList();
         }
 
         public User GetCurrentUser()
         {
-            return _lmsService.FindService<IUserService>().GetCurrentUser();
+            return this.lmsService.FindService<IUserService>().GetCurrentUser();
         }
 
         public IList<Course> GetCourses()
         {
-            return _lmsService.FindService<ICourseService>().GetCourses(GetCurrentUser()).ToList();
+            return this.lmsService.FindService<ICourseService>().GetCourses(this.GetCurrentUser()).ToList();
         }
 
         public Course GetCourse(int id)
         {
-            return _lmsService.FindService<ICourseService>().GetCourse(id);
+            return this.lmsService.FindService<ICourseService>().GetCourse(id);
         }
 
         public Group GetGroup(int id)
         {
-            return _lmsService.FindService<IUserService>().GetGroup(id);
+            return this.lmsService.FindService<IUserService>().GetGroup(id);
         }
 
         public IList<Group> GetGroups()
         {
-            return _lmsService.FindService<IUserService>().GetGroups().ToList();
+            return this.lmsService.FindService<IUserService>().GetGroups().ToList();
         }
 
         public IList<Group> GetGroupsByUser(User user)
         {
-            return _lmsService.FindService<IUserService>().GetGroupsByUser(user).ToList();
+            return this.lmsService.FindService<IUserService>().GetGroupsByUser(user).ToList();
         }
 
         public IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate)
         {
-            return _lmsService.FindService<ICurriculumService>().GetCurriculums(predicate);
+            return this.lmsService.FindService<ICurriculumService>().GetCurriculums(predicate);
         }
 
         #endregion
 
         #region Discipline methods
 
-        //TODO: FatTony: get rid of private static members!
+        // TODO: FatTony: get rid of private static members!
         private static Discipline GetDiscipline(IDataContext db, int id)
         {
             return db.Disciplines.SingleOrDefault(item => item.Id == id && !item.IsDeleted);
@@ -103,7 +103,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public Discipline GetDiscipline(int id)
         {
-            return GetDiscipline(GetDbContext(), id);
+            return GetDiscipline(this.GetDbContext(), id);
         }
 
         public IList<Discipline> GetDisciplines()
@@ -113,13 +113,13 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public IList<Discipline> GetDisciplines(Func<Discipline, bool> predicate)
         {
-            return GetDbContext().Disciplines.Where(item => !item.IsDeleted).Where(predicate).ToList();
+            return this.GetDbContext().Disciplines.Where(item => !item.IsDeleted).Where(predicate).ToList();
         }
 
         public IList<Discipline> GetDisciplines(User user)
         {
-            var sharedDisciplines = GetDbContext().SharedDisciplines
-                .Where(item => item.UserRef == GetCurrentUser().Id)
+            var sharedDisciplines = this.GetDbContext().SharedDisciplines
+                .Where(item => item.UserRef == this.GetCurrentUser().Id)
                 .Select(item => item.Discipline)
                 .Where(item => !item.IsDeleted);
 
@@ -135,30 +135,30 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public IList<Discipline> GetDisciplinesByGroupId(int groupId)
         {
-            return GetCurriculums(c => c.UserGroupRef == groupId).Select(item => GetDiscipline(item.DisciplineRef)).ToList();
+            return this.GetCurriculums(c => c.UserGroupRef == groupId).Select(item => this.GetDiscipline(item.DisciplineRef)).ToList();
         }
 
         public int AddDiscipline(Discipline discipline)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
 
             discipline.Created = DateTime.Now;
             discipline.Updated = DateTime.Now;
             discipline.IsDeleted = false;
             discipline.IsValid = true;
-            discipline.Owner = GetCurrentUser().Username;
+            discipline.Owner = this.GetCurrentUser().Username;
 
             db.Disciplines.InsertOnSubmit(discipline);
             db.SubmitChanges();
 
-            _lmsService.Inform(DisciplineNotifications.DisciplineCreated, discipline);
+            this.lmsService.Inform(DisciplineNotifications.DisciplineCreated, discipline);
 
             return discipline.Id;
         }
 
         public void UpdateDiscipline(Discipline discipline)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
             var updatingDiscipline = GetDiscipline(db, discipline.Id);
             var oldDiscipline = new Discipline
             {
@@ -172,41 +172,41 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             var data = new object[2];
             data[0] = oldDiscipline;
             data[1] = updatingDiscipline;
-            _lmsService.Inform(DisciplineNotifications.DisciplineEdited, data);
+            this.lmsService.Inform(DisciplineNotifications.DisciplineEdited, data);
         }
 
         public void DeleteDiscipline(int id)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
             var discipline = GetDiscipline(db, id);
 
-            //delete chapters
-            var chapterIds = GetChapters(item => item.DisciplineRef == id).Select(item => item.Id);
-            DeleteChapters(chapterIds);
+            // delete chapters
+            var chapterIds = this.GetChapters(item => item.DisciplineRef == id).Select(item => item.Id);
+            this.DeleteChapters(chapterIds);
 
-            _lmsService.Inform(DisciplineNotifications.DisciplineDeleting, discipline);
+            this.lmsService.Inform(DisciplineNotifications.DisciplineDeleting, discipline);
 
             discipline.IsDeleted = true;
             db.SubmitChanges();
-            _lmsService.Inform(DisciplineNotifications.DisciplineDeleted, discipline);
+            this.lmsService.Inform(DisciplineNotifications.DisciplineDeleted, discipline);
         }
 
         public void DeleteDisciplines(IEnumerable<int> ids)
         {
-            ids.ForEach(DeleteDiscipline);
+            ids.ForEach(this.DeleteDiscipline);
         }
 
-        //public void MakeDisciplineInvalid(int courseId)
-        //{
-        //    var db = GetDbContext();
-        //    var topicIds = GetTopicsByCourseId(courseId).Select(item => item.Id);
-        //    var disciplines = db.Disciplines.Where(item => topicIds.Contains(item.Id) && !item.IsDeleted);
-        //    foreach (Discipline discipline in disciplines)
-        //    {
-        //        discipline.IsValid = false;
-        //    }
-        //    db.SubmitChanges();
-        //}
+/*        public void MakeDisciplineInvalid(int courseId)
+        {
+            var db = GetDbContext();
+            var topicIds = GetTopicsByCourseId(courseId).Select(item => item.Id);
+            var disciplines = db.Disciplines.Where(item => topicIds.Contains(item.Id) && !item.IsDeleted);
+            foreach (Discipline discipline in disciplines)
+            {
+                discipline.IsValid = false;
+            }
+            db.SubmitChanges();
+        }*/
 
         #endregion
 
@@ -214,17 +214,17 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public IList<ShareUser> GetDisciplineSharedUsers(int disciplineId)
         {
-            var userIds = GetDbContext().SharedDisciplines
+            var userIds = this.GetDbContext().SharedDisciplines
                 .Where(item => item.DisciplineRef == disciplineId)
                 .Select(item => item.UserRef)
                 .ToList();
-            return GetUsers(userIds).ToShareUsers(true);
+            return this.GetUsers(userIds).ToShareUsers(true);
         }
 
         public IList<ShareUser> GetDisciplineNotSharedUsers(int disciplineId)
         {
-            var allUsers = GetUsersAvailableForSharing();
-            var sharedUserIds = GetDisciplineSharedUsers(disciplineId)
+            var allUsers = this.GetUsersAvailableForSharing();
+            var sharedUserIds = this.GetDisciplineSharedUsers(disciplineId)
                 .Select(item => item.Id)
                 .ToList();
             return allUsers.Where(user => !sharedUserIds.Contains(user.Id)).ToShareUsers(false);
@@ -232,14 +232,14 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public void UpdateDisciplineSharing(int disciplineId, IEnumerable<Guid> sharewith)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
 
-            //remove old values
+            // remove old values
             var sharedDisciplines = db.SharedDisciplines.Where(item => item.DisciplineRef == disciplineId);
             db.SharedDisciplines.DeleteAllOnSubmit(sharedDisciplines);
             db.SubmitChanges();
 
-            //add new
+            // add new
             db.SharedDisciplines.InsertAllOnSubmit(
                 sharewith.Select(id => new SharedDiscipline
                 {
@@ -260,22 +260,22 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public Chapter GetChapter(int id)
         {
-            return GetChapter(GetDbContext(), id);
+            return GetChapter(this.GetDbContext(), id);
         }
 
         public IList<Chapter> GetChapters(Func<Chapter, bool> predicate)
         {
-            return GetDbContext().Chapters.Where(item => !item.IsDeleted).Where(predicate).ToList();
+            return this.GetDbContext().Chapters.Where(item => !item.IsDeleted).Where(predicate).ToList();
         }
 
         public IList<Chapter> GetChapters(IEnumerable<int> ids)
         {
-            return GetChapters(item => ids.Contains(item.Id));
+            return this.GetChapters(item => ids.Contains(item.Id));
         }
 
         public int AddChapter(Chapter chapter)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
             chapter.Created = DateTime.Now;
             chapter.Updated = DateTime.Now;
             chapter.IsDeleted = false;
@@ -283,13 +283,13 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             db.Chapters.InsertOnSubmit(chapter);
             db.SubmitChanges();
 
-            _lmsService.Inform(DisciplineNotifications.ChapterCreated, chapter);
+            this.lmsService.Inform(DisciplineNotifications.ChapterCreated, chapter);
             return chapter.Id;
         }
 
         public void UpdateChapter(Chapter chapter)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
             Chapter oldChapter = GetChapter(db, chapter.Id);
 
             oldChapter.Name = chapter.Name;
@@ -300,21 +300,21 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public void DeleteChapter(int id)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
             var chapter = GetChapter(db, id);
 
-            //delete corresponding topics
+            // delete corresponding topics
             var topicIds = GetTopics(item => item.ChapterRef == id).Select(item => item.Id);
-            DeleteTopics(topicIds);
+            this.DeleteTopics(topicIds);
 
-            _lmsService.Inform(DisciplineNotifications.ChapterDeleting, chapter);
+            this.lmsService.Inform(DisciplineNotifications.ChapterDeleting, chapter);
             chapter.IsDeleted = true;
             db.SubmitChanges();
         }
 
         public void DeleteChapters(IEnumerable<int> ids)
         {
-            ids.ForEach(DeleteChapter);
+            ids.ForEach(this.DeleteChapter);
         }
 
         #endregion
@@ -328,17 +328,17 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public Topic GetTopic(int id)
         {
-            return GetTopic(GetDbContext(), id);
+            return GetTopic(this.GetDbContext(), id);
         }
 
         public IList<Topic> GetTopics()
         {
-            return GetDbContext().Topics.Where(item => !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
+            return this.GetDbContext().Topics.Where(item => !item.IsDeleted).OrderBy(item => item.SortOrder).ToList();
         }
 
         public IList<Topic> GetTopics(IEnumerable<int> ids)
         {
-            return GetTopics(GetDbContext(), item => ids.Contains(item.Id));
+            return GetTopics(this.GetDbContext(), item => ids.Contains(item.Id));
         }
 
         private static IList<Topic> GetTopics(IDataContext db, Func<Topic, bool> predicate)
@@ -348,27 +348,27 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public IList<Topic> GetTopics(Func<Topic, bool> predicate)
         {
-            return GetTopics(GetDbContext(), predicate).ToList();
+            return GetTopics(this.GetDbContext(), predicate).ToList();
         }
 
         public IList<Topic> GetTopicsByDisciplineId(int disciplineId)
         {
-            return GetChapters(item => item.DisciplineRef == disciplineId).SelectMany(item => GetTopics(item2 => item2.ChapterRef == item.Id)).ToList();
+            return this.GetChapters(item => item.DisciplineRef == disciplineId).SelectMany(item => this.GetTopics(item2 => item2.ChapterRef == item.Id)).ToList();
         }
 
         public IList<Topic> GetTopicsByGroupId(int groupId)
         {
-            return GetDisciplinesByGroupId(groupId).SelectMany(item => GetTopicsByDisciplineId(item.Id)).ToList();
+            return this.GetDisciplinesByGroupId(groupId).SelectMany(item => this.GetTopicsByDisciplineId(item.Id)).ToList();
         }
 
         public IList<Topic> GetTopicsOwnedByUser(User owner)
         {
-            return GetDisciplines(owner).SelectMany(item => GetTopicsByDisciplineId(item.Id)).ToList();
+            return GetDisciplines(owner).SelectMany(item => this.GetTopicsByDisciplineId(item.Id)).ToList();
         }
 
         public IList<Topic> GetTopicsByCourseId(int courseId)
         {
-            return GetDbContext().Topics.Where(item => (item.TestCourseRef == courseId || item.TheoryCourseRef == courseId) && !item.IsDeleted).ToList();
+            return this.GetDbContext().Topics.Where(item => (item.TestCourseRef == courseId || item.TheoryCourseRef == courseId) && !item.IsDeleted).ToList();
         }
 
         public IList<Group> GetGroupsAssignedToTopic(int topicId)
@@ -377,13 +377,13 @@ namespace IUDICO.DisciplineManagement.Models.Storage
                 .Chapter
                 .Discipline
                 .Curriculums
-                .Select(item => GetGroup(item.UserGroupRef))
+                .Select(item => this.GetGroup(item.UserGroupRef)) 
                 .ToList();
         }
 
         public int AddTopic(Topic topic)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
 
             topic.Created = DateTime.Now;
             topic.Updated = DateTime.Now;
@@ -392,15 +392,15 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             db.SubmitChanges();
 
             topic.SortOrder = topic.Id;
-            UpdateTopic(topic);
+            this.UpdateTopic(topic);
 
-            _lmsService.Inform(DisciplineNotifications.TopicCreated, topic);
+            this.lmsService.Inform(DisciplineNotifications.TopicCreated, topic);
             return topic.Id;
         }
 
         public void UpdateTopic(Topic topic)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
             var data = new object[2];
             var updatingTopic = GetTopic(db, topic.Id);
             var oldTopic = new Topic
@@ -419,30 +419,30 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             data[0] = oldTopic;
             data[1] = updatingTopic;
-            _lmsService.Inform(DisciplineNotifications.TopicEdited, data);
+            this.lmsService.Inform(DisciplineNotifications.TopicEdited, data);
         }
 
         public void DeleteTopic(int id)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
             var topic = GetTopic(db, id);
 
-            _lmsService.Inform(DisciplineNotifications.TopicDeleting, topic);
+            this.lmsService.Inform(DisciplineNotifications.TopicDeleting, topic);
 
             topic.IsDeleted = true;
             db.SubmitChanges();
 
-            _lmsService.Inform(DisciplineNotifications.TopicDeleted, topic);
+            this.lmsService.Inform(DisciplineNotifications.TopicDeleted, topic);
         }
 
         public void DeleteTopics(IEnumerable<int> ids)
         {
-            ids.ForEach(DeleteTopic);
+            ids.ForEach(this.DeleteTopic);
         }
 
         public Topic TopicUp(int topicId)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
             var topic = GetTopic(db, topicId);
             IList<Topic> topics = GetTopics(db, item => item.ChapterRef == topic.ChapterRef).ToList();
 
@@ -461,7 +461,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public Topic TopicDown(int topicId)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
             var topic = GetTopic(db, topicId);
             IList<Topic> topics = GetTopics(db, item => item.ChapterRef == topic.ChapterRef).ToList();
 
@@ -484,23 +484,23 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public TopicType GetTopicType(int id)
         {
-            return GetDbContext().TopicTypes.SingleOrDefault(item => item.Id == id);
+            return this.GetDbContext().TopicTypes.SingleOrDefault(item => item.Id == id);
         }
 
         public IList<TopicType> GetTopicTypes()
         {
-            return GetDbContext().TopicTypes.ToList();
+            return this.GetDbContext().TopicTypes.ToList();
         }
 
         public IList<TopicType> GetTheoryTopicTypes()
         {
-            return GetDbContext().TopicTypes.ToList()
+            return this.GetDbContext().TopicTypes.ToList()
                 .Where(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).ToList();
         }
 
         public IList<TopicType> GetTestTopicTypes()
         {
-            return GetDbContext().TopicTypes.ToList()
+            return this.GetDbContext().TopicTypes.ToList()
                 .Where(item => item.ToTopicTypeEnum() == TopicTypeEnum.Test ||
                 item.ToTopicTypeEnum() == TopicTypeEnum.TestWithoutCourse).ToList();
         }
