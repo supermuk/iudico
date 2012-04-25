@@ -67,17 +67,22 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                                                          }
                                                                  })
             });
+            organization.Items = new List<Item>();
+            organization.Items.Add(new Item("123"));
+            organization.Items.Add(new Item());
             organization.Metadata = new Metadata();
-            organization.ObjectivesGlobalToSystem = false;
+            organization.ObjectivesGlobalToSystem = organization.Items[1].IsParent;
             organization.Sequencing = new Sequencing();
             organization.SharedDataGlobalToSystem = true;
             organization.Structure = "structure";
             organization.Title = "title";
-            
+ 
             var manifest = new Manifest();
             manifest.Organizations.AddOrganization(organization);
             manifest.Organizations.Default = "def";
 
+
+            
             var path = Path.Combine(root, "organization.xml");
             manifest.Serialize(new StreamWriter(path));
             Assert.IsTrue(System.IO.File.Exists(path));
@@ -194,6 +199,39 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                         }
                             }
                 };
+            var rule = new RollupRule()
+            {
+                ChildActivitySet = ChildActivitySet.All,
+                CourseId = 1,
+                NodeId = 2,
+                Type = "type",
+                MinimumCount = 1,
+                MinimumPercent = 1,
+                RollupAction = new RollupAction() { Action = RollupActions.Completed }
+            };
+            var con = new RollupConsiderations()
+            {
+                CourseId = 1,
+                NodeId = 2,
+                MeasureSatisfactionIfActive = false,
+                RequiredForCompleted = Required.Always,
+                RequiredForIncomplete = Required.IfNotSkipped,
+                RequiredForNotSatisfied = Required.IfNotSkipped,
+                RequiredForSatisfied = Required.IfAttempted,
+                Type = "type"
+            };
+            sequencing.RollupConsiderations = con;
+            sequencing.RollupRules = new RollupRules()
+                {
+                    CourseId = 1,
+                    NodeId = 2,
+                    ObjectiveMeasureWeight = 1,
+                    RollupObjectiveSatisfied = false,
+                    RollupProgressCompletion = true,
+                    RollupRulesList = new List<RollupRule>()
+                };
+
+            sequencing.RollupRules.RollupRulesList.Add(rule);
 
             var manifest = new Manifest();
             manifest.SequencingCollection = new SequencingCollection();
