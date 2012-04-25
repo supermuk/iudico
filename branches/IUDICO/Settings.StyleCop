@@ -467,6 +467,9 @@
       <AnalyzerSettings>
         <CollectionProperty Name="Hungarian">
           <Value>is</Value>
+		  <Value>ts</Value>
+		  <Value>tr</Value>
+		  <Value>x</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>

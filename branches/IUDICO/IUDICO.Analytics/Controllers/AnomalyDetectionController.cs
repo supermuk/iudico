@@ -30,8 +30,11 @@ namespace IUDICO.Analytics.Controllers
         public ActionResult SelectGroup(int topicId)
         {
             var availableGroups = this.storage.AvailebleGroups(topicId);
+            
             HttpContext.Session["TopicId"] = topicId;
+
             ViewData["ShowError"] = null;
+
             return View(availableGroups);
         }
 
@@ -40,34 +43,37 @@ namespace IUDICO.Analytics.Controllers
         {
             var topicId = (int)HttpContext.Session["TopicId"];
             var studentsAndMarks = this.storage.GetStudentListForTraining(topicId, groupId);
+
             ViewData["ShowError"] = null;
+
             if (HttpContext.Session["ShowError"] != null)
             {
                 HttpContext.Session["ShowError"] = null;
                 ViewData["ShowError"] = true;
             }
+
             return View(studentsAndMarks);
         }
 
         [Allow(Role = Role.Teacher)]
         public ActionResult TrainAlg(string[] tsNormal, string[] tsAnomalies)
         {
-            int topicId = (int)HttpContext.Session["TopicId"];
+            var topicId = (int)HttpContext.Session["TopicId"];
             var studentsAndMarks = this.storage.GetAllStudentListForTraining(topicId);
             TrainingSet[] tr;
 
             try
             {
-                tr = TrainingSetsCreator.generateTrainingSets(studentsAndMarks, tsNormal, tsAnomalies);
+                tr = TrainingSetsCreator.GenerateTrainingSets(studentsAndMarks, tsNormal, tsAnomalies);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 HttpContext.Session["ShowError"] = true;
                 return RedirectToAction("TrainTopic", "AnomalyDetection", new { id = (int)HttpContext.Session["TopicId"] });
             }
 
             ViewData["SkillTags"] = this.storage.GetTags();
-            return View(AnomalyDetectionAlgorithm.runAlg(studentsAndMarks, tr[0], tr[1], tr[2]));
+            return View(AnomalyDetectionAlgorithm.RunAlg(studentsAndMarks, tr[0], tr[1], tr[2]));
         }
     }
 }

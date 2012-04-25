@@ -1,37 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 using Accord.Math;
 
 namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
 {
     public class PxFormula
     {
-        private double[] nu;
-        private double[,] sigma_inverse;
-        private double sigma_det;
+        private readonly double[] nu;
+        private readonly double[,] sigmaInverse;
+        private readonly double sigmaDet;
         private double e = -1;
 
         public PxFormula(double[] nu, double[,] sigma)
         {
             this.nu = nu;
-            this.sigma_det = Matrix.Determinant(sigma);
-            this.sigma_inverse = Matrix.Inverse(sigma);
+            this.sigmaDet = sigma.Determinant();
+            this.sigmaInverse = sigma.Inverse();
         }
 
-        public double calculate(double[] x)
+        public double Calculate(double[] x)
         {
-            double[] x_substract_nu = Matrix.Subtract(x, nu);
-            double[] matrix_multiply = Matrix.Multiply(x_substract_nu, sigma_inverse);
-            double matrix_calculations = 0;
-            int dimension_count = nu.GetLength(0);
-            for (int i = 0; i < dimension_count; i++)
+            var substractNu = x.Subtract(this.nu);
+            var matrixMultiply = substractNu.Multiply(this.sigmaInverse);
+            var matrixCalculations = 0.0;
+
+            var dimensionCount = this.nu.GetLength(0);
+
+            for (var i = 0; i < dimensionCount; i++)
             {
-                matrix_calculations += matrix_multiply[i] * x_substract_nu[i];
+                matrixCalculations += matrixMultiply[i] * substractNu[i];
             }
-            double p_x = Math.Exp(-0.5 * matrix_calculations) / (Math.Pow(2 * Math.PI, dimension_count / 2) * Math.Sqrt(sigma_det));
-            return p_x;
+
+            var pX = Math.Exp(-0.5 * matrixCalculations) / (Math.Pow(2 * Math.PI, dimensionCount / 2) * Math.Sqrt(this.sigmaDet));
+
+            return pX;
         }
 
         /// <summary>
@@ -39,19 +41,19 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg
         /// </summary>
         /// <param name="x">vector of values to check</param>
         /// <returns> true - is anomaly, false - normal entry</returns>
-        public bool isAnomaly(double[] x)
+        public bool IsAnomaly(double[] x)
         {
-            return calculate(x) < e;
+            return this.Calculate(x) < this.e;
         }
 
-        public double[] getNu()
+        public double[] GetNu()
         {
-            return (double[]) this.nu.Clone();
+            return (double[])this.nu.Clone();
         }
 
-        public void setE(double e)
+        public void SetE(double newE)
         {
-            this.e = e;
+            this.e = newE;
         }
     }
 }

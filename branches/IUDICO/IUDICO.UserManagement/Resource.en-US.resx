@@ -384,6 +384,12 @@
   <data name="CourseCreator" xml:space="preserve">
     <value>Course creator</value>
   </data>
+  <data name="CreatedFollowingUsers" xml:space="preserve">
+    <value>Created following users</value>
+  </data>
+  <data name="CreatedMultiple" xml:space="preserve">
+    <value>Created users</value>
+  </data>
   <data name="DeleteAvatar" xml:space="preserve">
     <value>Delete Avatar</value>
   </data>

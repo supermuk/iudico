@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace IUDICO.Analytics.Models.AnomalyDetectionAlg.Accuracy
+﻿namespace IUDICO.Analytics.Models.AnomalyDetectionAlg.Accuracy
 {
     public interface IAccuracy
     {
@@ -13,6 +8,6 @@ namespace IUDICO.Analytics.Models.AnomalyDetectionAlg.Accuracy
         /// <param name="nonAnomaliesSet">training set with ONLY normal entries</param>
         /// <param name="anomaliesSet">training set with ONLY ANOMALY entries</param>
         /// <param name="formula">formula with setted nu and sigme values</param>
-        void calcAccuracy(TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet, PxFormula formula);
+        void CalcAccuracy(TrainingSet nonAnomaliesSet, TrainingSet anomaliesSet, PxFormula formula);
     }
 }

@@ -7,30 +7,31 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     [TestFixture]
     public class ActivateUser
     {
-        protected UserManagementTests _Tests = UserManagementTests.GetInstance();
+        protected UserManagementTests tests = UserManagementTests.GetInstance();
 
         [Test]
         public void ActivateUserExisting()
         {
-            User temp = new User {Username = "name", Email = "mail@mail.com", Password = "123"};
-            _Tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(_Tests.Storage.GetUser(u => u.Username == "panza"));
-            _Tests.Storage.CreateUser(temp);
+            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
-            Guid gg = _Tests.Storage.GetUser(u => u.Username == "name").Id;
+            this.tests.Storage.CreateUser(temp);
 
-            _Tests.Storage.ActivateUser(gg);
+            var gg = this.tests.Storage.GetUser(u => u.Username == "name").Id;
 
-            Assert.AreEqual(_Tests.Storage.GetUser(u => u.Username == "name").IsApproved, true);
+            this.tests.Storage.ActivateUser(gg);
 
-            _Tests.Storage.DeleteUser(u => u.Username == "name");
+            Assert.AreEqual(this.tests.Storage.GetUser(u => u.Username == "name").IsApproved, true);
+
+            this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 
         [Test]
-        [ExpectedException(typeof (InvalidOperationException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void ActivateUserNonExisting()
         {
-            Guid gg = Guid.NewGuid();
-            _Tests.Storage.ActivateUser(gg);
+            var gg = Guid.NewGuid();
+
+            this.tests.Storage.ActivateUser(gg);
         }
     }
 }

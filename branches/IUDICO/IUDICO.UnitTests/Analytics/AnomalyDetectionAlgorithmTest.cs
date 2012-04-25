@@ -23,9 +23,9 @@ namespace IUDICO.UnitTests.Analytics
             var listOfStudents = GetStudentListForPMI43();
             string[] normal = new string[] { "2", "13", "6" };
             string[] anomalies = new string[] { "8", "10" };
-            var trainingSets = TrainingSetsCreator.generateTrainingSets(listOfStudents, normal, anomalies);
+            var trainingSets = TrainingSetsCreator.GenerateTrainingSets(listOfStudents, normal, anomalies);
 
-            var algirithmResults = AnomalyDetectionAlgorithm.runAlg(listOfStudents, trainingSets[0], trainingSets[1], trainingSets[2]);
+            var algirithmResults = AnomalyDetectionAlgorithm.RunAlg(listOfStudents, trainingSets[0], trainingSets[1], trainingSets[2]);
 
             Assert.AreEqual(algirithmResults.First(x => x.Key.Key.OpenId == "2").Value, false);
             Assert.AreEqual(algirithmResults.First(x => x.Key.Key.OpenId == "6").Value, false);
@@ -40,9 +40,9 @@ namespace IUDICO.UnitTests.Analytics
         {
             AnomalyDetectionAlgorithm algObject = new AnomalyDetectionAlgorithm();
 
-            algObject.setAccuracy(null);
+            algObject.SetAccuracy(null);
 
-            Assert.AreEqual(algObject.getAccuracy(), null);
+            Assert.AreEqual(algObject.GetAccuracy(), null);
         }
 
         public IEnumerable<KeyValuePair<User, double[]>> GetStudentListForPMI43()

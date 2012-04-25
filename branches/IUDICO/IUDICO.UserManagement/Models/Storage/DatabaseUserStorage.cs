@@ -218,8 +218,6 @@ namespace IUDICO.UserManagement.Models.Storage
             var user = db.Users.SingleOrDefault(u => u.Email == restorePasswordModel.Email);
             var password = this.RandomPassword();
 
-            ////db.Users.Attach(user);
-
             user.Password = this.EncryptPassword(password);
 
             db.SubmitChanges();
@@ -254,6 +252,35 @@ namespace IUDICO.UserManagement.Models.Storage
             return true;
         }
 
+        protected User CreateCSVUser(DataRecord record)
+        {
+            var role = (int)Enum.Parse(typeof(Role), record.GetValueOrNull("Role") ?? "Student");
+            var password = record.GetValueOrNull("Password");
+
+            if (string.IsNullOrEmpty(password))
+            {
+                password = this.RandomPassword();
+            }
+
+            var user = new User
+            {
+                Id = Guid.NewGuid(),
+                Username = record.GetValueOrNull("Username") ?? string.Empty,
+                Password = password,
+                Email = record.GetValueOrNull("Email") ?? string.Empty,
+                Name = record.GetValueOrNull("Name") ?? string.Empty,
+                OpenId = record.GetValueOrNull("OpenId") ?? string.Empty,
+                Deleted = false,
+                IsApproved = true,
+                ApprovedBy = this.GetCurrentUser().Id,
+                CreationDate = DateTime.Now,
+            };
+
+            user.UserRoles.Add(new UserRole { RoleRef = role, UserRef = user.Id });
+
+            return user;
+        }
+
         public Dictionary<string, string> CreateUsersFromCSV(string csvPath)
         {
             var users = new List<User>();
@@ -273,29 +300,10 @@ namespace IUDICO.UserManagement.Models.Storage
                         continue;
                     }
 
-                    var role = (int)Enum.Parse(typeof(Role), record.GetValueOrNull("Role") ?? "Student");
-                    var password = record.GetValueOrNull("Password");
+                    var user = this.CreateCSVUser(record);
+                    var password = user.Password;
 
-                    if (string.IsNullOrEmpty(password))
-                    {
-                        password = this.RandomPassword();
-                    }
-
-                    var user = new User
-                                   {
-                                       Id = Guid.NewGuid(),
-                                       Username = username,
-                                       Password = this.EncryptPassword(password),
-                                       Email = record.GetValueOrNull("Email") ?? string.Empty,
-                                       Name = record.GetValueOrNull("Name") ?? string.Empty,
-                                       OpenId = record.GetValueOrNull("OpenId") ?? string.Empty,
-                                       Deleted = false,
-                                       IsApproved = true,
-                                       ApprovedBy = this.GetCurrentUser().Id,
-                                       CreationDate = DateTime.Now,
-                                   };
-
-                    user.UserRoles.Add(new UserRole { RoleRef = role, UserRef = user.Id });
+                    user.Password = this.EncryptPassword(user.Password);
 
                     users.Add(user);
                     passwords.Add(user.Username, password);

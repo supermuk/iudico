@@ -384,6 +384,12 @@
   <data name="CourseCreator" xml:space="preserve">
     <value>Наповнювач контенту</value>
   </data>
+  <data name="CreatedFollowingUsers" xml:space="preserve">
+    <value>Створено наступних користувачів</value>
+  </data>
+  <data name="CreatedMultiple" xml:space="preserve">
+    <value>Створено користувачів</value>
+  </data>
   <data name="DeleteAvatar" xml:space="preserve">
     <value>Видалити фотографію</value>
   </data>

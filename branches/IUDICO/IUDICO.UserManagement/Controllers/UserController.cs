@@ -103,6 +103,13 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult CreateMultiple(HttpPostedFileBase fileUpload)
         {
+            if (fileUpload == null)
+            {
+                this.ModelState.AddModelError(string.Empty, "Please select file to upload");
+
+                return this.View();
+            }
+            
             var path = this.HttpContext.Request.PhysicalApplicationPath;
 
             path = Path.Combine(path, @"Data\CSV");
