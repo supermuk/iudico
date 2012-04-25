@@ -31,15 +31,13 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         Curriculum GetCurriculum(int curriculumId);
         IList<Curriculum> GetCurriculums(IEnumerable<int> ids);
         IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate);
-        //IList<Curriculum> GetCurriculumsByDisciplineId(int disciplineId);
-        //IList<Curriculum> GetCurriculumsByGroupId(int groupId);
         IList<Curriculum> GetCurriculums();
         IList<Curriculum> GetCurriculums(User user);
         int AddCurriculum(Curriculum curriculum);
         void UpdateCurriculum(Curriculum curriculum);
         void DeleteCurriculum(int id);
         void DeleteCurriculums(IEnumerable<int> ids);
-        //void MakeCurriculumsInvalid(int groupId);
+        // void MakeCurriculumsInvalid(int groupId);
 
         /// <summary>
         /// Gets the topic descriptions available for user for current date.
@@ -84,19 +82,5 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         bool CanPassCurriculumChapterTopic(User user, CurriculumChapterTopic topic, TopicTypeEnum topicType);
 
         #endregion
-
-        //#region Group methods
-
-        //IList<Group> GetAssignedGroups(int disciplineId);
-        //IList<Group> GetNotAssignedGroups(int disciplineId);
-        ///// <summary>
-        ///// Gets not assigned groups for discipline including current group.
-        ///// </summary>
-        ///// <param name="disciplineId">The discipline id.</param>
-        ///// <param name="currentGroupId">The current group id.</param>
-        ///// <returns></returns>
-        //IList<Group> GetNotAssignedGroupsWithCurrentGroup(int disciplineId, int currentGroupId);
-
-        //#endregion
     }
 }

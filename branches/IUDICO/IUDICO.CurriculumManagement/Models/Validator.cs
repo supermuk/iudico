@@ -11,11 +11,11 @@ namespace IUDICO.CurriculumManagement.Models
     /// <remarks></remarks>
     public class Validator
     {
-        private ICurriculumStorage storage { get; set; }
+        private ICurriculumStorage Storage { get; set; }
 
         public Validator(ICurriculumStorage storage)
         {
-            this.storage = storage;
+            this.Storage = storage;
         }
 
         /// <summary>
@@ -61,17 +61,17 @@ namespace IUDICO.CurriculumManagement.Models
         {
             var validationStatus = new ValidationStatus();
             var currentGroupId = -1;
-            //If update old curriculum
+            // If update old curriculum
             if (curriculum.Id > 0)
             {
-                var oldCurriculum = storage.GetCurriculum(curriculum.Id);
+                var oldCurriculum = this.Storage.GetCurriculum(curriculum.Id);
                 currentGroupId = oldCurriculum.UserGroupRef;
                 curriculum.DisciplineRef = oldCurriculum.DisciplineRef;
             }
 
             if (curriculum.UserGroupRef > 0 && curriculum.DisciplineRef > 0)
             {
-                var curriculums = storage.GetCurriculums(c => c.DisciplineRef == curriculum.DisciplineRef).ToList();
+                var curriculums = this.Storage.GetCurriculums(c => c.DisciplineRef == curriculum.DisciplineRef).ToList();
                 if (curriculums.Exists(item => item.UserGroupRef == curriculum.UserGroupRef) && curriculum.UserGroupRef != currentGroupId)
                 {
                     validationStatus.AddLocalizedError("ChooseAnotherGroupForThisCurriculum");

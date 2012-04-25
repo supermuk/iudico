@@ -13,7 +13,7 @@ namespace IUDICO.DisciplineManagement.Models
         {
             get
             {
-                return !Errors.Any();
+                return !this.Errors.Any();
             }
         }
         public List<string> Errors { get; private set; }
@@ -24,7 +24,7 @@ namespace IUDICO.DisciplineManagement.Models
         /// </summary>
         public ValidationStatus()
         {
-            Errors = new List<string>();
+            this.Errors = new List<string>();
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace IUDICO.DisciplineManagement.Models
         /// <param name="args">The args.</param>
         public void AddLocalizedError(string key, params object[] args)
         {
-            Errors.Add(String.Format(Localization.getMessage(key), args));
+            this.Errors.Add(string.Format(Localization.GetMessage(key), args));
         }
     }
 }

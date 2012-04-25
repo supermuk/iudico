@@ -11,45 +11,45 @@ namespace IUDICO.DisciplineManagement.Models
 {
     public class ImportExportDiscipline
     {
-        private readonly IDisciplineStorage _Storage;
-        private readonly string _BasePath;
+        private readonly IDisciplineStorage storage;
+        private readonly string basePath;
 
         public ImportExportDiscipline(IDisciplineStorage storage, string basePath)
         {
-            _Storage = storage;
-            _BasePath = basePath;
+            this.storage = storage;
+            this.basePath = basePath;
         }
 
         #region Private helpers
 
         private string GetFolderPath()
         {
-            return Path.Combine(_BasePath, @"Data\Disciplines");
+            return Path.Combine(this.basePath, @"Data\Disciplines");
         }
 
         private static string GetTempFileName(int disciplineId)
         {
-            return String.Format("{0}-{1}.disc", disciplineId, Guid.NewGuid());
+            return string.Format("{0}-{1}.disc", disciplineId, Guid.NewGuid());
         }
 
         private static string GetImportFileName(string fileName)
         {
-            return String.Format("{0}-{1}.disc", fileName, Guid.NewGuid());
+            return string.Format("{0}-{1}.disc", fileName, Guid.NewGuid());
         }
 
         private void Serialize(string path, int disciplineId)
         {
-            var discipline = _Storage.GetDiscipline(disciplineId);
-            var disciplineDto = new DisciplineDTO
+            var discipline = this.storage.GetDiscipline(disciplineId);
+            var disciplineDto = new DisciplineDto
             {
                 Name = discipline.Name,
-                Chapters = _Storage.GetChapters(item => item.DisciplineRef == discipline.Id)
-                    .Select(chapter => new ChapterDTO
+                Chapters = this.storage.GetChapters(item => item.DisciplineRef == discipline.Id)
+                    .Select(chapter => new ChapterDto
                     {
                         Name = chapter.Name,
-                        Topics = _Storage.GetTopics(item => item.ChapterRef == chapter.Id)
+                        Topics = this.storage.GetTopics(item => item.ChapterRef == chapter.Id)
                             .OrderBy(item => item.SortOrder)
-                            .Select(topic => new TopicDTO
+                            .Select(topic => new TopicDto
                                 {
                                     Name = topic.Name,
                                     TestCourseRef = topic.TestCourseRef,
@@ -69,19 +69,19 @@ namespace IUDICO.DisciplineManagement.Models
         private void Deserialize(string path)
         {
             Stream reader = new FileStream(path, FileMode.Open);
-            var serializer = new XmlSerializer(typeof(DisciplineDTO));
-            var disciplineDto = (DisciplineDTO)serializer.Deserialize(reader);
+            var serializer = new XmlSerializer(typeof(DisciplineDto));
+            var disciplineDto = (DisciplineDto)serializer.Deserialize(reader);
 
-            var disciplineId = _Storage.AddDiscipline(
+            var disciplineId = this.storage.AddDiscipline(
                 new Discipline
                 {
                     Name = disciplineDto.Name,
-                    Owner = _Storage.GetCurrentUser().Username
+                    Owner = this.storage.GetCurrentUser().Username
                 });
 
             foreach (var chapterDto in disciplineDto.Chapters)
             {
-                var chapterId = _Storage.AddChapter(
+                var chapterId = this.storage.AddChapter(
                     new Chapter
                     {
                         Name = chapterDto.Name,
@@ -90,7 +90,7 @@ namespace IUDICO.DisciplineManagement.Models
 
                 foreach (var topicDto in chapterDto.Topics)
                 {
-                    _Storage.AddTopic(
+                    this.storage.AddTopic(
                         new Topic
                         {
                             Name = topicDto.Name,
@@ -110,45 +110,45 @@ namespace IUDICO.DisciplineManagement.Models
 
         public string GetFileName(int disciplineId)
         {
-            return String.Format("{0}.disc", _Storage.GetDiscipline(disciplineId).Name);
+            return string.Format("{0}.disc", this.storage.GetDiscipline(disciplineId).Name);
         }
 
         public string Export(int disciplineId)
         {
-            var path = Path.Combine(GetFolderPath(), GetTempFileName(disciplineId));
-            Directory.CreateDirectory(GetFolderPath());
-            Serialize(path, disciplineId);
+            var path = Path.Combine(this.GetFolderPath(), GetTempFileName(disciplineId));
+            Directory.CreateDirectory(this.GetFolderPath());
+            this.Serialize(path, disciplineId);
             return path;
         }
 
         public void Import(HttpPostedFileBase file)
         {
             var fileName = GetImportFileName(Path.GetFileNameWithoutExtension(file.FileName));
-            var path = Path.Combine(GetFolderPath(), fileName);
-            Directory.CreateDirectory(GetFolderPath());
+            var path = Path.Combine(this.GetFolderPath(), fileName);
+            Directory.CreateDirectory(this.GetFolderPath());
             file.SaveAs(path);
-            Deserialize(path);
+            this.Deserialize(path);
         }
 
         #endregion
     }
 
     [Serializable]
-    public class DisciplineDTO
+    public class DisciplineDto
     {
         public string Name { get; set; }
-        public List<ChapterDTO> Chapters { get; set; }
+        public List<ChapterDto> Chapters { get; set; }
     }
 
     [Serializable]
-    public class ChapterDTO
+    public class ChapterDto
     {
         public string Name { get; set; }
-        public List<TopicDTO> Topics { get; set; }
+        public List<TopicDto> Topics { get; set; }
     }
 
     [Serializable]
-    public class TopicDTO
+    public class TopicDto
     {
         public string Name { get; set; }
         public int? TestCourseRef { get; set; }

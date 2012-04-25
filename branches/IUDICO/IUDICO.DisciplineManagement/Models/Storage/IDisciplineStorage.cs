@@ -89,7 +89,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// </summary>
         /// <param name="ids">The ids.</param>
         void DeleteDisciplines(IEnumerable<int> ids);
-        //void MakeDisciplineInvalid(int courseId);
+        // void MakeDisciplineInvalid(int courseId);
 
         #endregion
 
@@ -119,7 +119,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// <returns></returns>
         IList<Chapter> GetChapters(Func<Chapter, bool> predicate);
 
-        //IEnumerable<Chapter> GetChapters(int disciplineId);
+        // IEnumerable<Chapter> GetChapters(int disciplineId);
 
         /// <summary>
         /// Gets the chapters.

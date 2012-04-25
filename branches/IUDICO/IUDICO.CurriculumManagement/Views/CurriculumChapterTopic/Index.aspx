@@ -7,44 +7,44 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.CurriculumManagement.Localization.getMessage("TopicAssignments")%>
+    <%=IUDICO.CurriculumManagement.Localization.GetMessage("TopicAssignments")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("TopicAssignmentsFor")%>
+        <%=IUDICO.CurriculumManagement.Localization.GetMessage("TopicAssignmentsFor")%>
     </h2>
     <h4>
         <%: ViewData["DisciplineName"] %>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("PrevNext")%>
+        <%=IUDICO.CurriculumManagement.Localization.GetMessage("PrevNext")%>
         <%: ViewData["GroupName"] %>
-        <%=IUDICO.CurriculumManagement.Localization.getMessage("Next")%>
+        <%=IUDICO.CurriculumManagement.Localization.GetMessage("Next")%>
         <%: ViewData["ChapterName"] %>
     </h4>
     <table>
         <tr>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("TopicName")%>
+                <%=IUDICO.CurriculumManagement.Localization.GetMessage("TopicName")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("MaxScore")%>
+                <%=IUDICO.CurriculumManagement.Localization.GetMessage("MaxScore")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("TestStartDate")%>
+                <%=IUDICO.CurriculumManagement.Localization.GetMessage("TestStartDate")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("TestEndDate")%>
+                <%=IUDICO.CurriculumManagement.Localization.GetMessage("TestEndDate")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("TheoryStartDate")%>
+                <%=IUDICO.CurriculumManagement.Localization.GetMessage("TheoryStartDate")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("TheoryEndDate")%>
+                <%=IUDICO.CurriculumManagement.Localization.GetMessage("TheoryEndDate")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("BlockTopicAtTesting")%>
+                <%=IUDICO.CurriculumManagement.Localization.GetMessage("BlockTopicAtTesting")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.getMessage("BlockCurriculumAtTesting")%>
+                <%=IUDICO.CurriculumManagement.Localization.GetMessage("BlockCurriculumAtTesting")%>
             </th>
             <th>
             </th>
@@ -77,13 +77,13 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%: item.BlockCurriculumAtTesting %>
             </td>
             <td>
-                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.getMessage("Edit"), "Edit", new { CurriculumChapterTopicId = item.Id }, null)%>
+                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.GetMessage("Edit"), "Edit", new { CurriculumChapterTopicId = item.Id }, null)%>
             </td>
         </tr>
         <% } %>
     </table>
     <div>
         <br />
-        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackCurriculumChapters"), "CurriculumChapters", new { action = "Index", CurriculumId = ViewData["CurriculumId"] })%>
+        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.GetMessage("BackCurriculumChapters"), "CurriculumChapters", new { action = "Index", CurriculumId = ViewData["CurriculumId"] })%>
     </div>
 </asp:Content>

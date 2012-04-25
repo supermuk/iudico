@@ -14,7 +14,7 @@ namespace IUDICO.CurriculumManagement.Models
         {
             get
             {
-                return Errors.Count() == 0;
+                return !this.Errors.Any();
             }
         }
         public List<string> Errors { get; private set; }
@@ -25,7 +25,7 @@ namespace IUDICO.CurriculumManagement.Models
         /// </summary>
         public ValidationStatus()
         {
-            Errors = new List<string>();
+            this.Errors = new List<string>();
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace IUDICO.CurriculumManagement.Models
         /// <param name="key">The key in resource file.</param>
         public void AddLocalizedError(string key, params object[] args)
         {
-            Errors.Add(String.Format(Localization.getMessage(key), args));
+            this.Errors.Add(string.Format(Localization.GetMessage(key), args));
         }
     }
 }

@@ -49,20 +49,26 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
         {
         }
 
-        public CreateCurriculumChapterTopicModel(int maxScore, bool blockTopicAtTesting, bool blockCurriculumAtTesting,
-            DateTime? testStartDate, DateTime? testEndDate, DateTime? theoryStartDate, DateTime? theoryEndDate)
+        public CreateCurriculumChapterTopicModel(
+            int maxScore,
+            bool blockTopicAtTesting,
+            bool blockCurriculumAtTesting,
+            DateTime? testStartDate,
+            DateTime? testEndDate,
+            DateTime? theoryStartDate,
+            DateTime? theoryEndDate)
         {
-            MaxScore = maxScore;
-            BlockTopicAtTesting = blockTopicAtTesting;
-            BlockCurriculumAtTesting = blockCurriculumAtTesting;
+            this.MaxScore = maxScore;
+            this.BlockTopicAtTesting = blockTopicAtTesting;
+            this.BlockCurriculumAtTesting = blockCurriculumAtTesting;
 
-            SetTestTimeline = testStartDate.HasValue;
-            TestStartDate = testStartDate ?? DateTime.Now;
-            TestEndDate = testEndDate ?? DateTime.Now;
+            this.SetTestTimeline = testStartDate.HasValue;
+            this.TestStartDate = testStartDate ?? DateTime.Now;
+            this.TestEndDate = testEndDate ?? DateTime.Now;
 
-            SetTheoryTimeline = theoryStartDate.HasValue;
-            TheoryStartDate = theoryStartDate ?? DateTime.Now;
-            TheoryEndDate = theoryEndDate ?? DateTime.Now;
+            this.SetTheoryTimeline = theoryStartDate.HasValue;
+            this.TheoryStartDate = theoryStartDate ?? DateTime.Now;
+            this.TheoryEndDate = theoryEndDate ?? DateTime.Now;
         }
     }
 }
