@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace IUDICO.UnitTests.CourseManagement.NUnit
 {
     [TestFixture]
-    internal class SequencingPatternManagerTests
+    internal class SequencingPatternManagerTests : BaseCourseManagementTest
     {
         [Test]
         public void ApplyDefaultChapterSequencing()
@@ -34,12 +34,12 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void ApplyRandomSetSequencingPattern()
         {
             var seq = new Sequencing();
-            const int count = 10;
-            SequencingPatternManager.ApplyRandomSetSequencingPattern(seq, count);
+            const int Count = 10;
+            SequencingPatternManager.ApplyRandomSetSequencingPattern(seq, Count);
 
             Assert.AreEqual(seq.RandomizationControls.ReorderChildren, true);
             Assert.AreEqual(seq.RandomizationControls.SelectionTiming, Timing.Once);
-            Assert.AreEqual(seq.RandomizationControls.SelectCount, count);
+            Assert.AreEqual(seq.RandomizationControls.SelectCount, Count);
         }
     }
 }

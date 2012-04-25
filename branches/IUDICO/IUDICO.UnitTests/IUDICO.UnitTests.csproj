@@ -68,7 +68,12 @@
       <HintPath>Libs\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Data.Schema, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.Data.Schema.UnitTesting, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="Microsoft.LearningComponents, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.LearningComponents.Compression">
+      <HintPath>..\IUDICO.CourseManagement\Libraries\Microsoft.LearningComponents.Compression.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -130,10 +135,12 @@
     <Compile Include="CompileService\NUnit\TimeLimitTests.cs" />
     <Compile Include="CompileService\UnitTests\CompileServiceUnitTests.cs" />
     <Compile Include="CourseManagement\CourseManagmentTest.cs" />
+    <Compile Include="CourseManagement\BaseCourseManagementTest.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestManagerTest.cs" />
+    <Compile Include="CourseManagement\NUnit\ManifestModelsTest.cs" />
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
     <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
-    <Compile Include="CourseManagement\NUnit\ZipperTest.cs" />
+    <Compile Include="CourseManagement\NUnit\HelpersTest.cs" />
     <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
     <Compile Include="CurriculumManagement\Constants.cs" />
     <Compile Include="CurriculumManagement\ContextMocks.cs" />
@@ -251,46 +258,122 @@
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="CourseManagement\forTesting\20.zip" />
+    <None Include="CourseManagement\Data\Invalid package.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CourseManagement\Data\Valid package.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CourseManagement\Data\Zipped Folder.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="CourseManagement\Data\20.zip">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="CourseManagement\forTesting\1\0\somePath0\" />
-    <Folder Include="CourseManagement\forTesting\1\Node\0\Images\" />
+    <Folder Include="CourseManagement\Data\1\0\somePath0\" />
+    <Folder Include="CourseManagement\Data\1\Node\0\Images\" />
     <Folder Include="Libs\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CourseManagement\forTesting\0\api.js" />
-    <Content Include="CourseManagement\forTesting\0\checkplayer.js" />
-    <Content Include="CourseManagement\forTesting\0\flensed.js" />
-    <Content Include="CourseManagement\forTesting\0\flXHR.js" />
-    <Content Include="CourseManagement\forTesting\0\flXHR.swf" />
-    <Content Include="CourseManagement\forTesting\0\iudico.css" />
-    <Content Include="CourseManagement\forTesting\0\iudico.js" />
-    <Content Include="CourseManagement\forTesting\0\jquery-1.5.2.min.js" />
-    <Content Include="CourseManagement\forTesting\0\jquery.flXHRproxy.js" />
-    <Content Include="CourseManagement\forTesting\0\jquery.xhr.js" />
-    <Content Include="CourseManagement\forTesting\0\questions.js" />
-    <Content Include="CourseManagement\forTesting\0\sco.js" />
-    <Content Include="CourseManagement\forTesting\0\swfobject.js" />
-    <Content Include="CourseManagement\forTesting\0\updateplayer.swf" />
-    <Content Include="CourseManagement\forTesting\Templates\api.js" />
-    <Content Include="CourseManagement\forTesting\Templates\checkplayer.js" />
-    <Content Include="CourseManagement\forTesting\Templates\flensed.js" />
-    <Content Include="CourseManagement\forTesting\Templates\flXHR.js" />
-    <Content Include="CourseManagement\forTesting\Templates\flXHR.swf" />
-    <Content Include="CourseManagement\forTesting\Templates\iudico.css" />
-    <Content Include="CourseManagement\forTesting\Templates\iudico.html" />
-    <Content Include="CourseManagement\forTesting\Templates\iudico.js" />
-    <Content Include="CourseManagement\forTesting\Templates\jquery-1.5.2.min-vsdoc.js" />
-    <Content Include="CourseManagement\forTesting\Templates\jquery-1.5.2.min.js" />
-    <Content Include="CourseManagement\forTesting\Templates\jquery.flXHRproxy.js" />
-    <Content Include="CourseManagement\forTesting\Templates\jquery.xhr.js" />
-    <Content Include="CourseManagement\forTesting\Templates\lms.js" />
-    <Content Include="CourseManagement\forTesting\Templates\questions.js" />
-    <Content Include="CourseManagement\forTesting\Templates\sco.js" />
-    <Content Include="CourseManagement\forTesting\Templates\swfobject.js" />
-    <Content Include="CourseManagement\forTesting\Templates\updateplayer.swf" />
+    <Content Include="CourseManagement\Data\New Folder\New Document.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\api.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\checkplayer.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\flensed.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\flXHR.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\flXHR.swf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\iudico.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\iudico.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\jquery-1.5.2.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\jquery.flXHRproxy.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\jquery.xhr.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\questions.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\sco.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\swfobject.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\0\updateplayer.swf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\api.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\checkplayer.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\flensed.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\flXHR.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\flXHR.swf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\iudico.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\iudico.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\iudico.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\jquery-1.5.2.min-vsdoc.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\jquery-1.5.2.min.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\jquery.flXHRproxy.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\jquery.xhr.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\lms.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\questions.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\sco.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\swfobject.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\updateplayer.swf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\ExternalTools\StyleCop\v4.7\StyleCop.targets" />
