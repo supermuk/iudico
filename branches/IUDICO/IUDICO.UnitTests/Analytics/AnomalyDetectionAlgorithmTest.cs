@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models.Shared.CurriculumManagement;
-using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Analytics.Models.AnomalyDetectionAlg;
-using IUDICO.Analytics.Models.AnomalyDetectionAlg.Accuracy;
 using IUDICO.Analytics.Models.DecisionTrees;
 
 namespace IUDICO.UnitTests.Analytics
@@ -20,9 +16,9 @@ namespace IUDICO.UnitTests.Analytics
         public void AnomalyDetectionAlgorithmTrainingTest()
         {
 
-            var listOfStudents = GetStudentListForPMI43();
-            string[] normal = new string[] { "2", "13", "6" };
-            string[] anomalies = new string[] { "8", "10" };
+            var listOfStudents = this.GetStudentListForPMI43();
+            var normal = new[] { "2", "13", "6" };
+            var anomalies = new[] { "8", "10" };
             var trainingSets = TrainingSetsCreator.GenerateTrainingSets(listOfStudents, normal, anomalies);
 
             var algirithmResults = AnomalyDetectionAlgorithm.RunAlg(listOfStudents, trainingSets[0], trainingSets[1], trainingSets[2]);
@@ -38,7 +34,7 @@ namespace IUDICO.UnitTests.Analytics
         [Category("AnomalyDetectionAlgorithmSetAccuracyTest")]
         public void AnomalyDetectionAlgorithmAccuracy()
         {
-            AnomalyDetectionAlgorithm algObject = new AnomalyDetectionAlgorithm();
+            var algObject = new AnomalyDetectionAlgorithm();
 
             algObject.SetAccuracy(null);
 
@@ -47,40 +43,35 @@ namespace IUDICO.UnitTests.Analytics
 
         public IEnumerable<KeyValuePair<User, double[]>> GetStudentListForPMI43()
         {
-            List<KeyValuePair<User, double[]>> result = new List<KeyValuePair<User, double[]>>();
-            Random rnd = new Random(System.Environment.TickCount);
+            var result = new List<KeyValuePair<User, double[]>>();
+            var rnd = new Random(Environment.TickCount);
 
             #region PMI-43
-            User user = new User();
-            user.OpenId = "1";
-            int score = 6;
-            user.Name = "Остап Андрусів(08i301)";
-            double[] coef = new double[] { 400, score };
+            var user = new User { OpenId = "1", Name = "Остап Андрусів(08i301)" };
+            var score = 6;
+            var coef = new double[] { 400, score };
+
             result.Add(new KeyValuePair<User, double[]>(user, coef));
 
-            user = new User();
-            user.OpenId = "2";
+            user = new User { OpenId = "2", Name = "Назар Врублевський(08i302)" };
             score = 9;
-            user.Name = "Назар Врублевський(08i302)";
             coef = new double[] { 450, score };
+            
             result.Add(new KeyValuePair<User, double[]>(user, coef));
 
-            user = new User();
-            user.OpenId = "3";
+            user = new User { OpenId = "3" };
             score = 4;
             user.Name = "Адмайкін Максим(08i303)";
             coef = new double[] { 350, score };
             result.Add(new KeyValuePair<User, double[]>(user, coef));
 
-            user = new User();
-            user.OpenId = "4";
+            user = new User { OpenId = "4" };
             score = 6;
             user.Name = "Михайло Тис(08i304)";
             coef = new double[] { 400, score };
             result.Add(new KeyValuePair<User, double[]>(user, coef));
 
-            user = new User();
-            user.OpenId = "5";
+            user = new User { OpenId = "5" };
             score = 5;
             user.Name = "Оля Іванків(08i305)";
             coef = new double[] { 400, score };
@@ -154,8 +145,8 @@ namespace IUDICO.UnitTests.Analytics
             score = 7;
             user.Name = "08i315 Горячий(08i315)";
             coef = new double[] { 450, score };
-            result.Add(new KeyValuePair<User, double[]>(user, coef)); user = new User();
-
+            result.Add(new KeyValuePair<User, double[]>(user, coef));
+            
             user = new User();
             user.OpenId = "16";
             score = 4;
