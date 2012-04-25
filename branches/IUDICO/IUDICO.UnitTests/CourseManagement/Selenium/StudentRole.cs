@@ -19,7 +19,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             selenium.Open("/");
             selenium.Type("id=loginUsername", "prof");
             selenium.Type("id=loginPassword", "prof");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+            selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("40000");
             selenium.Click("link=Courses");
             selenium.WaitForPageToLoad("40000");

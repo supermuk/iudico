@@ -28,13 +28,12 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [Test]
         public void LoginAsAdmin()
         {
-            selenium.Open("/");
-            selenium.Type("id=loginPassword", "lex");
-            selenium.Type("id=loginUsername", "lex");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+            this.DefaultLogin();
+            
             selenium.WaitForPageToLoad(this.seleniumWait);
             selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad(this.seleniumWait);
+
             Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }
         /*
@@ -45,7 +44,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "prof");
             selenium.Type("//input[@id='loginPassword']", "prof");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+            selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
@@ -60,7 +59,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "stud");
             selenium.Type("//input[@id='loginPassword']", "stud");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+            selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
@@ -76,7 +75,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "prof");
             selenium.Type("//input[@id='loginPassword']", "prof");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+            selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
@@ -95,7 +94,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "prof");
             selenium.Type("//input[@id='loginPassword']", "prof");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+            selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
@@ -117,7 +116,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "prof");
             selenium.Type("//input[@id='loginPassword']", "prof");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+            selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
@@ -133,7 +132,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 
             selenium.Type("//input[@id='loginUsername']", "prof");
             selenium.Type("//input[@id='loginPassword']", "prof");
-            selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+            selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("30000");
 
             Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/User/Index')]"));
