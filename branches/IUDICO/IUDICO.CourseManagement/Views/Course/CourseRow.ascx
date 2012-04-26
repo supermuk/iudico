@@ -24,6 +24,11 @@
         </div>
     </td>
     <td>
+        <div>
+            <%: Model.UpdatedByName %>
+        </div>
+    </td>
+    <td>
         <a href="#" onclick="editCourse(<%: Model.Id %>)">Edit</a>
         |
         <% if(Model.Locked) { %>

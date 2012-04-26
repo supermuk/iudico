@@ -16,6 +16,7 @@
                 null,
                 null,
                 null,
+                null,
                 { "bSortable": false }
                 ]
             });
@@ -241,6 +242,9 @@
                     </th>
                     <th>
                         <%=Localization.GetMessage("Last modified")%>
+                    </th>
+                    <th>
+                        <%=Localization.GetMessage("Updated by")%>
                     </th>
                     <th>
                         <%=Localization.GetMessage("Actions")%>

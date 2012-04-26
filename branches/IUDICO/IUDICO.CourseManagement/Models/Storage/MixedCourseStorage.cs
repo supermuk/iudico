@@ -126,6 +126,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             course.Created = DateTime.Now;
             course.Updated = DateTime.Now;
+            course.UpdatedBy = course.Owner;
             var db = this.GetDbContext();
 
             db.Courses.InsertOnSubmit(course);
@@ -155,6 +156,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             oldCourse.Name = course.Name;
             oldCourse.Updated = DateTime.Now;
             oldCourse.Sequencing = course.Sequencing;
+            oldCourse.UpdatedBy = this.LmsService.FindService<IUserService>().GetCurrentUser().Username;
 
             db.SubmitChanges();
 
