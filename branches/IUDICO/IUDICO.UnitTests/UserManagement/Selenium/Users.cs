@@ -1,9 +1,8 @@
-﻿using System;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
+
 using IUDICO.UnitTests.Base;
+
 using NUnit.Framework;
-using Selenium;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {

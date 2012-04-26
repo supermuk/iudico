@@ -5,9 +5,11 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
@@ -17,8 +19,11 @@ using IUDICO.Common.Models.Services;
 using IUDICO.LMS.Models;
 using IUDICO.UserManagement.Controllers;
 using IUDICO.UserManagement.Models.Storage;
+
 using Moq;
+
 using NUnit.Framework;
+
 using Action = IUDICO.Common.Models.Action;
 
 namespace IUDICO.UnitTests.LMS.NUnit
@@ -39,13 +44,11 @@ namespace IUDICO.UnitTests.LMS.NUnit
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.Combine(fullPath, "IUDICO.LMS", "Plugins");
             fullPath = fullPath.Remove(0, 6);
-            
-            container
-                .Register(
-                    Component.For<IWindsorContainer>().Instance(container))
-                .Register(Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton).Install(
-                    FromAssembly.This(),
-                    FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")),
+
+            container.Register(Component.For<IWindsorContainer>().Instance(container)).Register(
+                Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton).Install(
+                    FromAssembly.This(), 
+                    FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")), 
                     FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll")));
         }
 
@@ -55,7 +58,9 @@ namespace IUDICO.UnitTests.LMS.NUnit
             try
             {
                 var controll = container.Resolve<IController>(controller + "controller");
-                var act = controll.GetType().GetMethods().Where(m => m.Name == action && !this.IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
+                var act =
+                    controll.GetType().GetMethods().Where(
+                        m => m.Name == action && !this.IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
                 var attribute = Attribute.GetCustomAttribute(act, typeof(AllowAttribute), false) as AllowAttribute;
 
                 if (attribute == null)
@@ -90,6 +95,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
             var stringWriter = new StringWriter();
             var httpResponce = new HttpResponse(stringWriter);
+
             // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
             var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
@@ -97,6 +103,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var menu = new Menu();
             var menu1 = new Menu();
             container = new WindsorContainer();
+
             // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
@@ -134,7 +141,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             foreach (var plugin in plugins)
             {
                 var menu11 = plugin.BuildMenuItems();
-                
+
                 foreach (var menu2 in menu.Items)
                 {
                     if (menu11.Count(item => item == menu2) == 0)
@@ -151,6 +158,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
             var stringWriter = new StringWriter();
             var httpResponce = new HttpResponse(stringWriter);
+
             // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
             var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
@@ -158,6 +166,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var menu = new Menu();
             var menu1 = new Menu();
             container = new WindsorContainer();
+
             // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
@@ -166,8 +175,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var plugins = container.ResolveAll<IPlugin>();
             var roles = new List<Role> { Role.Student };
 
-            var currentRole = from rol in roles
-                                            select rol;
+            var currentRole = from rol in roles select rol;
             var userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
             var userServiceVar = service.FindService<IUserService>();
@@ -193,7 +201,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
 
             foreach (var plugin in plugins)
             {
-                Menu menu11 = service.GetMenu();
+                var menu11 = service.GetMenu();
 
                 foreach (var menu2 in menu.Items)
                 {
@@ -211,6 +219,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
             var stringWriter = new StringWriter();
             var httpResponce = new HttpResponse(stringWriter);
+
             // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
             var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
@@ -218,6 +227,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var menu = new Menu();
             var menu1 = new Menu();
             container = new WindsorContainer();
+
             // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
@@ -270,6 +280,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
             var stringWriter = new StringWriter();
             var httpResponce = new HttpResponse(stringWriter);
+
             // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
             var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
@@ -277,6 +288,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             var menu = new Menu();
             var menu1 = new Menu();
             container = new WindsorContainer();
+
             // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
@@ -311,7 +323,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
 
             foreach (var plugin in plugins)
             {
-                Menu menu11 = service.GetMenu();
+                var menu11 = service.GetMenu();
 
                 foreach (var menu2 in menu.Items)
                 {

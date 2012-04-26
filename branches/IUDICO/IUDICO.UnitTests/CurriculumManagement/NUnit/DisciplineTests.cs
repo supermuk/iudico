@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.DisciplineManagement.Controllers;
 using IUDICO.DisciplineManagement.Models;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CurriculumManagement.NUnit
@@ -11,29 +13,23 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
     [TestFixture]
     public class DisciplineTests : BaseTestFixture
     {
-        #region PrivateHelpers
-
-        #endregion
-
         #region Discipline tests
 
         [Test]
         public void AddDiscipline()
         {
             var expectedItems = this.DataPreparer.GetDisciplines();
-            var controller = GetController<DisciplineController>();
+            var controller = this.GetController<DisciplineController>();
 
             // add disciplines
             expectedItems.ForEach(item => controller.Create(item));
+
             // then add "special" discipline
             controller.Create(new Discipline { IsValid = false, Owner = "ozo", IsDeleted = true });
 
             expectedItems = this.DataPreparer.GetDisciplines();
-            var allItems = this.Storage.GetDisciplines()
-                .OrderBy(item => item.Id)
-                .ToList();
-            var actualItems = allItems
-                .Take(expectedItems.Count).ToList();
+            var allItems = this.Storage.GetDisciplines().OrderBy(item => item.Id).ToList();
+            var actualItems = allItems.Take(expectedItems.Count).ToList();
             var actualItem = allItems.Last();
 
             AdvAssert.AreEqual(expectedItems, actualItems);
@@ -47,8 +43,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         {
             var ids = this.DataPreparer.CreateDisciplinesSet1();
             var expectedItems = this.DataPreparer.GetDisciplines();
-            expectedItems.Select((item, i) => i).ToList()
-                .ForEach(i => AdvAssert.AreEqual(expectedItems[i], this.Storage.GetDiscipline(ids[i])));
+            expectedItems.Select((item, i) => i).ToList().ForEach(
+                i => AdvAssert.AreEqual(expectedItems[i], this.Storage.GetDiscipline(ids[i])));
         }
 
         [Test]
@@ -65,7 +61,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
             // Tests GetDisciplines(Func<Discipline, bool>)
             AdvAssert.AreEqual(
-                expectedItems.Where(item => item.Owner == Users.Panza).ToList(),
+                expectedItems.Where(item => item.Owner == Users.Panza).ToList(), 
                 this.Storage.GetDisciplines(item => item.Owner == Users.Panza));
 
             // Tests GetDisciplinesByGroupId(groupId)
@@ -75,7 +71,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
             // Tests GetDisciplines(User owner)
             this.tests.SetCurrentUser(Users.Ozo);
-            Func<Discipline> expectedItemF = () => new Discipline { Name = "Discipline5", Owner = Users.Ozo, IsValid = true };
+            Func<Discipline> expectedItemF =
+                () => new Discipline { Name = "Discipline5", Owner = Users.Ozo, IsValid = true };
             this.Storage.AddDiscipline(expectedItemF());
             var currentUser = this.UserService.GetCurrentUser();
             var actualItems = this.Storage.GetDisciplines(currentUser);
@@ -86,15 +83,13 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         public void UpdateDiscipline()
         {
             var ids = this.DataPreparer.CreateDisciplinesSet1();
-            var controller = GetController<DisciplineController>();
-            Func<Discipline> newDisciplineF = () => new Discipline
-            {
-                Name = "NewDiscipline",
-                Owner = Users.Ozo,
-                IsValid = false,
-                IsDeleted = true,
-                Id = ids[1]
-            };
+            var controller = this.GetController<DisciplineController>();
+            Func<Discipline> newDisciplineF =
+                () =>
+                new Discipline
+                    {
+                       Name = "NewDiscipline", Owner = Users.Ozo, IsValid = false, IsDeleted = true, Id = ids[1] 
+                    };
             controller.Edit(ids[1], newDisciplineF());
 
             var expected = newDisciplineF();
@@ -110,15 +105,17 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         {
             this.DataPreparer.CreateDisciplinesSet3();
             var disciplineIds = this.DataPreparer.DisciplineIds;
-            var controller = GetController<DisciplineController>();
+            var controller = this.GetController<DisciplineController>();
 
             // delete 1 item
             var result = controller.DeleteItem(disciplineIds[1]);
             Assert.AreEqual(null, this.Storage.GetDiscipline(disciplineIds[1]));
             Assert.AreEqual(disciplineIds.Count - 1, this.Storage.GetDisciplines().Count);
             Assert.IsTrue(result.Data.ToString().ToLower().Contains("success = true"));
+
             // check curriculums also deleted
             Assert.AreEqual(0, this.CurriculumStorage.GetCurriculums(c => c.DisciplineRef == disciplineIds[1]).Count);
+
             // check stages also deleted
             Assert.AreEqual(0, this.Storage.GetChapters(item => item.DisciplineRef == disciplineIds[1]).Count);
 
@@ -139,7 +136,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.IsTrue(result.Data.ToString().ToLower().Contains("success = false"));
         }
 
-/*        [Test]
+        /*        [Test]
         public void MakeDisciplineInvalid()
         {
             Discipline discipline = new Discipline { Name = "Discipline1" };
@@ -151,7 +148,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             _Storage.MakeDisciplineInvalid(id);
             Assert.AreEqual(false, _Storage.GetDiscipline(id).IsValid);
         }*/
-
         #endregion
 
         #region Chapter tests
@@ -161,18 +157,20 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         {
             this.DataPreparer.CreateDisciplinesSet2();
             var expectedItems = this.DataPreparer.GetChapters();
-            var controller = GetController<ChapterController>();
+            var controller = this.GetController<ChapterController>();
 
             expectedItems.ForEach(item => controller.Create(item, item.DisciplineRef));
 
             expectedItems = this.DataPreparer.GetChapters();
-            var actualItems = this.DataPreparer.DisciplineIds.SelectMany(id => this.Storage.GetChapters(item => item.DisciplineRef == id))
-                .OrderBy(item => item.Id)
-                .ToList();
+            var actualItems =
+                this.DataPreparer.DisciplineIds.SelectMany(
+                    id => this.Storage.GetChapters(item => item.DisciplineRef == id)).OrderBy(item => item.Id).ToList();
             AdvAssert.AreEqual(expectedItems, actualItems);
 
             // check authomatically added curriculum chapters
-            actualItems.ForEach(item => Assert.AreEqual(1, this.CurriculumStorage.GetCurriculumChapters(c => c.ChapterRef == item.Id).Count));
+            actualItems.ForEach(
+                item =>
+                Assert.AreEqual(1, this.CurriculumStorage.GetCurriculumChapters(c => c.ChapterRef == item.Id).Count));
         }
 
         [Test]
@@ -180,8 +178,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         {
             var chapterIds = this.DataPreparer.CreateDisciplinesSet3();
             var expectedItems = this.DataPreparer.GetChapters();
-            expectedItems.Select((item, i) => i).ToList()
-                .ForEach(i => AdvAssert.AreEqual(expectedItems[i], this.Storage.GetChapter(chapterIds[i])));
+            expectedItems.Select((item, i) => i).ToList().ForEach(
+                i => AdvAssert.AreEqual(expectedItems[i], this.Storage.GetChapter(chapterIds[i])));
         }
 
         [Test]
@@ -195,23 +193,18 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
             // Tests GetChapters(Func<Chapter, bool>)
             AdvAssert.AreEqual(
-                expectedItems.Where(item => item.Name == expectedItems[0].Name).ToList(),
+                expectedItems.Where(item => item.Name == expectedItems[0].Name).ToList(), 
                 this.Storage.GetChapters(item => item.Name == expectedItems[0].Name));
         }
 
         [Test]
         public void UpdateChapter()
         {
-            var controller = GetController<ChapterController>();
+            var controller = this.GetController<ChapterController>();
             var chapterIds = this.DataPreparer.CreateDisciplinesSet3();
 
-            Func<Chapter> newDisciplineF = () => new Chapter
-            {
-                Name = "NewChapter",
-                IsDeleted = true,
-                Id = chapterIds[1],
-                DisciplineRef = 100,
-            };
+            Func<Chapter> newDisciplineF =
+                () => new Chapter { Name = "NewChapter", IsDeleted = true, Id = chapterIds[1], DisciplineRef = 100, };
             controller.Edit(chapterIds[1], newDisciplineF());
 
             var expected = newDisciplineF();
@@ -225,13 +218,14 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         [Test]
         public void DeleteChapters()
         {
-            var controller = GetController<ChapterController>();
+            var controller = this.GetController<ChapterController>();
             var chapterIds = this.DataPreparer.CreateDisciplinesSet3();
 
             // delete 1 item
             var result = controller.DeleteItem(chapterIds[1]);
             Assert.AreEqual(null, this.Storage.GetChapter(chapterIds[1]));
             Assert.IsTrue(result.Data.ToString().ToLower().Contains("success = true"));
+
             // check curriculumChapters also deleted
             Assert.AreEqual(0, this.CurriculumStorage.GetCurriculumChapters(c => c.ChapterRef == chapterIds[1]).Count);
 
@@ -262,43 +256,49 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             this.DataPreparer.CreateDisciplinesSet3();
             var expectedItems = this.DataPreparer.GetTopics();
             expectedItems[0].IsDeleted = true; // for test
-            var controller = GetController<TopicController>();
+            var controller = this.GetController<TopicController>();
 
             expectedItems.ForEach(item => controller.Create(item.ToCreateModel()));
 
             expectedItems = this.DataPreparer.GetTopics();
-            var actualItems = this.DataPreparer.ChapterIds.SelectMany(id => this.Storage.GetTopics(item => item.ChapterRef == id))
-                .OrderBy(item => item.Id)
-                .ToList();
+            var actualItems = this.DataPreparer.ChapterIds.SelectMany(id => this.Storage.GetTopics(item => item.ChapterRef == id)).OrderBy(item => item.Id).ToList();
+
             AdvAssert.AreEqual(expectedItems, actualItems);
             Assert.AreNotEqual(expectedItems.Last().SortOrder, actualItems.Last().SortOrder);
 
             // check authomatically added curriculum chapter topics
-            actualItems.ForEach(item => Assert.AreEqual(1, this.CurriculumStorage.GetCurriculumChapterTopics(c => c.TopicRef == item.Id).Count));
+            actualItems.ForEach(
+                item =>
+                Assert.AreEqual(1, this.CurriculumStorage.GetCurriculumChapterTopics(c => c.TopicRef == item.Id).Count));
 
             var chapterId = this.DataPreparer.ChapterIds[0];
-            // add bad topic
-            controller = GetController<TopicController>();
-            var badTopic = new Topic
-            {
-                TestCourseRef = null,
-                TestTopicTypeRef = null,
-                TheoryCourseRef = null,
-                TheoryTopicTypeRef = null,
-                Name = "BadTopic",
-                ChapterRef = chapterId,
-            };
-            controller.Create(badTopic.ToCreateModel());
-            Assert.AreEqual(false, controller.ModelState.IsValid);
-            Assert.AreEqual(expectedItems.Count, this.DataPreparer.ChapterIds.Sum(id => this.Storage.GetTopics(item => item.ChapterRef == id).Count));
 
             // add bad topic
-            controller = GetController<TopicController>();
+            controller = this.GetController<TopicController>();
+            var badTopic = new Topic
+                {
+                    TestCourseRef = null, 
+                    TestTopicTypeRef = null, 
+                    TheoryCourseRef = null, 
+                    TheoryTopicTypeRef = null, 
+                    Name = "BadTopic", 
+                    ChapterRef = chapterId, 
+                };
+            controller.Create(badTopic.ToCreateModel());
+            Assert.AreEqual(false, controller.ModelState.IsValid);
+            Assert.AreEqual(
+                expectedItems.Count, 
+                this.DataPreparer.ChapterIds.Sum(id => this.Storage.GetTopics(item => item.ChapterRef == id).Count));
+
+            // add bad topic
+            controller = this.GetController<TopicController>();
             badTopic = this.DataPreparer.GetTopics()[0];
             badTopic.Name = Enumerable.Repeat('A', 60).ToString();
             controller.Create(badTopic.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
-            Assert.AreEqual(expectedItems.Count, this.DataPreparer.ChapterIds.Sum(id => this.Storage.GetTopics(item => item.ChapterRef == id).Count));
+            Assert.AreEqual(
+                expectedItems.Count, 
+                this.DataPreparer.ChapterIds.Sum(id => this.Storage.GetTopics(item => item.ChapterRef == id).Count));
         }
 
         [Test]
@@ -306,8 +306,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         {
             var topicIds = this.DataPreparer.CreateDisciplinesSet4();
             var expectedItems = this.DataPreparer.GetTopics();
-            expectedItems.Select((item, i) => i).ToList()
-                .ForEach(i => AdvAssert.AreEqual(expectedItems[i], this.Storage.GetTopic(topicIds[i])));
+            expectedItems.Select((item, i) => i).ToList().ForEach(
+                i => AdvAssert.AreEqual(expectedItems[i], this.Storage.GetTopic(topicIds[i])));
         }
 
         [Test]
@@ -322,30 +322,26 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
             // Tests GetTopics(Func<Discipline, bool>)
             AdvAssert.AreEqual(
-                expectedItems.Where(item => item.Name == expectedItems[0].Name).ToList(),
+                expectedItems.Where(item => item.Name == expectedItems[0].Name).ToList(), 
                 this.Storage.GetTopics(item => item.Name == expectedItems[0].Name));
 
             // Tests GetTopicsByCourseId()
             var courseId = this.CourseService.GetCourse(2).Id;
             AdvAssert.AreEqual(
-                expectedItems.Where(item => item.TestCourseRef == courseId || item.TheoryCourseRef == courseId).ToList(),
+                expectedItems.Where(item => item.TestCourseRef == courseId || item.TheoryCourseRef == courseId).ToList(), 
                 this.Storage.GetTopicsByCourseId(courseId));
 
             // Tests GetTopicsByDisciplineId()
             // 1/3 of added topics belongs to first discipline and first stage
             var disciplineId = this.Storage.GetDisciplines().First().Id;
-            var items = expectedItems.OrderBy(item => item.ChapterRef)
-                .Take(topicsPerDiscipline)
-                .ToList();
+            var items = expectedItems.OrderBy(item => item.ChapterRef).Take(topicsPerDiscipline).ToList();
             AdvAssert.AreEqual(items, this.Storage.GetTopicsByDisciplineId(disciplineId));
 
             // Tests GetTopicsByDisciplineId()
             // first and third discipline connected to group1
             var groupId = this.UserService.GetGroup(1).Id;
             items = expectedItems.OrderBy(item => item.ChapterRef).ToList();
-            items = items.Take(topicsPerDiscipline)
-                .Union(items.Skip(2 * topicsPerDiscipline).Take(topicsPerDiscipline))
-                .ToList();
+            items = items.Take(topicsPerDiscipline).Union(items.Skip(2 * topicsPerDiscipline).Take(topicsPerDiscipline)).ToList();
             AdvAssert.AreEqual(items, this.Storage.GetTopicsByGroupId(groupId));
 
             // Tests GetTopicsOwnedByUser()
@@ -360,7 +356,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             AdvAssert.AreEqual(items, this.Storage.GetTopicsOwnedByUser(user));
         }
 
-/*        [Test]
+        /*        [Test]
         public void GetGroupsAssignedToTopic()
         {
             Discipline cur = new Discipline { Name = "Discipline" };
@@ -488,22 +484,25 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         [Test]
         public void UpdateTopic()
         {
-            var controller = GetController<TopicController>();
+            var controller = this.GetController<TopicController>();
             var topicIds = this.DataPreparer.CreateDisciplinesSet4();
 
-            Func<Topic> newTopicF = () => new Topic
-            {
-                SortOrder = 3,
-                TestCourseRef = null,
-                TestTopicTypeRef = null,
-                TheoryCourseRef = this.CourseService.GetCourse(2).Id,
-                TheoryTopicTypeRef = this.Storage.GetTheoryTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id,
-                Name = "NewTopic",
-                ChapterRef = 100,
-                IsDeleted = true
-            };
+            Func<Topic> newTopicF =
+                () =>
+                new Topic
+                    {
+                        SortOrder = 3, 
+                        TestCourseRef = null, 
+                        TestTopicTypeRef = null, 
+                        TheoryCourseRef = this.CourseService.GetCourse(2).Id, 
+                        TheoryTopicTypeRef =
+                            this.Storage.GetTheoryTopicTypes().First(
+                                item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id, 
+                        Name = "NewTopic", 
+                        ChapterRef = 100, 
+                        IsDeleted = true
+                    };
             controller.Edit(topicIds[0], newTopicF().ToCreateModel());
-
             var expected = newTopicF();
             var actual = this.Storage.GetTopic(topicIds[0]);
             Assert.AreEqual(expected.Name, actual.Name);
@@ -519,13 +518,14 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         [Test]
         public void DeleteTopics()
         {
-            var controller = GetController<TopicController>();
+            var controller = this.GetController<TopicController>();
             var topicIds = this.DataPreparer.CreateDisciplinesSet4();
 
             // delete 1 item
             var result = controller.DeleteItem(topicIds[1]);
             Assert.AreEqual(null, this.Storage.GetTopic(topicIds[1]));
             Assert.IsTrue(result.Data.ToString().ToLower().Contains("success = true"));
+
             // check curriculumChapterTopics also deleted
             Assert.AreEqual(0, this.CurriculumStorage.GetCurriculumChapterTopics(c => c.TopicRef == topicIds[1]).Count);
 
@@ -549,11 +549,11 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         [Test]
         public void TopicUp()
         {
-            var controller = GetController<TopicController>();
+            var controller = this.GetController<TopicController>();
             this.DataPreparer.CreateDisciplinesSet4();
-            var topics = this.Storage.GetTopics(item => item.ChapterRef == this.DataPreparer.ChapterIds[0])
-                .OrderBy(item => item.SortOrder)
-                .ToList();
+            var topics =
+                this.Storage.GetTopics(item => item.ChapterRef == this.DataPreparer.ChapterIds[0]).OrderBy(
+                    item => item.SortOrder).ToList();
             var topic1 = topics[0];
             var topic2 = topics[1];
             var oldSortOrder1 = topic1.SortOrder;
@@ -571,11 +571,11 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         [Test]
         public void TopicDown()
         {
-            var controller = GetController<TopicController>();
+            var controller = this.GetController<TopicController>();
             this.DataPreparer.CreateDisciplinesSet4();
-            var topics = this.Storage.GetTopics(item => item.ChapterRef == this.DataPreparer.ChapterIds[0])
-                .OrderBy(item => item.SortOrder)
-                .ToList();
+            var topics =
+                this.Storage.GetTopics(item => item.ChapterRef == this.DataPreparer.ChapterIds[0]).OrderBy(
+                    item => item.SortOrder).ToList();
             var topic1 = topics[topics.Count - 2];
             var topic2 = topics[topics.Count - 1];
             var oldSortOrder1 = topic1.SortOrder;

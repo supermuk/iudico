@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Configuration;
+
 using NUnit.Framework;
+
 using Selenium;
 
 namespace IUDICO.UnitTests.CourseManagement.Selenium
@@ -13,7 +15,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
         [SetUp]
         public void Login()
         {
-            this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", ConfigurationManager.AppSettings["this.selenium_URL"]);
+            this.selenium = new DefaultSelenium(
+                "localhost", 4444, "*chrome", ConfigurationManager.AppSettings["this.selenium_URL"]);
             this.selenium.Start();
 
             this.selenium.Open("/");
@@ -64,7 +67,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("css=input[value=\"Create\"]");
             this.selenium.WaitForPageToLoad("40000");
 
-            bool isPresent = this.selenium.IsElementPresent("//table[@id='myCourses']//tr//td[contains(.,'Test')]");
+            var isPresent = this.selenium.IsElementPresent("//table[@id='myCourses']//tr//td[contains(.,'Test')]");
             Assert.IsTrue(isPresent);
         }
 
@@ -73,7 +76,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
         {
             this.selenium.Click("link=Create New");
             this.selenium.WaitForPageToLoad("40000");
-            string pos = this.selenium.GetLocation();
+            var pos = this.selenium.GetLocation();
             this.selenium.Type("id=Name", string.Empty);
             this.selenium.Click("css=input[value=\"Create\"]");
             Assert.AreEqual(pos, this.selenium.GetLocation());
@@ -98,7 +101,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.WaitForPageToLoad("40000");
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad("40000");
-            bool isPresent = this.selenium.IsElementPresent("xpath=//table[@id='myCourses']//tr[contains(.,'Edited')]");
+            var isPresent = this.selenium.IsElementPresent("xpath=//table[@id='myCourses']//tr[contains(.,'Edited')]");
             Assert.IsTrue(isPresent);
         }
 
@@ -124,7 +127,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.WaitForPageToLoad("40000");
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad("40000");
-            bool isPresent =
+            var isPresent =
                 this.selenium.IsElementPresent("xpath=//table[@id='publishedCourses']//tr[contains(.,'Edited')]");
             Assert.IsTrue(isPresent);
         }
@@ -142,7 +145,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.WaitForPageToLoad("40000");
             this.selenium.Click("link=Back to List");
             this.selenium.WaitForPageToLoad("40000");
-            bool isPresent = this.selenium.IsElementPresent("//tr//td[contains(.,'forEditContent')]");
+            var isPresent = this.selenium.IsElementPresent("//tr//td[contains(.,'forEditContent')]");
             Assert.IsTrue(isPresent);
         }
 
@@ -161,7 +164,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("css=input[value=\"Create\"]");
             this.selenium.WaitForPageToLoad("40000");
 
-            bool isPresent = this.selenium.IsElementPresent("//table[@id='myCourses']//tr//td[contains(.,'Test')]");
+            var isPresent = this.selenium.IsElementPresent("//table[@id='myCourses']//tr//td[contains(.,'Test')]");
             Assert.IsTrue(isPresent);
         }
 
@@ -177,7 +180,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("xpath=//tr[contains(.,'forPublish')]//a[text()='#Publish']");
             this.selenium.WaitForPageToLoad("40000");
 
-            bool isPresent = this.selenium.IsElementPresent("//table[@id='publishedCourses']//tr[contains(.,'forPublish')]");
+            var isPresent =
+                this.selenium.IsElementPresent("//table[@id='publishedCourses']//tr[contains(.,'forPublish')]");
             Assert.IsTrue(isPresent);
 
             this.selenium.Click("link=Unlock");
@@ -226,11 +230,10 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("xpath=//tr[contains(.,'forPublish')]//a[text()='#Publish']");
             this.selenium.WaitForPageToLoad("40000");
 
-
             this.selenium.Click("//table[@id='publishedCourses']//tr[contains(.,'forPublish')]//a[text()='Delete']");
             this.selenium.GetConfirmation();
 
-            bool isPresent = this.selenium.IsElementPresent("//tr[contains(.,'forPublish')]");
+            var isPresent = this.selenium.IsElementPresent("//tr[contains(.,'forPublish')]");
             Assert.IsTrue(isPresent);
         }
 
@@ -264,7 +267,6 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.GetConfirmation();
         }
 
-
         [Test]
         public void Validate()
         {
@@ -272,7 +274,6 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Import");
             this.selenium.WaitForPageToLoad("40000");
         }
-
 
         [Test]
         public void Import()

@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Web.Routing;
+
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.LMS.Models;
+
 using NUnit.Framework;
+
 using Action = IUDICO.Common.Models.Action;
 
 namespace IUDICO.UnitTests.LMS.NUnit
@@ -51,25 +55,21 @@ namespace IUDICO.UnitTests.LMS.NUnit
     [TestFixture]
     internal class PluginsLoadingTests
     {
-        private static void InitializeWindsor(ref IWindsorContainer _Container)
+        private static void InitializeWindsor(ref IWindsorContainer container)
         {
-            Assembly a = Assembly.GetExecutingAssembly();
-            string fullPath = a.CodeBase;
+            var a = Assembly.GetExecutingAssembly();
+            var fullPath = a.CodeBase;
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.Combine(fullPath, "IUDICO.LMS", "Plugins");
             fullPath = fullPath.Remove(0, 6);
-            _Container
-                .Register(
-                    Component.For<IWindsorContainer>().Instance(_Container))
-                .Register(
-                    Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
-                .Install(FromAssembly.This(),
-                         FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")),
-                         FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-                );
+            container.Register(Component.For<IWindsorContainer>().Instance(container)).Register(
+                Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton).Install(
+                    FromAssembly.This(), 
+                    FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")), 
+                    FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll")));
         }
 
         [Test]
@@ -83,6 +83,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
                 Assert.IsNotNull(plugin.BuildActions(), plugin.GetName());
                 Assert.IsNotNull(plugin.BuildMenuItems(), plugin.GetName());
             }
+
             Assert.Pass("Every plugin can be accessed");
         }
 
@@ -99,6 +100,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 Assert.Pass();
             }
+
             Assert.Fail();
         }
     }

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CompileService.NUnit
 {
+    using CompileSystem.Classes;
+
     [TestFixture]
     public class HelperTests
     {
@@ -12,12 +15,12 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void CreateFileForCompilationTest()
         {
-            const string extension = "cpp";
-            string currentFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(Source, extension);
+            const string Extension = "cpp";
+            var currentFilePath = Helper.CreateFileForCompilation(Source, Extension);
             Assert.AreNotEqual(true, string.IsNullOrEmpty(currentFilePath));
             Assert.AreEqual(File.Exists(currentFilePath), true);
 
-            string text = File.ReadAllText(currentFilePath);
+            var text = File.ReadAllText(currentFilePath);
             Assert.AreNotEqual(true, string.IsNullOrEmpty(text));
             Assert.AreEqual(text, Source);
         }
@@ -26,14 +29,14 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(Exception))]
         public void CreateNullExtensionTest()
         {
-            CompileSystem.Classes.Helper.CreateFileForCompilation(Source, null);
+            Helper.CreateFileForCompilation(Source, null);
         }
 
         [Test]
         [ExpectedException(typeof(Exception))]
         public void CreateEmptyExtensionTest()
         {
-            CompileSystem.Classes.Helper.CreateFileForCompilation(Source, "");
+            Helper.CreateFileForCompilation(Source, string.Empty);
         }
     }
 }

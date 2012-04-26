@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+
 using IUDICO.Common.Models.Shared;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -89,7 +91,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void GetGroupsAvailableToNonExistingUser()
         {
-            this.tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(this.tests.Storage.GetUser(u => u.Username == "panza"));
+            this.tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(
+                this.tests.Storage.GetUser(u => u.Username == "panza"));
 
             var group = new Group { Id = 15678, Name = "pmi31" };
             this.tests.Storage.CreateGroup(group);

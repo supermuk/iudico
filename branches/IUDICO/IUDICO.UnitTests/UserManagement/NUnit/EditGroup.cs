@@ -1,5 +1,7 @@
 ﻿using System;
+
 using IUDICO.Common.Models.Shared;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -19,8 +21,10 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             group = new Group { Id = 1254, Name = "pmp51" };
 
             this.tests.Storage.EditGroup(group.Id, group);
-            
-            Assert.IsTrue(group.Name == this.tests.Storage.GetGroup(group.Id).Name && group.Id == this.tests.Storage.GetGroup(group.Id).Id);
+
+            Assert.IsTrue(
+                group.Name == this.tests.Storage.GetGroup(group.Id).Name
+                && group.Id == this.tests.Storage.GetGroup(group.Id).Id);
 
             this.tests.Storage.DeleteGroup(group.Id);
         }
@@ -28,7 +32,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void EditGroupExistingInvalid()
         {
-            //Done by Selenium test.
+            ////Done by Selenium test.
             /*
             var group = new Group { Id = 124, Name = "pmp41" };
 

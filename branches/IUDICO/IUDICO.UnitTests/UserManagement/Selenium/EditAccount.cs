@@ -1,6 +1,7 @@
-﻿using IUDICO.UnitTests.Base;
+﻿using IUDICO.Common;
+using IUDICO.UnitTests.Base;
+
 using NUnit.Framework;
-using IUDICO.Common;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
@@ -39,7 +40,8 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Click("//input[@value='Save']");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            Assert.IsTrue(this.selenium.IsTextPresent(Localization.GetMessage("FullNameRequired", "IUDICO.UserManagement")));
+            Assert.IsTrue(
+                this.selenium.IsTextPresent(Localization.GetMessage("FullNameRequired", "IUDICO.UserManagement")));
 
             this.Logout();
         }

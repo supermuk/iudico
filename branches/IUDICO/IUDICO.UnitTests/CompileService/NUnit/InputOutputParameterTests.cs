@@ -2,23 +2,25 @@
 
 namespace IUDICO.UnitTests.CompileService.NUnit
 {
+    using CompileSystem;
+
     [TestFixture]
     public class InputOutputParameterTests
     {
-        private readonly CompileSystem.CompileService compileService = new CompileSystem.CompileService();
+        private readonly CompileService compileService = new CompileService();
 
         #region CPP tests
 
         [Test]
         public void CorrectCPPInputOutputParamTest()
         {
-            string actualResult = this.compileService.Compile(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                CompileServiceHelper.CPPLanguageName,
-                CompileServiceHelper.Input,
-                                                          CompileServiceHelper.Output,
-                                                          CompileServiceHelper.TimeLimit,
-                                                          CompileServiceHelper.MemoryLimit);
+            var actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, 
+                CompileServiceHelper.CPPLanguageName, 
+                CompileServiceHelper.Input, 
+                CompileServiceHelper.Output, 
+                CompileServiceHelper.TimeLimit, 
+                CompileServiceHelper.MemoryLimit);
 
             Assert.AreEqual(CompileServiceHelper.AcceptedTestResult, actualResult);
         }
@@ -31,12 +33,12 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             string[] outputParam = { "35", "75" };
 
             var actualResult = this.compileService.Compile(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                CompileServiceHelper.CPPLanguageName,
-                inputParam,
-                                                          outputParam,
-                                                          CompileServiceHelper.TimeLimit,
-                                                          CompileServiceHelper.MemoryLimit);
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, 
+                CompileServiceHelper.CPPLanguageName, 
+                inputParam, 
+                outputParam, 
+                CompileServiceHelper.TimeLimit, 
+                CompileServiceHelper.MemoryLimit);
 
             Assert.AreEqual(CompileServiceHelper.WrongAnswerOneResult, actualResult);
         }
@@ -48,13 +50,13 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             string[] inputParam = { "2 5", "7 5" };
             string[] outputParam = { "25", "95" };
 
-            string actualResult = this.compileService.Compile(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                CompileServiceHelper.CPPLanguageName,
-                inputParam,
-                                                          outputParam,
-                                                          CompileServiceHelper.TimeLimit,
-                                                          CompileServiceHelper.MemoryLimit);
+            var actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, 
+                CompileServiceHelper.CPPLanguageName, 
+                inputParam, 
+                outputParam, 
+                CompileServiceHelper.TimeLimit, 
+                CompileServiceHelper.MemoryLimit);
 
             Assert.AreEqual(CompileServiceHelper.WrongAnswerTwoResult, actualResult);
         }

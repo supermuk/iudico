@@ -1,4 +1,5 @@
 ﻿using IUDICO.UnitTests.Base;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
@@ -53,9 +54,8 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.WaitForPageToLoad((this.seleniumWait * 2).ToString());
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            
-            Assert.IsTrue(this.selenium.IsElementPresent("avatar"));
 
+            Assert.IsTrue(this.selenium.IsElementPresent("avatar"));
             this.Logout();
         }
     }

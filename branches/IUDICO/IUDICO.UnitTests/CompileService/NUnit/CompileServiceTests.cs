@@ -4,25 +4,32 @@ using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CompileService.NUnit
 {
+    using CompileSystem;
+
     [TestFixture]
     public class CompileServiceTests
     {
-        private readonly CompileSystem.CompileService compileService = new CompileSystem.CompileService();
+        private readonly CompileService compileService = new CompileService();
+
         private readonly string[] input = new string[0];
+
         private readonly string[] output = new string[0];
-        private readonly string[] inputStrings = new string[1] { "1 2" };
-        private readonly string[] outputStrings = new string[1] { "12" };
+
+        private readonly string[] inputStrings = new[] { "1 2" };
+
+        private readonly string[] outputStrings = new[] { "12" };
+
         private const string Language = "CPP8";
 
         [Test]
         public void CompileServiceCompileTest()
         {
             var expected = this.compileService.Compile(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                Language,
-                this.inputStrings,
-                this.outputStrings,
-                1000,
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, 
+                Language, 
+                this.inputStrings, 
+                this.outputStrings, 
+                1000, 
                 3000);
 
             Assert.AreEqual(expected, "Accepted");
@@ -33,11 +40,11 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void CompileServiceIncorrectLanguageTest()
         {
             this.compileService.Compile(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                "IncorrectLanguageName",
-                this.input,
-                this.output,
-                100,
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, 
+                "IncorrectLanguageName", 
+                this.input, 
+                this.output, 
+                100, 
                 100);
         }
 
@@ -45,7 +52,8 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(Exception))]
         public void CompileServiceEmptyLanguageTest()
         {
-            this.compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode, string.Empty, this.input, this.output, 100, 100);
+            this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, string.Empty, this.input, this.output, 100, 100);
         }
 
         [Test]
@@ -53,11 +61,11 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void CompileServiceIncorrectTimelimitTest()
         {
             this.compileService.Compile(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                Language,
-                this.inputStrings,
-                this.outputStrings,
-                -5,
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, 
+                Language, 
+                this.inputStrings, 
+                this.outputStrings, 
+                -5, 
                 100);
         }
 
@@ -66,11 +74,11 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void CompileServiceIncorrectMemorylimitTest()
         {
             this.compileService.Compile(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                Language,
-                this.inputStrings,
-                this.outputStrings,
-                100,
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, 
+                Language, 
+                this.inputStrings, 
+                this.outputStrings, 
+                100, 
                 -5);
         }
     }

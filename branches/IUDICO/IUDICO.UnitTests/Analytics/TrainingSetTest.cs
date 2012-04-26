@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
+
 using IUDICO.Analytics.Models.AnomalyDetectionAlg;
+
+using NUnit.Framework;
 
 namespace IUDICO.UnitTests.Analytics
 {
@@ -19,9 +18,9 @@ namespace IUDICO.UnitTests.Analytics
             set.AddRecord(new[] { 3.0, 4.0, 5.0 });
             set.AddRecord(new[] { 3.0, 4.0, 5.0 });
             set.AddRecord(new[] { 3.0, 4.0, 5.0 });
-            
+
             Assert.AreEqual(set.GetCountOfRecords(), 3);
-            
+
             try
             {
                 set.AddRecord(new[] { 3.0, 4.0, 5.0, 6.0 });

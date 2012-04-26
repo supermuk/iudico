@@ -1,5 +1,6 @@
 ﻿using IUDICO.CourseManagement.Models.ManifestModels;
 using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CourseManagement.NUnit

@@ -2,12 +2,15 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
+
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.LMS.Models;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.LMS.NUnit
@@ -19,26 +22,22 @@ namespace IUDICO.UnitTests.LMS.NUnit
         /// Initializes Windsor container
         /// NOTE: IN CASE OF CHANGING PATH OF THIS PROJECT YOU SHOULD ASSIGN CORRECT PATH TO THE VARIABLE NAMED "fullPath"
         /// </summary>
-        /// <param name="_Container"></param>
-        private static void InitializeWindsor(ref IWindsorContainer _Container)
+        /// <param name="container"></param>
+        private static void InitializeWindsor(ref IWindsorContainer container)
         {
-            Assembly a = Assembly.GetExecutingAssembly();
-            string fullPath = a.CodeBase;
+            var a = Assembly.GetExecutingAssembly();
+            var fullPath = a.CodeBase;
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.Combine(fullPath, "IUDICO.LMS", "Plugins");
             fullPath = fullPath.Remove(0, 6);
-            _Container
-                .Register(
-                    Component.For<IWindsorContainer>().Instance(_Container))
-                .Register(
-                    Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
-                .Install(FromAssembly.This(),
-                         FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")),
-                         FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-                );
+            container.Register(Component.For<IWindsorContainer>().Instance(container)).Register(
+                Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton).Install(
+                    FromAssembly.This(), 
+                    FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")), 
+                    FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll")));
         }
 
         [Test]
@@ -56,7 +55,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             InitializeWindsor(ref container);
             try
             {
-                ILmsService lms = container.Resolve<ILmsService>();
+                var lms = container.Resolve<ILmsService>();
             }
             catch (Exception e)
             {
@@ -70,7 +69,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
             IWindsorContainer container = new WindsorContainer();
             InitializeWindsor(ref container);
             var cnt = container.ResolveAll<IPlugin>().Count(item => item != null);
-                //count of somehow initialized plugins
+
+            // count of somehow initialized plugins
             Assert.AreNotEqual(cnt, 0, "Windsor container could not plugins have resolved");
         }
 
