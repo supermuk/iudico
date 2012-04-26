@@ -1,21 +1,21 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CompileService.NUnit
 {
     [TestFixture]
     public class InputOutputParameterTests
     {
-        private readonly CompileSystem.CompileService _compileService = new CompileSystem.CompileService();
+        private readonly CompileSystem.CompileService compileService = new CompileSystem.CompileService();
 
         #region CPP tests
 
         [Test]
         public void CorrectCPPInputOutputParamTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                          CompileServiceHelper.CPPLanguageName,
-                                                          CompileServiceHelper.Input,
+            string actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
+                CompileServiceHelper.CPPLanguageName,
+                CompileServiceHelper.Input,
                                                           CompileServiceHelper.Output,
                                                           CompileServiceHelper.TimeLimit,
                                                           CompileServiceHelper.MemoryLimit);
@@ -26,13 +26,14 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void IncorrectOneCPPInputOutputParamTest()
         {
-            //first parameter fail
-            string[] inputParam = {"2 5", "7 5"};
-            string[] outputParam = {"35", "75"};
+            // first parameter fail
+            string[] inputParam = { "2 5", "7 5" };
+            string[] outputParam = { "35", "75" };
 
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                          CompileServiceHelper.CPPLanguageName,
-                                                          inputParam,
+            var actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
+                CompileServiceHelper.CPPLanguageName,
+                inputParam,
                                                           outputParam,
                                                           CompileServiceHelper.TimeLimit,
                                                           CompileServiceHelper.MemoryLimit);
@@ -43,13 +44,14 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void IncorrectTwoCPPInputOutputParamTest()
         {
-            //second parameter fail
+            // second parameter fail
             string[] inputParam = { "2 5", "7 5" };
             string[] outputParam = { "25", "95" };
 
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                          CompileServiceHelper.CPPLanguageName,
-                                                          inputParam,
+            string actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
+                CompileServiceHelper.CPPLanguageName,
+                inputParam,
                                                           outputParam,
                                                           CompileServiceHelper.TimeLimit,
                                                           CompileServiceHelper.MemoryLimit);

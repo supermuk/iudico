@@ -28,25 +28,25 @@ namespace IUDICO.UnitTests.LMS.NUnit
     {
         private static IWindsorContainer container = new WindsorContainer();
 
-        private static void InitializeWindsor(ref IWindsorContainer _Container)
+        private static void InitializeWindsor(ref IWindsorContainer container)
         {
-            Assembly a = Assembly.GetExecutingAssembly();
-            string fullPath = a.CodeBase;
+            var a = Assembly.GetExecutingAssembly();
+            var fullPath = a.CodeBase;
+
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.Combine(fullPath, "IUDICO.LMS", "Plugins");
             fullPath = fullPath.Remove(0, 6);
-            _Container
+            
+            container
                 .Register(
-                    Component.For<IWindsorContainer>().Instance(_Container))
-                .Register(
-                    Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
-                .Install(FromAssembly.This(),
-                         FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")),
-                         FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-                );
+                    Component.For<IWindsorContainer>().Instance(container))
+                .Register(Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton).Install(
+                    FromAssembly.This(),
+                    FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")),
+                    FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll")));
         }
 
         public bool IsAllowed(string controller, string action, IEnumerable<Role> roles)
@@ -54,12 +54,9 @@ namespace IUDICO.UnitTests.LMS.NUnit
             // if can't resolve controller, don't allow access to it
             try
             {
-                var _controller = container.Resolve<IController>(controller + "controller");
-                var _action =
-                    _controller.GetType().GetMethods().Where(
-                        m => m.Name == action && !IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
-
-                var attribute = Attribute.GetCustomAttribute(_action, typeof (AllowAttribute), false) as AllowAttribute;
+                var controll = container.Resolve<IController>(controller + "controller");
+                var act = controll.GetType().GetMethods().Where(m => m.Name == action && !this.IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
+                var attribute = Attribute.GetCustomAttribute(act, typeof(AllowAttribute), false) as AllowAttribute;
 
                 if (attribute == null)
                 {
@@ -82,7 +79,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
 
         protected bool IsPost(MethodInfo action)
         {
-            return Attribute.GetCustomAttribute(action, typeof (HttpPostAttribute), false) != null;
+            return Attribute.GetCustomAttribute(action, typeof(HttpPostAttribute), false) != null;
         }
 
         private static ILmsService service;
@@ -90,37 +87,34 @@ namespace IUDICO.UnitTests.LMS.NUnit
         [Test]
         public void GenerateMenuUsingRoleNone()
         {
-            HttpRequest httpRequest = new HttpRequest("", "http://mySomething/", "");
-            StringWriter stringWriter = new StringWriter();
-            HttpResponse httpResponce = new HttpResponse(stringWriter);
-            //httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
-            HttpContext httpConextMock = new HttpContext(httpRequest, httpResponce);
+            var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
+            var stringWriter = new StringWriter();
+            var httpResponce = new HttpResponse(stringWriter);
+            // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
+            var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
             HttpContext.Current = httpConextMock;
-            Menu menu = new Menu();
-            Menu menu1 = new Menu();
+            var menu = new Menu();
+            var menu1 = new Menu();
             container = new WindsorContainer();
-            //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
+            // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            Dictionary<IPlugin, IEnumerable<Action>> actions =
-                new Dictionary<IPlugin, IEnumerable<Action>>();
+            var actions = new Dictionary<IPlugin, IEnumerable<Action>>();
             Dictionary<IPlugin, IEnumerable<Action>> actions1;
-            List<Role> roles = new List<Role>();
-            roles.Add(Role.None);
+            var roles = new List<Role> { Role.None };
 
-            IEnumerable<Role> currentRole = from rol in roles
-                                            select rol;
-            Mock<IUserService> userServiceMock = new Mock<IUserService>();
+            var currentRole = from rol in roles select rol;
+            var userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
-            IUserService userServiceVar = service.FindService<IUserService>();
+            var userServiceVar = service.FindService<IUserService>();
             userServiceVar = userServiceMock.Object;
-            Mock<ILmsService> lmsservice = new Mock<ILmsService>();
+            var lmsservice = new Mock<ILmsService>();
             lmsservice.Setup(item => item.FindService<IUserService>()).Returns(userServiceMock.Object);
-            AccountController acct = new AccountController(new DatabaseUserStorage(service));
+            var acct = new AccountController(new DatabaseUserStorage(service));
             lmsservice.Setup(item => item.GetMenu()).Returns(menu);
 
             try
@@ -134,12 +128,13 @@ namespace IUDICO.UnitTests.LMS.NUnit
 
             foreach (var plugin in plugins)
             {
-                menu.Add(plugin.BuildMenuItems().Where(m => IsAllowed(m.Controller, m.Action, roles)));
+                menu.Add(plugin.BuildMenuItems().Where(m => this.IsAllowed(m.Controller, m.Action, roles)));
             }
 
             foreach (var plugin in plugins)
             {
-                IEnumerable<MenuItem> menu11 = plugin.BuildMenuItems();
+                var menu11 = plugin.BuildMenuItems();
+                
                 foreach (var menu2 in menu.Items)
                 {
                     if (menu11.Count(item => item == menu2) == 0)
@@ -153,34 +148,33 @@ namespace IUDICO.UnitTests.LMS.NUnit
         [Test]
         public void GenerateMenuUsingRoleStudent()
         {
-            HttpRequest httpRequest = new HttpRequest("", "http://mySomething/", "");
-            StringWriter stringWriter = new StringWriter();
-            HttpResponse httpResponce = new HttpResponse(stringWriter);
-            //httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
-            HttpContext httpConextMock = new HttpContext(httpRequest, httpResponce);
+            var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
+            var stringWriter = new StringWriter();
+            var httpResponce = new HttpResponse(stringWriter);
+            // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
+            var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
             HttpContext.Current = httpConextMock;
-            Menu menu = new Menu();
-            Menu menu1 = new Menu();
+            var menu = new Menu();
+            var menu1 = new Menu();
             container = new WindsorContainer();
-            //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
+            // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            List<Role> roles = new List<Role>();
-            roles.Add(Role.Student);
+            var roles = new List<Role> { Role.Student };
 
-            IEnumerable<Role> currentRole = from rol in roles
+            var currentRole = from rol in roles
                                             select rol;
-            Mock<IUserService> userServiceMock = new Mock<IUserService>();
+            var userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
-            IUserService userServiceVar = service.FindService<IUserService>();
+            var userServiceVar = service.FindService<IUserService>();
             userServiceVar = userServiceMock.Object;
-            Mock<ILmsService> lmsservice = new Mock<ILmsService>();
+            var lmsservice = new Mock<ILmsService>();
             lmsservice.Setup(item => item.FindService<IUserService>()).Returns(userServiceMock.Object);
-            AccountController acct = new AccountController(new DatabaseUserStorage(service));
+            var acct = new AccountController(new DatabaseUserStorage(service));
             lmsservice.Setup(item => item.GetMenu()).Returns(menu);
 
             try
@@ -194,7 +188,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
 
             foreach (var plugin in plugins)
             {
-                menu.Add(plugin.BuildMenuItems().Where(m => IsAllowed(m.Controller, m.Action, roles)));
+                menu.Add(plugin.BuildMenuItems().Where(m => this.IsAllowed(m.Controller, m.Action, roles)));
             }
 
             foreach (var plugin in plugins)
@@ -214,34 +208,32 @@ namespace IUDICO.UnitTests.LMS.NUnit
         [Test]
         public void GenerateMenuUsingRoleTeacher()
         {
-            HttpRequest httpRequest = new HttpRequest("", "http://mySomething/", "");
-            StringWriter stringWriter = new StringWriter();
-            HttpResponse httpResponce = new HttpResponse(stringWriter);
-            //httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
-            HttpContext httpConextMock = new HttpContext(httpRequest, httpResponce);
+            var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
+            var stringWriter = new StringWriter();
+            var httpResponce = new HttpResponse(stringWriter);
+            // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
+            var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
             HttpContext.Current = httpConextMock;
-            Menu menu = new Menu();
-            Menu menu1 = new Menu();
+            var menu = new Menu();
+            var menu1 = new Menu();
             container = new WindsorContainer();
-            //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
+            // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            List<Role> roles = new List<Role>();
-            roles.Add(Role.Teacher);
+            var roles = new List<Role> { Role.Teacher };
 
-            IEnumerable<Role> currentRole = from rol in roles
-                                            select rol;
-            Mock<IUserService> userServiceMock = new Mock<IUserService>();
+            var currentRole = from rol in roles select rol;
+            var userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
-            IUserService userServiceVar = service.FindService<IUserService>();
+            var userServiceVar = service.FindService<IUserService>();
             userServiceVar = userServiceMock.Object;
-            Mock<ILmsService> lmsservice = new Mock<ILmsService>();
+            var lmsservice = new Mock<ILmsService>();
             lmsservice.Setup(item => item.FindService<IUserService>()).Returns(userServiceMock.Object);
-            AccountController acct = new AccountController(new DatabaseUserStorage(service));
+            var acct = new AccountController(new DatabaseUserStorage(service));
             lmsservice.Setup(item => item.GetMenu()).Returns(menu);
 
             try
@@ -255,12 +247,12 @@ namespace IUDICO.UnitTests.LMS.NUnit
 
             foreach (var plugin in plugins)
             {
-                menu.Add(plugin.BuildMenuItems().Where(m => IsAllowed(m.Controller, m.Action, roles)));
+                menu.Add(plugin.BuildMenuItems().Where(m => this.IsAllowed(m.Controller, m.Action, roles)));
             }
 
             foreach (var plugin in plugins)
             {
-                Menu menu11 = service.GetMenu();
+                var menu11 = service.GetMenu();
 
                 foreach (var menu2 in menu.Items)
                 {
@@ -275,34 +267,32 @@ namespace IUDICO.UnitTests.LMS.NUnit
         [Test]
         public void GenerateMenuUsingRoleAdmin()
         {
-            HttpRequest httpRequest = new HttpRequest("", "http://mySomething/", "");
-            StringWriter stringWriter = new StringWriter();
-            HttpResponse httpResponce = new HttpResponse(stringWriter);
-            //httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
-            HttpContext httpConextMock = new HttpContext(httpRequest, httpResponce);
+            var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
+            var stringWriter = new StringWriter();
+            var httpResponce = new HttpResponse(stringWriter);
+            // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
+            var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
             HttpContext.Current = httpConextMock;
-            Menu menu = new Menu();
-            Menu menu1 = new Menu();
+            var menu = new Menu();
+            var menu1 = new Menu();
             container = new WindsorContainer();
-            //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
+            // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            List<Role> roles = new List<Role>();
-            roles.Add(Role.Admin);
+            var roles = new List<Role> { Role.Admin };
 
-            IEnumerable<Role> currentRole = from rol in roles
-                                            select rol;
-            Mock<IUserService> userServiceMock = new Mock<IUserService>();
+            var currentRole = from rol in roles select rol;
+            var userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
-            IUserService userServiceVar = service.FindService<IUserService>();
+            var userServiceVar = service.FindService<IUserService>();
             userServiceVar = userServiceMock.Object;
-            Mock<ILmsService> lmsservice = new Mock<ILmsService>();
+            var lmsservice = new Mock<ILmsService>();
             lmsservice.Setup(item => item.FindService<IUserService>()).Returns(userServiceMock.Object);
-            AccountController acct = new AccountController(new DatabaseUserStorage(service));
+            var acct = new AccountController(new DatabaseUserStorage(service));
             lmsservice.Setup(item => item.GetMenu()).Returns(menu);
 
             try
@@ -316,7 +306,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
 
             foreach (var plugin in plugins)
             {
-                menu.Add(plugin.BuildMenuItems().Where(m => IsAllowed(m.Controller, m.Action, roles)));
+                menu.Add(plugin.BuildMenuItems().Where(m => this.IsAllowed(m.Controller, m.Action, roles)));
             }
 
             foreach (var plugin in plugins)

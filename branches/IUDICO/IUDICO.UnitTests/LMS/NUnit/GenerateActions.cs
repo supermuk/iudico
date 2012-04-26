@@ -164,21 +164,16 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 actions.Add(
                     plugin,
-                    plugin.BuildActions().Where(a =>
-                                                IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(),
-                                                          roles)
-                        )
-                    );
+                    plugin.BuildActions().Where(a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles)));
             }
 
             foreach (var plugin in plugins)
             {
-                IEnumerable<Action> action1 =
-                    service.GetActions()[plugin].Where(
-                        a => IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
-                IEnumerable<Action> action =
-                    actions[plugin].Where(
-                        a => IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                var action1 =
+                    service.GetActions()[plugin].Where(a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                var action =
+                    actions[plugin].Where(a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                
                 foreach (var action2 in action)
                 {
                     if (action1.Count(item => item == action2) == 0)
@@ -192,37 +187,34 @@ namespace IUDICO.UnitTests.LMS.NUnit
         [Test]
         public void GenerateActionsUsingRoleStudent()
         {
-            HttpRequest httpRequest = new HttpRequest("", "http://mySomething/", "");
-            StringWriter stringWriter = new StringWriter();
-            HttpResponse httpResponce = new HttpResponse(stringWriter);
-            //httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
-            HttpContext httpConextMock = new HttpContext(httpRequest, httpResponce);
+            var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
+            var stringWriter = new StringWriter();
+            var httpResponce = new HttpResponse(stringWriter);
+            // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
+            var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
             HttpContext.Current = httpConextMock;
 
             container = new WindsorContainer();
-            //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
+            // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            Dictionary<IPlugin, IEnumerable<Action>> actions =
-                new Dictionary<IPlugin, IEnumerable<Action>>();
+            var actions = new Dictionary<IPlugin, IEnumerable<Action>>();
             Dictionary<IPlugin, IEnumerable<Action>> actions1;
 
-            List<Role> roles = new List<Role>();
-            roles.Add(Role.Student);
+            var roles = new List<Role> { Role.Student };
 
-            IEnumerable<Role> currentRole = from rol in roles
-                                            select rol;
-            Mock<IUserService> userServiceMock = new Mock<IUserService>();
+            var currentRole = from rol in roles select rol;
+            var userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
-            IUserService userServiceVar = service.FindService<IUserService>();
+            var userServiceVar = service.FindService<IUserService>();
             userServiceVar = userServiceMock.Object;
-            Mock<ILmsService> lmsservice = new Mock<ILmsService>();
+            var lmsservice = new Mock<ILmsService>();
             lmsservice.Setup(item => item.FindService<IUserService>()).Returns(userServiceMock.Object);
-            AccountController acct = new AccountController(new DatabaseUserStorage(service));
+            var acct = new AccountController(new DatabaseUserStorage(service));
             lmsservice.Setup(item => item.GetActions()).Returns(actions);
 
             try
@@ -238,21 +230,18 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 actions.Add(
                     plugin,
-                    plugin.BuildActions().Where(a =>
-                                                IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(),
-                                                          roles)
-                        )
-                    );
+                    plugin.BuildActions().Where(a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles)));
             }
 
             foreach (var plugin in plugins)
             {
-                IEnumerable<Action> action1 =
+                var action1 =
                     service.GetActions()[plugin].Where(
-                        a => IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
-                IEnumerable<Action> action =
+                        a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                var action =
                     actions[plugin].Where(
-                        a => IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                        a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                
                 foreach (var action2 in action)
                 {
                     if (action1.Count(item => item == action2) == 0)
@@ -266,37 +255,34 @@ namespace IUDICO.UnitTests.LMS.NUnit
         [Test]
         public void GenerateActionsUsingRoleSTeacher()
         {
-            HttpRequest httpRequest = new HttpRequest("", "http://mySomething/", "");
-            StringWriter stringWriter = new StringWriter();
-            HttpResponse httpResponce = new HttpResponse(stringWriter);
-            //httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
-            HttpContext httpConextMock = new HttpContext(httpRequest, httpResponce);
+            var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
+            var stringWriter = new StringWriter();
+            var httpResponce = new HttpResponse(stringWriter);
+            // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
+            var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
             HttpContext.Current = httpConextMock;
 
             container = new WindsorContainer();
-            //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
+            // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            Dictionary<IPlugin, IEnumerable<Action>> actions =
-                new Dictionary<IPlugin, IEnumerable<Action>>();
+            var actions = new Dictionary<IPlugin, IEnumerable<Action>>();
             Dictionary<IPlugin, IEnumerable<Action>> actions1;
 
-            List<Role> roles = new List<Role>();
-            roles.Add(Role.Teacher);
+            var roles = new List<Role> { Role.Teacher };
 
-            IEnumerable<Role> currentRole = from rol in roles
-                                            select rol;
-            Mock<IUserService> userServiceMock = new Mock<IUserService>();
+            var currentRole = from rol in roles select rol;
+            var userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
-            IUserService userServiceVar = service.FindService<IUserService>();
+            var userServiceVar = service.FindService<IUserService>();
             userServiceVar = userServiceMock.Object;
-            Mock<ILmsService> lmsservice = new Mock<ILmsService>();
+            var lmsservice = new Mock<ILmsService>();
             lmsservice.Setup(item => item.FindService<IUserService>()).Returns(userServiceMock.Object);
-            AccountController acct = new AccountController(new DatabaseUserStorage(service));
+            var acct = new AccountController(new DatabaseUserStorage(service));
             lmsservice.Setup(item => item.GetActions()).Returns(actions);
 
             try
@@ -312,21 +298,18 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 actions.Add(
                     plugin,
-                    plugin.BuildActions().Where(a =>
-                                                IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(),
-                                                          roles)
-                        )
-                    );
+                    plugin.BuildActions().Where(
+                        a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles)));
             }
 
             foreach (var plugin in plugins)
             {
                 IEnumerable<Action> action1 =
                     service.GetActions()[plugin].Where(
-                        a => IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                        a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
                 IEnumerable<Action> action =
                     actions[plugin].Where(
-                        a => IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                        a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
                 foreach (var action2 in action)
                 {
                     if (action1.Count(item => item == action2) == 0)
@@ -340,37 +323,35 @@ namespace IUDICO.UnitTests.LMS.NUnit
         [Test]
         public void GenerateActionsUsingRoleAdmin()
         {
-            HttpRequest httpRequest = new HttpRequest("", "http://mySomething/", "");
-            StringWriter stringWriter = new StringWriter();
-            HttpResponse httpResponce = new HttpResponse(stringWriter);
-            //httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
-            HttpContext httpConextMock = new HttpContext(httpRequest, httpResponce);
+            var httpRequest = new HttpRequest(string.Empty, "http://mySomething/", string.Empty);
+            var stringWriter = new StringWriter();
+            var httpResponce = new HttpResponse(stringWriter);
+            // httpResponce.Filter = new FileStream("asd.pdo",FileMode.CreateNew);
+            var httpConextMock = new HttpContext(httpRequest, httpResponce);
 
             HttpContext.Current = httpConextMock;
 
             container = new WindsorContainer();
-            //HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
+            // HttpContext.Current = new HttpContext(new HttpRequest("", "http://iudico.com", null), new HttpResponse(new StreamWriter("mayBeDeleted.txt")));
             InitializeWindsor(ref container);
 
             service = container.Resolve<ILmsService>();
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
-            Dictionary<IPlugin, IEnumerable<Action>> actions =
-                new Dictionary<IPlugin, IEnumerable<Action>>();
+            var actions = new Dictionary<IPlugin, IEnumerable<Action>>();
             Dictionary<IPlugin, IEnumerable<Action>> actions1;
 
-            List<Role> roles = new List<Role>();
-            roles.Add(Role.Admin);
+            var roles = new List<Role> { Role.Admin };
 
-            IEnumerable<Role> currentRole = from rol in roles
+            var currentRole = from rol in roles
                                             select rol;
-            Mock<IUserService> userServiceMock = new Mock<IUserService>();
+            var userServiceMock = new Mock<IUserService>();
             userServiceMock.Setup(item => item.GetCurrentUserRoles()).Returns(currentRole);
-            IUserService userServiceVar = service.FindService<IUserService>();
+            var userServiceVar = service.FindService<IUserService>();
             userServiceVar = userServiceMock.Object;
-            Mock<ILmsService> lmsservice = new Mock<ILmsService>();
+            var lmsservice = new Mock<ILmsService>();
             lmsservice.Setup(item => item.FindService<IUserService>()).Returns(userServiceMock.Object);
-            AccountController acct = new AccountController(new DatabaseUserStorage(service));
+            var acct = new AccountController(new DatabaseUserStorage(service));
             lmsservice.Setup(item => item.GetActions()).Returns(actions);
 
             try
@@ -386,21 +367,21 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 actions.Add(
                     plugin,
-                    plugin.BuildActions().Where(a =>
-                                                IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(),
-                                                          roles)
-                        )
+                    plugin.BuildActions().Where(
+                        a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles))
                     );
             }
 
             foreach (var plugin in plugins)
             {
-                IEnumerable<Action> action1 =
+                var action1 =
                     service.GetActions()[plugin].Where(
-                        a => IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
-                IEnumerable<Action> action =
+                        a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                
+                var action =
                     actions[plugin].Where(
-                        a => IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                        a => this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles));
+                
                 foreach (var action2 in action)
                 {
                     if (action1.Count(item => item == action2) == 0)
