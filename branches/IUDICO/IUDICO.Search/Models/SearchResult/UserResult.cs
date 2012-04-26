@@ -7,38 +7,38 @@ namespace IUDICO.Search.Models.SearchResult
 {
     public class UserResult : ISearchResult
     {
-        protected User _User;
-        protected string _Role;
+        protected User user;
+        protected string role;
 
         public UserResult(User user)
         {
-            _User = user;
+            this.user = user;
         }
 
         public UserResult(User user, string role)
         {
-            _User = user;
-            _Role = role;
+            this.user = user;
+            this.role = role;
         }
 
         public int GetId()
         {
-            return Convert.ToInt32(_User.Id);
+            return Convert.ToInt32(this.user.Id);
         }
 
-        public String GetName()
+        public string GetName()
         {
-            return _User.Name;
+            return this.user.Name;
         }
 
-        public String GetText()
+        public string GetText()
         {
-            return  Localization.getMessage("User") + ": " + GetName() + "</br>" + Localization.getMessage("Role") + ": " + _Role;
+            return Localization.GetMessage("User") + ": " + this.GetName() + "</br>" + Localization.GetMessage("Role") + ": " + this.role;
         }
 
-        public String GetUrl()
+        public string GetUrl()
         {
-            return "/User/Details?id=" + _User.Id.ToString();
+            return "/User/Details?id=" + this.user.Id.ToString();
         }
     }
 }

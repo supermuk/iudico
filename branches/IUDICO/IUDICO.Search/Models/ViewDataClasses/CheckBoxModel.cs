@@ -19,23 +19,23 @@ namespace IUDICO.Search.Models.ViewDataClasses
         public CheckBoxModel(SearchType searchType)
         {
             SearchType = searchType;
-            IsChecked = true;
+            this.IsChecked = true;
             switch (searchType)
             {
                 case SearchType.Courses:
-                    Text="Courses";
+                    this.Text = "Courses";
                     break;
                 case SearchType.Disciplines:
-                    Text = "Disciplines";
+                    this.Text = "Disciplines";
                     break;
                 case SearchType.Topics:
-                    Text = "Topics";
+                    this.Text = "Topics";
                     break;
                 case SearchType.Users:
-                    Text = "Users";
+                    this.Text = "Users";
                     break;
                 case SearchType.Groups:
-                    Text = "Groups";
+                    this.Text = "Groups";
                     break;
             }
         }

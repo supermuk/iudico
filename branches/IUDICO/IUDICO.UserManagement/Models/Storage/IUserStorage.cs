@@ -15,6 +15,7 @@ namespace IUDICO.UserManagement.Models.Storage
         IEnumerable<User> GetUsers(Func<User, bool> predicate);
         IEnumerable<User> GetUsers(int pageIndex, int pageSize);
         User GetUser(Guid userId);
+        User GetUser(string username);
         User GetUser(Func<User, bool> predicate);
         bool CreateUser(User user);
         Dictionary<string, string> CreateUsersFromCSV(string csvPath);

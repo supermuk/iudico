@@ -113,6 +113,16 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.storage.GetUser(predicate);
         }
 
+        public User GetUser(string username)
+        {
+            return this.cacheProvider.Get(
+                "user-name-" + username,
+                this.@lockObject,
+                () => this.storage.GetUser(username),
+                DateTime.Now.AddDays(1),
+                "user-name-" + username);
+        }
+
         public bool UsernameExists(string username)
         {
             return this.storage.UsernameExists(username);
