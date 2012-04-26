@@ -17,6 +17,8 @@ using IUDICO.TestingSystem.ViewModels;
 
 namespace IUDICO.TestingSystem.Controllers
 {
+    using IUDICO.Common;
+
     public class TrainingController : PluginController
     {
         protected readonly IMlcProxy MlcProxy;

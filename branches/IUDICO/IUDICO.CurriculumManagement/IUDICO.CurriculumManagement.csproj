@@ -67,7 +67,6 @@
     <Compile Include="Controllers\CurriculumChapterTopicController.cs" />
     <Compile Include="Models\Converter.cs" />
     <Compile Include="CurriculumManagementPlugin.cs" />
-    <Compile Include="Localization.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\IDataContext.cs" />

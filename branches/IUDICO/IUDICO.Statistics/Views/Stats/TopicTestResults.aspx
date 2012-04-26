@@ -1,7 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.StatisticsModels.TopicTestResultsModel>" %>
 <%@ Assembly Name="IUDICO.Statistics" %>
+<%@ Import Namespace="IUDICO.Common" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.Statistics.Localization.getMessage("Results")%>
+	<%=Localization.GetMessage("Results")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -9,33 +10,33 @@
     <fieldset>
     <%if (Model.NoData() == true)
       {%>
-        <%=IUDICO.Statistics.Localization.getMessage("NoDataShow")%>
+        <%=Localization.GetMessage("NoDataShow")%>
         <%
         }
       else
       {%>
-        <legend> <%=IUDICO.Statistics.Localization.getMessage("AttemptStatistic")%></legend>
-        <h2><%=IUDICO.Statistics.Localization.getMessage("Results")%></h2>
+        <legend> <%=Localization.GetMessage("AttemptStatistic")%></legend>
+        <h2><%=Localization.GetMessage("Results")%></h2>
         <p>
-            <%=IUDICO.Statistics.Localization.getMessage("Student")%>:  <%: Model.GetUserName()%>
+            <%=Localization.GetMessage("Student")%>:  <%: Model.GetUserName()%>
         </p>
         <p>
-            <%=IUDICO.Statistics.Localization.getMessage("Topic")%>:  <%: Model.GetTopicName()%>
+            <%=Localization.GetMessage("Topic")%>:  <%: Model.GetTopicName()%>
         </p>
         <p>
-            <%=IUDICO.Statistics.Localization.getMessage("Success")%>:  <%=IUDICO.Statistics.Localization.getMessage(Model.GetSuccessStatus())%>
+            <%=Localization.GetMessage("Success")%>:  <%=Localization.GetMessage(Model.GetSuccessStatus())%>
         </p>
         <p>
-            <%=IUDICO.Statistics.Localization.getMessage("Score")%>:  <%: Model.GetScore()%>
+            <%=Localization.GetMessage("Score")%>:  <%: Model.GetScore()%>
         </p>
 
         <table border="4" cellpadding="4" cellspacing="4">
         
         <tr>
-        <th><%=IUDICO.Statistics.Localization.getMessage("NumberOfQuestion")%> </th>
-        <th> <%=IUDICO.Statistics.Localization.getMessage("StudentAnswer")%> </th>
-        <th> <%=IUDICO.Statistics.Localization.getMessage("CorrectAnswer")%> </th>
-        <th> <%=IUDICO.Statistics.Localization.getMessage("Score")%> </th>
+        <th><%=Localization.GetMessage("NumberOfQuestion")%> </th>
+        <th> <%=Localization.GetMessage("StudentAnswer")%> </th>
+        <th> <%=Localization.GetMessage("CorrectAnswer")%> </th>
+        <th> <%=Localization.GetMessage("Score")%> </th>
         </tr>
         <%int i = 1; %>
         <% foreach (IUDICO.Common.Models.Shared.Statistics.AnswerResult answer in Model.GetUserAnswers())
@@ -44,7 +45,7 @@
                 <td><%:i++%></td>
                 <td><%if (Model.GetUserAnswer(answer) == "")
                       { %>
-                            <%=IUDICO.Statistics.Localization.getMessage("NoData")%>
+                            <%=Localization.GetMessage("NoData")%>
                       <% 
                       }
                       else

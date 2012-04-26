@@ -1,9 +1,11 @@
 ﻿using System;
-using IUDICO.Common.Models;
+
 using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Search.Models.SearchResult
 {
+    using IUDICO.Common;
+
     public class DisciplineResult : ISearchResult
     {
         protected Discipline discipline;

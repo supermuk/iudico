@@ -1,79 +1,103 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using System.Diagnostics;
-using System.Linq;
 using System.Web;
 using System.Threading;
 using System.IO;
 using System.Resources;
 using System.Reflection;
+using System.Linq;
+using Castle.Windsor;
 
 namespace IUDICO.Common
 {
-    public class LocalizationMessageProvider : System.Web.Mvc.ViewPage
+    using System.Web.Mvc;
+
+    public class Localization
     {
-        private static string[] cultures = new[] { "en-US", "uk-UA" };
-        private Dictionary<string, Dictionary<string, string>> resource = new Dictionary<string, Dictionary<string, string>>();
-
-        public LocalizationMessageProvider(string pluginName)
+        private static readonly string[] Cultures = new[] { "en-US", "uk-UA" };
+        private readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>> resource = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
+        private static Localization instance;
+        protected IWindsorContainer container;
+        
+        protected Localization(IWindsorContainer container)
         {
-            var pluginNameDymanic = Assembly.GetCallingAssembly().GetName().Name;
-
-            string path = string.Empty;
-            // NOTE: Modified by terminadoor@gmail.com original is at revision 1668
-            try
+            this.container = container;
+        }
+        
+        public static void Init(IWindsorContainer container)
+        {
+            if (instance == null)
             {
-                path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", "IUDICO." + pluginName);
-            }
-            catch (Exception)
-            {
-                path = Assembly.GetExecutingAssembly().CodeBase;
-                path = Path.GetDirectoryName(path);
-                path = Path.GetDirectoryName(path);
-                path = Path.GetDirectoryName(path);
-                path = Path.GetDirectoryName(path);
-                path = Path.Combine(path, "IUDICO.LMS");
-                path = path.Replace("IUDICO.LMS", "IUDICO." + pluginName);
-                path = path.Remove(0, 6);
-                path += @"\";
-            }   
-
-            // NOTE: End of modifiation from revision 1668
-            foreach (var culture in cultures)
-            {
-                var rsxr = new ResXResourceReader(path + "Resource." + culture + ".resx");
-
-                Dictionary<string, string> temp = new Dictionary<string, string>();
-                foreach (DictionaryEntry d in rsxr)
-                {
-                    temp.Add(d.Key.ToString(), d.Value.ToString());
-                }
-
-                this.resource.Add(culture, temp);
+                instance = new Localization(container);
             }
         }
 
-        public string GetMessage(string search)
+        protected void LoadResource(string pluginName)
         {
+            string path;
+
             try
             {
-                return this.resource[Thread.CurrentThread.CurrentUICulture.Name][search];
+                path = HttpContext.Current.Server.MapPath("/").Replace("IUDICO.LMS", pluginName);
+            }
+            catch (Exception)
+            {
+                path = Path.Combine(Assembly.GetExecutingAssembly().CodeBase.Remove(0, 6) + @"\..\..\..\..\", pluginName) + @"\";
+            }
+
+            this.resource.Add(pluginName, new Dictionary<string, Dictionary<string, string>>());
+
+            foreach (var culture in Cultures)
+            {
+                try
+                {
+                    var resourceReader = new ResXResourceReader(path + "Resource." + culture + ".resx");
+                    var resourceEntries = resourceReader.Cast<DictionaryEntry>().ToDictionary(d => d.Key.ToString(), d => d.Value.ToString());
+
+                    this.resource[pluginName].Add(culture, resourceEntries);
+                }
+                catch (Exception)
+                {
+                    
+                }
+            }
+        }
+
+        public static string GetMessage(string search)
+        {
+            var pluginName = Assembly.GetCallingAssembly().GetName().Name;
+            
+            if (pluginName.IndexOf("IUDICO.") != 0)
+            {
+                var c = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+                var controller = instance.container.Resolve<IControllerFactory>().CreateController(HttpContext.Current.Request.RequestContext, c);
+                pluginName = controller.GetType().Assembly.GetName().Name;
+            }
+
+            return GetMessage(search, pluginName);
+        }
+
+        public static string GetMessage(string search, string pluginName)
+        {
+            return instance.FindMessage(pluginName, search);
+        }
+
+        protected string FindMessage(string pluginName, string search)
+        {
+            if (!this.resource.ContainsKey(pluginName))
+            {
+                this.LoadResource(pluginName);
+            }
+
+            try
+            {
+                return this.resource[pluginName][Thread.CurrentThread.CurrentUICulture.Name][search];
             }
             catch (Exception)
             {
                 return "#" + search;
             }
-        }
-    }
-
-    public class Localization
-    {
-        private static LocalizationMessageProvider provider = new LocalizationMessageProvider("Common");
-
-        public static string GetMessage(string search)
-        {
-            return provider.GetMessage(search);
         }
     }
 }

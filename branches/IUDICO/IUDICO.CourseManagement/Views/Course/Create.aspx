@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Common.Models.Shared.Course>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="<%= Html.ResolveUrl("~/Content/jquery.multiselect2side.css") %>" rel="Stylesheet" type="text/css" />
@@ -13,20 +14,20 @@
             $('#sharewith').multiselect2side({
                 selectedPosition: 'right',
                 moveOptions: false,
-                labelsx: '<%=IUDICO.CourseManagement.Localization.GetMessage("AllUsers") %>',
-                labeldx: '<%=IUDICO.CourseManagement.Localization.GetMessage("SharedWith") %>'
+                labelsx: '<%=Localization.GetMessage("AllUsers") %>',
+                labeldx: '<%=Localization.GetMessage("SharedWith") %>'
             });
         });
     </script>
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.CourseManagement.Localization.GetMessage("Create") %>
+	<%=Localization.GetMessage("Create") %>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=IUDICO.CourseManagement.Localization.GetMessage("Create") %></h2>
+    <h2><%=Localization.GetMessage("Create") %></h2>
 
     <% Html.EnableClientValidation(); %>
 
@@ -34,7 +35,7 @@
         <%: Html.ValidationSummary(true) %>
 
         <fieldset>
-            <legend><%=IUDICO.CourseManagement.Localization.GetMessage("Fields") %></legend>
+            <legend><%=Localization.GetMessage("Fields") %></legend>
             
             <%= Html.EditorForModel() %>
             
@@ -49,7 +50,7 @@
             </select>
 
             <p>
-                <input type="submit" value=<%=IUDICO.CourseManagement.Localization.GetMessage("Create") %> />
+                <input type="submit" value=<%=Localization.GetMessage("Create") %> />
             </p>
         </fieldset>
 
@@ -57,7 +58,7 @@
     
 
     <div>
-        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("BackToList"), "Index")%>
+        <%: Html.ActionLink(Localization.GetMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>

@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.DisciplineManagement" %>
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl" %>
+<%@ Import Namespace="IUDICO.Common" %>
 <script type="text/javascript">
     $(document).ready(function () {
         $("#linkImport").click(function () {
@@ -15,6 +16,6 @@
     <% using (Html.BeginForm("Import", "Discipline", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {%>
             <input type="file" id="inputFileUpload" name="fileUpload" style="visibility: hidden; position:absolute;"/>
-            <a id="linkImport" href="#"><%=IUDICO.DisciplineManagement.Localization.GetMessage("Import")%></a>
+            <a id="linkImport" href="#"><%=Localization.GetMessage("Import")%></a>
     <%} %>
 </div>

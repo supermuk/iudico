@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CourseManagement.Models.ViewCourseModel>>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
@@ -34,12 +35,12 @@
                 });
 
                 if (ids.length == 0) {
-                    alert("<%=IUDICO.CourseManagement.Localization.GetMessage("PleaseSelectCoursesDelete") %>");
+                    alert("<%=Localization.GetMessage("PleaseSelectCoursesDelete") %>");
                     
                     return false;
                 }
 
-                var answer = confirm("<%=IUDICO.CourseManagement.Localization.GetMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=IUDICO.CourseManagement.Localization.GetMessage("selectedCourses") %>");
+                var answer = confirm("<%=Localization.GetMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=Localization.GetMessage("selectedCourses") %>");
 
                 if (answer == false) {
                     return false;
@@ -54,7 +55,7 @@
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("<%=IUDICO.CourseManagement.Localization.GetMessage("ErrorOccuredDuringProccessingRequest") %>");
+                            alert("<%=Localization.GetMessage("ErrorOccuredDuringProccessingRequest") %>");
                         }
                     }
                 });
@@ -209,19 +210,19 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.CourseManagement.Localization.GetMessage("Courses")%>
+    <%=Localization.GetMessage("Courses")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <p>
-        <a href="#" onclick="addCourse();"><%:IUDICO.CourseManagement.Localization.GetMessage("CreateNew")%></a>
+        <a href="#" onclick="addCourse();"><%:Localization.GetMessage("CreateNew")%></a>
         |
-        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("Import"), "Import")%>
+        <%: Html.ActionLink(Localization.GetMessage("Import"), "Import")%>
         | <a id="DeleteMany" href="#">
-            <%=IUDICO.CourseManagement.Localization.GetMessage("DeleteSelected")%></a>
+            <%=Localization.GetMessage("DeleteSelected")%></a>
     </p>
     <div style="float: inherit; width: 400px;">
         <h2>
-            <%=IUDICO.CourseManagement.Localization.GetMessage("Allcourses")%>:</h2>
+            <%=Localization.GetMessage("Allcourses")%>:</h2>
     </div>
     <div>
         <% if (Model.Count() > 0)
@@ -233,16 +234,16 @@
                         <input type="checkbox" id="CoursesCheckAll" />
                     </th>
                     <th>
-                        <%=IUDICO.CourseManagement.Localization.GetMessage("Title")%>
+                        <%=Localization.GetMessage("Title")%>
                     </th>
                     <th>
-                        <%=IUDICO.CourseManagement.Localization.GetMessage("Owner")%>
+                        <%=Localization.GetMessage("Owner")%>
                     </th>
                     <th>
-                        <%=IUDICO.CourseManagement.Localization.GetMessage("Last modified")%>
+                        <%=Localization.GetMessage("Last modified")%>
                     </th>
                     <th>
-                        <%=IUDICO.CourseManagement.Localization.GetMessage("Actions")%>
+                        <%=Localization.GetMessage("Actions")%>
                     </th>
                 </tr>
             </thead>
@@ -255,7 +256,7 @@
         <% }
            else
            {%>
-            <%=IUDICO.CourseManagement.Localization.GetMessage("NoCourses")%>
+            <%=Localization.GetMessage("NoCourses")%>
         <% } %>
     </div>
     <div id="shareDialog">

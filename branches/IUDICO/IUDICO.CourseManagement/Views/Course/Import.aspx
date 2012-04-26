@@ -1,8 +1,9 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<dynamic>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.CourseManagement.Localization.GetMessage("ValidateOrImportCourse")%>
+	<%=Localization.GetMessage("ValidateOrImportCourse")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -10,11 +11,11 @@
     <% using (Html.BeginForm("Import", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
        {%>
         <fieldset>
-            <legend><%=IUDICO.CourseManagement.Localization.GetMessage("ValidateOrImportCourse")%></legend>
+            <legend><%=Localization.GetMessage("ValidateOrImportCourse")%></legend>
             <input type="file" id="fileToValidate" name="fileUpload"/>
             <p>
-                <input type="submit" value=<%=IUDICO.CourseManagement.Localization.GetMessage("Validate")%> id="Validate" name="action"/>
-                <input type="submit" value=<%=IUDICO.CourseManagement.Localization.GetMessage("Import")%> id="Import" name="action"/>
+                <input type="submit" value=<%=Localization.GetMessage("Validate")%> id="Validate" name="action"/>
+                <input type="submit" value=<%=Localization.GetMessage("Import")%> id="Import" name="action"/>
             </p>
             <div id="validateResult">
                 <ul>
@@ -30,7 +31,7 @@
     <%} %>
 
     <div>
-        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("BackToList"), "Index")%>
+        <%: Html.ActionLink(Localization.GetMessage("BackToList"), "Index")%>
     </div>
 
 </asp:Content>

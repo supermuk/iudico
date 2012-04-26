@@ -13,6 +13,8 @@ using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CourseManagement.Controllers
 {
+    using IUDICO.Common;
+
     public class CourseController : CourseBaseController
     {
         private readonly ICourseStorage storage;

@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using System.Web.Script.Serialization;
-using System.Web.UI.WebControls;
-using System.Xml.Linq;
 using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
@@ -21,6 +15,8 @@ using IUDICO.Common.Models.Attributes;
 
 namespace IUDICO.CourseManagement.Controllers
 {
+    using IUDICO.Common;
+
     public class NodeController : CourseBaseController
     {
         protected Course currentCourse;

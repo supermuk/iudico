@@ -60,6 +60,8 @@ namespace IUDICO.LMS
 
             this.InitializeWindsor();
 
+            Localization.Init(this.Container);
+
             Log4NetLoggerService.InitLogger();
             log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath("log.xml")));
 

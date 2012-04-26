@@ -2,6 +2,7 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.UserManagement.Models.DetailsModel>" %>
 <%@ Import Namespace="IUDICO.Common.Models" %>
 <%@ Import Namespace="IUDICO.UserManagement" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	<%=Localization.GetMessage("Account")%>

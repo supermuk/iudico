@@ -12,6 +12,8 @@ using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
+    using IUDICO.Common;
+
     public class UserController : PluginController
     {
         private readonly IUserStorage storage;

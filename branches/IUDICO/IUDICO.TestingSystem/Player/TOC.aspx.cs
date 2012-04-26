@@ -10,6 +10,8 @@ using System.Web;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     public partial class Frameset_TOC : BwpFramesetPage
     {
         private TocHelper mTocHelper;
@@ -26,13 +28,13 @@ namespace Microsoft.LearningComponents.Frameset
                     this.ProcessAttemptIdParameter,
                     this.ProcessViewRequest,
                     this.RegisterError,
-                    IUDICO.TestingSystem.Localization.GetMessage("TOC_SubmitAttempt"));
+                    Localization.GetMessage("TOC_SubmitAttempt"));
             }
             catch (Exception ex)
             {
                 this.RegisterError(
-                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("FRM_UnexpectedErrorTitle")),
-                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("FRM_UnexpectedError"), HttpUtility.HtmlEncode(ex.Message)),
+                    ResHelper.GetMessage(Localization.GetMessage("FRM_UnexpectedErrorTitle")),
+                    ResHelper.GetMessage(Localization.GetMessage("FRM_UnexpectedError"), HttpUtility.HtmlEncode(ex.Message)),
                     false);
             }
         }

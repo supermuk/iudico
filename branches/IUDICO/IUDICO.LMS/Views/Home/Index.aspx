@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.LMS.Models.HomeModel>" %>
 <%@ Import Namespace="IUDICO.Common.Models.Shared.DisciplineManagement" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	IUDICO
@@ -81,7 +82,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h3><%=IUDICO.LMS.Localization.GetMessage("WelcomeIudico")%></h3>
+    <h3><%=Localization.GetMessage("WelcomeIudico")%></h3>
     
     <% foreach (var plugin in Model.Actions) { %>
         <% if (plugin.Value.Any())
@@ -98,7 +99,7 @@
     
 	<% if (Model.TopicsDescriptions.Any())
 	   {%>
-    <h4 class="availableTopics"><%= IUDICO.LMS.Localization.GetMessage("AvailableTopics") %></h4>
+    <h4 class="availableTopics"><%= Localization.GetMessage("AvailableTopics") %></h4>
     <div>
     <ul class="topics">
     <% foreach (var dis in Model.GroupedTopicsDescriptions)
@@ -148,7 +149,7 @@
 	
 
 <%--    <% if (Model.TopicsDescriptions.Any()) { %>
-    <h4 class="availableTopics"><%=IUDICO.LMS.Localization.getMessage("AvailableTopics") %></h4>
+    <h4 class="availableTopics"><%=Localization.getMessage("AvailableTopics") %></h4>
     <ul class="topics">
     <% foreach (var topicDescription in Model.TopicsDescriptions)
        { %>

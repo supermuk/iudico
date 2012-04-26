@@ -25,6 +25,8 @@ using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     // Query parameters on this page:
     // AttemptId = 
     // View = 
@@ -197,7 +199,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("CON_PleaseWait"));
+                return ResHelper.GetMessage(Localization.GetMessage("CON_PleaseWait"));
             }
         }
 

@@ -20,6 +20,8 @@ using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     /// <summary>
     /// Represents a helper object that provides useful functions to multiple pages within framesets. 
     /// </summary>

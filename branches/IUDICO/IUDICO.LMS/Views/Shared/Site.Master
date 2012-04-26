@@ -1,6 +1,8 @@
 ﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
 
 <%@ Import Namespace="System.Threading" %>
+
+<%@ Import Namespace="IUDICO.Common" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -61,7 +63,7 @@
             <div id="menucontainer">
                 <ul id="menu">
                     <li>
-                        <%: Html.ActionLink(IUDICO.LMS.Localization.GetMessage("Home"), "Index", "Home", new {}, new { @class = "selected"})%></li>
+                        <%: Html.ActionLink(Localization.GetMessage("Home"), "Index", "Home", new {}, new { @class = "selected"})%></li>
                     <% var menu = (IUDICO.Common.Models.Menu)IUDICO.LMS.MvcApplication.LmsService.GetMenu(); %>
                     <%  foreach (var item in menu.Items)
                         { %>

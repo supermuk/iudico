@@ -10,26 +10,17 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Configuration;
-using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Web.Security;
-using System.Web.UI;
-using System.Web.UI.HtmlControls;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 using System.Xml;
-
-using IUDICO.TestingSystem;
 
 using Microsoft.LearningComponents.DataModel;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     /// <summary>
     /// Abstract class to translate between RTE strings (e.g., "cmi.score.scaled") and 
     /// LearningDataModel values (e.g., LearningDataModel.Score.Scaled). One instance of this class 
@@ -207,7 +198,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 throw new InvalidOperationException(
                     ResHelper.GetMessage(
-                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                        Localization.GetMessage("CONV_SetValueInvalidName"),
                         this.mCurrentElementName));
             }
         }
@@ -229,7 +220,7 @@ namespace Microsoft.LearningComponents.Frameset
                 {
                     errors.Add(
                         ResHelper.GetMessage(
-                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueObjective"), e.Message));
+                            Localization.GetMessage("CONV_SetValueObjective"), e.Message));
                 }
             }
 
@@ -243,7 +234,7 @@ namespace Microsoft.LearningComponents.Frameset
                 {
                     errors.Add(
                         ResHelper.GetMessage(
-                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInteraction"), e.Message));
+                            Localization.GetMessage("CONV_SetValueInteraction"), e.Message));
                 }
             }
 
@@ -255,7 +246,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             throw new InvalidOperationException(
                 ResHelper.GetMessage(
-                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueReadOnly"), this.mCurrentElementName));
+                    Localization.GetMessage("CONV_SetValueReadOnly"), this.mCurrentElementName));
         }
 
         protected void SetSuspendData(string value)

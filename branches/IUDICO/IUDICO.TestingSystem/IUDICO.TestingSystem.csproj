@@ -121,7 +121,6 @@
       <DependentUpon>FramesetResources.resx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\TrainingController.cs" />
-    <Compile Include="Localization.cs" />
     <Compile Include="Models\IMlcProxy.cs" />
     <Compile Include="Models\ServicesProxy.cs" />
     <Compile Include="Models\MlcHelper.cs" />
