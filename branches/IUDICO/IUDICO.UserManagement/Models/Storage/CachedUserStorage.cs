@@ -8,6 +8,8 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
+    using IUDICO.Common.Models.Shared.Statistics;
+
     public class CachedUserStorage : IUserStorage
     {
         // TODO: fix
@@ -331,6 +333,11 @@ namespace IUDICO.UserManagement.Models.Storage
         public void RateTopic(int topicId, int rating)
         {
             this.storage.RateTopic(topicId, rating);
+        }
+
+        public void UpdateUserAverage(AttemptResult attemptResult)
+        {
+            this.storage.UpdateUserAverage(attemptResult);
         }
 
         #endregion
