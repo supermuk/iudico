@@ -13,7 +13,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             this.selenium.Open("/");
             this.selenium.Click("link=Register");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             var guid = Guid.NewGuid();
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
@@ -23,7 +23,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Type("id=Email", "CreateUserSuccess@UniqueUserId.com");
             this.selenium.Type("id=Name", "name");
             this.selenium.Click("//input[@value='Register']");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad((this.seleniumWait * 2).ToString());
             Assert.IsTrue(this.selenium.IsTextPresent("Registered"));
         }
 
@@ -32,13 +32,13 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         {
             this.selenium.Open("/");
             this.selenium.Click("link=Register");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             var guid = Guid.NewGuid();
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
             this.selenium.Type("id=Name", "nestor");
             this.selenium.Click("//input[@value='Register']");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             Assert.IsTrue(this.selenium.GetLocation().EndsWith("/Account/Register"));
         }
     }

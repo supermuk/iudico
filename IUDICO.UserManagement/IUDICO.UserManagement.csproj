@@ -104,11 +104,6 @@
     </Compile>
     <Compile Include="Models\Storage\IUserStorage.cs" />
     <Compile Include="Models\UserService.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Compile Include="UserManagementPlugin.cs" />
     <Compile Include="Models\Models.cs" />
     <Compile Include="Models\Storage\DatabaseUserStorage.cs" />
@@ -147,10 +142,6 @@
     <Content Include="Views\User\Details.aspx" />
     <Content Include="Views\User\Edit.aspx" />
     <Content Include="Views\User\Index.aspx" />
-    <None Include="Properties\Settings.settings">
-      <Generator>PublicSettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
     <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>

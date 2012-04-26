@@ -53,9 +53,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             
             Assert.IsTrue(this.selenium.IsElementPresent("avatar"));
 

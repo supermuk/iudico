@@ -12,7 +12,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
         }
     }

@@ -21,7 +21,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         public void GetCurrentlyLoggedInUserWhenNotLogged()
         {
             this.selenium.Open("/");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
             Assert.IsFalse(this.selenium.IsTextPresent("Logged in as"));

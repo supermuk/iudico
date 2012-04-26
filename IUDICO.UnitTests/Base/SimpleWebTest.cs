@@ -9,15 +9,41 @@ namespace IUDICO.UnitTests.Base
 {
     public class SimpleWebTest
     {
+        public enum BrowserType
+        {
+            /// <summary>
+            /// Internet Explorer browser.
+            /// </summary>
+            InternetExplorer,
+
+            /// <summary>
+            /// Firefox browser.
+            /// </summary>
+            Firefox,
+
+            /// <summary>
+            /// Chrome browser
+            /// </summary>
+            Chrome
+        }
+
         protected ISelenium selenium;
         protected string seleniumHost;
         protected int seleniumPort;
         protected string seleniumSpeed;
-        protected string seleniumWait;
+        protected int seleniumWait;
         protected string browserUrl;
         protected BrowserType browser = BrowserType.Chrome;
 
         protected StringBuilder verificationErrors;
+
+        protected string SeleniumWait
+        {
+            get
+            {
+                return this.seleniumWait.ToString();
+            }
+        }
 
         public SimpleWebTest()
         {
@@ -26,7 +52,7 @@ namespace IUDICO.UnitTests.Base
             this.seleniumHost = ConfigurationManager.AppSettings["SELENIUM_HOST"];
             this.seleniumPort = int.Parse(ConfigurationManager.AppSettings["SELENIUM_PORT"], CultureInfo.InvariantCulture);
             this.seleniumSpeed = ConfigurationManager.AppSettings["SELENIUM_SPEED"];
-            this.seleniumWait = ConfigurationManager.AppSettings["SELENIUM_WAIT"];
+            this.seleniumWait = int.Parse(ConfigurationManager.AppSettings["SELENIUM_WAIT"], CultureInfo.InvariantCulture);
             this.browserUrl = ConfigurationManager.AppSettings["SELENIUM_URL"];
 
             string browserExe;
@@ -36,6 +62,7 @@ namespace IUDICO.UnitTests.Base
                 case BrowserType.InternetExplorer:
                     browserExe = "*iexplore";
                     break;
+
                 case BrowserType.Firefox:
                     browserExe = "*firefox";
                     break;
@@ -83,7 +110,7 @@ namespace IUDICO.UnitTests.Base
             this.selenium.Type("id=loginPassword", username);
             this.selenium.Type("id=loginUsername", password);
             this.selenium.Click("id=loginDefaultButton");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
         }
 
         protected void DefaultLogin()
@@ -96,19 +123,19 @@ namespace IUDICO.UnitTests.Base
             this.selenium.Open("/");
             this.selenium.Type("id=loginIdentifier", openId);
             this.selenium.Click("id=loginOpenIdButton");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             if (!this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"))
             {
                 this.selenium.Type("id=login_user", openIdLogin);
                 this.selenium.Type("id=login_password", openIdPass);
                 this.selenium.Click("//input[@id='loginlj_submit']");
-                this.selenium.WaitForPageToLoad(this.seleniumWait);
+                this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
                 if (this.selenium.GetLocation().Contains("http://www.livejournal.com"))
                 {
                     this.selenium.Click("//input[@name='yes:once']");
-                    this.selenium.WaitForPageToLoad(this.seleniumWait);
+                    this.selenium.WaitForPageToLoad(this.SeleniumWait);
                 }
             }
         }
@@ -118,7 +145,7 @@ namespace IUDICO.UnitTests.Base
             if (this.selenium.IsElementPresent("//a[contains(@href, '/Account/Logout')]"))
             {
                 this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
-                this.selenium.WaitForPageToLoad(this.seleniumWait);
+                this.selenium.WaitForPageToLoad(this.SeleniumWait);
             }
         }
     }
