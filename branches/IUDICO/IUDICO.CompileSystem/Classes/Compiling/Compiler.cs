@@ -20,11 +20,11 @@ namespace CompileSystem.Classes.Compiling
 
         public Compiler()
         {
-            this.Name = String.Empty;
-            this.Location = String.Empty;
-            this.Extension = String.Empty;
-            this.Arguments = String.Empty;
-            this.CompiledExtension = "";
+            this.Name = string.Empty;
+            this.Location = string.Empty;
+            this.Extension = string.Empty;
+            this.Arguments = string.Empty;
+            this.CompiledExtension = string.Empty;
             this.IsNeedShortPath = false;
         }
 
@@ -39,37 +39,37 @@ namespace CompileSystem.Classes.Compiling
             {
                 using (var process = new Process())
                 {
-                    //standard path
-                    var shortLocation = Path.GetDirectoryName(Location);
+                    // standard path
+                    var shortLocation = Path.GetDirectoryName(this.Location);
                     var shortSourceFilePath = sourceFilePath;
 
-                    if (IsNeedShortPath)
+                    if (this.IsNeedShortPath)
                     {
-                        shortLocation = ToShortPathName(Path.GetDirectoryName(Location));
+                        shortLocation = ToShortPathName(Path.GetDirectoryName(this.Location));
                         shortSourceFilePath = ToShortPathName(sourceFilePath);
                     }
 
-                    //this.Arguments = "-U\"$CompilerDirectory$\" $SourceFilePath$";
-                    //set compilation arguments
-                    process.StartInfo.FileName = Location;
+                    // this.Arguments = "-U\"$CompilerDirectory$\" $SourceFilePath$";
+                    // set compilation arguments
+                    process.StartInfo.FileName = this.Location;
                     process.StartInfo.Arguments =
-                        Arguments.Replace(CompilerDirectory, shortLocation).Replace(SourceFilePath, shortSourceFilePath);
+                        this.Arguments.Replace(CompilerDirectory, shortLocation).Replace(SourceFilePath, shortSourceFilePath);
                     process.StartInfo.WorkingDirectory = Path.GetDirectoryName(sourceFilePath);
 
-                    //set up process info nad start
+                    // set up process info nad start
                     process.StartInfo.RedirectStandardOutput = true;
                     process.StartInfo.RedirectStandardError = true;
                     process.StartInfo.UseShellExecute = false;
                     process.StartInfo.CreateNoWindow = true;
                     process.Start();
 
-                    //get output and error info
+                    // get output and error info
                     standardOutput = process.StandardOutput.ReadToEnd();
                     standardError = process.StandardError.ReadToEnd();
 
                     process.WaitForExit();
 
-                    var compiled = File.Exists(Path.ChangeExtension(sourceFilePath, CompiledExtension));
+                    var compiled = File.Exists(Path.ChangeExtension(sourceFilePath, this.CompiledExtension));
 
                     return compiled;
                 }
