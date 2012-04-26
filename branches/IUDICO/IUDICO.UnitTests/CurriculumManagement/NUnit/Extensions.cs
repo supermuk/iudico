@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.CurriculumManagement;
-using NUnit.Framework;
-using IUDICO.Common.Models;
-using IUDICO.DisciplineManagement.Models.ViewDataClasses;
 using IUDICO.CurriculumManagement.Models.ViewDataClasses;
+using IUDICO.DisciplineManagement.Models.ViewDataClasses;
+
+using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 {
@@ -89,9 +91,9 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         public static void AreEqual(IList<TopicDescription> expected, IList<TopicDescription> actual)
         {
             Assert.AreEqual(expected.Count(), actual.Count());
-            foreach (TopicDescription exp in expected)
+            foreach (var exp in expected)
             {
-                TopicDescription act = actual.SingleOrDefault(item => item.Topic == exp.Topic);
+                var act = actual.SingleOrDefault(item => item.Topic == exp.Topic);
                 if (act != null)
                 {
                     AreEqual(exp, act);
@@ -120,13 +122,13 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         public static CreateCurriculumModel ToCreateModel(this Curriculum curriculum)
         {
             return new CreateCurriculumModel
-            {
-                DisciplineId = curriculum.DisciplineRef,
-                SetTimeline = curriculum.StartDate.HasValue && curriculum.EndDate.HasValue,
-                StartDate = curriculum.StartDate ?? DateTime.Now,
-                EndDate = curriculum.EndDate ?? DateTime.Now,
-                GroupId = curriculum.UserGroupRef
-            };
+                {
+                    DisciplineId = curriculum.DisciplineRef, 
+                    SetTimeline = curriculum.StartDate.HasValue && curriculum.EndDate.HasValue, 
+                    StartDate = curriculum.StartDate ?? DateTime.Now, 
+                    EndDate = curriculum.EndDate ?? DateTime.Now, 
+                    GroupId = curriculum.UserGroupRef
+                };
         }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Web;
+
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
 using Castle.Windsor.Installer;
+
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.LMS.Models;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.LMS.NUnit
@@ -14,31 +17,27 @@ namespace IUDICO.UnitTests.LMS.NUnit
     [TestFixture]
     internal class ErrorHandlingTests
     {
-        private void InitializeWindsor(ref IWindsorContainer _Container)
+        private void InitializeWindsor(ref IWindsorContainer container)
         {
-            Assembly a = Assembly.GetExecutingAssembly();
-            string fullPath = a.CodeBase;
+            var a = Assembly.GetExecutingAssembly();
+            var fullPath = a.CodeBase;
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.GetDirectoryName(fullPath);
             fullPath = Path.Combine(fullPath, "IUDICO.LMS", "Plugins");
             fullPath = fullPath.Remove(0, 6);
-            _Container
-                .Register(
-                    Component.For<IWindsorContainer>().Instance(_Container))
-                .Register(
-                    Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton)
-                .Install(FromAssembly.This(),
-                         FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")),
-                         FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll"))
-                );
+            container.Register(Component.For<IWindsorContainer>().Instance(container)).Register(
+                Component.For<ILmsService>().ImplementedBy<LmsService>().LifeStyle.Singleton).Install(
+                    FromAssembly.This(), 
+                    FromAssembly.InDirectory(new AssemblyFilter(fullPath.Replace("Plugins", "bin"), "IUDICO.LMS.dll")), 
+                    FromAssembly.InDirectory(new AssemblyFilter(fullPath, "IUDICO.*.dll")));
         }
 
         [Test]
         public void WindsorThrowsExceptionWhenCannotResolve()
         {
-            WindsorContainer cont = new WindsorContainer();
+            var cont = new WindsorContainer();
             try
             {
                 cont.Resolve<ILmsService>();
@@ -47,13 +46,14 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 Assert.Pass();
             }
+
             Assert.Fail();
         }
 
         [Test]
         public void LmsRemainsTellsWhenNoServiceFound()
         {
-            LmsService service = new LmsService(new WindsorContainer());
+            var service = new LmsService(new WindsorContainer());
             try
             {
                 service.FindService<IUserService>();
@@ -62,6 +62,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 Assert.Pass();
             }
+
             Assert.Fail();
         }
 
@@ -70,8 +71,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
         {
             HttpContext.Current = null;
             IWindsorContainer cont = new WindsorContainer();
-            InitializeWindsor(ref cont);
-            ILmsService serv = cont.Resolve<ILmsService>();
+            this.InitializeWindsor(ref cont);
+            var serv = cont.Resolve<ILmsService>();
             var plugin = cont.Resolve<IPlugin>();
             try
             {
@@ -81,6 +82,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 Assert.Fail();
             }
+
             Assert.Pass();
         }
 
@@ -89,8 +91,8 @@ namespace IUDICO.UnitTests.LMS.NUnit
         {
             HttpContext.Current = null;
             IWindsorContainer cont = new WindsorContainer();
-            InitializeWindsor(ref cont);
-            ILmsService serv = cont.Resolve<ILmsService>();
+            this.InitializeWindsor(ref cont);
+            var serv = cont.Resolve<ILmsService>();
             var plugin = cont.Resolve<IPlugin>();
             try
             {
@@ -100,6 +102,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 Assert.Fail();
             }
+
             Assert.Pass();
         }
     }

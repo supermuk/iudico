@@ -1,4 +1,5 @@
 ﻿using IUDICO.Common.Models.Shared;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit

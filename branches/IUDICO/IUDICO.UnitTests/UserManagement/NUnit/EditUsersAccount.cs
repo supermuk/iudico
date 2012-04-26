@@ -1,6 +1,8 @@
 ﻿using System;
+
 using IUDICO.Common.Models.Shared;
 using IUDICO.UserManagement.Models;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -20,20 +22,20 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             temp = this.tests.Storage.GetUser(u => u.Username == "name");
 
             var expected = new User
-                                {
-                                    Username = "name",
-                                    Email = "ipp@interlogic.com.ua",
-                                    Password = "pass123",
-                                    Id = temp.Id,
-                                    OpenId = "openid"
-                                };
+                {
+                    Username = "name", 
+                    Email = "ipp@interlogic.com.ua", 
+                    Password = "pass123", 
+                    Id = temp.Id, 
+                    OpenId = "openid"
+                };
 
             var model = new EditUserModel(expected);
-            
+
             this.tests.Storage.EditUser(temp.Id, model);
 
             var compare = this.tests.Storage.GetUser(u => u.Username == "name");
-            
+
             Assert.IsTrue(this.tests.TestUsers(compare, expected) && compare.OpenId == expected.OpenId);
 
             this.tests.Storage.DeleteUser(u => u.Username == "name");
@@ -42,7 +44,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void EditUserInvalid()
         {
-            //Done by Selenium test.
+            ////Done by Selenium test.
             /*
             User temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass12" };
 
@@ -69,13 +71,13 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass123" };
 
             var expected = new User
-                                {
-                                    Username = "name",
-                                    Email = "ipp@interlogic.com.ua",
-                                    Password = "pass123",
-                                    Id = temp.Id,
-                                    OpenId = "openid"
-                                };
+                {
+                    Username = "name", 
+                    Email = "ipp@interlogic.com.ua", 
+                    Password = "pass123", 
+                    Id = temp.Id, 
+                    OpenId = "openid"
+                };
 
             var model = new EditUserModel(expected);
 
@@ -92,13 +94,13 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             temp = this.tests.Storage.GetUser(u => u.Username == "name");
 
             var expected = new User
-                                {
-                                    Username = "name",
-                                    Email = "ipp@interlogic.com.ua",
-                                    Password = string.Empty,
-                                    Id = temp.Id,
-                                    OpenId = "openid"
-                                };
+                {
+                    Username = "name", 
+                    Email = "ipp@interlogic.com.ua", 
+                    Password = string.Empty, 
+                    Id = temp.Id, 
+                    OpenId = "openid"
+                };
 
             var model = new EditUserModel(expected);
             this.tests.Storage.EditUser(temp.Id, model);

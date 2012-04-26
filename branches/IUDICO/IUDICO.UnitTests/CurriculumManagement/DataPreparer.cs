@@ -112,9 +112,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
         {
             return
                 Enumerable.Range(1, 3).Select(
-                    i =>
-                    new Discipline { Name = string.Format("Discipline{0}", i), Owner = Users.Panza, IsValid = true }).
-                    ToList();
+                    i => new Discipline { Name = string.Format("Discipline{0}", i), Owner = Users.Panza, IsValid = true }).ToList();
         }
 
         public List<Chapter> GetChapters()

@@ -2,16 +2,17 @@
 
 namespace IUDICO.UnitTests.CompileService
 {
-    class CompileServiceHelper
+    internal class CompileServiceHelper
     {
         public static bool ValidatePath(string path)
         {
             if (path != string.Empty)
             {
                 var isExist = File.Exists(path);
-                
+
                 return isExist;
             }
+
             return false;
         }
 
@@ -19,22 +20,34 @@ namespace IUDICO.UnitTests.CompileService
 
         public static string CPPLanguageName
         {
-            get { return "CPP8"; }
+            get
+            {
+                return "CPP8";
+            }
         }
 
         public static string CSharpLanguageName
         {
-            get { return "CSharp"; }
+            get
+            {
+                return "CSharp";
+            }
         }
 
         public static string JavaLanguageName
         {
-            get { return "Java"; }
+            get
+            {
+                return "Java";
+            }
         }
 
         public static string DelphiLanguageName
         {
-            get { return "Delphi"; }
+            get
+            {
+                return "Delphi";
+            }
         }
 
         #endregion
@@ -43,22 +56,34 @@ namespace IUDICO.UnitTests.CompileService
 
         public static string[] EmptyInput
         {
-            get { return new string[0]; }
+            get
+            {
+                return new string[0];
+            }
         }
 
         public static string[] EmptyOutput
         {
-            get { return new string[0]; }
+            get
+            {
+                return new string[0];
+            }
         }
 
         public static string[] Input
         {
-            get { return new[] { "2 5", "7 5" }; }
+            get
+            {
+                return new[] { "2 5", "7 5" };
+            }
         }
 
         public static string[] Output
         {
-            get { return new[] { "25", "75" }; }
+            get
+            {
+                return new[] { "25", "75" };
+            }
         }
 
         #endregion
@@ -67,12 +92,18 @@ namespace IUDICO.UnitTests.CompileService
 
         public static int TimeLimit
         {
-            get { return 2000; }
+            get
+            {
+                return 2000;
+            }
         }
 
         public static int MemoryLimit
         {
-            get { return 3000; }
+            get
+            {
+                return 3000;
+            }
         }
 
         #endregion
@@ -81,32 +112,50 @@ namespace IUDICO.UnitTests.CompileService
 
         public static string AcceptedTestResult
         {
-            get { return "Accepted"; }
+            get
+            {
+                return "Accepted";
+            }
         }
 
         public static string CompilationErrorResult
         {
-            get { return "CompilationError"; }
+            get
+            {
+                return "CompilationError";
+            }
         }
 
         public static string TimeLimitOneResult
         {
-            get { return "TimeLimit Test: 0"; }
+            get
+            {
+                return "TimeLimit Test: 0";
+            }
         }
 
         public static string MemoryLimitOneResult
         {
-            get { return "MemoryLimit Test: 0"; }
+            get
+            {
+                return "MemoryLimit Test: 0";
+            }
         }
 
         public static string WrongAnswerOneResult
         {
-            get { return "WrongAnswer Test: 0"; }
+            get
+            {
+                return "WrongAnswer Test: 0";
+            }
         }
 
         public static string WrongAnswerTwoResult
         {
-            get { return "WrongAnswer Test: 1"; }
+            get
+            {
+                return "WrongAnswer Test: 1";
+            }
         }
 
         #endregion

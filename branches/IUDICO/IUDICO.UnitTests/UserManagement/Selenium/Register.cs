@@ -1,7 +1,8 @@
-﻿using IUDICO.UnitTests.Base;
-using NUnit.Framework;
+﻿using System;
 
-using System;
+using IUDICO.UnitTests.Base;
+
+using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+
 using IUDICO.Common.Models.Shared;
 using IUDICO.CourseManagement.Models.Storage;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CourseManagement.NUnit
@@ -16,7 +18,10 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
         protected ICourseStorage Storage
         {
-            get { return this.tests.Storage; }
+            get
+            {
+                return this.tests.Storage;
+            }
         }
 
         [SetUp]
@@ -33,7 +38,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursesMethods")]
         public void GetCourseIDTest()
         {
-            Course course = this.Storage.GetCourse(1);
+            var course = this.Storage.GetCourse(1);
             Assert.AreEqual(course.Id, 1);
             Assert.AreEqual(course.Name, "Some course");
         }
@@ -43,7 +48,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [ExpectedException(typeof(InvalidOperationException))]
         public void GetCourseIDNotFoundTest()
         {
-            Course course = this.Storage.GetCourse(333);
+            var course = this.Storage.GetCourse(333);
         }
 
         [Test]
@@ -91,11 +96,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursesMethods")]
         public void GetCoursesUserOwnerTest()
         {
-            var courses = this.Storage.GetCourses(new User
-                                                  {
-                                                      Deleted = false,
-                                                      Name = "lex",
-                                                      Username = "lex" });
+            var courses = this.Storage.GetCourses(new User { Deleted = false, Name = "lex", Username = "lex" });
 
             Assert.AreEqual(courses.Count(), 2);
         }
@@ -104,11 +105,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursesMethods")]
         public void GetCoursesUserOwnerNotExistTest()
         {
-            var courses = this.Storage.GetCourses(new User
-                                                  {
-                                                      Deleted = false,
-                                                      Name = "unknown",
-                                                      Username = "unknown" });
+            var courses = this.Storage.GetCourses(new User { Deleted = false, Name = "unknown", Username = "unknown" });
 
             Assert.AreEqual(courses.Count(), 0);
         }
@@ -133,15 +130,16 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             Assert.AreEqual(courses.Count(), 0);
         }
 
-
         [Test]
         [Category("CourseUsersMethods")]
         public void UpdateCourseUsersValidCourse()
         {
             var guids = new List<Guid>();
+
             // valid Guids
             guids.Add(new Guid("55345200-abe8-4f60-90c8-0d43c5f6c0f6"));
             guids.Add(new Guid("66345200-abe8-4f60-90c8-0d43c5f6c0f6"));
+
             // Invalid Guids
             guids.Add(new Guid("77345200-abe8-4f60-90c8-0d43c5f6c0f6"));
             guids.Add(new Guid("88345200-abe8-4f60-90c8-0d43c5f6c0f6"));
@@ -150,15 +148,16 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             Assert.AreEqual(5, this.Storage.GetCourseUsers(1).Count()); // Expected: 0 But was: 3
         }
 
-
         [Test]
         [Category("CourseUsersMethods")]
         public void UpdateCourseUsersNewCourse()
         {
             var guids = new List<Guid>();
+
             // valid Guids
             guids.Add(new Guid("55345200-abe8-4f60-90c8-0d43c5f6c0f6"));
             guids.Add(new Guid("66345200-abe8-4f60-90c8-0d43c5f6c0f6"));
+
             // Invalid Guids
             guids.Add(new Guid("77345200-abe8-4f60-90c8-0d43c5f6c0f6"));
             guids.Add(new Guid("88345200-abe8-4f60-90c8-0d43c5f6c0f6"));
@@ -177,12 +176,11 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             Assert.AreEqual(3, this.Storage.GetCourseUsers(1).Count()); // Expected: 0 But was: 3
         }
 
-
         [Test]
         [Category("CourseUsersMethods")]
         public void DeleteCourseUsersValidGuidTest()
         {
-            Guid user2 = new Guid("22345200-abe8-4f60-90c8-0d43c5f6c0f6");
+            var user2 = new Guid("22345200-abe8-4f60-90c8-0d43c5f6c0f6");
             this.Storage.DeleteCourseUsers(user2);
             var users = this.Storage.GetCourseUsers(1);
             Assert.AreEqual(users.Count(), 2);
@@ -192,7 +190,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("CourseUsersMethods")]
         public void DeleteCourseUsersInvalidGuidTest()
         {
-            Guid user1 = new Guid("00000000-abe8-4f60-90c8-0d43c5f6c0f6");
+            var user1 = new Guid("00000000-abe8-4f60-90c8-0d43c5f6c0f6");
             var countOldUsers = 0;
             foreach (var course in this.Storage.GetCourses())
             {
@@ -201,7 +199,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
             this.Storage.DeleteCourseUsers(user1);
 
-            int countNewUsers = 0;
+            var countNewUsers = 0;
             foreach (var course in this.Storage.GetCourses())
             {
                 countNewUsers += this.Storage.GetCourseUsers(course.Id).Count();
@@ -246,7 +244,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void DeleteAlienCourseValidIdTest()
         {
             this.Storage.DeleteCourse(2);
-            Course course = this.Storage.GetCourse(2);
+            var course = this.Storage.GetCourse(2);
             Assert.IsFalse(course.Deleted);
         }
 
@@ -270,7 +268,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("DeleteCourse")]
         public void DeleteCoursesEmptyList()
         {
-            int countCourses = this.Storage.GetCourses().Count();
+            var countCourses = this.Storage.GetCourses().Count();
             this.Storage.DeleteCourses(new List<int>());
 
             Assert.AreEqual(countCourses, this.Storage.GetCourses().Count());
@@ -280,7 +278,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("DeleteCourse")]
         public void DeleteOwnCoursesList()
         {
-            List<int> coursesIds = new List<int>();
+            var coursesIds = new List<int>();
             coursesIds.Add(1);
             coursesIds.Add(7);
             this.Storage.DeleteCourses(coursesIds);
@@ -292,7 +290,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("DeleteCourse")]
         public void DeleteOwnAndAlienCoursesList()
         {
-            List<int> coursesIds = new List<int>();
+            var coursesIds = new List<int>();
             coursesIds.Add(1);
             coursesIds.Add(2);
             this.Storage.DeleteCourses(coursesIds);
@@ -320,8 +318,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("ImportMethods")]
         public void Import()
         {
-
-            string path = Path.Combine(this.tests._CourseStoragePath, "20.zip");
+            var path = Path.Combine(this.tests._CourseStoragePath, "20.zip");
 
             this.Storage.Import(path, "lex");
 
@@ -361,13 +358,12 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("ExportMethods")]
         public void ExportLockedValidIdCourse()
         {
-            string path = this.Storage.Export(2);
+            var path = this.Storage.Export(2);
 
             Assert.AreEqual(this.tests._CourseStoragePath + "\\2.zip", path);
         }
 
         #endregion
-
 
         #region Test GetCoursePath Methods
 
@@ -375,16 +371,16 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursePathMethods")]
         public void GetCoursePathTest()
         {
-            HttpContext current = HttpContext.Current;
+            var current = HttpContext.Current;
             HttpContext.Current = new HttpContext(
-                new HttpRequest(string.Empty, "http://something.org", string.Empty),
+                new HttpRequest(string.Empty, "http://something.org", string.Empty), 
                 new HttpResponse(new StringWriter()));
 
-            string coursePath = this.Storage.GetCoursePath(1);
+            var coursePath = this.Storage.GetCoursePath(1);
 
             HttpContext.Current = current;
 
-            string path = Path.Combine(this.tests._CourseStoragePath, "1");
+            var path = Path.Combine(this.tests._CourseStoragePath, "1");
 
             Assert.AreEqual(path, coursePath);
         }
@@ -393,15 +389,14 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("GetCoursePathMethods")]
         public void GetCourseTempPathTest()
         {
-            string coursePath = this.Storage.GetCourseTempPath(0);
+            var coursePath = this.Storage.GetCourseTempPath(0);
 
-            string path = "IUDICO.UnitTests\\bin\\Debug\\Site\\Data\\WorkFolder\\0";
+            var path = "IUDICO.UnitTests\\bin\\Debug\\Site\\Data\\WorkFolder\\0";
             Assert.IsTrue(coursePath.Contains(path));
         }
 
         #endregion
 
         #endregion
-
     }
 }

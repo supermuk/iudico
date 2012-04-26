@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
+
 using IUDICO.Common.Models.Shared;
-using IUDICO.UserManagement.Models.Storage;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -17,8 +18,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             const string UserId = "UniqueUserId_CreateUser";
             const string Username = UserId + "_";
 
-            this.tests.Storage.CreateUser(new User { Name = "Create User", Username = Username, Password = "123456", UserId = UserId });
-            
+            this.tests.Storage.CreateUser(
+                new User { Name = "Create User", Username = Username, Password = "123456", UserId = UserId });
+
             var created = this.tests.Storage.GetUser(u => u.Username == Username);
 
             Assert.AreEqual(created.UserId, UserId);
@@ -34,16 +36,11 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             Assert.True(this.tests.Storage.UserUniqueIdAvailable(UserId, Guid.NewGuid()));
 
-            this.tests.Storage.CreateUser(new User
-                                   {
-                                       Name = "Unique Id Availablity",
-                                       Username = Username,
-                                       Password = "123456",
-                                       UserId = UserId
-                                   });
+            this.tests.Storage.CreateUser(
+                new User { Name = "Unique Id Availablity", Username = Username, Password = "123456", UserId = UserId });
 
             var created = this.tests.Storage.GetUser(u => u.Username == Username);
-            
+
             Assert.AreEqual(created.UserId, UserId);
             Assert.True(this.tests.Storage.UserUniqueIdAvailable("no such id", created.Id));
             Assert.True(this.tests.Storage.UserUniqueIdAvailable(UserId, created.Id));
@@ -60,15 +57,18 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             const string Username = UserId + "_";
             const string NewUsername = NewUserId + "_";
 
-            this.tests.Storage.CreateUser(new User { Name = "Edit User", Username = Username, Password = "123456", UserId = UserId });
+            this.tests.Storage.CreateUser(
+                new User { Name = "Edit User", Username = Username, Password = "123456", UserId = UserId });
 
             var created = this.tests.Storage.GetUser(u => u.Username == Username);
-            
+
             Assert.AreEqual(created.UserId, UserId);
 
             created.UserId = NewUserId;
-            this.tests.Storage.EditUser(created.Id, new User { Name = "Edit User", Username = NewUsername, Password = "123456", UserId = NewUserId });
-            
+            this.tests.Storage.EditUser(
+                created.Id, 
+                new User { Name = "Edit User", Username = NewUsername, Password = "123456", UserId = NewUserId });
+
             Assert.AreEqual(created.UserId, NewUserId);
 
             this.tests.Storage.DeleteUser(u => u.Username == NewUsername);
@@ -82,14 +82,12 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             Assert.True(this.tests.Storage.UserUniqueIdAvailable(UserId, Guid.NewGuid()));
 
-            this.tests.Storage.CreateUser(new User
-                                   {
-                                       Name = "Delete User By Unique Id",
-                                       Username = Username,
-                                       Password = "123456",
-                                       UserId = UserId
-                                   });
-            
+            this.tests.Storage.CreateUser(
+                new User
+                    {
+                       Name = "Delete User By Unique Id", Username = Username, Password = "123456", UserId = UserId 
+                    });
+
             var created = this.tests.Storage.GetUser(u => u.Username == Username);
 
             Assert.AreEqual(created.UserId, UserId);

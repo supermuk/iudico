@@ -1,5 +1,6 @@
 ﻿using IUDICO.Common.Models.Shared;
 using IUDICO.UserManagement.Models;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -13,13 +14,13 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         public void RegisterUserValid()
         {
             var model = new RegisterModel
-                            {
-                                Username = "nestor",
-                                Password = "1234",
-                                ConfirmPassword = "1234",
-                                Email = "yn@gmail.com",
-                                Name = "Nestor"
-                            };
+                {
+                    Username = "nestor", 
+                    Password = "1234", 
+                    ConfirmPassword = "1234", 
+                    Email = "yn@gmail.com", 
+                    Name = "Nestor"
+                };
 
             this.tests.Storage.RegisterUser(model);
 
@@ -34,13 +35,13 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         public void RegisterUserInvalid()
         {
             var model = new RegisterModel
-                            {
-                                Username = "nestor",
-                                Password = "1234",
-                                ConfirmPassword = "1234",
-                                Email = "yn@gmail.com",
-                                Name = "Nestor"
-                            };
+                {
+                    Username = "nestor", 
+                    Password = "1234", 
+                    ConfirmPassword = "1234", 
+                    Email = "yn@gmail.com", 
+                    Name = "Nestor"
+                };
 
             this.tests.Storage.RegisterUser(model);
 

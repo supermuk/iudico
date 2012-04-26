@@ -1,11 +1,13 @@
 ﻿using System;
+
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models.Services;
+using IUDICO.CurriculumManagement.Controllers;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.DisciplineManagement.Controllers;
 using IUDICO.DisciplineManagement.Models.Storage;
+
 using NUnit.Framework;
-using IUDICO.CurriculumManagement.Controllers;
 
 namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 {
@@ -17,32 +19,50 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
         protected IDisciplineStorage Storage
         {
-            get { return this.tests.DisciplineStorage; }
+            get
+            {
+                return this.tests.DisciplineStorage;
+            }
         }
 
         protected ICurriculumStorage CurriculumStorage
         {
-            get { return this.tests.CurriculumStorage; }
+            get
+            {
+                return this.tests.CurriculumStorage;
+            }
         }
 
         protected ILmsService LmsService
         {
-            get { return this.tests.LmsService; }
+            get
+            {
+                return this.tests.LmsService;
+            }
         }
 
         protected ICourseService CourseService
         {
-            get { return this.tests.CourseService; }
+            get
+            {
+                return this.tests.CourseService;
+            }
         }
 
         protected IUserService UserService
         {
-            get { return this.tests.UserService; }
+            get
+            {
+                return this.tests.UserService;
+            }
         }
 
         protected DataPreparer DataPreparer
         {
-            get { return this.tests.DataPreparer; }
+            get
+            {
+                return this.tests.DataPreparer;
+            }
         }
 
         protected T GetController<T>() where T : PluginController
@@ -76,6 +96,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             {
                 throw new NotImplementedException();
             }
+
             var mocks = new ContextMocks(controller);
             mocks.RouteData.Values["action"] = "Index";
             return (T)controller;

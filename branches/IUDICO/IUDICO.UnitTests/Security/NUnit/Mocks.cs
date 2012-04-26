@@ -1,120 +1,103 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IUDICO.Security.Models.Storages;
-using Moq;
-using IUDICO.Security.Models.Storages.Database;
-using IUDICO.Common.Models.Services;
-using IUDICO.Common.Models.Interfaces;
-using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models;
-using IUDICO.Security.Models;
-
-namespace IUDICO.Security.UnitTests.Infrastructure
+﻿namespace IUDICO.UnitTests.Security.NUnit
 {
-    class Mocks
-    {
-        protected IBanStorage _BanStorage;
-        protected ISecurityStorage _SecurityStorage;
+    using System;
 
-        protected Mock<ILmsService> _MockLmsService;
-        protected Mock<ISecurityDataContext> _MockSecurityDataContext;
+    using IUDICO.Common.Models;
+    using IUDICO.Common.Models.Interfaces;
+    using IUDICO.Common.Models.Services;
+    using IUDICO.Common.Models.Shared;
+    using IUDICO.Security.Models;
+    using IUDICO.Security.Models.Storages;
+    using IUDICO.Security.Models.Storages.Database;
+
+    using Moq;
+
+    internal class Mocks
+    {
+        protected IBanStorage banStorage;
+
+        protected ISecurityStorage securityStorage;
+
+        protected Mock<ILmsService> mockLmsService;
+
+        protected Mock<ISecurityDataContext> mockSecurityDataContext;
 
         public IBanStorage BanStorage
         {
-            get { return _BanStorage; }
+            get
+            {
+                return this.banStorage;
+            }
         }
 
         public ISecurityStorage SecurityStorage
         {
-            get { return _SecurityStorage; }
+            get
+            {
+                return this.securityStorage;
+            }
         }
 
         public Mocks()
         {
-            MockLms();
-            MockSecurityDataContext();
-            MockBanStorage();
-            MockSecurityStorage();
+            this.MockLms();
+            this.MockSecurityDataContext();
+            this.MockBanStorage();
+            this.MockSecurityStorage();
         }
 
         public void Reset()
         {
-            _MockSecurityDataContext.SetupGet(c => c.Computers).Returns(CreateComputers());
-            _MockSecurityDataContext.SetupGet(c => c.Rooms).Returns(CreateRooms());
-            _MockSecurityDataContext.SetupGet(c => c.UserActivities).Returns(CreateUserActivities());
+            this.mockSecurityDataContext.SetupGet(c => c.Computers).Returns(CreateComputers());
+            this.mockSecurityDataContext.SetupGet(c => c.Rooms).Returns(CreateRooms());
+            this.mockSecurityDataContext.SetupGet(c => c.UserActivities).Returns(CreateUserActivities());
         }
 
         private void MockLms()
         {
-            _MockLmsService = new Mock<ILmsService>();
+            this.mockLmsService = new Mock<ILmsService>();
         }
 
         private void MockSecurityDataContext()
         {
-            _MockSecurityDataContext = new Mock<ISecurityDataContext>();
+            this.mockSecurityDataContext = new Mock<ISecurityDataContext>();
 
-            _MockSecurityDataContext.SetupGet(c => c.Computers).Returns(CreateComputers());
-            _MockSecurityDataContext.SetupGet(c => c.Rooms).Returns(CreateRooms());
-            _MockSecurityDataContext.SetupGet(c => c.UserActivities).Returns(CreateUserActivities());
+            this.mockSecurityDataContext.SetupGet(c => c.Computers).Returns(CreateComputers());
+            this.mockSecurityDataContext.SetupGet(c => c.Rooms).Returns(CreateRooms());
+            this.mockSecurityDataContext.SetupGet(c => c.UserActivities).Returns(CreateUserActivities());
         }
 
         private void MockBanStorage()
         {
-            var context = _MockSecurityDataContext.Object;
-            Func<ISecurityDataContext> createSecurityDataContext = () =>
-            {
-                return context;
-            };
-            _BanStorage = new DatabaseBanStorage
-                (_MockLmsService.Object, createSecurityDataContext);
+            var context = this.mockSecurityDataContext.Object;
+            Func<ISecurityDataContext> createSecurityDataContext = () => { return context; };
+            this.banStorage = new DatabaseBanStorage(this.mockLmsService.Object, createSecurityDataContext);
         }
 
         private void MockSecurityStorage()
         {
-            var context = _MockSecurityDataContext.Object;
+            var context = this.mockSecurityDataContext.Object;
 
-            Func<ISecurityDataContext> createSecurityDataContext = () =>
-            {
-                return context;
-            };
+            Func<ISecurityDataContext> createSecurityDataContext = () => { return context; };
 
-            _SecurityStorage = new DatabaseSecurityStorage
-                (createSecurityDataContext);
+            this.securityStorage = new DatabaseSecurityStorage(createSecurityDataContext);
         }
 
-        private IMockableTable<Computer> CreateComputers()
+        private static IMockableTable<Computer> CreateComputers()
         {
-            var computers = new Computer[]
-            {
-                new Computer
-                {
-                    CurrentUser = "lex",
-                    IpAddress = "100.100.100.100",
-                    Banned = true
-                }
-            };
+            var computers = new[] { new Computer { CurrentUser = "lex", IpAddress = "100.100.100.100", Banned = true } };
 
             return new MemoryTable<Computer>(computers);
         }
 
-        private IMockableTable<Room> CreateRooms()
+        private static IMockableTable<Room> CreateRooms()
         {
-            var rooms = new Room[]
-            {
-                new Room
-                {
-                    Id = 1,
-                    Name = "tester",
-                    Allowed = true
-                }
-            };
+            var rooms = new[] { new Room { Id = 1, Name = "tester", Allowed = true } };
 
             return new MemoryTable<Room>(rooms);
         }
 
-        private IMockableTable<UserActivity> CreateUserActivities()
+        private static IMockableTable<UserActivity> CreateUserActivities()
         {
             return new MemoryTable<UserActivity>();
         }

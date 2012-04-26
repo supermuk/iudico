@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+
 using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Controllers;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CurriculumManagement.NUnit
@@ -16,26 +18,24 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         {
             this.DataPreparer.CreateCurriculumsSet1();
             var expectedItems = this.DataPreparer.GetCurriculums();
-            var controller = GetController<CurriculumController>();
+            var controller = this.GetController<CurriculumController>();
 
             // add curriculums
             expectedItems.ForEach(item => controller.Create(item.ToCreateModel()));
+
             // then add "special" curriculum
             controller.Create(
                 new Curriculum
-                {
-                    IsValid = false,
-                    IsDeleted = true,
-                    DisciplineRef = this.DataPreparer.DisciplineIds[0],
-                    UserGroupRef = this.UserService.GetGroup(2).Id }.ToCreateModel());
+                    {
+                        IsValid = false, 
+                        IsDeleted = true, 
+                        DisciplineRef = this.DataPreparer.DisciplineIds[0], 
+                        UserGroupRef = this.UserService.GetGroup(2).Id
+                    }.ToCreateModel());
 
             expectedItems = this.DataPreparer.GetCurriculums();
-            var allItems = this.CurriculumStorage.GetCurriculums()
-                .OrderBy(item => item.Id)
-                .ToList();
-            var actualItems = allItems
-                .Take(expectedItems.Count)
-                .ToList();
+            var allItems = this.CurriculumStorage.GetCurriculums().OrderBy(item => item.Id).ToList();
+            var actualItems = allItems.Take(expectedItems.Count).ToList();
             var actualItem = allItems.Last();
 
             AdvAssert.AreEqual(expectedItems, actualItems);
@@ -43,50 +43,58 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.AreEqual(true, actualItem.IsValid);
 
             // add bad curriculum
-            controller = GetController<CurriculumController>();
+            controller = this.GetController<CurriculumController>();
             controller.Create(
                 new Curriculum
-                {
-                    DisciplineRef = this.DataPreparer.DisciplineIds[1],
-                    UserGroupRef = this.UserService.GetGroup(1).Id,
-                    StartDate = DateTime.Now.AddDays(1), // bad start date
-                    EndDate = DateTime.Now }.ToCreateModel());
+                    {
+                        DisciplineRef = this.DataPreparer.DisciplineIds[1], 
+                        UserGroupRef = this.UserService.GetGroup(1).Id, 
+                        StartDate = DateTime.Now.AddDays(1), 
+                        // bad start date
+                        EndDate = DateTime.Now
+                    }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
             Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
 
             // add bad curriculum
-            controller = GetController<CurriculumController>();
+            controller = this.GetController<CurriculumController>();
             controller.Create(
                 new Curriculum
-                {
-                    DisciplineRef = this.DataPreparer.DisciplineIds[0], // curriculum with same group and discipline already exist!
-                    UserGroupRef = this.UserService.GetGroup(2).Id,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now }.ToCreateModel());
+                    {
+                        DisciplineRef = this.DataPreparer.DisciplineIds[0], 
+                        // curriculum with same group and discipline already exist!
+                        UserGroupRef = this.UserService.GetGroup(2).Id, 
+                        StartDate = DateTime.Now, 
+                        EndDate = DateTime.Now
+                    }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
             Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
 
             // add bad curriculum
-            controller = GetController<CurriculumController>();
+            controller = this.GetController<CurriculumController>();
             controller.Create(
                 new Curriculum
-                {
-                    DisciplineRef = -1, // disciplineId < 0
-                    UserGroupRef = this.UserService.GetGroup(2).Id,
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now }.ToCreateModel());
+                    {
+                        DisciplineRef = -1, 
+                        // disciplineId < 0
+                        UserGroupRef = this.UserService.GetGroup(2).Id, 
+                        StartDate = DateTime.Now, 
+                        EndDate = DateTime.Now
+                    }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
             Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
 
             // add bad curriculum
-            controller = GetController<CurriculumController>();
+            controller = this.GetController<CurriculumController>();
             controller.Create(
                 new Curriculum
-                {
-                    DisciplineRef = this.DataPreparer.DisciplineIds[0],
-                    UserGroupRef = -1, // groupId < 0
-                    StartDate = DateTime.Now,
-                    EndDate = DateTime.Now }.ToCreateModel());
+                    {
+                        DisciplineRef = this.DataPreparer.DisciplineIds[0], 
+                        UserGroupRef = -1, 
+                        // groupId < 0
+                        StartDate = DateTime.Now, 
+                        EndDate = DateTime.Now
+                    }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
             Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
 
@@ -105,20 +113,21 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             // Assert.AreEqual(expectedItems.Count + 1, _CurriculumStorage.GetCurriculums().Count);
 
             // add bad curriculum
-            controller = GetController<CurriculumController>();
+            controller = this.GetController<CurriculumController>();
             controller.Create(
                 new Curriculum
-                {
-                    DisciplineRef = this.DataPreparer.DisciplineIds[1],
-                    UserGroupRef = this.UserService.GetGroup(1).Id,
-                    StartDate = new DateTime(1100, 1, 1), // too small date
-                    EndDate = new DateTime(2400, 1, 1) // too big date
-                }.ToCreateModel());
+                    {
+                        DisciplineRef = this.DataPreparer.DisciplineIds[1], 
+                        UserGroupRef = this.UserService.GetGroup(1).Id, 
+                        StartDate = new DateTime(1100, 1, 1), 
+                        // too small date
+                        EndDate = new DateTime(2400, 1, 1) // too big date
+                    }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
             Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
         }
 
-/*        [Test]
+        /*        [Test]
         public void UpdateCurriculum()
         {
             IUserService userService = _Tests.LmsService.FindService<IUserService>();
@@ -583,7 +592,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
             Assert.AreEqual(curAss, _Storage.GetCurriculums().ToList());
         }*/
-
         #endregion
 
         /*#region TimelineMethods

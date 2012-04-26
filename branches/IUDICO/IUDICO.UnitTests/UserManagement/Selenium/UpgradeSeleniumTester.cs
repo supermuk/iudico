@@ -1,6 +1,6 @@
-using NUnit.Framework;
-
 using IUDICO.UnitTests.Base;
+
+using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
@@ -11,12 +11,13 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         public void LoginAsAdmin()
         {
             this.DefaultLogin();
-            
-            selenium.Click("//a[contains(@href, '/Account/Index')]");
-            selenium.WaitForPageToLoad(this.SeleniumWait);
-            
-            Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
+
+            this.selenium.Click("//a[contains(@href, '/Account/Index')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }
+
         /*
         [Test]
         public void LoginAsTeacher()

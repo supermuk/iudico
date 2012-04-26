@@ -1,4 +1,5 @@
 ﻿using IUDICO.Common.Models.Shared;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -15,8 +16,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.CreateGroup(group);
 
-            Assert.IsTrue(group.Name == this.tests.Storage.GetGroup(group.Id).Name &&
-                          group.Id == this.tests.Storage.GetGroup(group.Id).Id);
+            Assert.IsTrue(
+                group.Name == this.tests.Storage.GetGroup(group.Id).Name
+                && group.Id == this.tests.Storage.GetGroup(group.Id).Id);
 
             this.tests.Storage.DeleteGroup(group.Id);
         }
@@ -28,8 +30,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.CreateGroup(group);
 
-            Assert.IsTrue(group.Name == this.tests.Storage.GetGroup(group.Id).Name &&
-                          group.Id == this.tests.Storage.GetGroup(group.Id).Id);
+            Assert.IsTrue(
+                group.Name == this.tests.Storage.GetGroup(group.Id).Name
+                && group.Id == this.tests.Storage.GetGroup(group.Id).Id);
 
             this.tests.Storage.DeleteGroup(group.Id);
         }

@@ -1,13 +1,13 @@
-﻿using System;
-using CompileSystem.Classes.Testing;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CompileService.NUnit
 {
+    using CompileSystem;
+
     [TestFixture]
     public class SourceCodeTests
     {
-        private readonly CompileSystem.CompileService compileService = new CompileSystem.CompileService();
+        private readonly CompileService compileService = new CompileService();
 
         #region CPP tests
 
@@ -15,24 +15,24 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void CorrectCPPSourceCodeTest()
         {
             var actualResult = this.compileService.Compile(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                CompileServiceHelper.CPPLanguageName,
-                CompileServiceHelper.EmptyInput,
-                                                          CompileServiceHelper.EmptyOutput,
-                                                          CompileServiceHelper.TimeLimit,
-                                                          CompileServiceHelper.MemoryLimit);
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, 
+                CompileServiceHelper.CPPLanguageName, 
+                CompileServiceHelper.EmptyInput, 
+                CompileServiceHelper.EmptyOutput, 
+                CompileServiceHelper.TimeLimit, 
+                CompileServiceHelper.MemoryLimit);
             Assert.AreEqual(CompileServiceHelper.AcceptedTestResult, actualResult);
         }
 
         public void IncorrectCPPSourceCodeTest()
         {
-            string actualResult = this.compileService.Compile(
-                CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
-                CompileServiceHelper.CPPLanguageName,
-                CompileServiceHelper.EmptyInput,
-                                                          CompileServiceHelper.EmptyOutput,
-                                                          CompileServiceHelper.TimeLimit,
-                                                          CompileServiceHelper.MemoryLimit);
+            var actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPIncorrectSourceCode, 
+                CompileServiceHelper.CPPLanguageName, 
+                CompileServiceHelper.EmptyInput, 
+                CompileServiceHelper.EmptyOutput, 
+                CompileServiceHelper.TimeLimit, 
+                CompileServiceHelper.MemoryLimit);
             Assert.AreEqual(CompileServiceHelper.CompilationErrorResult, actualResult);
         }
 
@@ -43,25 +43,25 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void CorrectJavaSourceCodeTest()
         {
-            string actualResult = this.compileService.Compile(
-                CompileServiceLanguageSourceCode.JavaCorrectSourceCode,
-                CompileServiceHelper.JavaLanguageName,
-                CompileServiceHelper.EmptyInput,
-                                                          CompileServiceHelper.EmptyOutput,
-                                                          CompileServiceHelper.TimeLimit,
-                                                          CompileServiceHelper.MemoryLimit);
+            var actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.JavaCorrectSourceCode, 
+                CompileServiceHelper.JavaLanguageName, 
+                CompileServiceHelper.EmptyInput, 
+                CompileServiceHelper.EmptyOutput, 
+                CompileServiceHelper.TimeLimit, 
+                CompileServiceHelper.MemoryLimit);
             Assert.AreEqual(CompileServiceHelper.AcceptedTestResult, actualResult);
         }
 
         public void IncorrectJavaSourceCodeTest()
         {
-            string actualResult = this.compileService.Compile(
-                CompileServiceLanguageSourceCode.JavaIncorrectSourceCode,
-                CompileServiceHelper.JavaLanguageName,
-                CompileServiceHelper.EmptyInput,
-                                                          CompileServiceHelper.EmptyOutput,
-                                                          CompileServiceHelper.TimeLimit,
-                                                          CompileServiceHelper.MemoryLimit);
+            var actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.JavaIncorrectSourceCode, 
+                CompileServiceHelper.JavaLanguageName, 
+                CompileServiceHelper.EmptyInput, 
+                CompileServiceHelper.EmptyOutput, 
+                CompileServiceHelper.TimeLimit, 
+                CompileServiceHelper.MemoryLimit);
             Assert.AreEqual(CompileServiceHelper.CompilationErrorResult, actualResult);
         }
 

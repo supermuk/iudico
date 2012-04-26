@@ -1,7 +1,8 @@
-﻿using System.Configuration;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
+
 using IUDICO.CourseManagement.Helpers;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CourseManagement.NUnit
@@ -15,9 +16,9 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("CreateZipTest")]
         public void CreateZipTest()
         {
-            var folder = Path.Combine(root, @"New Folder");
+            var folder = Path.Combine(this.root, @"New Folder");
 
-            var zip = Path.Combine(root, "1.zip");
+            var zip = Path.Combine(this.root, "1.zip");
 
             Zipper.CreateZip(zip, folder);
 
@@ -28,9 +29,9 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Category("CreateZipTest")]
         public void ExtractZipFileTest()
         {
-            var folder = Path.Combine(root, "Zipped Folder");
+            var folder = Path.Combine(this.root, "Zipped Folder");
 
-            var zip = Path.Combine(root, @"Zipped Folder.zip");
+            var zip = Path.Combine(this.root, @"Zipped Folder.zip");
 
             Zipper.ExtractZipFile(zip, folder);
 
@@ -40,7 +41,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void PackageValidatorValidPackageTest()
         {
-            var path = Path.Combine(root, "Valid package.zip");
+            var path = Path.Combine(this.root, "Valid package.zip");
             var res = PackageValidator.Validate(path);
 
             Assert.IsTrue(res.Count == 1);
@@ -49,7 +50,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void PackageValidatorInvalidPackageTest()
         {
-            var path = Path.Combine(root, "Invalid package.zip");
+            var path = Path.Combine(this.root, "Invalid package.zip");
             var res = PackageValidator.Validate(path);
 
             Assert.IsTrue(res.Count == 6);
@@ -58,9 +59,9 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperDirectoryCopyTest()
         {
-            var from = Path.Combine(root, "New Folder");
-            var to = Path.Combine(root, "New Folder Copy" + Guid.NewGuid());
-            
+            var from = Path.Combine(this.root, "New Folder");
+            var to = Path.Combine(this.root, "New Folder Copy" + Guid.NewGuid());
+
             Directory.CreateDirectory(to);
 
             FileHelper.DirectoryCopy(from, to);
@@ -71,7 +72,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperDirectoryCreateTest()
         {
-            var dir = Path.Combine(root, "New Folder Create");
+            var dir = Path.Combine(this.root, "New Folder Create");
 
             FileHelper.DirectoryCreate(dir);
 
@@ -81,7 +82,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperDirectoryExistsTest()
         {
-            var dir = Path.Combine(root, "New Folder");
+            var dir = Path.Combine(this.root, "New Folder");
 
             Assert.IsTrue(FileHelper.DirectoryExists(dir));
         }
@@ -89,7 +90,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperDirectoryNotExistsTest()
         {
-            var dir = Path.Combine(root, "Not Existing New Folder");
+            var dir = Path.Combine(this.root, "Not Existing New Folder");
 
             Assert.IsFalse(FileHelper.DirectoryExists(dir));
         }
@@ -97,19 +98,18 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperDirectoryGetFilesTest()
         {
-            var dir = Path.Combine(root, "New Folder");
+            var dir = Path.Combine(this.root, "New Folder");
             var file = Path.Combine(dir, "New Document.txt");
 
             var res = FileHelper.DirectoryGetFiles(dir).ToArray();
 
-            
             Assert.IsTrue(res.Count() == 1 && res[0] == file);
         }
 
         [Test]
         public void FileHelperFileWriteTest()
         {
-            var file = Path.Combine(root, "New Document Write.txt");
+            var file = Path.Combine(this.root, "New Document Write.txt");
 
             FileHelper.FileWrite(file, "test");
 
@@ -119,7 +119,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperFileReadTest()
         {
-            var file = Path.Combine(root, @"New Folder\New Document.txt");
+            var file = Path.Combine(this.root, @"New Folder\New Document.txt");
 
             Assert.IsTrue(FileHelper.FileRead(file) == "test");
         }
@@ -127,8 +127,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperFileCopyTest()
         {
-            var from = Path.Combine(root, @"New Folder\New Document.txt");
-            var to = Path.Combine(root, @"New Document Copy.txt");
+            var from = Path.Combine(this.root, @"New Folder\New Document.txt");
+            var to = Path.Combine(this.root, @"New Document Copy.txt");
 
             FileHelper.FileCopy(from, to, true);
 
@@ -138,7 +138,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperFileDeleteTest()
         {
-            var file = Path.Combine(root, @"New Document Delete.txt");
+            var file = Path.Combine(this.root, @"New Document Delete.txt");
 
             FileHelper.FileDelete(file);
 
@@ -148,7 +148,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperFileExistsTest()
         {
-            var file = Path.Combine(root, @"New Folder\New Document.txt");
+            var file = Path.Combine(this.root, @"New Folder\New Document.txt");
 
             Assert.IsTrue(FileHelper.FileExists(file));
         }

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using IUDICO.Common.Models.Shared;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -13,10 +15,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void GetGroupsNonDeleted()
         {
-            var groups = new List<Group>
-                {
-                    new Group { Deleted = false, Id = 1, Name = "pmi51" },
-                    new Group { Deleted = false, Id = 2, Name = "pmi41" },
+            var groups = new List<Group> {
+                    new Group { Deleted = false, Id = 1, Name = "pmi51" }, 
+                    new Group { Deleted = false, Id = 2, Name = "pmi41" }, 
                     new Group { Deleted = false, Id = 3, Name = "pmi31" }
                 };
 

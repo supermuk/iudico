@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using IUDICO.Common.Models;
+
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.Statistics;
 
@@ -19,18 +18,18 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// <summary>
         /// attempt to show
         /// </summary>
-        private readonly AttemptResult Attempt;
+        private readonly AttemptResult attempt;
 
         /// <summary>
         /// user answers for this attempt
         /// </summary>
-        private readonly IEnumerable<AnswerResult> UserAnswers;
+        private readonly IEnumerable<AnswerResult> userAnswers;
 
         /// <summary>
         /// if there is no data to show - true
         /// else - false
         /// </summary>
-        private readonly bool _NoData;
+        private readonly bool hasNoData;
 
         #endregion
 
@@ -46,22 +45,20 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         {
             if (attemptId != -1)
             {
-                Attempt = attList.First(c => c.AttemptId == attemptId);
-                if (Attempt != null)
+                this.attempt = attList.First(c => c.AttemptId == attemptId);
+                if (this.attempt != null)
                 {
-                    UserAnswers = lmsService.FindService<ITestingService>().GetAnswers(Attempt);
-                    if (UserAnswers != null)
-                        _NoData = false;
-                    else
-                        _NoData = true;
+                    this.userAnswers = lmsService.FindService<ITestingService>().GetAnswers(this.attempt);
+
+                    this.hasNoData = this.userAnswers == null;
                 }
                 else
                 {
-                    _NoData = true;
+                    this.hasNoData = true;
                 }                
             }
             else
-                _NoData = true;
+                this.hasNoData = true;
         }
 
         #endregion
@@ -74,57 +71,51 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// <returns></returns>
         public IEnumerable<AnswerResult> GetUserAnswers()
         {
-            return this.UserAnswers;
+            return this.userAnswers;
         }
 
         /// <summary>
         /// Return name of current user
         /// </summary>
         /// <returns></returns>
-        public String GetUserName()
+        public string GetUserName()
         {
-            if (this.Attempt != null)
-                return this.Attempt.User.Name;
-            else
-                return "";
+            return this.attempt != null ? this.attempt.User.Name : string.Empty;
         }
 
         /// <summary>
         /// Return name of current topic
         /// </summary>
         /// <returns></returns>
-        public String GetTopicName()
+        public string GetTopicName()
         {
-            if (this.Attempt != null)
-                return this.Attempt.CurriculumChapterTopic.Topic.Name;
-            else
-                return "";
+            return this.attempt != null ? this.attempt.CurriculumChapterTopic.Topic.Name : string.Empty;
         }
 
         /// <summary>
         /// Return success status of current attempt
         /// </summary>
         /// <returns></returns>
-        public String GetSuccessStatus()
+        public string GetSuccessStatus()
         {
-            if (this.Attempt != null)
-                return this.Attempt.SuccessStatus.ToString();
-            else
-                return "";
+            return this.attempt != null ? this.attempt.SuccessStatus.ToString() : string.Empty;
         }
 
         /// <summary>
         /// Return summary score for current attempt
         /// </summary>
         /// <returns></returns>
-        public String GetScore()
+        public string GetScore()
         {
-            if (this.Attempt != null)
+            if (this.attempt != null)
             {
-                if (this.Attempt.Score.ToPercents().HasValue ==true)
-                    return Math.Round((double)this.Attempt.Score.ToPercents(), 2).ToString();
+                if (this.attempt.Score.ToPercents().HasValue)
+                {
+                    return Math.Round((double)this.attempt.Score.ToPercents(), 2).ToString();
+                }
             }
-            return "";
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -132,12 +123,9 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// </summary>
         /// <param name="answerResult">AnswerResult for question</param>
         /// <returns></returns>
-        public String GetUserAnswer(AnswerResult answerResult)
+        public string GetUserAnswer(AnswerResult answerResult)
         {
-            if (answerResult.LearnerResponse != null)
-                return answerResult.LearnerResponse.ToString();
-            else
-                return "";
+            return answerResult.LearnerResponse != null ? answerResult.LearnerResponse.ToString() : string.Empty;
         }
 
         /// <summary>
@@ -145,14 +133,15 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// </summary>
         /// <param name="answerResult">AnswerResult for question</param>
         /// <returns></returns>
-        public String GetUserScoreForAnswer(AnswerResult answerResult)
+        public string GetUserScoreForAnswer(AnswerResult answerResult)
         {
             if (answerResult.ScaledScore != null)
                 {
                     if (answerResult.ScaledScore.HasValue == true)
                     return Math.Round((double)answerResult.ScaledScore, 2).ToString();
             }
-            return "";
+
+            return string.Empty;
         }
 
         /// <summary>
@@ -161,7 +150,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// <returns></returns>
         public bool NoData()
         {
-            return this._NoData;
+            return this.hasNoData;
         }
 
         #endregion

@@ -23,11 +23,11 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         [TestMethod]
         public void StatusConstructorTest()
         {
-            const string testResult = "Accepted";
-            var target = new Status(testResult);
+            const string TestResult = "Accepted";
+            var target = new Status(TestResult);
 
-            Assert.AreEqual(false, testResult == null);
-            Assert.AreEqual(testResult, target.TestResult);
+            Assert.AreEqual(false, TestResult == null);
+            Assert.AreEqual(TestResult, target.TestResult);
         }
 
         #endregion
@@ -42,12 +42,12 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         public void CreateFileForCompilationTest()
         {
             string extension = null;
-            const string source = "My source code";
+            const string Source = "My source code";
             string currentFilePath;
 
             try
             {
-                currentFilePath = Helper.CreateFileForCompilation(source, extension);
+                currentFilePath = Helper.CreateFileForCompilation(Source, extension);
                 Assert.AreEqual(true, false);
             }
             catch (Exception)
@@ -58,13 +58,13 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             try
             {
                 extension = "cpp";
-                currentFilePath = Helper.CreateFileForCompilation(source, extension);
+                currentFilePath = Helper.CreateFileForCompilation(Source, extension);
                 Assert.AreNotEqual(true, string.IsNullOrEmpty(currentFilePath));
                 Assert.AreEqual(File.Exists(currentFilePath), true);
 
                 var text = File.ReadAllText(currentFilePath);
                 Assert.AreNotEqual(true, string.IsNullOrEmpty(text));
-                Assert.AreEqual(text, source);
+                Assert.AreEqual(text, Source);
             }
             catch (Exception)
             {
@@ -484,9 +484,9 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         [TestMethod]
         public void CompileServiceTest()
         {
-            var _compileService = new CompileService();
+            var compileService = new CompileService();
             var source = CompileServiceLanguageSourceCode.CPPCorrectSourceCode;
-            var language = "CPP8";
+            const string Language = "CPP8";
             var input = new string[0];
             var output = new string[0];
             var inputStrings = new[] { "1 2" };
@@ -497,7 +497,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             // compile with incorrect language parameter
             try
             {
-                expected = _compileService.Compile(source, "IncorrectLanguageName", input, output, 100, 100);
+                expected = compileService.Compile(source, "IncorrectLanguageName", input, output, 100, 100);
                 Assert.AreEqual(false, true);
             }
             catch (Exception)
@@ -507,7 +507,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
 
             try
             {
-                expected = _compileService.Compile(source, string.Empty, input, output, 100, 100);
+                expected = compileService.Compile(source, string.Empty, input, output, 100, 100);
                 Assert.AreEqual(false, true);
             }
             catch (Exception)
@@ -518,7 +518,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             // compile with incorrect timelimit parameter
             try
             {
-                expected = _compileService.Compile(source, language, inputStrings, outputStrings, -5, 100);
+                expected = compileService.Compile(source, Language, inputStrings, outputStrings, -5, 100);
                 Assert.AreEqual(false, true);
             }
             catch (Exception)
@@ -529,7 +529,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             // compile with incorrect memorylimit parameter
             try
             {
-                expected = _compileService.Compile(source, language, inputStrings, outputStrings, 100, -5);
+                expected = compileService.Compile(source, Language, inputStrings, outputStrings, 100, -5);
                 Assert.AreEqual(false, true);
             }
             catch (Exception)
@@ -542,7 +542,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             {
                 input = new[] { "2 5", "7 5" };
                 output = new[] { "25", "75" };
-                expected = _compileService.Compile(source, language, input, output, 1000, 1000);
+                expected = compileService.Compile(source, Language, input, output, 1000, 1000);
                 Assert.AreEqual(expected, "Accepted");
             }
             catch (Exception)

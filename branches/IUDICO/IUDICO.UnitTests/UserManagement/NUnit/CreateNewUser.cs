@@ -1,5 +1,7 @@
 ﻿using System;
+
 using IUDICO.Common.Models.Shared;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -27,7 +29,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreateUserInvalid()
         {
-            User temp = new User { Username = "name", Email = "mail@mail.com" };
+            var temp = new User { Username = "name", Email = "mail@mail.com" };
 
             this.tests.Storage.CreateUser(temp);
         }
@@ -44,7 +46,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
             this.tests.Storage.CreateUser(temp);
-            
+
             var temp2 = new User { Username = "name", Email = "mail2@mail.com", Password = "123" };
 
             this.tests.Storage.CreateUser(temp);

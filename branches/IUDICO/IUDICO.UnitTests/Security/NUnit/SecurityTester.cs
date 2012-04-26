@@ -1,32 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using IUDICO.Common.Models.Shared;
-using NUnit.Framework;
-using IUDICO.Security.UnitTests.Infrastructure;
+﻿using NUnit.Framework;
+
 using IUDICO.Security.Models.Storages;
 
-namespace IUDICO.Security.UnitTests
+namespace IUDICO.UnitTests.Security.NUnit
 {
     [TestFixture]
-    class SecurityTester
+    internal class SecurityTester
     {
-        private static Mocks _Mocks;
+        private static readonly Mocks Mocks;
 
         static SecurityTester()
         {
-            _Mocks = new Mocks();
+            Mocks = new Mocks();
         }
 
         protected IBanStorage BanStorage
         {
-            get { return _Mocks.BanStorage; }
+            get
+            {
+                return Mocks.BanStorage;
+            }
         }
 
         protected ISecurityStorage SecurityStorage
         {
-            get { return _Mocks.SecurityStorage; }
+            get
+            {
+                return Mocks.SecurityStorage;
+            }
         }
 
         [SetUp]
@@ -37,7 +38,7 @@ namespace IUDICO.Security.UnitTests
         [TearDown]
         public void TearDown()
         {
-            _Mocks.Reset();
+            Mocks.Reset();
         }
     }
 }
