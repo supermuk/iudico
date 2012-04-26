@@ -19,7 +19,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Type("id=Name", "lex");
             this.selenium.Type("id=Email", "lex@iudico.com");
             this.selenium.Click("//input[@value='Save']");
-            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            this.selenium.WaitForPageToLoad((this.seleniumWait * 2).ToString());
 
             Assert.IsTrue(this.selenium.IsTextPresent("lex"));
 
@@ -39,7 +39,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Click("//input[@value='Save']");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            Assert.IsTrue(this.selenium.IsTextPresent(Localization.GetMessage("FullNameRequired", "UserManagement")));
+            Assert.IsTrue(this.selenium.IsTextPresent(Localization.GetMessage("FullNameRequired", "IUDICO.UserManagement")));
 
             this.Logout();
         }
