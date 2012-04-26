@@ -16,13 +16,18 @@ using IUDICO.UserManagement.Models.Storage;
 namespace IUDICO.UserManagement
 {
     using IUDICO.Common;
+    using IUDICO.Common.Models.Notifications;
+    using IUDICO.Common.Models.Shared.Statistics;
 
     public class UserManagementPlugin : IWindsorInstaller, IPlugin
     {
+        protected IWindsorContainer container;
         #region IWindsorInstaller Members
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
+            this.container = container;
+
             container.Register(
                 AllTypes
                     .FromThisAssembly()
@@ -81,7 +86,11 @@ namespace IUDICO.UserManagement
 
         public void Update(string evt, params object[] data)
         {
-            // handle events
+            if (evt == TestingNotifications.TestCompleted)
+            {
+                var attemptResult = (AttemptResult)data[0];
+                this.container.Resolve<IUserStorage>().UpdateUserAverage(attemptResult);
+            }
         }
 
         public void Setup(IWindsorContainer container)

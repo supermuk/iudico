@@ -6,6 +6,8 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
+    using IUDICO.Common.Models.Shared.Statistics;
+
     public interface IUserStorage
     {
         #region User members
@@ -67,5 +69,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         bool IsPromotedToAdmin();
         void RateTopic(int topicId, int score);
+
+        void UpdateUserAverage(AttemptResult attemptResult);
     }
 }

@@ -18,6 +18,8 @@ using Kent.Boogaart.KBCsv;
 
 namespace IUDICO.UserManagement.Models.Storage
 {
+    using IUDICO.Common.Models.Shared.Statistics;
+
     public class DatabaseUserStorage : IUserStorage
     {
         protected ILmsService lmsService;
@@ -681,6 +683,21 @@ namespace IUDICO.UserManagement.Models.Storage
 
             var r = new UserTopicRating { Rating = rating, TopicId = topicId, UserId = this.GetCurrentUser().Id };
             db.UserTopicRatings.InsertOnSubmit(r);
+
+            db.SubmitChanges();
+        }
+
+        public void UpdateUserAverage(AttemptResult attemptResult)
+        {
+            var db = this.GetDbContext();
+            var user = db.Users.Single(u => u.Id == attemptResult.User.Id);
+            var score = attemptResult.Score.ToPercents();
+            
+            if (score != null)
+            {
+                user.TestsTotal += 1;
+                user.TestsSum += (int)score.Value;
+            }
 
             db.SubmitChanges();
         }
