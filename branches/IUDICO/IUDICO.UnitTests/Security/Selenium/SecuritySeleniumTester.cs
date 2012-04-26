@@ -15,14 +15,13 @@ namespace IUDICO.UnitTests.Security.Selenium
         [SetUp]
         public void Login()
         {
-            this.selenium = new DefaultSelenium(
-                "localhost", 4444, "*chrome", ConfigurationManager.AppSettings["SELENIUM_URL"]);
+            this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", ConfigurationManager.AppSettings["SELENIUM_URL"]);
             this.selenium.Start();
 
             this.selenium.Open("/");
             this.selenium.Type("id=loginUsername", "lex");
             this.selenium.Type("id=loginPassword", "lex");
-            this.selenium.Click("//div[@id='logindisplay']/form[2]/input[3]");
+            this.selenium.Click("id=loginDefaultButton");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("//a[contains(@href, 'UserActivity/Index')]");
             this.selenium.WaitForPageToLoad("30000");
