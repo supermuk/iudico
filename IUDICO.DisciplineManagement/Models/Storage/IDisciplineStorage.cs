@@ -15,9 +15,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         User GetCurrentUser();
         IList<Course> GetCourses();
         Course GetCourse(int id);
-        Group GetGroup(int id);
         IList<Group> GetGroups();
-        IList<Group> GetGroupsByUser(User user);
         IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate);
 
         #endregion
@@ -200,13 +198,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// <param name="owner">The owner.</param>
         /// <returns></returns>
         IList<Topic> GetTopicsOwnedByUser(User owner);
-
-        /// <summary>
-        /// Gets groups assigned through discipline assignments to topic.
-        /// </summary>
-        /// <param name="topicId">The topic id.</param>
-        /// <returns></returns>
-        IList<Group> GetGroupsAssignedToTopic(int topicId);
 
         /// <summary>
         /// Adds the topic.

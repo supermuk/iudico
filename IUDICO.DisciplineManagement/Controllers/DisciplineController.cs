@@ -132,7 +132,7 @@ namespace IUDICO.DisciplineManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public FilePathResult Export(int disciplineId)
         {
-            var importer = new ImportExportDiscipline(Storage, HttpContext.Request.PhysicalApplicationPath);
+            var importer = new ImportExportDiscipline(Storage);
             var path = importer.Export(disciplineId);
 
             return new FilePathResult(path, "application/octet-stream") { FileDownloadName = importer.GetFileName(disciplineId) };
@@ -146,7 +146,7 @@ namespace IUDICO.DisciplineManagement.Controllers
             {
                 return View();
             }
-            var importer = new ImportExportDiscipline(Storage, HttpContext.Request.PhysicalApplicationPath);
+            var importer = new ImportExportDiscipline(Storage);
             importer.Import(fileUpload);
 
             return RedirectToAction("Index");

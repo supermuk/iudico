@@ -52,17 +52,17 @@ namespace IUDICO.DisciplineManagement.Models.ViewDataClasses
                 new SelectListItem
                     {
                         Text = Localization.GetMessage("NoCourse"),
-                Value = Constants.NoCourseId.ToString(),
-                Selected = false
-            });
+                        Value = Constants.NoCourseId.ToString(),
+                        Selected = false
+                    });
             this.TestCourses.Insert(
                 0,
                 new SelectListItem()
                     {
                         Text = Converter.ToString(TopicTypeEnum.TestWithoutCourse),
-                Value = Constants.TestWithoutCourseId.ToString(),
-                Selected = false
-            });
+                        Value = Constants.TestWithoutCourseId.ToString(),
+                        Selected = false
+                    });
 
             switch (topic.TestTopicTypeRef)
             {
