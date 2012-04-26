@@ -30,6 +30,8 @@ using Microsoft.LearningComponents.DataModel;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     /// <summary>
     /// Converts data model elements from SCORM 1.2 content to LearningDataModel elements, and vice versa.
     /// </summary>
@@ -62,7 +64,7 @@ namespace Microsoft.LearningComponents.Frameset
             if (this.View == SessionView.Review)
             {
                 throw new InvalidOperationException(
-                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("CONV_InvalidViewOnSetValue")));
+                    ResHelper.GetMessage(Localization.GetMessage("CONV_InvalidViewOnSetValue")));
             }
 
             this.CurrentElementName = inName.ToString();
@@ -76,7 +78,7 @@ namespace Microsoft.LearningComponents.Frameset
                 {
                     throw new InvalidOperationException(
                         ResHelper.GetMessage(
-                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                            Localization.GetMessage("CONV_SetValueInvalidName"),
                             this.CurrentElementName));
                 }
 
@@ -224,7 +226,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 throw new InvalidOperationException(
                     ResHelper.GetMessage(
-                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                        Localization.GetMessage("CONV_SetValueInvalidValue"),
                         rteTimeSpan,
                         this.CurrentElementName));
             }
@@ -234,7 +236,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 throw new InvalidOperationException(
                     ResHelper.GetMessage(
-                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                        Localization.GetMessage("CONV_SetValueInvalidValue"),
                         rteTimeSpan,
                         this.CurrentElementName));
             }
@@ -262,7 +264,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 throw new InvalidOperationException(
                     ResHelper.GetMessage(
-                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                        Localization.GetMessage("CONV_SetValueInvalidValue"),
                         rteTimeSpan,
                         this.CurrentElementName));
             }
@@ -332,7 +334,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 throw new InvalidOperationException(
                     ResHelper.GetMessage(
-                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                        Localization.GetMessage("CONV_SetValueInvalidName"),
                         this.CurrentElementName));
             }
 
@@ -379,7 +381,7 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             throw new InvalidOperationException(
                                 ResHelper.GetMessage(
-                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                                    Localization.GetMessage("CONV_SetValueInvalidName"),
                                     this.CurrentElementName));
                         }
 
@@ -388,7 +390,7 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             throw new InvalidOperationException(
                                 ResHelper.GetMessage(
-                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                                    Localization.GetMessage("CONV_SetValueInvalidName"),
                                     this.CurrentElementName));
                         }
 
@@ -430,7 +432,7 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             throw new InvalidOperationException(
                                 ResHelper.GetMessage(
-                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                                    Localization.GetMessage("CONV_SetValueInvalidName"),
                                     this.CurrentElementName));
                         }
 
@@ -439,7 +441,7 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             throw new InvalidOperationException(
                                 ResHelper.GetMessage(
-                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                                    Localization.GetMessage("CONV_SetValueInvalidName"),
                                     this.CurrentElementName));
                         }
 
@@ -462,7 +464,7 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             throw new InvalidOperationException(
                                 ResHelper.GetMessage(
-                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                                    Localization.GetMessage("CONV_SetValueInvalidName"),
                                     this.CurrentElementName));
                         }
 
@@ -481,7 +483,7 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             throw new InvalidOperationException(
                                 ResHelper.GetMessage(
-                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                                    Localization.GetMessage("CONV_SetValueInvalidValue"),
                                     value,
                                     this.CurrentElementName));
                         }
@@ -509,7 +511,7 @@ namespace Microsoft.LearningComponents.Frameset
                                     {
                                         throw new InvalidOperationException(
                                             ResHelper.GetMessage(
-                                                IUDICO.TestingSystem.Localization.GetMessage(
+                                                Localization.GetMessage(
                                                     "CONV_SetValueInvalidValue"),
                                                 value,
                                                 this.CurrentElementName));
@@ -556,7 +558,7 @@ namespace Microsoft.LearningComponents.Frameset
                                     {
                                         throw new InvalidOperationException(
                                             ResHelper.GetMessage(
-                                                IUDICO.TestingSystem.Localization.GetMessage(
+                                                Localization.GetMessage(
                                                     "CONV_SetValueInvalidValue"),
                                                 value,
                                                 this.CurrentElementName));
@@ -576,7 +578,7 @@ namespace Microsoft.LearningComponents.Frameset
                 default:
                     throw new InvalidOperationException(
                         ResHelper.GetMessage(
-                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                            Localization.GetMessage("CONV_SetValueInvalidName"),
                             this.CurrentElementName));
             }
         }
@@ -589,7 +591,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 throw new InvalidOperationException(
                     ResHelper.GetMessage(
-                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                        Localization.GetMessage("CONV_SetValueInvalidValue"),
                         value,
                         this.CurrentElementName));
             }
@@ -614,7 +616,7 @@ namespace Microsoft.LearningComponents.Frameset
                 default:
                     throw new InvalidOperationException(
                         ResHelper.GetMessage(
-                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                            Localization.GetMessage("CONV_SetValueInvalidName"),
                             this.CurrentElementName));
             }
         }
@@ -634,7 +636,7 @@ namespace Microsoft.LearningComponents.Frameset
                         // couldn't parse it...
                         throw new InvalidOperationException(
                             ResHelper.GetMessage(
-                                IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                                Localization.GetMessage("CONV_SetValueInvalidValue"),
                                 value,
                                 this.CurrentElementName));
                     }
@@ -654,7 +656,7 @@ namespace Microsoft.LearningComponents.Frameset
                         // couldn't parse it
                         throw new InvalidOperationException(
                             ResHelper.GetMessage(
-                                IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                                Localization.GetMessage("CONV_SetValueInvalidValue"),
                                 value,
                                 this.CurrentElementName));
                     }
@@ -671,7 +673,7 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             throw new InvalidOperationException(
                                 ResHelper.GetMessage(
-                                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                                    Localization.GetMessage("CONV_SetValueInvalidValue"),
                                     value,
                                     this.CurrentElementName));
                         }
@@ -681,7 +683,7 @@ namespace Microsoft.LearningComponents.Frameset
             // If we got here, the element name wasn't valid
             throw new InvalidOperationException(
                 ResHelper.GetMessage(
-                    IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"), this.CurrentElementName));
+                    Localization.GetMessage("CONV_SetValueInvalidName"), this.CurrentElementName));
         }
 
         // In 1.2, there is just one string for comments
@@ -709,7 +711,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 throw new InvalidOperationException(
                     ResHelper.GetMessage(
-                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                        Localization.GetMessage("CONV_SetValueInvalidName"),
                         this.CurrentElementName));
             }
 
@@ -718,7 +720,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 throw new InvalidOperationException(
                     ResHelper.GetMessage(
-                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                        Localization.GetMessage("CONV_SetValueInvalidName"),
                         this.CurrentElementName));
             }
 
@@ -751,7 +753,7 @@ namespace Microsoft.LearningComponents.Frameset
                 default:
                     throw new InvalidOperationException(
                         ResHelper.GetMessage(
-                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidName"),
+                            Localization.GetMessage("CONV_SetValueInvalidName"),
                             this.CurrentElementName));
             }
         }
@@ -776,7 +778,7 @@ namespace Microsoft.LearningComponents.Frameset
                 default:
                     throw new InvalidOperationException(
                         ResHelper.GetMessage(
-                            IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueInvalidValue"),
+                            Localization.GetMessage("CONV_SetValueInvalidValue"),
                             value,
                             this.CurrentElementName));
             }

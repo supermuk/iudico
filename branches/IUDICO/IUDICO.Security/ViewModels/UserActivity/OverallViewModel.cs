@@ -10,7 +10,7 @@ namespace IUDICO.Security.ViewModels.UserActivity
     {
         private List<UserActivityStats> stats;
 
-        public OverallViewModel(object obj) : base(null)
+        public OverallViewModel(object obj) : base()
         {
             this.stats = new List<UserActivityStats>();
         }

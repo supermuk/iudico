@@ -132,7 +132,6 @@
     <Compile Include="Installers\ServicesInstaller.cs" />
     <Compile Include="IoC\AssemblyResourceProvider.cs" />
     <Compile Include="IoC\IocControllerFactory.cs" />
-    <Compile Include="Localization.cs" />
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\LmsService.cs" />
     <Compile Include="Models\Providers\IoCMembershipProvider.cs" />
@@ -328,9 +327,10 @@
     <Content Include="Scripts\jquery\jquery-1.6.1.min.js" />
     <Content Include="Scripts\jquery\jquery-ui-1.8.5.js" />
     <Content Include="Scripts\jquery\jquery-ui-timepicker-addon.js" />
-	<Content Include="Scripts\jquery\jquery.MetaData.js" />
+    <Content Include="Scripts\jquery\jquery.MetaData.js" />
     <Content Include="Scripts\jquery\jquery.rating.js" />
-    <Content Include="Scripts\jquery\jquery.rating.pack.js" />    <Content Include="Scripts\jquery\jquery.dataTables.editable.js" />
+    <Content Include="Scripts\jquery\jquery.rating.pack.js" />
+    <Content Include="Scripts\jquery\jquery.dataTables.editable.js" />
     <Content Include="Scripts\jquery\jquery.dataTables.min.js" />
     <Content Include="Scripts\jquery\jquery.jeditable.js" />
     <Content Include="Views\Shared\AccessDenied.aspx" />

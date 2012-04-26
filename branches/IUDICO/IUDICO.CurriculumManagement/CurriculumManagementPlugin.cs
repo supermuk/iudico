@@ -11,7 +11,7 @@ using IUDICO.CurriculumManagement.Models;
 using System.Linq;
 using Castle.Windsor;
 using IUDICO.Common.Models.Notifications;
-using IUDICO.Common.Models.Caching;
+using IUDICO.Common;
 
 namespace IUDICO.CurriculumManagement
 {

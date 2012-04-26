@@ -30,6 +30,8 @@ using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     /// <summary>
     /// The base class for frameset helper classes that support the postable frames (content and hidden)
     /// </summary>
@@ -456,7 +458,7 @@ namespace Microsoft.LearningComponents.Frameset
                         "{0}<br><br><a href='{1}' >{2}</a>",
                         origMessage,
                         js.ToJavascriptProtocol(),
-                        IUDICO.TestingSystem.Localization.GetMessage("HID_ReloadCurrentContent")));
+                        Localization.GetMessage("HID_ReloadCurrentContent")));
 
                 msgToDisplay = sb.ToString();
             }
@@ -465,7 +467,7 @@ namespace Microsoft.LearningComponents.Frameset
                 msgToDisplay = message.ToString();
             }
             this.RegisterError(
-                IUDICO.TestingSystem.Localization.GetMessage("HID_ServerErrorTitle"), msgToDisplay, false);
+                Localization.GetMessage("HID_ServerErrorTitle"), msgToDisplay, false);
         }
 
         /// <summary>
@@ -526,7 +528,7 @@ namespace Microsoft.LearningComponents.Frameset
                 sb.AppendLine(
                     ResHelper.Format(
                         "&nbsp;&nbsp;<input type='button' value='{0}' id='cancelBtn' onClick='onCancel(event)'/>",
-                        IUDICO.TestingSystem.Localization.GetMessage("POST_ContinueHtml")));
+                        Localization.GetMessage("POST_ContinueHtml")));
             }
 
             msgToDisplay = sb.ToString();

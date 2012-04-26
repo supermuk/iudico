@@ -27,6 +27,8 @@ using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     /// <summary>
     /// Represents a page within the Basic Web Player frameset. This is the base class of all frameset pages. This class is not shared
     /// between SLK and BWP framesets.
@@ -40,32 +42,32 @@ namespace Microsoft.LearningComponents.Frameset
             switch (stringId)
             {
                 case FramesetStringId.MoveToNextFailedHtml:
-                    return IUDICO.TestingSystem.Localization.GetMessage("HID_MoveNextFailedHtml");
+                    return Localization.GetMessage("HID_MoveNextFailedHtml");
                 case FramesetStringId.MoveToPreviousFailedHtml:
-                    return IUDICO.TestingSystem.Localization.GetMessage("HID_MovePreviousFailedHtml");
+                    return Localization.GetMessage("HID_MovePreviousFailedHtml");
                 case FramesetStringId.MoveToActivityFailedHtml:
-                    return IUDICO.TestingSystem.Localization.GetMessage("HID_MoveToActivityFailedHtml");
+                    return Localization.GetMessage("HID_MoveToActivityFailedHtml");
                 case FramesetStringId.SubmitPageTitleHtml:
-                    return IUDICO.TestingSystem.Localization.GetMessage("HID_SubmitPageTitleHtml");
+                    return Localization.GetMessage("HID_SubmitPageTitleHtml");
                 case FramesetStringId.SubmitPageMessageHtml:
-                    return IUDICO.TestingSystem.Localization.GetMessage("HID_SubmitPageMessageHtml");
+                    return Localization.GetMessage("HID_SubmitPageMessageHtml");
                 case FramesetStringId.SubmitPageMessageNoCurrentActivityHtml:
-                    return IUDICO.TestingSystem.Localization.GetMessage("HID_SubmitPageMessageNoCurrentActivityHtml");
+                    return Localization.GetMessage("HID_SubmitPageMessageNoCurrentActivityHtml");
                 case FramesetStringId.SubmitPageSaveButtonHtml:
-                    return IUDICO.TestingSystem.Localization.GetMessage("POST_SubmitHtml");
+                    return Localization.GetMessage("POST_SubmitHtml");
                 case FramesetStringId.CannotDisplayContentTitle:
-                    return IUDICO.TestingSystem.Localization.GetMessage("FRM_CannotDisplayContentTitle");
+                    return Localization.GetMessage("FRM_CannotDisplayContentTitle");
                 case FramesetStringId.SessionIsNotActiveMsg:
-                    return IUDICO.TestingSystem.Localization.GetMessage("FRM_SessionIsNotActiveMsg");
+                    return Localization.GetMessage("FRM_SessionIsNotActiveMsg");
                 case FramesetStringId.ActivityIsNotActiveMsg:
-                    return IUDICO.TestingSystem.Localization.GetMessage("FRM_ActivityIsNotActiveMsg");
+                    return Localization.GetMessage("FRM_ActivityIsNotActiveMsg");
                 case FramesetStringId.SelectActivityTitleHtml:
-                    return IUDICO.TestingSystem.Localization.GetMessage("HID_SelectActivityTitleHtml");
+                    return Localization.GetMessage("HID_SelectActivityTitleHtml");
                 case FramesetStringId.SelectActivityMessageHtml:
-                    return IUDICO.TestingSystem.Localization.GetMessage("HID_SelectActivityMsgHtml");
+                    return Localization.GetMessage("HID_SelectActivityMsgHtml");
                 default:
                     throw new InvalidOperationException(
-                        IUDICO.TestingSystem.Localization.GetMessage("FRM_ResourceNotFound"));
+                        Localization.GetMessage("FRM_ResourceNotFound"));
             }
         }
 

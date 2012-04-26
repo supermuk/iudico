@@ -18,6 +18,8 @@ using log4net;
 
 namespace IUDICO.UserManagement.Controllers
 {
+    using IUDICO.Common;
+
     public class AccountController : PluginController
     {
         private readonly OpenIdRelyingParty openId = new OpenIdRelyingParty();
@@ -118,7 +120,7 @@ namespace IUDICO.UserManagement.Controllers
                 }
                 catch (Exception)
                 {
-                    this.ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
+                    this.ModelState.AddModelError(string.Empty, Localization.GetMessage("InvalidOpenID"));
 
                     return this.View("Login");
                 }

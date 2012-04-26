@@ -100,7 +100,6 @@
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="CourseManagementPlugin.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
-    <Compile Include="Localization.cs" />
     <Compile Include="Models\DateFormatConverter.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\IDataContext.cs" />

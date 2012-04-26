@@ -1,11 +1,5 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="NavClosed.aspx.cs">
-//   
-// </copyright>
-// 
-// --------------------------------------------------------------------------------------------------------------------
-
 using System;
+using IUDICO.Common;
 
 namespace Microsoft.LearningComponents.Frameset
 {
@@ -23,7 +17,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 PlainTextString titleTxt =
                     new PlainTextString(
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("NAV_NextTitle")));
+                        ResHelper.GetMessage(Localization.GetMessage("NAV_NextTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }
@@ -34,7 +28,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 PlainTextString titleTxt =
                     new PlainTextString(
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("NAV_PrevTitle")));
+                        ResHelper.GetMessage(Localization.GetMessage("NAV_PrevTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }
@@ -45,7 +39,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 PlainTextString titleTxt =
                     new PlainTextString(
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("NAV_SaveTitle")));
+                        ResHelper.GetMessage(Localization.GetMessage("NAV_SaveTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }
@@ -56,7 +50,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 PlainTextString titleTxt =
                     new PlainTextString(
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("NAV_MaximizeTitle")));
+                        ResHelper.GetMessage(Localization.GetMessage("NAV_MaximizeTitle")));
                 return new HtmlString(titleTxt).ToString();
             }
         }

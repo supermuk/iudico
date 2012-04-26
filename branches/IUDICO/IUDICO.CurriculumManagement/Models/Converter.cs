@@ -3,6 +3,7 @@ using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Models.ViewDataClasses;
+using IUDICO.Common;
 
 namespace IUDICO.CurriculumManagement.Models
 {

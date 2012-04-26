@@ -9,6 +9,8 @@ using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement.Controllers
 {
+    using IUDICO.Common;
+
     public class GroupController : PluginController
     {
         private readonly IUserStorage Storage;

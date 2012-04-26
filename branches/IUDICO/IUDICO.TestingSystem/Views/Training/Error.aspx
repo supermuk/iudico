@@ -7,6 +7,7 @@
 <%@ Import Namespace="System.Web.UI.WebControls.Expressions" %>
 <%@ Import Namespace="System.Web.UI.WebControls.WebParts" %>
 <%@ Import Namespace="IUDICO.TestingSystem" %>
+<%@ Import Namespace="IUDICO.Common" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     <%:Localization.GetMessage("Error_View_Title")%>
 </asp:Content>

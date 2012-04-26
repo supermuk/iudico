@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IUDICO.CurriculumManagement.Models.ViewDataClasses.CreateCurriculumChapterTopicModel>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 <script type="text/javascript">
     $(document).ready(function () {
         if (!$("#SetTestTimeline").attr('checked')) {
@@ -19,7 +20,7 @@
 </script>
 <fieldset id="">
     <legend>
-        <%=IUDICO.CurriculumManagement.Localization.GetMessage("Fields")%></legend>
+        <%=Localization.GetMessage("Fields")%></legend>
     <div class="editor-label">
         <%: Html.LabelFor(model => model.MaxScore)%>
     </div>

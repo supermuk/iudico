@@ -4,6 +4,8 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Search.Models.SearchResult
 {
+    using IUDICO.Common;
+
     public class TopicResult : ISearchResult
     {
         protected Topic topic;

@@ -1,8 +1,9 @@
 ﻿<%@ Assembly Name="IUDICO.Statistics" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Group>>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.Statistics.Localization.getMessage("Statistics")%>: <%=IUDICO.Statistics.Localization.getMessage("GroupList")%>
+	<%=Localization.GetMessage("Statistics")%>: <%=Localization.GetMessage("GroupList")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -10,10 +11,10 @@
     <% if (Model.Count() != 0)
        { %>
     
-    <h2><%=IUDICO.Statistics.Localization.getMessage("GroupList")%></h2>
+    <h2><%=Localization.GetMessage("GroupList")%></h2>
 
     <fieldset>
-    <legend><%=IUDICO.Statistics.Localization.getMessage("SelectOneGroup")%></legend>
+    <legend><%=Localization.GetMessage("SelectOneGroup")%></legend>
     <form action="/Stats/SelectDisciplines/" method="post">
 
     <% foreach (IUDICO.Common.Models.Shared.Group item in Model)
@@ -25,7 +26,7 @@
     <% } %>
 
     <p>
-        <input type="submit" value=<%=IUDICO.Statistics.Localization.getMessage("Show") %> />
+        <input type="submit" value=<%=Localization.GetMessage("Show") %> />
     </p>
     
 
@@ -36,7 +37,7 @@
 
     <% } %>
     <% else {%>
-    <h2> <%=IUDICO.Statistics.Localization.getMessage("NoGroupHasBeenCreated")%> <%: Html.ActionLink(IUDICO.Statistics.Localization.getMessage("CreateGroup"), "Create", "Group")%>. </h2>
+    <h2> <%=Localization.GetMessage("NoGroupHasBeenCreated")%> <%: Html.ActionLink(Localization.GetMessage("CreateGroup"), "Create", "Group")%>. </h2>
     <% } %>
 
 </asp:Content>

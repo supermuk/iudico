@@ -5,6 +5,7 @@ using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Attributes;
 using System.ComponentModel.DataAnnotations;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
+using IUDICO.Common;
 
 namespace IUDICO.DisciplineManagement.Models.ViewDataClasses
 {

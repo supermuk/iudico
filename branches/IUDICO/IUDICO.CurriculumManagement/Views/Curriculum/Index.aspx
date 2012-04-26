@@ -3,6 +3,8 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 
 <%@ Assembly Name="IUDICO.CurriculumManagement" %>
 
+<%@ Import Namespace="IUDICO.Common" %>
+
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
@@ -28,12 +30,12 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 });
 
                 if (ids.length == 0) {
-                    alert("<%=IUDICO.CurriculumManagement.Localization.GetMessage("PleaseSelectCurriculumDelete") %>");
+                    alert("<%=Localization.GetMessage("PleaseSelectCurriculumDelete") %>");
 
                     return false;
                 }
 
-                var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.GetMessage("AreYouSureYouWantDeleteSelectedCurriculums") %>");
+                var answer = confirm("<%=Localization.GetMessage("AreYouSureYouWantDeleteSelectedCurriculums") %>");
 
                 if (answer == false) {
                     return false;
@@ -48,14 +50,14 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                             $("td input:checked").parents("tr").remove();
                         }
                         else {
-                            alert("<%=IUDICO.CurriculumManagement.Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+                            alert("<%=Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                         }
                     }
                 });
             });
         });
         function deleteItem(id) {
-            var answer = confirm("<%=IUDICO.CurriculumManagement.Localization.GetMessage("AreYouSureYouWantDeleteSelectedCurriculum") %> ");
+            var answer = confirm("<%=Localization.GetMessage("AreYouSureYouWantDeleteSelectedCurriculum") %> ");
 
             if (answer == false) {
                 return;
@@ -71,7 +73,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                         $("tr[id=" + item + "]").remove();
                     }
                     else {
-                        alert("<%=IUDICO.CurriculumManagement.Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
+                        alert("<%=Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
                     }
                 }
             });
@@ -83,15 +85,15 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.CurriculumManagement.Localization.GetMessage("Curriculums")%>
+    <%=Localization.GetMessage("Curriculums")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <h2>
-        <%=IUDICO.CurriculumManagement.Localization.GetMessage("Curriculums")%>
+        <%=Localization.GetMessage("Curriculums")%>
     </h2>
     <p>
-        <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.GetMessage("AddCurriculum"), "Create") %>
-        <a id="DeleteMany" href="#"><%=IUDICO.CurriculumManagement.Localization.GetMessage("DeleteSelected")%></a>
+        <%: Html.ActionLink(Localization.GetMessage("AddCurriculum"), "Create") %>
+        <a id="DeleteMany" href="#"><%=Localization.GetMessage("DeleteSelected")%></a>
     </p>
     <table id="curriculumsTable">
         <thead>
@@ -99,16 +101,16 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
             <th>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.GetMessage("Group")%>
+                <%=Localization.GetMessage("Group")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.GetMessage("Discipline")%>
+                <%=Localization.GetMessage("Discipline")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.GetMessage("StartDate")%>
+                <%=Localization.GetMessage("StartDate")%>
             </th>
             <th>
-                <%=IUDICO.CurriculumManagement.Localization.GetMessage("EndDate")%>
+                <%=Localization.GetMessage("EndDate")%>
             </th>
             <th>
             </th>
@@ -134,11 +136,11 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%: item.EndDate %>
             </td>
             <td>
-                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.GetMessage("Edit"), "Edit", new { CurriculumId = item.Id }, null)%>
+                <%: Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new { CurriculumId = item.Id }, null)%>
                 |
-                <%: Html.ActionLink(IUDICO.CurriculumManagement.Localization.GetMessage("EditCurriculumChapters"), "Index", "CurriculumChapter", new { CurriculumId = item.Id }, null)%>
+                <%: Html.ActionLink(Localization.GetMessage("EditCurriculumChapters"), "Index", "CurriculumChapter", new { CurriculumId = item.Id }, null)%>
                 |
-                <a onclick="deleteItem(<%: item.Id %>)" href="#"><%=IUDICO.CurriculumManagement.Localization.GetMessage("Delete")%></a>
+                <a onclick="deleteItem(<%: item.Id %>)" href="#"><%=Localization.GetMessage("Delete")%></a>
             </td>
         </tr>
         <% } %>
@@ -147,6 +149,6 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 
 <%--    <div>
         <br/>
-        <%: Html.RouteLink(IUDICO.CurriculumManagement.Localization.getMessage("BackToDisciplines"), "Disciplines", new { action = "Index" })%>
+        <%: Html.RouteLink(Localization.getMessage("BackToDisciplines"), "Disciplines", new { action = "Index" })%>
     </div>--%>
 </asp:Content>

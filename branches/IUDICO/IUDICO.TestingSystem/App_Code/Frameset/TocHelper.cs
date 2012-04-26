@@ -27,6 +27,8 @@ using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     /// <summary>
     /// Code to use by SLK and BWP frameset TOC files.
     /// </summary>
@@ -174,7 +176,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("TOC_InvalidJsVersion"));
+                return ResHelper.GetMessage(Localization.GetMessage("TOC_InvalidJsVersion"));
             }
         }
 
