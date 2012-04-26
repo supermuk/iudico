@@ -5,10 +5,10 @@ namespace CompileSystem.Classes.Compiling
 {
     public class CompileTask
     {
-        private string _standardOutput;
-        private string _standardError;
-        private string _sourceFilePath;
-        private Compiler _compiler;
+        private string standardOutput;
+        private string standardError;
+        private string sourceFilePath;
+        private Compiler compiler;
 
         public CompileTask(Compiler compiler, string sourceFilePath)
         {
@@ -18,25 +18,25 @@ namespace CompileSystem.Classes.Compiling
             if (!File.Exists(sourceFilePath))
                 throw new FileNotFoundException("Can't find such file", sourceFilePath);
 
-            _sourceFilePath = sourceFilePath;
-            _compiler = compiler;
-            _standardOutput = "";
-            _standardError = "";
+            this.sourceFilePath = sourceFilePath;
+            this.compiler = compiler;
+            this.standardOutput = string.Empty;
+            this.standardError = string.Empty;
         }
 
         public string StandardOutput
         {
-            get { return _standardOutput; }
+            get { return this.standardOutput; }
         }
 
         public string StandardError
         {
-            get { return _standardError; }
+            get { return this.standardError; }
         }
 
         public bool Execute()
         {
-            return _compiler.Compile(_sourceFilePath, out _standardOutput, out _standardError);
+            return this.compiler.Compile(this.sourceFilePath, out this.standardOutput, out this.standardError);
         }
     }
 }

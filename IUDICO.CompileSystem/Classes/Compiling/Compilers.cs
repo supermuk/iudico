@@ -8,27 +8,27 @@ namespace CompileSystem.Classes.Compiling
 {
     public class Compilers
     {
-        private readonly string _compilersDirectoryPath;
-        private List<Compiler> _compilers;
+        private readonly string compilersDirectoryPath;
+        private readonly List<Compiler> compilers;
 
         public Compilers(string compilersDirectory)
         {
             if (compilersDirectory == null)
                 throw new Exception("Directory path can't be null");
 
-            _compilersDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, compilersDirectory);
-            _compilers = new List<Compiler>();
+            this.compilersDirectoryPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, compilersDirectory);
+            this.compilers = new List<Compiler>();
         }
 
         public void Load()
         {
-            if (!Directory.Exists(_compilersDirectoryPath))
+            if (!Directory.Exists(this.compilersDirectoryPath))
             {
                 return;
-                //throw new FileNotFoundException("Can't find file", _compilersDirectoryPath);
+                // throw new FileNotFoundException("Can't find file", _compilersDirectoryPath);
             }
 
-            string[] compileDirectoriesNames = Directory.GetDirectories(_compilersDirectoryPath);
+            string[] compileDirectoriesNames = Directory.GetDirectories(this.compilersDirectoryPath);
 
             foreach (var compileDirectoriesName in compileDirectoriesNames)
             {
@@ -42,19 +42,19 @@ namespace CompileSystem.Classes.Compiling
 
                 if (xmlFile.Count() == 1)
                 {
-                    var compiler = Parse(xmlFile[0]);
-                    _compilers.Add(compiler);
+                    var compiler = this.Parse(xmlFile[0]);
+                    this.compilers.Add(compiler);
                 }
             }
         }
 
         public Compiler GetCompiler(string compilerName)
         {
-            if (_compilers.Count == 0)
+            if (this.compilers.Count == 0)
                 return null;
 
-            //TODO:unique compilers
-            var compiler = _compilers.SingleOrDefault(item => item.Name == compilerName);
+            // TODO: unique compilers
+            var compiler = this.compilers.SingleOrDefault(item => item.Name == compilerName);
 
             return compiler;
         }
@@ -77,8 +77,8 @@ namespace CompileSystem.Classes.Compiling
 
                     case "location":
                         {
-                            compiler.Location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                                             xmlReader.ReadElementContentAsString());
+                            compiler.Location = Path.Combine(
+                                AppDomain.CurrentDomain.BaseDirectory, xmlReader.ReadElementContentAsString());
                         }
                         break;
 
@@ -105,7 +105,7 @@ namespace CompileSystem.Classes.Compiling
                 }
             }
 
-            if (compiler.Extension == "" || compiler.Name == "" || compiler.Location == "" || compiler.CompiledExtension == "" || compiler.Arguments == "")
+            if (compiler.Extension == string.Empty || compiler.Name == string.Empty || compiler.Location == string.Empty || compiler.CompiledExtension == string.Empty || compiler.Arguments == string.Empty)
                 throw new Exception("Bad xml information about compiler");
 
             return compiler;
@@ -113,7 +113,7 @@ namespace CompileSystem.Classes.Compiling
 
         public int Count
         {
-            get { return _compilers.Count; }
+            get { return this.compilers.Count; }
         }
 
         public void AddCompiler(Compiler newCompiler)
@@ -121,22 +121,22 @@ namespace CompileSystem.Classes.Compiling
             if (newCompiler == null)
                 throw new Exception("Compiler is null");
 
-            _compilers.Add(newCompiler);
+            this.compilers.Add(newCompiler);
         }
 
         public List<Compiler> GetCompilers()
         {
-            return _compilers;
+            return this.compilers;
         }
 
         public void Clear()
         {
-            _compilers.Clear();
+            this.compilers.Clear();
         }
 
         public bool Contains(string compilerName)
         {
-            var result = GetCompiler(compilerName);
+            var result = this.GetCompiler(compilerName);
             if (result != null)
                 return true;
 

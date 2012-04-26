@@ -8,10 +8,10 @@ namespace CompileSystem.Classes.Testing
 
         public Status(string testResult)
         {
-            if(string.IsNullOrEmpty(testResult))
+            if (string.IsNullOrEmpty(testResult))
                 throw new Exception("Bad input string");
 
-            TestResult = testResult;
+            this.TestResult = testResult;
         }
     }
 }

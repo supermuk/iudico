@@ -31,9 +31,9 @@ namespace CompileSystem
         [WebMethod]
         public string Compile(string source, string language, string[] input, string[] output, int timelimit, int memorylimit)
         {
-             //remove after testing
-            const string compilerDirectory = "Compilers";
-            var compilers = new Compilers(compilerDirectory);
+             // remove after testing
+            const string CompilerDirectory = "Compilers";
+            var compilers = new Compilers(CompilerDirectory);
             compilers.Load();
             //----
 

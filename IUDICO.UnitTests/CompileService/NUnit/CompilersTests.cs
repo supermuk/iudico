@@ -10,7 +10,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
     [TestFixture]
     public class CompilersTests
     {
-        private readonly Compilers _compilers = new Compilers("Directory");
+        private readonly Compilers compilers = new Compilers("Directory");
 
         [Test]
         public void CompilerConstructorTest()
@@ -22,73 +22,73 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void CompilersClearTest()
         {
-            Assert.AreEqual(_compilers.Count, 0);
-            _compilers.AddCompiler(new Compiler());
-            Assert.AreEqual(_compilers.Count, 1);
-            _compilers.Clear();
-            Assert.AreEqual(_compilers.Count, 0);
+            Assert.AreEqual(this.compilers.Count, 0);
+            this.compilers.AddCompiler(new Compiler());
+            Assert.AreEqual(this.compilers.Count, 1);
+            this.compilers.Clear();
+            Assert.AreEqual(this.compilers.Count, 0);
         }
 
         [Test]
         public void CompilersAddCompilerTest()
         {
-            Assert.AreEqual(_compilers.Count, 0);
-            _compilers.AddCompiler(new Compiler());
-            Assert.AreEqual(_compilers.Count, 1);
-            _compilers.Clear();
+            Assert.AreEqual(this.compilers.Count, 0);
+            this.compilers.AddCompiler(new Compiler());
+            Assert.AreEqual(this.compilers.Count, 1);
+            this.compilers.Clear();
         }
 
         [Test]
         public void CompilersContainsTest()
         {
-            Assert.AreEqual(_compilers.Count, 0);
+            Assert.AreEqual(this.compilers.Count, 0);
             var newCompiler = new Compiler {Name = "CPP"};
-            _compilers.AddCompiler(newCompiler);
+            this.compilers.AddCompiler(newCompiler);
 
-            bool result = _compilers.Contains("CPP");
+            bool result = this.compilers.Contains("CPP");
             Assert.AreEqual(true, result);
 
-            result = _compilers.Contains("BadCompilerName");
+            result = this.compilers.Contains("BadCompilerName");
             Assert.AreEqual(result, false);
 
-            _compilers.Clear();
+            this.compilers.Clear();
         }
 
         [Test]
         public void CompilersGetCompilerTest()
         {
-            Assert.AreEqual(_compilers.Count, 0);
-            var result = _compilers.GetCompiler("CPP");
+            Assert.AreEqual(this.compilers.Count, 0);
+            var result = this.compilers.GetCompiler("CPP");
             Assert.AreEqual(null, result);
 
             var newCompiler = new Compiler {Name = "CPP"};
-            _compilers.AddCompiler(newCompiler);
+            this.compilers.AddCompiler(newCompiler);
 
-            result = _compilers.GetCompiler("CPP");
+            result = this.compilers.GetCompiler("CPP");
             
             Assert.AreNotEqual(result, null);
             Assert.AreEqual("CPP", result.Name);
 
-            result = _compilers.GetCompiler("BadName");
+            result = this.compilers.GetCompiler("BadName");
             Assert.AreEqual(result, null);
 
-            _compilers.Clear();
+            this.compilers.Clear();
         }
 
         [Test]
         public void GetCompilersTest()
         {
             var newCompiler = new Compiler {Name = "CPP"};
-            var resultList = _compilers.GetCompilers();
+            var resultList = this.compilers.GetCompilers();
 
             Assert.AreEqual(resultList.Count, 0);
 
-            _compilers.AddCompiler(newCompiler);
-            resultList = _compilers.GetCompilers();
+            this.compilers.AddCompiler(newCompiler);
+            resultList = this.compilers.GetCompilers();
 
             Assert.AreEqual(resultList.Count, 1);
 
-            _compilers.Clear();
+            this.compilers.Clear();
         }
 
         [Test]
@@ -140,7 +140,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [global::NUnit.Framework.ExpectedException(typeof(Exception))]
         public void CompilersAddNullCompilerTest()
         {
-            _compilers.AddCompiler(null);
+            this.compilers.AddCompiler(null);
         }
 
         [Test]

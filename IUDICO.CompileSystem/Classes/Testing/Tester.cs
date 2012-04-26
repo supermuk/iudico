@@ -10,7 +10,7 @@ namespace CompileSystem.Classes.Testing
         {
             Status status = null;
 
-            //validate input values
+            // validate input values
             if (!File.Exists(executeFilePath))
                 throw new FileNotFoundException("Can't find such file", executeFilePath);
 
@@ -20,13 +20,13 @@ namespace CompileSystem.Classes.Testing
             if (memorylimit <= 0)
                 throw new Exception("Memorylimit can't be less or equal to 0");
 
-            //--------------------
+            // --------------------
 
-            //Set error mode, for hiding error message boxes.
-            //SetErrorMode(0x0001 | 0x0002 | 0x0004 | 0x8000);
-            //TODO: test if needs
+            // Set error mode, for hiding error message boxes.
+            // SetErrorMode(0x0001 | 0x0002 | 0x0004 | 0x8000);
+            // TODO: test if needs
 
-            //create new process
+            // create new process
             using (var exeProcess = new Process())
             {
                 exeProcess.StartInfo.RedirectStandardError = true;
@@ -41,7 +41,7 @@ namespace CompileSystem.Classes.Testing
                 int processId = exeProcess.Id;
 
                 exeProcess.StandardInput.Write(input);
-                //memory usage
+                // memory usage
                 memoryValue = Process.GetProcessById(processId).PeakWorkingSet64;
                 
                 exeProcess.StandardInput.Close();
@@ -55,7 +55,7 @@ namespace CompileSystem.Classes.Testing
                 
                 var outputResult = exeProcess.StandardOutput.ReadToEnd().Trim();
                 var outputError = exeProcess.StandardError.ReadToEnd();
-                memoryValue = memoryValue/1024;
+                memoryValue = memoryValue / 1024;
 
                 // set result
                 if (status == null)
