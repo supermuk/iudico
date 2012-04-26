@@ -15,8 +15,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
         [SetUp]
         public void Login()
         {
-            this.selenium = new DefaultSelenium(
-                "localhost", 4444, "*chrome", ConfigurationManager.AppSettings["this.selenium_URL"]);
+            this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", ConfigurationManager.AppSettings["SELENIUM_URL"]);
             this.selenium.Start();
 
             this.selenium.Open("/");
