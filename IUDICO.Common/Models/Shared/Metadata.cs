@@ -26,6 +26,10 @@ namespace IUDICO.Common.Models.Shared
             [ScaffoldColumn(false)]
             public string Owner { get; set; }
 
+            [LocalizedDisplayName("UpdatedBy")]
+            [ScaffoldColumn(false)]
+            public string UpdatedBy { get; set; }
+
             [LocalizedDisplayName("CreatedDate")]
             [ScaffoldColumn(false)]
             public DateTime Created { get; set; }

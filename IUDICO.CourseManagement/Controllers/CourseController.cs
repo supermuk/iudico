@@ -48,16 +48,16 @@ namespace IUDICO.CourseManagement.Controllers
 
 
             var viewCourses = all.Select(i => new ViewCourseModel
-                                                  {
-                                                      Id = i.Id,
-                                                      Name = i.Name,
-                                                      Created = i.Created,
-                                                      Updated = i.Updated,
-                                                      Locked = i.Locked ?? false,
-                                                      Shared = i.Owner != currentUser.UserId,
-                                                      OwnerName = dic.ContainsKey(i.Owner) ? dic[i.Owner] : i.Owner
-            
-                                                  });
+            {
+                Id = i.Id,
+                Name = i.Name,
+                Created = i.Created,
+                Updated = i.Updated,
+                Locked = i.Locked ?? false,
+                Shared = i.Owner != currentUser.UserId,
+                OwnerName = dic.ContainsKey(i.Owner) ? dic[i.Owner] : i.Owner,
+                UpdatedByName = i.UpdatedBy
+            });
             return View(viewCourses.OrderByDescending(i => i.Updated).AsEnumerable());
         }
 
@@ -79,15 +79,16 @@ namespace IUDICO.CourseManagement.Controllers
                     var courseId = this.storage.AddCourse(course);
 
                     var model = new ViewCourseModel
-                                    {
-                                        Id = course.Id,
-                                        Name = course.Name,
-                                        Created = course.Created,
-                                        Updated = course.Updated,
-                                        Locked = course.Locked ?? false,
-                                        Shared = false,
-                                        OwnerName = this.userService.GetCurrentUser().Name
-                                    };
+                    {
+                        Id = course.Id,
+                        Name = course.Name,
+                        Created = course.Created,
+                        Updated = course.Updated,
+                        Locked = course.Locked ?? false,
+                        Shared = false,
+                        OwnerName = this.userService.GetCurrentUser().Name,
+                        UpdatedByName = this.userService.GetCurrentUser().Name
+                    };
                     return Json(new { success = true, courseId = courseId, courseRow = PartialViewAsString("CourseRow", model) });
                 }
 
@@ -141,12 +142,12 @@ namespace IUDICO.CourseManagement.Controllers
                 allUsers.Where(i => i.Roles.Contains(Role.CourseCreator) | i.Roles.Contains(Role.Teacher)).Select(
                     i =>
                     new ShareUser
-                        {
-                            Id = i.Id,
-                            Name = i.Name,
-                            Roles = i.Roles.Select(j => j.ToString()).ToArray(),
-                            Shared = courseUsers.Count(j => j.Id == i.Id) > 0
-                        });
+                    {
+                        Id = i.Id,
+                        Name = i.Name,
+                        Roles = i.Roles.Select(j => j.ToString()).ToArray(),
+                        Shared = courseUsers.Count(j => j.Id == i.Id) > 0
+                    });
 
             return PartialViewAsString("ShareUserList", model);
         }

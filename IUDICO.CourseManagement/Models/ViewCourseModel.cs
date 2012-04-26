@@ -7,6 +7,7 @@ namespace IUDICO.CourseManagement.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string OwnerName { get; set; }
+        public string UpdatedByName { get; set; }
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public bool Locked { get; set; }

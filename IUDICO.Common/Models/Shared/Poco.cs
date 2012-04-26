@@ -891,6 +891,8 @@ namespace IUDICO.Common.Models.Shared
 
         private string _Owner;
 
+        private string _UpdatedBy;
+
         private System.DateTime _Created;
 
         private System.DateTime _Updated;
@@ -917,6 +919,8 @@ namespace IUDICO.Common.Models.Shared
         partial void OnNameChanged();
         partial void OnOwnerChanging(string value);
         partial void OnOwnerChanged();
+        partial void OnUpdatedByChanging(string value);
+        partial void OnUpdatedByChanged();
         partial void OnCreatedChanging(System.DateTime value);
         partial void OnCreatedChanged();
         partial void OnUpdatedChanging(System.DateTime value);
@@ -997,6 +1001,26 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_UpdatedBy", DbType = "NVarChar(50)")]
+        public string UpdatedBy
+        {
+            get
+            {
+                return this._UpdatedBy;
+            }
+            set
+            {
+                if ((this._UpdatedBy != value))
+                {
+                    this.OnUpdatedByChanging(value);
+                    this.SendPropertyChanging();
+                    this._UpdatedBy = value;
+                    this.SendPropertyChanged("UpdatedBy");
+                    this.OnUpdatedByChanged();
+                }
+            }
+        }
+                      
         [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Created", DbType = "DateTime NOT NULL")]
         public System.DateTime Created
         {
