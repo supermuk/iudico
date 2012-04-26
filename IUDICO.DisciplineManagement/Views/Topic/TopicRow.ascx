@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IUDICO.DisciplineManagement.Models.ViewDataClasses.ViewTopicModel>" %>
 <%@ Assembly Name="IUDICO.DisciplineManagement" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <tr id="topic<%:Model.Id%>" class="child-of-chapter<%: Model.ChapterId%> disciplineTopic">
 	<td></td>
@@ -10,13 +11,13 @@
 	<td>	<%: String.Format("{0:g}", Model.Created)%>		</td>
 	<td>	<%: String.Format("{0:g}", Model.Updated)%>		</td>
 	<td>
-        <a href="#" onclick="editTopic(<%: Model.Id %>);"><%=IUDICO.DisciplineManagement.Localization.GetMessage("Edit")%></a>
+        <a href="#" onclick="editTopic(<%: Model.Id %>);"><%=Localization.GetMessage("Edit")%></a>
         |
-        <a href="#" onclick="moveTopicUp(<%: Model.Id %>);"><%=IUDICO.DisciplineManagement.Localization.GetMessage("Up")%></a>
+        <a href="#" onclick="moveTopicUp(<%: Model.Id %>);"><%=Localization.GetMessage("Up")%></a>
         |
-        <a href="#" onclick="moveTopicDown(<%: Model.Id %>);"><%=IUDICO.DisciplineManagement.Localization.GetMessage("Down")%></a>
+        <a href="#" onclick="moveTopicDown(<%: Model.Id %>);"><%=Localization.GetMessage("Down")%></a>
         | 
-        <a href="#" onclick="deleteTopic(<%: Model.Id %>);"><%=IUDICO.DisciplineManagement.Localization.GetMessage("Delete")%></a>
+        <a href="#" onclick="deleteTopic(<%: Model.Id %>);"><%=Localization.GetMessage("Delete")%></a>
 
 	</td>
 </tr>

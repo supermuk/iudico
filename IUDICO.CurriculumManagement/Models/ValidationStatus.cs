@@ -5,6 +5,8 @@ using System.Web;
 
 namespace IUDICO.CurriculumManagement.Models
 {
+    using IUDICO.Common;
+
     /// <summary>
     /// ValidationStatus.
     /// </summary>

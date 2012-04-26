@@ -78,7 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\StatsController.cs" />
-    <Compile Include="Localization.cs" />
     <Compile Include="Models\StatisticsModels\CurrentThemeTestResultsModel.cs" />
     <Compile Include="Models\StatisticsModels\ThemeInfoModel.cs" />
     <Compile Include="Models\StatisticsModels\ThemeTestResultsModel.cs" />

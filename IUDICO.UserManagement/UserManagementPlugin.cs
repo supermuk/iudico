@@ -15,6 +15,8 @@ using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UserManagement
 {
+    using IUDICO.Common;
+
     public class UserManagementPlugin : IWindsorInstaller, IPlugin
     {
         #region IWindsorInstaller Members

@@ -10,6 +10,8 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UserManagement.Models
 {
+    using IUDICO.Common;
+
     public class DetailsModel
     {
         public DetailsModel(User user, IEnumerable<Role> roles, IEnumerable<Group> groups)

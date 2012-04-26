@@ -22,6 +22,8 @@ using IUDICO.Security.Models.Storages.Cache;
 
 namespace IUDICO.Security
 {
+    using IUDICO.Common;
+
     public class SecurityPlugin : IPlugin, IWindsorInstaller
     {
         internal static IWindsorContainer Container; 
@@ -52,15 +54,15 @@ namespace IUDICO.Security
 
         public string GetName()
         {
-            return Localization.GetMessage(Localization.Keys.SecurityPlugin);
+            return Localization.GetMessage("SecurityPlugin");
         }
 
         public IEnumerable<Action> BuildActions()
         {
             return new Action[]
             {
-                new Action(Localization.GetMessage(Localization.Keys.Security), "Security/Index"),
-                new Action(Localization.GetMessage(Localization.Keys.UserActivity), "UserActivity/Index")
+                new Action(Localization.GetMessage("Security"), "Security/Index"),
+                new Action(Localization.GetMessage("UserActivity"), "UserActivity/Index")
             };
         }
 
@@ -68,7 +70,7 @@ namespace IUDICO.Security
         {
             return new MenuItem[]
             {
-                new MenuItem(Localization.GetMessage(Localization.Keys.Security), "Security", "Index")
+                new MenuItem(Localization.GetMessage("Security"), "Security", "Index")
             };
         }
 

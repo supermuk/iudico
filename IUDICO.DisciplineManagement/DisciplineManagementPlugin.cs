@@ -3,7 +3,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
-using IUDICO.Common.Models.Caching;
+using IUDICO.Common;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;

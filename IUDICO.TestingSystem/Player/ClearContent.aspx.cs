@@ -1,12 +1,6 @@
-// --------------------------------------------------------------------------------------------------------------------
-// <copyright company="" file="ClearContent.aspx.cs">
-//   
-// </copyright>
-// 
-// --------------------------------------------------------------------------------------------------------------------
-
 using System;
 using System.Web;
+using IUDICO.Common;
 
 namespace Microsoft.LearningComponents.Frameset
 {
@@ -20,7 +14,7 @@ namespace Microsoft.LearningComponents.Frameset
         {
             get
             {
-                return ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("CON_PleaseWait"));
+                return ResHelper.GetMessage(Localization.GetMessage("CON_PleaseWait"));
             }
         }
 
@@ -30,7 +24,7 @@ namespace Microsoft.LearningComponents.Frameset
             {
                 return
                     HttpUtility.HtmlEncode(
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("FRM_UnknownExceptionTitle")));
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_UnknownExceptionTitle")));
             }
         }
 
@@ -41,7 +35,7 @@ namespace Microsoft.LearningComponents.Frameset
                 return
                     HttpUtility.HtmlEncode(
                         ResHelper.GetMessage(
-                            IUDICO.TestingSystem.Localization.GetMessage("FRM_UnexpectedErrorNoException")));
+                            Localization.GetMessage("FRM_UnexpectedErrorNoException")));
             }
         }
     }

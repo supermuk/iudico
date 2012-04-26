@@ -1,8 +1,9 @@
 ﻿<%@ Assembly Name="IUDICO.Statistics" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Curriculum>>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.Statistics.Localization.getMessage("Statistics")%>: <%=IUDICO.Statistics.Localization.getMessage("DisciplineList")%> <%: ViewData["Group"]%>
+	<%=Localization.GetMessage("Statistics")%>: <%=Localization.GetMessage("DisciplineList")%> <%: ViewData["Group"]%>
 
 </asp:Content>
 
@@ -11,7 +12,7 @@
     <script type="text/javascript" language="javascript">
         function checkBox() {
             if ($('input:checkbox:checked').length == 0) {
-                alert('<%=IUDICO.Statistics.Localization.getMessage("SelectDiscipline")%>')
+                alert('<%=Localization.GetMessage("SelectDiscipline")%>')
             }
             else {
                 $('#curform').submit();
@@ -22,13 +23,13 @@
     <% if (Model.Count() != 0)
        { %>
 
-    <h2><%=IUDICO.Statistics.Localization.getMessage("DisciplineList")%> <%: ViewData["Group"]%> </h2>
+    <h2><%=Localization.GetMessage("DisciplineList")%> <%: ViewData["Group"]%> </h2>
 
 
-     <%: Html.ActionLink(IUDICO.Statistics.Localization.getMessage("Back"), "Index")%>
+     <%: Html.ActionLink(Localization.GetMessage("Back"), "Index")%>
      <fieldset>
 
-     <legend><%=IUDICO.Statistics.Localization.getMessage("SelectDiscipline")%>: </legend>
+     <legend><%=Localization.GetMessage("SelectDiscipline")%>: </legend>
 
 
     <form id="curform" action="/Stats/ShowDisciplineStatistic/" method="post">
@@ -37,8 +38,8 @@
      <tr>
         <th> </th>
         <%--<th>Discipline id</th>--%>
-        <th><%=IUDICO.Statistics.Localization.getMessage("DisciplineName")%></th>
-        <th><%=IUDICO.Statistics.Localization.getMessage("Created")%></th>
+        <th><%=Localization.GetMessage("DisciplineName")%></th>
+        <th><%=Localization.GetMessage("Created")%></th>
      </tr>
 
      <% foreach (IUDICO.Common.Models.Shared.Curriculum curr in Model)
@@ -61,7 +62,7 @@
 
      </table>
 
-     <input type="button" value=<%=IUDICO.Statistics.Localization.getMessage("Show") %> onclick="checkBox();" />
+     <input type="button" value=<%=Localization.GetMessage("Show") %> onclick="checkBox();" />
 
      </form>
 

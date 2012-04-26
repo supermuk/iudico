@@ -7,6 +7,8 @@ using IUDICO.Common.Models.Services;
 using IUDICO.Statistics.Models.Storage;
 using IUDICO.Statistics.Models;
 using Castle.Windsor;
+using IUDICO.Common;
+
 namespace IUDICO.Statistics
 {
     public class StatisticsPlugin : IWindsorInstaller, IPlugin
@@ -32,24 +34,21 @@ namespace IUDICO.Statistics
         #region IPlugin Members
         public string GetName()
         {
-            return Localization.getMessage("Statistics");
+            return Localization.GetMessage("Statistics");
         }
 
         public IEnumerable<Action> BuildActions()
         {
-            return new []
-            {
-                new Action(Localization.getMessage("GetStats"), "Stats/Index"),
-                new Action(Localization.getMessage("QualityTest"), "QualityTest/SelectDiscipline")
-            };
+            return new[]
+                {
+                    new Action(Localization.GetMessage("GetStats"), "Stats/Index"),
+                    new Action(Localization.GetMessage("QualityTest"), "QualityTest/SelectDiscipline")
+                };
         }
 
         public IEnumerable<MenuItem> BuildMenuItems()
         {
-            return new []
-            {
-                new MenuItem(Localization.getMessage("Statistics"), "Stats", "Index")
-            };
+            return new[] { new MenuItem(Localization.GetMessage("Statistics"), "Stats", "Index") };
         }
 
         public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
@@ -57,9 +56,7 @@ namespace IUDICO.Statistics
             routes.MapRoute(
                 "Statistics",
                 "Stats/{action}",
-                new { controller = "Stats", action = "Index" }
-            );
-
+                new { controller = "Stats", action = "Index" });
         }
 
         public void Update(string evt, params object[] data)

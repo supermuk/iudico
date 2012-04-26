@@ -37,6 +37,8 @@ using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     public partial class Frameset_Content : BwpFramesetPage
     {
         private ContentHelper mContentHelper;
@@ -334,7 +336,7 @@ namespace Microsoft.LearningComponents.Frameset
                     if (firstError)
                     {
                         messageBuffer.Append(
-                            IUDICO.TestingSystem.Localization.GetMessage("CON_AttachedFileDoesNotExistHtml"));
+                            Localization.GetMessage("CON_AttachedFileDoesNotExistHtml"));
                         messageBuffer.Append("\r\n<br><br><ul>\r\n");
                         firstError = false;
                     }
@@ -345,7 +347,7 @@ namespace Microsoft.LearningComponents.Frameset
             if (!firstError)
             {
                 messageBuffer.Append("</ul><br>");
-                messageBuffer.Append(IUDICO.TestingSystem.Localization.GetMessage("CON_FileAttachmentErrorEndHtml"));
+                messageBuffer.Append(Localization.GetMessage("CON_FileAttachmentErrorEndHtml"));
 
                 // Add information for the 'Continue' link
                 JScriptString js =
@@ -357,10 +359,10 @@ namespace Microsoft.LearningComponents.Frameset
                     CultureInfo.CurrentCulture,
                     "<br><br><a href='{0}' >{1}</a>",
                     js.ToJavascriptProtocol(),
-                    HttpUtility.HtmlEncode(IUDICO.TestingSystem.Localization.GetMessage("HID_ReloadCurrentContent")));
+                    HttpUtility.HtmlEncode(Localization.GetMessage("HID_ReloadCurrentContent")));
 
                 this.RegisterError(
-                    IUDICO.TestingSystem.Localization.GetMessage("CON_FileAttachmentErrorTitleHtml"),
+                    Localization.GetMessage("CON_FileAttachmentErrorTitleHtml"),
                     messageBuffer.ToString(),
                     false);
             }

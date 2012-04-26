@@ -14,6 +14,8 @@ using System.Text;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     /// <summary>
     /// This is the top-level frameset for display views of a package. 
     /// The URL to this page differs based on the view requested.
@@ -49,8 +51,8 @@ namespace Microsoft.LearningComponents.Frameset
                 // Something wrong with the http connection, so in this case do not set the response
                 // headers.
                 this.RegisterError(
-                    IUDICO.TestingSystem.Localization.GetMessage("FRM_NotAvailableTitleHtml"),
-                    IUDICO.TestingSystem.Localization.GetMessage("FRM_NotAvailableHtml"),
+                    Localization.GetMessage("FRM_NotAvailableTitleHtml"),
+                    Localization.GetMessage("FRM_NotAvailableHtml"),
                     false);
             }
             catch (Exception)
@@ -59,8 +61,8 @@ namespace Microsoft.LearningComponents.Frameset
                 this.Response.StatusCode = 500;
                 this.Response.StatusDescription = "Internal Server Error";
                 this.RegisterError(
-                    IUDICO.TestingSystem.Localization.GetMessage("FRM_NotAvailableTitleHtml"),
-                    IUDICO.TestingSystem.Localization.GetMessage("FRM_NotAvailableHtml"),
+                    Localization.GetMessage("FRM_NotAvailableTitleHtml"),
+                    Localization.GetMessage("FRM_NotAvailableHtml"),
                     false);
             }
         }
@@ -100,7 +102,7 @@ namespace Microsoft.LearningComponents.Frameset
             get
             {
                 PlainTextString text =
-                    new PlainTextString(ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("FRM_Title")));
+                    new PlainTextString(ResHelper.GetMessage(Localization.GetMessage("FRM_Title")));
                 HtmlString html = new HtmlString(text);
                 return html.ToString();
             }

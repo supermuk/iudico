@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IUDICO.CurriculumManagement.Models.ViewDataClasses.CreateCurriculumChapterModel>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 <script type="text/javascript">
     $(document).ready(function () {
         if (!$("#SetTimeline").attr('checked')) {
@@ -12,7 +13,7 @@
 </script>
 <fieldset>
     <legend>
-        <%=IUDICO.CurriculumManagement.Localization.GetMessage("Fields")%></legend>
+        <%=Localization.GetMessage("Fields")%></legend>
     <div class="editor-label">
         <%: Html.LabelFor(model => model.SetTimeline)%>
     </div>

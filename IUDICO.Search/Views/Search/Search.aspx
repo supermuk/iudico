@@ -2,14 +2,16 @@
 
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Search.Models.ViewDataClasses.SearchModel>" %>
 
+<%@ Import Namespace="IUDICO.Common" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.Search.Localization.getMessage("SearchResults")%>
+    <%=Localization.GetMessage("SearchResults")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <form action="/Search/Search" method="post">
     <%= Html.TextBoxFor(model=> model.SearchText)%>
     <%--    <%= Html.TextBox("query",  ViewData["SearchString"])%>--%>
-    <input type="submit" value='<%=IUDICO.Search.Localization.getMessage("Search")%>' />
+    <input type="submit" value='<%=Localization.GetMessage("Search")%>' />
     <div>
         <% for (int i = 0; i < Model.CheckBoxes.Count; i++)
            { %>

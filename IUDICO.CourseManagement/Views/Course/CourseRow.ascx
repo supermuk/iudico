@@ -3,6 +3,7 @@
 <%@ Import Namespace="System.Web.Mvc.Ajax" %>
 <%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="IUDICO.CourseManagement.Models" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 
 <tr id="course<%: Model.Id %>" class="<%: Model.Locked? "courseLocked" : Model.Shared ? "courseShared" : "courseMy"%>" course">
@@ -14,7 +15,7 @@
     </td>
     <td>
         <div class="course-created-label">
-            <%: Model.Shared ? Model.OwnerName : IUDICO.CourseManagement.Localization.GetMessage("me") %>
+            <%: Model.Shared ? Model.OwnerName : Localization.GetMessage("me") %>
         </div>
     </td>
     <td>
@@ -26,16 +27,16 @@
         <a href="#" onclick="editCourse(<%: Model.Id %>)">Edit</a>
         |
         <% if(Model.Locked) { %>
-            <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("Unlock"), "Parse", "Course", new { CourseID = Model.Id }, null)%>
+            <%: Html.ActionLink(Localization.GetMessage("Unlock"), "Parse", "Course", new { CourseID = Model.Id }, null)%>
         <% }
            else
            { %>
-            <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("Lock"), "Publish", new { CourseID = Model.Id })%>
+            <%: Html.ActionLink(Localization.GetMessage("Lock"), "Publish", new { CourseID = Model.Id })%>
         <% }  %>
         |
-        <%: Html.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("Export"), "Export", new { CourseID = Model.Id })%>
+        <%: Html.ActionLink(Localization.GetMessage("Export"), "Export", new { CourseID = Model.Id })%>
         |
-        <%: Ajax.ActionLink(IUDICO.CourseManagement.Localization.GetMessage("Delete"), "Delete", new { CourseID = Model.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + Model.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
+        <%: Ajax.ActionLink(Localization.GetMessage("Delete"), "Delete", new { CourseID = Model.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + Model.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
         |
         <a href="#" onclick="shareCourse(<%: Model.Id %>)">Share</a>
     </td>

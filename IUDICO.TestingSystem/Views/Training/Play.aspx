@@ -6,8 +6,9 @@
 <%@ Import Namespace="System.Web.UI.WebControls" %>
 <%@ Import Namespace="System.Web.UI.WebControls.Expressions" %>
 <%@ Import Namespace="System.Web.UI.WebControls.WebParts" %>
+<%@ Import Namespace="IUDICO.Common" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    <%=IUDICO.TestingSystem.Localization.GetMessage("PlayCourse")%>
+    <%=Localization.GetMessage("PlayCourse")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">

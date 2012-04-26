@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupModels.RollupRules>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <%= Html.EditorForModel(Model.RollupObjectiveSatisfied) %>
 <%= Html.EditorForModel(Model.RollupProgressCompletion) %>
@@ -11,4 +12,4 @@
   </div>
 <% } %>
 
-<input type="button" value=<%=IUDICO.CourseManagement.Localization.GetMessage("add")%> />
+<input type="button" value=<%=Localization.GetMessage("add")%> />

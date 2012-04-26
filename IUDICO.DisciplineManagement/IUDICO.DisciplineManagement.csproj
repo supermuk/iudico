@@ -79,7 +79,6 @@
     <Compile Include="Controllers\DisciplineController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="DisciplineManagementPlugin.cs" />
-    <Compile Include="Localization.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Converter.cs" />
     <Compile Include="Models\DisciplineService.cs" />

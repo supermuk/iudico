@@ -23,6 +23,8 @@ using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     /// <summary>
     /// Parameters to this page:
     ///     AttemptId = current attempt id

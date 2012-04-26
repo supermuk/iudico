@@ -27,6 +27,8 @@ using Microsoft.LearningComponents.Storage;
 
 namespace Microsoft.LearningComponents.Frameset
 {
+    using IUDICO.Common;
+
     /// <summary>
     /// Delegate to return previously registered error information.
     /// </summary>
@@ -139,7 +141,7 @@ namespace Microsoft.LearningComponents.Frameset
                 if (!tryGetViewInfo(false, out view))
                 {
                     this.WriteError(
-                        ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("FRM_ViewNotSupportedMsg")));
+                        ResHelper.GetMessage(Localization.GetMessage("FRM_ViewNotSupportedMsg")));
                     return;
                 }
 
@@ -202,7 +204,7 @@ namespace Microsoft.LearningComponents.Frameset
                     default:
                         this.WriteError(
                             ResHelper.GetMessage(
-                                IUDICO.TestingSystem.Localization.GetMessage("FRM_ViewNotSupportedMsg")));
+                                Localization.GetMessage("FRM_ViewNotSupportedMsg")));
                         return;
                 }
 
@@ -229,7 +231,7 @@ namespace Microsoft.LearningComponents.Frameset
                         {
                             this.WriteError(
                                 ResHelper.GetMessage(
-                                    IUDICO.TestingSystem.Localization.GetMessage("HID_InvalidActivityId"), strActivityId));
+                                    Localization.GetMessage("HID_InvalidActivityId"), strActivityId));
                         }
                         else
                         {
@@ -566,7 +568,7 @@ namespace Microsoft.LearningComponents.Frameset
                                     {
                                         this.WriteError(
                                             ResHelper.GetMessage(
-                                                IUDICO.TestingSystem.Localization.GetMessage("HID_TerminateFailed"),
+                                                Localization.GetMessage("HID_TerminateFailed"),
                                                 HttpUtility.HtmlEncode(ex.Message)));
                                     }
                                     this.mSaveOnly = false;
@@ -1136,7 +1138,7 @@ namespace Microsoft.LearningComponents.Frameset
                 {
                     LogDataModelError(
                         errors,
-                        IUDICO.TestingSystem.Localization.GetMessage("CONV_SetValueException"),
+                        Localization.GetMessage("CONV_SetValueException"),
                         elements[0],
                         TruncateMessage(elements[1]),
                         e.Message);
@@ -1190,7 +1192,7 @@ namespace Microsoft.LearningComponents.Frameset
             if (errorLog.Length == 0)
             {
                 errorLog.AppendLine(
-                    ResHelper.GetMessage(IUDICO.TestingSystem.Localization.GetMessage("HID_SetValueMappingFailedHtml")));
+                    ResHelper.GetMessage(Localization.GetMessage("HID_SetValueMappingFailedHtml")));
                 errorLog.AppendLine("<br><br><ul> ");
             }
             string messageHtml;
@@ -1244,7 +1246,7 @@ namespace Microsoft.LearningComponents.Frameset
                 if (elements.Length != 2)
                 {
                     LogDataModelError(
-                        errorLog, IUDICO.TestingSystem.Localization.GetMessage("HID_SetValuePostedDataInvalid"));
+                        errorLog, Localization.GetMessage("HID_SetValuePostedDataInvalid"));
                     continue;
                 }
 

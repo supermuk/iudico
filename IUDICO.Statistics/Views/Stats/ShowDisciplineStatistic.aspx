@@ -1,24 +1,25 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Statistics.Models.Storage.AllSpecializedResults>" %>
 <%@ Assembly Name="IUDICO.Statistics" %>
+<%@ Import Namespace="IUDICO.Common" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=IUDICO.Statistics.Localization.getMessage("DisciplinesStatistic")%>
+	<%=Localization.GetMessage("DisciplinesStatistic")%>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <% if(Model.Users.Count() != 0) { %>
 
-    <h2><%=IUDICO.Statistics.Localization.getMessage("DisciplinesStatisticForGroup") %>
+    <h2><%=Localization.GetMessage("DisciplinesStatisticForGroup") %>
     <%: (ViewData["selectGroupName"])%>
     </h2>
 
-    <%: Html.ActionLink(IUDICO.Statistics.Localization.getMessage("Back"), "Index")%>
+    <%: Html.ActionLink(Localization.GetMessage("Back"), "Index")%>
     <fieldset>
-    <legend><%=IUDICO.Statistics.Localization.getMessage("SelectOneDiscipline")%> </legend>
+    <legend><%=Localization.GetMessage("SelectOneDiscipline")%> </legend>
 
     <table>
     <tr>
-        <th><%=IUDICO.Statistics.Localization.getMessage("Student")%></th>
+        <th><%=Localization.GetMessage("Student")%></th>
         <% int i = 0;
            foreach (IUDICO.Common.Models.Shared.Discipline curr in Model.Curriculums)
            {
@@ -32,8 +33,8 @@
                 </a>
                 </th>
         <% } %>
-        <th><%=IUDICO.Statistics.Localization.getMessage("Sum")%></th>
-        <th><%=IUDICO.Statistics.Localization.getMessage("Percent")%></th>
+        <th><%=Localization.GetMessage("Sum")%></th>
+        <th><%=Localization.GetMessage("Percent")%></th>
         <th>ECTS</th>
     </tr>
     

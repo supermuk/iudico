@@ -100,7 +100,6 @@
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\UserActivityController.cs" />
     <Compile Include="Helpers\ObserveResponseLengthStream.cs" />
-    <Compile Include="Localization.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\ISecurityDataContext.cs" />
     <Compile Include="Models\SecurityDataContext.cs" />

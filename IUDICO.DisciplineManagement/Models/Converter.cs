@@ -8,6 +8,8 @@ using IUDICO.DisciplineManagement.Models.ViewDataClasses;
 
 namespace IUDICO.DisciplineManagement.Models
 {
+    using IUDICO.Common;
+
     public static class Converter
     {
         public static TopicTypeEnum ToTopicTypeEnum(this TopicType topicType)
