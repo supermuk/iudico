@@ -13,7 +13,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
             
             selenium.Click("//a[contains(@href, '/Account/Index')]");
-            selenium.WaitForPageToLoad(this.seleniumWait);
+            selenium.WaitForPageToLoad(this.SeleniumWait);
             
             Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }

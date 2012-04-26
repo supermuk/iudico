@@ -162,8 +162,6 @@
     <Compile Include="LMS\NUnit\ShutDownTests.cs" />
     <Compile Include="LMS\NUnit\StartUpTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Base\TestFixture.cs" />
-    <Compile Include="Base\TestFixtureWeb.cs" />
     <Compile Include="Security\NUnit\BanStorageTester.cs" />
     <Compile Include="Security\NUnit\Mocks.cs" />
     <Compile Include="Security\NUnit\SecurityServiceTester.cs" />

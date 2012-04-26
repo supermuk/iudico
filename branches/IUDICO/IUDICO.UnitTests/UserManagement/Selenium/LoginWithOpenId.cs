@@ -16,9 +16,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
 
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/User/Create')]");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Type("id=Username", "nestor");
             this.selenium.Type("id=Password", "1");
             this.selenium.Type("id=Email", "yavorskyy.nestor@gmail.com");
@@ -26,11 +26,11 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Type("id=UserId", "id_nestor");
             this.selenium.Type("id=OpenId", "yavora.livejournal.com");
             this.selenium.Click("//input[@value='Create']");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            this.LoginOpenId("yavorskyy.nestor@gmail.com", "nestor", "1");
+            this.LoginOpenId("yavora.livejournal.com", "yavora", "nestor1");
 
             Assert.IsTrue(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
         }

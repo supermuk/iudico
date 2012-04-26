@@ -561,28 +561,6 @@ namespace IUDICO.UserManagement.Models.Storage
             return UserRoles.GetRoles().Where(r => !roles.Contains(r));
         }
 
-        public bool IsPromotedToAdmin()
-        {
-            try
-            {
-                return (bool)HttpContext.Current.Session["AllowAdmin"];
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-
-        public void RateTopic(int topicId, int rating)
-        {
-            var db = this.GetDbContext();
-
-            var r = new UserTopicRating { Rating = rating, TopicId = topicId, UserId = this.GetCurrentUser().Id };
-            db.UserTopicRatings.InsertOnSubmit(r);
-
-            db.SubmitChanges();
-        }
-
         #endregion
 
         #region Group members
@@ -679,6 +657,28 @@ namespace IUDICO.UserManagement.Models.Storage
         }
 
         #endregion
+
+        public bool IsPromotedToAdmin()
+        {
+            try
+            {
+                return (bool)HttpContext.Current.Session["AllowAdmin"];
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        public void RateTopic(int topicId, int rating)
+        {
+            var db = this.GetDbContext();
+
+            var r = new UserTopicRating { Rating = rating, TopicId = topicId, UserId = this.GetCurrentUser().Id };
+            db.UserTopicRatings.InsertOnSubmit(r);
+
+            db.SubmitChanges();
+        }
 
         public int UploadAvatar(Guid id, HttpPostedFileBase file)
         {

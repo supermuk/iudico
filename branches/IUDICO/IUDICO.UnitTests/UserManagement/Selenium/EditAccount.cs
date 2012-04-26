@@ -15,13 +15,13 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Type("id=Name", "lex");
             this.selenium.Type("id=Email", "lex@iudico.com");
             this.selenium.Click("//input[@value='Save']");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             Assert.IsTrue(this.selenium.IsTextPresent("lex"));
 
@@ -34,12 +34,12 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Type("id=Name", string.Empty);
             this.selenium.Click("//input[@value='Save']");
-            this.selenium.WaitForPageToLoad(this.seleniumWait);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             Assert.IsTrue(this.selenium.IsTextPresent(IUDICO.UserManagement.Localization.GetMessage("FullNameRequired")));
 
