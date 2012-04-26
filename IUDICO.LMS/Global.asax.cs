@@ -49,6 +49,8 @@ namespace IUDICO.LMS
         {
             LmsService.Inform(LMSNotifications.ApplicationRequestStart, HttpContext.Current);
 
+            Localization.Init(this.Container.Resolve<IControllerFactory>());
+
             this.Container.Resolve<LinqLogger>().WriteLine("==== Begin request ====");
         }
 
@@ -59,8 +61,6 @@ namespace IUDICO.LMS
             AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
 
             this.InitializeWindsor();
-
-            Localization.Init(this.Container);
 
             Log4NetLoggerService.InitLogger();
             log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath("log.xml")));

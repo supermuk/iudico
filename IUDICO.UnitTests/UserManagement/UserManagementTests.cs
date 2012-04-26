@@ -13,7 +13,9 @@ using Moq;
 using Moq.Protected;
 
 namespace IUDICO.UnitTests.UserManagement
-{  
+{
+    using IUDICO.Common;
+
     public class UserManagementTests
     {
         #region Protected members

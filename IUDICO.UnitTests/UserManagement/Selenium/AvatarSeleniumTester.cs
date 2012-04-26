@@ -1,8 +1,5 @@
-﻿using System;
-using System.Text;
-using IUDICO.UnitTests.Base;
+﻿using IUDICO.UnitTests.Base;
 using NUnit.Framework;
-using Selenium;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
@@ -53,7 +50,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
-            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            this.selenium.WaitForPageToLoad((this.seleniumWait * 2).ToString());
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             
