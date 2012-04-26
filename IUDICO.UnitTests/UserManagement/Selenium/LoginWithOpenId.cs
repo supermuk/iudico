@@ -1,5 +1,7 @@
 using System;
+
 using IUDICO.UnitTests.Base;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
@@ -43,7 +45,8 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.LoginOpenId("test", "test", "test");
 
             Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
-            Assert.IsTrue(this.selenium.IsTextPresent(Localization.GetMessage("InvalidOpenID", "IUDICO.UserManagement")));
+            Assert.IsTrue(
+                this.selenium.IsTextPresent(Localization.GetMessage("InvalidOpenID", "IUDICO.UserManagement")));
         }
     }
 }

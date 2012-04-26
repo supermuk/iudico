@@ -2,8 +2,10 @@
 using System.Configuration;
 using System.Globalization;
 using System.Text;
-using Selenium;
+
 using NUnit.Framework;
+
+using Selenium;
 
 namespace IUDICO.UnitTests.Base
 {
@@ -14,12 +16,12 @@ namespace IUDICO.UnitTests.Base
             /// <summary>
             /// Internet Explorer browser.
             /// </summary>
-            InternetExplorer,
+            InternetExplorer, 
 
             /// <summary>
             /// Firefox browser.
             /// </summary>
-            Firefox,
+            Firefox, 
 
             /// <summary>
             /// Chrome browser
@@ -28,11 +30,17 @@ namespace IUDICO.UnitTests.Base
         }
 
         protected ISelenium selenium;
+
         protected string seleniumHost;
+
         protected int seleniumPort;
+
         protected string seleniumSpeed;
+
         protected int seleniumWait;
+
         protected string browserUrl;
+
         protected BrowserType browser = BrowserType.Chrome;
 
         protected StringBuilder verificationErrors;
@@ -48,11 +56,14 @@ namespace IUDICO.UnitTests.Base
         public SimpleWebTest()
         {
             this.verificationErrors = new StringBuilder();
-            this.browser = (BrowserType)Enum.Parse(typeof(BrowserType), ConfigurationManager.AppSettings["SELENIUM_BROWSER"], true);
+            this.browser =
+                (BrowserType)Enum.Parse(typeof(BrowserType), ConfigurationManager.AppSettings["SELENIUM_BROWSER"], true);
             this.seleniumHost = ConfigurationManager.AppSettings["SELENIUM_HOST"];
-            this.seleniumPort = int.Parse(ConfigurationManager.AppSettings["SELENIUM_PORT"], CultureInfo.InvariantCulture);
+            this.seleniumPort = int.Parse(
+                ConfigurationManager.AppSettings["SELENIUM_PORT"], CultureInfo.InvariantCulture);
             this.seleniumSpeed = ConfigurationManager.AppSettings["SELENIUM_SPEED"];
-            this.seleniumWait = int.Parse(ConfigurationManager.AppSettings["SELENIUM_WAIT"], CultureInfo.InvariantCulture);
+            this.seleniumWait = int.Parse(
+                ConfigurationManager.AppSettings["SELENIUM_WAIT"], CultureInfo.InvariantCulture);
             this.browserUrl = ConfigurationManager.AppSettings["SELENIUM_URL"];
 
             string browserExe;
@@ -138,7 +149,7 @@ namespace IUDICO.UnitTests.Base
             this.selenium.Type("id=login_user", openIdLogin);
             this.selenium.Type("id=login_password", openIdPass);
             this.selenium.Click("//input[@id='loginlj_submit']");
-            
+
             this.selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
 
             if (this.selenium.GetLocation().Contains("http://www.livejournal.com"))

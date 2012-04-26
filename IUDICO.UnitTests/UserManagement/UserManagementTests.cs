@@ -4,18 +4,18 @@ using System.Configuration;
 using System.Data.Linq;
 using System.IO;
 using System.Linq;
+
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
+
 using Moq;
 using Moq.Protected;
 
 namespace IUDICO.UnitTests.UserManagement
 {
-    using IUDICO.Common;
-
     public class UserManagementTests
     {
         #region Protected members
@@ -118,11 +118,14 @@ namespace IUDICO.UnitTests.UserManagement
         public void Setup()
         {
             this.MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this.MockDataContext.Object);
-            this.MockStorage.Protected().Setup<string>("GetPath").Returns(Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS"));
+            this.MockStorage.Protected().Setup<string>("GetPath").Returns(
+                Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS"));
             this.MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
-            this.MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns((string username) => this.GetUserRoles(username));
-            this.MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns((User user) => this.GetGroupsByUser(user));
+            this.MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns(
+                (string username) => this.GetUserRoles(username));
+            this.MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns(
+                (User user) => this.GetGroupsByUser(user));
         }
 
         public void SetupTables()

@@ -1,5 +1,6 @@
 ﻿using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.TestingSystem.ViewModels;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.TestingSystem.NUnit
@@ -14,9 +15,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         {
             this.playModel = new PlayModel
                 {
-                    AttemptId = 12345,
-                    CurriculumChapterTopicId = 12,
-                    TopicType = TopicTypeEnum.TestWithoutCourse
+                   AttemptId = 12345, CurriculumChapterTopicId = 12, TopicType = TopicTypeEnum.TestWithoutCourse 
                 };
         }
 

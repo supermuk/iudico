@@ -1,45 +1,42 @@
-﻿using IUDICO.Common.Models.Shared;
-using NUnit.Framework;
-using Moq;
-using System.Web;
-using IUDICO.Common.Models.Services;
-using System.Collections.Specialized;
-using System.Web.Routing;
-
-namespace IUDICO.Security.UnitTests.Tests
+﻿namespace IUDICO.UnitTests.Security.NUnit
 {
-    class SecurityServiceTester : SecurityTester
+    using System.Collections.Specialized;
+    using System.Web;
+    using System.Web.Routing;
+
+    using global::NUnit.Framework;
+
+    using IUDICO.Common.Models.Services;
+    using IUDICO.Security;
+
+    using Moq;
+
+    internal class SecurityServiceTester : SecurityTester
     {
         private ISecurityService GetSecurityService_Mock()
         {
             var mockSecurityService = new Mock<ISecurityService>();
 
-            mockSecurityService
-                .Setup(security => security.CheckRequestSafety(It.IsAny<HttpRequestBase>()))
-                .Returns((HttpRequestBase request) =>
-                    {
-                        return request.ContentLength < 500;
-                    });
+            mockSecurityService.Setup(security => security.CheckRequestSafety(It.IsAny<HttpRequestBase>())).Returns(
+                (HttpRequestBase request) => { return request.ContentLength < 500; });
 
             return mockSecurityService.Object;
         }
 
         private ISecurityService GetSecurityService_Real()
         {
-            return new SecurityService(BanStorage);
+            return new SecurityService(this.BanStorage);
         }
 
         private HttpRequestBase GetGoodRequest()
         {
             var mockRequest = new Mock<HttpRequestBase>();
-            mockRequest
-                .SetupGet(x => x.ContentLength).Returns(100);
+            mockRequest.SetupGet(x => x.ContentLength).Returns(100);
 
             var vars = new NameValueCollection();
             vars.Add("REMOTE_ADDR", "100.100.100.100");
 
-            mockRequest.SetupGet(r => r.ServerVariables)
-                .Returns(vars);
+            mockRequest.SetupGet(r => r.ServerVariables).Returns(vars);
 
             var routeData = new RouteData();
             routeData.Values.Add("action", "Banned");
@@ -48,8 +45,7 @@ namespace IUDICO.Security.UnitTests.Tests
 
             var rc = new RequestContext(httpContext.Object, routeData);
 
-            mockRequest.Setup(r => r.RequestContext)
-              .Returns(rc);
+            mockRequest.Setup(r => r.RequestContext).Returns(rc);
 
             return mockRequest.Object;
         }
@@ -57,14 +53,12 @@ namespace IUDICO.Security.UnitTests.Tests
         private HttpRequestBase GetBadRequest()
         {
             var mockRequest = new Mock<HttpRequestBase>();
-            mockRequest
-                .SetupGet(x => x.ContentLength).Returns(1000);
+            mockRequest.SetupGet(x => x.ContentLength).Returns(1000);
 
             var vars = new NameValueCollection();
             vars.Add("REMOTE_ADDR", "100.100.100.100");
 
-            mockRequest.SetupGet(r => r.ServerVariables)
-                .Returns(vars);
+            mockRequest.SetupGet(r => r.ServerVariables).Returns(vars);
 
             var routeData = new RouteData();
             routeData.Values.Add("action", "!Banned");
@@ -73,8 +67,7 @@ namespace IUDICO.Security.UnitTests.Tests
 
             var rc = new RequestContext(httpContext.Object, routeData);
 
-            mockRequest.Setup(r => r.RequestContext)
-              .Returns(rc);
+            mockRequest.Setup(r => r.RequestContext).Returns(rc);
 
             return mockRequest.Object;
         }
@@ -82,9 +75,9 @@ namespace IUDICO.Security.UnitTests.Tests
         [Test]
         public void Test_CheckRequestSafety()
         {
-            var goodRequest = GetGoodRequest();
-            var badRequest = GetBadRequest();
-            var securityService = GetSecurityService_Real();
+            var goodRequest = this.GetGoodRequest();
+            var badRequest = this.GetBadRequest();
+            var securityService = this.GetSecurityService_Real();
 
             Assert.IsTrue(securityService.CheckRequestSafety(goodRequest));
             Assert.IsFalse(securityService.CheckRequestSafety(badRequest));

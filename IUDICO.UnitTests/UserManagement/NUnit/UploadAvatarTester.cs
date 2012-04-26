@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.IO;
 using System.Web;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -11,12 +12,15 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     {
         protected UserManagementTests tests = UserManagementTests.GetInstance();
 
-        protected string iudicoPath = Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS");
+        protected string iudicoPath = Path.Combine(
+            ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS");
 
         private class MemoryFile : HttpPostedFileBase
         {
             private readonly Stream stream;
+
             private readonly string contentType;
+
             private readonly string fileName;
 
             public MemoryFile(Stream stream, string contentType, string fileName)
@@ -36,17 +40,26 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             public override string ContentType
             {
-                get { return this.contentType; }
+                get
+                {
+                    return this.contentType;
+                }
             }
 
             public override string FileName
             {
-                get { return this.fileName; }
+                get
+                {
+                    return this.fileName;
+                }
             }
 
             public override Stream InputStream
             {
-                get { return this.stream; }
+                get
+                {
+                    return this.stream;
+                }
             }
 
             public override void SaveAs(string filename)
@@ -75,7 +88,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             }
 
             filePath = Path.Combine(Path.Combine(this.iudicoPath, @"Data\Avatars"), Path.GetFileName(id + ".png"));
-            
+
             var fileInfo = new FileInfo(filePath);
 
             Assert.IsTrue(fileInfo.Exists);

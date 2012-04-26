@@ -1,8 +1,12 @@
 ﻿using System;
 using System.IO;
+
 using CompileSystem.Classes.Compiling;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using NUnit.Framework;
+
 using Assert = NUnit.Framework.Assert;
 
 namespace IUDICO.UnitTests.CompileService.NUnit
@@ -45,7 +49,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             var newCompiler = new Compiler { Name = "CPP" };
             this.compilers.AddCompiler(newCompiler);
 
-            bool result = this.compilers.Contains("CPP");
+            var result = this.compilers.Contains("CPP");
             Assert.AreEqual(true, result);
 
             result = this.compilers.Contains("BadCompilerName");
@@ -65,7 +69,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             this.compilers.AddCompiler(newCompiler);
 
             result = this.compilers.GetCompiler("CPP");
-            
+
             Assert.AreNotEqual(result, null);
             Assert.AreEqual("CPP", result.Name);
 
@@ -97,7 +101,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             var compilers = new Compilers("EmptyCompiler");
             compilers.Load();
             Assert.AreEqual(compilers.Count, 0);
-            
+
             compilers = new Compilers("TestCompilers");
             compilers.Load();
             Assert.AreEqual(compilers.Count, 2);

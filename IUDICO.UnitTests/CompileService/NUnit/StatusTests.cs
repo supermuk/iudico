@@ -1,5 +1,7 @@
 ﻿using System;
+
 using CompileSystem.Classes.Testing;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CompileService.NUnit
@@ -10,11 +12,11 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void StatusConstructorTest()
         {
-            const string testResult = "Accepted";
-            var target = new Status(testResult);
-            
-            Assert.AreEqual(false, testResult == null);
-            Assert.AreEqual(testResult, target.TestResult);
+            const string TestResult = "Accepted";
+            var target = new Status(TestResult);
+
+            Assert.AreEqual(false, TestResult == null);
+            Assert.AreEqual(TestResult, target.TestResult);
         }
 
         [Test]
@@ -28,7 +30,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(Exception))]
         public void StatusEmptyStringConstructorTest()
         {
-            var target = new Status("");
+            var target = new Status(string.Empty);
         }
     }
 }

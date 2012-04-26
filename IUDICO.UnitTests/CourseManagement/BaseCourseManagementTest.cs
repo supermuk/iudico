@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Reflection;
 
 namespace IUDICO.UnitTests.CourseManagement
 {
@@ -7,6 +6,7 @@ namespace IUDICO.UnitTests.CourseManagement
 
     public class BaseCourseManagementTest
     {
-        protected string root = Path.Combine(ConfigurationManager.AppSettings["RootTestFolder"], @"CourseManagement\Data");
+        protected string root = Path.Combine(
+            ConfigurationManager.AppSettings["RootTestFolder"], @"CourseManagement\Data");
     }
 }

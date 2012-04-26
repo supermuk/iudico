@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+
 using IUDICO.Common.Models.Shared;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -12,11 +14,10 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void GetListOfUsers()
         {
-            var users = new List<User>
-                            {
-                                new User { Username = "name1", Email = "mail1@mail.com", Password = "123" },
-                                new User { Username = "name2", Email = "mail2@mail.com", Password = "321" },
-                            };
+            var users = new List<User> {
+                    new User { Username = "name1", Email = "mail1@mail.com", Password = "123" }, 
+                    new User { Username = "name2", Email = "mail2@mail.com", Password = "321" }, 
+                };
 
             foreach (var user in users)
             {

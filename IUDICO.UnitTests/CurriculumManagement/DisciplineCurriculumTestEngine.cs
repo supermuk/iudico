@@ -1,26 +1,31 @@
 ﻿using System.Linq;
+
+using Castle.Windsor;
+
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
+using IUDICO.CurriculumManagement;
 using IUDICO.CurriculumManagement.Models;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.DisciplineManagement;
 using IUDICO.DisciplineManagement.Models;
 using IUDICO.DisciplineManagement.Models.Storage;
 using IUDICO.LMS.Models;
+
 using Moq;
 using Moq.Protected;
 
+using CourseModels = IUDICO.CourseManagement.Models;
 using CurriculumModels = IUDICO.CurriculumManagement.Models;
 using DisciplineModels = IUDICO.DisciplineManagement.Models;
 using UserModels = IUDICO.UserManagement.Models;
-using CourseModels = IUDICO.CourseManagement.Models;
-using Castle.Windsor;
-using IUDICO.CurriculumManagement;
 
 namespace IUDICO.UnitTests.CurriculumManagement
 {
+    using IDataContext = CurriculumModels.IDataContext;
+
     public class DisciplineCurriculumTestEngine
     {
         #region Static members
@@ -35,9 +40,9 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         private Mock<DisciplineManagementPlugin> MockDisciplineManagementPlugin { get; set; }
 
-        private Mock<CurriculumModels.IDataContext> MockCurriculumDataContext { get; set; }
+        private Mock<IDataContext> MockCurriculumDataContext { get; set; }
 
-        private Mock<DisciplineModels.IDataContext> MockDisciplineDataContext { get; set; }
+        private Mock<DisciplineManagement.Models.IDataContext> MockDisciplineDataContext { get; set; }
 
         private Mock<LmsService> MockLmsService { get; set; }
 
@@ -57,52 +62,82 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         public CurriculumManagementPlugin CurriculumManagementPlugin
         {
-            get { return this.MockCurriculumManagementPlugin.Object; }
+            get
+            {
+                return this.MockCurriculumManagementPlugin.Object;
+            }
         }
 
         public DisciplineManagementPlugin DisciplineManagementPlugin
         {
-            get { return this.MockDisciplineManagementPlugin.Object; }
+            get
+            {
+                return this.MockDisciplineManagementPlugin.Object;
+            }
         }
 
-        public CurriculumModels.IDataContext CurriculumDataContext
+        public IDataContext CurriculumDataContext
         {
-            get { return this.MockCurriculumDataContext.Object; }
+            get
+            {
+                return this.MockCurriculumDataContext.Object;
+            }
         }
 
-        public DisciplineModels.IDataContext DisciplineDataContext
+        public DisciplineManagement.Models.IDataContext DisciplineDataContext
         {
-            get { return this.MockDisciplineDataContext.Object; }
+            get
+            {
+                return this.MockDisciplineDataContext.Object;
+            }
         }
 
         public ILmsService LmsService
         {
-            get { return this.MockLmsService.Object; }
+            get
+            {
+                return this.MockLmsService.Object;
+            }
         }
 
         public ICourseService CourseService
         {
-            get { return this.MockCourseService.Object; }
+            get
+            {
+                return this.MockCourseService.Object;
+            }
         }
 
         public IUserService UserService
         {
-            get { return this.MockUserService.Object; }
+            get
+            {
+                return this.MockUserService.Object;
+            }
         }
 
         public ICurriculumStorage CurriculumStorage
         {
-            get { return this.MockCurriculumStorage.Object; }
+            get
+            {
+                return this.MockCurriculumStorage.Object;
+            }
         }
 
         public IDisciplineStorage DisciplineStorage
         {
-            get { return this.MockDisciplineStorage.Object; }
+            get
+            {
+                return this.MockDisciplineStorage.Object;
+            }
         }
 
         public IWindsorContainer WindsorContainer
         {
-            get { return this.MockWindsorContainer.Object; }
+            get
+            {
+                return this.MockWindsorContainer.Object;
+            }
         }
 
         public DataPreparer DataPreparer { get; private set; }
@@ -115,8 +150,8 @@ namespace IUDICO.UnitTests.CurriculumManagement
             this.MockCurriculumManagementPlugin = new Mock<CurriculumManagementPlugin>();
             this.MockDisciplineManagementPlugin = new Mock<DisciplineManagementPlugin>();
 
-            this.MockCurriculumDataContext = new Mock<CurriculumModels.IDataContext>();
-            this.MockDisciplineDataContext = new Mock<DisciplineModels.IDataContext>();
+            this.MockCurriculumDataContext = new Mock<IDataContext>();
+            this.MockDisciplineDataContext = new Mock<DisciplineManagement.Models.IDataContext>();
 
             this.MockWindsorContainer = new Mock<IWindsorContainer>();
             this.MockLmsService = new Mock<LmsService>(this.WindsorContainer);
@@ -127,21 +162,20 @@ namespace IUDICO.UnitTests.CurriculumManagement
             this.MockDisciplineStorage = new Mock<DatabaseDisciplineStorage>(this.LmsService);
 
             // Setup links
-            this.MockCurriculumStorage.Protected().Setup<CurriculumModels.IDataContext>("GetDbContext").Returns(this.CurriculumDataContext);
-            this.MockDisciplineStorage.Protected().Setup<DisciplineModels.IDataContext>("GetDbContext").Returns(this.DisciplineDataContext);
+            this.MockCurriculumStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(
+                this.CurriculumDataContext);
+            this.MockDisciplineStorage.Protected().Setup<DisciplineManagement.Models.IDataContext>("GetDbContext").Returns(this.DisciplineDataContext);
 
             this.MockWindsorContainer.Setup(l => l.Resolve<IUserService>()).Returns(this.MockUserService.Object);
             this.MockWindsorContainer.Setup(l => l.Resolve<ICourseService>()).Returns(this.MockCourseService.Object);
-            this.MockWindsorContainer.Setup(l => l.Resolve<IDisciplineService>()).Returns(new DisciplineService(this.DisciplineStorage));
-            this.MockWindsorContainer.Setup(l => l.Resolve<ICurriculumService>()).Returns(new CurriculumService(this.CurriculumStorage));
+            this.MockWindsorContainer.Setup(l => l.Resolve<IDisciplineService>()).Returns(
+                new DisciplineService(this.DisciplineStorage));
+            this.MockWindsorContainer.Setup(l => l.Resolve<ICurriculumService>()).Returns(
+                new CurriculumService(this.CurriculumStorage));
             this.MockWindsorContainer.Setup(l => l.Resolve<ICurriculumStorage>()).Returns(this.CurriculumStorage);
             this.MockWindsorContainer.Setup(l => l.Resolve<IDisciplineStorage>()).Returns(this.DisciplineStorage);
-            this.MockWindsorContainer.Setup(c => c.ResolveAll<IPlugin>())
-                .Returns(new IPlugin[]
-                {
-                    CurriculumManagementPlugin,
-                    DisciplineManagementPlugin
-                });
+            this.MockWindsorContainer.Setup(c => c.ResolveAll<IPlugin>()).Returns(
+                new IPlugin[] { this.CurriculumManagementPlugin, this.DisciplineManagementPlugin });
             this.CurriculumManagementPlugin.Install(this.WindsorContainer, null);
             this.DisciplineManagementPlugin.Install(this.WindsorContainer, null);
 
@@ -150,7 +184,6 @@ namespace IUDICO.UnitTests.CurriculumManagement
             // _MockCurriculumManagementPlugin.Protected().SetupGet<ICurriculumStorage>(p => p._CurriculumStorage).Returns(CurriculumStorage);
             // _MockDisciplineManagementPlugin.Protected().SetupGet<IDisciplineStorage>(p => p._DisciplineStorage).Returns(DisciplineStorage);
             // can be replace with: (butt call it in Setup())
-
             this.SetupData();
         }
 
@@ -161,9 +194,9 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         private void SetupData()
         {
-            var courses = DataPreparer.GetCourses();
-            var users = DataPreparer.GetUsers();
-            var groups = DataPreparer.GetGroups();
+            var courses = this.DataPreparer.GetCourses();
+            var users = this.DataPreparer.GetUsers();
+            var groups = this.DataPreparer.GetGroups();
 
             this.MockUserService.Setup(s => s.GetCurrentUser()).Returns(users[0]);
             this.MockUserService.Setup(s => s.GetGroups()).Returns(groups);
@@ -188,21 +221,26 @@ namespace IUDICO.UnitTests.CurriculumManagement
             // get back old current user
             this.SetCurrentUser(Users.Panza);
 
-            var mockTopicTypes = DataPreparer.GetTopicTypes();
+            var mockTopicTypes = this.DataPreparer.GetTopicTypes();
 
             this.MockDisciplineDataContext.SetupGet(c => c.Disciplines).Returns(new MemoryTable<Discipline>("Id"));
             this.MockDisciplineDataContext.SetupGet(c => c.Chapters).Returns(new MemoryTable<Chapter>("Id"));
             this.MockDisciplineDataContext.SetupGet(c => c.Topics).Returns(new MemoryTable<Topic>("Id"));
-            this.MockDisciplineDataContext.SetupGet(c => c.TopicTypes).Returns(new MemoryTable<TopicType>(mockTopicTypes, "Id"));
-            this.MockDisciplineDataContext.SetupGet(c => c.SharedDisciplines).Returns(new MemoryTable<SharedDiscipline>("Id"));
+            this.MockDisciplineDataContext.SetupGet(c => c.TopicTypes).Returns(
+                new MemoryTable<TopicType>(mockTopicTypes, "Id"));
+            this.MockDisciplineDataContext.SetupGet(c => c.SharedDisciplines).Returns(
+                new MemoryTable<SharedDiscipline>("Id"));
             this.MockCurriculumDataContext.SetupGet(c => c.Curriculums).Returns(new MemoryTable<Curriculum>("Id"));
-            this.MockCurriculumDataContext.SetupGet(c => c.CurriculumChapters).Returns(new MemoryTable<CurriculumChapter>("Id"));
-            this.MockCurriculumDataContext.SetupGet(c => c.CurriculumChapterTopics).Returns(new MemoryTable<CurriculumChapterTopic>("Id"));
+            this.MockCurriculumDataContext.SetupGet(c => c.CurriculumChapters).Returns(
+                new MemoryTable<CurriculumChapter>("Id"));
+            this.MockCurriculumDataContext.SetupGet(c => c.CurriculumChapterTopics).Returns(
+                new MemoryTable<CurriculumChapterTopic>("Id"));
         }
 
         public void SetCurrentUser(string userName)
         {
-            this.MockUserService.Setup(s => s.GetCurrentUser()).Returns(this.UserService.GetUsers().First(user => user.Username == userName));
+            this.MockUserService.Setup(s => s.GetCurrentUser()).Returns(
+                this.UserService.GetUsers().First(user => user.Username == userName));
         }
     }
 }
