@@ -123,20 +123,29 @@ namespace IUDICO.UnitTests.Base
             this.selenium.Open("/");
             this.selenium.Type("id=loginIdentifier", openId);
             this.selenium.Click("id=loginOpenIdButton");
-            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            this.selenium.WaitForPageToLoad((this.seleniumWait * 5).ToString());
 
-            if (!this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"))
+            if (this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"))
             {
-                this.selenium.Type("id=login_user", openIdLogin);
-                this.selenium.Type("id=login_password", openIdPass);
-                this.selenium.Click("//input[@id='loginlj_submit']");
-                this.selenium.WaitForPageToLoad(this.SeleniumWait);
+                return;
+            }
 
-                if (this.selenium.GetLocation().Contains("http://www.livejournal.com"))
-                {
-                    this.selenium.Click("//input[@name='yes:once']");
-                    this.selenium.WaitForPageToLoad(this.SeleniumWait);
-                }
+            if (!this.selenium.IsElementPresent("//input[@id='loginlj_submit']"))
+            {
+                return;
+            }
+
+            this.selenium.Type("id=login_user", openIdLogin);
+            this.selenium.Type("id=login_password", openIdPass);
+            this.selenium.Click("//input[@id='loginlj_submit']");
+            
+            this.selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
+
+            if (this.selenium.GetLocation().Contains("http://www.livejournal.com"))
+            {
+                this.selenium.Click("//input[@name='yes:once']");
+
+                this.selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
             }
         }
 

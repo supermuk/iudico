@@ -7,7 +7,6 @@ using System.IO;
 using System.Resources;
 using System.Reflection;
 using System.Linq;
-using Castle.Windsor;
 
 namespace IUDICO.Common
 {
@@ -18,19 +17,19 @@ namespace IUDICO.Common
         private static readonly string[] Cultures = new[] { "en-US", "uk-UA" };
         private readonly Dictionary<string, Dictionary<string, Dictionary<string, string>>> resource = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
         private static Localization instance;
-        protected IWindsorContainer container;
-        
-        protected Localization(IWindsorContainer container)
+        protected IControllerFactory controllerFactory;
+
+        protected Localization(IControllerFactory controllerFactory)
         {
-            this.container = container;
+            this.controllerFactory = controllerFactory;
             this.LoadResource("IUDICO.LMS");
         }
-        
-        public static void Init(IWindsorContainer container)
+
+        public static void Init(IControllerFactory controllerFactory)
         {
             if (instance == null)
             {
-                instance = new Localization(container);
+                instance = new Localization(controllerFactory);
             }
         }
 
@@ -44,7 +43,7 @@ namespace IUDICO.Common
             }
             catch (Exception)
             {
-                path = Path.Combine(Assembly.GetExecutingAssembly().CodeBase.Remove(0, 6) + @"\..\..\..\..\", pluginName) + @"\";
+                path = Path.Combine(Assembly.GetExecutingAssembly().CodeBase.Remove(0, 8) + @"\..\..\..\..\", pluginName) + @"\";
             }
 
             this.resource.Add(pluginName, new Dictionary<string, Dictionary<string, string>>());
@@ -72,7 +71,7 @@ namespace IUDICO.Common
             if (pluginName.IndexOf("IUDICO.") != 0)
             {
                 var c = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
-                var controller = instance.container.Resolve<IControllerFactory>().CreateController(HttpContext.Current.Request.RequestContext, c);
+                var controller = instance.controllerFactory.CreateController(HttpContext.Current.Request.RequestContext, c);
                 pluginName = controller.GetType().Assembly.GetName().Name;
             }
 
@@ -81,6 +80,11 @@ namespace IUDICO.Common
 
         public static string GetMessage(string search, string pluginName)
         {
+            if (instance == null)
+            {
+                instance = new Localization(null);
+            }
+
             return instance.FindMessage(pluginName, search);
         }
 

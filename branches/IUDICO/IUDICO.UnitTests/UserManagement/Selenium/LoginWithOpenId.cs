@@ -4,6 +4,8 @@ using NUnit.Framework;
 
 namespace IUDICO.UnitTests.UserManagement.Selenium
 {
+    using IUDICO.Common;
+
     [TestFixture]
     public class LoginWithOpenId : SimpleWebTest
     {
@@ -41,7 +43,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.LoginOpenId("test", "test", "test");
 
             Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
-            Assert.IsTrue(this.selenium.IsTextPresent("Login failed using the provided OpenID identifier"));
+            Assert.IsTrue(this.selenium.IsTextPresent(Localization.GetMessage("InvalidOpenID", "IUDICO.UserManagement")));
         }
     }
 }
