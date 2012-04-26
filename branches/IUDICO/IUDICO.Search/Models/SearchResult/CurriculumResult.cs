@@ -6,33 +6,33 @@ namespace IUDICO.Search.Models.SearchResult
 {
     public class DisciplineResult : ISearchResult
     {
-        protected Discipline _Discipline;
-        protected string _Update;
+        protected Discipline discipline;
+        protected string update;
 
         public DisciplineResult(Discipline discipline, string update)
         {
-            _Discipline = discipline;
-            _Update = update;
+            this.discipline = discipline;
+            this.update = update;
         }
 
         public int GetId()
         {
-            return _Discipline.Id;
+            return this.discipline.Id;
         }
 
-        public String GetName()
+        public string GetName()
         {
-            return _Discipline.Name;
+            return this.discipline.Name;
         }
 
-        public String GetText()
+        public string GetText()
         {
-            return Localization.getMessage("DisciplineName") + ": " + GetName() + "</br>" + Localization.getMessage("Updated") + ": " + _Update + "</br>" + GetUrl(); //"discipline";
+            return Localization.GetMessage("DisciplineName") + ": " + this.GetName() + "</br>" + Localization.GetMessage("Updated") + ": " + this.update + "</br>" + this.GetUrl(); // "discipline";
         }
 
-        public String GetUrl()
+        public string GetUrl()
         {
-            return "/Discipline/" + _Discipline.Id + "/Edit";
+            return "/Discipline/" + this.discipline.Id + "/Edit";
         }
     }
 }

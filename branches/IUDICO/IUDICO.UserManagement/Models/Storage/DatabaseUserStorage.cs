@@ -134,6 +134,11 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.GetDbContext().Users.SingleOrDefault(user => !user.Deleted && user.Id == userId);
         }
 
+        public User GetUser(string username)
+        {
+            return this.GetUser(user => user.Username == username);
+        }
+
         public User GetUser(Func<User, bool> predicate)
         {
             return this.GetDbContext().Users.Where(u => !u.Deleted).SingleOrDefault(predicate);

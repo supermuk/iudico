@@ -39,9 +39,9 @@ namespace IUDICO.Statistics.Models.Storage
                         topicResult = new TopicResult(usr, topic);
                         throw new NotImplementedException(
                             "Statistics was not implemented due to new design of Discipline/Curriculum services");
-                        //topicResult.AttemptResults = _LmsService.FindService<ITestingService>().GetResults(usr, );
-                        topicResult.Res = topicResult.GetTopicResultScore();
-                        curRes.TopicResult.Add(topicResult);
+                        // topicResult.AttemptResults = _LmsService.FindService<ITestingService>().GetResults(usr, );
+                        // topicResult.Res = topicResult.GetTopicResultScore();
+                        // curRes.TopicResult.Add(topicResult);
                     }
 
                     #endregion

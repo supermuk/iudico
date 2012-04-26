@@ -5,7 +5,7 @@ namespace IUDICO.Search
     {
         private static LocalizationMessageProvider provider = new LocalizationMessageProvider("Search");
 
-        public static string getMessage(string search)
+        public static string GetMessage(string search)
         {
             return provider.GetMessage(search);
         }
