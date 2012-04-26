@@ -5,8 +5,8 @@ namespace IUDICO.Search.Models.SearchResult
     public interface ISearchResult
     {
         int GetId();
-        String GetName();
-        String GetText();
-        String GetUrl();
+        string GetName();
+        string GetText();
+        string GetUrl();
     }
 }

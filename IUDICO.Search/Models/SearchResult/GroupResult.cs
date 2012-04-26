@@ -6,32 +6,32 @@ namespace IUDICO.Search.Models.SearchResult
 {
     public class GroupResult : ISearchResult
     {
-        protected Group _Group;
+        protected Group group;
 
         public GroupResult(Group group)
         {
-            _Group = group;
+            this.group = group;
         }
 
         public int GetId()
         {
-            return _Group.Id;
+            return this.group.Id;
         }
 
-        public String GetName()
+        public string GetName()
         {
-            return _Group.Name;
+            return this.group.Name;
         }
 
-        public String GetText()
+        public string GetText()
         {
-            return Localization.getMessage("Group");
+            return Localization.GetMessage("Group");
         }
 
-        public String GetUrl()
+        public string GetUrl()
         {
 
-            return "/Group/Edit?id=" + _Group.Id;
+            return "/Group/Edit?id=" + this.group.Id;
         }
     }
 }

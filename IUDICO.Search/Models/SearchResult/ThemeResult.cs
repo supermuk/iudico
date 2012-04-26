@@ -6,33 +6,33 @@ namespace IUDICO.Search.Models.SearchResult
 {
     public class TopicResult : ISearchResult
     {
-        protected Topic _Topic;
-        protected string _Course;
+        protected Topic topic;
+        protected string course;
         public TopicResult(Topic topic, string course)
         {
-            _Topic = topic;
-            _Course = course;
+            this.topic = topic;
+            this.course = course;
         }
 
         public int GetId()
         {
-            return _Topic.Id;
+            return this.topic.Id;
         }
 
-        public String GetName()
+        public string GetName()
         {
-            return _Topic.Name;
+            return this.topic.Name;
         }
 
-        public String GetText()
+        public string GetText()
         {
-            return Localization.getMessage("TopicName") + ": " + GetName() + "</br>" + Localization.getMessage("Course") + ": " + _Course + "</br>" + GetUrl();
+            return Localization.GetMessage("TopicName") + ": " + this.GetName() + "</br>" + Localization.GetMessage("Course") + ": " + this.course + "</br>" + this.GetUrl();
         }
 
-        public String GetUrl()
+        public string GetUrl()
         {
 
-            return "/Topic/" + _Topic.Id + "/Edit";
+            return "/Topic/" + this.topic.Id + "/Edit";
         }
     }
 }

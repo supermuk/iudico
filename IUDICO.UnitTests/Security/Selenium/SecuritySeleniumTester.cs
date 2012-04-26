@@ -56,7 +56,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             {
                 Assert.IsTrue(selenium.IsTextPresent("25.25.26.23"));
             }
-            catch (AssertionException e)
+            catch (AssertionException)
             {
                 //verificationErrors.Append(e.Message);
             }
@@ -77,7 +77,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             {
                 Assert.AreEqual("True", selenium.GetText("//div[@id='main']/table/tbody/tr[2]/td[4]"));
             }
-            catch (AssertionException e)
+            catch (AssertionException)
             {
                 // verificationErrors.Append(e.Message);
             }
@@ -99,7 +99,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             {
                 Assert.IsFalse(selenium.IsTextPresent("25.25.26.23"));
             }
-            catch (AssertionException e)
+            catch (AssertionException)
             {
                 //verificationErrors.Append(e.Message);
             }
@@ -148,7 +148,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             {
                 Assert.AreEqual("False", selenium.GetText("//div[@id='main']/table/tbody/tr[2]/td[2]"));
             }
-            catch (AssertionException e)
+            catch (AssertionException)
             {
                 // verificationErrors.Append(e.Message);
             }

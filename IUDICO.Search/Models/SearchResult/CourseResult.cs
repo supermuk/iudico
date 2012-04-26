@@ -6,36 +6,36 @@ namespace IUDICO.Search.Models.SearchResult
 {
     public class CourseResult : ISearchResult
     {
-        protected Course _Course;
-        protected string _Update;
-        protected string _Owner;
+        protected Course course;
+        protected string update;
+        protected string owner;
         
         public CourseResult(Course course, string update, string owner)
         {
-            _Course = course;
-            _Update = update;
-            _Owner = owner;
+            this.course = course;
+            this.update = update;
+            this.owner = owner;
         }
 
         public int GetId()
         {
-            return _Course.Id;
+            return this.course.Id;
         }
 
-        public String GetName()
+        public string GetName()
         {
-            return _Course.Name;
+            return this.course.Name;
         }
 
-        public String GetText()
+        public string GetText()
         {
-            return Localization.getMessage("CourseName") + ": " + GetName() + "</br" + Localization.getMessage("Owner") + ": " + _Owner + "</br>" + Localization.getMessage("Updated") + ": " + _Update + "</br>" + GetUrl();
+            return Localization.GetMessage("CourseName") + ": " + this.GetName() + "</br" + Localization.GetMessage("Owner") + ": " + this.owner + "</br>" + Localization.GetMessage("Updated") + ": " + this.update + "</br>" + this.GetUrl();
         }
 
-        public String GetUrl()
+        public string GetUrl()
         {
             
-            return "/Course/" + _Course.Id + "/Node/Index";
+            return "/Course/" + this.course.Id + "/Node/Index";
         }
     }
 }

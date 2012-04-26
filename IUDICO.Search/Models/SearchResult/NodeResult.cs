@@ -5,37 +5,37 @@ namespace IUDICO.Search.Models.SearchResult
 {
     public class NodeResult : ISearchResult
     {
-        protected Node _Node;
-        protected string _Text;
-        protected string _Course;
-        protected string _DateTime;
+        protected Node node;
+        protected string text;
+        protected string course;
+        protected string dateTime;
 
         public NodeResult(Node node, string course, string text, string datetime)
         {
-            _Node = node;
-            _Text = text;
-            _Course = course;
-            _DateTime = datetime;
+            this.node = node;
+            this.text = text;
+            this.course = course;
+            this.dateTime = datetime;
         }
 
         public int GetId()
         {
-            return _Node.Id;
+            return this.node.Id;
         }
 
         public string GetName()
         {
-            return _Node.Name;
+            return this.node.Name;
         }
 
         public string GetText()
         {
-            return !_Node.IsFolder ? _Text + Localization.getMessage("NodeName") + ": " + GetName() + "</br>" + Localization.getMessage("ParentCourse") + ": " + _Course + "</br>" + Localization.getMessage("Updated") + ": " + _DateTime + "</br>" + GetUrl() : Localization.getMessage("NodeName") + ": " + GetName() + "</br>" + Localization.getMessage("ParentCourse") + ": " + _Course + "</br>" + Localization.getMessage("Updated") + ": " + _DateTime + "</br>" + GetUrl();
+            return !this.node.IsFolder ? this.text + Localization.GetMessage("NodeName") + ": " + this.GetName() + "</br>" + Localization.GetMessage("ParentCourse") + ": " + this.course + "</br>" + Localization.GetMessage("Updated") + ": " + this.dateTime + "</br>" + this.GetUrl() : Localization.GetMessage("NodeName") + ": " + this.GetName() + "</br>" + Localization.GetMessage("ParentCourse") + ": " + this.course + "</br>" + Localization.GetMessage("Updated") + ": " + this.dateTime + "</br>" + this.GetUrl();
         }
 
         public string GetUrl()
         {
-            return "/Course/" + _Node.CourseId + "/Node/Index#" + _Node.Id;
+            return "/Course/" + this.node.CourseId + "/Node/Index#" + this.node.Id;
         }
     }
 }

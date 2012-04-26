@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Linq;
 using IUDICO.Common.Controllers;
-//using IUDICO.Common.Messages.CourseMgt;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Search.Models.SearchResult;
@@ -31,43 +30,43 @@ namespace IUDICO.Search.Controllers
     public class SearchController : PluginController
     {
 
-        private ICourseService _CourseService;
-        private IDisciplineService _DisciplineService;
-        private ICurriculumService _CurriculumService;
-        private IUserService _UserService;
+        private ICourseService courseService;
+        private IDisciplineService disciplineService;
+        private ICurriculumService curriculumService;
+        private IUserService userService;
 
         public SearchController()
         {
-            _CourseService = LmsService.FindService<ICourseService>();
-            _DisciplineService = LmsService.FindService<IDisciplineService>();
-            _CurriculumService = LmsService.FindService<ICurriculumService>();
-            _UserService = LmsService.FindService<IUserService>();
+            this.courseService = LmsService.FindService<ICourseService>();
+            this.disciplineService = LmsService.FindService<IDisciplineService>();
+            this.curriculumService = LmsService.FindService<ICurriculumService>();
+            this.userService = LmsService.FindService<IUserService>();
         }
 
         [HttpPost]
-        public ActionResult SearchSimple(String query)
+        public ActionResult SearchSimple(string query)
         {
             var model = new SearchModel
             {
                 SearchText = query,
-                CheckBoxes = GetAvailableCheckBoxes()
+                CheckBoxes = this.GetAvailableCheckBoxes()
             };
-            MakeSearch(model);
+            this.MakeSearch(model);
             return View("Search", model);
         }
 
         [HttpPost]
         public ActionResult Search(SearchModel model)
         {
-            MakeSearch(model);
+            this.MakeSearch(model);
             return View("Search", model);
         }
 
         private List<CheckBoxModel> GetAvailableCheckBoxes()
         {
-            var roles = _UserService.GetCurrentUserRoles();
+            var roles = this.userService.GetCurrentUserRoles();
             var result = new List<CheckBoxModel>();
-            result.Add(new CheckBoxModel(SearchType.Topics ));
+            result.Add(new CheckBoxModel(SearchType.Topics));
             if (roles.Contains(Role.Teacher))
             {
                 result.Add(new CheckBoxModel(SearchType.Users));
@@ -77,7 +76,7 @@ namespace IUDICO.Search.Controllers
             }
             else if (roles.Contains(Role.Admin))
             {
-                result.Add(new CheckBoxModel(SearchType.Users ));
+                result.Add(new CheckBoxModel(SearchType.Users));
                 result.Add(new CheckBoxModel(SearchType.Groups));
             }
             return result;
@@ -100,49 +99,48 @@ namespace IUDICO.Search.Controllers
                 {
                     if (checkBox.SearchType == SearchType.Courses)
                     {
-                        //make filtration here...
+                        // make filtration here...
                         strings.Add("Name");
                         strings.Add("Content");
                     }
                     if (checkBox.SearchType == SearchType.Topics)
                     {
-                        //make filtration here...
+                        // make filtration here...
                         strings.Add("Topic");
                     }
                     if (checkBox.SearchType == SearchType.Users)
                     {
-                        //make filtration here...
+                        // make filtration here...
                         strings.Add("User");
                     }
                     if (checkBox.SearchType == SearchType.Disciplines)
                     {
-                        //make filtration here...
+                        // make filtration here...
                         strings.Add("Discipline");
                     }
-                    //make filtration here...
+                    // make filtration here...
                 }
             }
 
             MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
                     Version.LUCENE_29,
                     strings.ToArray(),
-                    //new String[] { "Name", "Content", "Discipline", "User", "Group", "Topic" },
-                    analyzer
-                );
+                    // new String[] { "Name", "Content", "Discipline", "User", "Group", "Topic" },
+                    analyzer);
 
             ScoreDoc[] scoreDocs = searcher.Search(queryParser.Parse(query), 100).scoreDocs;
 
             Hits hit = searcher.Search(queryParser.Parse(query));
             int total = hit.Length();
 
-            List<Discipline> disciplines123 = _DisciplineService.GetDisciplines(_UserService.GetCurrentUser()).ToList();
-            List<Course> courses123 = _CourseService.GetCourses(_UserService.GetCurrentUser()).ToList();
-            List<TopicDescription> topics123 = _CurriculumService.GetTopicDescriptions(_UserService.GetCurrentUser()).ToList();
+            List<Discipline> disciplines123 = this.disciplineService.GetDisciplines(this.userService.GetCurrentUser()).ToList();
+            List<Course> courses123 = this.courseService.GetCourses(this.userService.GetCurrentUser()).ToList();
+            List<TopicDescription> topics123 = this.curriculumService.GetTopicDescriptions(this.userService.GetCurrentUser()).ToList();
 
-            //List<Discipline> topics123 = _CurriculmService.GetDisciplinesWithTopicsOwnedByUser(_UserService.GetCurrentUser()).ToList();
-            //foreach(Discipline curr in disciplines123){
-            //    topics123.InsertRange(topics123.Count - 1, _CurriculmService.GetTopicsByDisciplineId(curr.Id));
-            //}
+            // List<Discipline> topics123 = _CurriculmService.GetDisciplinesWithTopicsOwnedByUser(_UserService.GetCurrentUser()).ToList();
+            // foreach(Discipline curr in disciplines123){
+            // topics123.InsertRange(topics123.Count - 1, _CurriculmService.GetTopicsByDisciplineId(curr.Id));
+            // }
 
             List<ISearchResult> results = new List<ISearchResult>();
             Stopwatch sw = new Stopwatch();
@@ -152,7 +150,7 @@ namespace IUDICO.Search.Controllers
             {
                 ISearchResult result;
                 Document document = searcher.Doc(doc.doc);
-                String type = document.Get("Type").ToLower();
+                string type = document.Get("Type").ToLower();
 
                 switch (type)
                 {
@@ -164,7 +162,7 @@ namespace IUDICO.Search.Controllers
                         node.CourseId = Convert.ToInt32(document.Get("NodeCourseID"));
                         node.IsFolder = Convert.ToBoolean(document.Get("isFolder"));
 
-                        result = new NodeResult(node, _CourseService.GetCourse(node.CourseId).Name, document.Get("Content"), _CourseService.GetCourse(node.CourseId).Updated.ToString());
+                        result = new NodeResult(node, this.courseService.GetCourse(node.CourseId).Name, document.Get("Content"), this.courseService.GetCourse(node.CourseId).Updated.ToString());
                         results.Add(result);
                         break;
 
@@ -177,7 +175,7 @@ namespace IUDICO.Search.Controllers
                         {
                             if (cour.Id == course.Id)
                             {
-                                result = new CourseResult(course, _CourseService.GetCourse(course.Id).Updated.ToString(), _CourseService.GetCourse(course.Id).Owner);
+                                result = new CourseResult(course, this.courseService.GetCourse(course.Id).Updated.ToString(), this.courseService.GetCourse(course.Id).Owner);
                                 results.Add(result);
                                 break;
                             }
@@ -191,12 +189,12 @@ namespace IUDICO.Search.Controllers
                         discipline.Name = document.Get("Discipline");
                         discipline.Owner = document.Get("Owner");
 
-                        string str = _DisciplineService.GetDiscipline(discipline.Id).Owner;
+                        string str = this.disciplineService.GetDiscipline(discipline.Id).Owner;
                         foreach (Discipline curr in disciplines123)
                         {
                             if (curr.Owner.Equals(discipline.Owner))
                             {
-                                result = new DisciplineResult(discipline, _DisciplineService.GetDiscipline(discipline.Id).Updated.ToString());
+                                result = new DisciplineResult(discipline, this.disciplineService.GetDiscipline(discipline.Id).Updated.ToString());
                                 results.Add(result);
                                 break;
                             }
@@ -208,7 +206,7 @@ namespace IUDICO.Search.Controllers
                         User user = new User();
                         user.Id = Guid.Parse(document.Get("UserID"));
                         user.Name = document.Get("User");
-                        //user.Roles
+                        // user.Roles
                         /*user.RoleId = Convert.ToInt32(document.Get("RoleId"));*/
 
                         result = new UserResult(user);
@@ -242,7 +240,7 @@ namespace IUDICO.Search.Controllers
                         {
                             if (themdesc.Topic.Id == topic.Id)
                             {
-                                result = new TopicResult(topic, _CourseService.GetCourse(topic.TestCourseRef.Value).Name);
+                                result = new TopicResult(topic, this.courseService.GetCourse(topic.TestCourseRef.Value).Name);
                                 results.Add(result);
                                 break;
                             }
@@ -260,9 +258,9 @@ namespace IUDICO.Search.Controllers
             searcher.Close();
             directory.Close();
 
-            //ViewData["SearchString"] = query;
-            //ViewData["score"] = Math.Abs(dataend.Millisecond - datastart.Millisecond); //sw.ElapsedMilliseconds.ToString();
-            //ViewData["total"] = total;
+            // ViewData["SearchString"] = query;
+            // ViewData["score"] = Math.Abs(dataend.Millisecond - datastart.Millisecond); //sw.ElapsedMilliseconds.ToString();
+            // ViewData["total"] = total;
 
 
             model.SearchResult = results;

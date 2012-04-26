@@ -13,19 +13,26 @@ using Lucene.Net.Analysis.Standard;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
 using IUDICO.Common.Models.Shared;
+using System.IO;
+using System.Timers;
+using System.Web.Routing;
+using Castle.MicroKernel.SubSystems.Configuration;
+using Action = IUDICO.Common.Models.Action;
+using Directory = Lucene.Net.Store.Directory;
+using Node = IUDICO.Common.Models.Shared.Node;
 
 namespace IUDICO.Search
 {
     public class SearchPlugin : IWindsorInstaller, IPlugin
     {
-        static IWindsorContainer _Container;
+        static IWindsorContainer container;
 
         #region IWindsorInstaller Members
         bool isRun = false;
-        protected Object myObject;
-        protected  static string serverPath;
+        protected object lmsObject;
+        protected static string serverPath;
 
-        public void Install(Castle.Windsor.IWindsorContainer container, Castle.MicroKernel.SubSystems.Configuration.IConfigurationStore store)
+        public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
                 AllTypes
@@ -33,10 +40,9 @@ namespace IUDICO.Search
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
-                Component.For<IPlugin>().ImplementedBy<SearchPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
-            );
+                Component.For<IPlugin>().ImplementedBy<SearchPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
 
-            _Container = container;
+            SearchPlugin.container = container;
         }
 
         #endregion
@@ -47,9 +53,9 @@ namespace IUDICO.Search
             return "Search";
         }
 
-        public IEnumerable<IUDICO.Common.Models.Action> BuildActions()
+        public IEnumerable<Action> BuildActions()
         {
-            return new IUDICO.Common.Models.Action[] { };
+            return new Action[] { };
         }
 
         public IEnumerable<MenuItem> BuildMenuItems()
@@ -57,18 +63,17 @@ namespace IUDICO.Search
             return new MenuItem[] { };
         }
 
-        public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
+        public void RegisterRoutes(RouteCollection routes)
         {
             routes.MapRoute(
                 "Search",
                 "Search/{action}",
-                new { controller = "Search" }
-            );
+                new { controller = "Search" });
         }
 
         public void AddToIndex(Document doc)
         {
-            Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(serverPath));
+            Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
             Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
             IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED);
 
@@ -79,7 +84,7 @@ namespace IUDICO.Search
 
         public void DeleteFromIndex(Term term)
         {
-            Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(serverPath));
+            Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
             Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
             IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED);
 
@@ -93,21 +98,21 @@ namespace IUDICO.Search
 
             if (evt == LMSNotifications.ApplicationStart)
             {
-                if (!isRun)
+                if (!this.isRun)
                 {
 
-                    //mTimer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);
-                    //mTimer.Start();
-                    string root = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
+                    // mTimer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);
+                    // mTimer.Start();
+                    string root = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
                     int index = root.IndexOf("\\Plugins");
                     root = root.Substring(0, index);
                     serverPath = root.Insert(index, "\\Data\\Index");
 
                     RebuildIndex(data[0] as ILmsService);
 
-                    //var thread = new Thread(startMyTimer);
-                    //thread.Start(((IWindsorContainer)data[0]).Resolve<ILmsService>());
-                    //isRun = true;
+                    // var thread = new Thread(startMyTimer);
+                    // thread.Start(((IWindsorContainer)data[0]).Resolve<ILmsService>());
+                    // isRun = true;
                 }
             }
 
@@ -120,20 +125,20 @@ namespace IUDICO.Search
                 document.Add(new Field("UserID", user.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
                 document.Add(new Field("User", user.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
 
-                AddToIndex(document);
+                this.AddToIndex(document);
             }
 
             if (evt == UserNotifications.UserEdit)
             {
-                Update(UserNotifications.UserDelete, data[0]);
-                Update(UserNotifications.UserCreate, data[0]);
+                this.Update(UserNotifications.UserDelete, data[0]);
+                this.Update(UserNotifications.UserCreate, data[0]);
             }
 
             if (evt == UserNotifications.UserDelete)
             {
                 User user = (User)data[0];
                 Term term = new Term("UserID", user.Id.ToString());
-                DeleteFromIndex(term);
+                this.DeleteFromIndex(term);
             }
 
             if (evt == DisciplineNotifications.DisciplineCreated)
@@ -145,20 +150,20 @@ namespace IUDICO.Search
                 document.Add(new Field("Owner", discipline.Owner, Field.Store.YES, Field.Index.NO));
                 document.Add(new Field("Discipline", discipline.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
 
-                AddToIndex(document);
+                this.AddToIndex(document);
             }
 
             if (evt == DisciplineNotifications.DisciplineEdited)
             {
-                Update(DisciplineNotifications.DisciplineDeleted, data[0]);
-                Update(DisciplineNotifications.DisciplineCreated, data[1]);
+                this.Update(DisciplineNotifications.DisciplineDeleted, data[0]);
+                this.Update(DisciplineNotifications.DisciplineCreated, data[1]);
             }
 
             if (evt == DisciplineNotifications.DisciplineDeleted)
             {
                 Discipline discipline = (Discipline)data[0];
                 Term term = new Term("DisciplineID", discipline.Id.ToString());
-                DeleteFromIndex(term);
+                this.DeleteFromIndex(term);
             }
 
             if (evt == DisciplineNotifications.TopicCreated)
@@ -178,20 +183,20 @@ namespace IUDICO.Search
                     document.Add(new Field("CourseRef", topic.TestCourseRef.ToString(), Field.Store.YES, Field.Index.NO));
                 }
 
-                AddToIndex(document);
+                this.AddToIndex(document);
             }
 
             if (evt == DisciplineNotifications.TopicEdited)
             {
-                Update(DisciplineNotifications.TopicDeleted, data[0]);
-                Update(DisciplineNotifications.TopicCreated, data[1]);
+                this.Update(DisciplineNotifications.TopicDeleted, data[0]);
+                this.Update(DisciplineNotifications.TopicCreated, data[1]);
             }
 
             if (evt == DisciplineNotifications.TopicDeleted)
             {
                 Topic topic = (Topic)data[0];
                 Term term = new Term("TopicID", topic.Id.ToString());
-                DeleteFromIndex(term);
+                this.DeleteFromIndex(term);
             }
 
             if (evt == UserNotifications.GroupCreate)
@@ -202,31 +207,31 @@ namespace IUDICO.Search
                 document.Add(new Field("GroupID", group.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
                 document.Add(new Field("Group", group.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
 
-                AddToIndex(document);
+                this.AddToIndex(document);
             }
 
             if (evt == UserNotifications.GroupEdit)
             {
-                Update(UserNotifications.GroupDelete, data[0]);
-                Update(UserNotifications.GroupCreate, data[1]);
+                this.Update(UserNotifications.GroupDelete, data[0]);
+                this.Update(UserNotifications.GroupCreate, data[1]);
             }
 
             if (evt == UserNotifications.GroupDelete)
             {
                 Group group = (Group)data[0];
                 Term term = new Term("GroupID", group.Id.ToString());
-                DeleteFromIndex(term);
+                this.DeleteFromIndex(term);
             }
 
             if (evt == CourseNotifications.NodeCreate)
             {
-                Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(serverPath));
+                Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
                 Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
 
                 IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED);
                 try
                 {
-                    ProcessNode(writer, (IUDICO.Common.Models.Shared.Node)data[0], (_Container.Resolve<ILmsService>()).FindService<ICourseService>());
+                    ProcessNode(writer, (IUDICO.Common.Models.Shared.Node)data[0], (container.Resolve<ILmsService>()).FindService<ICourseService>());
                 }
                 finally
                 {
@@ -237,15 +242,15 @@ namespace IUDICO.Search
 
             if (evt == CourseNotifications.NodeEdit)
             {
-                Update(CourseNotifications.NodeDelete, data[0]);
-                Update(CourseNotifications.NodeCreate, data[1]);
+                this.Update(CourseNotifications.NodeDelete, data[0]);
+                this.Update(CourseNotifications.NodeCreate, data[1]);
             }
 
             if (evt == CourseNotifications.NodeDelete)
             {
-                IUDICO.Common.Models.Shared.Node node = (IUDICO.Common.Models.Shared.Node)data[0];
+                Node node = (IUDICO.Common.Models.Shared.Node)data[0];
                 Term term = new Term("NodeID", node.Id.ToString());
-                DeleteFromIndex(term);
+                this.DeleteFromIndex(term);
             }
 
             if (evt == CourseNotifications.CourseCreate)
@@ -257,45 +262,45 @@ namespace IUDICO.Search
                 document.Add(new Field("Name", course.Name, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
                 document.Add(new Field("Owner", course.Owner, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
 
-                AddToIndex(document);
+                this.AddToIndex(document);
             }
 
             if (evt == CourseNotifications.CourseEdit)
             {
-                Update(CourseNotifications.CourseDelete, data[0]);
-                Update(CourseNotifications.CourseCreate, data[1]);
+                this.Update(CourseNotifications.CourseDelete, data[0]);
+                this.Update(CourseNotifications.CourseCreate, data[1]);
             }
 
             if (evt == CourseNotifications.CourseDelete)
             {
                 Course course = (Course)data[0];
                 Term term = new Term("GroupID", course.Id.ToString());
-                DeleteFromIndex(term);
+                this.DeleteFromIndex(term);
             }
 
         }
 
-          
-
-        protected System.Timers.Timer mTimer = new System.Timers.Timer(1000 * 60 * 60);
+        protected Timer mTimer = new Timer(1000 * 60 * 60);
 
         protected void Timer_Elapsed(object sender, EventArgs args)
         {
-            RebuildIndex(myObject);
+            RebuildIndex(this.lmsObject);
         }
 
-        public void startMyTimer(object o)
+        public void StartMyTimer(object o)
         {
-            myObject = o;
-            mTimer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);
-            mTimer.Start();
+            this.lmsObject = o;
+            this.mTimer.Elapsed += new ElapsedEventHandler(this.Timer_Elapsed);
+            this.mTimer.Start();
         }
 
-        public void Setup(IWindsorContainer container){}
+        public void Setup(IWindsorContainer container)
+        {
+        }
 
         #endregion
 
-        public static void ProcessNode(IndexWriter writer, IUDICO.Common.Models.Shared.Node node, ICourseService courseService)
+        public static void ProcessNode(IndexWriter writer, Node node, ICourseService courseService)
         {
             Document document = new Document();
             document.Add(new Field("Type", "Node", Field.Store.YES, Field.Index.NO));
@@ -308,7 +313,7 @@ namespace IUDICO.Search
             {
                 var nodes = courseService.GetNodes(node.CourseId, node.Id);
 
-                foreach (IUDICO.Common.Models.Shared.Node childNode in nodes)
+                foreach (Node childNode in nodes)
                 {
                     ProcessNode(writer, childNode, courseService);
                 }
@@ -328,7 +333,7 @@ namespace IUDICO.Search
         {
             var service = o as ILmsService;
 
-            //var user = service.FindService<IUserService>().GetCurrentUser();
+            // var user = service.FindService<IUserService>().GetCurrentUser();
 
             var courseService = service.FindService<ICourseService>();
             var disciplineService = service.FindService<IDisciplineService>();
@@ -340,7 +345,7 @@ namespace IUDICO.Search
             var groups = userService.GetGroups();
 
             var a = Environment.CurrentDirectory;
-            Directory directory = FSDirectory.Open(new System.IO.DirectoryInfo(serverPath));
+            Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
             Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
             IndexWriter writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED);
             Document document;
@@ -360,7 +365,7 @@ namespace IUDICO.Search
 
                     var nodes = courseService.GetNodes(course.Id);
 
-                    foreach (IUDICO.Common.Models.Shared.Node node in nodes)
+                    foreach (Node node in nodes)
                     {
                         ProcessNode(writer, node, courseService);
                     }
@@ -419,10 +424,10 @@ namespace IUDICO.Search
             }
             catch (Exception)
             {
-//                writer.Optimize();
-//                writer.Close();
+                // writer.Optimize();
+                // writer.Close();
 
-                //throw e;
+                // throw e;
             }
             finally
             {
