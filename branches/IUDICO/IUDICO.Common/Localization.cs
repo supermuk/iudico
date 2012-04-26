@@ -23,6 +23,7 @@ namespace IUDICO.Common
         protected Localization(IWindsorContainer container)
         {
             this.container = container;
+            this.LoadResource("IUDICO.LMS");
         }
         
         public static void Init(IWindsorContainer container)
@@ -92,12 +93,24 @@ namespace IUDICO.Common
 
             try
             {
-                return this.resource[pluginName][Thread.CurrentThread.CurrentUICulture.Name][search];
+                if (this.resource[pluginName][Thread.CurrentThread.CurrentUICulture.Name].ContainsKey(search))
+                {
+                    return this.resource[pluginName][Thread.CurrentThread.CurrentUICulture.Name][search];
+                }
+                else if (this.resource["IUDICO.LMS"][Thread.CurrentThread.CurrentUICulture.Name].ContainsKey(search))
+                {
+                    return this.resource["IUDICO.LMS"][Thread.CurrentThread.CurrentUICulture.Name][search];
+                }
+                else if (this.resource["IUDICO.Common"][Thread.CurrentThread.CurrentUICulture.Name].ContainsKey(search))
+                {
+                    return this.resource["IUDICO.Common"][Thread.CurrentThread.CurrentUICulture.Name][search];
+                }
             }
             catch (Exception)
             {
-                return "#" + search;
             }
+
+            return "#" + search;
         }
     }
 }
