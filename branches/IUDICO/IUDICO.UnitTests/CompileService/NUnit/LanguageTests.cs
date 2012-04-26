@@ -1,5 +1,5 @@
 ﻿using System;
-using CompileSystem.Classes.Testing;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CompileService.NUnit
@@ -7,14 +7,15 @@ namespace IUDICO.UnitTests.CompileService.NUnit
     [TestFixture]
     public class LanguageTests
     {
-        private readonly CompileSystem.CompileService _compileService = new CompileSystem.CompileService();
+        private readonly CompileSystem.CompileService compileService = new CompileSystem.CompileService();
 
         [Test]
         public void CorrectLanguageTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                          CompileServiceHelper.CPPLanguageName,
-                                                          CompileServiceHelper.EmptyInput,
+            var actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
+                CompileServiceHelper.CPPLanguageName,
+                CompileServiceHelper.EmptyInput,
                                                           CompileServiceHelper.EmptyOutput,
                                                           CompileServiceHelper.TimeLimit,
                                                           CompileServiceHelper.MemoryLimit);
@@ -25,10 +26,11 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void IncorrectLanguageTest()
         {
-            //CS and CPP
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                          CompileServiceHelper.JavaLanguageName,
-                                                          CompileServiceHelper.EmptyInput,
+            // CS and CPP
+            var actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
+                CompileServiceHelper.JavaLanguageName,
+                CompileServiceHelper.EmptyInput,
                                                           CompileServiceHelper.EmptyOutput,
                                                           CompileServiceHelper.TimeLimit,
                                                           CompileServiceHelper.MemoryLimit);
@@ -40,9 +42,10 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(Exception))]
         public void EmptyLanguageTest()
         {
-            _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                    "",
-                                    CompileServiceHelper.EmptyInput,
+            this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
+                string.Empty,
+                CompileServiceHelper.EmptyInput,
                                     CompileServiceHelper.EmptyOutput,
                                     CompileServiceHelper.TimeLimit,
                                     CompileServiceHelper.MemoryLimit);
@@ -52,9 +55,10 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(Exception))]
         public void NullLanguageTest()
         {
-            _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                    null,
-                                    CompileServiceHelper.EmptyInput,
+            this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
+                null,
+                CompileServiceHelper.EmptyInput,
                                     CompileServiceHelper.EmptyOutput,
                                     CompileServiceHelper.TimeLimit,
                                     CompileServiceHelper.MemoryLimit);
@@ -64,9 +68,10 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(Exception))]
         public void UndefinedLanguageTest()
         {
-            _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                    "undefined",
-                                    CompileServiceHelper.EmptyInput,
+            this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
+                "undefined",
+                CompileServiceHelper.EmptyInput,
                                     CompileServiceHelper.EmptyOutput,
                                     CompileServiceHelper.TimeLimit,
                                     CompileServiceHelper.MemoryLimit);

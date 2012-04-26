@@ -15,17 +15,17 @@ namespace IUDICO.Statistics.Controllers
 {
     public class StatsController : PluginController
     {
-        private readonly IStatisticsProxy _Proxy;
+        private readonly IStatisticsProxy proxy;
 
         public StatsController(IStatisticsProxy statsStorage)
         {
-            _Proxy = statsStorage;
+            this.proxy = statsStorage;
         }
 
         [Allow(Role = Role.Teacher)]
         public ActionResult Index()
         {
-            var groups = _Proxy.GetAllGroups();
+            var groups = this.proxy.GetAllGroups();
 
             return View(groups);
         }
@@ -35,7 +35,7 @@ namespace IUDICO.Statistics.Controllers
         public ActionResult SelectDisciplines(int id)
         {
             ViewData["Group"] = LmsService.FindService<IUserService>().GetGroup(id).Name;
-            var disciplines = _Proxy.GetCurrilulumsByGroupId(id);
+            var disciplines = this.proxy.GetCurrilulumsByGroupId(id);
             HttpContext.Session["SelectedGroupId"] = id;
             return View(disciplines);
         }
@@ -55,7 +55,7 @@ namespace IUDICO.Statistics.Controllers
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
-        public ActionResult TopicsInfo(Int32 disciplineId)
+        public ActionResult TopicsInfo(int disciplineId)
         {
             var model = new TopicInfoModel((int)HttpContext.Session["SelectedGroupId"], disciplineId, LmsService);
 

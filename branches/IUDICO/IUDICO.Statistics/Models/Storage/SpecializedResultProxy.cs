@@ -8,12 +8,12 @@ namespace IUDICO.Statistics.Models.Storage
 {
     public class SpecializedResultProxy
     {
-        private ILmsService _LmsService;
+        private ILmsService lmsService;
 
         public AllSpecializedResults GetResults(IEnumerable<User> users, int[] selectedCurriculumIds, ILmsService lmsService)
         {
-            _LmsService = lmsService;
-            AllSpecializedResults asr = new AllSpecializedResults();
+            this.lmsService = lmsService;
+            var asr = new AllSpecializedResults();
             SpecializedResult specializedResult;
             DisciplineResult curRes;
             TopicResult topicResult;
@@ -21,20 +21,28 @@ namespace IUDICO.Statistics.Models.Storage
             
             asr.Users = users.ToList();
             asr.SelectedCurriculumIds = selectedCurriculumIds;
-            asr.Curriculums = _LmsService.FindService<ICurriculumService>().GetCurriculums(curr => selectedCurriculumIds.Contains(curr.Id));
+            asr.Curriculums = this.lmsService.FindService<ICurriculumService>().GetCurriculums(curr => selectedCurriculumIds.Contains(curr.Id));
 
-            foreach (User usr in asr.Users)
+            foreach (var usr in asr.Users)
             {
-                specializedResult = new SpecializedResult();
-                specializedResult.Disciplines = _LmsService.FindService<IDisciplineService>().GetDisciplines(asr.Curriculums.Select(curr=> curr.DisciplineRef));
-                foreach (Discipline discipline in specializedResult.Disciplines)
+                specializedResult = new SpecializedResult
+                    {
+                        Disciplines =
+                            this.lmsService.FindService<IDisciplineService>().GetDisciplines(
+                                asr.Curriculums.Select(curr => curr.DisciplineRef))
+                    };
+
+                foreach (var discipline in specializedResult.Disciplines)
                 {
-                    curRes = new DisciplineResult();
-                    curRes.Topics = _LmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId(discipline.Id);
-                    
+                    curRes = new DisciplineResult
+                        {
+                            Topics =
+                                this.lmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId(discipline.Id)
+                        };
+
                     #region TopicResult
 
-                    foreach (Topic topic in curRes.Topics)
+                    foreach (var topic in curRes.Topics)
                     {
                         topicResult = new TopicResult(usr, topic);
                         throw new NotImplementedException(

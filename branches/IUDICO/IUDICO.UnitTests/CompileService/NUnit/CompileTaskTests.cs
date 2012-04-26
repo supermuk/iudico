@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using CompileSystem.Classes.Compiling;
-using CompileSystem.Classes.Testing;
+
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CompileService.NUnit
@@ -9,7 +9,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
     [TestFixture]
     public class CompileTastTests
     {
-        private readonly Compiler _compiler = new Compiler
+        private readonly Compiler compiler = new Compiler
         {
             Name = "CPP",
             Location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\Compiler\CL.EXE"),
@@ -24,9 +24,9 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void CompileTastConstructorTest()
         {
             var sourceCodeFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, _compiler.Extension);
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, this.compiler.Extension);
             
-            var compileTask = new CompileTask(_compiler, sourceCodeFilePath);
+            var compileTask = new CompileTask(this.compiler, sourceCodeFilePath);
 
             File.Delete(sourceCodeFilePath);
         }
@@ -34,12 +34,12 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void CompileTaskGetStandardStringTest()
         {
-            //create default compile task
+            // create default compile task
             var sourceCodeFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(
-                "my incorrect code", _compiler.Extension);
+                "my incorrect code", this.compiler.Extension);
 
-            var compileTask = new CompileTask(_compiler, sourceCodeFilePath);
-            bool result = compileTask.Execute();
+            var compileTask = new CompileTask(this.compiler, sourceCodeFilePath);
+            var result = compileTask.Execute();
             
             Assert.AreEqual(result, false);
             Assert.AreEqual(string.IsNullOrEmpty(compileTask.StandardError), false);
@@ -51,7 +51,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void CompileTaskNullCompilerTest()
         {
             var sourceCodeFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, _compiler.Extension);
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, this.compiler.Extension);
 
             var compileTask = new CompileTask(null, sourceCodeFilePath);
         }
@@ -60,7 +60,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(FileNotFoundException))]
         public void CompileTaskBadPathTest()
         {
-            var compileTask = new CompileTask(_compiler, "BadFilePath");
+            var compileTask = new CompileTask(this.compiler, "BadFilePath");
         }
     }
 }

@@ -68,7 +68,7 @@ namespace IUDICO.Common
         {
             var pluginName = Assembly.GetCallingAssembly().GetName().Name;
             
-            if (pluginName.IndexOf("IUDICO.") != 0)
+            if (pluginName.StartsWith("IUDICO."))
             {
                 var c = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
                 var controller = instance.controllerFactory.CreateController(HttpContext.Current.Request.RequestContext, c);

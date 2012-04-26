@@ -6,7 +6,7 @@ namespace IUDICO.Statistics.Models.Storage
 {
     public class StatisticsProxy : IStatisticsProxy, IStatisticsService
     {
-        private readonly ILmsService _LmsService;
+        private readonly ILmsService lmsService;
 
         #region Constructors
 
@@ -24,7 +24,7 @@ namespace IUDICO.Statistics.Models.Storage
         /// <param name="lmsService">ILmsService service .</param>
         public StatisticsProxy(ILmsService lmsService)
         {
-            _LmsService = lmsService;
+            this.lmsService = lmsService;
         }
 
         #endregion
@@ -37,7 +37,7 @@ namespace IUDICO.Statistics.Models.Storage
         /// <returns>IEnumerable<IUDICO.Common.Models.Group> All groups .</returns>
         public IEnumerable<Group> GetAllGroups()
         {
-            return _LmsService.FindService<IUserService>().GetGroups();
+            return this.lmsService.FindService<IUserService>().GetGroups();
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace IUDICO.Statistics.Models.Storage
         /// <returns>IEnumerable<Discipline> Disciplines by group id .</returns>
         public IEnumerable<Curriculum> GetCurrilulumsByGroupId(int groupId)
         {
-            return _LmsService.FindService<ICurriculumService>().GetCurriculums(curr => curr.UserGroupRef == groupId);
+            return this.lmsService.FindService<ICurriculumService>().GetCurriculums(curr => curr.UserGroupRef == groupId);
         }
         
         #endregion
