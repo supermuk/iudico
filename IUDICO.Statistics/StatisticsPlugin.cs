@@ -25,8 +25,7 @@ namespace IUDICO.Statistics
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().ImplementedBy<StatisticsPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<IStatisticsProxy>().ImplementedBy<StatisticsProxy>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-                Component.For<IStatisticsService>().ImplementedBy<StatisticsService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton)
-            );
+                Component.For<IStatisticsService>().ImplementedBy<StatisticsService>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
         }
 
         #endregion

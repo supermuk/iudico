@@ -9,8 +9,8 @@ namespace IUDICO.Statistics.Models.Storage
     {
         public AllSpecializedResults()
         {
-            SpecializedResults = new List<SpecializedResult>();
-            Users = new List<User>();
+            this.SpecializedResults = new List<SpecializedResult>();
+            this.Users = new List<User>();
         }
 
         public List<User> Users { get; set; }
@@ -24,51 +24,37 @@ namespace IUDICO.Statistics.Models.Storage
 
     public class SpecializedResult
     {
-        private User _User;
-        private IEnumerable<Discipline> _Disciplines;    
-        private List<DisciplineResult> _DisciplineResult; 
-        private double? _Sum;
-        private double? _Max;
-        private double? _Percent;
-        private char _ECTS;
+        private char ects;
 
         public SpecializedResult()
         {
-            _User = new User();
-            _DisciplineResult = new List<DisciplineResult>();
+            this.User = new User();
+            this.DisciplineResult = new List<DisciplineResult>();
         }
 
         public void CalculateSpecializedResult(User user)
         {
-            _Sum = 0.0;
-            _Max = 0.0;
-            _Percent = 0.0;
-            _User = user;
+            this.Sum = 0.0;
+            this.Max = 0.0;
+            this.Percent = 0.0;
+            this.User = user;
 
-            foreach (DisciplineResult curr in _DisciplineResult)
+            foreach (var curr in this.DisciplineResult)
             {
-                _Sum += curr.Sum;
-                _Max += curr.Max;
+                this.Sum += curr.Sum;
+                this.Max += curr.Max;
             }
 
-            _Percent = _Sum / _Max * 100.0;
-            _ECTS = Ects(_Percent);
+            this.Percent = this.Sum / this.Max * 100.0;
+            this.ects = this.Ects(this.Percent);
         }
 
-        public IEnumerable<Discipline> Disciplines
-        {
-            get { return _Disciplines; }
-            set { _Disciplines = value; }
-        }
-        public User User
-        {
-            get { return _User; }
-        }
-        public List<DisciplineResult> DisciplineResult
-        {
-            get { return _DisciplineResult; }
-            set { DisciplineResult = value; }
-        }
+        public IEnumerable<Discipline> Disciplines { get; set; }
+
+        public User User { get; private set; }
+
+        public List<DisciplineResult> DisciplineResult { get; set; }
+
         public char Ects(double? percent)
         {
             if (percent >= 90.0)
@@ -96,120 +82,87 @@ namespace IUDICO.Statistics.Models.Storage
                 return 'F';
             }
         }
-        public double? Sum
-        {
-            get { return _Sum; }
-        }
-        public double? Max
-        {
-            get { return _Max; }
-        }
-        public double? Percent
-        {
-            get { return _Percent; }
-        }
+
+        public double? Sum { get; private set; }
+
+        public double? Max { get; private set; }
+
+        public double? Percent { get; private set; }
+
         public char? ECTS
         {
-            get { return _ECTS; }
+            get { return this.ects; }
         }
 
     }
 
     public class DisciplineResult 
     {
-        private User _User;
-        private Discipline _Discipline;
-        private IEnumerable<Topic> _Topics;           
-        private List<TopicResult> _TopicResult;    
-        private double? _Sum;
-        private double? _Max;
-
+        private User user;
 
         public DisciplineResult()
         {
-            _User = new User();
-            _Discipline = new Discipline();
-            _TopicResult = new List<TopicResult>();
+            this.user = new User();
+            this.Discipline = new Discipline();
+            this.TopicResult = new List<TopicResult>();
         }
 
         public void CalculateSumAndMax(User user, Discipline curr)
         {
-            _Max = 0.0;
-            _Sum = 0.0;
-            _User = user;
-            _Discipline = curr;
-            foreach (TopicResult topic in _TopicResult)
+            this.Max = 0.0;
+            this.Sum = 0.0;
+            this.user = user;
+            this.Discipline = curr;
+            foreach (TopicResult topic in this.TopicResult)
             {
-                _Sum += topic.Res;
-                _Max += 100;
+                this.Sum += topic.Res;
+                this.Max += 100;
             }
         }
 
-        public double? Sum
-        {
-            get { return _Sum; }
-        }
-        public double? Max
-        {
-            get { return _Max; }
-        }
-        public Discipline Discipline
-        {
-            get { return _Discipline; }
-        }
-        public List<TopicResult> TopicResult
-        {
-            get { return _TopicResult; }
-            set { _TopicResult = value; }
-        }
-        public IEnumerable<Topic> Topics
-        {
-            set { _Topics = value; }
-            get { return _Topics; }
-        }
+        public double? Sum { get; private set; }
+
+        public double? Max { get; private set; }
+
+        public Discipline Discipline { get; private set; }
+
+        public List<TopicResult> TopicResult { get; set; }
+
+        public IEnumerable<Topic> Topics { get; set; }
     }
 
     public class TopicResult
     {
-        private User _User;
-        private Topic _Topic;
-        private IEnumerable<AttemptResult> _AttemptResults;
-        private double? _Res;
+        private User user;
+        private Topic topic;
 
         public TopicResult()
         {
-            _User = new User();
-            _Topic = new Topic();
+            this.user = new User();
+            this.topic = new Topic();
         }
         public TopicResult(User user, Topic topic)
         {
-            _User = user;
-            _Topic = topic;
+            this.user = user;
+            this.topic = topic;
         }
 
         public double? GetTopicResultScore()
         {
-            if (_AttemptResults.Count() == 0 || _AttemptResults.First().Score.ScaledScore == null)
+            if (this.AttemptResults.Count() == 0 || this.AttemptResults.First().Score.ScaledScore == null)
             {
-                _Res = 0.0;
+                this.Res = 0.0;
             }
             else
             {
-                _Res = _AttemptResults.First(x => x.User == _User & x.CurriculumChapterTopic.Topic == _Topic).Score.ToPercents();
+                this.Res = this.AttemptResults.First(x => x.User == this.user & x.CurriculumChapterTopic.Topic == this.topic).Score.ToPercents();
             }
-            return _Res;
+
+            return this.Res;
         }
 
-        public IEnumerable<AttemptResult> AttemptResults
-        {
-            get { return _AttemptResults; }
-            set { _AttemptResults = value; }
+        public IEnumerable<AttemptResult> AttemptResults { get; set; }
 
-        }
-        public double? Res
-        {
-            get { return _Res; }
-            set { _Res = value; }
-        }
+        public double? Res { get; set; }
     }
 }

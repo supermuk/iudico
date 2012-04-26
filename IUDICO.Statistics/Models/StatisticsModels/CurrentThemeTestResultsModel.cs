@@ -4,18 +4,18 @@ using System.Linq;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.Common.Models.Shared.Statistics;
-using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Statistics.Models.StatisticsModels
 {
     public class CurrentTopicTestResultsModel
     {
-        private AttemptResult _Attempt;
-        private IEnumerable<AnswerResult> _UserAnswers;
-        private bool _NoData;
+        private readonly AttemptResult attempt;
+        private readonly IEnumerable<AnswerResult> userAnswers;
+        private readonly bool hasNoData;
+
         public CurrentTopicTestResultsModel(int curriculumChapterTopicId, TopicTypeEnum topicType, ILmsService lmsService)
         {
-            User currenUser = lmsService.FindService<IUserService>().GetCurrentUser();
+            var currenUser = lmsService.FindService<IUserService>().GetCurrentUser();
             var curriculumChapterTopic = lmsService.FindService<ICurriculumService>().GetCurriculumChapterTopicById(curriculumChapterTopicId);
             if (currenUser != null & curriculumChapterTopic != null)
             {
@@ -23,66 +23,59 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                 if (attemptResults.Count() >= 1)
                 {
 
-                    _Attempt = attemptResults.Last();
-                    if (_Attempt != null)
+                    this.attempt = attemptResults.Last();
+                    if (this.attempt != null)
                     {
-                        _UserAnswers = lmsService.FindService<ITestingService>().GetAnswers(_Attempt);
-                        if (_UserAnswers != null)
-                            _NoData = false;
-                        else
-                            _NoData = true;
+                        this.userAnswers = lmsService.FindService<ITestingService>().GetAnswers(this.attempt);
+                        
+                        this.hasNoData = this.userAnswers == null;
                     }
                 }
                 else
-                    _NoData = true;
+                    this.hasNoData = true;
             }
             else
-                _NoData = true;
+                this.hasNoData = true;
         }
+
         public IEnumerable<AnswerResult> GetUserAnswers()
         {
-            return this._UserAnswers;
+            return this.userAnswers;
         }
-        public String GetUserName()
+
+        public string GetUserName()
         {
-            if (this._Attempt != null)
-                return this._Attempt.User.Username;
-            else
-                return "";
+            return this.attempt != null ? this.attempt.User.Username : string.Empty;
         }
-        public String GetTopicName()
+
+        public string GetTopicName()
         {
-            if (this._Attempt != null)
-                return this._Attempt.CurriculumChapterTopic.Topic.Name;
-            else
-                return "";
+            return this.attempt != null ? this.attempt.CurriculumChapterTopic.Topic.Name : string.Empty;
         }
-        public String GetSuccessStatus()
+
+        public string GetSuccessStatus()
         {
-            if (this._Attempt != null)
-                return this._Attempt.SuccessStatus.ToString();
-            else
-                return "";
+            return this.attempt != null ? this.attempt.SuccessStatus.ToString() : string.Empty;
         }
-        public String GetScore()
+
+        public string GetScore()
         {
-            if (this._Attempt != null)
+            if (this.attempt != null)
             {
-                if (this._Attempt.Score.ToPercents().HasValue == true)
-                    return Math.Round((double)this._Attempt.Score.ToPercents(), 2).ToString();
+                if (this.attempt.Score.ToPercents().HasValue == true)
+                    return Math.Round((double)this.attempt.Score.ToPercents(), 2).ToString();
             }
-            return "";
+
+            return string.Empty;
         }
-        public String GetUserAnswer(AnswerResult answerResult)
+        public string GetUserAnswer(AnswerResult answerResult)
         {
-            if (answerResult.LearnerResponse != null)
-                return Uri.UnescapeDataString(answerResult.LearnerResponse.ToString());
-            else
-                return "";
+            return answerResult.LearnerResponse != null ? Uri.UnescapeDataString(answerResult.LearnerResponse.ToString()) : string.Empty;
         }
+
         public bool NoData()
         {
-            return this._NoData;
+            return this.hasNoData;
         }
     }
 }

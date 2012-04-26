@@ -6,14 +6,11 @@ namespace IUDICO.UnitTests.CompileService
     {
         public static bool ValidatePath(string path)
         {
-            if (path != "")
+            if (path != string.Empty)
             {
-                bool isExist = File.Exists(path);
-                if (isExist)
-                {
-                    return true;
-                }
-                return false;
+                var isExist = File.Exists(path);
+                
+                return isExist;
             }
             return false;
         }

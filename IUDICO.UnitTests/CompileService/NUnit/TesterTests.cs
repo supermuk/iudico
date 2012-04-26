@@ -9,7 +9,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
     [TestFixture]
     public class TesterTests
     {
-        private readonly Compiler _compiler = new Compiler
+        private readonly Compiler compiler = new Compiler
         {
             Name = "CPP",
             Location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\Compiler\CL.EXE"),
@@ -24,12 +24,12 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void TesterTestTest()
         {
             var filePath = CompileSystem.Classes.Helper.CreateFileForCompilation(
-                    CompileServiceLanguageSourceCode.CPPCorrectSourceCode, _compiler.Extension);
+                    CompileServiceLanguageSourceCode.CPPCorrectSourceCode, this.compiler.Extension);
             string output, error;
-            _compiler.Compile(filePath, out output, out error);
-            filePath = Path.ChangeExtension(filePath, _compiler.CompiledExtension);
+            this.compiler.Compile(filePath, out output, out error);
+            filePath = Path.ChangeExtension(filePath, this.compiler.CompiledExtension);
 
-            var testingResult = Tester.Test(filePath, "", "", 10000, 3000);
+            var testingResult = Tester.Test(filePath, string.Empty, string.Empty, 10000, 3000);
             Assert.AreEqual("Accepted", testingResult.TestResult);
         }
 
@@ -37,27 +37,29 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [ExpectedException(typeof(FileNotFoundException))]
         public void TesterBadPathTestTest()
         {
-            Tester.Test("badFilePath", "", "", 1, 1);
+            Tester.Test("badFilePath", string.Empty, string.Empty, 1, 1);
         }
 
         [Test]
         [ExpectedException(typeof(Exception))]
         public void TesterBadTimelimitTestTest()
         {
-            var filePath = CompileSystem.Classes.Helper.CreateFileForCompilation(CompileServiceLanguageSourceCode.CPPCorrectSourceCode, 
-                _compiler.Extension);
+            var filePath =
+                CompileSystem.Classes.Helper.CreateFileForCompilation(
+                    CompileServiceLanguageSourceCode.CPPCorrectSourceCode, this.compiler.Extension);
 
-            Tester.Test(filePath, "", "", -5, 1);
+            Tester.Test(filePath, string.Empty, string.Empty, -5, 1);
         }
 
         [Test]
         [ExpectedException(typeof(Exception))]
         public void TesterBadMemorylimitTestTest()
         {
-            var filePath = CompileSystem.Classes.Helper.CreateFileForCompilation(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                _compiler.Extension);
+            var filePath =
+                CompileSystem.Classes.Helper.CreateFileForCompilation(
+                    CompileServiceLanguageSourceCode.CPPCorrectSourceCode, this.compiler.Extension);
 
-            Tester.Test(filePath, "", "", 1, -5);
+            Tester.Test(filePath, string.Empty, string.Empty, 1, -5);
         }
     }
 }

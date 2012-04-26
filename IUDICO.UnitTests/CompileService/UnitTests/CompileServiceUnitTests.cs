@@ -1,21 +1,26 @@
 ﻿using System;
 using System.IO;
+
 using CompileSystem.Classes.Compiling;
 using CompileSystem.Classes.Testing;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IUDICO.UnitTests.CompileService.UnitTests
 {
+    using CompileSystem;
+    using CompileSystem.Classes;
+
     [TestClass]
     public class CompileServiceUnitTests
     {
-        //Status tests
+        // Status tests
         #region StatusTests
 
         /// <summary>
-        ///A test for Status Constructor
-        ///</summary>
-        [TestMethod()]
+        /// A test for Status Constructor
+        /// </summary>
+        [TestMethod]
         public void StatusConstructorTest()
         {
             const string testResult = "Accepted";
@@ -27,13 +32,13 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
 
         #endregion
 
-        //Helper tests
+        // Helper tests
         #region HelperTests
 
         /// <summary>
-        ///A test for CreateFileForCompilation
-        ///</summary>
-        [TestMethod()]
+        /// A test for CreateFileForCompilation
+        /// </summary>
+        [TestMethod]
         public void CreateFileForCompilationTest()
         {
             string extension = null;
@@ -42,7 +47,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
 
             try
             {
-                currentFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(source, extension);
+                currentFilePath = Helper.CreateFileForCompilation(source, extension);
                 Assert.AreEqual(true, false);
             }
             catch (Exception)
@@ -53,11 +58,11 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             try
             {
                 extension = "cpp";
-                currentFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(source, extension);
+                currentFilePath = Helper.CreateFileForCompilation(source, extension);
                 Assert.AreNotEqual(true, string.IsNullOrEmpty(currentFilePath));
                 Assert.AreEqual(File.Exists(currentFilePath), true);
 
-                string text = System.IO.File.ReadAllText(currentFilePath);
+                var text = File.ReadAllText(currentFilePath);
                 Assert.AreNotEqual(true, string.IsNullOrEmpty(text));
                 Assert.AreEqual(text, source);
             }
@@ -69,13 +74,13 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
 
         #endregion
 
-        //Compilers tests
+        // Compilers tests
         #region CompilersTests
 
         /// <summary>
-        ///A test for Compilers Constructor
-        ///</summary>
-        [TestMethod()]
+        /// A test for Compilers Constructor
+        /// </summary>
+        [TestMethod]
         public void CompilersConstructorTest()
         {
             string compilersDirectory = null;
@@ -104,12 +109,12 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         }
 
         /// <summary>
-        ///A test for AddCompiler
-        ///</summary>
-        [TestMethod()]
+        /// A test for AddCompiler
+        /// </summary>
+        [TestMethod]
         public void AddCompilerTest()
         {
-            string compilersDirectory = "Directory";
+            var compilersDirectory = "Directory";
             Compilers target;
 
             try
@@ -137,9 +142,9 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         }
 
         /// <summary>
-        ///A test for Clear
-        ///</summary>
-        [TestMethod()]
+        /// A test for Clear
+        /// </summary>
+        [TestMethod]
         public void ClearTest()
         {
             var target = new Compilers("Directory");
@@ -151,17 +156,17 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         }
 
         /// <summary>
-        ///A test for Contains
-        ///</summary>
-        [TestMethod()]
+        /// A test for Contains
+        /// </summary>
+        [TestMethod]
         public void ContainsTest()
         {
             var target = new Compilers("Directory");
             Assert.AreEqual(target.Count, 0);
-            Compiler newCompiler = new Compiler();
+            var newCompiler = new Compiler();
             newCompiler.Name = "CPP";
             target.AddCompiler(newCompiler);
-            bool result = target.Contains("CPP");
+            var result = target.Contains("CPP");
             Assert.AreEqual(true, result);
 
             result = target.Contains("BadCompilerName");
@@ -169,17 +174,17 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         }
 
         /// <summary>
-        ///A test for GetCompiler
-        ///</summary>
-        [TestMethod()]
+        /// A test for GetCompiler
+        /// </summary>
+        [TestMethod]
         public void GetCompilerTest()
         {
             var target = new Compilers("Directory");
             Assert.AreEqual(target.Count, 0);
-            Compiler newCompiler = new Compiler();
+            var newCompiler = new Compiler();
             newCompiler.Name = "CPP";
             target.AddCompiler(newCompiler);
-            Compiler result = target.GetCompiler("CPP");
+            var result = target.GetCompiler("CPP");
             Assert.AreNotEqual(result, null);
             Assert.AreEqual("CPP", result.Name);
 
@@ -188,13 +193,13 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         }
 
         /// <summary>
-        ///A test for GetCompilers
-        ///</summary>
-        [TestMethod()]
+        /// A test for GetCompilers
+        /// </summary>
+        [TestMethod]
         public void GetCompilersTest()
         {
             var target = new Compilers("Directory");
-            Compiler newCompiler = new Compiler();
+            var newCompiler = new Compiler();
             newCompiler.Name = "CPP";
             var resultList = target.GetCompilers();
             Assert.AreEqual(resultList.Count, 0);
@@ -205,14 +210,14 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         }
 
         /// <summary>
-        ///A test for Load
-        ///</summary>
-        [TestMethod()]
+        /// A test for Load
+        /// </summary>
+        [TestMethod]
         public void LoadTest()
         {
             Compilers compilers;
 
-            //empty compiler folder
+            // empty compiler folder
             try
             {
                 compilers = new Compilers("EmptyCompiler");
@@ -223,7 +228,8 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             {
                 Assert.AreEqual(true, false);
             }
-            //compiler folder with bad information
+
+            // compiler folder with bad information
             try
             {
                 compilers = new Compilers("BadCompilers");
@@ -235,7 +241,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
                 Assert.AreEqual(true, true);
             }
 
-            //compiler folder with correct information
+            // compiler folder with correct information
             try
             {
                 compilers = new Compilers("TestCompilers");
@@ -249,18 +255,18 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         }
 
         /// <summary>
-        ///A test for Parse
-        ///</summary>
-        [TestMethod()]
+        /// A test for Parse
+        /// </summary>
+        [TestMethod]
         public void ParseTest()
         {
-            string correctXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CPP8.xml");
-            string incorrectXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CSharp.xml");
+            var correctXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CPP8.xml");
+            var incorrectXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CSharp.xml");
 
             var compilers = new Compilers("Compilers");
-            PrivateObject privateObject = new PrivateObject(compilers, new PrivateType(typeof(Compilers)));
+            var privateObject = new PrivateObject(compilers, new PrivateType(typeof(Compilers)));
 
-            //incorrect xml file
+            // incorrect xml file
             try
             {
                 privateObject.Invoke("Parse", incorrectXmlFilePath);
@@ -271,7 +277,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
                 Assert.AreEqual(true, true);
             }
 
-            //correct xml file
+            // correct xml file
             try
             {
                 Assert.AreNotEqual(null, privateObject.Invoke("Parse", correctXmlFilePath));
@@ -284,28 +290,28 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
 
         #endregion
 
-        //Compiler tests
+        // Compiler tests
         #region CompilerTests
 
         /// <summary>
-        ///A test for Compile
-        ///</summary>
-        [TestMethod()]
+        /// A test for Compile
+        /// </summary>
+        [TestMethod]
         public void CompileTest()
         {
-            //create compiler
+            // create compiler
             var compiler = new Compiler
-            {
-                Name = "CPP",
-                Location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\Compiler\CL.EXE"),
-                Extension = "cpp",
-                Arguments =
-                    "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"",
-                CompiledExtension = "exe",
-                IsNeedShortPath = true
-            };
+                {
+                    Name = "CPP", 
+                    Location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\Compiler\CL.EXE"), 
+                    Extension = "cpp", 
+                    Arguments = "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", 
+                    CompiledExtension = "exe", 
+                    IsNeedShortPath = true
+                };
 
-            string filePath = CompileSystem.Classes.Helper.CreateFileForCompilation(CompileServiceLanguageSourceCode.CPPCorrectSourceCode, compiler.Extension);
+            var filePath = Helper.CreateFileForCompilation(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, compiler.Extension);
             string output, error;
             bool result;
             try
@@ -328,49 +334,45 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
                 Assert.AreEqual(true, false);
             }
 
-            //remove file
+            // remove file
             File.Delete(filePath);
         }
 
         #endregion
 
-        //Tester tests
+        // Tester tests
         #region TesterTests
 
         /// <summary>
-        ///A test for Test
-        ///</summary>
-        [TestMethod()]
+        /// A test for Test
+        /// </summary>
+        [TestMethod]
         public void TestTest()
         {
-            //create compiler
+            // create compiler
             var compiler = new Compiler
-            {
-                Name = "CPP",
-                Location =
-                    Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                 @"Compilers\CPP8\Compiler\CL.EXE"),
-                Extension = "cpp",
-                Arguments =
-                    "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"",
-                CompiledExtension = "exe",
-                IsNeedShortPath = true
-            };
+                {
+                    Name = "CPP", 
+                    Location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\Compiler\CL.EXE"), 
+                    Extension = "cpp", 
+                    Arguments = "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", 
+                    CompiledExtension = "exe", 
+                    IsNeedShortPath = true
+                };
 
-            string filePath =
-                CompileSystem.Classes.Helper.CreateFileForCompilation(
-                    CompileServiceLanguageSourceCode.CPPCorrectSourceCode, compiler.Extension);
+            var filePath = Helper.CreateFileForCompilation(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, compiler.Extension);
             string output, error;
-            bool result = compiler.Compile(filePath, out output, out error);
+            var result = compiler.Compile(filePath, out output, out error);
             if (result)
             {
                 filePath = Path.ChangeExtension(filePath, compiler.CompiledExtension);
                 Status testingResult;
 
-                //check file path
+                // check file path
                 try
                 {
-                    Tester.Test("badFilePath", "", "", 1, 1);
+                    Tester.Test("badFilePath", string.Empty, string.Empty, 1, 1);
                     Assert.AreEqual(true, false);
                 }
                 catch (Exception)
@@ -378,10 +380,10 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
                     Assert.AreEqual(true, true);
                 }
 
-                //check correct timelimit
+                // check correct timelimit
                 try
                 {
-                    Tester.Test(filePath, "", "", -5, 1);
+                    Tester.Test(filePath, string.Empty, string.Empty, -5, 1);
                     Assert.AreEqual(true, false);
                 }
                 catch (Exception)
@@ -389,10 +391,10 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
                     Assert.AreEqual(true, true);
                 }
 
-                //check correct memorylimit
+                // check correct memorylimit
                 try
                 {
-                    Tester.Test(filePath, "", "", 1, -5);
+                    Tester.Test(filePath, string.Empty, string.Empty, 1, -5);
                     Assert.AreEqual(true, false);
                 }
                 catch (Exception)
@@ -400,10 +402,10 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
                     Assert.AreEqual(true, true);
                 }
 
-                //test with correct parameters
+                // test with correct parameters
                 try
                 {
-                    testingResult = Tester.Test(filePath, "", "", 10000, 3000);
+                    testingResult = Tester.Test(filePath, string.Empty, string.Empty, 10000, 3000);
                     Assert.AreEqual("Accepted", testingResult.TestResult);
                 }
                 catch (Exception)
@@ -415,27 +417,28 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
 
         #endregion
 
-        //CompileTask tests
+        // CompileTask tests
         #region CompileTaskTests
 
         /// <summary>
-        ///A test for CompileTask Constructor
-        ///</summary>
-        [TestMethod()]
+        /// A test for CompileTask Constructor
+        /// </summary>
+        [TestMethod]
         public void CompileTaskConstructorTest()
         {
-            //create compiler
+            // create compiler
             var compiler = new Compiler
-            {
-                Name = "CPP",
-                Location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\Compiler\CL.EXE"),
-                Extension = "cpp",
-                Arguments =
-                    "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"",
-                CompiledExtension = "exe",
-                IsNeedShortPath = true
-            };
-            string sourceCodeFilePath = CompileSystem.Classes.Helper.CreateFileForCompilation(CompileServiceLanguageSourceCode.CPPCorrectSourceCode, compiler.Extension);
+                {
+                    Name = "CPP", 
+                    Location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\Compiler\CL.EXE"), 
+                    Extension = "cpp", 
+                    Arguments = "/I\"$CompilerDirectory$\" $SourceFilePath$ /link /LIBPATH:\"$CompilerDirectory$\"", 
+                    CompiledExtension = "exe", 
+                    IsNeedShortPath = true
+                };
+            var sourceCodeFilePath =
+                Helper.CreateFileForCompilation(
+                    CompileServiceLanguageSourceCode.CPPCorrectSourceCode, compiler.Extension);
 
             try
             {
@@ -472,26 +475,26 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
 
         #endregion
 
-        //Compile service tests
+        // Compile service tests
         #region CompileServiceTests
 
         /// <summary>
-        ///A test for Compile
-        ///</summary>
-        [TestMethod()]
+        /// A test for Compile
+        /// </summary>
+        [TestMethod]
         public void CompileServiceTest()
         {
-            CompileSystem.CompileService _compileService = new CompileSystem.CompileService();
-            string source = CompileServiceLanguageSourceCode.CPPCorrectSourceCode;
-            string language = "CPP8";
-            string[] input = new string[0];
-            string[] output = new string[0];
-            string[] inputStrings = new string[1]{"1 2"};
-            string[] outputStrings = new string[1]{"12"};
+            var _compileService = new CompileService();
+            var source = CompileServiceLanguageSourceCode.CPPCorrectSourceCode;
+            var language = "CPP8";
+            var input = new string[0];
+            var output = new string[0];
+            var inputStrings = new[] { "1 2" };
+            var outputStrings = new[] { "12" };
 
             string expected;
 
-            //compile with incorrect language parameter
+            // compile with incorrect language parameter
             try
             {
                 expected = _compileService.Compile(source, "IncorrectLanguageName", input, output, 100, 100);
@@ -504,7 +507,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
 
             try
             {
-                expected = _compileService.Compile(source, "", input, output, 100, 100);
+                expected = _compileService.Compile(source, string.Empty, input, output, 100, 100);
                 Assert.AreEqual(false, true);
             }
             catch (Exception)
@@ -512,7 +515,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
                 Assert.AreEqual(true, true);
             }
 
-            //compile with incorrect timelimit parameter
+            // compile with incorrect timelimit parameter
             try
             {
                 expected = _compileService.Compile(source, language, inputStrings, outputStrings, -5, 100);
@@ -523,7 +526,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
                 Assert.AreEqual(true, true);
             }
 
-            //compile with incorrect memorylimit parameter
+            // compile with incorrect memorylimit parameter
             try
             {
                 expected = _compileService.Compile(source, language, inputStrings, outputStrings, 100, -5);
@@ -534,7 +537,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
                 Assert.AreEqual(true, true);
             }
 
-            //compile with correct parameters
+            // compile with correct parameters
             try
             {
                 input = new[] { "2 5", "7 5" };

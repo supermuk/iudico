@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using System.Linq;
-using NUnit.Framework;
-using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models.Shared.CurriculumManagement;
-using IUDICO.Common.Models.Shared.Statistics;
-using IUDICO.Analytics.Models.AnomalyDetectionAlg;
+
 using IUDICO.Analytics.Models.DecisionTrees;
+using IUDICO.Common.Models.Shared;
+
+using NUnit.Framework;
 
 namespace IUDICO.UnitTests.Analytics
 {
@@ -33,12 +30,11 @@ namespace IUDICO.UnitTests.Analytics
             var result = new List<KeyValuePair<User, double[]>>();
             var rnd = new Random(Environment.TickCount);
 
-            #region PMI-43
-            User user = new User();
+            var user = new User();
             user.OpenId = "1";
-            int score = 6;
+            var score = 6;
             user.Name = "Остап Андрусів(08i301)";
-            double[] coef = new double[] { 400, score };
+            var coef = new double[] { 400, score };
             result.Add(new KeyValuePair<User, double[]>(user, coef));
 
             user = new User();
@@ -137,7 +133,8 @@ namespace IUDICO.UnitTests.Analytics
             score = 7;
             user.Name = "08i315 Горячий(08i315)";
             coef = new double[] { 450, score };
-            result.Add(new KeyValuePair<User, double[]>(user, coef)); user = new User();
+            result.Add(new KeyValuePair<User, double[]>(user, coef));
+            user = new User();
 
             user = new User();
             user.OpenId = "16";
@@ -174,7 +171,6 @@ namespace IUDICO.UnitTests.Analytics
             user.Name = "08i320 Федорович(08i320)";
             coef = new double[] { 450, score };
             result.Add(new KeyValuePair<User, double[]>(user, coef));
-            #endregion
 
             return result;
         }

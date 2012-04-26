@@ -42,7 +42,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void CompilersContainsTest()
         {
             Assert.AreEqual(this.compilers.Count, 0);
-            var newCompiler = new Compiler {Name = "CPP"};
+            var newCompiler = new Compiler { Name = "CPP" };
             this.compilers.AddCompiler(newCompiler);
 
             bool result = this.compilers.Contains("CPP");
@@ -61,7 +61,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             var result = this.compilers.GetCompiler("CPP");
             Assert.AreEqual(null, result);
 
-            var newCompiler = new Compiler {Name = "CPP"};
+            var newCompiler = new Compiler { Name = "CPP" };
             this.compilers.AddCompiler(newCompiler);
 
             result = this.compilers.GetCompiler("CPP");
@@ -78,7 +78,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void GetCompilersTest()
         {
-            var newCompiler = new Compiler {Name = "CPP"};
+            var newCompiler = new Compiler { Name = "CPP" };
             var resultList = this.compilers.GetCompilers();
 
             Assert.AreEqual(resultList.Count, 0);
@@ -108,9 +108,9 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         {
             var correctXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CPP8.xml");
 
-            //TODO: check it
-            var compilers = new Compilers("Compilers");
-            var privateObject = new PrivateObject(compilers, new PrivateType(typeof (Compilers)));
+            // TODO: check it
+            var compilersArr = new Compilers("Compilers");
+            var privateObject = new PrivateObject(compilersArr, new PrivateType(typeof(Compilers)));
 
             Assert.AreNotEqual(null, privateObject.Invoke("Parse", correctXmlFilePath));
         }
@@ -119,8 +119,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [global::NUnit.Framework.ExpectedException(typeof(Exception))]
         public void CompilersParseBadXmlTest()
         {
-            var incorrectXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                                                       @"TestCompilers\CSharp.xml");
+            var incorrectXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CSharp.xml");
 
             var tempCompilers = new Compilers("Compilers");
             var privateObject = new PrivateObject(tempCompilers, new PrivateType(typeof(Compilers)));
@@ -147,7 +146,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [global::NUnit.Framework.ExpectedException(typeof(Exception))]
         public void CompilersConstructorTest()
         {
-            var compilers = new Compilers(null);
+            var compilersArr = new Compilers(null);
         }
     }
 }

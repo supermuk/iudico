@@ -7,16 +7,17 @@ namespace IUDICO.UnitTests.CompileService.NUnit
     [TestFixture]
     public class SourceCodeTests
     {
-        private readonly CompileSystem.CompileService _compileService = new CompileSystem.CompileService();
+        private readonly CompileSystem.CompileService compileService = new CompileSystem.CompileService();
 
         #region CPP tests
 
         [Test]
         public void CorrectCPPSourceCodeTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
-                                                          CompileServiceHelper.CPPLanguageName,
-                                                          CompileServiceHelper.EmptyInput,
+            var actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPCorrectSourceCode,
+                CompileServiceHelper.CPPLanguageName,
+                CompileServiceHelper.EmptyInput,
                                                           CompileServiceHelper.EmptyOutput,
                                                           CompileServiceHelper.TimeLimit,
                                                           CompileServiceHelper.MemoryLimit);
@@ -25,9 +26,10 @@ namespace IUDICO.UnitTests.CompileService.NUnit
 
         public void IncorrectCPPSourceCodeTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
-                                                          CompileServiceHelper.CPPLanguageName,
-                                                          CompileServiceHelper.EmptyInput,
+            string actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.CPPIncorrectSourceCode,
+                CompileServiceHelper.CPPLanguageName,
+                CompileServiceHelper.EmptyInput,
                                                           CompileServiceHelper.EmptyOutput,
                                                           CompileServiceHelper.TimeLimit,
                                                           CompileServiceHelper.MemoryLimit);
@@ -41,9 +43,10 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         [Test]
         public void CorrectJavaSourceCodeTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.JavaCorrectSourceCode,
-                                                          CompileServiceHelper.JavaLanguageName,
-                                                          CompileServiceHelper.EmptyInput,
+            string actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.JavaCorrectSourceCode,
+                CompileServiceHelper.JavaLanguageName,
+                CompileServiceHelper.EmptyInput,
                                                           CompileServiceHelper.EmptyOutput,
                                                           CompileServiceHelper.TimeLimit,
                                                           CompileServiceHelper.MemoryLimit);
@@ -52,9 +55,10 @@ namespace IUDICO.UnitTests.CompileService.NUnit
 
         public void IncorrectJavaSourceCodeTest()
         {
-            string actualResult = _compileService.Compile(CompileServiceLanguageSourceCode.JavaIncorrectSourceCode,
-                                                          CompileServiceHelper.JavaLanguageName,
-                                                          CompileServiceHelper.EmptyInput,
+            string actualResult = this.compileService.Compile(
+                CompileServiceLanguageSourceCode.JavaIncorrectSourceCode,
+                CompileServiceHelper.JavaLanguageName,
+                CompileServiceHelper.EmptyInput,
                                                           CompileServiceHelper.EmptyOutput,
                                                           CompileServiceHelper.TimeLimit,
                                                           CompileServiceHelper.MemoryLimit);
