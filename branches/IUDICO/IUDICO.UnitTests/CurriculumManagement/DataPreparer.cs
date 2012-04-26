@@ -11,6 +11,8 @@ using IUDICO.DisciplineManagement.Models.Storage;
 
 namespace IUDICO.UnitTests.CurriculumManagement
 {
+    using System.Data.Linq;
+
     public class DataPreparer
     {
         #region Private properties
@@ -62,23 +64,32 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         public IList<User> GetUsers()
         {
-            return new[]
+            var teacherUserRoles = new EntitySet<UserRole> { new UserRole { RoleRef = 1 }, new UserRole { RoleRef = 2 } };
+            var studentUserRoles = new EntitySet<UserRole> { new UserRole { RoleRef = 1 } };
+            return new[] { new User {
+                    Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                    Username = Users.Panza,
+                    Email = "ipetrovych@gmail.com",
+                    Password = string.Empty,
+                    UserRoles = teacherUserRoles
+                }, 
+                new User
+                    {
+                    Id = new Guid("bbbbbbbb-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                    Username = Users.Ozo,
+                    Email = "ozo@gmail.com",
+                    Password = string.Empty,
+                    UserRoles = teacherUserRoles
+                },
+                new User
                 {
-                    new User
-                        {
-                            Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), 
-                            Username = Users.Panza, 
-                            Email = "ipetrovych@gmail.com", 
-                            Password = string.Empty, 
-                        }, 
-                    new User
-                        {
-                            Id = new Guid("bbbbbbbb-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), 
-                            Username = Users.Ozo, 
-                            Email = "boblox@gmail.com", 
-                            Password = string.Empty, 
-                        }
-                };
+                    Id = new Guid("cccccccc-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+                    Username = Users.Bob,
+                    Email = "bob@gmail.com",
+                    Password = string.Empty,
+                    UserRoles = studentUserRoles
+                }
+            };
         }
 
         public IList<Group> GetGroups()
@@ -117,75 +128,63 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         public List<Chapter> GetChapters()
         {
-            return
-                this.DisciplineIds.Select(
-                    i => new Chapter { DisciplineRef = i, Name = string.Format("Chapter{0}", i), }).ToList();
+            return this.DisciplineIds.Select(i => new Chapter
+            {
+                DisciplineRef = i,
+                Name = string.Format("Chapter{0}", i),
+            })
+            .ToList();
         }
 
         public List<Topic> GetTopics()
         {
-            var topics =
-                this.ChapterIds.Select(
-                    i =>
-                    new Topic
-                        {
-                            SortOrder = 1, 
-                            TestCourseRef = this.courseService.GetCourse(2).Id, 
-                            TestTopicTypeRef =
-                                this.disciplineStorage.GetTestTopicTypes().First(
-                                    item => item.ToTopicTypeEnum() == TopicTypeEnum.Test).Id, 
-                            TheoryCourseRef = this.courseService.GetCourse(1).Id, 
-                            TheoryTopicTypeRef =
-                                this.disciplineStorage.GetTheoryTopicTypes().First(
-                                    item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id, 
-                            Name = string.Format("TopicA{0}", i), 
-                            ChapterRef = i
-                        }).ToList();
-            topics.AddRange(
-                this.ChapterIds.Select(
-                    i =>
-                    new Topic
-                        {
-                            SortOrder = 2, 
-                            TestCourseRef = -1, 
-                            TestTopicTypeRef =
-                                this.disciplineStorage.GetTestTopicTypes().First(
-                                    item => item.ToTopicTypeEnum() == TopicTypeEnum.TestWithoutCourse).Id, 
-                            TheoryCourseRef = null, 
-                            TheoryTopicTypeRef = null, 
-                            Name = string.Format("TopicB{0}", i), 
-                            ChapterRef = i, 
-                        }).ToList());
-            topics.AddRange(
-                this.ChapterIds.Select(
-                    i =>
-                    new Topic
-                        {
-                            SortOrder = 3, 
-                            TestCourseRef = null, 
-                            TestTopicTypeRef = null, 
-                            TheoryCourseRef = this.courseService.GetCourse(2).Id, 
-                            TheoryTopicTypeRef =
-                                this.disciplineStorage.GetTheoryTopicTypes().First(
-                                    item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id, 
-                            Name = string.Format("TopicC{0}", i), 
-                            ChapterRef = i, 
-                        }).ToList());
+            var topics = this.ChapterIds.Select(i => new Topic
+            {
+                SortOrder = 1,
+                TestCourseRef = this.courseService.GetCourse(2).Id,
+                TestTopicTypeRef = this.disciplineStorage.GetTestTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Test).Id,
+                TheoryCourseRef = this.courseService.GetCourse(1).Id,
+                TheoryTopicTypeRef = this.disciplineStorage.GetTheoryTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id,
+                Name = string.Format("TopicA{0}", i),
+                ChapterRef = i
+            })
+            .ToList();
+            topics.AddRange(this.ChapterIds.Select(i => new Topic
+            {
+                SortOrder = 2,
+                TestCourseRef = -1,
+                TestTopicTypeRef = this.disciplineStorage.GetTestTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.TestWithoutCourse).Id,
+                TheoryCourseRef = null,
+                TheoryTopicTypeRef = null,
+                Name = string.Format("TopicB{0}", i),
+                ChapterRef = i,
+            })
+            .ToList());
+            topics.AddRange(this.ChapterIds.Select(i => new Topic
+            {
+                SortOrder = 3,
+                TestCourseRef = null,
+                TestTopicTypeRef = null,
+                TheoryCourseRef = this.courseService.GetCourse(2).Id,
+                TheoryTopicTypeRef = this.disciplineStorage.GetTheoryTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id,
+                Name = string.Format("TopicC{0}", i),
+                ChapterRef = i,
+            })
+            .ToList());
 
             return topics;
         }
 
         public List<Curriculum> GetCurriculums()
         {
-            return
-                this.DisciplineIds.Select(
-                    i =>
-                    new Curriculum
-                        {
-                            DisciplineRef = i, 
-                            UserGroupRef = i % 2 != 0 ? this.userService.GetGroup(1).Id : this.userService.GetGroup(2).Id, 
-                            IsValid = true
-                        }).ToList();
+            return this.DisciplineIds.Select(i => new Curriculum
+                {
+                    DisciplineRef = i,
+                    UserGroupRef = i % 2 != 0
+                        ? this.userService.GetGroup(1).Id
+                        : this.userService.GetGroup(2).Id,
+                    IsValid = true
+                }).ToList();
         }
 
         #endregion
@@ -197,30 +196,27 @@ namespace IUDICO.UnitTests.CurriculumManagement
         /// <summary>
         /// Creates disciplines.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Discipline Ids </returns>
         public List<int> CreateDisciplinesSet1()
         {
-            return
-                this.DisciplineIds =
-                this.GetDisciplines().Select(item => this.disciplineStorage.AddDiscipline(item)).ToList();
+            return this.DisciplineIds = this.GetDisciplines().Select(item => this.disciplineStorage.AddDiscipline(item)).ToList();
         }
 
         /// <summary>
         /// Creates disciplines and curriculums.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Discipline Ids </returns>
         public List<int> CreateDisciplinesSet2()
         {
             this.CreateDisciplinesSet1();
-            this.CurriculumIds =
-                this.GetCurriculums().Select(item => this.curriculumStorage.AddCurriculum(item)).ToList();
+            this.CurriculumIds = this.GetCurriculums().Select(item => this.curriculumStorage.AddCurriculum(item)).ToList();
             return this.DisciplineIds;
         }
 
         /// <summary>
         /// Creates disciplines, stages and curriculums.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Chapter Ids </returns>
         public List<int> CreateDisciplinesSet3()
         {
             this.CreateDisciplinesSet2();
@@ -230,7 +226,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
         /// <summary>
         /// Creates disciplines, stages, topics and curriculums.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Topic Ids </returns>
         public List<int> CreateDisciplinesSet4()
         {
             this.CreateDisciplinesSet3();
@@ -244,11 +240,10 @@ namespace IUDICO.UnitTests.CurriculumManagement
         /// <summary>
         /// Creates disciplines, stages and topics 
         /// </summary>
-        /// <returns></returns>
+        /// <returns> Discipline Ids </returns>
         public List<int> CreateCurriculumsSet1()
         {
-            this.DisciplineIds =
-                this.GetDisciplines().Select(item => this.disciplineStorage.AddDiscipline(item)).ToList();
+            this.DisciplineIds = this.GetDisciplines().Select(item => this.disciplineStorage.AddDiscipline(item)).ToList();
             this.ChapterIds = this.GetChapters().Select(item => this.disciplineStorage.AddChapter(item)).ToList();
             this.TopicIds = this.GetTopics().Select(item => this.disciplineStorage.AddTopic(item)).ToList();
             return this.DisciplineIds;

@@ -16,11 +16,12 @@ using IUDICO.LMS.Models;
 
 using Moq;
 using Moq.Protected;
-
 using CourseModels = IUDICO.CourseManagement.Models;
 using CurriculumModels = IUDICO.CurriculumManagement.Models;
 using DisciplineModels = IUDICO.DisciplineManagement.Models;
 using UserModels = IUDICO.UserManagement.Models;
+using System;
+using System.Collections.Generic;
 
 namespace IUDICO.UnitTests.CurriculumManagement
 {
@@ -203,6 +204,8 @@ namespace IUDICO.UnitTests.CurriculumManagement
             this.MockUserService.Setup(s => s.GetGroup(1)).Returns(groups[0]);
             this.MockUserService.Setup(s => s.GetGroup(2)).Returns(groups[1]);
             this.MockUserService.Setup(s => s.GetUsers()).Returns(users);
+            this.MockUserService.Setup(s => s.GetUsers(It.IsAny<Func<User, bool>>()))
+                .Returns((Func<User, bool> pred) => this.UserService.GetUsers().Where(pred));
             this.MockUserService.Setup(s => s.GetGroupsByUser(users[0])).Returns(new[] { groups[0] });
             this.MockUserService.Setup(s => s.GetGroupsByUser(users[1])).Returns(new[] { groups[1] });
 
@@ -229,7 +232,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
             this.MockDisciplineDataContext.SetupGet(c => c.TopicTypes).Returns(
                 new MemoryTable<TopicType>(mockTopicTypes, "Id"));
             this.MockDisciplineDataContext.SetupGet(c => c.SharedDisciplines).Returns(
-                new MemoryTable<SharedDiscipline>("Id"));
+                new MemoryTable<SharedDiscipline>());
             this.MockCurriculumDataContext.SetupGet(c => c.Curriculums).Returns(new MemoryTable<Curriculum>("Id"));
             this.MockCurriculumDataContext.SetupGet(c => c.CurriculumChapters).Returns(
                 new MemoryTable<CurriculumChapter>("Id"));

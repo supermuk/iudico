@@ -17,7 +17,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
         protected DisciplineCurriculumTestEngine tests = DisciplineCurriculumTestEngine.GetInstance();
 
-        protected IDisciplineStorage Storage
+        protected IDisciplineStorage DisciplineStorage
         {
             get
             {
@@ -70,15 +70,15 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             PluginController controller;
             if (typeof(T) == typeof(DisciplineController))
             {
-                controller = new DisciplineController(this.Storage);
+                controller = new DisciplineController(this.DisciplineStorage);
             }
             else if (typeof(T) == typeof(ChapterController))
             {
-                controller = new ChapterController(this.Storage);
+                controller = new ChapterController(this.DisciplineStorage);
             }
             else if (typeof(T) == typeof(TopicController))
             {
-                controller = new TopicController(this.Storage);
+                controller = new TopicController(this.DisciplineStorage);
             }
             else if (typeof(T) == typeof(CurriculumController))
             {
@@ -99,6 +99,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
             var mocks = new ContextMocks(controller);
             mocks.RouteData.Values["action"] = "Index";
+            mocks.RouteData.Values["controller"] = typeof(T).Name;
             return (T)controller;
         }
 

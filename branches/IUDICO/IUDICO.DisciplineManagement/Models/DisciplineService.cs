@@ -77,11 +77,6 @@ namespace IUDICO.DisciplineManagement.Models
             return this.disciplineStorage.GetTopic(id);
         }
 
-        public IList<Group> GetGroupsAssignedToTopic(int topicId)
-        {
-            return this.disciplineStorage.GetGroupsAssignedToTopic(topicId);
-        }
-
         public IEnumerable<Discipline> GetDisciplinesByGroupId(int groupId)
         {
             return this.disciplineStorage.GetDisciplinesByGroupId(groupId);

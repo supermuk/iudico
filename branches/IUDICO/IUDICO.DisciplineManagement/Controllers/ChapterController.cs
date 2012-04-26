@@ -36,14 +36,6 @@ namespace IUDICO.DisciplineManagement.Controllers
             }
         }
 
-/*        [Allow(Role = Role.Teacher)]
-        public ActionResult Index(int disciplineId)
-        {
-            var chapters = Storage.GetChapters(item => item.DisciplineRef == disciplineId);
-            ViewData["DisciplineName"] = Storage.GetDiscipline(disciplineId).Name;
-            return View(chapters);
-        }*/
-
         [HttpGet]
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(int disciplineId)

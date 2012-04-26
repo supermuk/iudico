@@ -12,19 +12,24 @@ namespace IUDICO.DisciplineManagement.Models
     public class ImportExportDiscipline
     {
         private readonly IDisciplineStorage storage;
-        private readonly string basePath;
+        private static string BasePath
+        {
+            get
+            {
+                return HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+            }
+        }
 
-        public ImportExportDiscipline(IDisciplineStorage storage, string basePath)
+        public ImportExportDiscipline(IDisciplineStorage storage)
         {
             this.storage = storage;
-            this.basePath = basePath;
         }
 
         #region Private helpers
 
-        private string GetFolderPath()
+        private static string GetFolderPath()
         {
-            return Path.Combine(this.basePath, @"Data\Disciplines");
+            return Path.Combine(BasePath, @"Data\Disciplines");
         }
 
         private static string GetTempFileName(int disciplineId)
@@ -68,7 +73,7 @@ namespace IUDICO.DisciplineManagement.Models
 
         private void Deserialize(string path)
         {
-            Stream reader = new FileStream(path, FileMode.Open);
+            var reader = new FileStream(path, FileMode.Open);
             var serializer = new XmlSerializer(typeof(DisciplineDto));
             var disciplineDto = (DisciplineDto)serializer.Deserialize(reader);
 
@@ -115,8 +120,8 @@ namespace IUDICO.DisciplineManagement.Models
 
         public string Export(int disciplineId)
         {
-            var path = Path.Combine(this.GetFolderPath(), GetTempFileName(disciplineId));
-            Directory.CreateDirectory(this.GetFolderPath());
+            var path = Path.Combine(GetFolderPath(), GetTempFileName(disciplineId));
+            Directory.CreateDirectory(GetFolderPath());
             this.Serialize(path, disciplineId);
             return path;
         }
@@ -124,8 +129,8 @@ namespace IUDICO.DisciplineManagement.Models
         public void Import(HttpPostedFileBase file)
         {
             var fileName = GetImportFileName(Path.GetFileNameWithoutExtension(file.FileName));
-            var path = Path.Combine(this.GetFolderPath(), fileName);
-            Directory.CreateDirectory(this.GetFolderPath());
+            var path = Path.Combine(GetFolderPath(), fileName);
+            Directory.CreateDirectory(GetFolderPath());
             file.SaveAs(path);
             this.Deserialize(path);
         }
