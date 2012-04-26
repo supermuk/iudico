@@ -186,6 +186,7 @@ namespace IUDICO.Common.Models
             {
                 this.data.Remove(entity);
             }
+            this.tempData.Clear();
         }
 
         public object GetOriginalEntityState(object entity)

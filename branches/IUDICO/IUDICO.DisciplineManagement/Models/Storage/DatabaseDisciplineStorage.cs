@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Linq;
-using System.IO;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
@@ -79,11 +77,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         public IList<Group> GetGroups()
         {
             return this.lmsService.FindService<IUserService>().GetGroups().ToList();
-        }
-
-        public IList<Group> GetGroupsByUser(User user)
-        {
-            return this.lmsService.FindService<IUserService>().GetGroupsByUser(user).ToList();
         }
 
         public IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate)
@@ -369,16 +362,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         public IList<Topic> GetTopicsByCourseId(int courseId)
         {
             return this.GetDbContext().Topics.Where(item => (item.TestCourseRef == courseId || item.TheoryCourseRef == courseId) && !item.IsDeleted).ToList();
-        }
-
-        public IList<Group> GetGroupsAssignedToTopic(int topicId)
-        {
-            return GetTopic(topicId)
-                .Chapter
-                .Discipline
-                .Curriculums
-                .Select(item => this.GetGroup(item.UserGroupRef)) 
-                .ToList();
         }
 
         public int AddTopic(Topic topic)

@@ -42,12 +42,6 @@ namespace IUDICO.Common.Models.Services
         IList<Topic> GetTopicsByDisciplineId(int disciplineId);
         IList<Topic> GetTopics(IEnumerable<int> ids);
         IList<Topic> GetTopics();
-        /// <summary>
-        /// Gets groups assigned through discipline assignments to topic.
-        /// </summary>
-        /// <param name="topicId">The topic id.</param>
-        /// <returns></returns>
-        IList<Group> GetGroupsAssignedToTopic(int topicId);
 
         Topic GetTopic(int id);
 

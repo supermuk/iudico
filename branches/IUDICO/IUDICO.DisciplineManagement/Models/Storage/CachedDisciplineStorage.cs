@@ -35,19 +35,9 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.storage.GetCourse(id);
         }
 
-        public Group GetGroup(int id)
-        {
-            return this.storage.GetGroup(id);
-        }
-
         public IList<Group> GetGroups()
         {
             return this.storage.GetGroups();
-        }
-
-        public IList<Group> GetGroupsByUser(User user)
-        {
-            return this.storage.GetGroupsByUser(user);
         }
 
         public IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate)
@@ -263,11 +253,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
                 DateTime.Now.AddDays(1),
                 "topics",
                 "topics-sort");
-        }
-
-        public IList<Group> GetGroupsAssignedToTopic(int topicId)
-        {
-            return this.storage.GetGroupsAssignedToTopic(topicId);
         }
 
         public int AddTopic(Topic topic)
