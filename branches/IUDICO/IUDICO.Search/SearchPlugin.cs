@@ -102,13 +102,15 @@ namespace IUDICO.Search
                 */
 
                 // luceneThread = new LuceneThread(data[0] as ILmsService);
-                this.thread = new Thread(luceneThread.Run);
-                this.thread.Start();
+                // this.thread = new Thread(luceneThread.Run);
+                // this.thread.Start();
             }
             else if (evt == LMSNotifications.ApplicationStop)
             {
                 luceneThread.RequestStop();
             }
+
+            return;
 
             switch (evt)
             {
