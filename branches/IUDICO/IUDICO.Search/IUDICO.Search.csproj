@@ -44,12 +44,17 @@
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Lucene.Net, Version=2.9.2.2, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Lucene.Net, Version=2.9.4.1, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\References\Lucene.Net.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\Lucene.Net.2.9.4.1\lib\net40\Lucene.Net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="SimpleLucene">
+      <HintPath>..\packages\SimpleLucene.1.0.0.1\lib\4.0\SimpleLucene.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -84,11 +89,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\SearchController.cs" />
-    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\IndexDefinitions\DisciplineIndexDefinition.cs" />
+    <Compile Include="Models\IndexDefinitions\UserIndexDefinition.cs" />
+    <Compile Include="Models\LuceneThread.cs" />
+    <Compile Include="Models\Queries\DefaultQuery.cs" />
+    <Compile Include="Models\Queries\UserQuery.cs" />
+    <Compile Include="Models\ResultDefinitions\UserResultDefinition.cs" />
+    <Compile Include="Models\SearchItem.cs" />
     <Compile Include="Models\SearchResult\CurriculumResult.cs" />
     <Compile Include="Models\SearchResult\GroupResult.cs" />
     <Compile Include="Models\SearchResult\ThemeResult.cs" />
     <Compile Include="Models\SearchResult\UserResult.cs" />
+    <Compile Include="Models\SearchTypes\SearchType.cs" />
+    <Compile Include="Models\SearchTypes\ISimpleSearchType.cs" />
     <Compile Include="Models\ViewDataClasses\CheckBoxModel.cs" />
     <Compile Include="Models\ViewDataClasses\SearchModel.cs" />
     <Compile Include="SearchPlugin.cs" />
@@ -98,6 +111,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.config" />
     <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>

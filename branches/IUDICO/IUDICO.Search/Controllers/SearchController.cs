@@ -35,12 +35,18 @@ namespace IUDICO.Search.Controllers
         private ICurriculumService curriculumService;
         private IUserService userService;
 
-        public SearchController()
+        private LuceneThread thread;
+
+        public SearchController(LuceneThread thread)
         {
+            /*
             this.courseService = LmsService.FindService<ICourseService>();
             this.disciplineService = LmsService.FindService<IDisciplineService>();
             this.curriculumService = LmsService.FindService<ICurriculumService>();
             this.userService = LmsService.FindService<IUserService>();
+            */
+            this.thread = thread;
+
         }
 
         [HttpPost]
@@ -51,7 +57,10 @@ namespace IUDICO.Search.Controllers
                 SearchText = query,
                 CheckBoxes = this.GetAvailableCheckBoxes()
             };
-            this.MakeSearch(model);
+
+            var userResult = this.thread.Search<User>(query);
+
+            // sthis.MakeSearch(model);
             return View("Search", model);
         }
 
@@ -66,7 +75,7 @@ namespace IUDICO.Search.Controllers
         {
             var roles = this.userService.GetCurrentUserRoles();
             var result = new List<CheckBoxModel>();
-            result.Add(new CheckBoxModel(SearchType.Topics));
+            /*result.Add(new CheckBoxModel(SearchType.Topics));
             if (roles.Contains(Role.Teacher))
             {
                 result.Add(new CheckBoxModel(SearchType.Users));
@@ -78,7 +87,7 @@ namespace IUDICO.Search.Controllers
             {
                 result.Add(new CheckBoxModel(SearchType.Users));
                 result.Add(new CheckBoxModel(SearchType.Groups));
-            }
+            }*/
             return result;
         }
 
@@ -97,6 +106,7 @@ namespace IUDICO.Search.Controllers
             {
                 if (checkBox.IsChecked)
                 {
+                    /*
                     if (checkBox.SearchType == SearchType.Courses)
                     {
                         // make filtration here...
@@ -118,6 +128,7 @@ namespace IUDICO.Search.Controllers
                         // make filtration here...
                         strings.Add("Discipline");
                     }
+                     */
                     // make filtration here...
                 }
             }
