@@ -12,8 +12,10 @@ namespace IUDICO.Common.Models
 
         public LinqLogger(string fileName)
         {
+#if DEBUG
             this.sw = new StreamWriter(fileName, true);
             this.sw.AutoFlush = true;
+#endif
         }
 
         ~LinqLogger()
@@ -34,12 +36,16 @@ namespace IUDICO.Common.Models
 
         public override void Write(char[] buffer, int index, int count)
         {
+#if DEBUG
             this.sw.Write(buffer, index, count);
+#endif
         }
 
         public override void Write(string value)
         {
+#if DEBUG
             this.sw.Write(value);
+#endif
         }
 
         public override Encoding Encoding

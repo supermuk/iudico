@@ -97,6 +97,7 @@ namespace IUDICO.Search.Models
             this.LmsService = lmsService;
             this.luceneDataDirectory = new DirectoryInfo(this.LuceneDataPath);
 
+            this.searchTypes = new Dictionary<Type, ISimpleSearchType>();
             this.searchTypes.Add(typeof(User), new SearchType<User>(new UserResultDefinition(), new UserIndexDefinition(), new UserQuery(), this.LuceneDataPath));
         }
 
