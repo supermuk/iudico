@@ -90,10 +90,14 @@
   <ItemGroup>
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Models\IndexDefinitions\DisciplineIndexDefinition.cs" />
+    <Compile Include="Models\IndexDefinitions\GroupIndexDefinition.cs" />
     <Compile Include="Models\IndexDefinitions\UserIndexDefinition.cs" />
     <Compile Include="Models\LuceneThread.cs" />
     <Compile Include="Models\Queries\DefaultQuery.cs" />
+    <Compile Include="Models\Queries\DisciplineQuery.cs" />
+    <Compile Include="Models\Queries\GroupQuery.cs" />
     <Compile Include="Models\Queries\UserQuery.cs" />
+    <Compile Include="Models\ResultDefinitions\DisciplineResultDefinition.cs" />
     <Compile Include="Models\ResultDefinitions\UserResultDefinition.cs" />
     <Compile Include="Models\SearchItem.cs" />
     <Compile Include="Models\SearchResult\CurriculumResult.cs" />

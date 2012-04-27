@@ -9,36 +9,32 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <form action="/Search/Search" method="post">
-    <%= Html.TextBoxFor(model=> model.SearchText)%>
-    <%--    <%= Html.TextBox("query",  ViewData["SearchString"])%>--%>
-    <input type="submit" value='<%=Localization.GetMessage("Search")%>' />
-    <div>
-        <% for (int i = 0; i < Model.CheckBoxes.Count; i++)
-           { %>
-        <%= Html.HiddenFor(model=>model.CheckBoxes[i].SearchType)  %>
-        <%= Html.HiddenFor(model=>model.CheckBoxes[i].Text)  %>
-        <%= Html.CheckBoxFor(model=> model.CheckBoxes[i].IsChecked)  %>
-        <%= Html.Label(Model.CheckBoxes[i].Text)  %>
-        <% } %>
-    </div>
-    <div>
-        Кількість результатів:
-        <%= Html.Label(Model.Total.ToString())  %>. Час пошуку:
-        <%= Html.Label(Model.Score.ToString())  %>ms.
-    </div>
-    <br />
-    <ul style="margin-bottom: 0em;">
-        <% foreach (var result in Model.SearchResult)
-           { %>
-        <li>
-            <h3>
-                <a href="<%= result.GetUrl() %>">
-                    <%= result.GetName() %></a></h3>
-            <div>
-                <%= result.GetText() %></div>
-        </li>
-        <% } %>
-    </ul>
+        <%= Html.TextBoxFor(model=> model.SearchText)%>
+        <%--    <%= Html.TextBox("query",  ViewData["SearchString"])%>--%>
+        <input type="submit" value='<%=Localization.GetMessage("Search")%>' />
+        <div>
+   
+        </div>
+        <div>
+            Кількість результатів:
+            <%= Html.Label(Model.Total.ToString())  %>. Час пошуку:
+            <%= Html.Label(Model.Score.ToString())  %>ms.
+        </div>
+        <br />
+
+        <h2>Users</h2>
+        <ul>
+           <% foreach (var user in Model.Users) { %>
+           <li><%= user.Username %></li>
+           <% } %>
+        </ul>
+    
+        <h2>Disciplines</h2>
+        <ul>
+           <% foreach (var discipline in Model.Disciplines) { %>
+           <li><%= discipline.Name %></li>
+           <% } %>
+        </ul>
     </form>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">

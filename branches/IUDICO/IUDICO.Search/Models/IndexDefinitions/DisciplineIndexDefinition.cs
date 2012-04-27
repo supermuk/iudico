@@ -13,8 +13,8 @@ namespace IUDICO.Search.Models.IndexDefinitions
         {
             var document = new Document();
 
-            document.Add(new Field("Type", "Discipline", Field.Store.YES, Field.Index.NO));
-            document.Add(new Field("DisciplineID", entity.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+            // document.Add(new Field("Type", "Discipline", Field.Store.YES, Field.Index.NO));
+            document.Add(new Field("ID", entity.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
             document.Add(new Field("Owner", entity.Owner, Field.Store.YES, Field.Index.NO));
             document.Add(new Field("Discipline", entity.Name, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
 
@@ -23,7 +23,7 @@ namespace IUDICO.Search.Models.IndexDefinitions
 
         public Term GetIndex(Discipline entity)
         {
-            return new Term("id", "Discipline-" + entity.Id.ToString());
+            return new Term("id", entity.Id.ToString());
         }
     }
 }

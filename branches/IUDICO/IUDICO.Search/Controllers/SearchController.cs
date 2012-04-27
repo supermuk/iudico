@@ -29,12 +29,12 @@ namespace IUDICO.Search.Controllers
     [Authorize]
     public class SearchController : PluginController
     {
-
+/*
         private ICourseService courseService;
         private IDisciplineService disciplineService;
         private ICurriculumService curriculumService;
         private IUserService userService;
-
+*/
         private LuceneThread thread;
 
         public SearchController(LuceneThread thread)
@@ -55,10 +55,10 @@ namespace IUDICO.Search.Controllers
             var model = new SearchModel
             {
                 SearchText = query,
-                CheckBoxes = this.GetAvailableCheckBoxes()
+                Users = this.thread.Search<User>(query),
+                Disciplines = this.thread.Search<Discipline>(query)
+                // CheckBoxes = this.GetAvailableCheckBoxes()
             };
-
-            var userResult = this.thread.Search<User>(query);
 
             // sthis.MakeSearch(model);
             return View("Search", model);
@@ -67,13 +67,13 @@ namespace IUDICO.Search.Controllers
         [HttpPost]
         public ActionResult Search(SearchModel model)
         {
-            this.MakeSearch(model);
+            // this.MakeSearch(model);
             return View("Search", model);
         }
 
         private List<CheckBoxModel> GetAvailableCheckBoxes()
         {
-            var roles = this.userService.GetCurrentUserRoles();
+            // var roles = this.userService.GetCurrentUserRoles();
             var result = new List<CheckBoxModel>();
             /*result.Add(new CheckBoxModel(SearchType.Topics));
             if (roles.Contains(Role.Teacher))
@@ -90,7 +90,7 @@ namespace IUDICO.Search.Controllers
             }*/
             return result;
         }
-
+        /*
         private void MakeSearch(SearchModel model)
         {
             string query = model.SearchText + "~";
@@ -100,13 +100,13 @@ namespace IUDICO.Search.Controllers
             IndexSearcher searcher = new IndexSearcher(directory, true);
             Analyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
 
-            List<string> strings = new List<string>();            
-
+            List<string> strings = new List<string>();
+            
             foreach (var checkBox in model.CheckBoxes)
             {
                 if (checkBox.IsChecked)
                 {
-                    /*
+                    
                     if (checkBox.SearchType == SearchType.Courses)
                     {
                         // make filtration here...
@@ -128,10 +128,11 @@ namespace IUDICO.Search.Controllers
                         // make filtration here...
                         strings.Add("Discipline");
                     }
-                     */
+                     
                     // make filtration here...
                 }
             }
+            
 
             MultiFieldQueryParser queryParser = new MultiFieldQueryParser(
                     Version.LUCENE_29,
@@ -218,7 +219,7 @@ namespace IUDICO.Search.Controllers
                         user.Id = Guid.Parse(document.Get("UserID"));
                         user.Name = document.Get("User");
                         // user.Roles
-                        /*user.RoleId = Convert.ToInt32(document.Get("RoleId"));*/
+                        // user.RoleId = Convert.ToInt32(document.Get("RoleId"));
 
                         result = new UserResult(user);
                         results.Add(result);
@@ -279,5 +280,6 @@ namespace IUDICO.Search.Controllers
             model.Total = total;
             model.Score = Math.Abs(dataend.Millisecond - datastart.Millisecond);
         }
+      */
     }
 }

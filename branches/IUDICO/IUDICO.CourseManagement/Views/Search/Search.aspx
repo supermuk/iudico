@@ -18,14 +18,6 @@
 
     </form>
     
-    <ul>
-    <% foreach (var result in Model) { %>   
-        <li>#<%= result.GetID() %> <a href="<%= result.GetUrl() %>"><%= result.GetName() %></a><br />
-            <%= result.GetText() %>
-        </li>
-    <% } %>
-    </ul>
-
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
