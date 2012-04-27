@@ -19,6 +19,8 @@ namespace IUDICO.LMS.Models
     {
         protected readonly IWindsorContainer Container;
 
+        protected readonly string ServerPath;
+
         protected Menu Menu
         {
             get
@@ -48,6 +50,8 @@ namespace IUDICO.LMS.Models
         public LmsService(IWindsorContainer container)
         {
             this.Container = container;
+            this.ServerPath = AppDomain.CurrentDomain.BaseDirectory;
+            // new FileInfo(Assembly.GetExecutingAssembly().Location).DirectoryName;
         }
 
         #region ILmsService Members
@@ -60,21 +64,6 @@ namespace IUDICO.LMS.Models
         {
             return Common.Properties.Settings.Default.IUDICOConnectionString;
         }
-
-        /*public DBDataContext GetDbDataContext()
-        {
-            return new DBDataContext();
-        }
-
-        public IDataContext GetIDataContext()
-        {
-            return GetDbDataContext();
-        }
-
-        public DbConnection GetDbConnection()
-        {
-            throw new NotImplementedException();
-        }*/
 
         public Menu GetMenu()
         {
@@ -94,7 +83,6 @@ namespace IUDICO.LMS.Models
 
         public void Inform(string evt, params object[] data)
         {
-
             if (evt == LMSNotifications.ApplicationRequestStart)
             {
                 var context = (HttpContext)data[0];
@@ -128,6 +116,11 @@ namespace IUDICO.LMS.Models
                 plugin.Update(evt, data);
             }
 
+        }
+
+        public string GetServerPath()
+        {
+            return this.ServerPath;
         }
         #endregion
 

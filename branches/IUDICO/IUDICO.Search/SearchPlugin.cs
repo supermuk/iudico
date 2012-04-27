@@ -1,10 +1,14 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using System.Collections.Generic;
 using Castle.Windsor;
 using System;
+
+using IUDICO.Search.Models.IndexDefinitions;
+
 using Lucene.Net.Store;
 using Lucene.Net.Analysis;
 using Lucene.Net.Index;
@@ -17,20 +21,27 @@ using System.IO;
 using System.Timers;
 using System.Web.Routing;
 using Castle.MicroKernel.SubSystems.Configuration;
+
+using SimpleLucene;
+using SimpleLucene.Impl;
+
 using Action = IUDICO.Common.Models.Action;
 using Directory = Lucene.Net.Store.Directory;
 using Node = IUDICO.Common.Models.Shared.Node;
+using System.Threading;
+using IUDICO.Search.Models;
+using SimpleLucene.IndexManagement;
+using System.Reflection;
 
 namespace IUDICO.Search
 {
     public class SearchPlugin : IWindsorInstaller, IPlugin
     {
-        static IWindsorContainer container;
+        protected IWindsorContainer container;
+        protected Thread thread;
+        // protected LuceneThread luceneThread;
 
         #region IWindsorInstaller Members
-        bool isRun = false;
-        protected object lmsObject;
-        protected static string serverPath;
 
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
@@ -40,9 +51,10 @@ namespace IUDICO.Search
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
-                Component.For<IPlugin>().ImplementedBy<SearchPlugin>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
+                Component.For<IPlugin>().Instance(this).LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<LuceneThread>().ImplementedBy<LuceneThread>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
 
-            SearchPlugin.container = container;
+            this.container = container;
         }
 
         #endregion
@@ -71,60 +83,51 @@ namespace IUDICO.Search
                 new { controller = "Search" });
         }
 
-        public void AddToIndex(Document doc)
-        {
-            Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
-            Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
-            IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED);
-
-            writer.AddDocument(doc);
-            writer.Optimize();
-            writer.Close();
-        }
-
-        public void DeleteFromIndex(Term term)
-        {
-            Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
-            Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
-            IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED);
-
-            writer.DeleteDocuments(term);
-            writer.Commit();
-            writer.Close();
-        }
-
         public void Update(string evt, params object[] data)
         {
+            var luceneThread = this.container.Resolve<LuceneThread>();
 
             if (evt == LMSNotifications.ApplicationStart)
             {
-                if (!this.isRun)
+                /*
+                var types = Assembly.GetExecutingAssembly().GetTypes()
+                    .Where(typeof(IIndexDefinition<>).IsAssignableFrom);
+
+                http://stackoverflow.com/questions/6174956/isassignablefrom-when-interface-has-generics-but-not-the-implementation
+
+                foreach (var type in types)
                 {
-
-                    // mTimer.Elapsed += new System.Timers.ElapsedEventHandler(Timer_Elapsed);
-                    // mTimer.Start();
-                    string root = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
-                    int index = root.IndexOf("\\Plugins");
-                    root = root.Substring(0, index);
-                    serverPath = root.Insert(index, "\\Data\\Index");
-
-                    RebuildIndex(data[0] as ILmsService);
-
-                    // var thread = new Thread(startMyTimer);
-                    // thread.Start(((IWindsorContainer)data[0]).Resolve<ILmsService>());
-                    // isRun = true;
+                    directoryIndex.Add(type, type.AssemblyQualifiedName);
                 }
+                */
+
+                luceneThread = new LuceneThread(data[0] as ILmsService);
+                this.thread = new Thread(luceneThread.Run);
+                this.thread.Start();
+            }
+            else if (evt == LMSNotifications.ApplicationStop)
+            {
+                luceneThread.RequestStop();
             }
 
+            switch (evt)
+            {
+                case UserNotifications.UserCreate:
+                case UserNotifications.UserEdit:
+                    luceneThread.UpdateIndex((User)data[0]);
+                    break;
+                case UserNotifications.UserDelete:
+                    luceneThread.DeleteIndex((User)data[0]);
+                    break;
+            }
+
+            /*
             if (evt == UserNotifications.UserCreate)
             {
                 User user = (User)data[0];
 
                 Document document = new Document();
-                document.Add(new Field("Type", "User", Field.Store.YES, Field.Index.NO));
-                document.Add(new Field("UserID", user.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-                document.Add(new Field("User", user.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-
+                
                 this.AddToIndex(document);
             }
 
@@ -144,12 +147,7 @@ namespace IUDICO.Search
             if (evt == DisciplineNotifications.DisciplineCreated)
             {
                 Discipline discipline = (Discipline)data[0];
-                Document document = new Document();
-                document.Add(new Field("Type", "Discipline", Field.Store.YES, Field.Index.NO));
-                document.Add(new Field("DisciplineID", discipline.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-                document.Add(new Field("Owner", discipline.Owner, Field.Store.YES, Field.Index.NO));
-                document.Add(new Field("Discipline", discipline.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-
+                var document = new Document();
                 this.AddToIndex(document);
             }
 
@@ -277,10 +275,11 @@ namespace IUDICO.Search
                 Term term = new Term("GroupID", course.Id.ToString());
                 this.DeleteFromIndex(term);
             }
+            */
 
         }
 
-        protected Timer mTimer = new Timer(1000 * 60 * 60);
+        /*protected Timer mTimer = new Timer(1000 * 60 * 60);
 
         protected void Timer_Elapsed(object sender, EventArgs args)
         {
@@ -293,7 +292,7 @@ namespace IUDICO.Search
             this.mTimer.Elapsed += new ElapsedEventHandler(this.Timer_Elapsed);
             this.mTimer.Start();
         }
-
+        */
         public void Setup(IWindsorContainer container)
         {
         }
@@ -345,7 +344,7 @@ namespace IUDICO.Search
             var groups = userService.GetGroups();
 
             var a = Environment.CurrentDirectory;
-            Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
+            Directory directory = FSDirectory.Open(new DirectoryInfo("1"));
             Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
             IndexWriter writer = new IndexWriter(directory, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED);
             Document document;

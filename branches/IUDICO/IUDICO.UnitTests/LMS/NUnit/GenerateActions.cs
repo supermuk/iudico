@@ -85,8 +85,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 var contr = container.Resolve<IController>(controller + "controller");
                 var act =
-                    contr.GetType().GetMethods().Where(
-                        m => m.Name == action && !this.IsPost(m) && m.GetParameters().Length == 0).FirstOrDefault();
+                    contr.GetType().GetMethods().FirstOrDefault(m => m.Name == action && !this.IsPost(m) && m.GetParameters().Length == 0);
 
                 var attribute = Attribute.GetCustomAttribute(act, typeof(AllowAttribute), false) as AllowAttribute;
 
