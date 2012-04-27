@@ -85,6 +85,8 @@ namespace IUDICO.Search
 
         public void Update(string evt, params object[] data)
         {
+            return;
+
             var luceneThread = this.container.Resolve<LuceneThread>();
 
             if (evt == LMSNotifications.ApplicationStart)
