@@ -52,7 +52,7 @@
                 <a href="/"><img src="/Content/Images/logo.png" alt="IUDICO"/></a>
             </div>
             <div id="logindisplay">
-                <div style="display:none;">
+                <div> <!--style="display:none;"-->
                     <% Html.RenderPartial("SearchBox"); %>
                 </div>
 

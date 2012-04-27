@@ -23,7 +23,7 @@ namespace IUDICO.Search.Models.IndexDefinitions
 
         public Term GetIndex(User entity)
         {
-            return new Term("id", "User-" + entity.Id.ToString());
+            return new Term("id", entity.Id.ToString());
         }
     }
 }

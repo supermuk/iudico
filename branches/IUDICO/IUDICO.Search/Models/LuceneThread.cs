@@ -23,9 +23,17 @@ namespace IUDICO.Search.Models
     public class LuceneThread
     {
         #region Members
-        private volatile bool shouldStop;
+        // private volatile bool shouldStop;
 
         protected readonly ILmsService LmsService;
+
+        public string LuceneDataPath
+        {
+            get
+            {
+                return Path.Combine(this.LmsService.GetServerPath(), "Data", "Index");
+            }
+        }
 
         private readonly DirectoryInfo luceneDataDirectory;
         public DirectoryInfo LuceneDataDirectory
@@ -35,57 +43,21 @@ namespace IUDICO.Search.Models
                 return this.luceneDataDirectory;
             }
         }
-
-        protected Dictionary<Type, ISimpleSearchType> searchTypes = new Dictionary<Type, ISimpleSearchType>(); 
-
-
-        //// dsa
-         
-        /*
-        protected Dictionary<Type, string> directoryIndex = new Dictionary<Type, string>();
-        public Dictionary<Type, string> DirectoryIndex
-        {
-            get
-            {
-                return this.directoryIndex;
-            }
-        }
-        */
-        /*
-        protected HashSet<IIndexService> services = new HashSet<IIndexService>();
-         */
-        public string LuceneDataPath
-        {
-            get
-            {
-                return Path.Combine(this.LmsService.GetServerPath(), "Data", "Index");
-            }
-        }
+        
+        protected readonly Dictionary<Type, ISimpleSearchType> SearchTypes = new Dictionary<Type, ISimpleSearchType>(); 
         
         #endregion
 
         #region Helpers
-        /*
-        protected IIndexService GetService(Type t)
-        {
-            return this.services.WithOptions(new IndexOptions()
-                {
-                    IndexLocation = new FileSystemIndexLocation(
-                        new DirectoryInfo(
-                            Path.Combine(this.LuceneDataPath, this.directoryIndex[t]))),
-                            Analyzer = new StandardAnalyzer(Version.LUCENE_29),
-                            RecreateIndex = true
-                });
-        }
-        */
+        
         protected SearchType<T> GetSearchType<T>(T obj) where T : class
         {
-            return this.searchTypes[obj.GetType()] as SearchType<T>;
+            return this.SearchTypes[obj.GetType()] as SearchType<T>;
         }
 
         protected SearchType<T> GetSearchType<T>() where T : class
         {
-            return this.searchTypes[typeof(T)] as SearchType<T>;
+            return this.SearchTypes[typeof(T)] as SearchType<T>;
         }
 
         #endregion
@@ -97,8 +69,8 @@ namespace IUDICO.Search.Models
             this.LmsService = lmsService;
             this.luceneDataDirectory = new DirectoryInfo(this.LuceneDataPath);
 
-            this.searchTypes = new Dictionary<Type, ISimpleSearchType>();
-            this.searchTypes.Add(typeof(User), new SearchType<User>(new UserResultDefinition(), new UserIndexDefinition(), new UserQuery(), this.LuceneDataPath));
+            this.SearchTypes.Add(typeof(User), new SearchType<User>(new UserResultDefinition(), new UserIndexDefinition(), new UserQuery(), this.LuceneDataPath));
+            this.SearchTypes.Add(typeof(Discipline), new SearchType<Discipline>(new DisciplineResultDefinition(), new DisciplineIndexDefinition(), new DisciplineQuery(), this.LuceneDataPath));
         }
 
         ~LuceneThread()
@@ -109,45 +81,30 @@ namespace IUDICO.Search.Models
             }*/
         }
 
-        public void Run()
+        public void ProcessQueue()
         {
-            var directory = Lucene.Net.Store.FSDirectory.Open(this.LuceneDataDirectory);
-            var indexExists = IndexReader.IndexExists(directory);
-            
-            // if (!indexExists)
-            {
-                directory.EnsureOpen();
-                this.RebuildIndex();
-            }
-
             IIndexTask task;
 
-            while (!this.shouldStop && IndexQueue.Instance.TryDequeue(out task))
+            while (IndexQueue.Instance.TryDequeue(out task))
             {
                 // var service = this.services.WithOptions(task.IndexOptions);
-                
+
                 // if (service == null)
                 // {
-                    var service = new IndexService(new DirectoryIndexWriter(task.IndexOptions.IndexLocation.GetDirectory(), task.IndexOptions.RecreateIndex));
-                    // this.services.Add(service);
+                using (var service = new IndexService(new DirectoryIndexWriter(task.IndexOptions.IndexLocation.GetDirectory(), task.IndexOptions.RecreateIndex)))
+                {
+                    task.Execute(service);
+                }
+                // this.services.Add(service);
                 // }
-
-                task.Execute(service);
             }
-
-            // service.Dispose();
-        }
-
-        public void RequestStop()
-        {
-            this.shouldStop = true;
         }
 
         #endregion
 
         #region Search
 
-        public SearchResult<T> Search<T>(string query) where T : class
+        public IEnumerable<T> Search<T>(string query) where T : class
         {
             return this.GetSearchType<T>().Search(query);
         }
@@ -156,25 +113,38 @@ namespace IUDICO.Search.Models
 
         #region Index
 
-        private void RebuildIndex()
+        public void RebuildIndex()
         {
+            var directory = Lucene.Net.Store.FSDirectory.Open(this.LuceneDataDirectory);
+            // var indexExists = IndexReader.IndexExists(directory);
+
+            directory.EnsureOpen();
+
             var userService = this.LmsService.FindService<IUserService>();
+            var courseService = this.LmsService.FindService<ICourseService>();
+            var disciplineService = this.LmsService.FindService<IDisciplineService>();
 
             var users = userService.GetUsers();
-            // var groups = userService.GetGroups();
+            var groups = userService.GetGroups();
 
-            var searchType = this.GetSearchType<User>();
-            searchType.GetIndexService(true).IndexEntities(users, searchType.GetIndexDefinition());
+            this.ReIndex(users);
+            // this.ReIndex(groups);
 
+            var courses = courseService.GetCourses();
+            var disciplines = disciplineService.GetDisciplines();
 
-            // this.services.IndexEntities(users, new UserDefinition());
+            // this.ReIndex(courses);
+            this.ReIndex(disciplines);
+        }
 
-            // var courseService = this.LmsService.FindService<ICourseService>();
-            // var disciplineService = this.LmsService.FindService<IDisciplineService>();
+        protected void ReIndex<T>(IEnumerable<T> entities) where T : class
+        {
+            var searchType = this.GetSearchType<T>();
 
-
-            // var courses = courseService.GetCourses();
-            // var disciplines = disciplineService.GetDisciplines();
+            using (var indexer = searchType.GetIndexService(true))
+            {
+                indexer.IndexEntities(entities, searchType.GetIndexDefinition());
+            }
         }
         
         public void UpdateIndex<T>(T obj) where T : class
@@ -186,6 +156,7 @@ namespace IUDICO.Search.Models
         {
             this.GetSearchType(obj).Delete(obj);
         }
+
         #endregion
     }
 }
