@@ -121,7 +121,6 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\AppStart.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -386,6 +385,7 @@
     <Content Include="Plugins\*.*" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="Data\Avatars\" />
     <Folder Include="Data\Courses\" />
     <Folder Include="Data\CSV\" />

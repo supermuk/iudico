@@ -14,5 +14,7 @@ namespace IUDICO.Common.Models.Services
         Dictionary<IPlugin, IEnumerable<Action>> GetActions();
 
         void Inform(string evt, params object[] data);
+
+        string GetServerPath();
     }
 }

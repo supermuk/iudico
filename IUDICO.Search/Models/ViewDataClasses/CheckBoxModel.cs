@@ -9,13 +9,13 @@ namespace IUDICO.Search.Models.ViewDataClasses
     {
         public bool IsChecked { get; set; }
         public string Text { get; set; }
-        public SearchType SearchType { get; set; }
+        // public SearchType SearchType { get; set; }
 
         public CheckBoxModel()
         {
 
         }
-
+        /*
         public CheckBoxModel(SearchType searchType)
         {
             SearchType = searchType;
@@ -37,7 +37,8 @@ namespace IUDICO.Search.Models.ViewDataClasses
                 case SearchType.Groups:
                     this.Text = "Groups";
                     break;
-            }
+            } 
         }
+        */
     }
 }
