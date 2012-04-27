@@ -101,7 +101,7 @@ namespace IUDICO.Search
                 }
                 */
 
-                luceneThread = new LuceneThread(data[0] as ILmsService);
+                // luceneThread = new LuceneThread(data[0] as ILmsService);
                 this.thread = new Thread(luceneThread.Run);
                 this.thread.Start();
             }
