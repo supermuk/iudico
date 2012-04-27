@@ -24,9 +24,8 @@ namespace IUDICO.Search.Models.Queries
         {
             if (!string.IsNullOrEmpty(keywords))
             {
-                string[] fields = { "name", "description" };
                 var parser = new MultiFieldQueryParser(
-                    Version.LUCENE_29, fields, new StandardAnalyzer(Version.LUCENE_29));
+                    Version.LUCENE_29, this.SearchFields, new StandardAnalyzer(Version.LUCENE_29));
                 Query multiQuery = parser.Parse(keywords);
 
                 this.AddQuery(multiQuery);

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
 using System.Web.Mvc;
 using Castle.MicroKernel.Registration;
 using IUDICO.Common.Models;
@@ -33,12 +34,17 @@ using IUDICO.Search.Models;
 using SimpleLucene.IndexManagement;
 using System.Reflection;
 
+using Component = Castle.MicroKernel.Registration.Component;
+
 namespace IUDICO.Search
 {
     public class SearchPlugin : IWindsorInstaller, IPlugin
     {
         protected IWindsorContainer container;
         protected Thread thread;
+
+        private BackgroundWorker bw;
+
         // protected LuceneThread luceneThread;
 
         #region IWindsorInstaller Members
@@ -46,11 +52,8 @@ namespace IUDICO.Search
         public void Install(IWindsorContainer container, IConfigurationStore store)
         {
             container.Register(
-                AllTypes
-                    .FromThisAssembly()
-                    .BasedOn<IController>()
-                    .Configure(c => c.LifeStyle.Transient
-                                        .Named(c.Implementation.Name)),
+                AllTypes.FromThisAssembly().BasedOn<IController>().Configure(
+                    c => c.LifeStyle.Transient.Named(c.Implementation.Name)),
                 Component.For<IPlugin>().Instance(this).LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
                 Component.For<LuceneThread>().ImplementedBy<LuceneThread>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
 
@@ -85,8 +88,6 @@ namespace IUDICO.Search
 
         public void Update(string evt, params object[] data)
         {
-            return;
-
             var luceneThread = this.container.Resolve<LuceneThread>();
 
             if (evt == LMSNotifications.ApplicationStart)
@@ -106,13 +107,15 @@ namespace IUDICO.Search
                 // luceneThread = new LuceneThread(data[0] as ILmsService);
                 // this.thread = new Thread(luceneThread.Run);
                 // this.thread.Start();
+
+                this.bw = new BackgroundWorker();
+                this.bw.DoWork += (sender, args) => ((LuceneThread)args.Argument).RebuildIndex();
+                this.bw.RunWorkerAsync(luceneThread);
             }
             else if (evt == LMSNotifications.ApplicationStop)
             {
-                luceneThread.RequestStop();
+                
             }
-
-            return;
 
             switch (evt)
             {
@@ -124,6 +127,8 @@ namespace IUDICO.Search
                     luceneThread.DeleteIndex((User)data[0]);
                     break;
             }
+
+            luceneThread.ProcessQueue();
 
             /*
             if (evt == UserNotifications.UserCreate)

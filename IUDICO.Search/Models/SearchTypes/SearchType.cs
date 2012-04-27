@@ -76,12 +76,12 @@ namespace IUDICO.Search.Models.SearchTypes
             return this.query;
         }
 
-        public virtual SearchResult<T> Search(string keywords)
+        public virtual IEnumerable<T> Search(string keywords)
         {
             return this.Search(this.GetQuery().WithKeywords(keywords));
         }
 
-        public SearchResult<T> Search(DefaultQuery query)
+        public IEnumerable<T> Search(DefaultQuery query)
         {
             var indexSearcher = new DirectoryIndexSearcher(this.fsiLocation.GetDirectory());
 
@@ -89,7 +89,7 @@ namespace IUDICO.Search.Models.SearchTypes
             {
                 var result = searchService.SearchIndex(query.Query, this.GetResultDefinition());
 
-                return result;
+                return result.Results;
             }
         }
     }

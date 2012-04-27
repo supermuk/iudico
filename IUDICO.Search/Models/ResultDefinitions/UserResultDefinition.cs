@@ -17,7 +17,7 @@ namespace IUDICO.Search.Models.ResultDefinitions
         {
             var user = new User
                 {
-                    Id = document.GetValue<Guid>("ID"),
+                    Id = Guid.Parse(document.GetValue("ID")),
                     Name = document.GetValue("Name"),
                     Username = document.GetValue("Username")
                 };
