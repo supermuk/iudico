@@ -36,7 +36,7 @@ namespace IUDICO.Search.Models
             }
         }
 
-        protected Dictionary<Type, ISimpleSearchType> searchTypes; 
+        protected Dictionary<Type, ISimpleSearchType> searchTypes = new Dictionary<Type, ISimpleSearchType>(); 
 
 
         //// dsa
