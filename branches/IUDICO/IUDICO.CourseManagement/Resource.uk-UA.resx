@@ -366,4 +366,10 @@
   <data name="PublishedCourses" xml:space="preserve">
     <value>Опубліковані курси</value>
   </data>
+  <data name="ChangesAreNotSaved" xml:space="preserve">
+    <value>Зміни не збережено</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Зберегти зміни</value>
+  </data>
 </root>
