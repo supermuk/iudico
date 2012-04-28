@@ -117,20 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddCurriculum" xml:space="preserve">
-    <value>Add curriculum</value>
-  </data>
   <data name="AddTopic" xml:space="preserve">
     <value>Add topic</value>
-  </data>
-  <data name="AddTimeline" xml:space="preserve">
-    <value>Add timeline</value>
-  </data>
-  <data name="AreYouSureYouWantDeleteSelectedCurriculum" xml:space="preserve">
-    <value>Are you sure you want to delete selected curriculum?</value>
-  </data>
-  <data name="AreYouSureYouWantDeleteSelectedCurriculums" xml:space="preserve">
-    <value>Are you sure you want to delete selected curriculums?</value>
   </data>
   <data name="AreYouSureYouWantDeleteSelectedDiscipline" xml:space="preserve">
     <value>Are you sure you want to delete selected discipline?</value>
@@ -150,89 +138,14 @@
   <data name="AreYouSureYouWantDeleteSelectedTopics" xml:space="preserve">
     <value>Are you sure you want to delete selected topics?</value>
   </data>
-  <data name="AreYouSureYouWantDeleteSelectedTimeline" xml:space="preserve">
-    <value>Are you sure you want to delete selected timeline?</value>
-  </data>
-  <data name="AreYouSureYouWantDeleteSelectedTimelines" xml:space="preserve">
-    <value>Are you sure you want to delete selected timelines?</value>
-  </data>
-  <data name="CurriculumsFor" xml:space="preserve">
-    <value>Curriculums for</value>
-  </data>
-  <data name="BackCurriculums" xml:space="preserve">
-    <value>Back to curriculums</value>
-  </data>
-  <data name="BackTopicAssignmentList" xml:space="preserve">
-    <value>Back to topic assignment list</value>
-  </data>
-  <data name="BackToDisciplines" xml:space="preserve">
-    <value>Back to disciplines</value>
-  </data>
-  <data name="BackToList" xml:space="preserve">
-    <value>Back to list</value>
-  </data>
-  <data name="BackToChapters" xml:space="preserve">
-    <value>Back to chapters</value>
-  </data>
-  <data name="ChooseCourse" xml:space="preserve">
-    <value>Choose a course for this topic type.</value>
-  </data>
-  <data name="ChooseCourseForTopic" xml:space="preserve">
-    <value>Choose a course for topic</value>
-  </data>
-  <data name="ChooseGroup" xml:space="preserve">
-    <value>Choose a group</value>
-  </data>
-  <data name="ChooseChapter" xml:space="preserve">
-    <value>Choose a chapter</value>
-  </data>
-  <data name="ChooseChapterForTimeline" xml:space="preserve">
-    <value>Choose a chapter for timeline</value>
-  </data>
-  <data name="ChooseTopicType" xml:space="preserve">
-    <value>Choose a topic type</value>
-  </data>
   <data name="CorrectFollowingErrorAndTryAgain" xml:space="preserve">
     <value>Correct the following error(s) and try again</value>
-  </data>
-  <data name="Create" xml:space="preserve">
-    <value>Create</value>
-  </data>
-  <data name="CreateCurriculumFor" xml:space="preserve">
-    <value>Add curriculum for</value>
-  </data>
-  <data name="CreateCurriculumTimelineFor" xml:space="preserve">
-    <value>Create curriculum timeline for</value>
-  </data>
-  <data name="Created" xml:space="preserve">
-    <value>Created</value>
   </data>
   <data name="CreateNew" xml:space="preserve">
     <value>Create new</value>
   </data>
-  <data name="CreateChapterFor" xml:space="preserve">
-    <value>Create chapter for</value>
-  </data>
-  <data name="CreateChapterTimelineFor" xml:space="preserve">
-    <value>Create chapter timeline for</value>
-  </data>
-  <data name="CreateTopic" xml:space="preserve">
-    <value>Create Topic</value>
-  </data>
-  <data name="CreateTopicFor" xml:space="preserve">
-    <value>Create topic for</value>
-  </data>
-  <data name="CreateDiscipline" xml:space="preserve">
-    <value>Create discipline</value>
-  </data>
   <data name="Discipline" xml:space="preserve">
     <value>Discipline</value>
-  </data>
-  <data name="CurriculumTimelinesFor" xml:space="preserve">
-    <value>Curriculum timelines for</value>
-  </data>
-  <data name="CurriculumManagement" xml:space="preserve">
-    <value>Curriculum management</value>
   </data>
   <data name="Disciplines" xml:space="preserve">
     <value>Disciplines</value>
@@ -240,65 +153,20 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
-  <data name="DeleteSelected" xml:space="preserve">
-    <value>Delete selected</value>
-  </data>
   <data name="Down" xml:space="preserve">
     <value>Down</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
-  <data name="EditCurriculumFor" xml:space="preserve">
-    <value>Edit curriculum for</value>
-  </data>
-  <data name="EditCurriculums" xml:space="preserve">
-    <value>Edit curriculums</value>
-  </data>
   <data name="EditDiscipline" xml:space="preserve">
     <value>Edit discipline</value>
-  </data>
-  <data name="EditCurriculumTimelineFor" xml:space="preserve">
-    <value>Edit curriculum timeline for</value>
   </data>
   <data name="EditChapter" xml:space="preserve">
     <value>Edit chapter</value>
   </data>
-  <data name="EditChapters" xml:space="preserve">
-    <value>Edit chapters</value>
-  </data>
-  <data name="EditChapterTimeline" xml:space="preserve">
-    <value>Edit Chapter Timeline</value>
-  </data>
-  <data name="EditChapterTimelineFor" xml:space="preserve">
-    <value>Edit chapter timeline for</value>
-  </data>
   <data name="EditTopic" xml:space="preserve">
     <value>Edit topic</value>
-  </data>
-  <data name="EditTopicAssignment" xml:space="preserve">
-    <value>Edit Topic Assignment</value>
-  </data>
-  <data name="EditTopicAssignmentFor" xml:space="preserve">
-    <value>Edit topic assignment for</value>
-  </data>
-  <data name="EditTopicAssignments" xml:space="preserve">
-    <value>Edit topic assignments</value>
-  </data>
-  <data name="EditTopics" xml:space="preserve">
-    <value>Edit topics</value>
-  </data>
-  <data name="EditTimelines" xml:space="preserve">
-    <value>Edit timelines</value>
-  </data>
-  <data name="EditTimelinesForChapters" xml:space="preserve">
-    <value>Edit timelines for chapters</value>
-  </data>
-  <data name="EndDate" xml:space="preserve">
-    <value>End date</value>
-  </data>
-  <data name="EndDateMustBeBetween" xml:space="preserve">
-    <value>End date must be between {0} and {1}</value>
   </data>
   <data name="ErrorOccuredDuringProcessingRequestErrorMessage" xml:space="preserve">
     <value>Error occured during processing request.\nError message:</value>
@@ -306,34 +174,19 @@
   <data name="Fields" xml:space="preserve">
     <value>Fields</value>
   </data>
-  <data name="Group" xml:space="preserve">
-    <value>Group</value>
-  </data>
-  <data name="MaxScore" xml:space="preserve">
-    <value>Max score</value>
-  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
   <data name="NameCanNotBeLongerThan" xml:space="preserve">
     <value>Name can not be longer than {0}</value>
   </data>
-  <data name="NameReqiured" xml:space="preserve">
+  <data name="NameRequired" xml:space="preserve">
     <value>Name is required</value>
-  </data>
-  <data name="Next" xml:space="preserve">
-    <value> =&gt; </value>
   </data>
   <data name="NoCourse" xml:space="preserve">
     <value>-- no course --</value>
   </data>
-  <data name="PleaseSelectCurriculumDelete" xml:space="preserve">
-    <value>Please select curriculums to delete</value>
-  </data>
   <data name="PleaseSelectDisciplinesDelete" xml:space="preserve">
-    <value>Please select disciplines to delete</value>
-  </data>
-  <data name="PleaseSelectDisciplinesToDelete" xml:space="preserve">
     <value>Please select disciplines to delete</value>
   </data>
   <data name="PleaseSelectChaptersDelete" xml:space="preserve">
@@ -342,56 +195,17 @@
   <data name="PleaseSelectTopicsDelete" xml:space="preserve">
     <value>Please select topics to delete</value>
   </data>
-  <data name="PleaseSelectTimelineDelete" xml:space="preserve">
-    <value>Please select timelines to delete</value>
-  </data>
-  <data name="PrevNext" xml:space="preserve">
-    <value> &lt;=&gt; </value>
-  </data>
   <data name="Chapter" xml:space="preserve">
     <value>Chapter</value>
   </data>
   <data name="Chapters" xml:space="preserve">
     <value>Chapters</value>
   </data>
-  <data name="ChaptersFor" xml:space="preserve">
-    <value>Chapters for</value>
-  </data>
-  <data name="ChapterTimelineBiggerThanDisciplineTimeline" xml:space="preserve">
-    <value>Chapter timeline should be based in one of these intervals:</value>
-  </data>
-  <data name="ChapterTimelines" xml:space="preserve">
-    <value>Chapter Timelines</value>
-  </data>
-  <data name="ChapterTimelinesFor" xml:space="preserve">
-    <value>Chapter timelines for</value>
-  </data>
-  <data name="StartDate" xml:space="preserve">
-    <value>Start date</value>
-  </data>
-  <data name="StartDateMustBeBetween" xml:space="preserve">
-    <value>Start date must be between {0} and {1}</value>
-  </data>
-  <data name="StartDateMustLessThanEndDate" xml:space="preserve">
-    <value>Start date must be less than end date</value>
-  </data>
   <data name="TestWithoutCourse" xml:space="preserve">
     <value>You can't choose a course for this topic type</value>
   </data>
-  <data name="TopicAssignments" xml:space="preserve">
-    <value>Topic Assignments</value>
-  </data>
-  <data name="TopicAssignmentsFor" xml:space="preserve">
-    <value>Topic assignments for</value>
-  </data>
   <data name="TopicName" xml:space="preserve">
     <value>Topic name</value>
-  </data>
-  <data name="Topics" xml:space="preserve">
-    <value>Topics</value>
-  </data>
-  <data name="TopicsFor" xml:space="preserve">
-    <value>Topics for</value>
   </data>
   <data name="TopicType" xml:space="preserve">
     <value>Topic type</value>
@@ -405,9 +219,6 @@
   <data name="TopicType.Theory" xml:space="preserve">
     <value>Theory</value>
   </data>
-  <data name="Timeline" xml:space="preserve">
-    <value>Timeline</value>
-  </data>
   <data name="Up" xml:space="preserve">
     <value>Up</value>
   </data>
@@ -417,10 +228,37 @@
   <data name="Updated" xml:space="preserve">
     <value>Updated</value>
   </data>
-  <data name="Curriculums" xml:space="preserve">
-    <value>Curriculums</value>
-  </data>
   <data name="Share" xml:space="preserve">
     <value>Share</value>
+  </data>
+  <data name="AddChapter" xml:space="preserve">
+    <value>Add chapter</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ChooseAtLeastOneCourse" xml:space="preserve">
+    <value>Choose at least one course</value>
+  </data>
+  <data name="CreateChapter" xml:space="preserve">
+    <value>Create chapter</value>
+  </data>
+  <data name="CreateDiscipline" xml:space="preserve">
+    <value>Create discipline</value>
+  </data>
+  <data name="CreateTopic" xml:space="preserve">
+    <value>Create topic</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="ShareDiscipline" xml:space="preserve">
+    <value>Share discipline</value>
   </data>
 </root>

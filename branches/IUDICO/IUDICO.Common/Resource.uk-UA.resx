@@ -126,6 +126,24 @@
   <data name="AttemptLimit" xml:space="preserve">
     <value>Ліміт спроби</value>
   </data>
+  <data name="BlockCurriculumAtTesting" xml:space="preserve">
+    <value>Блокувати навчальний план при тестуванні?</value>
+  </data>
+  <data name="BlockTopicAtTesting" xml:space="preserve">
+    <value>Блокувати тему при тестуванні?</value>
+  </data>
+  <data name="ChooseCourseForTestTopic" xml:space="preserve">
+    <value>Виберіть курс для тестової частини</value>
+  </data>
+  <data name="ChooseCourseForTheoryTopic" xml:space="preserve">
+    <value>Виберіть курс для теоретичної частини</value>
+  </data>
+  <data name="ChooseDisciplineForCurriculum" xml:space="preserve">
+    <value>Виберіть дисципліну</value>
+  </data>
+  <data name="ChooseGroupForCurriculum" xml:space="preserve">
+    <value>Виберіть групу</value>
+  </data>
   <data name="CreateDate" xml:space="preserve">
     <value>Створити(додати) дату</value>
   </data>
@@ -198,11 +216,32 @@
   <data name="SelectUser" xml:space="preserve">
     <value>Виберіть користувача</value>
   </data>
+  <data name="SetTestTimeline" xml:space="preserve">
+    <value>Вказати часові межі для тестової частини?</value>
+  </data>
+  <data name="SetTheoryTimeline" xml:space="preserve">
+    <value>Вказати часові межі для теоретичної частини?</value>
+  </data>
+  <data name="SetTimeline" xml:space="preserve">
+    <value>Вказати часові межі?</value>
+  </data>
   <data name="StartDate" xml:space="preserve">
-    <value>З</value>
+    <value>Від</value>
   </data>
   <data name="StartDateRequired" xml:space="preserve">
     <value>Початкова дата є обов'язкова</value>
+  </data>
+  <data name="TestEndDate" xml:space="preserve">
+    <value>До</value>
+  </data>
+  <data name="TestStartDate" xml:space="preserve">
+    <value>Від</value>
+  </data>
+  <data name="TheoryEndDate" xml:space="preserve">
+    <value>До</value>
+  </data>
+  <data name="TheoryStartDate" xml:space="preserve">
+    <value>Від</value>
   </data>
   <data name="TimeLimit" xml:space="preserve">
     <value>Часовий ліміт</value>
