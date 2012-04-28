@@ -115,10 +115,7 @@
     <Content Include="Scripts\treetable\javascripts\jquery.treeTable.js" />
     <Content Include="Scripts\treetable\javascripts\jquery.treeTable.min.js" />
     <Content Include="Scripts\treetable\stylesheets\jquery.treeTable.css" />
-    <Content Include="Views\Chapter\Create.aspx" />
     <Content Include="Views\Chapter\Edit.ascx" />
-    <Content Include="Views\Chapter\Edit.aspx" />
-    <Content Include="Views\Chapter\Index.aspx" />
     <Content Include="Views\Chapter\ChapterRow.ascx" />
     <Content Include="Views\Discipline\Create.aspx" />
     <Content Include="Views\Chapter\Create.ascx" />
@@ -129,9 +126,6 @@
     <Content Include="Views\Topic\Edit.ascx" />
     <Content Include="Views\Discipline\Index.aspx" />
     <Content Include="Views\Topic\TopicRow.ascx" />
-    <Content Include="Views\Topic\Create.aspx" />
-    <Content Include="Views\Topic\Edit.aspx" />
-    <Content Include="Views\Topic\Index.aspx" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

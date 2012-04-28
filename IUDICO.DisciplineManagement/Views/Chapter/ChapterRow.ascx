@@ -8,7 +8,7 @@
 	<td>	<%: String.Format("{0:g}", Model.Created)%>		</td>
 	<td>	<%: String.Format("{0:g}", Model.Updated)%>		</td>
 	<td>
-		<a href="#" onclick="addTopic(<%: Model.Id %>);"><%=Localization.GetMessage("Add")%></a>
+		<a href="#" onclick="addTopic(<%: Model.Id %>);"><%=Localization.GetMessage("AddTopic")%></a>
         |
 		<a href="#" onclick="editChapter(<%: Model.Id %>);"><%=Localization.GetMessage("Edit")%></a>
         |

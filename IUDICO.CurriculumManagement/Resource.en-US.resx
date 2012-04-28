@@ -420,4 +420,34 @@
   <data name="Curriculums" xml:space="preserve">
     <value>Curriculums</value>
   </data>
+  <data name="BlockCurriculumAtTesting" xml:space="preserve">
+    <value>Block curriculum at testing?</value>
+  </data>
+  <data name="BlockTopicAtTesting" xml:space="preserve">
+    <value>Block topic at testing?</value>
+  </data>
+  <data name="ChooseAnotherGroupForThisCurriculum" xml:space="preserve">
+    <value>This group is occupied by another curriculum, choose another.</value>
+  </data>
+  <data name="CreateCurriculum" xml:space="preserve">
+    <value>Create curriculum</value>
+  </data>
+  <data name="DateNotSpecified" xml:space="preserve">
+    <value>Not specified</value>
+  </data>
+  <data name="EditCurriculumChapters" xml:space="preserve">
+    <value>Edit chapter timelines</value>
+  </data>
+  <data name="TestEndDate" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="TestStartDate" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="TheoryEndDate" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="TheoryStartDate" xml:space="preserve">
+    <value>From</value>
+  </data>
 </root>
