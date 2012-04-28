@@ -217,6 +217,11 @@ namespace IUDICO.UserManagement.Controllers
             var user = this.storage.GetUser(u => u.Id == id);
             var group = this.storage.GetGroup(groupRef);
 
+            if (user == null || group == null)
+            {
+                return this.RedirectToAction("Index");
+            }
+
             this.storage.RemoveUserFromGroup(group, user);
 
             return this.RedirectToAction("Details", new { id });
@@ -226,6 +231,11 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult AddToGroup(Guid id)
         {
             var user = this.storage.GetUser(u => u.Id == id);
+
+            if (user == null)
+            {
+                return this.RedirectToAction("Index");
+            }
 
             var groupList =
                 this.storage.GetGroupsAvailableToUser(user).Select(
@@ -241,6 +251,11 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult AddToGroup(Guid id, int? groupRef)
         {
             var user = this.storage.GetUser(u => u.Id == id);
+
+            if (user == null)
+            {
+                return this.RedirectToAction("Index");
+            }
 
             if (groupRef == null)
             {
@@ -284,6 +299,11 @@ namespace IUDICO.UserManagement.Controllers
         {
             var user = this.storage.GetUser(u => u.Id == id);
 
+            if (user == null)
+            {
+                return this.RedirectToAction("Index");
+            }
+
             if (roleRef == null)
             {
                 return this.RedirectToAction("Details", new { id });
@@ -301,6 +321,11 @@ namespace IUDICO.UserManagement.Controllers
         {
             var user = this.storage.GetUser(u => u.Id == id);
 
+            if (user == null)
+            {
+                return this.RedirectToAction("Index");
+            }
+
             var roleList =
                 this.storage.GetRolesAvailableToUser(user).Select(
                     r =>
@@ -317,6 +342,11 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult AddToRole(Guid id, int? roleRef)
         {
             var user = this.storage.GetUser(u => u.Id == id);
+
+            if (user == null)
+            {
+                return this.RedirectToAction("Index");
+            }
 
             if (roleRef == null)
             {
