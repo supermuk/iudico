@@ -177,7 +177,7 @@ namespace IUDICO.UnitTests.Security.Selenium
                 Assert.AreNotEqual(
                     todayNumberOfRequests, this.selenium.GetText("//div[@id='main']/table/tfoot/tr/td[3]"));
             }
-            catch (AssertionException e)
+            catch (AssertionException)
             {
                 // verificationErrors.Append(e.Message);
             }

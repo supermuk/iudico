@@ -16,63 +16,66 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         #region Fields
 
         /// <summary>
-        /// Id of selected discipline
+        /// Id of selected Curriculum
         /// </summary>
-        private readonly int disciplineId;
+        private readonly int curriculumId;
 
-        /// <summary>
-        /// 
-        /// </summary>
         private readonly List<AttemptResult> lastAttempts;
-        private readonly IEnumerable<User> selectGroupStudents;
-        private readonly IEnumerable<Topic> selectDisciplineTopics;
+        private readonly IEnumerable<User> selectedGroupStudents;
+        private readonly IEnumerable<CurriculumChapterTopic> selectedCurriculumChapterTopics;
 
         #endregion
 
-        public TopicInfoModel(int groupId, int disciplineId, ILmsService lmsService)
+        public TopicInfoModel(int groupId, int curriculumId, ILmsService lmsService)
         {
             this.lastAttempts = new List<AttemptResult>();
 
-            this.disciplineId = disciplineId;
+            this.curriculumId = curriculumId;
 
             var group = lmsService.FindService<IUserService>().GetGroup(groupId);
-            this.selectGroupStudents = lmsService.FindService<IUserService>().GetUsersByGroup(group);
+            this.selectedGroupStudents = lmsService.FindService<IUserService>().GetUsersByGroup(group);
 
-            this.selectDisciplineTopics = lmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId(this.disciplineId);
-
-            throw new NotImplementedException(
-                           "Statistics was not implemented due to new design of Discipline/Curriculum services");
-            /*foreach (var temp in from student in SelectGroupStudents
-                                 from topic in SelectDisciplineTopics
-                                 select lmsService.FindService<ITestingService>().GetResults(student, topic)
-                                 into temp where temp != null select temp)
+            this.selectedCurriculumChapterTopics = lmsService.FindService<ICurriculumService>().GetCurriculumChapterTopicsByCurriculumId(this.curriculumId);
+            foreach (var temp in from student in this.selectedGroupStudents
+                                 from curriculumChapterTopic in this.selectedCurriculumChapterTopics
+                                 select lmsService.FindService<ITestingService>().GetResults(student, curriculumChapterTopic) into temp 
+                                 where temp != null 
+                                 select temp)
             {
-                var filteredTemp = temp//.Where(attempt => attempt.CompletionStatus == CompletionStatus.Completed)
-                        .OrderBy(attempt => attempt.StartTime);
+                var filteredTemp = temp.OrderBy(attempt => attempt.StartTime);
                 if (filteredTemp.Count() != 0)
-                    _LastAttempts.Add(filteredTemp.First());
-            }*/
+                    this.lastAttempts.Add(filteredTemp.First());
+            }
         }
 
-        public IEnumerable<Topic> GetSelectDisciplineTopics()
+        public IEnumerable<CurriculumChapterTopic> SelectedCurriculumChapterTopics
         {
-            return this.selectDisciplineTopics;
-        }
-
-        public IEnumerable<User> GetSelectStudents()
-        {
-            return this.selectGroupStudents;
-        }
-        
-        public double GetStudentResultForTopic(User selectStudent, Topic selectTopic)
-        {
-            if (this.lastAttempts.Count != 0)
+            get
             {
-                if (this.lastAttempts.Single(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == selectTopic).Score.ToPercents() != null)
+                return this.selectedCurriculumChapterTopics;
+            }
+        }
+
+        public IEnumerable<User> SelectedStudents
+        {
+            get
+            {
+                return this.selectedGroupStudents;
+            }
+        }
+
+        public double GetStudentResultForTopic(User student, CurriculumChapterTopic curriculumChapterTopic)
+        {
+            if (this.AllAttempts.Count != 0)
+            {
+                var attemptResult =
+                    this.AllAttempts.SingleOrDefault(
+                        x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id);
+                if (attemptResult != null)
                 {
-                    var result = this.lastAttempts.Single(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == selectTopic).Score.ToPercents();
+                    var result = attemptResult.Score.ToPercents();
                     
-                    return result.HasValue == true ? Math.Round((double)result, 2) : 0;
+                    return result.HasValue ? Math.Round((double)result, 2) : 0;
                 }
                 
                 return 0;
@@ -81,17 +84,17 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             return 0;
         }
 
-        public double GetStudentResultForAllTopicsInSelectedDiscipline(User selectStudent)
+        public double GetStudentResultForAllTopicsInSelectedDiscipline(User student)
         {
             double result = 0;
 
             if (this.lastAttempts.Count != 0)
             {
-                foreach (Topic topic in this.selectDisciplineTopics)
+                foreach (var curriculumChapterTopic in this.SelectedCurriculumChapterTopics)
                 {
-                    if (this.lastAttempts.Count(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == topic) != 0)
+                    if (this.lastAttempts.Count(x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id) != 0)
                     {
-                        var value = this.lastAttempts.First(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == topic).Score.ToPercents();
+                        var value = this.lastAttempts.First(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id).Score.ToPercents();
                         
                         if (value.HasValue)
                         {
@@ -106,10 +109,10 @@ namespace IUDICO.Statistics.Models.StatisticsModels
 
         public double GetAllTopicsInSelectedDisciplineMaxMark()
         {
-            return 100 * this.selectDisciplineTopics.Count();
+            return 100 * this.selectedCurriculumChapterTopics.Count();
         }
 
-        public double GetMaxResutForTopic(Topic selectTopic)
+        public double GetMaxResutForTopic(CurriculumChapterTopic curriculumChapterTopic)
         {
             return 100;
         }
@@ -142,23 +145,24 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             }
         }
 
-        public bool NoData(User selectStudent, Topic selectTopic)
+        public bool ContainsResult(User student, CurriculumChapterTopic curriculumChapterTopic)
         {
-            var res = this.lastAttempts.Find(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == selectTopic);
-            
-            return res == null;
+            return this.lastAttempts.Count(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id) > 0;
         }
 
-        public long GetAttempId(User selectStudent, Topic selectTopic)
+        public long GetAttempId(User student, CurriculumChapterTopic curriculumChapterTopic)
         {
-            var res = this.lastAttempts.Find(x => x.User == selectStudent & x.CurriculumChapterTopic.Topic == selectTopic);
+            var res = this.lastAttempts.Find(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id);
             
             return res != null ? res.AttemptId : -1;
         }
 
-        public List<AttemptResult> GetAllAttemts()
+        public List<AttemptResult> AllAttempts
         {
-            return this.lastAttempts;
+            get
+            {
+                return this.lastAttempts;
+            }
         }
     }
 }

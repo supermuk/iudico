@@ -440,6 +440,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return selectedDescriptions.Count() == 1;
         }
 
+        public IEnumerable<CurriculumChapterTopic> GetCurriculumChapterTopicsByCurriculumId(int curriculumId)
+        {
+            return this.GetCurriculumChapters(item => item.CurriculumRef == curriculumId).SelectMany(item => this.GetCurriculumChapterTopics(item2 => item2.CurriculumChapterRef == item.Id));
+        }
+
         #endregion
 
         #endregion

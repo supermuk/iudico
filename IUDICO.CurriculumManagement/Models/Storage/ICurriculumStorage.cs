@@ -81,6 +81,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         bool CanPassCurriculumChapterTopic(User user, CurriculumChapterTopic topic, TopicTypeEnum topicType);
 
+        IEnumerable<CurriculumChapterTopic> GetCurriculumChapterTopicsByCurriculumId(int curriculumId);
+        
         #endregion
     }
 }

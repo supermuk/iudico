@@ -10,52 +10,52 @@ namespace IUDICO.Statistics.Models.Storage
     {
         private ILmsService lmsService;
 
-        public AllSpecializedResults GetResults(IEnumerable<User> users, int[] selectedCurriculumIds, ILmsService lmsService)
+        public AllSpecializedResults GetResults(IEnumerable<User> users, int[] selectedCurriculumIds, ILmsService lmsServiceParam)
         {
-            this.lmsService = lmsService;
-            var asr = new AllSpecializedResults();
-            SpecializedResult specializedResult;
-            DisciplineResult curRes;
-            TopicResult topicResult;
+            this.lmsService = lmsServiceParam;
+            var asr = new AllSpecializedResults
+                {
+                    Users = users.ToList(),
+                    // SelectedDisciplineIds = selectedCurriculumIds,
+                    Curriculums =
+                        this.lmsService.FindService<ICurriculumService>().GetCurriculums(
+                            curr => selectedCurriculumIds.Contains(curr.Id))
+                };
 
-            
-            asr.Users = users.ToList();
-            asr.SelectedCurriculumIds = selectedCurriculumIds;
-            asr.Curriculums = this.lmsService.FindService<ICurriculumService>().GetCurriculums(curr => selectedCurriculumIds.Contains(curr.Id));
 
             foreach (var usr in asr.Users)
             {
-                specializedResult = new SpecializedResult
+                var specializedResult = new SpecializedResult
                     {
-                        Disciplines =
-                            this.lmsService.FindService<IDisciplineService>().GetDisciplines(
-                                asr.Curriculums.Select(curr => curr.DisciplineRef))
+                        Curriculums = asr.Curriculums
                     };
 
-                foreach (var discipline in specializedResult.Disciplines)
+                foreach (var curriculum in specializedResult.Curriculums)
                 {
-                    curRes = new DisciplineResult
+                    var disciplineResult = new DisciplineResult
                         {
-                            Topics =
-                                this.lmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId(discipline.Id)
+                            CurriculumChapterTopics =
+                                this.lmsService.FindService<ICurriculumService>().GetCurriculumChapterTopicsByCurriculumId(curriculum.Id)
                         };
 
                     #region TopicResult
 
-                    foreach (var topic in curRes.Topics)
+                    foreach (var curriculumChapterTopic in disciplineResult.CurriculumChapterTopics)
                     {
-                        topicResult = new TopicResult(usr, topic);
-                        throw new NotImplementedException(
-                            "Statistics was not implemented due to new design of Discipline/Curriculum services");
-                        // topicResult.AttemptResults = _LmsService.FindService<ITestingService>().GetResults(usr, );
-                        // topicResult.Res = topicResult.GetTopicResultScore();
-                        // curRes.TopicResult.Add(topicResult);
+                        var topicResult = new TopicResult(usr, curriculumChapterTopic)
+                            {
+                                AttemptResults =
+                                    this.lmsService.FindService<ITestingService>().GetResults(
+                                        usr, curriculumChapterTopic)
+                            };
+                        topicResult.Res = topicResult.GetTopicResultScore();
+                        disciplineResult.TopicResults.Add(topicResult);
                     }
 
                     #endregion
 
-                    curRes.CalculateSumAndMax(usr, discipline);
-                    specializedResult.DisciplineResult.Add(curRes);
+                    disciplineResult.CalculateSumAndMax(usr, curriculum);
+                    specializedResult.DisciplineResults.Add(disciplineResult);
                 }
                 specializedResult.CalculateSpecializedResult(usr);
                 asr.SpecializedResults.Add(specializedResult);

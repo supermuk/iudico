@@ -42,20 +42,20 @@
         <th><%=Localization.GetMessage("Created")%></th>
      </tr>
 
-     <% foreach (IUDICO.Common.Models.Shared.Curriculum curr in Model)
+     <% foreach (var curriculum in Model)
         { %>
         <tr>
             <td>
-            <input type="checkbox" name="selectDisciplineId" value="<%: curr.Id %>" id="<%: curr.Id %>" />
+            <input type="checkbox" name="selectedCurriculumId" value="<%: curriculum.Id %>" id="<%: curriculum.Id %>" />
             </td>
             <%--<td>
             <%: curr.Id %>
             </td>--%>
             <td>
-            <%: curr.Name%>
+            <%: curriculum.Discipline.Name%>
             </td>
             <td>
-            <%: curr.Created%>
+            <%: curriculum.Discipline.Created%>
             </td>
         </tr>
      <% } %>
