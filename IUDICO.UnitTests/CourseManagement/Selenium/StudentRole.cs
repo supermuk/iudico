@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
-
+using System.Threading;
+using IUDICO.UnitTests.Base;
 using NUnit.Framework;
 
 using Selenium;
@@ -8,275 +9,468 @@ using Selenium;
 namespace IUDICO.UnitTests.CourseManagement.Selenium
 {
     [TestFixture]
-    internal class StudentRole
+    internal class StudentRole : SimpleWebTest
     {
-        private ISelenium selenium;
+    	  private const int sleepTime = 8000;
 
-        [SetUp]
-        public void Login()
-        {
-            this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", ConfigurationManager.AppSettings["SELENIUM_URL"]);
-            this.selenium.Start();
-
-            this.selenium.Open("/");
-            this.selenium.Type("id=loginUsername", "prof");
-            this.selenium.Type("id=loginPassword", "prof");
-            this.selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("link=Courses");
-            this.selenium.WaitForPageToLoad("40000");
-        }
-
-        [TearDown]
-        public void Logout()
-        {
-            try
-            {
-                this.selenium.Click("link=Logout");
-                this.selenium.WaitForPageToLoad("40000");
-
-                this.selenium.Stop();
-            }
-            catch (Exception)
-            {
-                // Ignore errors if unable to close the browser
-            }
-        }
-
-        [Test]
+    	  [Test]
         public void OpenCourses()
         {
+				this.DefaultLogin("prof","prof");
+
+			   this.selenium.Click("link=Courses");
+		      this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("link=Back to List");
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.Click("xpath=(//button[@type='button'])[4]");
             this.selenium.Click("link=Import");
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("link=Back to List");
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   try
+			   {
+			  		this.Logout();
+				}
+				catch(Exception)
+				{
+			  		 // Ignore errors if unable to close the browser
+				}
         }
 
         [Test]
         public void CreateCourseTest()
         {
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Type("id=Name", "Test");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
+			   this.DefaultLogin("prof","prof");
 
-            var isPresent = this.selenium.IsElementPresent("//table[@id='myCourses']//tr//td[contains(.,'Test')]");
+			   this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            this.selenium.Click("link=Create New");
+			   Thread.Sleep(sleepTime);
+            this.selenium.Type("id=Name", "Test");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   var isPresent = this.selenium.IsElementPresent("//table[@id='Courses']//tr//td[contains(.,'Test')]");
             Assert.IsTrue(isPresent);
+
+				try
+				{
+					this.Logout();
+				}
+				catch(Exception)
+				{
+					// Ignore errors if unable to close the browser
+				}
         }
 
         [Test]
         public void CreateCourseWithoutCourseName()
         {
+			   this.DefaultLogin("prof","prof");
+
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
-            var pos = this.selenium.GetLocation();
+			   Thread.Sleep(sleepTime);
             this.selenium.Type("id=Name", string.Empty);
-            this.selenium.Click("css=input[value=\"Create\"]");
-            Assert.AreEqual(pos, this.selenium.GetLocation());
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   Thread.Sleep(sleepTime);
+			 	Assert.IsTrue(this.selenium.IsElementPresent("id=Name_validationMessage"));
+			   Assert.IsTrue(this.selenium.IsElementPresent("//span[contains(.,'Name is required')]"));
+			   this.selenium.Click("xpath=(//button[@type='button'])[4]");
+			  	try
+				{
+					this.Logout();
+				}
+				catch(Exception)
+				{
+					// Ignore errors if unable to close the browser
+				}
         }
 
         [Test]
         public void EditCourse()
         {
-            this.selenium.WaitForPageToLoad("40000");
+			   this.DefaultLogin("prof","prof");
+
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
             this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
+            Thread.Sleep(sleepTime);
             this.selenium.Type("id=Name", "forEdit");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//a[text()='Edit Course']");
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
+            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//a[contains(text(),'Edit')]");
+            Thread.Sleep(sleepTime);
             this.selenium.Type("id=Name", "Edited");
-            this.selenium.Click("css=input[value=\"Save\"]");
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   
+			   this.selenium.Open("/");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            this.selenium.Open("/");
-            this.selenium.WaitForPageToLoad("40000");
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
+
             this.selenium.Click("link=Courses");
-            this.selenium.WaitForPageToLoad("40000");
-            var isPresent = this.selenium.IsElementPresent("xpath=//table[@id='myCourses']//tr[contains(.,'Edited')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            var isPresent = this.selenium.IsElementPresent("xpath=//table[@id='Courses']//tr[contains(.,'Edited')]");
             Assert.IsTrue(isPresent);
+			  	try
+				{
+					this.Logout();
+				}
+				catch(Exception)
+				{
+					// Ignore errors if unable to close the browser
+				}
         }
 
         [Test]
-        public void EditPublishCourse()
+        public void EditCourseContentAddNodeAndFolder()
         {
-            this.selenium.WaitForPageToLoad("40000");
+
+			   this.DefaultLogin("prof","prof");
+
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
             this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Type("id=Name", "forPublish");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("xpath=//tr[contains(.,'forPublish')]//a[text()='#Publish']");
-            this.selenium.WaitForPageToLoad("40000");
-
-            this.selenium.Click("xpath=//table[@id='publishedCourses']//tr[contains(.,'forPublish')]//a[text()='Edit']");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Type("id=Name", "Edited");
-            this.selenium.Click("css=input[value=\"Save\"]");
-            this.selenium.WaitForPageToLoad("40000");
-
-            this.selenium.Open("/");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("link=Courses");
-            this.selenium.WaitForPageToLoad("40000");
-            var isPresent =
-                this.selenium.IsElementPresent("xpath=//table[@id='publishedCourses']//tr[contains(.,'Edited')]");
-            Assert.IsTrue(isPresent);
-        }
-
-        [Test]
-        public void EditCourseContent()
-        {
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
+            Thread.Sleep(sleepTime);
             this.selenium.Type("id=Name", "forEditContent");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//a[text()='Edit content course']");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("link=Back to List");
-            this.selenium.WaitForPageToLoad("40000");
-            var isPresent = this.selenium.IsElementPresent("//tr//td[contains(.,'forEditContent')]");
-            Assert.IsTrue(isPresent);
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
+            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//div[contains(text(),'forEditContent')]");
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+	    	   this.selenium.ContextMenu("//a[contains(text(),'Root')]");
+			   this.selenium.Click("//a[contains(text(),'Create Node')]");
+			   this.selenium.ContextMenu("//a[contains(text(),'Root')]");
+			   this.selenium.Click("//a[contains(text(),'Create Folder')]");
+			   this.selenium.Click("link=Back to List");
+				try
+				{
+					this.Logout();
+				}
+				catch(Exception)
+				{
+					// Ignore errors if unable to close the browser
+				}
+
         }
 
         [Test]
-        [Ignore]
-        public void ShareOnCreateCourse()
+        public void ShareCourseAndUnshareCourse()
         {
-            this.selenium.WaitForPageToLoad("40000");
+            this.DefaultLogin("prof","prof");
+
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
             this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Type("id=Name", "Test");
-            this.selenium.WaitForPageToLoad("40000");
+            Thread.Sleep(sleepTime);
+            this.selenium.Type("id=Name", "SharedForProf2");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
 
-            this.selenium.DoubleClick("//div/select/option");
+			   this.selenium.Click("xpath=//tr[contains(.,'SharedForProf2')]//a[contains(text(),'Share')]");
+            Thread.Sleep(sleepTime);
+			   
+			   this.selenium.Click("xpath=//tr[contains(.,'prof2')]//input[@name='sharewith']");
+        	   this.selenium.Click("xpath=//button[@type='button']//span[contains(text(),'Share')]");
+			   Thread.Sleep(sleepTime);
+            this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
+			  
 
-            var isPresent = this.selenium.IsElementPresent("//table[@id='myCourses']//tr//td[contains(.,'Test')]");
-            Assert.IsTrue(isPresent);
+			   this.DefaultLogin("prof2","prof2");
+
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+				var isPresent = this.selenium.IsElementPresent("//table[@id='Courses']//tr//td[contains(.,'SharedForProf2')]");
+				Assert.IsTrue(isPresent);
+			   this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+
+				//unshare)
+			   this.DefaultLogin("prof","prof");
+
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   this.selenium.Click("xpath=//tr[contains(.,'SharedForProf2')]//a[contains(text(),'Share')]");
+            Thread.Sleep(sleepTime);
+			   
+			   this.selenium.Click("xpath=//tr[contains(.,'prof2')]//input[@name='sharewith']");
+        	   this.selenium.Click("xpath=//button[@type='button']//span[contains(text(),'Share')]");
+			   Thread.Sleep(sleepTime);
+            this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+			  
+
+			   this.DefaultLogin("prof2","prof2");
+
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+				isPresent = this.selenium.IsElementPresent("//table[@id='Courses']//tr//td[contains(.,'SharedForProf2')]");
+				Assert.IsFalse(isPresent);
+			  	try
+				{
+					this.Logout();
+				}
+				catch(Exception)
+				{
+					// Ignore errors if unable to close the browser
+				}
         }
 
-        [Test]
-        public void PublishAndUnlockCourse()
-        {
-            this.selenium.WaitForPageToLoad("40000");
+		  [Test]
+		  public void LockAndUnlockCourse()
+		  {
+
+				this.DefaultLogin("prof","prof");
+
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
             this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Type("id=Name", "forPublish");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("xpath=//tr[contains(.,'forPublish')]//a[text()='#Publish']");
-            this.selenium.WaitForPageToLoad("40000");
+            Thread.Sleep(sleepTime);
+            this.selenium.Type("id=Name", "forLocking");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
 
-            var isPresent =
-                this.selenium.IsElementPresent("//table[@id='publishedCourses']//tr[contains(.,'forPublish')]");
-            Assert.IsTrue(isPresent);
+			   this.selenium.Click("xpath=//tr[contains(.,'forLocking')]//a[text()='#Lock']");
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+		      var isPresent =
+		          this.selenium.IsElementPresent("xpath=//tr[contains(.,'forLocking')]//a[text()='Unlock']");
+		      Assert.IsTrue(isPresent);
+			  	this.selenium.Click("xpath=//tr[contains(.,'forLocking')]//a[text()='Unlock']");
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   isPresent =
+		          this.selenium.IsElementPresent("xpath=//tr[contains(.,'forLocking')]//a[text()='Unlock']");
+		      Assert.IsFalse(isPresent);
+			  	try
+				{
+					this.Logout();
+				}
+				catch(Exception)
+				{
+					// Ignore errors if unable to close the browser
+				}
+		  }
 
-            this.selenium.Click("link=Unlock");
-            isPresent = this.selenium.IsElementPresent("//table[@id='publishedCourses']//tr[contains(.,'forPublish')]");
-            Assert.IsTrue(isPresent);
-        }
+		  [Test]
+		  public void ExportCourse()
+		  {
+				this.DefaultLogin("prof","prof");
 
-        [Test]
-        public void ExportCourse()
-        {
-            this.selenium.WaitForPageToLoad("40000");
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
             this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
+            Thread.Sleep(sleepTime);
             this.selenium.Type("id=Name", "forExport");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
+			   Thread.Sleep(sleepTime);
+			   Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forExport')]"));
 
-            this.selenium.Click("xpath=//tr[contains(.,'forExport')]//a[text()='Export']");
-        }
+		      this.selenium.Click("xpath=//tr[contains(.,'forExport')]//a[text()='Export']");
+				try
+				{
+					this.Logout();
+				}
+				catch(Exception)
+				{
+					// Ignore errors if unable to close the browser
+				}
+
+		  }
 
         [Test]
         public void DeleteCourse()
         {
-            this.selenium.WaitForPageToLoad("40000");
+			   this.DefaultLogin("prof","prof");
+
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
             this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
+            Thread.Sleep(sleepTime);
             this.selenium.Type("id=Name", "forDeletion");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
+			   Thread.Sleep(sleepTime);
+			   Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion')]"));
 
-            this.selenium.Click("xpath=//tr[contains(.,'forDeletion')]//a[text()='Delete']");
-
+			   this.selenium.Click("xpath=//tr[contains(.,'forDeletion')]//a[contains(text(),'Delete')]");
             this.selenium.GetConfirmation();
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
+			   Assert.IsFalse(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion')]"));
+			  	try
+				{
+					this.Logout();
+				}
+				catch(Exception)
+				{
+					// Ignore errors if unable to close the browser
+				}
         }
 
         [Test]
-        public void DeletePublishCourse()
+        public void DeleteAllSelectedCourses()
         {
-            this.selenium.WaitForPageToLoad("40000");
+            this.DefaultLogin("prof","prof");
+
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
             this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Type("id=Name", "forPublish");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("xpath=//tr[contains(.,'forPublish')]//a[text()='#Publish']");
-            this.selenium.WaitForPageToLoad("40000");
-
-            this.selenium.Click("//table[@id='publishedCourses']//tr[contains(.,'forPublish')]//a[text()='Delete']");
-            this.selenium.GetConfirmation();
-
-            var isPresent = this.selenium.IsElementPresent("//tr[contains(.,'forPublish')]");
-            Assert.IsTrue(isPresent);
-        }
-
-        [Test]
-        public void DeleteAllSelectedCoursesCourse()
-        {
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
+            Thread.Sleep(sleepTime);
             this.selenium.Type("id=Name", "forDeletion1");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
 
-            this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
+
+			   this.selenium.Click("link=Create New");
+            Thread.Sleep(sleepTime);
             this.selenium.Type("id=Name", "forDeletion2");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
 
-            this.selenium.Click("link=Create New");
-            this.selenium.WaitForPageToLoad("40000");
+			   this.selenium.Click("link=Create New");
+            Thread.Sleep(sleepTime);
             this.selenium.Type("id=Name", "forDeletion3");
-            this.selenium.Click("css=input[value=\"Create\"]");
-            this.selenium.WaitForPageToLoad("40000");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
+			   Thread.Sleep(sleepTime);
+			   Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion1')]"));
+			   Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion2')]"));
+			   Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion3')]"));
 
             this.selenium.Click("xpath=//tr[contains(.,'forDeletion1')]//input");
             this.selenium.Click("xpath=//tr[contains(.,'forDeletion2')]//input");
             this.selenium.Click("xpath=//tr[contains(.,'forDeletion3')]//input");
             this.selenium.Click("link=Delete Selected");
+			   this.selenium.GetConfirmation();
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 
+			   Thread.Sleep(sleepTime);
+			   Assert.IsFalse(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion1')]"));
+			   Assert.IsFalse(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion2')]"));
+			   Assert.IsFalse(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion3')]"));
 
-            this.selenium.GetConfirmation();
+			  	try
+				{
+					this.Logout();
+				}
+				catch(Exception)
+				{
+					// Ignore errors if unable to close the browser
+				}
         }
 
-        [Test]
-        public void Validate()
-        {
-            this.selenium.WaitForPageToLoad("40000");
-            this.selenium.Click("link=Import");
-            this.selenium.WaitForPageToLoad("40000");
-        }
+		  [Test]
+		  public void SelectAllAndDelete()
+		  {
+				this.DefaultLogin("prof","prof");
 
-        [Test]
-        public void Import()
-        {
-        }
+				this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.selenium.Click("link=Create New");
+            Thread.Sleep(sleepTime);
+            this.selenium.Type("id=Name", "forDeletion");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   }
+			   Thread.Sleep(sleepTime);
+			   Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion')]"));
+			   
+			   this.selenium.Click("xpath=//input[@id='CoursesCheckAll']");
+            this.selenium.Click("link=Delete Selected");
+			   this.selenium.GetConfirmation();
+			   this.selenium.Refresh();
+			   this.selenium.WaitForPageToLoad(this.SeleniumWait);
+			   while (selenium.IsAlertPresent())
+			   {
+			   	selenium.GetAlert();
+			   } 			   
+			   Thread.Sleep(sleepTime);
+			   Assert.IsFalse(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion')]"));
+			   Assert.IsTrue(this.selenium.IsElementPresent("xpath=//div[contains(.,'No courses available')]"));
+			 	try
+				{
+					this.Logout();
+				}
+				catch(Exception)
+				{
+					// Ignore errors if unable to close the browser
+				}
+ 
+		  }
+
     }
 }
