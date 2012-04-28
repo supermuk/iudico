@@ -44,7 +44,7 @@ namespace IUDICO.Statistics.Models.Storage
         /// Gets all discipline dy group id using method GetDisciplinesByGroupId(int groupId) from IDisciplineService .
         /// </summary>
         /// <param name="groupId">int Selected group id .</param>
-        /// <returns>IEnumerable<Discipline> Disciplines by group id .</returns>
+        /// <returns>IEnumerable<Discipline> Curriculums by group id .</returns>
         public IEnumerable<Curriculum> GetCurrilulumsByGroupId(int groupId)
         {
             return this.lmsService.FindService<ICurriculumService>().GetCurriculums(curr => curr.UserGroupRef == groupId);

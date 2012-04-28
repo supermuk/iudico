@@ -136,7 +136,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 pc = new AccountController(new DatabaseUserStorage(container.Resolve<ILmsService>()));
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 
@@ -188,7 +188,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 pc = new AccountController(new DatabaseUserStorage(container.Resolve<ILmsService>()));
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 

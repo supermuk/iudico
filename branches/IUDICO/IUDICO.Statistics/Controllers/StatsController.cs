@@ -1,5 +1,4 @@
-﻿using System;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Collections.Generic;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
@@ -35,31 +34,31 @@ namespace IUDICO.Statistics.Controllers
         public ActionResult SelectDisciplines(int id)
         {
             ViewData["Group"] = LmsService.FindService<IUserService>().GetGroup(id).Name;
-            var disciplines = this.proxy.GetCurrilulumsByGroupId(id);
+            var curriculums = this.proxy.GetCurrilulumsByGroupId(id);
             HttpContext.Session["SelectedGroupId"] = id;
-            return View(disciplines);
+            return View(curriculums);
         }
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
-        public ActionResult ShowDisciplineStatistic(int[] selectDisciplineId)
+        public ActionResult ShowDisciplineStatistic(int[] selectedCurriculumId)
         {
             var selectedGroup = LmsService.FindService<IUserService>().GetGroup((int)HttpContext.Session["SelectedGroupId"]);
             ViewData["selectGroupName"] = selectedGroup.Name;
             IEnumerable<User> users = LmsService.FindService<IUserService>().GetUsersByGroup(selectedGroup);
             var srp = new SpecializedResultProxy();
-            AllSpecializedResults allSpecRes = srp.GetResults(users, selectDisciplineId, LmsService);
+            AllSpecializedResults allSpecRes = srp.GetResults(users, selectedCurriculumId, LmsService);
 
             return View(allSpecRes);
         }
 
         [Allow(Role = Role.Teacher)]
         [HttpPost]
-        public ActionResult TopicsInfo(int disciplineId)
+        public ActionResult TopicsInfo(int curriculumId)
         {
-            var model = new TopicInfoModel((int)HttpContext.Session["SelectedGroupId"], disciplineId, LmsService);
+            var model = new TopicInfoModel((int)HttpContext.Session["SelectedGroupId"], curriculumId, LmsService);
 
-            HttpContext.Session["Attempts"] = model.GetAllAttemts();
+            HttpContext.Session["Attempts"] = model.AllAttempts;
 
             return View(model);
         }

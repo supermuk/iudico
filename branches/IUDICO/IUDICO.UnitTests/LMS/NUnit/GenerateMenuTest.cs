@@ -111,7 +111,6 @@ namespace IUDICO.UnitTests.LMS.NUnit
             PluginController.LmsService = service;
             var plugins = container.ResolveAll<IPlugin>();
             var actions = new Dictionary<IPlugin, IEnumerable<Action>>();
-            Dictionary<IPlugin, IEnumerable<Action>> actions1;
             var roles = new List<Role> { Role.None };
 
             var currentRole = from rol in roles select rol;
@@ -129,7 +128,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
                 service = lmsservice.Object;
                 service.Inform(LMSNotifications.ApplicationRequestStart);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 
@@ -190,7 +189,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
                 service = lmsservice.Object;
                 service.Inform(LMSNotifications.ApplicationRequestStart);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 
@@ -251,7 +250,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
                 service = lmsservice.Object;
                 service.Inform(LMSNotifications.ApplicationRequestStart);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 
@@ -312,7 +311,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
                 service = lmsservice.Object;
                 service.Inform(LMSNotifications.ApplicationRequestStart);
             }
-            catch (Exception e)
+            catch (Exception)
             {
             }
 

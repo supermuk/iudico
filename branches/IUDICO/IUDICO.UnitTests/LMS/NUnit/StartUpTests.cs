@@ -57,7 +57,7 @@ namespace IUDICO.UnitTests.LMS.NUnit
             {
                 var lms = container.Resolve<ILmsService>();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Assert.Fail("LmsService instance could not be resolved from Windsor container");
             }

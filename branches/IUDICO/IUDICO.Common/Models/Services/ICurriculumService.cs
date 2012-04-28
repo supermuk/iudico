@@ -34,5 +34,12 @@ namespace IUDICO.Common.Models.Services
         /// <param name="topicType"><see cref="TopicTypeEnum"/> value, allowance to pass is being evaluated for.</param>
         /// <returns>Boolean value <value>true</value> in case <paramref name="user"/> can access(pass) <paramref name="curriculumChapterTopic"/> at the moment. Otherwise <value>false</value></returns>
         bool CanPassCurriculumChapterTopic(User user, CurriculumChapterTopic curriculumChapterTopic, TopicTypeEnum topicType);
+
+        /// <summary>
+        /// Returns all children of <see cref="Curriculum"/> specified by its <paramref name="curriculumId"/>.
+        /// </summary>
+        /// <param name="curriculumId">Int32 value representing identifier of <see cref="Curriculum"/></param>
+        /// <returns><see cref="IEnumerable{T}"/> collection of <see cref="CurriculumChapterTopic"/> object, which are descendants of specified curriculum.</returns>
+        IEnumerable<CurriculumChapterTopic> GetCurriculumChapterTopicsByCurriculumId(int curriculumId);
     }
 }
