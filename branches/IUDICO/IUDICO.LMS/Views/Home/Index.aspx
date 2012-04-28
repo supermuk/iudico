@@ -146,25 +146,5 @@
     </div>
 	<% } %>
 	
-	
-
-<%--    <% if (Model.TopicsDescriptions.Any()) { %>
-    <h4 class="availableTopics"><%=Localization.getMessage("AvailableTopics") %></h4>
-    <ul class="topics">
-    <% foreach (var topicDescription in Model.TopicsDescriptions)
-       { %>
-        <li>
-        <% for (var i = 1; i <= 5; ++i) { %>
-            <input name="rating_<%=topicDescription.Topic.Id %>" value="<%= i %>" <%= (topicDescription.Rating == i ? "checked='checked'" : "") %> <%= (topicDescription.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
-        <% } %>
-        <%: Html.ActionLink(topicDescription.ToString(), "Play", "Training",
-                                new
-                                { curriculumChapterTopicId = topicDescription.CurriculumChapterTopicId,
-                                  courseId = topicDescription.CourseId, 
-                                  topicType = topicDescription.TopicType 
-                                }, null)%>
-        </li>
-    <% } %>
-    </ul>
-    <% } %>--%>
+    <%: Html.Action("RecommendedTopics", "Recommender")%>
 </asp:Content>

@@ -82,7 +82,7 @@
             %>
             <asp:ContentPlaceHolder ID="MainContent" runat="server" />
             <div id="footer">
-                <%: Html.Action("RecommendedTopics", "Recommender")%>
+                
             </div>
         </div>
     </div>

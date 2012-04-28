@@ -60,6 +60,13 @@ namespace IUDICO.Analytics.Controllers
                 return new EmptyResult();
             }
 
+            var roles = LmsService.FindService<IUserService>().GetCurrentUserRoles();
+
+            if (!roles.Contains(Role.Student))
+            {
+                return new EmptyResult();
+            }
+
             var topics = this.storage.GetRecommenderTopics(user);
             var topicDescriptions = LmsService.FindService<ICurriculumService>().GetTopicDescriptionsByTopics(topics.Select(t => t.Topic), user);
 
