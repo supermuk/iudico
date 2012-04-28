@@ -7,43 +7,39 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
     [TestFixture]
     public class AvatarSeleniumTester : SimpleWebTest
     {
-        /*[Test]
-            public void UploadNewAvatar()
-            {
-                selenium.Open("/");
-                selenium.Type("loginPassword", "lex");
-                selenium.Type("loginUsername", "lex");
-                selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
-                selenium.WaitForPageToLoad("30000");
-                selenium.Click("link=Account");
-                selenium.WaitForPageToLoad("30000");
-                selenium.Click("link=Edit");
-                selenium.WaitForPageToLoad("30000");
-                selenium.Type("file", "D:\\IUDICO\\Iudico Code\\IUDICO.LMS\\Data\\Avatars\\test.png");
-                selenium.Click("//input[@value='Upload']");
-                selenium.WaitForPageToLoad("30000");
-                selenium.Click("link=Back to Account");
-                selenium.WaitForPageToLoad("30000");
-                Assert.IsTrue(selenium.IsElementPresent("avatar"));
-            }
+        [Test]
+        public void UploadNewAvatar()
+        {
+            this.DefaultLogin();
 
-            [Test]
-            public void EditUserAvatar()
-            {
-                selenium.Open("/");
-                selenium.Type("loginPassword", "lex");
-                selenium.Type("loginUsername", "lex");
-                selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
-                selenium.WaitForPageToLoad("30000");
-                selenium.Click("link=Users");
-                selenium.WaitForPageToLoad("30000");
-                selenium.Click("//div[@id='main']/table/tbody/tr[4]/td[7]/a[2]");
-                selenium.WaitForPageToLoad("30000");
-                selenium.Type("file", "D:\\IUDICO\\Iudico Code\\IUDICO.LMS\\Data\\Avatars\\test3.png");
-                selenium.Click("//input[@value='Upload']");
-                selenium.WaitForPageToLoad("30000");
-                Assert.IsTrue(selenium.IsElementPresent("avatar"));
-            }*/
+            selenium.Click("//a[contains(@href, '/Account/Index')]");
+            selenium.WaitForPageToLoad(this.SeleniumWait);
+            selenium.Click("//a[contains(@href, '/Account/Edit')]");
+            selenium.WaitForPageToLoad(this.SeleniumWait);
+            selenium.AttachFile("name=file", "http://dl.dropbox.com/u/38366179/test.jpg");
+            selenium.Click("//form[contains(@action, '/Account/UploadAvatar')]//input[@type='submit']");
+            selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
+            
+            Assert.IsTrue(selenium.IsElementPresent("id=avatar"));
+            Assert.IsTrue(selenium.GetAttribute("//img[@id=avatar]/@src") != "/Data/Avatars/default.png");
+        }
+
+        [Test]
+        public void EditUserAvatar()
+        {
+            this.DefaultLogin();
+
+            selenium.Click("//a[contains(@href, '/User/Index')]");
+            selenium.WaitForPageToLoad(this.SeleniumWait);
+            selenium.Click("//a[contains(@href, '/User/Edit?id=')]");
+            selenium.WaitForPageToLoad(this.SeleniumWait);
+            selenium.AttachFile("name=file", "http://dl.dropbox.com/u/38366179/test2.png");
+            selenium.Click("//form[contains(@action, '/User/UploadAvatar')]//input[@type='submit']");
+            selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
+
+            Assert.IsTrue(selenium.IsElementPresent("id=avatar"));
+            Assert.IsTrue(selenium.GetAttribute("//img[@id=avatar]/@src") != "/Data/Avatars/default.png");
+        }
 
         [Test]
         public void DisplayUserAvatar()
@@ -55,7 +51,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            Assert.IsTrue(this.selenium.IsElementPresent("avatar"));
+            Assert.IsTrue(this.selenium.IsElementPresent("id=avatar"));
             this.Logout();
         }
     }
