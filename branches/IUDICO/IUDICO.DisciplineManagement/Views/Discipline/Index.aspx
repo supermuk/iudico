@@ -150,10 +150,10 @@
                 autoOpen: false,
                 modal: true,
                 buttons: {
-                    'Submit': function() {
+                    "<%=Localization.GetMessage("Submit") %>": function() {
                         $("#dialogInner").find("form").submit();
                     },
-                    'Cancel': function() {
+                    "<%=Localization.GetMessage("Cancel") %>": function() {
                         $(this).dialog('close');
                     }
                 }
@@ -274,7 +274,7 @@
         }
     	
         function deleteTopic(id) {
-            var answer = confirm("<%=Localization.GetMessage("AreYouSureYouWantDeleteSelectedChapter") %>");
+            var answer = confirm("<%=Localization.GetMessage("AreYouSureYouWantDeleteSelectedTopic") %>");
 
             if (answer == false) {
                 return;
@@ -296,7 +296,7 @@
         }
         
         function addTopic(chapterId) {
-            openDialog("Create topic");
+            openDialog("<%=Localization.GetMessage("CreateTopic") %>");
 
             expandRow("chapter" + chapterId, expandChapter);
             
@@ -311,7 +311,7 @@
         }
         
         function addChapter(disciplineId) {
-            openDialog("Create chapter");
+            openDialog("<%=Localization.GetMessage("CreateChapter") %>");
             
             expandRow("discipline" + disciplineId, expandDiscipline);
 
@@ -326,7 +326,7 @@
         }
 
         function editTopic(topicId) {
-            openDialog("Edit topic");
+            openDialog("<%=Localization.GetMessage("EditTopic") %>");
 
             $.ajax({
                type: "get",
@@ -339,7 +339,7 @@
         }
 
         function editChapter(chapterId) {
-            openDialog("Edit chapter");
+            openDialog("<%=Localization.GetMessage("EditChapter") %>");
 
             $.ajax({
                type: "get",
@@ -392,7 +392,7 @@
         }
         
         function shareDiscipline(disciplineId) {
-            openDialog("Share discipline", {width: 450});
+            openDialog("<%=Localization.GetMessage("ShareDiscipline") %>", {width: 450});
 
             $.ajax({
                type: "get",
@@ -450,7 +450,7 @@
         |
         <% Html.RenderPartial("Import"); %>
         |
-        <a id="DeleteMany" href="#"><%=Localization.GetMessage("DeleteSelected")%></a>
+        <a id="DeleteMany" href="#" style="display:none"><%=Localization.GetMessage("DeleteSelected")%></a>
     </div>
 	  <p></p>
 	<table id="disciplines" class="disciplineTable">
@@ -460,7 +460,7 @@
 			<th class="disciplineNameColumn">Назва</th>
 			<th class="disciplineDateColumn">Створено</th>
 			<th class="disciplineDateColumn">Оновлено</th>
-			<th></th>
+			<th class="disciplineActionColumn"></th>
 		</tr>
     </thead>
     <tbody>
@@ -471,7 +471,7 @@
 				<td>	<%: String.Format("{0:g}", item.Created) %>		</td>
 				<td>	<%: String.Format("{0:g}", item.Updated) %>		</td>
 				<td>
-						<a href="#" onclick="addChapter(<%: item.Id %>);"><%=Localization.GetMessage("Add")%></a>
+						<a href="#" onclick="addChapter(<%: item.Id %>);"><%=Localization.GetMessage("AddChapter")%></a>
             |
 						<%: Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new { DisciplineID = item.Id })%>
             | 

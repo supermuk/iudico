@@ -95,7 +95,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public Curriculum GetCurriculum(int curriculumId)
         {
-            return this.cacheProvider.Get<Curriculum>("curriculum-" + curriculumId, this.lockObject, () => this.storage.GetCurriculum(curriculumId), DateTime.Now.AddDays(1), "curriculum-" + curriculumId);
+            return this.storage.GetCurriculum(curriculumId);
+            // return this.cacheProvider.Get<Curriculum>("curriculum-" + curriculumId, this.lockObject, () => this.storage.GetCurriculum(curriculumId), DateTime.Now.AddDays(1), "curriculum-" + curriculumId);
         }
 
         public IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate)

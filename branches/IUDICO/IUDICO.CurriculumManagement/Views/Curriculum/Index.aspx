@@ -146,9 +146,4 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
         <% } %>
         </tbody>
     </table>
-
-<%--    <div>
-        <br/>
-        <%: Html.RouteLink(Localization.getMessage("BackToDisciplines"), "Disciplines", new { action = "Index" })%>
-    </div>--%>
 </asp:Content>
