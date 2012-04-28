@@ -366,4 +366,10 @@
   <data name="PublishedCourses" xml:space="preserve">
     <value>Published сourses</value>
   </data>
+  <data name="ChangesAreNotSaved" xml:space="preserve">
+    <value>Changes are not saved</value>
+  </data>
+  <data name="SaveChanges" xml:space="preserve">
+    <value>Save changes</value>
+  </data>
 </root>
