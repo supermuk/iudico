@@ -57,7 +57,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                     new User { Username = "name2", Email = "mail2@mail.com", Password = "123" }, 
                 };
 
-            this.tests.MockStorage.Setup(s => s.GetCurrentUser()).Returns(
+            this.tests.MockDatabaseStorage.Setup(s => s.GetCurrentUser()).Returns(
                 this.tests.Storage.GetUser(u => u.Username == "panza"));
 
             foreach (var user in users)

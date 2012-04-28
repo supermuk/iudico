@@ -8,8 +8,6 @@ using System.Collections.Generic;
 using Castle.Windsor;
 using System;
 
-using IUDICO.Search.Models.IndexDefinitions;
-
 using Lucene.Net.Store;
 using Lucene.Net.Analysis;
 using Lucene.Net.Index;
@@ -126,52 +124,25 @@ namespace IUDICO.Search
                 case UserNotifications.UserDelete:
                     luceneThread.DeleteIndex((User)data[0]);
                     break;
+                case UserNotifications.GroupCreate:
+                case UserNotifications.GroupEdit:
+                    luceneThread.UpdateIndex((Group)data[0]);
+                    break;
+                case UserNotifications.GroupDelete:
+                    luceneThread.DeleteIndex((Group)data[0]);
+                    break;
+                case DisciplineNotifications.DisciplineCreated:
+                case DisciplineNotifications.DisciplineEdited:
+                    luceneThread.UpdateIndex((Discipline)data[0]);
+                    break;
+                case DisciplineNotifications.DisciplineDeleted:
+                    luceneThread.DeleteIndex((Discipline)data[0]);
+                    break;
             }
 
             luceneThread.ProcessQueue();
 
             /*
-            if (evt == UserNotifications.UserCreate)
-            {
-                User user = (User)data[0];
-
-                Document document = new Document();
-                
-                this.AddToIndex(document);
-            }
-
-            if (evt == UserNotifications.UserEdit)
-            {
-                this.Update(UserNotifications.UserDelete, data[0]);
-                this.Update(UserNotifications.UserCreate, data[0]);
-            }
-
-            if (evt == UserNotifications.UserDelete)
-            {
-                User user = (User)data[0];
-                Term term = new Term("UserID", user.Id.ToString());
-                this.DeleteFromIndex(term);
-            }
-
-            if (evt == DisciplineNotifications.DisciplineCreated)
-            {
-                Discipline discipline = (Discipline)data[0];
-                var document = new Document();
-                this.AddToIndex(document);
-            }
-
-            if (evt == DisciplineNotifications.DisciplineEdited)
-            {
-                this.Update(DisciplineNotifications.DisciplineDeleted, data[0]);
-                this.Update(DisciplineNotifications.DisciplineCreated, data[1]);
-            }
-
-            if (evt == DisciplineNotifications.DisciplineDeleted)
-            {
-                Discipline discipline = (Discipline)data[0];
-                Term term = new Term("DisciplineID", discipline.Id.ToString());
-                this.DeleteFromIndex(term);
-            }
 
             if (evt == DisciplineNotifications.TopicCreated)
             {
@@ -203,30 +174,6 @@ namespace IUDICO.Search
             {
                 Topic topic = (Topic)data[0];
                 Term term = new Term("TopicID", topic.Id.ToString());
-                this.DeleteFromIndex(term);
-            }
-
-            if (evt == UserNotifications.GroupCreate)
-            {
-                Group group = (Group)data[0];
-                Document document = new Document();
-                document.Add(new Field("Type", "Group", Field.Store.YES, Field.Index.NO));
-                document.Add(new Field("GroupID", group.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-                document.Add(new Field("Group", group.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-
-                this.AddToIndex(document);
-            }
-
-            if (evt == UserNotifications.GroupEdit)
-            {
-                this.Update(UserNotifications.GroupDelete, data[0]);
-                this.Update(UserNotifications.GroupCreate, data[1]);
-            }
-
-            if (evt == UserNotifications.GroupDelete)
-            {
-                Group group = (Group)data[0];
-                Term term = new Term("GroupID", group.Id.ToString());
                 this.DeleteFromIndex(term);
             }
 

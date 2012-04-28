@@ -13,6 +13,7 @@ using IUDICO.UserManagement.Models.Storage;
 
 using Moq;
 using Moq.Protected;
+using IUDICO.Common.Models.Caching.Provider;
 
 namespace IUDICO.UnitTests.UserManagement
 {
@@ -30,7 +31,11 @@ namespace IUDICO.UnitTests.UserManagement
 
         public Mock<ILmsService> MockLmsService { get; protected set; }
 
-        public Mock<DatabaseUserStorage> MockStorage { get; protected set; }
+        public Mock<DatabaseUserStorage> MockDatabaseStorage { get; protected set; }
+
+        public Mock<HttpCache> MockCacheProvider { get; protected set; }
+
+        public Mock<CachedUserStorage> MockStorage { get; protected set; }
 
         public IDataContext DataContext
         {
@@ -97,7 +102,9 @@ namespace IUDICO.UnitTests.UserManagement
         {
             this.MockDataContext = new Mock<IDataContext>();
             this.MockLmsService = new Mock<ILmsService>();
-            this.MockStorage = new Mock<DatabaseUserStorage>(this.MockLmsService.Object);
+            this.MockDatabaseStorage = new Mock<DatabaseUserStorage>(this.MockLmsService.Object);
+            this.MockCacheProvider = new Mock<HttpCache>();
+            this.MockStorage = new Mock<CachedUserStorage>(this.MockDatabaseStorage.Object, this.MockCacheProvider.Object);
 
             this.Users = new Mock<ITable>();
             this.Groups = new Mock<ITable>();
@@ -117,14 +124,14 @@ namespace IUDICO.UnitTests.UserManagement
 
         public void Setup()
         {
-            this.MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this.MockDataContext.Object);
-            this.MockStorage.Protected().Setup<string>("GetPath").Returns(
+            this.MockDatabaseStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this.MockDataContext.Object);
+            this.MockDatabaseStorage.Protected().Setup<string>("GetPath").Returns(
                 Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS"));
-            this.MockStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            this.MockDatabaseStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
-            this.MockStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns(
+            this.MockDatabaseStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns(
                 (string username) => this.GetUserRoles(username));
-            this.MockStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns(
+            this.MockDatabaseStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns(
                 (User user) => this.GetGroupsByUser(user));
         }
 
@@ -162,8 +169,8 @@ namespace IUDICO.UnitTests.UserManagement
 
         public void ChangeCurrentUser(User user)
         {
-            this.MockStorage.Setup(s => s.GetCurrentUser()).Returns(user);
-            this.MockStorage.Protected().Setup<string>("GetIdentityName").Returns(user.Username);
+            this.MockDatabaseStorage.Setup(s => s.GetCurrentUser()).Returns(user);
+            this.MockDatabaseStorage.Protected().Setup<string>("GetIdentityName").Returns(user.Username);
         }
 
         public void ChangeCurrentUser(string username)

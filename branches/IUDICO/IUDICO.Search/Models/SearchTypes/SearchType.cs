@@ -11,15 +11,14 @@ using SimpleLucene.Impl;
 using SimpleLucene.IndexManagement;
 
 using Version = Lucene.Net.Util.Version;
+using IUDICO.Search.Models.Definitions;
 
 namespace IUDICO.Search.Models.SearchTypes
 {
     public class SearchType<T> : ISimpleSearchType
         where T : class
     {
-        private IResultDefinition<T> resultDefinition;
-
-        private IIndexDefinition<T> indexDefinition;
+        private Definition<T> definition;
 
         private DefaultQuery query;
 
@@ -30,25 +29,22 @@ namespace IUDICO.Search.Models.SearchTypes
         }
 
         public SearchType(
-            IResultDefinition<T> resultDefinition,
-            IIndexDefinition<T> indexDefinition,
-            DefaultQuery query,
+            Definition<T> definition,
             string dataPath)
         {
-            this.resultDefinition = resultDefinition;
-            this.indexDefinition = indexDefinition;
+            this.definition = definition;
             this.query = query;
             this.fsiLocation = new FileSystemIndexLocation(new DirectoryInfo(Path.Combine(dataPath, typeof(T).Name)));
         }
 
         public void Update(T obj)
         {
-            IndexQueue.Instance.Queue(new EntityUpdateTask<T>(obj, this.indexDefinition, this.fsiLocation));
+            IndexQueue.Instance.Queue(new EntityUpdateTask<T>(obj, this.definition, this.fsiLocation));
         }
 
         public void Delete(T obj)
         {
-            var term = this.indexDefinition.GetIndex(obj);
+            var term = this.definition.GetIndex(obj);
 
             IndexQueue.Instance.Queue(new EntityDeleteTask<T>(this.fsiLocation, term.Field(), term.Text()));
         }
@@ -63,12 +59,12 @@ namespace IUDICO.Search.Models.SearchTypes
 
         public IIndexDefinition<T> GetIndexDefinition()
         {
-            return this.indexDefinition;
+            return this.definition;
         }
 
         public IResultDefinition<T> GetResultDefinition()
         {
-            return this.resultDefinition;
+            return this.definition;
         }
 
         public DefaultQuery GetQuery()
