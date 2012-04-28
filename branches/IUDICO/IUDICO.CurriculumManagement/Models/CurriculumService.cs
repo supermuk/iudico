@@ -41,5 +41,10 @@ namespace IUDICO.CurriculumManagement.Models
         {
             return this.curriculumStorage.CanPassCurriculumChapterTopic(user, curriculumChapterTopic, topicType);
         }
+
+        public IEnumerable<CurriculumChapterTopic> GetCurriculumChapterTopicsByCurriculumId(int curriculumId)
+        {
+            return this.curriculumStorage.GetCurriculumChapterTopicsByCurriculumId(curriculumId);
+        }
     }
 }

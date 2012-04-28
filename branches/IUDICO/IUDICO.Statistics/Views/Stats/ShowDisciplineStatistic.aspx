@@ -21,15 +21,15 @@
     <tr>
         <th><%=Localization.GetMessage("Student")%></th>
         <% int i = 0;
-           foreach (IUDICO.Common.Models.Shared.Discipline curr in Model.Curriculums)
+           foreach (var curriculum in Model.Curriculums)
            {
                i++;%>
                 <th>
                 <form name="linkform<%:i%>" action="/Stats/TopicsInfo/" method="post">
-                <input type="hidden" name="DisciplineID" value="<%: curr.Id%>"/>
+                <input type="hidden" name="curriculumId" value="<%: curriculum.Id%>"/>
                 </form>
                 <a href="javascript:document.forms['linkform<%:i%>'].submit();">                     
-                    <%:curr.Name%>
+                    <%:curriculum.Discipline.Name%>
                 </a>
                 </th>
         <% } %>
@@ -38,19 +38,19 @@
         <th>ECTS</th>
     </tr>
     
-    <% foreach (IUDICO.Statistics.Models.Storage.SpecializedResult specializedResult in Model.SpecializedResults)
+    <% foreach (var specializedResult in Model.SpecializedResults)
        { %>
        <tr>
             <td>
            [<%: specializedResult.User.Username %>] <%: specializedResult.User.Name %>
             </td>
            
-            <% foreach (IUDICO.Statistics.Models.Storage.DisciplineResult currResult in specializedResult.DisciplineResult)
+            <% foreach (var disciplineResult in specializedResult.DisciplineResults)
             { %>
                 <td>
-                <%: Math.Round(Double.Parse(currResult.Sum.ToString()),2)  %>
+                <%: Math.Round(Double.Parse(disciplineResult.Sum.ToString()), 2)%>
                 /
-                <%: currResult.Max  %>
+                <%: disciplineResult.Max%>
                 </td>     
             <% } %>
            

@@ -13,9 +13,9 @@
         
         <tr>
         <th> <%=Localization.GetMessage("Student")%> </th>
-        <% foreach (IUDICO.Common.Models.Shared.Topic topic in Model.GetSelectDisciplineTopics())
+        <% foreach (var curriculumChapterTopic in Model.SelectedCurriculumChapterTopics)
            { %>
-        <th> <%: topic.Name%> </th>
+        <th> <%: curriculumChapterTopic.Topic.Name%> </th>
         <% } %>
         <th> <%=Localization.GetMessage("Sum")%> </th>
         <th> <%=Localization.GetMessage("Percent")%> </th>
@@ -23,26 +23,25 @@
         </tr>
 
         <% int i = 0;
-           foreach (IUDICO.Common.Models.Shared.User student in Model.GetSelectStudents())
+           foreach (var student in Model.SelectedStudents)
            {  %>
 
             <tr> 
                 <td> <%: student.Name%></td>
-                <%  foreach (IUDICO.Common.Models.Shared.Topic selectTopic in Model.GetSelectDisciplineTopics()) 
+                <%  foreach (var curriculumChapterTopic in Model.SelectedCurriculumChapterTopics) 
                     {
                         i++;
                         %>                          
                         <td>
-                        <%if (Model.NoData(student, selectTopic) == false)
+                        <%if (Model.ContainsResult(student, curriculumChapterTopic))
                         { %>
                         <form name="linkform<%:i%>" action="/Stats/TopicTestResults/" method="post">
-                        <input type="hidden" name="attemptId" value="<%: Model.GetAttempId(student, selectTopic)%>"/>
+                        <input type="hidden" name="attemptId" value="<%: Model.GetAttempId(student, curriculumChapterTopic)%>"/>
                         </form>
                         <a href="javascript:document.forms['linkform<%:i%>'].submit();">                     
-                            <%:
-                                    Model.GetStudentResultForTopic(student, selectTopic).ToString() +
-                                    "/" + Model.GetMaxResutForTopic(selectTopic).ToString()
-                                %>
+                            <%: Model.GetStudentResultForTopic(student, curriculumChapterTopic).ToString() %>
+                            / 
+                            <%: Model.GetMaxResutForTopic(curriculumChapterTopic).ToString() %>
                         </a>
                         <%}
                         else
@@ -50,7 +49,7 @@
                             <%=Localization.GetMessage("NoData")%> 
                         <%} %> 
                         </td>
-                    <% } %>  
+                    <% } %>
             
                 <td>
                  <%: Model.GetStudentResultForAllTopicsInSelectedDiscipline(student)%>
