@@ -12,11 +12,12 @@
         $('.rating').rating({
             callback: function (value, link) {
                 $(this).rating('readOnly');
-                
-                var id = $(this).attr('name').replace('rating_', '');
 
-                $.post('/Account/RateTopic', { 'topicId': id, 'score': value }, function (data) {
-                    
+                var rest = $(this).attr('name').split('_');
+                var topicId = rest[1];
+
+                $.post('/Account/RateTopic', { 'topicId': topicId, 'score': value }, function (data) {
+
                 });
             }
         });
@@ -117,7 +118,7 @@
                          
                          <% for (var i = 1; i <= 5; ++i)
 							{ %>
-                            <input name="rating_<%= package.CurriculumChapterTopicId + "_" + package.CourseId + "_" + package.TopicType.ToString()%>" value="<%=i%>" <%= (package.Rating == i ? "checked='checked'" : "") %> <%= (package.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
+                            <input name="rating_<%= package.Topic.Id + "_" + package.CurriculumChapterTopicId + "_" + package.CourseId + "_" + package.TopicType.ToString()%>" value="<%=i%>" <%= (package.Rating == i ? "checked='checked'" : "") %> <%= (package.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
                          <% } %>
                          
                          <%: Html.ActionLink("[" + package.TopicType.ToString() + "] " + package.Topic.Name + " ",
