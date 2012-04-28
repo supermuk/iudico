@@ -82,8 +82,7 @@
                     
                 });
                 $.data($editor, 'node-id', nodeId);
-
-
+                
                 $editor.parent('form').bind('save', function (e) {
                     //e.preventDefault();
 
@@ -93,6 +92,7 @@
 
                     $ckEditor.updateElement();
                     data = $ckEditor.getData();
+                    $ckEditor.resetDirty();
 
                     $.post("<%: Url.Action("Edit", "Node") %>", { id: id, data: data });
                 });
@@ -107,6 +107,12 @@
             //getEditor();
 
             $.jstree._themes = pluginPath + "/Content/Tree/themes/";
+            
+            $(window).bind('beforeunload', function(){
+                if ($editor != null && $editor.ckeditorGet().checkDirty()) {
+                    return "<%=Localization.GetMessage("ChangesAreNotSaved")%>";
+                }
+            });
         });
     </script>
     <script type="text/javascript">
@@ -323,6 +329,12 @@
 				});
 			})
             .bind("preview_node.jstree", function(e, data) {
+                if ($editor != null && $editor.ckeditorGet().checkDirty()) {
+                    if (window.confirm("<%=Localization.GetMessage("SaveChanges")%>?")) {
+                        $editor.parent("form").trigger('save');   
+                    }
+                }
+                
                 currentNodeId = data.obj.attr("id").replace("node_", "");
                 var parentsObjectList = $(data.obj).parents('li');
                 var parents = currentNodeId;
@@ -332,7 +344,7 @@
                 if (data.obj.attr("id") == "node_0") {
                     return;
                 }
-
+                
                 if ($editor != null)
                 {
                     $('#node_' + $.data($editor, 'node-id')).children('a').removeClass('jstree-selected');
@@ -341,30 +353,36 @@
                 removeEditor();
 
                 $.ajax({
-                    type: 'post',
-		            url: "<%: Url.Action("Preview", "Node") %>?time=" + new Date().getTime(),
-					data: {
-						"id": data.obj.attr("id").replace("node_", ""),
-					},
-					success: function (r) {
-                        $iframe = $('<iframe width="100%" height="100%"></iframe>');
-                        $iframe.attr('src', r.path + "?time="  + new Date().getTime());
+                        type: 'post',
+                        url: "<%: Url.Action("Preview", "Node") %>?time=" + new Date().getTime(),
+                        data: {
+                            "id": data.obj.attr("id").replace("node_", "")
+                        },
+                        success: function(r) {
+                            $iframe = $('<iframe width="100%" height="100%"></iframe>');
+                            $iframe.attr('src', r.path + "?time=" + new Date().getTime());
 
-					    $('.ui-layout-center').empty();
-                        $('.ui-layout-center').append($iframe);
+                            $('.ui-layout-center').empty();
+                            $('.ui-layout-center').append($iframe);
 
-                        //$('.ui-layout-center iframe')[0].contentWindow.API_1484_11 = LMSDebugger;
-                        window.API_1484_11 = new LMSDebugger();
-					}
-				});
+                            //$('.ui-layout-center iframe')[0].contentWindow.API_1484_11 = LMSDebugger;
+                            window.API_1484_11 = new LMSDebugger();
+                        }
+                    });
             })
             .bind("edit_node.jstree", function (e, data) {
+                if ($editor != null && $editor.ckeditorGet().checkDirty()) {
+                    if (window.confirm("<%=Localization.GetMessage("SaveChanges")%>?")) {
+                        $editor.parent("form").trigger('save');   
+                    }
+                }
+                
                 currentNodeId = data.obj.attr("id").replace("node_", "");
                 var parentsObjectList = $(data.obj).parents('li');
                 var parents = currentNodeId;
                 for (var i = 0; i < parentsObjectList.length; ++i)
                     parents = parents + "_" + $(parentsObjectList[i]).attr("id").replace("node_", "");
-
+                
                 $("#accordion").accordion( "option", "active", -1 ).show("blind", {}, 1000);
                 $("#patterns").show("drop", {}, 1000);
 
@@ -386,7 +404,9 @@
 					},
 					success: function (r) {
                         //var editor = getEditor($.data(editor, 'node-id'));
-                        editor.val(r.data);
+                        editor.ckeditorGet().setData(r.data, function () {
+                            this.resetDirty();
+                        });
                         editor.parent('form').show();
 					}
 				});
