@@ -108,7 +108,9 @@
     <Compile Include="Helpers\Zipper.cs" />
     <Compile Include="Models\CourseService.cs" />
     <Compile Include="Models\Extensions.cs" />
-    <Compile Include="Models\JsTree.cs" />
+    <Compile Include="Models\JsTree.cs">
+		<ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+	</Compile>
     <Compile Include="Models\ManifestModels\ConstantStrings.cs" />
     <Compile Include="Models\ManifestModels\Enums.cs" />
     <Compile Include="Models\ManifestModels\Importer.cs" />
