@@ -1,22 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using IUDICO.Common.Models.Services;
-using IUDICO.Search.Models.IndexDefinitions;
-using IUDICO.Search.Models.Queries;
-using IUDICO.Search.Models.ResultDefinitions;
+using IUDICO.Search.Models.Definitions;
 using IUDICO.Search.Models.SearchTypes;
 
-using Lucene.Net.Analysis.Standard;
-using Lucene.Net.Util;
 using SimpleLucene;
 using SimpleLucene.Impl;
 using SimpleLucene.IndexManagement;
-using Lucene.Net.Index;
+
 using System;
 using IUDICO.Common.Models.Shared;
-
-using Version = Lucene.Net.Util.Version;
-using Lucene.Net.Search;
 
 namespace IUDICO.Search.Models
 {
@@ -69,8 +62,9 @@ namespace IUDICO.Search.Models
             this.LmsService = lmsService;
             this.luceneDataDirectory = new DirectoryInfo(this.LuceneDataPath);
 
-            this.SearchTypes.Add(typeof(User), new SearchType<User>(new UserResultDefinition(), new UserIndexDefinition(), new UserQuery(), this.LuceneDataPath));
-            this.SearchTypes.Add(typeof(Discipline), new SearchType<Discipline>(new DisciplineResultDefinition(), new DisciplineIndexDefinition(), new DisciplineQuery(), this.LuceneDataPath));
+            this.SearchTypes.Add(typeof(User), new SearchType<User>(new UserDefinition(), this.LuceneDataPath));
+            this.SearchTypes.Add(typeof(Group), new SearchType<Group>(new GroupDefinition(), this.LuceneDataPath));
+            this.SearchTypes.Add(typeof(Discipline), new SearchType<Discipline>(new DisciplineDefinition(), this.LuceneDataPath));
         }
 
         ~LuceneThread()
@@ -87,16 +81,10 @@ namespace IUDICO.Search.Models
 
             while (IndexQueue.Instance.TryDequeue(out task))
             {
-                // var service = this.services.WithOptions(task.IndexOptions);
-
-                // if (service == null)
-                // {
                 using (var service = new IndexService(new DirectoryIndexWriter(task.IndexOptions.IndexLocation.GetDirectory(), task.IndexOptions.RecreateIndex)))
                 {
                     task.Execute(service);
                 }
-                // this.services.Add(service);
-                // }
             }
         }
 
@@ -128,7 +116,7 @@ namespace IUDICO.Search.Models
             var groups = userService.GetGroups();
 
             this.ReIndex(users);
-            // this.ReIndex(groups);
+            this.ReIndex(groups);
 
             var courses = courseService.GetCourses();
             var disciplines = disciplineService.GetDisciplines();

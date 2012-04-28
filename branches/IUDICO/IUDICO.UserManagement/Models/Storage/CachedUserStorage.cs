@@ -27,42 +27,6 @@ namespace IUDICO.UserManagement.Models.Storage
             this.cacheProvider = cachePrvoider;
         }
 
-        /*
-        private static readonly object CacheLockObject = new object();
-        private static string keyPrefix
-        {
-            get { return typeof(CachedData_storageUserStorage).FullName; }
-        }
-
-        protected object GetCacheObject(string key)
-        {
-            return HttpRuntime.Cache[key];
-        }
-
-        protected void SaveCacheObject(string key, object obj)
-        {
-            lock (CacheLockObject)
-            {
-                //HttpRuntime.Cache.Remove(method + "-" + key);
-                if (GetCacheObject(key) == null)
-                    HttpRuntime.Cache.Insert(key, obj, null, DateTime.Now.AddSeconds(60), TimeSpan.Zero);
-            }
-        }
-
-        protected void ExpireCacheObject(string key)
-        {
-            lock (CacheLockObject)
-            {
-                HttpRuntime.Cache.Remove(key);
-            }
-        }
-
-        public void Update(string evt, params object[] args)
-        {
-
-        }
-        */
-
         #region User members
 
         public User GetCurrentUser()
