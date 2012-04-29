@@ -1,26 +1,26 @@
 CKEDITOR.dialog.add( 'spoiler', function( editor )
 {
 	return {
-		title : 'Spoiler',
+		title : editor.lang.spoiler.SpoilerTitle,
 		minWidth : 250,
 		minHeight : 70,
 		contents : [
 			{
 				id : 'tab1',
-				label : 'First Tab',
-				title : 'First Tab',
+				label : editor.lang.spoiler.SpoilerContentsTitle,
+				title:  editor.lang.spoiler.SpoilerContentsTitle,
 				elements :
 				[
 					{   id : 'input1',
 						type : 'text',
 						style : 'width:140px;',
-						label : 'Enter spoiler title:',
+						label : editor.lang.spoiler.SpoilerElementsLabel,
                         validate : function()
 
 {
 CKEDITOR.config.text_val= this.getValue();
 if ( !this.getValue() )
-{alert( 'Spoiler title cannot be empty!' );
+{alert( editor.lang.spoiler.SpoilerWarning );
 return false;}
 
 /**

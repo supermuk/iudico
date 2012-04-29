@@ -17,11 +17,11 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
 
         private sealed class Metadata
         {
-            [DisplayName("Rollup Objective Satisfied")]
+            [LocalizedDisplayName("RollupObjectiveSatisfied")]
             public bool RollupObjectiveSatisfied { get; set; } // = true;
-            [DisplayName("Rollup Objective Satisfied")]
+            [LocalizedDisplayName("RollupProgressCompletion")]
             public bool RollupProgressCompletion { get; set; } // = true;
-            [DisplayName("Objective Measure Weight")]
+            [LocalizedDisplayName("ObjectiveMeasureWeight")]
             public float ObjectiveMeasureWeight { get; set; }
 
             [ScaffoldColumn(false)]
@@ -138,19 +138,19 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupM
 
         private sealed class Metadata
         {
-            [DisplayName("Required For Satisfied")]
+            [LocalizedDisplayName("RequiredForSatisfied")]
             [DropDownList(SourceProperty = "RequiredList")]
             public Required RequiredForSatisfied { get; set; } // = Required.Always;
-            [DisplayName("Required For Not Satisfied")]
+            [LocalizedDisplayName("RequiredForNotSatisfied")]
             [DropDownList(SourceProperty = "RequiredList")]
             public Required RequiredForNotSatisfied { get; set; } // = Required.Always;
-            [DisplayName("Required For Completed")]
+            [LocalizedDisplayName("RequiredForCompleted")]
             [DropDownList(SourceProperty = "RequiredList")]
             public Required RequiredForCompleted { get; set; } // = Required.Always;
-            [DisplayName("Required For Incomplete")]
+            [LocalizedDisplayName("RequiredForIncomplete")]
             [DropDownList(SourceProperty = "RequiredList")]
             public Required RequiredForIncomplete { get; set; } // = Required.Always;
-            [DisplayName("Measure Satisfaction If Active")]
+            [LocalizedDisplayName("MeasureSatisfactionIfActive")]
             public bool MeasureSatisfactionIfActive { get; set; } // = true;
 
             [ScaffoldColumn(false)]
