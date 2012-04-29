@@ -3,6 +3,7 @@
 
 <%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="System.Web.Mvc" %>
+<%@ Import Namespace="IUDICO.Common.Models" %>
 <%@ Import Namespace="IUDICO.CourseManagement.Models.ManifestModels" %>
 <%@ Import Namespace="System.Security.Policy" %>
 <%@ Import Namespace="IUDICO.Common" %>

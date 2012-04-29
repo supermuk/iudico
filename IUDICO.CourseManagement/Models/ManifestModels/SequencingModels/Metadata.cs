@@ -8,6 +8,7 @@ using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
 using IUDICO.Common;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
 {
@@ -19,9 +20,9 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         {
             [LocalizedDisplayName("Choice")]
             public bool Choice { get; set; } // = true
-            [DisplayName("Choice Exit")]
+            [LocalizedDisplayName("ChoiceExit")]
             public bool ChoiceExit { get; set; } // = true
-            [DisplayName("Flow")]
+            [LocalizedDisplayName("Flow")]
             public bool Flow { get; set; } // = false
             [LocalizedDisplayName("ForwardOnly")]
             public bool ForwardOnly { get; set; }
@@ -49,7 +50,7 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         {
             [LocalizedDisplayName("AttemptLimit")]
             public int AttemptLimit { get; set; } // = true
-            [LocalizedDisplayName("Choice Attempt Absolute Duration Limit")]
+            [LocalizedDisplayName("ChoiceAttemptAbsoluteDurationLimit")]
             public string AttemptAbsoluteDurationLimit { get; set; }
 
             [ScaffoldColumn(false)]
@@ -118,13 +119,15 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
         }
         private sealed class Metadata
         {
-            [DropDownList(OptionLabel = "Randomization Timing", SourceProperty = "TimingList")]
+            [LocalizedDisplayName("RandomizationTiming")]
+            [DropDownList(SourceProperty = "TimingList")]
             public Timing RandomizationTiming { get; set; } // = Timing.Never;
             [LocalizedDisplayName("SelectCount")]
             public int SelectCount { get; set; }
-            [DisplayName("Reorder Children")]
+            [LocalizedDisplayName("ReorderChildren")]
             public bool ReorderChildren { get; set; } // = false;
-            [DropDownList(OptionLabel = "Selection Timing", SourceProperty = "TimingList")]
+             [LocalizedDisplayName("SelectionTiming")]
+            [DropDownList(SourceProperty = "TimingList")]
             public Timing SelectionTiming { get; set; } // = Timing.Never;
 
             [ScaffoldColumn(false)]
@@ -145,11 +148,11 @@ namespace IUDICO.CourseManagement.Models.ManifestModels.SequencingModels
     {
         private sealed class Metadata
         {
-            [DisplayName("Tracked")]
+            [LocalizedDisplayName("Tracked")]
             public bool Tracked { get; set; } // = true;
-            [DisplayName("Completion Set By Content")]
+            [LocalizedDisplayName("CompletionSetByContent")]
             public bool CompletionSetByContent { get; set; } // = false;
-            [DisplayName("Objective Set By Content")]
+            [LocalizedDisplayName("ObjectiveSetByContent")]
             public bool ObjectiveSetByContent { get; set; } // = false
 
             [ScaffoldColumn(false)]

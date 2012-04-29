@@ -109,8 +109,8 @@
     <Compile Include="Models\CourseService.cs" />
     <Compile Include="Models\Extensions.cs" />
     <Compile Include="Models\JsTree.cs">
-		<ExcludeFromStyleCop>true</ExcludeFromStyleCop>
-	</Compile>
+      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Models\ManifestModels\ConstantStrings.cs" />
     <Compile Include="Models\ManifestModels\Enums.cs" />
     <Compile Include="Models\ManifestModels\Importer.cs" />
@@ -179,9 +179,15 @@
     <Content Include="Content\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Scripts\ckeditor\plugins\spoiler\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\spoiler\lang\uk.js" />
+    <Content Include="Scripts\ckeditor\plugins\spoiler\logo.gif" />
+    <Content Include="Scripts\ckeditor\plugins\spoiler\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\spoiler\dialogs\spoiler.js" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\dialogs\syntaxhighlight.js" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\images\syntaxhighlight.gif" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\lang\uk.js" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\plugin.js" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\scripts\sh_cpp.js" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\scripts\sh_cpp.min.js" />
@@ -1372,7 +1378,9 @@
     <Content Include="Libraries\ICSharpCode.SharpZipLib.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Compression.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.dll" />
-    <Content Include="Libraries\Microsoft.LearningComponents.XML" />
+    <Content Include="Libraries\Microsoft.LearningComponents.XML">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>

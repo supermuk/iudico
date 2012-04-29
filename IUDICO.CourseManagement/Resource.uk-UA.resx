@@ -262,13 +262,13 @@
     <value> вибрані курси?</value>
   </data>
   <data name="DeliveryControls" xml:space="preserve">
-    <value>DeliveryControls</value>
+    <value>Delivery Controls(UKR)</value>
   </data>
   <data name="RollupConsiderations" xml:space="preserve">
-    <value>Rollup Considerations</value>
+    <value>Rollup Considerations(УКР)</value>
   </data>
   <data name="RollupRules" xml:space="preserve">
-    <value>Rollup Rules</value>
+    <value>Rollup Правила</value>
   </data>
   <data name="add" xml:space="preserve">
     <value>додати</value>
@@ -355,7 +355,7 @@
     <value>Випадковий вибір</value>
   </data>
   <data name="ReorderChildren" xml:space="preserve">
-    <value>ReorderChildren</value>
+    <value>ReorderChildren(UKR)</value>
   </data>
   <data name="SelectionTiming" xml:space="preserve">
     <value>Вибір часу</value>
@@ -371,5 +371,47 @@
   </data>
   <data name="SaveChanges" xml:space="preserve">
     <value>Зберегти зміни</value>
+  </data>
+  <data name="ChoiceExit" xml:space="preserve">
+    <value>Можливість виходу</value>
+  </data>
+  <data name="RandomizationTiming" xml:space="preserve">
+    <value>Період випадкового вибору</value>
+  </data>
+  <data name="RequiredForSatisfied" xml:space="preserve">
+    <value>Вимога проходження на позитивну оцінку</value>
+  </data>
+  <data name="Tracked" xml:space="preserve">
+    <value>З наглядом</value>
+  </data>
+  <data name="CompletionSetByContent" xml:space="preserve">
+    <value>Completion Set By Content(УКР)</value>
+  </data>
+  <data name="Flow" xml:space="preserve">
+    <value>Потік</value>
+  </data>
+  <data name="MeasureSatisfactionIfActive" xml:space="preserve">
+    <value>Measure Satisfaction If Active(УКР)</value>
+  </data>
+  <data name="ObjectiveMeasureWeight" xml:space="preserve">
+    <value>ObjectiveMeasureWeight(UKR)</value>
+  </data>
+  <data name="ObjectiveSetByContent" xml:space="preserve">
+    <value>Objective Set By Content(УКР)</value>
+  </data>
+  <data name="RequiredForCompleted" xml:space="preserve">
+    <value>Required For Completed(УКР)</value>
+  </data>
+  <data name="RequiredForIncomplete" xml:space="preserve">
+    <value>Required For Incomplete(УКР)</value>
+  </data>
+  <data name="RequiredForNotSatisfied" xml:space="preserve">
+    <value>Required For Not Satisfied(УКР)</value>
+  </data>
+  <data name="RollupObjectiveSatisfied" xml:space="preserve">
+    <value>RollupObjectiveSatisfied(УКР)</value>
+  </data>
+  <data name="RollupProgressCompletion" xml:space="preserve">
+    <value>RollupProgressCompletion(UKR)</value>
   </data>
 </root>

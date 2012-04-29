@@ -1,6 +1,6 @@
 CKEDITOR.plugins.add("syntaxhighlight", {
     requires: ["dialog"],
-    lang: ["en"],
+    lang: ["en","uk"],
     init: function (a) {
         var b = "syntaxhighlight";
         var c = a.addCommand(b, new CKEDITOR.dialogCommand(b));
