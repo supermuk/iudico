@@ -127,6 +127,7 @@
     <Folder Include="Models\Enums\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\Curriculum\ValidationErrors.ascx" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -87,7 +87,12 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// </summary>
         /// <param name="ids">The ids.</param>
         void DeleteDisciplines(IEnumerable<int> ids);
-        // void MakeDisciplineInvalid(int courseId);
+
+		  /// <summary>
+		  /// Makes disciplines connected with topics connected with courses invalid.
+		  /// </summary>
+		  /// <param name="courseId"></param>
+        void MakeDisciplinesInvalid(int courseId);
 
         #endregion
 

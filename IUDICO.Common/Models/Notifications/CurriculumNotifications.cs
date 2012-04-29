@@ -20,6 +20,11 @@ namespace IUDICO.Common.Models.Notifications
         /// </summary>
         public const string DisciplineEdited = "discipline/edited";
 
+    	  /// <summary>
+    	  /// Discipline Invalid notification is sent when discipline was made invalid.
+    	  /// </summary>
+    	  public const string DisciplineIsValidChange = "discipline/changeiIsValid";
+
         /// <summary>
         /// Discipline Delete notification is sent when discipline are being deleted.
         /// </summary>

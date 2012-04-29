@@ -1,5 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.DisciplineManagement" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Discipline>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.DisciplineManagement.Models.ViewDataClasses.ViewDisciplineModel>>" %>
 <%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
@@ -117,6 +117,7 @@
             var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
             if(resp.success) {
                 $("#topic" + resp.topicId).replaceWith(resp.topicRow);
+            	 $("#error" + resp.disciplineId).text(resp.error);
                 $("#dialog").dialog("close");
             } else {
                 fillDialogInner(resp.html, "topicId", resp.topicId);
@@ -465,21 +466,26 @@
     </thead>
     <tbody>
 		<% foreach (var item in Model){ %>
-			<tr id="discipline<%:item.Id%>" class="discipline" >
+			<tr id="discipline<%:item.Discipline.Id%>" class="discipline" >
 			    <td></td>
-				<td class="disciplineName">	<%:item.Name %>				</td>
-				<td>	<%: String.Format("{0:g}", item.Created) %>		</td>
-				<td>	<%: String.Format("{0:g}", item.Updated) %>		</td>
+				<td class="disciplineName">	<%:item.Discipline.Name %>				</td>
+				<td>	<%: String.Format("{0:g}", item.Discipline.Created) %>		</td>
+				<td>	<%: String.Format("{0:g}", item.Discipline.Updated) %>		</td>
 				<td>
-						<a href="#" onclick="addChapter(<%: item.Id %>);"><%=Localization.GetMessage("AddChapter")%></a>
-            |
-						<%: Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new { DisciplineID = item.Id })%>
-            | 
-            <a href="#" onclick="shareDiscipline(<%: item.Id %>)"><%=Localization.GetMessage("Share")%></a>
-            |
-						<%: Html.ActionLink(Localization.GetMessage("Export"), "Export", new { DisciplineID = item.Id })%>
-            |
-						<a href="#" onclick="deleteDiscipline(<%: item.Id %>)"><%=Localization.GetMessage("Delete")%></a>
+					<div style="width: 75%; float: left">
+						<a href="#" onclick="addChapter(<%: item.Discipline.Id %>);"><%=Localization.GetMessage("AddChapter")%></a>
+						|
+							<%: Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new { DisciplineID = item.Discipline.Id })%>
+						| 
+							<a href="#" onclick="shareDiscipline(<%: item.Discipline.Id %>)"><%=Localization.GetMessage("Share")%></a>
+						|
+							<%: Html.ActionLink(Localization.GetMessage("Export"), "Export", new { DisciplineID = item.Discipline.Id })%>
+						|
+						<a href="#" onclick="deleteDiscipline(<%: item.Discipline.Id %>)"><%=Localization.GetMessage("Delete")%></a>
+					</div>
+					<div style="width: 23%; float: right">
+						<span id="error<%:item.Discipline.Id%>" style="color: red; float: right"><%:item.Error%></span>
+					</div>
 				</td>
 			</tr>
 		<% } %>

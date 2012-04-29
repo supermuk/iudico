@@ -37,7 +37,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         void UpdateCurriculum(Curriculum curriculum);
         void DeleteCurriculum(int id);
         void DeleteCurriculums(IEnumerable<int> ids);
-        // void MakeCurriculumsInvalid(int groupId);
+        void ChangeCurriculumsIsValid(IEnumerable<int> curriculumIds, bool isValid);
 
         /// <summary>
         /// Gets the topic descriptions available for user for current date.
