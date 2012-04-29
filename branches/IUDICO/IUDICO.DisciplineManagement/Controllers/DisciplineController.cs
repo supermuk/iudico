@@ -9,6 +9,7 @@ using IUDICO.DisciplineManagement.Models.Storage;
 using System.Linq;
 using System.Web;
 using System.IO;
+using IUDICO.DisciplineManagement.Models.ViewDataClasses;
 
 namespace IUDICO.DisciplineManagement.Controllers
 {
@@ -24,7 +25,12 @@ namespace IUDICO.DisciplineManagement.Controllers
         public ActionResult Index()
         {
             var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
-            return View(disciplines);
+        		var model = disciplines.Select(item => new ViewDisciplineModel {
+        			Discipline = item,
+        			Error = !item.IsValid ? Validator.GetValidationError(item)
+        		        		: ""
+        		});
+            return View(model);
         }
 
         [HttpGet]

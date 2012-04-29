@@ -28,12 +28,20 @@ namespace IUDICO.CurriculumManagement.Controllers
                 curriculums.Select(item => new ViewCurriculumModel
                     {
                         Id = item.Id,
-                        GroupName = Storage.GetGroup(item.UserGroupRef).Name,
+                        GroupName = Storage.GetGroup(item.UserGroupRef)!=null ? Storage.GetGroup(item.UserGroupRef).Name : "",
                         DisciplineName = Storage.GetDiscipline(item.DisciplineRef).Name,
                         StartDate = Converter.ToString(item.StartDate),
                         EndDate = Converter.ToString(item.EndDate),
-                    }));
+								IsValid = item.IsValid
+                    })
+            );
         }
+
+		  [Allow(Role = Role.Teacher)]
+		  public ActionResult ValidationErrors(int curriculumId) {
+		  		var curriculum = Storage.GetCurriculum(curriculumId);
+		  		return PartialView("ValidationErrors", Validator.GetCurriculumValidation(curriculum));
+		  }
 
         [HttpGet]
         [Allow(Role = Role.Teacher)]

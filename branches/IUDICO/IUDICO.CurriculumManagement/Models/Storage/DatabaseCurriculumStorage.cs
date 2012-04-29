@@ -137,6 +137,31 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return this.GetDbContext().Curriculums.Where(item => !item.IsDeleted).Where(predicate).ToList();
         }
 
+		  private bool IsCurriculumValid(Curriculum curriculum) {
+		  		var db = this.GetDbContext();		  				  		
+		  		if (GetGroup(curriculum.UserGroupRef) == null) {
+		  			return false;
+		  		}
+
+		  		if (!GetDiscipline(curriculum.DisciplineRef).IsValid) {
+		  			return false;
+		  		}
+
+			   var curriculumChapters = GetCurriculumChapters(item => item.CurriculumRef == curriculum.Id);
+		  		foreach (var curriculumChapter in curriculumChapters) {
+		  			if(curriculumChapter.StartDate<curriculum.StartDate || curriculumChapter.EndDate>curriculum.EndDate) {
+			   		return false;
+					}
+		  			var curriculumChapterTopics = GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id);
+		  			foreach (var curriculumChapterTopic in curriculumChapterTopics) {
+		  				if(curriculumChapter.StartDate>curriculumChapterTopic.TestStartDate || curriculumChapter.StartDate>curriculumChapterTopic.TheoryStartDate || curriculumChapter.EndDate>curriculumChapterTopic.TheoryEndDate || curriculumChapter.EndDate>curriculumChapterTopic.TestEndDate) {
+			   			return false;
+						}
+		  			}
+		  		}				
+		  		return true;
+		  }
+
         public int AddCurriculum(Curriculum curriculum)
         {
             var db = this.GetDbContext();
@@ -168,10 +193,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
             oldCurriculum.UserGroupRef = curriculum.UserGroupRef;
             oldCurriculum.StartDate = curriculum.StartDate;
-            oldCurriculum.EndDate = curriculum.EndDate;
-            oldCurriculum.IsValid = true;
+            oldCurriculum.EndDate = curriculum.EndDate;            
 
             db.SubmitChanges();
+			   oldCurriculum.IsValid = IsCurriculumValid(curriculum);
+			   db.SubmitChanges();
         }
 
         public void DeleteCurriculum(int id)
@@ -199,7 +225,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var dateNow = DateTime.Now;
             var curriculums = groups
                 .SelectMany(group => GetCurriculums(c => c.UserGroupRef == group.Id))
-                .Where(curriculum => dateNow.Between(curriculum.StartDate, curriculum.EndDate))
+                .Where(curriculum => dateNow.Between(curriculum.StartDate, curriculum.EndDate) && curriculum.IsValid)
                 .ToList();
             var curriculumChapters = curriculums
                 .SelectMany(curriculum => this.GetCurriculumChapters(item => item.CurriculumRef == curriculum.Id))
@@ -278,18 +304,16 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return this.GetTopicDescriptions(user).Where(t => ids.Contains(t.Topic.Id)).AsEnumerable();
         }
 
-/*        public void MakeCurriculumsInvalid(int groupId)
-        {
-            var db = GetDbContext();
-            var curriculums = GetCurriculumsByGroupId(db, groupId);
-            foreach (var curriculum in curriculums)
-            {
-                curriculum.IsValid = false;
-            }
-            db.SubmitChanges();
-        }*/
+        public void ChangeCurriculumsIsValid( IEnumerable<int> curriculumIds, bool isValid ) {
+        		var db = GetDbContext();
+        		var curriculums = db.Curriculums.Where(item => curriculumIds.Contains(item.Id));
+        		foreach (var curriculum in curriculums) {
+        			curriculum.IsValid = isValid;
+        		}
+        		db.SubmitChanges();
+        }
 
-        #endregion
+    	#endregion
 
         #region CurriculumChapters methods
 
@@ -315,8 +339,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             curriculumChapter.IsDeleted = false;
 
             db.CurriculumChapters.InsertOnSubmit(curriculumChapter);
+        		var curriculum = GetCurriculum(db, curriculumChapter.CurriculumRef);
+			   if(curriculumChapter.StartDate<curriculum.StartDate || curriculumChapter.EndDate>curriculum.EndDate) {
+			   	curriculum.IsValid = false;
+			   }
             db.SubmitChanges();
-
+				
             // add corresponding curriculum chapter topics
             var topics = this.GetTopicsByChapterId(curriculumChapter.ChapterRef);
             foreach (var topic in topics)
@@ -335,18 +363,22 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return curriculumChapter.Id;
         }
 
+
         public void UpdateCurriculumChapter(CurriculumChapter curriculumChapter)
         {
             var db = this.GetDbContext();
             var oldCurriculumChapter = GetCurriculumChapter(db, curriculumChapter.Id);
 
-            oldCurriculumChapter.StartDate = curriculumChapter.StartDate;
-            oldCurriculumChapter.EndDate = curriculumChapter.EndDate;
-
-            db.SubmitChanges();
+        		oldCurriculumChapter.StartDate = curriculumChapter.StartDate;
+        		oldCurriculumChapter.EndDate = curriculumChapter.EndDate;
+        		
+        		db.SubmitChanges();
+			   var curriculum = GetCurriculum(db, oldCurriculumChapter.CurriculumRef);
+			   curriculum.IsValid = IsCurriculumValid(curriculum);
+			   db.SubmitChanges();
         }
 
-        public void DeleteCurriculumChapter(int id)
+    	public void DeleteCurriculumChapter(int id)
         {
             var db = this.GetDbContext();
             var curriculumChapter = GetCurriculumChapter(db, id);
@@ -357,8 +389,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 .ToList();
             this.DeleteCurriculumChapterTopics(curriculumChapterTopicIds);
 
-            curriculumChapter.IsDeleted = true;
+            curriculumChapter.IsDeleted = true;    			
             db.SubmitChanges();
+				var curriculum = curriculumChapter.Curriculum;
+    			curriculum.IsValid = IsCurriculumValid(curriculum);
+				db.SubmitChanges();
         }
 
         public void DeleteCurriculumChapters(IEnumerable<int> ids)
@@ -392,6 +427,10 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             curriculumChapterTopic.IsDeleted = false;
 
             db.CurriculumChapterTopics.InsertOnSubmit(curriculumChapterTopic);
+        		var curriculum = GetCurriculum(db, GetCurriculumChapter(db, curriculumChapterTopic.CurriculumChapterRef).CurriculumRef);
+			   if(curriculum.StartDate>curriculumChapterTopic.TestStartDate || curriculum.StartDate>curriculumChapterTopic.TheoryStartDate || curriculum.EndDate>curriculumChapterTopic.TheoryEndDate || curriculum.EndDate>curriculumChapterTopic.TestEndDate) {
+			   	curriculum.IsValid = false;
+			   }
             db.SubmitChanges();
             return curriculumChapterTopic.Id;
         }
@@ -409,7 +448,15 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             oldTopicAssignment.TestStartDate = curriculumChapterTopic.TestStartDate;
             oldTopicAssignment.TestEndDate = curriculumChapterTopic.TestEndDate;
 
+        		var curriculumChapter = GetCurriculumChapter(db, oldTopicAssignment.CurriculumChapterRef);
+        		var curriculum = GetCurriculum(db, curriculumChapter.CurriculumRef);
+			   if(curriculumChapter.StartDate>oldTopicAssignment.TestStartDate || curriculumChapter.StartDate>oldTopicAssignment.TheoryStartDate || curriculumChapter.EndDate>oldTopicAssignment.TheoryEndDate || curriculumChapter.EndDate>oldTopicAssignment.TestEndDate) {
+			   	curriculum.IsValid = false;
+			   }			   	
+
             db.SubmitChanges();
+			   curriculum.IsValid = IsCurriculumValid(curriculum);
+			   db.SubmitChanges();
         }
 
         public void DeleteCurriculumChapterTopic(int id)
@@ -417,9 +464,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var db = this.GetDbContext();
             var curriculumChapterTopic = GetCurriculumChapterTopic(db, id);
 
-            curriculumChapterTopic.IsDeleted = true;
+            curriculumChapterTopic.IsDeleted = true;        		
 
             db.SubmitChanges();
+			   var curriculum = curriculumChapterTopic.CurriculumChapter.Curriculum;
+        		curriculum.IsValid = IsCurriculumValid(curriculum);
+			   db.SubmitChanges();
         }
 
         public void DeleteCurriculumChapterTopics(IEnumerable<int> ids)

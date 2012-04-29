@@ -104,11 +104,17 @@ namespace IUDICO.CurriculumManagement
             var curriculumStorage = this.container.Resolve<ICurriculumStorage>();
 
             switch (evt)
-            {
+            {  
+					 case DisciplineNotifications.DisciplineIsValidChange:
+						  // makes corresponding Curriculums invalid
+            		  var disciplineId = ((Discipline) data[0]).Id;
+						  var curriculumIds = curriculumStorage.GetCurriculums(c => c.DisciplineRef == disciplineId).Select(item => item.Id);
+						  curriculumStorage.ChangeCurriculumsIsValid(curriculumIds, ((Discipline) data[0]).IsValid);
+						  break;
                 case DisciplineNotifications.DisciplineDeleting:
                     // delete corresponding Curriculums
-                    var disciplineId = ((Discipline)data[0]).Id;
-                    var curriculumIds = curriculumStorage.GetCurriculums(c => c.DisciplineRef == disciplineId).Select(item => item.Id);
+                    disciplineId = ((Discipline)data[0]).Id;
+                    curriculumIds = curriculumStorage.GetCurriculums(c => c.DisciplineRef == disciplineId).Select(item => item.Id);
                     curriculumStorage.DeleteCurriculums(curriculumIds);
                     break;
                 case DisciplineNotifications.ChapterCreated:
@@ -155,11 +161,10 @@ namespace IUDICO.CurriculumManagement
                     curriculumStorage.DeleteCurriculumChapterTopics(curriculumChapterTopicIds);
                     break;
                 case UserNotifications.GroupDelete:
-                    // delete connected Curriculums:
-                    var groupId = ((Group)data[0]).Id;
-                    // curriculumStorage.MakeCurriculumsInvalid(groupId);
-                    curriculumIds = curriculumStorage.GetCurriculums(c => c.UserGroupRef == groupId).Select(item => item.Id);
-                    curriculumStorage.DeleteCurriculums(curriculumIds);
+                    //make connected Curriculums invalid:
+            		  var groupId = ((Group) data[0]).Id;
+						  curriculumIds = curriculumStorage.GetCurriculums(c => c.UserGroupRef == groupId).Select(item => item.Id);
+						  curriculumStorage.ChangeCurriculumsIsValid(curriculumIds, false);
                     break;
             }
         }

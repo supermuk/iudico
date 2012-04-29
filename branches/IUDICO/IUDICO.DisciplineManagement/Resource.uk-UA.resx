@@ -270,4 +270,7 @@
   <data name="Submit" xml:space="preserve">
     <value>Згода</value>
   </data>
+  <data name="CorrectTopics" xml:space="preserve">
+    <value>Виправіть тему(и):</value>
+  </data>
 </root>
