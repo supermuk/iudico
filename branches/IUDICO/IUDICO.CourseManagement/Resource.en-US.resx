@@ -372,4 +372,10 @@
   <data name="SaveChanges" xml:space="preserve">
     <value>Save changes</value>
   </data>
+  <data name="Attempt Limit" xml:space="preserve">
+    <value>Attempt Limit</value>
+  </data>
+  <data name="RollupObjectiveSatisfied" xml:space="preserve">
+    <value>Rollup Objective Satisfied</value>
+  </data>
 </root>
