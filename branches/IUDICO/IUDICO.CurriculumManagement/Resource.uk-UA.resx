@@ -450,4 +450,22 @@
   <data name="TheoryStartDate" xml:space="preserve">
     <value>Від</value>
   </data>
+  <data name="ChapterTimelineOut" xml:space="preserve">
+    <value>Часові межі етапу є за межами курікулума. Назва етапу</value>
+  </data>
+  <data name="DisciplineIsInvalid" xml:space="preserve">
+    <value>Дисципліна не є валідною</value>
+  </data>
+  <data name="Invalid" xml:space="preserve">
+    <value>Не є валідним!!!</value>
+  </data>
+  <data name="TopicTimelineOut" xml:space="preserve">
+    <value>Часові межі теми є за межами етапу. Назва теми</value>
+  </data>
+  <data name="ValidationErrors" xml:space="preserve">
+    <value>Помилки валідності</value>
+  </data>
+  <data name="ClickErrorToCorrect" xml:space="preserve">
+    <value>Натисніть на помилку, щоб виправити її.</value>
+  </data>
 </root>

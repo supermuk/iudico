@@ -114,12 +114,11 @@ namespace IUDICO.DisciplineManagement
 
             switch (evt)
             {
-                case UserNotifications.CourseDelete:
-                    // delete connected Topics
+                case CourseNotifications.CourseDelete:
+                    // makes connected disciplines invalid
                     var courseId = ((Course)data[0]).Id;
                     // curriculumStorage.MakeDisciplineInvalid(courseId);
-                    var topicIds = disciplineStorage.GetTopicsByCourseId(courseId).Select(item => item.Id);
-                    disciplineStorage.DeleteTopics(topicIds);
+						  disciplineStorage.MakeDisciplinesInvalid(courseId);
                     break;
                 case UserNotifications.UserDelete:
                     // delete connected Disciplines(Curriculums)

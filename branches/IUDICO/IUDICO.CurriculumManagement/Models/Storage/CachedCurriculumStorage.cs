@@ -113,6 +113,14 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return id;
         }
 
+		 public void ChangeCurriculumsIsValid( IEnumerable<int> curriculumIds, bool isValid )
+        {
+            this.storage.ChangeCurriculumsIsValid(curriculumIds, isValid);
+
+				this.cacheProvider.Invalidate(curriculumIds.Select(i => "curriculum-" + i).ToArray());
+            this.cacheProvider.Invalidate("curriculums");
+        }
+
         public void UpdateCurriculum(Curriculum curriculum)
         {
             this.storage.UpdateCurriculum(curriculum);
@@ -131,7 +139,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         {
             this.storage.DeleteCurriculums(ids);
 
-            this.cacheProvider.Invalidate(ids.Select(i => "curriculum-" + ids).ToArray());
+            this.cacheProvider.Invalidate(ids.Select(i => "curriculum-" + i).ToArray());
             this.cacheProvider.Invalidate("curriculums");
         }
 
@@ -160,6 +168,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var id = this.storage.AddCurriculumChapter(curriculumChapter);
 
             this.cacheProvider.Invalidate("curriculumchapter-" + id, "curriculumchapters");
+			   this.cacheProvider.Invalidate("curriculums", "curriculum-" + curriculumChapter.CurriculumRef);
 
             return id;
         }
@@ -169,10 +178,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             this.storage.UpdateCurriculumChapter(curriculumChapter);
 
             this.cacheProvider.Invalidate("curriculumchapter-" + curriculumChapter.Id, "curriculumchapters");
+			   this.cacheProvider.Invalidate("curriculums", "curriculum-" + curriculumChapter.CurriculumRef);
         }
 
-        public void DeleteCurriculumChapter(int id)
-        {
+        public void DeleteCurriculumChapter(int id) {
+			   this.cacheProvider.Invalidate("curriculums", "curriculum-" + this.storage.GetCurriculumChapter(id).CurriculumRef);
             this.storage.DeleteCurriculumChapter(id);
 
             this.cacheProvider.Invalidate("curriculumchapter-" + id, "curriculumchapters");
@@ -199,6 +209,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public int AddCurriculumChapterTopic(CurriculumChapterTopic curriculumChapterTopic)
         {
             var id = this.storage.AddCurriculumChapterTopic(curriculumChapterTopic);
+				this.cacheProvider.Invalidate("curriculums", "curriculum-" + this.storage.GetCurriculumChapterTopic(id).CurriculumChapter.CurriculumRef);
 
             this.cacheProvider.Invalidate("curriculumchaptertopics");
 
@@ -209,11 +220,13 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         {
             this.storage.UpdateCurriculumChapterTopic(curriculumChapterTopic);
 
+			   this.cacheProvider.Invalidate("curriculums", "curriculum-" + this.storage.GetCurriculumChapterTopic(curriculumChapterTopic.Id).CurriculumChapter.CurriculumRef);
             this.cacheProvider.Invalidate("curriculumchaptertopics", "curriculumchaptertopic-" + curriculumChapterTopic.Id);
         }
 
         public void DeleteCurriculumChapterTopic(int id)
         {
+			   this.cacheProvider.Invalidate("curriculums", "curriculum-" + this.storage.GetCurriculumChapterTopic(id).CurriculumChapter.CurriculumRef);
             this.storage.DeleteCurriculumChapterTopic(id);
 
             this.cacheProvider.Invalidate("curriculumchaptertopics", "curriculumchaptertopic-" + id);

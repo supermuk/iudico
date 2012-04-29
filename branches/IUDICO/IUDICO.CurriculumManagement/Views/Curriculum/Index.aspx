@@ -8,23 +8,27 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
-            $("#curriculumsTable").dataTable({
-                "bJQueryUI": true,
-                "sPaginationType": "full_numbers",
-                iDisplayLength: 200,
-                "bSort": true,
-                "bLengthChange": false,
-                "aoColumns": [
-                null,
-                null,
-                null,
-                null,
-                null,
-                { "bSortable": false }
-                ]                                
-            });
-            
-            $("#DeleteMany").click(function () {
+        	
+			$("#errorsDialog").dialog({autoOpen: false});
+            setDialogDefaultSettings();
+
+        	$("#curriculumsTable").dataTable({
+        		"bJQueryUI": true,
+        		"sPaginationType": "full_numbers",
+        		iDisplayLength: 200,
+        		"bSort": true,
+        		"bLengthChange": false,
+        		"aoColumns": [
+        			null,
+        			null,
+        			null,
+        			null,
+        			null,
+        			{ "bSortable": false }
+        		]
+        	});            			
+
+        	$("#DeleteMany").click(function () {
                 var ids = $("td input:checked").map(function () {
                     return $(this).attr('id');
                 });
@@ -56,6 +60,49 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 });
             });
         });
+        
+		  function setDialogDefaultSettings() {
+            $("#errorsDialogInner").html("Loading...");
+            var dialog = $("#errorsDialog");
+            //set to default settings
+            dialog.dialog("option", $.ui.dialog.prototype.options);
+            var settings = {
+                autoOpen: false,
+                modal: true,
+                buttons: {                    
+                    'Close': function() {
+                        $(this).dialog('close');
+                    }
+                }
+            };
+            dialog.dialog("option", settings);
+            dialog.css('overflow', 'hidden');
+        }
+
+        function openDialog(title, settings) {
+            setDialogDefaultSettings();
+            var dialog = $("#errorsDialog");
+            dialog.dialog("option", "title", title);
+            if(settings) {
+                dialog.dialog("option", settings);
+            }
+            $("#errorsDialog").dialog("open");
+        }
+
+        function showValidationErrors(id) {
+        		openDialog("<%=Localization.GetMessage("ValidationErrors") %>", {width: 450});
+        		$.ajax({
+        			 type: "get",
+                url: "/Curriculum/"+ id +"/ValidationErrors",
+                success: function(r) {
+                    $("#errorsDialogInner").html(r);
+                },
+                error: function(xhr, ajaxOptions, thrownError) {
+                	alert(xhr.status);
+                	alert(thrownError);
+                }
+        		});
+        	}
         function deleteItem(id) {
             var answer = confirm("<%=Localization.GetMessage("AreYouSureYouWantDeleteSelectedCurriculum") %> ");
 
@@ -141,9 +188,15 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%: Html.ActionLink(Localization.GetMessage("EditCurriculumChapters"), "Index", "CurriculumChapter", new { CurriculumId = item.Id }, null)%>
                 |
                 <a onclick="deleteItem(<%: item.Id %>)" href="#"><%=Localization.GetMessage("Delete")%></a>
-            </td>
-        </tr>
+					 <% if(!item.IsValid) {%>
+						<a onclick="showValidationErrors(<%: item.Id %>)" href="#" style="color: red"><%=Localization.GetMessage("Invalid") %></a>
+					 <% } %>
+            </td>				
+        </tr>		
         <% } %>
         </tbody>
     </table>
+	 <div id="errorsDialog">
+	 	<div id="errorsDialogInner"></div>
+	 </div>
 </asp:Content>
