@@ -33,7 +33,6 @@ namespace IUDICO.Search.Models.SearchTypes
             string dataPath)
         {
             this.definition = definition;
-            this.query = query;
             this.fsiLocation = new FileSystemIndexLocation(new DirectoryInfo(Path.Combine(dataPath, typeof(T).Name)));
         }
 
