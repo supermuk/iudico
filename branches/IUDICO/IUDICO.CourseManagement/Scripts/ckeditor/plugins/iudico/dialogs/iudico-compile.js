@@ -106,7 +106,13 @@
                             }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
-                            this.setValue(compileServiceString);
+                            if (paramMap[this.id]) {
+                                this.setValue(paramMap[this.id]);
+                            }
+                            else {
+                                this.setValue(compileServiceString);
+                            }
+                            
                         }
                     },
                     {
@@ -155,7 +161,13 @@
                             }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
-                            this.setValue(10000);
+                            if (paramMap[this.id]) {
+                                this.setValue(paramMap[this.id]);
+                            } 
+                            else {
+                                this.setValue(10000);
+                            }
+                            
                         }
                     },
                     {
@@ -171,7 +183,13 @@
                             }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
-                            this.setValue(10000);
+                            if (paramMap[this.id]) {
+                                this.setValue(paramMap[this.id]);
+                            }
+                            else {
+                                this.setValue(10000);
+                            }
+                            
                         }
                     },
                     {
@@ -187,7 +205,13 @@
                             }
                         },
                         setup: function (objectNode, embedNode, paramMap) {
-                            this.setValue(10000);
+                            if (paramMap[this.id]) {
+                                this.setValue(paramMap[this.id]);
+                            }
+                            else {
+                                this.setValue(10000);
+                            }
+                            
                         }
                     },
                     {
