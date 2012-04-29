@@ -14,7 +14,7 @@ namespace IUDICO.Search.Models.Definitions
     {
         public CourseDefinition()
         {
-            this.Query = new DefaultQuery(new string[] {"Course"});
+            this.Query = new DefaultQuery(new string[] { "Course" });
         }
 
         public override Document Convert(Course entity)
