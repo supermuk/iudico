@@ -471,4 +471,7 @@
   <data name="BackCurriculumChapters" xml:space="preserve">
     <value>Back to chapter timelines</value>
   </data>
+  <data name="TopicTimelineOutOfCurriculum" xml:space="preserve">
+    <value>The topic timeline is out of curriculum's.  Topic name</value>
+  </data>
 </root>

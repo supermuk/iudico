@@ -471,4 +471,7 @@
   <data name="BackCurriculumChapters" xml:space="preserve">
     <value>Повернутися до часових меж розділів</value>
   </data>
+  <data name="TopicTimelineOutOfCurriculum" xml:space="preserve">
+    <value>Часові межі теми є за межами навчального плану. Назва теми</value>
+  </data>
 </root>

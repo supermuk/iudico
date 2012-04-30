@@ -125,6 +125,13 @@ namespace IUDICO.CurriculumManagement.Models
                     {
                         errors.Add(Localization.GetMessage("TopicTimelineOut") + " - " + curriculumChapterTopic.Topic.Name, "/CurriculumChapterTopic/" + curriculumChapterTopic.Id + "/Edit");
                     }
+                    else if (curriculum.StartDate > curriculumChapterTopic.TestStartDate
+                        || curriculum.StartDate > curriculumChapterTopic.TheoryStartDate
+                        || curriculum.EndDate < curriculumChapterTopic.TheoryEndDate
+                        || curriculum.EndDate < curriculumChapterTopic.TestEndDate)
+                    {
+                        errors.Add(Localization.GetMessage("TopicTimelineOutOfCurriculum") + " - " + curriculumChapterTopic.Topic.Name, "/CurriculumChapterTopic/" + curriculumChapterTopic.Id + "/Edit");
+                    }
                 }
             }
 
