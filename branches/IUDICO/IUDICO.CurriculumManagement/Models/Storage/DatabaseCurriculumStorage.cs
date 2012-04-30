@@ -164,8 +164,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 {
                     if (curriculumChapter.StartDate > curriculumChapterTopic.TestStartDate
                         || curriculumChapter.StartDate > curriculumChapterTopic.TheoryStartDate
-                        || curriculumChapter.EndDate > curriculumChapterTopic.TheoryEndDate
-                        || curriculumChapter.EndDate > curriculumChapterTopic.TestEndDate)
+                        || curriculumChapter.EndDate < curriculumChapterTopic.TheoryEndDate
+                        || curriculumChapter.EndDate < curriculumChapterTopic.TestEndDate)
                     {
                         return false;
                     }
@@ -457,8 +457,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
             if (curriculum.StartDate > curriculumChapterTopic.TestStartDate
                 || curriculum.StartDate > curriculumChapterTopic.TheoryStartDate
-                || curriculum.EndDate > curriculumChapterTopic.TheoryEndDate
-                || curriculum.EndDate > curriculumChapterTopic.TestEndDate)
+                || curriculum.EndDate < curriculumChapterTopic.TheoryEndDate
+                || curriculum.EndDate < curriculumChapterTopic.TestEndDate)
             {
                 curriculum.IsValid = false;
             }
@@ -478,20 +478,11 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             oldTopicAssignment.TheoryStartDate = curriculumChapterTopic.TheoryStartDate;
             oldTopicAssignment.TheoryEndDate = curriculumChapterTopic.TheoryEndDate;
             oldTopicAssignment.TestStartDate = curriculumChapterTopic.TestStartDate;
-            oldTopicAssignment.TestEndDate = curriculumChapterTopic.TestEndDate;
-
-            var curriculumChapter = GetCurriculumChapter(db, oldTopicAssignment.CurriculumChapterRef);
-            var curriculum = GetCurriculum(db, curriculumChapter.CurriculumRef);
-
-            if (curriculumChapter.StartDate > oldTopicAssignment.TestStartDate
-                || curriculumChapter.StartDate > oldTopicAssignment.TheoryStartDate
-                || curriculumChapter.EndDate > oldTopicAssignment.TheoryEndDate
-                || curriculumChapter.EndDate > oldTopicAssignment.TestEndDate)
-            {
-                curriculum.IsValid = false;
-            }
+            oldTopicAssignment.TestEndDate = curriculumChapterTopic.TestEndDate;            
 
             db.SubmitChanges();
+            var curriculumChapter = GetCurriculumChapter(db, oldTopicAssignment.CurriculumChapterRef);
+            var curriculum = GetCurriculum(db, curriculumChapter.CurriculumRef);
             curriculum.IsValid = this.IsCurriculumValid(curriculum);
             db.SubmitChanges();
         }

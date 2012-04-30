@@ -468,4 +468,7 @@
   <data name="ClickErrorToCorrect" xml:space="preserve">
     <value>Натисніть на помилку, щоб виправити її.</value>
   </data>
+  <data name="BackCurriculumChapters" xml:space="preserve">
+    <value>Повернутися до часових меж розділів</value>
+  </data>
 </root>
