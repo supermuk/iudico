@@ -54,7 +54,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         {
             ExSelenium.Selenium = selenium;
             ExSelenium.Timeout = LoadTime;
-            selenium.SetSpeed("500");
+            selenium.SetSpeed("200");
 
             selenium.Open("/");
             selenium.WaitForPageToLoad(LoadTime);
@@ -280,9 +280,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 selenium.Type("xpath=/html/body/div/div[2]/div[2]/div/div/div[2]/input", courseNameP);
 
 
-                ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[6]/a[4]");
+                ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a[4]");
 
-                selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[6]/a[4]");
+                selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a[4]");
                 selenium.GetConfirmation();
                 selenium.WaitForPageToLoad(LoadTime);
             }
@@ -310,14 +310,14 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 }
 
                 selenium.Type("xpath=/html/body/div/div[2]/div[2]/div/div/div[2]/input", courseNameP);
-                ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[6]/a");
+                ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a");
 
                 while (selenium.IsAlertPresent())
                 {
                     selenium.GetAlert();
                 }
 
-                selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[6]/a");
+                selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a");
                 ExSelenium.WaitForElement("id=Name");
 
                 while (selenium.IsAlertPresent())
@@ -355,9 +355,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             if (selenium.IsTextPresent(courseNameP))
             {
                 selenium.Type("xpath=/html/body/div/div[2]/div[2]/div/div/div[2]/input", courseNameP);
-                ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[6]/a[2]");
+                ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a[2]");
 
-                selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[6]/a[2]");
+                selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a[2]");
                 selenium.WaitForPageToLoad(LoadTime);
                 return selenium.GetLocation().Substring(this.selenium.GetLocation().IndexOf("Course/", System.StringComparison.Ordinal) + 7, this.selenium.GetLocation().IndexOf("/Parse", System.StringComparison.Ordinal) - (this.selenium.GetLocation().IndexOf("Course/", System.StringComparison.Ordinal) + 7));
             }
@@ -467,9 +467,13 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 this.Login(teacherLogin, teacherPassword);
             }
 
-            selenium.Open("/Discipline");
-            selenium.WaitForPageToLoad(LoadTime);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
 
+            selenium.Open("/Discipline");
+            
             while (selenium.IsAlertPresent())
             {
                 selenium.GetAlert();
@@ -477,9 +481,15 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             if (selenium.IsTextPresent(name))
             {
-                
-              selenium.Click("xpath=//table//tr[td//text()[contains(., '" + name + "')]]/td[5]/div/a[5]");
-              selenium.GetConfirmation();
+                if (selenium.IsElementPresent("xpath=//table//tr[td//text()[contains(., '" + name + "')]]/td[5]/div/a[5]"))
+                {
+                    selenium.Click("xpath=//table//tr[td//text()[contains(., '" + name + "')]]/td[5]/div/a[5]");
+                }
+                else
+                {
+                    selenium.Click("xpath=//table//tr[td//text()[contains(., '" + name + "')]]/td[6]/div/a[3]");
+                }
+                selenium.GetConfirmation();
             }
         }
 
