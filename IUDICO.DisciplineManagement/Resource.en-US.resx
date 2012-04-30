@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddTopic" xml:space="preserve">
+    <value>Add topic</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedDiscipline" xml:space="preserve">
+    <value>Are you sure you want to delete selected discipline?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedDisciplines" xml:space="preserve">
+    <value>Are you sure you want to delete selected disciplines?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedChapter" xml:space="preserve">
+    <value>Are you sure you want to delete selected chapter?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedChapters" xml:space="preserve">
+    <value>Are you sure you want to delete selected chapters?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTopic" xml:space="preserve">
+    <value>Are you sure you want to delete selected topic?</value>
+  </data>
+  <data name="AreYouSureYouWantDeleteSelectedTopics" xml:space="preserve">
+    <value>Are you sure you want to delete selected topics?</value>
+  </data>
+  <data name="CorrectFollowingErrorAndTryAgain" xml:space="preserve">
+    <value>Correct the following error(s) and try again</value>
+  </data>
+  <data name="CreateNew" xml:space="preserve">
+    <value>Create new</value>
+  </data>
+  <data name="Discipline" xml:space="preserve">
+    <value>Discipline</value>
+  </data>
+  <data name="Disciplines" xml:space="preserve">
+    <value>Disciplines</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Down" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="EditDiscipline" xml:space="preserve">
+    <value>Edit discipline</value>
+  </data>
+  <data name="EditChapter" xml:space="preserve">
+    <value>Edit chapter</value>
+  </data>
+  <data name="EditTopic" xml:space="preserve">
+    <value>Edit topic</value>
+  </data>
+  <data name="ErrorOccuredDuringProcessingRequestErrorMessage" xml:space="preserve">
+    <value>Error occured during processing request.\nError message:</value>
+  </data>
+  <data name="Fields" xml:space="preserve">
+    <value>Fields</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameCanNotBeLongerThan" xml:space="preserve">
+    <value>Name can not be longer than {0}</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
+  <data name="NoCourse" xml:space="preserve">
+    <value>-- no course --</value>
+  </data>
+  <data name="PleaseSelectDisciplinesDelete" xml:space="preserve">
+    <value>Please select disciplines to delete</value>
+  </data>
+  <data name="PleaseSelectChaptersDelete" xml:space="preserve">
+    <value>Please select chapters to delete</value>
+  </data>
+  <data name="PleaseSelectTopicsDelete" xml:space="preserve">
+    <value>Please select topics to delete</value>
+  </data>
+  <data name="Chapter" xml:space="preserve">
+    <value>Chapter</value>
+  </data>
+  <data name="Chapters" xml:space="preserve">
+    <value>Chapters</value>
+  </data>
+  <data name="TestWithoutCourse" xml:space="preserve">
+    <value>You can't choose a course for this topic type</value>
+  </data>
+  <data name="TopicName" xml:space="preserve">
+    <value>Topic name</value>
+  </data>
+  <data name="TopicType" xml:space="preserve">
+    <value>Topic type</value>
+  </data>
+  <data name="TopicType.Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="TopicType.TestWithoutCourse" xml:space="preserve">
+    <value>Test without course</value>
+  </data>
+  <data name="TopicType.Theory" xml:space="preserve">
+    <value>Theory</value>
+  </data>
+  <data name="Up" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="Share" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="AddChapter" xml:space="preserve">
+    <value>Add chapter</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ChooseAtLeastOneCourse" xml:space="preserve">
+    <value>Choose at least one course</value>
+  </data>
+  <data name="CreateChapter" xml:space="preserve">
+    <value>Create chapter</value>
+  </data>
+  <data name="CreateDiscipline" xml:space="preserve">
+    <value>Create discipline</value>
+  </data>
+  <data name="CreateTopic" xml:space="preserve">
+    <value>Create topic</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="ShareDiscipline" xml:space="preserve">
+    <value>Share discipline</value>
+  </data>
+  <data name="CorrectTopics" xml:space="preserve">
+    <value>Correct topic(s):</value>
+  </data>
+</root>

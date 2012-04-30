@@ -1,0 +1,8 @@
+﻿body {
+}
+
+#main:after {
+    clear:  both;
+    content: '.';
+    visibility: hidden;
+}
