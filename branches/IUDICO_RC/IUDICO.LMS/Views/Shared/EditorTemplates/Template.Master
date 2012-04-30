@@ -1,0 +1,31 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage" %>
+<script runat="server">
+    protected override void OnInit(EventArgs e) {
+        base.OnInit(e);
+
+        if (ViewData.ModelMetadata.HideSurroundingHtml) {
+            TablePlaceholder.Visible = false;
+        }
+        else {
+            Controls.Remove(Data);
+            DataPlaceholder.Controls.Add(Data);
+        }
+    }
+</script>
+
+<asp:ContentPlaceHolder runat="server" id="Data" />
+<asp:PlaceHolder runat="server" id="TablePlaceholder">
+    <asp:ContentPlaceHolder runat="server" id="Label">
+         <div class="editor-label">
+            <%= ViewData.ModelMetadata.IsRequired ? "*" : "" %>
+            <%= Html.Label("") %>
+        </div>
+    </asp:ContentPlaceHolder>
+    
+    <div class="editor-field">
+        <asp:PlaceHolder runat="server" id="DataPlaceholder" />
+        <asp:ContentPlaceHolder runat="server" ID="Validation">
+            <%= Html.ValidationMessage("", "*") %>
+        </asp:ContentPlaceHolder>
+    </div>
+</asp:PlaceHolder>

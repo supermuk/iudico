@@ -1,0 +1,530 @@
+﻿/*----------------------------------------------------------
+The base color for this template is #5c87b2. If you'd like
+to use a different color start by replacing all instances of
+#5c87b2 with your new color.
+----------------------------------------------------------*/
+body
+{
+    background-image: url(/Content/Images/background.png);
+    font-size: 0.7em;
+    font-family: Century Gothic, Arial, Verdana, Helvetica, Sans-Serif;
+    margin: 0;
+    padding: 0;
+    color: #8A8989;
+}
+
+a:link
+{
+    color: #034af3;
+    text-decoration: underline;
+}
+a:visited
+{
+    color: #505abc;
+}
+a:hover
+{
+    color: #1d60ff;
+    text-decoration: none;
+}
+a:active
+{
+    color: #12eb87;
+}
+
+p, ul
+{
+    margin-bottom: 20px;
+    line-height: 1.6em;
+}
+
+/* HEADINGS   
+----------------------------------------------------------*/
+h1, h2, h3, h4, h5, h6
+{
+    font-size: 1.5em;
+    color: #000;
+    font-family: Century Gothic, Arial, Helvetica, sans-serif;
+}
+
+h1
+{
+    font-size: 2em;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+h2
+{
+    padding: 0 0 0px 0;
+}
+h3
+{
+    font-size: 1.2em;
+}
+h4
+{
+    font-size: 1.1em;
+}
+h5, h6
+{
+    font-size: 1em;
+}
+
+/* this rule styles <h2> tags that are the 
+first child of the left and right table columns */
+.rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
+{
+    margin-top: 0;
+}
+
+/* PRIMARY LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+/* you can specify a greater or lesser percentage for the 
+page width. Or, you can specify an exact pixel width. */
+.page
+{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    min-width: 900px;
+}
+
+#header
+{
+    position: relative;
+    margin-bottom: 0px;
+    color: #000;
+    padding: 0;
+}
+
+#header h1
+{
+    font-weight: bold;
+    padding: 5px 0;
+    margin: 0;
+    color: #fff;
+    border: none;
+    line-height: 2em;
+    font-family: Century Gothic, Arial, Helvetica, sans-serif;
+    font-size: 32px !important;
+}
+
+#main
+{
+    border-radius: 5px;
+    padding: 30px 30px 15px 30px;
+    background-color: #fff;
+    margin-bottom: 30px;
+    _height: 1px; /* only IE6 applies CSS properties starting with an underscore */
+}
+
+#footer
+{
+    color: #999;
+    padding: 10px 0;
+    text-align: center;
+    line-height: normal;
+    margin: 0;
+    font-size: .9em;
+}
+
+/* TAB MENU   
+----------------------------------------------------------*/
+ul#menu
+{
+    padding: 0 0 2px;
+    position: relative;
+    margin: 0;
+    margin-left: 40px;
+}
+
+ul#menu li
+{
+    display: inline;
+    list-style: none;
+}
+
+ul#menu li#greeting
+{
+    padding: 10px 20px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 2.8em;
+    color: #fff;
+}
+
+ul#menu li a
+{
+    padding: 10px 25px;
+    font-weight: bold;
+    text-decoration: none;
+    line-height: 2.8em;
+    background-color: #f2f2f2;
+    border-radius: 4px 4px 0px 0px;
+    color: #484848;
+    margin: 0px 2px;
+}
+
+ul#menu li a:hover
+{
+    text-decoration: none;
+    color:#477aa3;
+}
+
+ul#menu li a:active
+{
+    background-color: #fff;
+    color:#477aa3;
+    text-decoration: none;
+}
+
+ul#menu li.selected a
+{
+    background-color: #fff;
+    color: #477aa3;
+}
+
+/* FORM LAYOUT ELEMENTS   
+----------------------------------------------------------*/
+
+fieldset 
+{
+    margin: 1em 0;
+    padding: 1em;
+    border: 1px solid #A3BCD1;
+    border-radius: 4px;
+}
+
+
+fieldset p 
+{
+    margin: 2px 12px 10px 10px;
+}
+
+legend 
+{
+    color: #336699;
+    font-size: 1.2em;
+    padding: 2px 4px 8px 4px;
+    text-transform: uppercase;
+}
+
+input[type="text"] 
+{
+    width: 200px;
+}
+
+input[type="password"] 
+{
+    width: 200px;
+}
+
+input[type="submit"] 
+{
+    background-image: url(/Content/Images/button_116_25.png);
+    width: 115px;
+    height: 25px;
+    border: 0px none;
+    color: #FFFFFF;
+}
+
+input[type="submit"].okButton 
+{
+    background-image: url(/Content/Images/button_37_20.png);
+    width: 37px;
+    height: 20px;
+}
+
+/* TABLE
+----------------------------------------------------------*/
+
+table 
+{
+  border: solid 1px #e8eef4;
+  border-collapse: collapse;
+}
+
+table td 
+{
+  padding: 5px;   
+  border: solid 1px #e8eef4;
+}
+
+table th
+{
+  padding: 6px 5px;
+  text-align: left;
+  background-color: #e8eef4; 
+  border: solid 1px #e8eef4;   
+}
+table thead
+{
+    padding: 6px 5px;
+    text-align: left;
+    background-color: #e8eef4;
+    border: solid 1px #e8eef4;
+    font-weight: bold;
+}
+table tfoot
+{
+    font-weight: bold;
+    background-color: #e8eef4;
+    border-top: 5px solid white;
+}
+
+/* MISC  
+----------------------------------------------------------*/
+.clear
+{
+    clear: both;
+}
+
+.error
+{
+    color:Red;
+}
+
+#menucontainer
+{
+    margin-top:40px;
+    clear: both;
+}
+
+div#title
+{
+    display:block;
+    float:left;
+    text-align:left;
+}
+
+#logindisplay
+{
+    font-size:1.2em;
+    display:block;
+    text-align:right;
+    margin:10px;
+    color:#575757;
+}
+
+#logindisplay a:link
+{
+    text-decoration: underline;
+}
+
+#logindisplay a:visited
+{
+    text-decoration: underline;
+}
+
+#logindisplay a:hover
+{
+    text-decoration: none;
+}
+
+.langContainer {
+    margin: 5px;
+}
+
+/* Styles for validation helpers
+-----------------------------------------------------------*/
+.field-validation-error
+{
+    color: #ff0000;
+}
+
+.field-validation-valid
+{
+    display: none;
+}
+
+.input-validation-error
+{
+    border: 1px solid #ff0000;
+    background-color: #ffeeee;
+}
+
+.validation-summary-errors
+{
+    font-weight: bold;
+    color: #ff0000;
+}
+
+.validation-summary-valid
+{
+    display: none;
+}
+
+/* Styles for editor and display helpers
+----------------------------------------------------------*/
+.display-label,
+.editor-label,
+.display-field,
+.editor-field
+{
+    margin: 0.5em 0;
+}
+
+.display-label
+{
+	font-weight: bold;
+	display: inline;
+}
+
+.display-field
+{
+	margin-left: 10px;
+	display: inline;
+}
+
+.text-box
+{
+    width: 30em;
+    border: 1px solid #A3BCD1;
+    border-radius: 4px;
+}
+
+.text-box.multi-line
+{
+    height: 6.5em;
+}
+
+.tri-state
+{
+    width: 6em;
+}
+
+.course-created-label
+{
+    font-size: 9px;
+    color: #999999;
+}
+
+
+/* 
+----------------------------------------------------------*/
+
+ul.topics
+{
+    list-style-type: none;
+}
+
+ul.topics li > a
+{
+    margin-left: 8px;
+}
+
+
+select option.added
+{
+    color:#CCCCCC;
+}
+
+.hidden
+{
+    display:none;
+}
+
+#availableTopics, #selectedTopics
+{
+    width: 200px;
+    height: 80px;
+}
+
+/* COURSES
+----------------------------------------------------------*/
+.courseTable
+{
+    width:100%;
+}
+
+#Courses td.courseCheck
+{
+    background-color: #FFFFFF;
+}
+
+#Courses tr.courseMy
+{
+    background-color: #FFFFFF;
+}
+#Courses tr.courseShared
+{
+    background-color: #FFFFFF;
+}
+#Courses tr.courseLocked
+{
+    background-color: #F0F0F0;
+}
+.courseEditable {
+    cursor: pointer;
+}
+/* DISCIPLINES
+----------------------------------------------------------*/
+.disciplineTable
+{
+    width: 100%;
+}
+.disciplineNameColumn 
+{
+    width: auto;
+    min-width: 200px;
+}
+
+.disciplineDateColumn 
+{
+    width: 100px;
+}
+
+.disciplineActionColumn 
+{
+    width: 360px;
+}
+
+#disciplines tr.discipline 
+{
+    background-color: #E6CCFF;
+}
+
+#disciplines tr.disciplineChapter
+{
+    background-color: #CCCCFF;
+}
+
+#disciplines tr.disciplineTopic
+{
+    background-color: #CCE6FF;
+}
+
+.disciplineName 
+{
+    cursor: pointer;
+}
+.disciplineChapterName 
+{
+    cursor: pointer;
+    padding-left: 40px;
+}
+.disciplineTopicName
+{
+    cursor: pointer;
+    padding-left: 80px;
+}
+
+/* CURRICULUMS
+----------------------------------------------------------*/
+
+.curriculumChapterTopic_timeline1, .curriculumChapterTopic_timeline2, .curriculumChapterTopic_blocking {
+    border: grey dotted 1px;
+    width: 205px;
+    padding: 5px;
+    margin-top: 5px;
+}
+
+/* SHAREUSERS
+----------------------------------------------------------*/
+.checkboxColumn {
+    width: 40px;
+}
+.usernameColumn {
+    width: 200px;
+}
