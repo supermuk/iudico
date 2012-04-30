@@ -120,8 +120,8 @@ namespace IUDICO.CurriculumManagement.Models
             
                     if (curriculumChapter.StartDate > curriculumChapterTopic.TestStartDate
                         || curriculumChapter.StartDate > curriculumChapterTopic.TheoryStartDate
-                        || curriculumChapter.EndDate > curriculumChapterTopic.TheoryEndDate
-                        || curriculumChapter.EndDate > curriculumChapterTopic.TestEndDate)
+                        || curriculumChapter.EndDate < curriculumChapterTopic.TheoryEndDate
+                        || curriculumChapter.EndDate < curriculumChapterTopic.TestEndDate)
                     {
                         errors.Add(Localization.GetMessage("TopicTimelineOut") + " - " + curriculumChapterTopic.Topic.Name, "/CurriculumChapterTopic/" + curriculumChapterTopic.Id + "/Edit");
                     }
