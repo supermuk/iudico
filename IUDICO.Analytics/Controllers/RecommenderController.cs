@@ -20,22 +20,25 @@ namespace IUDICO.Analytics.Controllers
             this.storage = analyticsStorage;
         }
 
-        [Allow(Role = Role.Student)]
+        [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult TopicScores()
         {
             return View(this.storage.GetTopicScores());
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult UserScores()
         {
             return View(this.storage.GetUserScores());
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult UpdateUser(Guid id)
         {
             this.storage.UpdateUserScores(id);
@@ -43,6 +46,7 @@ namespace IUDICO.Analytics.Controllers
             return RedirectToAction("UserScores");
         }
 
+        [Allow(Role = Role.Admin)]
         public ActionResult UpdateTopic(int id)
         {
             this.storage.UpdateTopicScores(id);
