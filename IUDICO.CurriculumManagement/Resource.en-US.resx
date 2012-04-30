@@ -468,4 +468,7 @@
   <data name="ClickErrorToCorrect" xml:space="preserve">
     <value>Click on the error to correct it.</value>
   </data>
+  <data name="BackCurriculumChapters" xml:space="preserve">
+    <value>Back to chapter timelines</value>
+  </data>
 </root>
