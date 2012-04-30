@@ -44,29 +44,35 @@ namespace IUDICO.Analytics.Models.Storage
 
         #region Recommender System
 
-        public Dictionary<int, IEnumerable<TopicScore>> GetTopicScores()
+        public Dictionary<Topic, IEnumerable<TopicScore>> GetTopicScores()
         {
             using (var d = this.GetDbDataContext())
             {
-                var topics = this.GetTopics();
-                var topicIds = topics.Select(t => t.Id);
-                var topicScores = d.TopicScores.Where(s => topicIds.Contains(s.TopicId))
-                    .GroupBy(e => e.TopicId)
-                    .OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.AsEnumerable());
+                var topics = this.GetTopics().ToDictionary(t => t.Id, t => t);
+
+                var topicScores = (from t in topics.Values
+                                   join ts in db.TopicScores on t.Id equals ts.TopicId into tsj
+                                   from j in tsj.DefaultIfEmpty()
+                                   group j by t.Id
+                                   into grouped select new { Topic = grouped.Key, Values = grouped })
+                                   .OrderBy(g => g.Topic).ToDictionary(g => topics[g.Topic], g => g.Values.Where(f => f != null).ToList().AsEnumerable());
             
                 return topicScores;
             }
         }
 
-        public Dictionary<Guid, IEnumerable<UserScore>> GetUserScores()
+        public Dictionary<User, IEnumerable<UserScore>> GetUserScores()
         {
             using (var d = this.GetDbDataContext())
             {
-                var users = this.GetUsers();
-                var userIds = users.Select(u => u.Id);
-                var userScores = d.UserScores.Where(s => userIds.Contains(s.UserId))
-                    .GroupBy(e => e.UserId)
-                    .OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.AsEnumerable());
+                var users = this.GetUsers().ToDictionary(u => u.Id, u => u);
+
+                var userScores = (from u in users.Values
+                                  join us in db.UserScores on u.Id equals us.UserId into usj
+                                  from j in usj.DefaultIfEmpty()
+                                  group j by u.Id into grouped
+                                  select new { User = grouped.Key, Values = grouped })
+                                  .OrderBy(g => g.User).ToDictionary(g => users[g.User], g => g.Values.Where(f => f != null).ToList().AsEnumerable());
 
                 return userScores;
             }
@@ -105,7 +111,7 @@ namespace IUDICO.Analytics.Models.Storage
                 this.GetTopicTags(f => attempts.Keys.Contains(f.TopicId)).GroupBy(t => t.TopicId).ToDictionary(
                     g => g.Key, g => g.Select(t => t.TagId));
 
-            if (attempts.Count() == 0)
+            if (!attempts.Any())
             {
                 return new List<UserScore>();
             }
@@ -310,11 +316,11 @@ namespace IUDICO.Analytics.Models.Storage
 
         public void DeleteTag(int id)
         {
-            var containsFeatures = this.db.TopicTags.Where(tf => tf.TagId == id).Any();
+            var containsFeatures = this.db.TopicTags.Any(tf => tf.TagId == id);
 
             if (containsFeatures)
             {
-                throw new Exception("Can't delete feature, which has topics assigned to it");
+                throw new Exception("Can't delete tag, which has topics assigned to it");
             }
 
             this.db.Tags.DeleteOnSubmit(this.GetTag(id));
@@ -434,7 +440,7 @@ namespace IUDICO.Analytics.Models.Storage
 
             var topic = this.lmsService.FindService<IDisciplineService>().GetTopic(topicId);
             var groups = this.lmsService.FindService<IUserService>().GetGroups();
-            var curriculumChapterTopic = topic.CurriculumChapterTopics.Where(item => item.TopicRef == topic.Id).First();
+            var curriculumChapterTopic = topic.CurriculumChapterTopics.First(item => item.TopicRef == topic.Id);
 
             foreach (Group group in groups)
             {
@@ -488,7 +494,7 @@ namespace IUDICO.Analytics.Models.Storage
             var result = new List<KeyValuePair<User, double[]>>();
 
             var topic = this.lmsService.FindService<IDisciplineService>().GetTopic(topicId);
-            var curriculumChapterTopic = topic.CurriculumChapterTopics.Where(item => item.TopicRef == topic.Id).First();
+            var curriculumChapterTopic = topic.CurriculumChapterTopics.First(item => item.TopicRef == topic.Id);
             var group = this.lmsService.FindService<IUserService>().GetGroup(groupId);
             var students = this.lmsService.FindService<IUserService>().GetUsersByGroup(group);
 
