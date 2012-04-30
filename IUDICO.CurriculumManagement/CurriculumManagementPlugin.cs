@@ -107,7 +107,7 @@ namespace IUDICO.CurriculumManagement
             {  
 				case DisciplineNotifications.DisciplineIsValidChange:
 					// makes corresponding Curriculums invalid
-            	    var disciplineId = ((Discipline) data[0]).Id;
+            	    var disciplineId = ((Discipline)data[0]).Id;
 					var curriculumIds = curriculumStorage.GetCurriculums(c => c.DisciplineRef == disciplineId).Select(item => item.Id);
 					curriculumStorage.ChangeCurriculumsIsValid(curriculumIds, ((Discipline)data[0]).IsValid);
 					break;
