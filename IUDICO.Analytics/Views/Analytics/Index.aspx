@@ -9,7 +9,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%:Html.ActionLink("Tags", "Index", "Tags")%> | <%:Html.ActionLink("Recommender", "Index", "Recommender")%> | <%:Html.ActionLink("Anomaly Detection", "Index", "AnomalyDetection")%>
+    <%:Html.ActionLink("Tags", "Index", "Tags")%> | <%:Html.ActionLink("Recommender", "Index", "Recommender")%> | <%:Html.ActionLink("Anomaly Detection", "Index", "AnomalyDetection")%> | <%:Html.ActionLink("Discipline/Topic Quality", "Index", "Quality")%>
 
     <h2>Hello Analytics</h2>
 
