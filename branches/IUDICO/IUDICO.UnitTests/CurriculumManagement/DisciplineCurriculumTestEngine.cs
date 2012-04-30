@@ -3,6 +3,7 @@
 using Castle.Windsor;
 
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Caching.Provider;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
@@ -51,9 +52,13 @@ namespace IUDICO.UnitTests.CurriculumManagement
 
         private Mock<ICourseService> MockCourseService { get; set; }
 
-        private Mock<DatabaseCurriculumStorage> MockCurriculumStorage { get; set; }
+        private Mock<CachedCurriculumStorage> MockCurriculumStorage { get; set; }
 
-        private Mock<DatabaseDisciplineStorage> MockDisciplineStorage { get; set; }
+        private Mock<DatabaseCurriculumStorage> MockDbCurriculumStorage { get; set; }
+
+        private Mock<CachedDisciplineStorage> MockDisciplineStorage { get; set; }
+
+        private Mock<DatabaseDisciplineStorage> MockDbDisciplineStorage { get; set; }
 
         private Mock<IWindsorContainer> MockWindsorContainer { get; set; }
 
@@ -159,13 +164,16 @@ namespace IUDICO.UnitTests.CurriculumManagement
             this.MockUserService = new Mock<IUserService>();
             this.MockCourseService = new Mock<ICourseService>();
 
-            this.MockCurriculumStorage = new Mock<DatabaseCurriculumStorage>(this.LmsService);
-            this.MockDisciplineStorage = new Mock<DatabaseDisciplineStorage>(this.LmsService);
+            var mockCacheProvider = new Mock<HttpCache>();
+            this.MockDbCurriculumStorage = new Mock<DatabaseCurriculumStorage>(this.LmsService);
+            this.MockCurriculumStorage = new Mock<CachedCurriculumStorage>(this.MockDbCurriculumStorage.Object, mockCacheProvider.Object);
+            this.MockDbDisciplineStorage = new Mock<DatabaseDisciplineStorage>(this.LmsService);
+            this.MockDisciplineStorage = new Mock<CachedDisciplineStorage>(this.MockDbDisciplineStorage.Object, mockCacheProvider.Object);
 
             // Setup links
-            this.MockCurriculumStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(
+            this.MockDbCurriculumStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(
                 this.CurriculumDataContext);
-            this.MockDisciplineStorage.Protected().Setup<DisciplineManagement.Models.IDataContext>("GetDbContext").Returns(this.DisciplineDataContext);
+            this.MockDbDisciplineStorage.Protected().Setup<DisciplineManagement.Models.IDataContext>("GetDbContext").Returns(this.DisciplineDataContext);
 
             this.MockWindsorContainer.Setup(l => l.Resolve<IUserService>()).Returns(this.MockUserService.Object);
             this.MockWindsorContainer.Setup(l => l.Resolve<ICourseService>()).Returns(this.MockCourseService.Object);

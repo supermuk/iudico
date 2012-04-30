@@ -17,6 +17,7 @@
 
     using Moq;
     using Moq.Protected;
+    using IUDICO.Common.Models.Caching.Provider;
 
     public class CourseManagementTest
     {
@@ -47,7 +48,9 @@
 
         private Mock<DatabaseUserStorage> _MockUserStorage { get; set; }
 
-        private Mock<MixedCourseStorage> _MockStorage { get; set; }
+        private Mock<CachedCourseStorage> _MockStorage { get; set; }
+
+        private Mock<MixedCourseStorage> _MockDatabaseStorage { get; set; }
 
         private Mock<MixedCourseStorageProtectedMethodTestClass> _MockStorageProtectedMethodTestClass { get; set; }
 
@@ -116,9 +119,13 @@
             this._MockDataContext = new Mock<IDataContext>();
             this._MockUserDataContext = new Mock<IUDICO.UserManagement.Models.IDataContext>();
             this._MockLmsService = new Mock<ILmsService>();
-            this._MockStorage = new Mock<MixedCourseStorage>(this._MockLmsService.Object);
+
+            var mockCacheProvider = new Mock<HttpCache>();
+            this._MockDatabaseStorage = new Mock<MixedCourseStorage>(this._MockLmsService.Object);
+            this._MockStorage = new Mock<CachedCourseStorage>(this._MockDatabaseStorage.Object, mockCacheProvider.Object);
+
             this._MockUserStorage = new Mock<DatabaseUserStorage>(this._MockLmsService.Object);
-            this._MockStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this._MockDataContext.Object);
+            this._MockDatabaseStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this._MockDataContext.Object);
             this._MockUserStorage.Protected().Setup<IUDICO.UserManagement.Models.IDataContext>("GetDbContext").Returns(
                 this._MockUserDataContext.Object);
             this._HttpPostedFileBase = new Mock<HttpPostedFileBase>();
@@ -140,9 +147,9 @@
 
         public void Setup()
         {
-            this._MockStorage.CallBase = true;
-            this._MockStorage.Protected().Setup<string>("GetCoursesPath").Returns(this._CourseStoragePath);
-            this._MockStorage.Setup(c => c.GetTemplatesPath()).Returns(
+            this._MockDatabaseStorage.CallBase = true;
+            this._MockDatabaseStorage.Protected().Setup<string>("GetCoursesPath").Returns(this._CourseStoragePath);
+            this._MockDatabaseStorage.Setup(c => c.GetTemplatesPath()).Returns(
                 Path.Combine(this._CourseStoragePath, "Templates"));
             this._MockUserDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(this.mockUserData));
 

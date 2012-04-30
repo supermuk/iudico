@@ -19,7 +19,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.CreateUser(temp);
 
-            temp = this.tests.Storage.GetUser(u => u.Username == "name");
+            temp = this.tests.Storage.GetUser("name");
 
             var expected = new User
                 {
@@ -34,7 +34,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.EditUser(temp.Id, model);
 
-            var compare = this.tests.Storage.GetUser(u => u.Username == "name");
+            var compare = this.tests.Storage.GetUser("name");
 
             Assert.IsTrue(this.tests.TestUsers(compare, expected) && compare.OpenId == expected.OpenId);
 
