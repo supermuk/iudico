@@ -170,6 +170,16 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                         return false;
                     }
                 }
+                foreach (var curriculumChapterTopic in curriculumChapterTopics)
+                {
+                    if (curriculum.StartDate > curriculumChapterTopic.TestStartDate
+                        || curriculum.StartDate > curriculumChapterTopic.TheoryStartDate
+                        || curriculum.EndDate < curriculumChapterTopic.TheoryEndDate
+                        || curriculum.EndDate < curriculumChapterTopic.TestEndDate)
+                    {
+                        return false;
+                    }
+                }
             }
 
             return true;
