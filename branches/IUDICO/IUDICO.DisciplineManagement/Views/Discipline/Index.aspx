@@ -457,11 +457,11 @@
 	<table id="disciplines" class="disciplineTable">
     <thead>
 		<tr id="tableHeader">
-		     <th></th>
+		    <th class="checkboxColumn"></th>
 			<th class="disciplineNameColumn"><%=Localization.GetMessage("Name") %></th>
-			<th class="disciplineDateColumn"><%=Localization.GetMessage("Created") %></th>
-			<th class="disciplineDateColumn"><%=Localization.GetMessage("Updated") %></th>
-			<th class="disciplineActionColumn"></th>
+			<th class="disciplineDateColumn" class="datetimeColumn"><%=Localization.GetMessage("Created") %></th>
+			<th class="disciplineDateColumn"  class="datetimeColumn"><%=Localization.GetMessage("Updated") %></th>
+			<th class="disciplineActionColumn" class="actionsColumn"></th>
 		</tr>
     </thead>
     <tbody>

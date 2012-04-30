@@ -38,6 +38,76 @@ p, ul
     line-height: 1.6em;
 }
 
+/* BUTTONS */
+.button {
+    display: inline-block;
+    width: 37px;
+    height: 36px;
+}
+
+.buttonEdit
+{
+    background: url("/Content/Images/edit.png") no-repeat;
+}
+.buttonEdit:hover
+{
+    background: url("/Content/Images/edit-a.png") no-repeat;
+}
+.buttonExport
+{
+    background: url("/Content/Images/export.png") no-repeat;
+}
+.buttonExport:hover
+{
+    background: url("/Content/Images/export-a.png") no-repeat;
+}
+
+.buttonLock
+{
+    background: url("/Content/Images/lock.png") no-repeat;
+}
+.buttonLock:hover
+{
+    background: url("/Content/Images/lock-h.png") no-repeat;
+}
+.buttonUnlock
+{
+    background: url("/Content/Images/unlock.png") no-repeat;
+
+}
+.buttonUnlock:hover
+{
+    background: url("/Content/Images/unlock-h.png") no-repeat;
+
+}
+.buttonShare
+{
+    background: url("/Content/Images/share.png") no-repeat;
+}
+.buttonShare:hover
+{
+    background: url("/Content/Images/share-a.png") no-repeat;
+}
+.buttonDelete
+{
+    background: url("/Content/Images/del.png") no-repeat;
+}
+.buttonDelete:hover
+{
+    background: url("/Content/Images/del-a.png") no-repeat;
+}
+/* CHECKBOX */
+.checkbox, .radio {
+	width: 19px;
+	height: 25px;
+	padding: 0 5px 0 0;
+	background: url("/Content/Images/check.png") no-repeat;
+	display: block;
+	clear: left;
+	float: left;
+}
+
+
 /* HEADINGS   
 ----------------------------------------------------------*/
 h1, h2, h3, h4, h5, h6
@@ -84,10 +154,9 @@ first child of the left and right table columns */
 page width. Or, you can specify an exact pixel width. */
 .page
 {
-    width: 90%;
+    width: 1000px;
     margin-left: auto;
     margin-right: auto;
-    min-width: 900px;
 }
 
 #header
@@ -243,6 +312,7 @@ table
 {
   border: solid 1px #e8eef4;
   border-collapse: collapse;
+  width: 100%;
 }
 
 table td 
@@ -437,27 +507,60 @@ select option.added
 {
     width:100%;
 }
-
+.course:hover {
+    background-color: #F0ECB4;
+}
+.courseName 
+{
+    color: #257dd6;
+    font-size: 1.5em;
+}
+.courseCreatedBy {
+    color: #888889;
+    font-size: 0.8em;
+}
 #Courses td.courseCheck
 {
-    background-color: #FFFFFF;
+
 }
 
 #Courses tr.courseMy
 {
-    background-color: #FFFFFF;
+
 }
 #Courses tr.courseShared
 {
-    background-color: #FFFFFF;
+
 }
+
 #Courses tr.courseLocked
 {
     background-color: #F0F0F0;
 }
-.courseEditable {
+#Courses tr.courseLocked:hover
+{
+    background-color: #D0D0D0;
+    cursor: not-allowed;
+}
+.courseEditable
+{
     cursor: pointer;
 }
+
+.courseActionsColumn
+{
+    width: 200px;
+}
+.updatedByColumn 
+{
+    width: 150px;
+}
+.updatedByField 
+{
+    color: #7A7979;
+    font-size: 1.2em;
+}
+
 /* DISCIPLINES
 ----------------------------------------------------------*/
 .disciplineTable
@@ -523,8 +626,12 @@ select option.added
 /* SHAREUSERS
 ----------------------------------------------------------*/
 .checkboxColumn {
-    width: 40px;
+    width: 25px;
 }
 .usernameColumn {
+    width: 200px;
+}
+.actionsColumn
+{
     width: 200px;
 }

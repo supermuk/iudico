@@ -3,8 +3,6 @@
 <%@ Import Namespace="System.Web.Mvc.Ajax" %>
 <%@ Import Namespace="IUDICO.Common" %>
 
-<% Html.EnableClientValidation(); %>
-
 <% using (Ajax.BeginForm("Create", "Chapter", new { }, new AjaxOptions() { OnFailure = "onFailure", OnSuccess = "onCreateChapterSuccess" })) { %>
     <%: Html.ValidationSummary(true, Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
 
