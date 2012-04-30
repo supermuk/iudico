@@ -35,8 +35,9 @@ namespace IUDICO.CurriculumManagement.Controllers
                         ChapterName = Storage.GetChapter((int)item.ChapterRef).Name
                     });
 
-            ViewData["GroupName"] = group!=null ? group.Name:"";
+            ViewData["GroupName"] = group != null ? group.Name : string.Empty;
             ViewData["Discipline"] = discipline;
+            
             return View(model);
         }
 
@@ -51,8 +52,9 @@ namespace IUDICO.CurriculumManagement.Controllers
             var model = new CreateCurriculumChapterModel(curriculumChapter.StartDate, curriculumChapter.EndDate);
 
             Session["CurriculumId"] = curriculumChapter.CurriculumRef;
-            ViewData["GroupName"] = group!=null ? group.Name:"";
+            ViewData["GroupName"] = group != null ? group.Name : string.Empty;
             ViewData["DisciplineName"] = discipline.Name;
+            
             return View(model);
         }
 

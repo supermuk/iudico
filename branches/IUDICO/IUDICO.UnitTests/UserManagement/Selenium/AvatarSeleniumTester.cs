@@ -21,7 +21,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
             
             Assert.IsTrue(selenium.IsElementPresent("id=avatar"));
-            Assert.IsTrue(selenium.GetAttribute("//img[@id=avatar]/@src") != "/Data/Avatars/default.png");
+            Assert.IsTrue(selenium.GetAttribute("//img[@id='avatar']/@src") != "/Data/Avatars/default.png");
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
 
             Assert.IsTrue(selenium.IsElementPresent("id=avatar"));
-            Assert.IsTrue(selenium.GetAttribute("//img[@id=avatar]/@src") != "/Data/Avatars/default.png");
+            Assert.IsTrue(selenium.GetAttribute("//img[@id='avatar']/@src") != "/Data/Avatars/default.png");
         }
 
         [Test]

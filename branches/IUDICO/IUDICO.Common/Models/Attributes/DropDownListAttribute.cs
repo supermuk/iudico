@@ -11,7 +11,7 @@ namespace IUDICO.Common.Models.Attributes
         public DropDownListAttribute()
             : base("DropDownList")
         {
-            OptionLabel = Localization.GetMessage(OptionLabel);
+            OptionLabel = Localization.GetMessage(this.OptionLabel);
         }
 
         public string SourceProperty { get; set; }

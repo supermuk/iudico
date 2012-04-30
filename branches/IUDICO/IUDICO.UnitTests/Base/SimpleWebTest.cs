@@ -150,13 +150,13 @@ namespace IUDICO.UnitTests.Base
             this.selenium.Type("id=login_password", openIdPass);
             this.selenium.Click("//input[@id='loginlj_submit']");
 
-            this.selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
+            this.selenium.WaitForPageToLoad((this.seleniumWait * 6).ToString());
 
             if (this.selenium.GetLocation().Contains("http://www.livejournal.com"))
             {
                 this.selenium.Click("//input[@name='yes:once']");
 
-                this.selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
+                this.selenium.WaitForPageToLoad((this.seleniumWait * 6).ToString());
             }
         }
 

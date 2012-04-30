@@ -92,34 +92,49 @@ namespace IUDICO.CurriculumManagement.Models
 
             return validationStatus;
         }
-		  
-		  public Dictionary<string,string> GetCurriculumValidation(Curriculum curriculum) {
-		  		var errors = new Dictionary<string, string>();
-		  		if(this.Storage.GetGroup(curriculum.UserGroupRef) == null) {
-		  			errors.Add(Localization.GetMessage("ChooseGroup"),"/Curriculum/"+ curriculum.Id +"/Edit");
-		  		}
-			   if(!this.Storage.GetDiscipline(curriculum.DisciplineRef).IsValid) {
-			   	errors.Add(Localization.GetMessage("DisciplineIsInvalid"),"/Discipline/Index");
-			   }
-			   var curriculumChapters = this.Storage.GetCurriculumChapters(item => item.CurriculumRef == curriculum.Id);
-		  		foreach (var curriculumChapter in curriculumChapters) {
-		  			if(curriculumChapter.StartDate<curriculum.StartDate || curriculumChapter.EndDate>curriculum.EndDate) {
-			   		errors.Add(Localization.GetMessage("ChapterTimelineOut") + " - " + curriculumChapter.Chapter.Name,"/CurriculumChapter/"+ curriculumChapter.Id +"/Edit");
-					}
-		  			var curriculumChapterTopics = this.Storage.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id);
-		  			foreach (var curriculumChapterTopic in curriculumChapterTopics) {
-		  				if(curriculumChapter.StartDate>curriculumChapterTopic.TestStartDate || curriculumChapter.StartDate>curriculumChapterTopic.TheoryStartDate || curriculumChapter.EndDate>curriculumChapterTopic.TheoryEndDate || curriculumChapter.EndDate>curriculumChapterTopic.TestEndDate) {
-			   			errors.Add(Localization.GetMessage("TopicTimelineOut") + " - " + curriculumChapterTopic.Topic.Name,"/CurriculumChapterTopic/"+ curriculumChapterTopic.Id +"/Edit");
-						}
-		  			}
-		  		}
-		  		return errors;
-		  }
+
+        public Dictionary<string, string> GetCurriculumValidation(Curriculum curriculum) {
+            var errors = new Dictionary<string, string>();
+            
+            if (this.Storage.GetGroup(curriculum.UserGroupRef) == null) {
+                errors.Add(Localization.GetMessage("ChooseGroup"),"/Curriculum/" + curriculum.Id + "/Edit");
+            }
+
+            if (!this.Storage.GetDiscipline(curriculum.DisciplineRef).IsValid) {
+                errors.Add(Localization.GetMessage("DisciplineIsInvalid"), "/Discipline/Index");
+            }
+
+            var curriculumChapters = this.Storage.GetCurriculumChapters(item => item.CurriculumRef == curriculum.Id);
+            
+            foreach (var curriculumChapter in curriculumChapters) {
+                if (curriculumChapter.StartDate<curriculum.StartDate || curriculumChapter.EndDate>curriculum.EndDate)
+                {
+                    errors.Add(Localization.GetMessage("ChapterTimelineOut") + " - " + curriculumChapter.Chapter.Name, "/CurriculumChapter/" + curriculumChapter.Id + "/Edit");
+                }
+            
+                var curriculumChapterTopics = this.Storage.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id);
+            
+                foreach (var curriculumChapterTopic in curriculumChapterTopics)
+                {
+            
+                    if (curriculumChapter.StartDate>curriculumChapterTopic.TestStartDate
+                        || curriculumChapter.StartDate>curriculumChapterTopic.TheoryStartDate
+                        || curriculumChapter.EndDate>curriculumChapterTopic.TheoryEndDate
+                        || curriculumChapter.EndDate>curriculumChapterTopic.TestEndDate)
+                    {
+                        errors.Add(Localization.GetMessage("TopicTimelineOut") + " - " + curriculumChapterTopic.Topic.Name, "/CurriculumChapterTopic/" + curriculumChapterTopic.Id + "/Edit");
+                    }
+                }
+            }
+
+            return errors;
+        }
 
         private static void ValidateDate(DateTime? startDate, DateTime? endDate, ValidationStatus validationStatus)
         {
             DateTime minAllowedDate = Constants.MinAllowedDateTime;
             DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
+            
             if (endDate.HasValue ^ startDate.HasValue)
             {
                 validationStatus.AddLocalizedError("ChooseStartAndEndDate");
@@ -130,10 +145,12 @@ namespace IUDICO.CurriculumManagement.Models
                 {
                     validationStatus.AddLocalizedError("StartDateMustLessThanEndDate");
                 }
+
                 if (startDate < minAllowedDate || startDate > maxAllowedDate)
                 {
                     validationStatus.AddLocalizedError("StartDateMustBeBetween", minAllowedDate.ToString(), maxAllowedDate.ToString());
                 }
+
                 if (endDate < minAllowedDate || endDate > maxAllowedDate)
                 {
                     validationStatus.AddLocalizedError("EndDateMustBeBetween", minAllowedDate.ToString(), maxAllowedDate.ToString());
