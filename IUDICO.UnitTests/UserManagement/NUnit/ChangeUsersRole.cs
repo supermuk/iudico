@@ -21,7 +21,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.CreateUser(temp);
 
-            temp = this.tests.Storage.GetUser(u => u.Username == temp.Username);
+            temp = this.tests.Storage.GetUser(temp.Username);
 
             const Role Role = Role.Teacher;
             this.tests.Storage.AddUserToRole(Role, temp);
@@ -58,7 +58,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                 };
 
             this.tests.MockDatabaseStorage.Setup(s => s.GetCurrentUser()).Returns(
-                this.tests.Storage.GetUser(u => u.Username == "panza"));
+                this.tests.Storage.GetUser("panza"));
 
             foreach (var user in users)
             {
@@ -98,7 +98,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.AddUsersToRoles(usernames, roles);
             foreach (var user in users)
             {
-                Assert.AreEqual(null, this.tests.Storage.GetUser(u => u.Username == user.Username));
+                Assert.AreEqual(null, this.tests.Storage.GetUser(user.Username));
             }
 
             foreach (var user in users)

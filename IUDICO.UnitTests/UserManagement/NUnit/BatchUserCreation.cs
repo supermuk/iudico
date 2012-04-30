@@ -72,7 +72,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             Assert.IsTrue(this.tests.TestUsers(this.tests.Storage.GetUsers(), users));
             Assert.AreEqual(
-                this.tests.Storage.GetUser(u => u.Username == "ipe").Password, this.tests.Storage.EncryptPassword("123"));
+                this.tests.Storage.GetUser("ipe").Password, this.tests.Storage.EncryptPassword("123"));
 
             foreach (var user in users)
             {
@@ -99,7 +99,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.CreateUsersFromCSV(path);
 
             Assert.IsTrue(this.tests.TestUsers(this.tests.Storage.GetUsers(), users));
-            Assert.AreEqual(this.tests.Storage.GetUser(u => u.Username == "ipe").OpenId, "openid");
+            Assert.AreEqual(this.tests.Storage.GetUser("ipe").OpenId, "openid");
 
             foreach (var user in users)
             {
@@ -124,7 +124,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.CreateUsersFromCSV(path);
 
             Assert.IsTrue(this.tests.TestUsers(this.tests.Storage.GetUsers(), users));
-            Assert.AreEqual(this.tests.Storage.GetUser(u => u.Username == "ipe").Name, "name1");
+            Assert.AreEqual(this.tests.Storage.GetUser("ipe").Name, "name1");
 
             foreach (var user in users)
             {
@@ -150,8 +150,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.CreateUsersFromCSV(path);
 
-            Assert.IsTrue(this.tests.Storage.GetUser(u => u.Username == "ipe").Roles.Contains(Role.Teacher));
-            Assert.IsTrue(this.tests.Storage.GetUser(u => u.Username == "vladykx").Roles.Contains(Role.Student));
+            Assert.IsTrue(this.tests.Storage.GetUser("ipe").Roles.Contains(Role.Teacher));
+            Assert.IsTrue(this.tests.Storage.GetUser("vladykx").Roles.Contains(Role.Student));
 
             foreach (var user in users)
             {
@@ -174,7 +174,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.CreateUsersFromCSV(path);
 
-            Assert.AreEqual(this.tests.Storage.GetUser(u => u.Username == "name").Email, "mail@mail.com");
+            Assert.AreEqual(this.tests.Storage.GetUser("name").Email, "mail@mail.com");
 
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }

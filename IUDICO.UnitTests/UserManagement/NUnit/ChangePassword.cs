@@ -22,7 +22,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.ChangePassword(model);
 
             Assert.AreEqual(
-                this.tests.Storage.GetUser(u => u.Username == "name").Password, 
+                this.tests.Storage.GetUser("name").Password, 
                 this.tests.Storage.EncryptPassword("321"));
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
@@ -39,7 +39,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.ChangePassword(model);
 
             Assert.AreEqual(
-                this.tests.Storage.GetUser(u => u.Username == "name").Password, 
+                this.tests.Storage.GetUser("name").Password, 
                 this.tests.Storage.EncryptPassword("321"));
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
