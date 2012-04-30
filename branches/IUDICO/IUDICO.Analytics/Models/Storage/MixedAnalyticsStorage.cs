@@ -51,11 +51,11 @@ namespace IUDICO.Analytics.Models.Storage
                 var topics = this.GetTopics().ToDictionary(t => t.Id, t => t);
 
                 var topicScores = (from t in topics.Values
-                                   join ts in db.TopicScores on t.Id equals ts.TopicId into tsj
+                                   join ts in this.db.TopicScores on t.Id equals ts.TopicId into tsj
                                    from j in tsj.DefaultIfEmpty()
                                    group j by t.Id
-                                   into grouped select new { Topic = grouped.Key, Values = grouped })
-                                   .OrderBy(g => g.Topic).ToDictionary(g => topics[g.Topic], g => g.Values.Where(f => f != null).ToList().AsEnumerable());
+                                   into grouped 
+                                   select new { Topic = grouped.Key, Values = grouped }).OrderBy(g => g.Topic).ToDictionary(g => topics[g.Topic], g => g.Values.Where(f => f != null).ToList().AsEnumerable());
             
                 return topicScores;
             }
@@ -68,7 +68,7 @@ namespace IUDICO.Analytics.Models.Storage
                 var users = this.GetUsers().ToDictionary(u => u.Id, u => u);
 
                 var userScores = (from u in users.Values
-                                  join us in db.UserScores on u.Id equals us.UserId into usj
+                                  join us in this.db.UserScores on u.Id equals us.UserId into usj
                                   from j in usj.DefaultIfEmpty()
                                   group j by u.Id into grouped
                                   select new { User = grouped.Key, Values = grouped })
@@ -273,7 +273,108 @@ namespace IUDICO.Analytics.Models.Storage
 
             return new GroupTopicStat(ratingNormalized, scoreNormalized);
         }
+        public double GetTopicStatistic(Topic topic)
+        {
+            var results = this.GetResults(topic);
+            var users = results.Select(r => r.User).ToList();
 
+            // Масив типу : юзер - його теги і їх значення 
+            var usersWithTags = new List<UserTags>();
+            foreach (var user in users)
+            {
+                var temp = new UserTags();
+                temp.Id = user.Id;
+                foreach (var tag in this.GetUserTagScores(user))
+                {
+                    temp.Tags.Add(tag.TagId, tag.Score);
+                }
+                usersWithTags.Add(temp);
+            }
+
+            // Масив типу : тег - ( значення тегу певного юзера, результат тесту того ж юзера) 
+            Dictionary<int, List<KeyValuePair<double, double>>> tagValueScores = new Dictionary<int, List<KeyValuePair<double, double>>>();
+            foreach (var userWithTag in usersWithTags)
+            {
+                foreach (var tag in userWithTag.Tags)
+                {
+                    var item = new KeyValuePair<double, double>(userWithTag.Tags[tag.Key], results.Where(x => x.User.Id == userWithTag.Id).First().Score.ScaledScore.Value);
+                    if (!tagValueScores.Keys.Contains(tag.Key))
+                    {
+                        tagValueScores.Add(tag.Key, new List<KeyValuePair<double, double>>() { item });
+                    }
+                    else
+                    {
+                        tagValueScores[tag.Key].Add(item);
+                    }
+                }
+            }
+
+            int general_amount = 0;
+            int success_amount = 0;
+
+            foreach (var tagValueScore in tagValueScores)
+            {
+                tagValueScore.Value.Sort();
+                var prev = tagValueScore.Value.First();
+
+                foreach (var valueScore in tagValueScore.Value)
+                {
+                    if (Math.Abs(valueScore.Key - prev.Key) < 0.2)
+                    {
+                        if (Math.Abs(valueScore.Value - prev.Value) < 25)
+                        {
+                            success_amount++;
+                        }
+                    }
+                    prev = valueScore;
+                }
+
+                general_amount++;
+            }
+
+
+
+
+            return success_amount / general_amount;
+        }
+        public double GaussianDistribution(Topic topic)
+        {
+            var general_result = 0.0;
+            List<double> results = this.GetResults(topic).Select(x=>(double)x.Score.ScaledScore).ToList();
+
+            var u = 0.0;
+            foreach (var groupResult in results)
+            {
+                u += groupResult;
+            }
+            u /= results.Count;
+            var variance = 0.0;
+            foreach (var groupResult in results)
+            {
+                variance += Math.Pow(groupResult - u, 2);
+            }
+            variance /= results.Count;
+
+            var s = 0;
+            foreach (var groupResult in results)
+            {
+                double a = 1 / (Math.Sqrt(2 * Math.PI) * Math.Sqrt(variance));
+                double c = -Math.Pow(groupResult - Math.Sqrt(variance), 2);
+
+                double b = Math.Pow(Math.E, c / (2 * variance));
+                if (a * b < 0.0005)
+                {
+                    s++;
+                }
+            }
+
+            return 1 - (double)s / results.Count;
+        }
+        public class UserTags
+        {
+            public Guid Id { get; set; }
+            public Dictionary<int, double> Tags { get; set; }
+        }
         #endregion
 
         #endregion

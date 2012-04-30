@@ -92,6 +92,7 @@
     <Compile Include="AnalyticsPlugin.cs" />
     <Compile Include="Controllers\AnalyticsController.cs" />
     <Compile Include="Controllers\AnomalyDetectionController.cs" />
+    <Compile Include="Controllers\QualityController.cs" />
     <Compile Include="Controllers\RecommenderController.cs" />
     <Compile Include="Controllers\TagsController.cs" />
     <Compile Include="Models\AnalyticsService.cs" />
@@ -103,6 +104,8 @@
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\DecisionTrees\TrainingSetsCreator.cs" />
     <Compile Include="Models\GroupTopicStat.cs" />
+    <Compile Include="Models\Quality\DisciplineModel.cs" />
+    <Compile Include="Models\Quality\TopicModel.cs" />
     <Compile Include="Models\Storage\CachedAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\MixedAnalyticsStorage.cs" />
@@ -130,6 +133,8 @@
     <Content Include="Views\AnomalyDetection\SelectGroup.aspx" />
     <Content Include="Views\AnomalyDetection\TrainAlg.aspx" />
     <Content Include="Views\AnomalyDetection\TrainTopic.aspx" />
+    <Content Include="Views\Quality\Index.aspx" />
+    <Content Include="Views\Quality\SelectDiscipline.aspx" />
     <Content Include="Views\Recommender\Index.aspx" />
     <Content Include="Views\Recommender\RecommendedTopics.ascx" />
     <Content Include="Views\Recommender\UserScores.aspx" />
