@@ -209,8 +209,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             oldCurriculum.EndDate = curriculum.EndDate;            
 
             db.SubmitChanges();
-			   oldCurriculum.IsValid = IsCurriculumValid(curriculum);
-			   db.SubmitChanges();
+            oldCurriculum.IsValid = this.IsCurriculumValid(curriculum);
+            db.SubmitChanges();
         }
 
         public void DeleteCurriculum(int id)
@@ -317,13 +317,17 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return this.GetTopicDescriptions(user).Where(t => ids.Contains(t.Topic.Id)).AsEnumerable();
         }
 
-        public void ChangeCurriculumsIsValid( IEnumerable<int> curriculumIds, bool isValid ) {
-        		var db = GetDbContext();
-        		var curriculums = db.Curriculums.Where(item => curriculumIds.Contains(item.Id));
-        		foreach (var curriculum in curriculums) {
-        			curriculum.IsValid = isValid;
-        		}
-        		db.SubmitChanges();
+        public void ChangeCurriculumsIsValid(IEnumerable<int> curriculumIds, bool isValid)
+        {
+            var db = GetDbContext();
+            var curriculums = db.Curriculums.Where(item => curriculumIds.Contains(item.Id));
+
+            foreach (var curriculum in curriculums)
+            {
+                curriculum.IsValid = isValid;
+            }
+
+            db.SubmitChanges();
         }
 
     	#endregion
@@ -355,7 +359,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             
             var curriculum = GetCurriculum(db, curriculumChapter.CurriculumRef);
 
-            if (curriculumChapter.StartDate<curriculum.StartDate || curriculumChapter.EndDate>curriculum.EndDate)
+            if (curriculumChapter.StartDate < curriculum.StartDate || curriculumChapter.EndDate > curriculum.EndDate)
             {
                 curriculum.IsValid = false;
             }
@@ -394,7 +398,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             db.SubmitChanges();
             
             var curriculum = GetCurriculum(db, oldCurriculumChapter.CurriculumRef);
-            curriculum.IsValid = IsCurriculumValid(curriculum);
+            curriculum.IsValid = this.IsCurriculumValid(curriculum);
 
             db.SubmitChanges();
         }
@@ -414,7 +418,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             db.SubmitChanges();
 
             var curriculum = curriculumChapter.Curriculum;
-            curriculum.IsValid = IsCurriculumValid(curriculum);
+            curriculum.IsValid = this.IsCurriculumValid(curriculum);
             db.SubmitChanges();
         }
 
@@ -449,10 +453,16 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             curriculumChapterTopic.IsDeleted = false;
 
             db.CurriculumChapterTopics.InsertOnSubmit(curriculumChapterTopic);
-        		var curriculum = GetCurriculum(db, GetCurriculumChapter(db, curriculumChapterTopic.CurriculumChapterRef).CurriculumRef);
-			   if(curriculum.StartDate>curriculumChapterTopic.TestStartDate || curriculum.StartDate>curriculumChapterTopic.TheoryStartDate || curriculum.EndDate>curriculumChapterTopic.TheoryEndDate || curriculum.EndDate>curriculumChapterTopic.TestEndDate) {
-			   	curriculum.IsValid = false;
-			   }
+            var curriculum = GetCurriculum(db, GetCurriculumChapter(db, curriculumChapterTopic.CurriculumChapterRef).CurriculumRef);
+
+            if (curriculum.StartDate > curriculumChapterTopic.TestStartDate
+                || curriculum.StartDate > curriculumChapterTopic.TheoryStartDate
+                || curriculum.EndDate > curriculumChapterTopic.TheoryEndDate
+                || curriculum.EndDate > curriculumChapterTopic.TestEndDate)
+            {
+                curriculum.IsValid = false;
+            }
+
             db.SubmitChanges();
             return curriculumChapterTopic.Id;
         }
@@ -470,15 +480,20 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             oldTopicAssignment.TestStartDate = curriculumChapterTopic.TestStartDate;
             oldTopicAssignment.TestEndDate = curriculumChapterTopic.TestEndDate;
 
-        		var curriculumChapter = GetCurriculumChapter(db, oldTopicAssignment.CurriculumChapterRef);
-        		var curriculum = GetCurriculum(db, curriculumChapter.CurriculumRef);
-			   if(curriculumChapter.StartDate>oldTopicAssignment.TestStartDate || curriculumChapter.StartDate>oldTopicAssignment.TheoryStartDate || curriculumChapter.EndDate>oldTopicAssignment.TheoryEndDate || curriculumChapter.EndDate>oldTopicAssignment.TestEndDate) {
-			   	curriculum.IsValid = false;
-			   }			   	
+            var curriculumChapter = GetCurriculumChapter(db, oldTopicAssignment.CurriculumChapterRef);
+            var curriculum = GetCurriculum(db, curriculumChapter.CurriculumRef);
+
+            if (curriculumChapter.StartDate > oldTopicAssignment.TestStartDate
+                || curriculumChapter.StartDate > oldTopicAssignment.TheoryStartDate
+                || curriculumChapter.EndDate > oldTopicAssignment.TheoryEndDate
+                || curriculumChapter.EndDate > oldTopicAssignment.TestEndDate)
+            {
+                curriculum.IsValid = false;
+            }
 
             db.SubmitChanges();
-			   curriculum.IsValid = IsCurriculumValid(curriculum);
-			   db.SubmitChanges();
+            curriculum.IsValid = this.IsCurriculumValid(curriculum);
+            db.SubmitChanges();
         }
 
         public void DeleteCurriculumChapterTopic(int id)
@@ -489,9 +504,10 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             curriculumChapterTopic.IsDeleted = true;        		
 
             db.SubmitChanges();
-			   var curriculum = curriculumChapterTopic.CurriculumChapter.Curriculum;
-        		curriculum.IsValid = IsCurriculumValid(curriculum);
-			   db.SubmitChanges();
+            
+            var curriculum = curriculumChapterTopic.CurriculumChapter.Curriculum;
+            curriculum.IsValid = IsCurriculumValid(curriculum);
+            db.SubmitChanges();
         }
 
         public void DeleteCurriculumChapterTopics(IEnumerable<int> ids)

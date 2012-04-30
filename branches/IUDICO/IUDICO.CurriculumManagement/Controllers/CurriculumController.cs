@@ -26,14 +26,14 @@ namespace IUDICO.CurriculumManagement.Controllers
 
             return View(
                 curriculums.Select(item => new ViewCurriculumModel
-                    {
-                        Id = item.Id,
-                        GroupName = Storage.GetGroup(item.UserGroupRef) !=null ? Storage.GetGroup(item.UserGroupRef).Name : string.Empty,
-                        DisciplineName = Storage.GetDiscipline(item.DisciplineRef).Name,
-                        StartDate = Converter.ToString(item.StartDate),
-                        EndDate = Converter.ToString(item.EndDate),
-								IsValid = item.IsValid
-                    }));
+                {
+                    Id = item.Id,
+                    GroupName = Storage.GetGroup(item.UserGroupRef) != null ? Storage.GetGroup(item.UserGroupRef).Name : string.Empty,
+                    DisciplineName = Storage.GetDiscipline(item.DisciplineRef).Name,
+                    StartDate = Converter.ToString(item.StartDate),
+                    EndDate = Converter.ToString(item.EndDate),
+                    IsValid = item.IsValid
+                }));
         }
 
         [Allow(Role = Role.Teacher)]
