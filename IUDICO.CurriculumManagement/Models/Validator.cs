@@ -97,7 +97,7 @@ namespace IUDICO.CurriculumManagement.Models
             var errors = new Dictionary<string, string>();
             
             if (this.Storage.GetGroup(curriculum.UserGroupRef) == null) {
-                errors.Add(Localization.GetMessage("ChooseGroup"),"/Curriculum/" + curriculum.Id + "/Edit");
+                errors.Add(Localization.GetMessage("ChooseGroup"), "/Curriculum/" + curriculum.Id + "/Edit");
             }
 
             if (!this.Storage.GetDiscipline(curriculum.DisciplineRef).IsValid) {

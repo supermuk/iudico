@@ -118,7 +118,7 @@ namespace IUDICO.DisciplineManagement
                     // makes connected disciplines invalid
                     var courseId = ((Course)data[0]).Id;
                     // curriculumStorage.MakeDisciplineInvalid(courseId);
-						  disciplineStorage.MakeDisciplinesInvalid(courseId);
+                    disciplineStorage.MakeDisciplinesInvalid(courseId);
                     break;
                 case UserNotifications.UserDelete:
                     // delete connected Disciplines(Curriculums)
