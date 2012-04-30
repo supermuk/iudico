@@ -15,8 +15,6 @@
                 { "bSortable": false },
                 null,
                 null,
-                null,
-                null,
                 { "bSortable": false }
                 ]
             });
@@ -231,22 +229,16 @@
         <table id="Courses" class="courseTable">
             <thead>
                 <tr>
-                    <th>
+                    <th class="checkboxColumn">
                         <input type="checkbox" id="CoursesCheckAll" />
                     </th>
                     <th>
                         <%=Localization.GetMessage("Title")%>
                     </th>
-                    <th>
-                        <%=Localization.GetMessage("Owner")%>
-                    </th>
-                    <th>
+                    <th class="updatedByColumn">
                         <%=Localization.GetMessage("Last modified")%>
                     </th>
-                    <th>
-                        <%=Localization.GetMessage("Updated by")%>
-                    </th>
-                    <th>
+                    <th class="courseActionsColumn">
                         <%=Localization.GetMessage("Actions")%>
                     </th>
                 </tr>
