@@ -11,8 +11,7 @@
     <%=Localization.GetMessage("EditingCourse")%>
 </asp:Content>
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
-    <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>"
-        rel="stylesheet" type="text/css" />
+    <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery-ui.css") %>" id="theme" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery.fileupload-ui.css") %>" />
 
@@ -236,7 +235,7 @@
                                 "action": function (obj) { this.paste(obj); },
                                 "_disabled" : !(this.data.crrm.ct_nodes || this.data.crrm.cp_nodes) || node.attr("rel") == "default"
                             }
-                        }
+                        };
                     }
                 }
 		    })
@@ -455,7 +454,7 @@
                             $("#" + r.type + "Properties")[0].innerHTML = r.data;
                         }
                     }
-                })
+                });
             });
             $("#ApplyPattern").click(function () {
                 $("#accordion").accordion( "option", "active", -1 );

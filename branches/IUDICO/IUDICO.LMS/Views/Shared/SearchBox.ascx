@@ -5,8 +5,8 @@
     {
 %>
     <form action="/Search/SearchSimple" method="post">
-        <%= Html.TextBox("query") %>
-        <input type="submit" value='<%=Localization.GetMessage("Search")%>' />
+        <%= Html.TextBox("query", "", new { placeholder= Localization.GetMessage("Search") }) %>
+        <input type="submit" value='<%=Localization.GetMessage("Ok")%>' class="okButton" />
     </form>
 <%
     }

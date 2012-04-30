@@ -183,7 +183,7 @@ table.display td.center {
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables row classes
- */
+
 table.display tr.odd.gradeA {
 	background-color: #ddffdd;
 }
@@ -226,7 +226,7 @@ tr.even {
 }
 
 
-
+ */
 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -300,7 +300,7 @@ td.details {
 	cursor: pointer;
 	*cursor: hand;
 }
-
+/*
 .paging_full_numbers span.paginate_button {
 	background-color: #ddd;
 }
@@ -322,33 +322,34 @@ table.display tr.odd.row_selected td {
 }
 
 
-/*
- * Sorting classes for columns
- */
-/* For the standard odd/even */
+
+ Sorting classes for columns
+ 
+
 tr.odd td.sorting_1 {
-	background-color: #A8BED6; /*#D3D6FF; ше темніший*/
+	background-color: #A8BED6;
 }
 
 tr.odd td.sorting_2 {
-	background-color: #C6D5E3; /*#DADCFF;ше темніший */
+	background-color: #C6D5E3; 
 }
 
 tr.odd td.sorting_3 {
-	background-color: #E8EEF4; /*#E0E2FF;темніший*/
+	background-color: #E8EEF4;
 }
 
 tr.even td.sorting_1 {
-	background-color: #D3DFEB; /*#EAEBFF;світліший*/
+	background-color: #D3DFEB; 
 }
 
 tr.even td.sorting_2 {
-	background-color: #D3DFEB; /*#F2F3FF;*/
+	background-color: #D3DFEB; 
 }
 
 tr.even td.sorting_3 {
-	background-color: #EEF2F7; /*#F9F9FF*/
+	background-color: #EEF2F7;
 }
+*/
 
 
 /* For the Conditional-CSS grading rows */
@@ -360,7 +361,7 @@ tr.even td.sorting_3 {
 	Level 2:
 	  dd > d1
 	  ee > e2
- */
+
 tr.odd.gradeA td.sorting_1 {
 	background-color: #c4ffc4;
 }
@@ -458,9 +459,7 @@ tr.even.gradeU td.sorting_3 {
 }
 
 
-/*
- * Row highlighting example
- */
+
 .ex_highlight #example tbody tr.even:hover, #example tbody tr.even td.highlighted {
 	background-color: #ECFFB3;
 }
@@ -500,7 +499,7 @@ tr.even.gradeU td.sorting_3 {
 .ex_highlight_row #example tr.odd:hover td.sorting_3 {
 	background-color: #DBFF70;
 }
-
+ */
 
 /*
  * KeyTable
@@ -508,7 +507,7 @@ tr.even.gradeU td.sorting_3 {
 table.KeyTable td {
 	border: 3px solid transparent;
 }
-
+/*
 table.KeyTable td.focus {
 	border: 3px solid #3366FF;
 }
@@ -527,7 +526,7 @@ table.display tr.gradeX {
 
 table.display tr.gradeU {
 	background-color: #ddd;
-}
+}*/
 
 div.box {
 	height: 100px;
