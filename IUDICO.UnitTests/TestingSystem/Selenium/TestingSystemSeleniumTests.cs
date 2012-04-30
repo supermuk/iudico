@@ -434,7 +434,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             if (selenium.IsTextPresent(name))
             {
                 
-              selenium.Click("xpath=//table//tr[td//text()[contains(., '" + name + "')]]/td[5]/a[5]");
+              selenium.Click("xpath=//table//tr[td//text()[contains(., '" + name + "')]]/td[5]/div/a[5]");
               selenium.GetConfirmation();
             }
         }
@@ -450,7 +450,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             selenium.Open("/Discipline");
             selenium.WaitForPageToLoad(LoadTime);
 
-            this.selenium.Click("xpath=//table//tr[td//text()[contains(., '" + disciplineNameP + "')]]/td[5]/a");
+            this.selenium.Click("xpath=//table//tr[td//text()[contains(., '" + disciplineNameP + "')]]/td[5]/div/a");
             ExSelenium.WaitForElement("id=Name");
             selenium.Type("id=Name", name);
             selenium.Click("xpath=/html/body/div[2]/div[11]/div/button");
@@ -511,7 +511,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             return selenium.GetLocation().Substring(this.selenium.GetLocation().IndexOf("Curriculum/", System.StringComparison.Ordinal) + "Curriculum/".Length, this.selenium.GetLocation().IndexOf("/Edit", System.StringComparison.Ordinal) - (this.selenium.GetLocation().IndexOf("Curriculum/", System.StringComparison.Ordinal) + "Curriculum/".Length));
         }
 
-        private string GetTopicId(string groupNameP, string disciplineNameP,string chapterNameP, string teacherLogin, string teacherPassword)
+        private string GetTopicId(string groupNameP, string disciplineNameP, string chapterNameP, string teacherLogin, string teacherPassword)
         {
             if (!this.IsLogged(teacherLogin))
             {
