@@ -1,0 +1,40 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
+using System.ComponentModel.DataAnnotations;
+
+namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
+{
+    public class CreateCurriculumChapterModel
+    {
+        [LocalizedDisplayName("SetTimeline")]
+        public bool SetTimeline { get; set; }
+
+        [LocalizedDisplayName("StartDate")]
+        [LocalizedRequired(ErrorMessage = "StartDateRequired")]
+        [UIHint("DateTimeWithPicker")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime StartDate { get; set; }
+
+        [LocalizedDisplayName("EndDate")]
+        [LocalizedRequired(ErrorMessage = "StartDateRequired")]
+        [UIHint("DateTimeWithPicker")]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime EndDate { get; set; }
+
+        public CreateCurriculumChapterModel()
+        {
+        }
+
+        public CreateCurriculumChapterModel(DateTime? startDate, DateTime? endDate)
+        {
+            this.SetTimeline = startDate.HasValue;
+            this.StartDate = startDate ?? DateTime.Now;
+            this.EndDate = endDate ?? DateTime.Now;
+        }
+    }
+}
