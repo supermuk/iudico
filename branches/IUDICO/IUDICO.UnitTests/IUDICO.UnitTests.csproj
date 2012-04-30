@@ -141,7 +141,7 @@
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
     <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
     <Compile Include="CourseManagement\NUnit\HelpersTest.cs" />
-    <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
+    <Compile Include="CourseManagement\Selenium\TeacherRole.cs" />
     <Compile Include="CurriculumManagement\Constants.cs" />
     <Compile Include="CurriculumManagement\ContextMocks.cs" />
     <Compile Include="CurriculumManagement\DataPreparer.cs" />
