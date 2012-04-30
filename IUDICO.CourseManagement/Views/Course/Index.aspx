@@ -90,7 +90,7 @@
             });
 
             $(".courseEditable").click(function () {
-                window.location.replace("/Course/" + this.parentNode.id.replace("course", "") + "/Node/Index");
+                window.location.replace("/Course/" + this.parentNode.id.replace("course", "") + "/Node");
             });
         });
         
