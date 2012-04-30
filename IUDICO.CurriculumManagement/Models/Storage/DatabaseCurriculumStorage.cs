@@ -137,30 +137,43 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             return this.GetDbContext().Curriculums.Where(item => !item.IsDeleted).Where(predicate).ToList();
         }
 
-		  private bool IsCurriculumValid(Curriculum curriculum) {
-		  		var db = this.GetDbContext();		  				  		
-		  		if (GetGroup(curriculum.UserGroupRef) == null) {
-		  			return false;
-		  		}
+        private bool IsCurriculumValid(Curriculum curriculum)
+        {
+            if (this.GetGroup(curriculum.UserGroupRef) == null)
+            {
+                return false;
+            }
 
-		  		if (!GetDiscipline(curriculum.DisciplineRef).IsValid) {
-		  			return false;
-		  		}
+            if (!this.GetDiscipline(curriculum.DisciplineRef).IsValid)
+            {
+                return false;
+            }
 
-			   var curriculumChapters = GetCurriculumChapters(item => item.CurriculumRef == curriculum.Id);
-		  		foreach (var curriculumChapter in curriculumChapters) {
-		  			if(curriculumChapter.StartDate<curriculum.StartDate || curriculumChapter.EndDate>curriculum.EndDate) {
-			   		return false;
-					}
-		  			var curriculumChapterTopics = GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id);
-		  			foreach (var curriculumChapterTopic in curriculumChapterTopics) {
-		  				if(curriculumChapter.StartDate>curriculumChapterTopic.TestStartDate || curriculumChapter.StartDate>curriculumChapterTopic.TheoryStartDate || curriculumChapter.EndDate>curriculumChapterTopic.TheoryEndDate || curriculumChapter.EndDate>curriculumChapterTopic.TestEndDate) {
-			   			return false;
-						}
-		  			}
-		  		}				
-		  		return true;
-		  }
+            var curriculumChapters = this.GetCurriculumChapters(item => item.CurriculumRef == curriculum.Id);
+
+            foreach (var curriculumChapter in curriculumChapters)
+            {
+                if (curriculumChapter.StartDate < curriculum.StartDate || curriculumChapter.EndDate > curriculum.EndDate)
+                {
+                    return false;
+                }
+
+                var curriculumChapterTopics = this.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id);
+
+                foreach (var curriculumChapterTopic in curriculumChapterTopics)
+                {
+                    if (curriculumChapter.StartDate > curriculumChapterTopic.TestStartDate
+                        || curriculumChapter.StartDate > curriculumChapterTopic.TheoryStartDate
+                        || curriculumChapter.EndDate > curriculumChapterTopic.TheoryEndDate
+                        || curriculumChapter.EndDate > curriculumChapterTopic.TestEndDate)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
 
         public int AddCurriculum(Curriculum curriculum)
         {
@@ -339,14 +352,19 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             curriculumChapter.IsDeleted = false;
 
             db.CurriculumChapters.InsertOnSubmit(curriculumChapter);
-        		var curriculum = GetCurriculum(db, curriculumChapter.CurriculumRef);
-			   if(curriculumChapter.StartDate<curriculum.StartDate || curriculumChapter.EndDate>curriculum.EndDate) {
-			   	curriculum.IsValid = false;
-			   }
+            
+            var curriculum = GetCurriculum(db, curriculumChapter.CurriculumRef);
+
+            if (curriculumChapter.StartDate<curriculum.StartDate || curriculumChapter.EndDate>curriculum.EndDate)
+            {
+                curriculum.IsValid = false;
+            }
+
             db.SubmitChanges();
 				
             // add corresponding curriculum chapter topics
             var topics = this.GetTopicsByChapterId(curriculumChapter.ChapterRef);
+
             foreach (var topic in topics)
             {
                 var curriculumChapterTopic = new CurriculumChapterTopic
@@ -357,6 +375,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                     BlockTopicAtTesting = false,
                     BlockCurriculumAtTesting = false
                 };
+
                 this.AddCurriculumChapterTopic(curriculumChapterTopic);
             }
 
@@ -369,13 +388,15 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var db = this.GetDbContext();
             var oldCurriculumChapter = GetCurriculumChapter(db, curriculumChapter.Id);
 
-        		oldCurriculumChapter.StartDate = curriculumChapter.StartDate;
-        		oldCurriculumChapter.EndDate = curriculumChapter.EndDate;
+            oldCurriculumChapter.StartDate = curriculumChapter.StartDate;
+            oldCurriculumChapter.EndDate = curriculumChapter.EndDate;
         		
-        		db.SubmitChanges();
-			   var curriculum = GetCurriculum(db, oldCurriculumChapter.CurriculumRef);
-			   curriculum.IsValid = IsCurriculumValid(curriculum);
-			   db.SubmitChanges();
+            db.SubmitChanges();
+            
+            var curriculum = GetCurriculum(db, oldCurriculumChapter.CurriculumRef);
+            curriculum.IsValid = IsCurriculumValid(curriculum);
+
+            db.SubmitChanges();
         }
 
     	public void DeleteCurriculumChapter(int id)
@@ -389,11 +410,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 .ToList();
             this.DeleteCurriculumChapterTopics(curriculumChapterTopicIds);
 
-            curriculumChapter.IsDeleted = true;    			
+            curriculumChapter.IsDeleted = true;
             db.SubmitChanges();
-				var curriculum = curriculumChapter.Curriculum;
-    			curriculum.IsValid = IsCurriculumValid(curriculum);
-				db.SubmitChanges();
+
+            var curriculum = curriculumChapter.Curriculum;
+            curriculum.IsValid = IsCurriculumValid(curriculum);
+            db.SubmitChanges();
         }
 
         public void DeleteCurriculumChapters(IEnumerable<int> ids)
