@@ -95,14 +95,14 @@ namespace IUDICO.Analytics.Models.Storage
             this.cacheProvider.Invalidate("tags", "tag-" + id);
         }
 
-        public Dictionary<int, IEnumerable<TopicScore>> GetTopicScores()
+        public Dictionary<Topic, IEnumerable<TopicScore>> GetTopicScores()
         {
-            return this.cacheProvider.Get("topicscores", @lockObject, () => this.storage.GetTopicScores(), DateTime.Now.AddDays(1), "topicscores"); 
+            return this.storage.GetTopicScores(); 
         }
 
-        public Dictionary<Guid, IEnumerable<UserScore>> GetUserScores()
+        public Dictionary<User, IEnumerable<UserScore>> GetUserScores()
         {
-            return this.cacheProvider.Get("userscores", @lockObject, () => this.storage.GetUserScores(), DateTime.Now.AddDays(1), "userscores");
+            return this.storage.GetUserScores();
         }
 
         public void UpdateUserScores(Guid id)

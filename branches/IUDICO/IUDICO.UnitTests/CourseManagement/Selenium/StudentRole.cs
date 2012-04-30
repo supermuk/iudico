@@ -206,8 +206,6 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-
-            //unshare)
             this.DefaultLogin("prof", "prof");
 
             this.selenium.Click("link=Courses");

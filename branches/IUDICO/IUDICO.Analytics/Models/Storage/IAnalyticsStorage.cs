@@ -27,8 +27,8 @@ namespace IUDICO.Analytics.Models.Storage
         void DeleteTag(int id);
         void EditTags(int id, IEnumerable<int> topics);
 
-        Dictionary<int, IEnumerable<TopicScore>> GetTopicScores();
-        Dictionary<Guid, IEnumerable<UserScore>> GetUserScores();
+        Dictionary<Topic, IEnumerable<TopicScore>> GetTopicScores();
+        Dictionary<User, IEnumerable<UserScore>> GetUserScores();
         
         void UpdateUserScores(Guid id);
         void UpdateTopicScores(int id);
