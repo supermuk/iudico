@@ -12,7 +12,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
     [TestFixture]
     internal class TestingSystemSeleniumTests : SimpleWebTest
     {
-        private const string LoadTime = "20000";
+        private const string LoadTime = "50000";
 
         private const string AdminName = "lex";
         private const string AdminPassword = "lex";
@@ -54,7 +54,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         {
             ExSelenium.Selenium = selenium;
             ExSelenium.Timeout = LoadTime;
-            selenium.SetSpeed("200");
+            selenium.SetSpeed("500");
 
             selenium.Open("/");
             selenium.WaitForPageToLoad(LoadTime);
@@ -203,6 +203,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             selenium.Open("/User/Index");
 
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
             selenium.Type("xpath=/html/body/div/div[2]/div[3]/div/div/div[2]/input", userLogin);
             ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + userLogin + "')]]/td[8]/a[2]");
 
@@ -292,14 +297,33 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             selenium.Open("/Course");
 
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
 
             if (selenium.IsTextPresent(courseNameP))
             {
+                while (selenium.IsAlertPresent())
+                {
+                    selenium.GetAlert();
+                }
+
                 selenium.Type("xpath=/html/body/div/div[2]/div[2]/div/div/div[2]/input", courseNameP);
                 ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[6]/a");
 
+                while (selenium.IsAlertPresent())
+                {
+                    selenium.GetAlert();
+                }
+
                 selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[6]/a");
                 ExSelenium.WaitForElement("id=Name");
+
+                while (selenium.IsAlertPresent())
+                {
+                    selenium.GetAlert();
+                }
 
                 selenium.Type("id=Name", newCourseName);
                 selenium.Click("xpath=/html/body/div[3]/div[11]/div/button");
@@ -321,6 +345,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             }
 
             selenium.Open("/Course");
+
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
 
 
             if (selenium.IsTextPresent(courseNameP))
@@ -368,6 +397,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             selenium.Open("/Group/Index");
             selenium.WaitForPageToLoad(LoadTime);
 
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
             if (selenium.IsTextPresent(name))
             {
                 selenium.Click("xpath=//table//tr[td//text()[contains(., '" + name + "')]]/td[2]/a[2]");
@@ -409,6 +443,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             selenium.Open("/Discipline");
             selenium.WaitForPageToLoad(LoadTime);
 
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
             if (!selenium.IsTextPresent(name))
             {
                 selenium.Open("/Discipline/Create");
@@ -431,6 +470,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             selenium.Open("/Discipline");
             selenium.WaitForPageToLoad(LoadTime);
 
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
             if (selenium.IsTextPresent(name))
             {
                 
@@ -450,6 +494,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             selenium.Open("/Discipline");
             selenium.WaitForPageToLoad(LoadTime);
 
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
             this.selenium.Click("xpath=//table//tr[td//text()[contains(., '" + disciplineNameP + "')]]/td[5]/div/a");
             ExSelenium.WaitForElement("id=Name");
             selenium.Type("id=Name", name);
@@ -466,6 +515,12 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             selenium.Open("/Discipline");
             selenium.WaitForPageToLoad(LoadTime);
+
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
             this.selenium.Click("xpath=//table//tr[td//text()[contains(., '" + disciplineNameP + "')]]/td[2]");
             ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + chapterNameP + "')]]/td[5]/a");
             this.selenium.Click("xpath=//table//tr[td//text()[contains(., '" + chapterNameP + "')]]/td[5]/a");
@@ -506,6 +561,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             selenium.Open("/Curriculum/Index");
 
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
             selenium.Click("xpath=//table//tr[td//text()[contains(., '" + disciplineNameP + "')]]/td[6]/a");
             selenium.WaitForPageToLoad(LoadTime);
             return selenium.GetLocation().Substring(this.selenium.GetLocation().IndexOf("Curriculum/", System.StringComparison.Ordinal) + "Curriculum/".Length, this.selenium.GetLocation().IndexOf("/Edit", System.StringComparison.Ordinal) - (this.selenium.GetLocation().IndexOf("Curriculum/", System.StringComparison.Ordinal) + "Curriculum/".Length));
@@ -519,6 +579,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             }
 
             selenium.Open("/Curriculum/Index");
+
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
 
             selenium.Click("xpath=//table//tr[td//text()[contains(., '" + disciplineNameP + "')]]/td[6]/a[2]");
             selenium.WaitForPageToLoad(LoadTime);
@@ -537,6 +602,12 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             }
 
             selenium.Open("/Curriculum/" + curriculumIdP + "/CurriculumChapter/Index");
+
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
             selenium.Click("xpath=//table//tr[td//text()[contains(., '" + chapterNameP + "')]]/td[4]/a");
             selenium.WaitForPageToLoad(LoadTime);
             selenium.Check("id=SetTimeline");
@@ -555,6 +626,12 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             }
 
             selenium.Open("/Curriculum/" + curriculumIdP + "/CurriculumChapter/Index");
+
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
             selenium.Click("xpath=//table//tr[td//text()[contains(., '" + chapterNameP + "')]]/td[4]/a[2]");
             selenium.WaitForPageToLoad(LoadTime);
             selenium.Click("xpath=//table//tr[td//text()[contains(., '" + chapterNameP + "')]]/td[9]/a");
@@ -579,6 +656,12 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             }
 
             selenium.Open("/Curriculum/Index");
+
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
             selenium.Click("xpath=//table//tr[td//text()[contains(., '" + groupNameP + "')]]/td[6]/a[3]");
             selenium.GetConfirmation();
         }
