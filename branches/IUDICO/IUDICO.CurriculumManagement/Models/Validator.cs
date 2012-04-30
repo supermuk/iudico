@@ -106,8 +106,9 @@ namespace IUDICO.CurriculumManagement.Models
 
             var curriculumChapters = this.Storage.GetCurriculumChapters(item => item.CurriculumRef == curriculum.Id);
             
-            foreach (var curriculumChapter in curriculumChapters) {
-                if (curriculumChapter.StartDate<curriculum.StartDate || curriculumChapter.EndDate>curriculum.EndDate)
+            foreach (var curriculumChapter in curriculumChapters)
+            {
+                if (curriculumChapter.StartDate < curriculum.StartDate || curriculumChapter.EndDate > curriculum.EndDate)
                 {
                     errors.Add(Localization.GetMessage("ChapterTimelineOut") + " - " + curriculumChapter.Chapter.Name, "/CurriculumChapter/" + curriculumChapter.Id + "/Edit");
                 }
@@ -117,10 +118,10 @@ namespace IUDICO.CurriculumManagement.Models
                 foreach (var curriculumChapterTopic in curriculumChapterTopics)
                 {
             
-                    if (curriculumChapter.StartDate>curriculumChapterTopic.TestStartDate
-                        || curriculumChapter.StartDate>curriculumChapterTopic.TheoryStartDate
-                        || curriculumChapter.EndDate>curriculumChapterTopic.TheoryEndDate
-                        || curriculumChapter.EndDate>curriculumChapterTopic.TestEndDate)
+                    if (curriculumChapter.StartDate > curriculumChapterTopic.TestStartDate
+                        || curriculumChapter.StartDate > curriculumChapterTopic.TheoryStartDate
+                        || curriculumChapter.EndDate > curriculumChapterTopic.TheoryEndDate
+                        || curriculumChapter.EndDate > curriculumChapterTopic.TestEndDate)
                     {
                         errors.Add(Localization.GetMessage("TopicTimelineOut") + " - " + curriculumChapterTopic.Topic.Name, "/CurriculumChapterTopic/" + curriculumChapterTopic.Id + "/Edit");
                     }
@@ -132,8 +133,8 @@ namespace IUDICO.CurriculumManagement.Models
 
         private static void ValidateDate(DateTime? startDate, DateTime? endDate, ValidationStatus validationStatus)
         {
-            DateTime minAllowedDate = Constants.MinAllowedDateTime;
-            DateTime maxAllowedDate = Constants.MaxAllowedDateTime;
+            var minAllowedDate = Constants.MinAllowedDateTime;
+            var maxAllowedDate = Constants.MaxAllowedDateTime;
             
             if (endDate.HasValue ^ startDate.HasValue)
             {

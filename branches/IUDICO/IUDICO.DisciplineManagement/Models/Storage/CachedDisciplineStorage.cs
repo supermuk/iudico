@@ -45,15 +45,17 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.storage.GetCurriculums(predicate);
         }
 
-		  public void MakeDisciplinesInvalid(int courseId) {
-		  		this.storage.MakeDisciplinesInvalid(courseId);
+        public void MakeDisciplinesInvalid(int courseId)
+        {
+            this.storage.MakeDisciplinesInvalid(courseId);
 
-			   var topics = this.storage.GetTopics(item => (item.TestCourseRef == courseId || item.TheoryCourseRef == courseId));
-        		var chapters = topics.Select(item => item.Chapter);
-        		var disciplineIds = chapters.Select(item => item.DisciplineRef).Distinct();
-			   this.cacheProvider.Invalidate("disciplines");
+            var topics = this.storage.GetTopics(item => (item.TestCourseRef == courseId || item.TheoryCourseRef == courseId));
+            var chapters = topics.Select(item => item.Chapter);
+            var disciplineIds = chapters.Select(item => item.DisciplineRef).Distinct();
+
+            this.cacheProvider.Invalidate("disciplines");
             this.cacheProvider.Invalidate(disciplineIds.Select(id => "discipline-" + id).ToArray());
-		  }
+        }
 
         public IList<Discipline> GetDisciplines()
         {
