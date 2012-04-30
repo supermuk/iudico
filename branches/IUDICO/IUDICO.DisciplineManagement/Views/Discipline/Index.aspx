@@ -458,9 +458,9 @@
     <thead>
 		<tr id="tableHeader">
 		     <th></th>
-			<th class="disciplineNameColumn">Назва</th>
-			<th class="disciplineDateColumn">Створено</th>
-			<th class="disciplineDateColumn">Оновлено</th>
+			<th class="disciplineNameColumn"><%=Localization.GetMessage("Name") %></th>
+			<th class="disciplineDateColumn"><%=Localization.GetMessage("Created") %></th>
+			<th class="disciplineDateColumn"><%=Localization.GetMessage("Updated") %></th>
 			<th class="disciplineActionColumn"></th>
 		</tr>
     </thead>

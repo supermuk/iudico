@@ -278,16 +278,16 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public void UpdateTopic(Topic topic)
         {
-            this.storage.UpdateTopic(topic);        		
-			   this.cacheProvider.Invalidate("disciplines", "discipline-" + this.storage.GetTopic(topic.Id).Chapter.DisciplineRef);
-
+            this.storage.UpdateTopic(topic);
+            this.cacheProvider.Invalidate("disciplines", "discipline-" + this.storage.GetTopic(topic.Id).Chapter.DisciplineRef);
+            
             this.cacheProvider.Invalidate("topics", "topic-" + topic.Id);
         }
 
         public void DeleteTopic(int id)
         {
             this.storage.DeleteTopic(id);
-				this.cacheProvider.Invalidate("disciplines", "discipline-" + this.storage.GetTopic(id).Chapter.DisciplineRef);
+            this.cacheProvider.Invalidate("disciplines", "discipline-" + this.storage.GetTopic(id).Chapter.DisciplineRef);
 
             this.cacheProvider.Invalidate("topics", "topic-" + id);
         }

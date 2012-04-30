@@ -319,7 +319,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public void ChangeCurriculumsIsValid(IEnumerable<int> curriculumIds, bool isValid)
         {
-            var db = GetDbContext();
+            var db = this.GetDbContext();
             var curriculums = db.Curriculums.Where(item => curriculumIds.Contains(item.Id));
 
             foreach (var curriculum in curriculums)
@@ -330,7 +330,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             db.SubmitChanges();
         }
 
-    	#endregion
+        #endregion
 
         #region CurriculumChapters methods
 
@@ -365,7 +365,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             }
 
             db.SubmitChanges();
-				
+            
             // add corresponding curriculum chapter topics
             var topics = this.GetTopicsByChapterId(curriculumChapter.ChapterRef);
 
@@ -394,7 +394,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
             oldCurriculumChapter.StartDate = curriculumChapter.StartDate;
             oldCurriculumChapter.EndDate = curriculumChapter.EndDate;
-        		
+            
             db.SubmitChanges();
             
             var curriculum = GetCurriculum(db, oldCurriculumChapter.CurriculumRef);
@@ -403,7 +403,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             db.SubmitChanges();
         }
 
-    	public void DeleteCurriculumChapter(int id)
+        public void DeleteCurriculumChapter(int id)
         {
             var db = this.GetDbContext();
             var curriculumChapter = GetCurriculumChapter(db, id);
@@ -501,12 +501,12 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var db = this.GetDbContext();
             var curriculumChapterTopic = GetCurriculumChapterTopic(db, id);
 
-            curriculumChapterTopic.IsDeleted = true;        		
+            curriculumChapterTopic.IsDeleted = true;
 
             db.SubmitChanges();
             
             var curriculum = curriculumChapterTopic.CurriculumChapter.Curriculum;
-            curriculum.IsValid = IsCurriculumValid(curriculum);
+            curriculum.IsValid = this.IsCurriculumValid(curriculum);
             db.SubmitChanges();
         }
 
