@@ -25,11 +25,11 @@ namespace IUDICO.DisciplineManagement.Controllers
         public ActionResult Index()
         {
             var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
-        		var model = disciplines.Select(item => new ViewDisciplineModel {
-        			Discipline = item,
-        			Error = !item.IsValid ? Validator.GetValidationError(item)
-        		        		: ""
-        		});
+            var model = disciplines.Select(item => new ViewDisciplineModel {
+                Discipline = item,
+                Error = !item.IsValid ? Validator.GetValidationError(item)
+                    : string.Empty
+            });
             return View(model);
         }
 
