@@ -236,7 +236,7 @@
                         <%=Localization.GetMessage("Title")%>
                     </th>
                     <th class="updatedByColumn">
-                        <%=Localization.GetMessage("Last modified")%>
+                        <%=Localization.GetMessage("LastModified")%>
                     </th>
                     <th class="courseActionsColumn">
                         <%=Localization.GetMessage("Actions")%>
