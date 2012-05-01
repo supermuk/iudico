@@ -90,7 +90,7 @@ namespace IUDICO.UnitTests.UserManagement
 
         public bool TestUsers(IEnumerable<User> users, IEnumerable<User> inserted)
         {
-            return inserted.Except(users, new UserComparer()).Count() == 0;
+            return !inserted.Except(users, new UserComparer()).Any();
         }
 
         public bool TestUsers(User user, User expected)
@@ -125,14 +125,11 @@ namespace IUDICO.UnitTests.UserManagement
         public void Setup()
         {
             this.MockDatabaseStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this.MockDataContext.Object);
-            this.MockDatabaseStorage.Protected().Setup<string>("GetPath").Returns(
-                Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS"));
+            this.MockDatabaseStorage.Protected().Setup<string>("GetPath").Returns(Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS"));
             this.MockDatabaseStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 
-            this.MockDatabaseStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns(
-                (string username) => this.GetUserRoles(username));
-            this.MockDatabaseStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns(
-                (User user) => this.GetGroupsByUser(user));
+            // this.MockDatabaseStorage.Setup(s => s.GetUserRoles(It.IsAny<string>())).Returns((string username) => this.GetUserRoles(username));
+            // this.MockDatabaseStorage.Setup(s => s.GetGroupsByUser(It.IsAny<User>())).Returns((User user) => this.GetGroupsByUser(user));
         }
 
         public void SetupTables()
@@ -154,15 +151,19 @@ namespace IUDICO.UnitTests.UserManagement
 
             var mockUserRoleData = new[] { new UserRole { UserRef = mockUserData[0].Id, RoleRef = (int)Role.Teacher } };
 
+            var mockUserRatingsData = new[] { new UserTopicRating { UserId = mockUserData[0].Id, TopicId = 1, Rating = 5 } };
+
             var mockUsers = new MemoryTable<User>(mockUserData);
             var mockGroups = new MemoryTable<Group>(mockGroupData);
             var mockGroupUsers = new MemoryTable<GroupUser>(mockGroupUserData);
             var mockUserRoles = new MemoryTable<UserRole>(mockUserRoleData);
+            var mockUserRatings = new MemoryTable<UserTopicRating>(mockUserRatingsData);
 
             this.MockDataContext.SetupGet(c => c.Users).Returns(mockUsers);
             this.MockDataContext.SetupGet(c => c.Groups).Returns(mockGroups);
             this.MockDataContext.SetupGet(c => c.GroupUsers).Returns(mockGroupUsers);
             this.MockDataContext.SetupGet(c => c.UserRoles).Returns(mockUserRoles);
+            this.MockDataContext.SetupGet(c => c.UserTopicRatings).Returns(mockUserRatings);
         }
 
         #region Mocked Functions
@@ -177,7 +178,7 @@ namespace IUDICO.UnitTests.UserManagement
         {
             this.ChangeCurrentUser(this.Storage.GetUser(u => u.Username == username));
         }
-
+        /*
         protected IEnumerable<Role> GetUserRoles(string username)
         {
             var user = this.Storage.GetUser(u => u.Username == username);
@@ -191,7 +192,7 @@ namespace IUDICO.UnitTests.UserManagement
 
             return this.DataContext.Groups.Where(g => groupIds.Contains(g.Id)).ToList();
         }
-
+        */
         #endregion
     }
 }
