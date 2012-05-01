@@ -122,9 +122,9 @@ namespace IUDICO.Analytics.Models.Storage
             return this.storage.AvailebleTopics();
         }
 
-        public IEnumerable<Group> AvailebleGroups(int topicId)
+        public IEnumerable<Group> AvailableGroups(int topicId)
         {
-            return this.storage.AvailebleGroups(topicId);
+            return this.storage.AvailableGroups(topicId);
         }
 
         public IEnumerable<KeyValuePair<User, double[]>> GetAllStudentListForTraining(int topicId)
