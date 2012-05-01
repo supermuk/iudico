@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Linq;
-
 using IUDICO.Common.Models.Shared;
-
 using NUnit.Framework;
 
-namespace IUDICO.Security.UnitTests.Tests
+namespace IUDICO.UnitTests.Security.NUnit
 {
-    using IUDICO.UnitTests.Security.NUnit;
-
     [TestFixture]
     internal class BanStorageTester : SecurityTester
     {
