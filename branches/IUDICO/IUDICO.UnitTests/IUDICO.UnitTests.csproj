@@ -136,6 +136,7 @@
     <Compile Include="CompileService\UnitTests\CompileServiceUnitTests.cs" />
     <Compile Include="CourseManagement\CourseManagmentTest.cs" />
     <Compile Include="CourseManagement\BaseCourseManagementTest.cs" />
+    <Compile Include="CourseManagement\NUnit\DateFormatConverterTests.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestManagerTest.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestModelsTest.cs" />
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
