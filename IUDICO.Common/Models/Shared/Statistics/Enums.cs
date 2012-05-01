@@ -22,17 +22,7 @@
         Failed = 1,
         Passed = 2,
     }
-
-    public enum LessonStatus
-    {
-        NotAttempted = 0,
-        Browsed = 1,
-        Completed = 2,
-        Failed = 3,
-        Incomplete = 4,
-        Passed = 5,
-    }
-
+    
     public enum InteractionType
     {
         Other = 0,

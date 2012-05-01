@@ -1,14 +1,14 @@
-﻿using System.Web.Mvc;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Web.Mvc;
+using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
+using IUDICO.Common.Models.Attributes;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.Common.Models.Shared.Statistics;
-using IUDICO.Common.Controllers;
-using IUDICO.Statistics.Models.Storage;
-using IUDICO.Common.Models.Attributes;
 using IUDICO.Statistics.Models.StatisticsModels;
-using IUDICO.Common.Models.Shared;
+using IUDICO.Statistics.Models.Storage;
 
 namespace IUDICO.Statistics.Controllers
 {
@@ -30,6 +30,13 @@ namespace IUDICO.Statistics.Controllers
         }
 
         [Allow(Role = Role.Teacher)]
+        [HttpGet]
+        public ActionResult SelectDisciplines()
+        {
+            return RedirectToAction("Index");
+        }
+
+        [Allow(Role = Role.Teacher)]
         [HttpPost]
         public ActionResult SelectDisciplines(int id)
         {
@@ -37,6 +44,13 @@ namespace IUDICO.Statistics.Controllers
             var curriculums = this.proxy.GetCurrilulumsByGroupId(id);
             HttpContext.Session["SelectedGroupId"] = id;
             return View(curriculums);
+        }
+
+        [Allow(Role = Role.Teacher)]
+        [HttpGet]
+        public ActionResult ShowDisciplineStatistic()
+        {
+            return RedirectToAction("Index");
         }
 
         [Allow(Role = Role.Teacher)]
@@ -53,6 +67,13 @@ namespace IUDICO.Statistics.Controllers
         }
 
         [Allow(Role = Role.Teacher)]
+        [HttpGet]
+        public ActionResult TopicsInfo()
+        {
+            return RedirectToAction("Index");
+        }
+
+        [Allow(Role = Role.Teacher)]
         [HttpPost]
         public ActionResult TopicsInfo(int curriculumId)
         {
@@ -61,6 +82,13 @@ namespace IUDICO.Statistics.Controllers
             HttpContext.Session["Attempts"] = model.AllAttempts;
 
             return View(model);
+        }
+
+        [Allow(Role = Role.Teacher)]
+        [HttpGet]
+        public ActionResult TopicTestResults()
+        {
+            return RedirectToAction("Index");
         }
 
         [Allow(Role = Role.Teacher)]

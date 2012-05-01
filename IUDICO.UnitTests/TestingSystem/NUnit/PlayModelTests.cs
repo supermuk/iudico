@@ -8,24 +8,19 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
     [TestFixture]
     internal class PlayModelTests
     {
-        private PlayModel playModel;
-
-        [SetUp]
-        public void PlayModelTestsSetUp()
-        {
-            this.playModel = new PlayModel
-                {
-                   AttemptId = 12345, CurriculumChapterTopicId = 12, TopicType = TopicTypeEnum.TestWithoutCourse 
-                };
-        }
-
         [Test]
-        public void PlayModelPropertiesTest()
+        [TestCase(0, 0, TopicTypeEnum.Test)]
+        [TestCase(1234, 12, TopicTypeEnum.Theory)]
+        [TestCase(12, 13123, TopicTypeEnum.TestWithoutCourse)]
+        [TestCase(12, 23, TopicTypeEnum.Test)]
+        public void PlayModelPropertiesTest(int attemptId, int curriculumChapterTopicId, TopicTypeEnum topicType)
         {
-            this.PlayModelTestsSetUp();
-            Assert.AreEqual(this.playModel.AttemptId, 12345);
-            Assert.AreEqual(this.playModel.CurriculumChapterTopicId, 12);
-            Assert.AreEqual(this.playModel.TopicType, TopicTypeEnum.TestWithoutCourse);
+            var playModel = new PlayModel
+                { AttemptId = attemptId, CurriculumChapterTopicId = curriculumChapterTopicId, TopicType = topicType };
+            
+            Assert.AreEqual(attemptId, playModel.AttemptId);
+            Assert.AreEqual(curriculumChapterTopicId, playModel.CurriculumChapterTopicId);
+            Assert.AreEqual(topicType, playModel.TopicType);
         }
     }
 }

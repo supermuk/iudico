@@ -74,6 +74,10 @@
     <Reference Include="Microsoft.LearningComponents.Compression">
       <HintPath>..\IUDICO.CourseManagement\Libraries\Microsoft.LearningComponents.Compression.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\IUDICO.TestingSystem\Libraries\Microsoft.LearningComponents.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -173,6 +177,8 @@
     <Compile Include="Security\Selenium\SecuritySeleniumTester.cs" />
     <Compile Include="TestingSystem\NUnit\FileSystemPackageTests.cs" />
     <Compile Include="TestingSystem\NUnit\PlayModelTests.cs" />
+    <Compile Include="TestingSystem\NUnit\QueryConditionTests.cs" />
+    <Compile Include="TestingSystem\NUnit\TrainingControllerTests.cs" />
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="TestingSystem\Selenium\ExSelenium.cs" />
     <Compile Include="TestingSystem\Selenium\TestingSystemSeleniumTests.cs" />

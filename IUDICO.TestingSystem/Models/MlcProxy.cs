@@ -174,20 +174,20 @@ namespace IUDICO.TestingSystem.Models
             }
 
             // perform request on DB
-            var dataTable = job.Execute<DataTable>();
+            var dataTables = job.Execute().AsEnumerable().Cast<DataTable>().ToList();
 
             var result = new List<AttemptResult>();
 
+            var i = 0;
             foreach (var curriculumChapterTopic in topic.CurriculumChapterTopics)
             {
                 var curriculumChapterTopicId = curriculumChapterTopic.Id;
                 conditions.Clear();
                 conditions.Add(
                     new QueryCondition(Schema.AllAttemptsResults.CurriculumChapterTopicId, curriculumChapterTopicId));
-                var filteredRows =
-                    dataTable.AsEnumerable().Where(
-                        dataRow => this.ParseCurriculumChapterTopicId(dataRow) == curriculumChapterTopicId);
+                var filteredRows = dataTables[i].AsEnumerable();
                 result.AddRange(this.ParseAttemptResults(filteredRows, conditions));
+                i++;
             }
             return result;
         }
