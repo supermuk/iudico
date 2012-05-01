@@ -74,7 +74,7 @@ namespace IUDICO.Common.Models.Services
         /// Gets results of all attempts in the system.
         /// </summary>
         /// <returns>><see cref="IEnumerable{T}"/> collection of <see cref="AttemptResult"/></returns>
-        IEnumerable<AttemptResult> GetAllAttempts();
+        IEnumerable<AttemptResult> GetResults();
 
         /// <summary>
         /// Gets answers for specified <paramref name="attempt"/>.

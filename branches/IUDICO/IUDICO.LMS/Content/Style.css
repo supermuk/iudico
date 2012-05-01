@@ -289,7 +289,7 @@ input[type="password"]
     width: 200px;
 }
 
-input[type="submit"] 
+input[type="button"], input[type="submit"]
 {
     background-image: url(/Content/Images/button_116_25.png);
     width: 115px;

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace IUDICO.Common.Models.Shared.Statistics
+﻿namespace IUDICO.Common.Models.Shared.Statistics
 {
     /// <summary>
     /// Represents answer (correct and user's) per one attempt over the activity.
@@ -86,22 +81,6 @@ namespace IUDICO.Common.Models.Shared.Statistics
             this.InteractionId = interactionId;
             this.CompletionStatus = completionStatus;
             this.SuccessStatus = successStatus;
-            this.AttemptResult = attempResult;
-            this.LearnerResponse = learnerResponse;
-            this.CorrectResponse = correctResponse;
-            this.LearnerResponseType = learnerResponseType;
-            this.ScaledScore = scaledScore;
-        }
-
-        // TODO: this constructor was added to support some fake data instanсiation, so remove in near future!
-        public AnswerResult(long activityAttempId, string activityTitle, long? interactionId, AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
-        {
-            this.ActivityAttemptId = activityAttempId;
-            // this.ActivityPackageId = activityPackageId;
-            this.ActivityTitle = activityTitle;
-            this.InteractionId = interactionId;
-            // this.CompletionStatus = completionStatus;
-            // this.SuccessStatus = successStatus;
             this.AttemptResult = attempResult;
             this.LearnerResponse = learnerResponse;
             this.CorrectResponse = correctResponse;
