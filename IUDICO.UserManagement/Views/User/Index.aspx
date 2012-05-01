@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.UserManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.User>>" %>
+<%@ Import Namespace="System.Web.Mvc.Ajax" %>
 <%@ Import Namespace="IUDICO.Common.Models" %>
 <%@ Import Namespace="IUDICO.UserManagement" %>
 <%@ Import Namespace="IUDICO.Common" %>
@@ -302,7 +303,7 @@
                                               new AjaxOptions
                                                   {
                                                       Confirm =
-                                                          "Are you sure you want to delete \"" + item.Username + "\"?",
+                                                          String.Concat(Localization.GetMessage("AreYouSureYouWantToDelete"),"\"") + item.Username + "\"?",
                                                       HttpMethod = "Delete",
                                                       OnSuccess = "removeRow"
                                                   })%>

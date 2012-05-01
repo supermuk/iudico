@@ -393,4 +393,7 @@
   <data name="DeleteAvatar" xml:space="preserve">
     <value>Видалити фотографію</value>
   </data>
+  <data name="AreYouSureYouWantToDelete" xml:space="preserve">
+    <value>Ви справді хочете видалити</value>
+  </data>
 </root>

@@ -13,7 +13,7 @@
     </td>
     <td class="<%: Model.Locked ? "" : "courseEditable" %>">
         <div class="courseName"><%: Model.Name%></div>
-        <div class="courseCreatedBy"><%:  Localization.GetMessage("CreatedBy") %> <%: (Model.Shared ? Model.OwnerName : Localization.GetMessage("me")) %>: <%: DateFormatConverter.DataConvert(Model.Created) %></div>
+        <div class="courseCreatedBy"><%:  Localization.GetMessage("CreatedBy") %> <%: (Model.Shared ? Model.OwnerName : Localization.GetMessage("Me")) %>: <%: DateFormatConverter.DataConvert(Model.Created) %></div>
     </td>
     <td>
         <div>
