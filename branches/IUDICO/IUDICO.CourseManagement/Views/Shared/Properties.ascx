@@ -1,4 +1,6 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IUDICO.Common.Models.NodeProperty>" %>
+<%@ Import Namespace="System.Web.Mvc.Ajax" %>
+<%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="IUDICO.Common" %>
 
     <% Html.EnableClientValidation(); %>

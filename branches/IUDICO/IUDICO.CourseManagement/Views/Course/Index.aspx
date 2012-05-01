@@ -1,5 +1,7 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CourseManagement.Models.ViewCourseModel>>" %>
+<%@ Import Namespace="System.Web.Mvc.Ajax" %>
+<%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
@@ -236,9 +238,16 @@
                         <%=Localization.GetMessage("Title")%>
                     </th>
                     <th class="updatedByColumn">
-                        <%=Localization.GetMessage("Last modified")%>
+                        <%=Localization.GetMessage("LastModified")%>
                     </th>
+<<<<<<< .mine
+                    <th>
+                        <%=Localization.GetMessage("UpdatedBy")%>
+                    </th>
+                    <th>
+=======
                     <th class="courseActionsColumn">
+>>>>>>> .r1972
                         <%=Localization.GetMessage("Actions")%>
                     </th>
                 </tr>

@@ -47,7 +47,7 @@ namespace IUDICO.CourseManagement
 
         public IEnumerable<MenuItem> BuildMenuItems()
         {
-            return new MenuItem[]
+          return new MenuItem[]
             {
                 new MenuItem(Localization.GetMessage("Courses"), "Course", "Index")
             };
