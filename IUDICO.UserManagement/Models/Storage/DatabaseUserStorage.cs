@@ -70,25 +70,19 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public virtual bool SendEmail(string addressFrom, string addressTo, string subject, string body)
         {
-            try
+            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
+            var message = new MailMessage(new MailAddress(EmailUser), new MailAddress(addressTo)) { Subject = subject, Body = body };
+
+            var client = new SmtpClient(EmailHost, EmailPort)
             {
-                ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+                EnableSsl = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                /*Credentials = new NetworkCredential(EmailUser, EmailPassword),*/
+            };
 
-                var message = new MailMessage(new MailAddress(EmailUser), new MailAddress(addressTo)) { Subject = subject, Body = body };
-
-                var client = new SmtpClient(EmailHost, EmailPort)
-                                 {
-                                     EnableSsl = false,
-                                     DeliveryMethod = SmtpDeliveryMethod.Network,
-                                     UseDefaultCredentials = false,
-                                     /*Credentials = new NetworkCredential(EmailUser, EmailPassword),*/
-                                 };
-
-                client.SendAsync(message, null);
-            }
-            catch
-            {
-            }
+            client.SendAsync(message, null);
 
             return true;
         }
@@ -153,7 +147,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public IEnumerable<User> GetUsers(int pageIndex, int pageSize)
         {
-            return this.GetDbContext().Users.Skip(pageIndex).Take(pageSize);
+            return this.GetDbContext().Users.Where(u => !u.Deleted).Skip(pageIndex).Take(pageSize);
         }
 
         public bool UsernameExists(string username)
@@ -403,17 +397,17 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<User> GetUsersInGroup(Group group)
         {
             var db = this.GetDbContext();
+            var userIds = db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.UserRef);
 
-            return db.GroupUsers.Where(g => g.GroupRef == group.Id && !g.User.Deleted).Select(g => g.User);
+            return db.Users.Where(u =>  !u.Deleted && userIds.Contains(u.Id));
         }
 
         public IEnumerable<User> GetUsersNotInGroup(Group group)
         {
             var db = this.GetDbContext();
+            var userIds = db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.UserRef);
 
-            return
-                db.Users.Where(u => !u.Deleted).Except(
-                    db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
+            return db.Users.Where(u => !u.Deleted && !userIds.Contains(u.Id));
         }
 
         public User RegisterUser(RegisterModel registerModel)
@@ -518,8 +512,9 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<User> GetUsersInRole(Role role)
         {
             var db = this.GetDbContext();
+            var userIds = db.UserRoles.Where(ur => ur.RoleRef == (int)role).Select(ur => ur.UserRef);
 
-            return db.UserRoles.Where(ur => ur.RoleRef == (int)role).Select(ur => ur.User);
+            return db.Users.Where(u => userIds.Contains(u.Id));
         }
 
         public IEnumerable<Role> GetUserRoles(string username)
@@ -637,7 +632,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
             var groupRefsByUser = this.GetGroupsByUser(user).Select(g => g.Id);
 
-            return db.Groups.Where(g => !groupRefsByUser.Contains(g.Id));
+            return db.Groups.Where(g => !groupRefsByUser.Contains(g.Id) && !g.Deleted);
         }
 
         public void AddUserToGroup(Group group, User user)

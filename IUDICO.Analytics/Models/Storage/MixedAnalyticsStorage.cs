@@ -54,10 +54,9 @@ namespace IUDICO.Analytics.Models.Storage
                                    join ts in d.TopicScores on t.Id equals ts.TopicId into tsj
                                    from j in tsj.DefaultIfEmpty()
                                    group j by t.Id
-                                   into grouped select new { Topic = grouped.Key, Values = grouped }).OrderBy(
-                                       g => g.Topic).ToDictionary(
-                                           g => topics[g.Topic],
-                                           g => g.Values.Where(f => f != null).ToList().AsEnumerable());
+                                   into grouped
+                                   select new { Topic = grouped.Key, Values = grouped }).OrderBy(g => g.Topic)
+                                   .ToDictionary(g => topics[g.Topic], g => g.Values.Where(f => f != null).ToList().AsEnumerable());
 
                 return topicScores;
             }
@@ -73,8 +72,9 @@ namespace IUDICO.Analytics.Models.Storage
                                   join us in this.db.UserScores on u.Id equals us.UserId into usj
                                   from j in usj.DefaultIfEmpty()
                                   group j by u.Id
-                                  into grouped select new { User = grouped.Key, Values = grouped }).OrderBy(g => g.User)
-                    .ToDictionary(g => users[g.User], g => g.Values.Where(f => f != null).ToList().AsEnumerable());
+                                  into grouped
+                                  select new { User = grouped.Key, Values = grouped }).OrderBy(g => g.User)
+                                  .ToDictionary(g => users[g.User], g => g.Values.Where(f => f != null).ToList().AsEnumerable());
 
                 return userScores;
             }

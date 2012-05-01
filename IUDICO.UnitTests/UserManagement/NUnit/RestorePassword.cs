@@ -16,11 +16,11 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         public void RestorePasswordExisting()
         {
             var model = new RestorePasswordModel { Email = "ipetrovych@gmail.com" };
-            var password = this.tests.DataContext.Users.Where(u => u.Username == "panza").Single().Password;
+            var password = this.tests.DataContext.Users.Single(u => u.Username == "panza").Password;
 
             this.tests.Storage.RestorePassword(model);
 
-            var newpassword = this.tests.DataContext.Users.Where(u => u.Username == "panza").Single().Password;
+            var newpassword = this.tests.DataContext.Users.Single(u => u.Username == "panza").Password;
 
             Assert.IsTrue(newpassword != password);
         }

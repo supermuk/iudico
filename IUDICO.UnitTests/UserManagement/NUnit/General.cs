@@ -35,7 +35,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void PromotedToAdmin()
         {
-            var storage = new DatabaseUserStorage(this.tests.LmsService);
+            var storage = new CachedUserStorage(new DatabaseUserStorage(this.tests.LmsService), this.tests.MockCacheProvider.Object);
 
             Assert.IsFalse(storage.IsPromotedToAdmin());
         }
@@ -44,9 +44,25 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [ExpectedException(typeof(NullReferenceException))]
         public void GetIdentityName()
         {
-            var storage = new DatabaseUserStorage(this.tests.LmsService);
+            var storage = new CachedUserStorage(new DatabaseUserStorage(this.tests.LmsService), this.tests.MockCacheProvider.Object);
 
             storage.EditAccount(new EditModel());
+        }
+
+        [Test]
+        public void GetPath()
+        {
+            var storage = new DatabaseUserStorage(this.tests.LmsService);
+
+            Assert.IsTrue(storage.DeleteAvatar(Guid.NewGuid()) == -1);
+        }
+
+        [Test]
+        public void UsernameExistsCached()
+        {
+            var storage = new CachedUserStorage(this.tests.Storage, this.tests.MockCacheProvider.Object);
+
+            Assert.IsFalse(storage.UsernameExists(Guid.NewGuid().ToString()));
         }
     }
 }
