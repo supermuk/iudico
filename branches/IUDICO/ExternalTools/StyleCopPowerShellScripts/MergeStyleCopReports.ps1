@@ -1,98 +1,98 @@
 New-Item -ItemType file "FullStyleCopViolations.xml" -force
 
-(Get-Content "IUDICO.Analytics\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.Analytics\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.Analytics\obj\Debug\StyleCopViolations.xml"
-$file1 = Get-Content "IUDICO.Analytics\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.Analytics\obj\Release\StyleCopViolations.xml"
+$file1 = Get-Content "IUDICO.Analytics\obj\Release\StyleCopViolations.xml"
 
-(Get-Content "IUDICO.Common\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.Common\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.Common\obj\Debug\StyleCopViolations.xml"
-$file2 = Get-Content "IUDICO.Common\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.Common\obj\Release\StyleCopViolations.xml"
+$file2 = Get-Content "IUDICO.Common\obj\Release\StyleCopViolations.xml"
 
 
-(Get-Content "IUDICO.CompileSystem\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.CompileSystem\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.CompileSystem\obj\Debug\StyleCopViolations.xml"
-$file3 = Get-Content "IUDICO.CompileSystem\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.CompileSystem\obj\Release\StyleCopViolations.xml"
+$file3 = Get-Content "IUDICO.CompileSystem\obj\Release\StyleCopViolations.xml"
 
-(Get-Content "IUDICO.CourseManagement\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.CourseManagement\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.CourseManagement\obj\Debug\StyleCopViolations.xml"
-$file4 = Get-Content "IUDICO.CourseManagement\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.CourseManagement\obj\Release\StyleCopViolations.xml"
+$file4 = Get-Content "IUDICO.CourseManagement\obj\Release\StyleCopViolations.xml"
 
-(Get-Content "IUDICO.CurriculumManagement\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.CurriculumManagement\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.CurriculumManagement\obj\Debug\StyleCopViolations.xml"
-$file5 = Get-Content "IUDICO.CurriculumManagement\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.CurriculumManagement\obj\Release\StyleCopViolations.xml"
+$file5 = Get-Content "IUDICO.CurriculumManagement\obj\Release\StyleCopViolations.xml"
 
 
-(Get-Content "IUDICO.DisciplineManagement\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.DisciplineManagement\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.DisciplineManagement\obj\Debug\StyleCopViolations.xml"
-$file6 = Get-Content "IUDICO.DisciplineManagement\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.DisciplineManagement\obj\Release\StyleCopViolations.xml"
+$file6 = Get-Content "IUDICO.DisciplineManagement\obj\Release\StyleCopViolations.xml"
 
-(Get-Content "IUDICO.LMS\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.LMS\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.LMS\obj\Debug\StyleCopViolations.xml"
-$file7 = Get-Content "IUDICO.LMS\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.LMS\obj\Release\StyleCopViolations.xml"
+$file7 = Get-Content "IUDICO.LMS\obj\Release\StyleCopViolations.xml"
 
-(Get-Content "IUDICO.Search\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.Search\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.Search\obj\Debug\StyleCopViolations.xml"
-$file8 = Get-Content "IUDICO.Search\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.Search\obj\Release\StyleCopViolations.xml"
+$file8 = Get-Content "IUDICO.Search\obj\Release\StyleCopViolations.xml"
 
-(Get-Content "IUDICO.Security\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.Security\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.Security\obj\Debug\StyleCopViolations.xml"
-$file9 = Get-Content "IUDICO.Security\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.Security\obj\Release\StyleCopViolations.xml"
+$file9 = Get-Content "IUDICO.Security\obj\Release\StyleCopViolations.xml"
 
-(Get-Content "IUDICO.Statistics\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.Statistics\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.Statistics\obj\Debug\StyleCopViolations.xml"
-$file10 = Get-Content "IUDICO.Statistics\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.Statistics\obj\Release\StyleCopViolations.xml"
+$file10 = Get-Content "IUDICO.Statistics\obj\Release\StyleCopViolations.xml"
 
-(Get-Content "IUDICO.TestingSystem\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.TestingSystem\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.TestingSystem\obj\Debug\StyleCopViolations.xml"
-$file11 = Get-Content "IUDICO.TestingSystem\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.TestingSystem\obj\Release\StyleCopViolations.xml"
+$file11 = Get-Content "IUDICO.TestingSystem\obj\Release\StyleCopViolations.xml"
 
-(Get-Content "IUDICO.UnitTests\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.UnitTests\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.UnitTests\obj\Debug\StyleCopViolations.xml"
-$file12 = Get-Content "IUDICO.UnitTests\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.UnitTests\obj\Release\StyleCopViolations.xml"
+$file12 = Get-Content "IUDICO.UnitTests\obj\Release\StyleCopViolations.xml"
 
 
-(Get-Content "IUDICO.UserManagement\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.UserManagement\obj\Release\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "IUDICO.UserManagement\obj\Debug\StyleCopViolations.xml"
-$file13 = Get-Content "IUDICO.UserManagement\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.UserManagement\obj\Release\StyleCopViolations.xml"
+$file13 = Get-Content "IUDICO.UserManagement\obj\Release\StyleCopViolations.xml"
 
 
 Add-Content "FullStyleCopViolations.xml" $file1
