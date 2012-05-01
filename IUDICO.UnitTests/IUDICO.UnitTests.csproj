@@ -178,6 +178,7 @@
     <Compile Include="TestingSystem\Selenium\TestingSystemSeleniumTests.cs" />
     <Compile Include="UserManagement\NUnit\ActivateUser.cs" />
     <Compile Include="UserManagement\NUnit\AddUserToGroup.cs" />
+    <Compile Include="UserManagement\NUnit\Analytics.cs" />
     <Compile Include="UserManagement\NUnit\BatchUserCreation.cs" />
     <Compile Include="UserManagement\NUnit\ChangePassword.cs" />
     <Compile Include="UserManagement\NUnit\ChangeUsersRole.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="UserManagement\NUnit\DeleteUser.cs" />
     <Compile Include="UserManagement\NUnit\EditGroup.cs" />
     <Compile Include="UserManagement\NUnit\EditUsersAccount.cs" />
+    <Compile Include="UserManagement\NUnit\General.cs" />
     <Compile Include="UserManagement\NUnit\GetGroups.cs" />
     <Compile Include="UserManagement\NUnit\GetUsers.cs" />
     <Compile Include="UserManagement\NUnit\Register.cs" />

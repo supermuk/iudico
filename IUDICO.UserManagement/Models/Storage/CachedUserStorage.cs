@@ -346,7 +346,7 @@ namespace IUDICO.UserManagement.Models.Storage
             this.storage.AddUserToGroup(group, user);
 
             this.cacheProvider.Invalidate(
-                "groups", "users", "group-" + group.Id, "user-id-" + user.Id, "user-name-" + user.Username);
+                "groups", "users", "group-" + group.Id, "user-id-" + user.Id, "user-name-" + user.Username, "groups-user-" + user.Id);
         }
 
         public void RemoveUserFromGroup(Group group, User user)
@@ -354,7 +354,7 @@ namespace IUDICO.UserManagement.Models.Storage
             this.storage.RemoveUserFromGroup(group, user);
 
             this.cacheProvider.Invalidate(
-                "groups", "users", "group-" + group.Id, "user-id-" + user.Id, "user-name-" + user.Username);
+                "groups", "users", "group-" + group.Id, "user-id-" + user.Id, "user-name-" + user.Username, "groups-user-" + user.Id);
         }
 
         public IEnumerable<Group> GetGroupsByUser(User user)

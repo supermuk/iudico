@@ -118,9 +118,16 @@ namespace IUDICO.UnitTests.Base
         protected void DefaultLogin(string username, string password)
         {
             this.selenium.Open("/");
+
+            if (this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"))
+            {
+                return;
+            }
+
             this.selenium.Type("id=loginPassword", username);
             this.selenium.Type("id=loginUsername", password);
             this.selenium.Click("id=loginDefaultButton");
+
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
         }
 
