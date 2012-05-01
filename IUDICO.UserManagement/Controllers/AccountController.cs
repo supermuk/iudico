@@ -66,8 +66,7 @@ namespace IUDICO.UserManagement.Controllers
 
                         if (user == null)
                         {
-                            this.ModelState.AddModelError(
-                                string.Empty, "Login failed using the provided OpenID identifier");
+                            this.ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
 
                             break;
                         }
@@ -81,8 +80,10 @@ namespace IUDICO.UserManagement.Controllers
                         else
                         {
                             FormsAuthentication.SetAuthCookie(user.Username, false);
+                            
                             ILog log = LogManager.GetLogger(typeof(AccountController));
                             log.Info("OpenID user " + user.Username + " logged in.");
+
                             return this.Redirect("/");
                         }
 
@@ -144,6 +145,7 @@ namespace IUDICO.UserManagement.Controllers
 
                     ILog log = LogManager.GetLogger(typeof(AccountController));
                     log.Info(loginUsername + " logged in.");
+
                     return this.Redirect("/");
                 }
             }

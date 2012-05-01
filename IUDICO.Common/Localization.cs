@@ -23,6 +23,7 @@ namespace IUDICO.Common
         {
             this.controllerFactory = controllerFactory;
             this.LoadResource("IUDICO.LMS");
+            this.LoadResource("IUDICO.Common");
         }
 
         public static void Init(IControllerFactory controllerFactory)
