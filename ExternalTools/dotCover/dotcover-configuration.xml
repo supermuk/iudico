@@ -5,7 +5,7 @@
   <TargetArguments>IUDICO.UnitTests\bin\Debug\IUDICO.UnitTests.dll</TargetArguments>
   <TargetWorkingDir><!-- Program working directory. --></TargetWorkingDir>
   <TempDir><!-- Program working directory. --></TempDir>
-  <Output><!-- Resulting report file name. -->CodeCoverageReport.html</Output>
+  <Output><!-- Program working directory. -->\CodeCoverageReport.html</Output>
   <ReportType><!-- [HTML|JSON|XML|NDependXML]. A type of the report. XML by default. -->HTML</ReportType>
   <InheritConsole><!-- [True|False] Lets the application being analysed to inherit dotCover console. True by default. --> </InheritConsole>  
   
