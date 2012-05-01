@@ -1,14 +1,14 @@
 ﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<IUDICO.Common.Models.Shared.ShareUser>>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
-<table id="shareUserTable">
+<table id="shareUserTable" >
     <thead>
         <tr>
             <th class="checkboxColumn">
-                Id
             </th>
-            <th></th>
+            <th class="photoColumn"> <%:Localization.GetMessage("Photo") %></th>
             <th class="usernameColumn">
-                Username
+                <%:Localization.GetMessage("Name") %>
             </th>
         </tr>
     </thead>

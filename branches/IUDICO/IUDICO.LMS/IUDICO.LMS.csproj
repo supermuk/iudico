@@ -187,7 +187,6 @@
     <None Include="Scripts\jquery\jquery.validate-vsdoc.js">
     </None>
     <Content Include="Content\dataTables\demo_page.css" />
-    <Content Include="Content\dataTables\demo_table.css" />
     <Content Include="Content\dataTables\demo_table_jui.css" />
     <Content Include="Content\Images\background.png" />
     <Content Include="Content\Images\back_disabled.jpg" />

@@ -86,6 +86,7 @@
 
 .css_right {
 	float: right;
+    display: inline-block;
 }
 
 .css_left {
