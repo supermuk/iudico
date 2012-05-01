@@ -125,6 +125,8 @@ h1
 }
 h2
 {
+    color: #336699;
+    text-transform: uppercase;
     padding: 0 0 0px 0;
 }
 h3
@@ -289,7 +291,7 @@ input[type="password"]
     width: 200px;
 }
 
-input[type="button"], input[type="submit"]
+.blueButton, button[type="button"], input[type="button"], input[type="submit"]
 {
     background-image: url(/Content/Images/button_116_25.png);
     width: 115px;
@@ -297,7 +299,14 @@ input[type="button"], input[type="submit"]
     border: 0px none;
     color: #FFFFFF;
 }
-
+.blueButton:hover, button[type="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover
+{
+    opacity: 0.8;
+}
+.blueButton:active, button[type="button"]:active, input[type="button"]:active, input[type="submit"]:active
+{
+    opacity: 0.6;
+}
 input[type="submit"].okButton 
 {
     background-image: url(/Content/Images/button_37_20.png);
@@ -625,13 +634,37 @@ select option.added
 
 /* SHAREUSERS
 ----------------------------------------------------------*/
-.checkboxColumn {
+.hiddenTitle .ui-dialog-titlebar
+{
+    display: none;
+}
+.hiddenTitle div.ui-dialog-buttonpane
+{
+    margin: 0px;
+    border-top: none;
+}
+
+div.hiddenTitle
+{
+    padding: 0px;
+}
+
+#shareDialog
+{
+    padding: 0px;
+}
+.checkboxColumn
+{
     width: 25px;
 }
-.usernameColumn {
+.usernameColumn
+{
     width: 200px;
 }
 .actionsColumn
 {
     width: 200px;
+}
+.photoColumn {
+    width: 50px;
 }

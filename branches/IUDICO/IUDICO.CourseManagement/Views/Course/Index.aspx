@@ -11,6 +11,7 @@
                 "sPaginationType": "full_numbers",
                 iDisplayLength: 50,
                 "bSort": true,
+                "bAutoWidth": false,
                 "aoColumns": [
                 { "bSortable": false },
                 null,
@@ -64,6 +65,9 @@
                autoOpen: false,
                modal: true,
                width: 450,
+               height: 545,
+               dialogClass: "hiddenTitle",
+               resizable: false,
                buttons: {
                    "<%=Localization.GetMessage("Share") %>": function () {
                        $("#shareDialog").find("form").submit();
@@ -125,8 +129,10 @@
                    var table = $("#shareUserTable").dataTable({
                        "bJQueryUI": true,
                        "sPaginationType": "full_numbers",
+                       "sScrollY": "360px",
                        iDisplayLength: 8,
                        "bSort": true,
+                       "bAutoWidth": false,
                        "aoColumns": [
                            { "bSortable": false },
                            { "bSortable": false },
@@ -212,17 +218,15 @@
     <%=Localization.GetMessage("Courses")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <h2><%=Localization.GetMessage("Courses")%>:</h2>
+    
     <p>
-        <a href="#" onclick="addCourse();"><%:Localization.GetMessage("CreateNew")%></a>
+        <a href="#" onclick="addCourse();"><%: Localization.GetMessage("CreateNew")%></a>
         |
-        <%: Html.ActionLink(Localization.GetMessage("Import"), "Import")%>
-        | <a id="DeleteMany" href="#">
-            <%=Localization.GetMessage("DeleteSelected")%></a>
+        <a  href="#" ><%: Localization.GetMessage("Import")%></a>
+        |
+        <a id="DeleteMany" href="#"><%: Localization.GetMessage("DeleteSelected")%></a>
     </p>
-    <div style="float: inherit; width: 400px;">
-        <h2>
-            <%=Localization.GetMessage("Allcourses")%>:</h2>
-    </div>
     <div>
         <% if (Model.Count() > 0)
            { %>
