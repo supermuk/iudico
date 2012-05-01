@@ -10,7 +10,7 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%:Html.ActionLink("Tags", "Index", "Tags")%> | <%:Html.ActionLink("Recommender", "Index", "Recommender")%> | <%:Html.ActionLink("Anomaly Detection", "Index", "AnomalyDetection")%> | <%:Html.ActionLink("Discipline/Topic Quality", "Index", "Quality")%>
+    <%:Html.ActionLink(Localization.GetMessage("Tags"), "Index", "Tags")%> | <%:Html.ActionLink(Localization.GetMessage("Recommender"), "Index", "Recommender")%> | <%:Html.ActionLink(Localization.GetMessage("AnomalyDetection"), "Index", "AnomalyDetection")%> | <%:Html.ActionLink(Localization.GetMessage("DisciplineTopicQuality"), "Index", "Quality")%>
 
     <h2><%=Localization.GetMessage("HelloAnalytics")%></h2>
 

@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.Analytics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<KeyValuePair<KeyValuePair<IUDICO.Common.Models.Shared.User,double[]>,bool>>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="IUDICO.Common.Models.Shared.User,double[]>,bool>>>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 <%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Train Alg
@@ -7,12 +8,12 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Algorithm Output</h2>
+    <h2><%= Localization.GetMessage("AlgorithmOutput")%></h2>
      <table>
         <tr>
-            <th>Student Name</th>
-            <th>Student Score</th>
-            <th>Student Time</th>
+            <th><%=Localization.GetMessage("StudentName")%></th>
+            <th><%=Localization.GetMessage("StudentScore")%></th>
+            <th><%=Localization.GetMessage("StudentTime")%></th>
             <%foreach (Tag tag in (IEnumerable<Tag>)ViewData["SkillTags"])
               {%>
               <th><%:tag.Name %></th>
@@ -45,7 +46,7 @@
             <td>
             <% if (item.Value)
                {%>
-               Anomaly
+               <%=Localization.GetMessage("Anomaly") %>
             <%} %>
             </td>
         </tr>
