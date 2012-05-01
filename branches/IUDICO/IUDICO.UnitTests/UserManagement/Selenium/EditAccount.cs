@@ -60,7 +60,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Click("//tr[2]//a[contains(@href, '/User/Edit?id=')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Type("id=Name", name);
-            this.selenium.Type("id=Password", name);
+            this.selenium.Type("id=Password", "lex");
             this.selenium.Type("id=Email", name + "@iudico.com");
             this.selenium.Click("//input[@value='Save']");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);

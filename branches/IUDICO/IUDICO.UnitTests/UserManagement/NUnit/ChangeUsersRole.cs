@@ -173,5 +173,25 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.DeleteUser(u => u.Username == "name123");
         }
+
+        [Test]
+        public void GetUsersInRole()
+        {
+            this.tests.Storage.CreateUser(new User { Username = "name123", Email = "mail1@mail.com", Password = "123" });
+
+            this.tests.Storage.AddUserToRole(Role.Teacher, this.tests.Storage.GetUser("name123"));
+
+            Assert.IsTrue(this.tests.Storage.GetUsersInRole(Role.Teacher).Any(u => u.Username == "name123"));
+
+            this.tests.Storage.RemoveUserFromRole(Role.Teacher, this.tests.Storage.GetUser("name123"));
+
+            this.tests.Storage.DeleteUser(u => u.Username == "name123");
+        }
+
+        [Test]
+        public void PromotedToAdmin()
+        {
+            
+        }
     }
 }

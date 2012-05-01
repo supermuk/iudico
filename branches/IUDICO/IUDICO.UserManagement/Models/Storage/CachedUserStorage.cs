@@ -71,7 +71,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public IEnumerable<User> GetUsers(int pageIndex, int pageSize)
         {
-            return this.GetUsers().Skip(pageIndex).Take(pageSize);
+            return this.storage.GetUsers(pageIndex, pageSize);
         }
 
         public User GetUser(Func<User, bool> predicate)
@@ -180,7 +180,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.cacheProvider.Get(
                 "users-ngroup-" + group.Id,
                 this.lockObject,
-                () => this.storage.GetUsersInGroup(group),
+                () => this.storage.GetUsersNotInGroup(group),
                 DateTime.Now.AddDays(1),
                 "users");
         }

@@ -11,7 +11,7 @@ namespace IUDICO.Common.Controllers
     {
         public static ILmsService LmsService;
 
-        protected override ViewResult View(string viewName, string masterName, object model)
+        protected new virtual ViewResult View(string viewName, string masterName, object model)
         {
             viewName = viewName ?? RouteData.GetRequiredString("action");
 
@@ -37,7 +37,7 @@ namespace IUDICO.Common.Controllers
             return base.View(viewPath + viewName + ".aspx", masterName, model);
         }
 
-        protected override PartialViewResult PartialView(string viewName, object model)
+        protected new virtual PartialViewResult PartialView(string viewName, object model)
         {
             viewName = viewName ?? RouteData.GetRequiredString("action");
 
