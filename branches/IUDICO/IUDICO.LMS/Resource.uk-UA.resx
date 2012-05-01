@@ -186,6 +186,9 @@
   <data name="Error" xml:space="preserve">
     <value>Помилка</value>
   </data>
+  <data name="Ok" xml:space="preserve">
+    <value>ОК</value>
+  </data>
   <data name="Recommended" xml:space="preserve">
     <value>Рекомендації</value>
   </data>
