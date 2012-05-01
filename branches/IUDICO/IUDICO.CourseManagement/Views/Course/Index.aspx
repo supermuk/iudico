@@ -65,10 +65,10 @@
                modal: true,
                width: 450,
                buttons: {
-                   "Share": function () {
+                   "<%=Localization.GetMessage("Share") %>": function () {
                        $("#shareDialog").find("form").submit();
                    },
-                   "Close": function () {
+                   "<%=Localization.GetMessage("Close") %>": function () {
                        $(this).dialog("close");
                    }
                }
@@ -78,10 +78,10 @@
                autoOpen: false,
                modal: true,
                buttons: {
-                   "Submit": function () {
+                  "<%=Localization.GetMessage("Submit") %>": function () {
                        $("#dialog").find("form").submit();
                    },
-                   "Close": function () {
+                   "<%=Localization.GetMessage("Close") %>": function () {
                        $(this).dialog("close");
                    }
                }
@@ -97,7 +97,7 @@
         }
         
         function openDialog(title) {
-            $("#dialogInner").html("Loading...");
+            $("#dialogInner").html("<%=Localization.GetMessage("Loading") %>");
             $("#dialog").dialog("option", "title", title);
             $("#dialog").dialog("open");
         }
@@ -162,7 +162,7 @@
         }
         
         function editCourse(id) {
-            openDialog("Edit course");
+            openDialog("<%=Localization.GetMessage("EditCourse") %>");
 
             $.ajax({
                 type: "get",
