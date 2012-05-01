@@ -70,12 +70,12 @@
             <div id="menucontainer">
                 <ul id="menu">
                     <li>
-                        <%: Html.ActionLink(Localization.GetMessage("Home"), "Index", "Home", new {}, new { @class = "selected"})%></li>
+                        <%: Html.ActionLink(Localization.GetMessage("Home"), "Index", "Home", new { }, new { @class = ("Home" == ViewContext.RouteData.GetRequiredString("controller") ? "selected" : "notselected") })%></li>
                     <% var menu = (IUDICO.Common.Models.Menu)IUDICO.LMS.MvcApplication.LmsService.GetMenu(); %>
                     <%  foreach (var item in menu.Items)
                         { %>
                     <li>
-                        <%: Html.ActionLink(item.Text, item.Action, item.Controller)%></li>
+                         <%: Html.ActionLink(item.Text, item.Action, item.Controller, null, new { @class = (item.Controller == ViewContext.RouteData.GetRequiredString("controller") ? "selected" : "notselected") })%></li>
                     <% } %>
                 </ul>
             </div>
