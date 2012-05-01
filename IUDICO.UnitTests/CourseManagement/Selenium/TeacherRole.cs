@@ -258,15 +258,15 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
                 selenium.GetAlert();
             }
 
-            this.selenium.Click("xpath=//tr[contains(.,'forLocking')]//a[text()='#Lock']");
+            this.selenium.Click("xpath=//tr[contains(.,'forLocking')]//a[title='Lock']");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             var isPresent =
-                this.selenium.IsElementPresent("xpath=//tr[contains(.,'forLocking')]//a[text()='Unlock']");
+                this.selenium.IsElementPresent("xpath=//tr[contains(.,'forLocking')]//a[title='Unlock']");
             Assert.IsTrue(isPresent);
             this.selenium.Click("xpath=//tr[contains(.,'forLocking')]//a[text()='Unlock']");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             isPresent =
-               this.selenium.IsElementPresent("xpath=//tr[contains(.,'forLocking')]//a[text()='Unlock']");
+               this.selenium.IsElementPresent("xpath=//tr[contains(.,'forLocking')]//a[title='Unlock']");
             Assert.IsFalse(isPresent);
             try
             {
@@ -299,7 +299,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             Thread.Sleep(SleepTime);
             Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forExport')]"));
 
-            this.selenium.Click("xpath=//tr[contains(.,'forExport')]//a[text()='Export']");
+            this.selenium.Click("xpath=//tr[contains(.,'forExport')]//a[title='Export']");
             try
             {
                 this.Logout();
@@ -332,7 +332,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             Thread.Sleep(SleepTime);
             Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion')]"));
 
-            this.selenium.Click("xpath=//tr[contains(.,'forDeletion')]//a[contains(text(),'Delete')]");
+            this.selenium.Click("xpath=//tr[contains(.,'forDeletion')]//a[title='Delete']");
             this.selenium.GetConfirmation();
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);

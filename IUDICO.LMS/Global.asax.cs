@@ -99,7 +99,7 @@ namespace IUDICO.LMS
         Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
             // log error
-            throw new NotImplementedException();
+            throw new NotImplementedException(args.RequestingAssembly.FullName);
         }
 
         protected void Application_End()

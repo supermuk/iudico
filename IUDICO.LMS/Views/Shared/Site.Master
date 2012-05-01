@@ -11,7 +11,6 @@
     </title>
     <link href="/Content/Style.css" rel="stylesheet" type="text/css" />
     <link href="/Content/jquery.rating.css" rel="stylesheet" type="text/css" />
-    <link href="/Content/dataTables/demo_table.css" rel="stylesheet" type="text/css" />
     <link href="/Content/dataTables/demo_table_jui.css" rel="stylesheet" type="text/css" />
     <link href="/Content/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="all" />
     <link href="/Content/jAlert/jquery.alerts.css" rel="stylesheet" type="text/css" />
@@ -45,6 +44,13 @@
 
 
     <asp:ContentPlaceHolder ID="HeadContent" runat="server" />
+    
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#loadingMessage").hide();
+            $("#contentHolder").show();
+        });
+    </script>
 </head>
 <body>
     <div class="page">
@@ -81,9 +87,13 @@
                     Response.Write("<div class='message'>" + ViewData["Message"] + "</div>");
                 }
             %>
-            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
-            <div id="footer">
-                
+
+            <div id="loadingMessage">Loading...</div>
+            <div id="contentHolder" class="hidden">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+                <div id="footer">
+            </div>
+
             </div>
         </div>
     </div>
