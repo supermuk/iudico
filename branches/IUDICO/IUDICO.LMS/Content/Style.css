@@ -250,7 +250,7 @@ ul#menu li a:active
     text-decoration: none;
 }
 
-ul#menu li.selected a
+ul#menu li a.selected
 {
     background-color: #fff;
     color: #477aa3;
@@ -667,4 +667,13 @@ div.hiddenTitle
 }
 .photoColumn {
     width: 50px;
+}
+.smallColumn {
+    width: 50px;
+}
+.normalColumn {
+    width: 100px;
+}
+.bigColumn {
+    width: 150px;
 }
