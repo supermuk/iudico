@@ -255,4 +255,10 @@
   <data name="Teacher" xml:space="preserve">
     <value>Викладач</value>
   </data>
+  <data name="NoСurriculumHasBeenCreatedFor" xml:space="preserve">
+    <value>Наразі немає навчального плану для</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value> </value>
+  </data>
 </root>

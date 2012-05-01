@@ -37,7 +37,7 @@
         <a href="<%: Url.Action("Export", new { CourseID = Model.Id })%>" title="<%: Localization.GetMessage("Export") %>" class="buttonExport button"></a>
         
         
-        <%: MvcHtmlString.Create(Ajax.ActionLink("[temp]", "Delete", new { CourseID = Model.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + Model.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" }, new { @class = "buttonDelete button", title = Localization.GetMessage("Delete") }).ToString().Replace("[temp]", ""))%>
+        <%: MvcHtmlString.Create(Ajax.ActionLink("[temp]", "Delete", new { CourseID = Model.Id }, new AjaxOptions { Confirm = Localization.GetMessage("AreYouSureYouWantToDelete")  + String.Concat("\"",Model.Name) + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" }, new { @class = "buttonDelete button", title = Localization.GetMessage("Delete") }).ToString().Replace("[temp]", ""))%>
         <a href="#" onclick="shareCourse(<%: Model.Id %>)" class="buttonShare button" title="<%: Localization.GetMessage("Share") %>"></a>
     </td>
 </tr>

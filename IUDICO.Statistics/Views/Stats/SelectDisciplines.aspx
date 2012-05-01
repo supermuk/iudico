@@ -85,7 +85,7 @@
     <% else
         { %>
     <h2>
-        No curricuulm has been created for
+        <%=Localization.GetMessage("NoСurriculumHasBeenCreatedFor")%>
         <%: ViewData["Group"]%>.
     </h2>
     <%} %>

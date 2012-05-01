@@ -19,7 +19,7 @@ namespace IUDICO.LMS.Models
     public class LmsService : ILmsService
     {
         protected readonly IWindsorContainer Container;
-        protected string Culture;
+        protected string culture;
         protected readonly string ServerPath;
 
         protected Menu Menu
@@ -68,7 +68,7 @@ namespace IUDICO.LMS.Models
 
         public Menu GetMenu()
         {
-            if (this.Menu == null || Thread.CurrentThread.CurrentCulture.ToString() != Culture)
+            if (this.Menu == null || Thread.CurrentThread.CurrentCulture.ToString() != this.culture)
                 this.RebuildMenuAndActions();
 
             return this.Menu;
@@ -76,7 +76,7 @@ namespace IUDICO.LMS.Models
 
         public Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> GetActions()
         {
-            if (this.Actions == null||Thread.CurrentThread.CurrentCulture.ToString()!=Culture)
+            if (this.Actions == null || Thread.CurrentThread.CurrentCulture.ToString() != this.culture)
             {
                 this.RebuildMenuAndActions();
                
@@ -154,7 +154,7 @@ namespace IUDICO.LMS.Models
                     plugin.BuildActions().Where(a =>
                         this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles)));
             }
-            Culture = Thread.CurrentThread.CurrentCulture.ToString();
+            this.culture = Thread.CurrentThread.CurrentCulture.ToString();
         }
 
         protected bool IsPost(MethodInfo action)
