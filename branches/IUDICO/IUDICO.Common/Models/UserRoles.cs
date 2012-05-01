@@ -10,8 +10,8 @@ namespace IUDICO.Common.Models
         None = 0,
         Student = 1,
         Teacher = 2,
-        CourseCreator = 3,
-        Admin = 4
+        Admin = 4,
+        CourseCreator = 8
     }
 
     public static class UserRoles
