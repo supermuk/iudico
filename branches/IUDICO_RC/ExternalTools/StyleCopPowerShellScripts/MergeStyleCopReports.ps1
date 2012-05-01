@@ -1,98 +1,98 @@
 New-Item -ItemType file "FullStyleCopViolations.xml" -force
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Analytics\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.Analytics\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Analytics\obj\Debug\StyleCopViolations.xml"
-$file1 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Analytics\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.Analytics\obj\Debug\StyleCopViolations.xml"
+$file1 = Get-Content "IUDICO.Analytics\obj\Debug\StyleCopViolations.xml"
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Common\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.Common\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Common\obj\Debug\StyleCopViolations.xml"
-$file2 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Common\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.Common\obj\Debug\StyleCopViolations.xml"
+$file2 = Get-Content "IUDICO.Common\obj\Debug\StyleCopViolations.xml"
 
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.CompileSystem\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.CompileSystem\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.CompileSystem\obj\Debug\StyleCopViolations.xml"
-$file3 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.CompileSystem\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.CompileSystem\obj\Debug\StyleCopViolations.xml"
+$file3 = Get-Content "IUDICO.CompileSystem\obj\Debug\StyleCopViolations.xml"
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.CourseManagement\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.CourseManagement\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.CourseManagement\obj\Debug\StyleCopViolations.xml"
-$file4 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.CourseManagement\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.CourseManagement\obj\Debug\StyleCopViolations.xml"
+$file4 = Get-Content "IUDICO.CourseManagement\obj\Debug\StyleCopViolations.xml"
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.CurriculumManagement\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.CurriculumManagement\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.CurriculumManagement\obj\Debug\StyleCopViolations.xml"
-$file5 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.CurriculumManagement\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.CurriculumManagement\obj\Debug\StyleCopViolations.xml"
+$file5 = Get-Content "IUDICO.CurriculumManagement\obj\Debug\StyleCopViolations.xml"
 
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.DisciplineManagement\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.DisciplineManagement\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.DisciplineManagement\obj\Debug\StyleCopViolations.xml"
-$file6 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.DisciplineManagement\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.DisciplineManagement\obj\Debug\StyleCopViolations.xml"
+$file6 = Get-Content "IUDICO.DisciplineManagement\obj\Debug\StyleCopViolations.xml"
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.LMS\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.LMS\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.LMS\obj\Debug\StyleCopViolations.xml"
-$file7 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.LMS\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.LMS\obj\Debug\StyleCopViolations.xml"
+$file7 = Get-Content "IUDICO.LMS\obj\Debug\StyleCopViolations.xml"
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Search\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.Search\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Search\obj\Debug\StyleCopViolations.xml"
-$file8 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Search\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.Search\obj\Debug\StyleCopViolations.xml"
+$file8 = Get-Content "IUDICO.Search\obj\Debug\StyleCopViolations.xml"
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Security\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.Security\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Security\obj\Debug\StyleCopViolations.xml"
-$file9 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Security\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.Security\obj\Debug\StyleCopViolations.xml"
+$file9 = Get-Content "IUDICO.Security\obj\Debug\StyleCopViolations.xml"
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Statistics\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.Statistics\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Statistics\obj\Debug\StyleCopViolations.xml"
-$file10 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.Statistics\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.Statistics\obj\Debug\StyleCopViolations.xml"
+$file10 = Get-Content "IUDICO.Statistics\obj\Debug\StyleCopViolations.xml"
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.TestingSystem\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.TestingSystem\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.TestingSystem\obj\Debug\StyleCopViolations.xml"
-$file11 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.TestingSystem\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.TestingSystem\obj\Debug\StyleCopViolations.xml"
+$file11 = Get-Content "IUDICO.TestingSystem\obj\Debug\StyleCopViolations.xml"
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.UnitTests\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.UnitTests\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.UnitTests\obj\Debug\StyleCopViolations.xml"
-$file12 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.UnitTests\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.UnitTests\obj\Debug\StyleCopViolations.xml"
+$file12 = Get-Content "IUDICO.UnitTests\obj\Debug\StyleCopViolations.xml"
 
 
-(Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.UserManagement\obj\Debug\StyleCopViolations.xml") | 
+(Get-Content "IUDICO.UserManagement\obj\Debug\StyleCopViolations.xml") | 
 Foreach-Object { $_ -replace '<StyleCopViolations />', '' } | 
 Foreach-Object { $_ -replace '<StyleCopViolations>', '' } |
 Foreach-Object { $_ -replace '</StyleCopViolations>', '' } |
-Set-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.UserManagement\obj\Debug\StyleCopViolations.xml"
-$file13 = Get-Content "C:\Users\Administrator\.hudson\jobs\IUDICO\workspace\IUDICO.UserManagement\obj\Debug\StyleCopViolations.xml"
+Set-Content "IUDICO.UserManagement\obj\Debug\StyleCopViolations.xml"
+$file13 = Get-Content "IUDICO.UserManagement\obj\Debug\StyleCopViolations.xml"
 
 
 Add-Content "FullStyleCopViolations.xml" $file1
