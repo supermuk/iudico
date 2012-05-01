@@ -19,7 +19,7 @@
     </p>
 
     <div id="catalog" dir="<%=Html.ResolveUrl("/Content/images/status_icon_delete.png")%> ">
-        <%:Localization.GetMessage("Roles") %>
+        <h2><%:Localization.GetMessage("Roles") %></h2>
         <ul>
             <li class="example1">Student</li>
             <li class="example1">Teacher</li>
@@ -41,22 +41,22 @@
                     <th>
                         <%=Localization.GetMessage("Loginn")%>
                     </th>
-                    <th>
+                    <th  class="checkboxColumn">
                         <%=Localization.GetMessage("Active")%>
                     </th>
-                    <th>
-                        Roles
+                    <th class="bigColumn">
+                        <%=Localization.GetMessage("Roles")%>
                     </th>
-                    <th>
+                    <th class="normalColumn">
                         <%=Localization.GetMessage("ApprovedBy")%>
                     </th>
-                    <th>
+                    <th class="normalColumn">
                         <%=Localization.GetMessage("CreationDate")%>
                     </th>
-                    <th>
+                    <th class="normalColumn">
                         <%=Localization.GetMessage("Groups")%>
                     </th>
-                    <th>
+                    <th class="actionsColumn">
                     </th>
                 </tr>
             </thead>
@@ -255,6 +255,7 @@
                 "sPaginationType": "full_numbers",
                 iDisplayLength: 50,
                 "bSort": true,
+                "bAutoWidth": false,
                 "aoColumns": [
                 null,
                 null,
@@ -270,7 +271,6 @@
                     $(function () {
 
                         var src = document.getElementById('catalog').dir;
-                        $("#catalog").accordion();
                         $("#catalog li").draggable({
                             appendTo: "body",
                             helper: "clone"
@@ -330,7 +330,7 @@
     <style type="text/css">
         #catalog
         {
-            width: 150px;
+
         }
         #cart ol
         {
@@ -354,7 +354,7 @@
             text-align: center;
             display: inline-block;
             margin: 4px;
-            padding: 2px;
+            padding: 2px 5px;
         }
         
         .example1:hover

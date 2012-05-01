@@ -223,7 +223,7 @@
     <p>
         <a href="#" onclick="addCourse();"><%: Localization.GetMessage("CreateNew")%></a>
         |
-        <a  href="#" ><%: Localization.GetMessage("Import")%></a>
+        <a  href="/Course/Import" ><%: Localization.GetMessage("Import")%></a>
         |
         <a id="DeleteMany" href="#"><%: Localization.GetMessage("DeleteSelected")%></a>
     </p>
