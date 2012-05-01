@@ -387,4 +387,7 @@
   <data name="Topic_Not_Found" xml:space="preserve">
     <value>Topic you had requested was not found!</value>
   </data>
+  <data name="Course_Not_Found" xml:space="preserve">
+    <value>Course you had requested was not found!</value>
+  </data>
 </root>

@@ -734,13 +734,13 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             this.selenium.Open("/Training/Play/" + this.topicId + "/" + "-1" + "/" + "Test");
             selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
-            Assert.IsTrue(selenium.IsTextPresent("Не вдалось знайти обрану тему!"));
+            Assert.IsTrue(selenium.IsTextPresent("Не вдалось знайти обраний курс!"));
             Assert.IsTrue(selenium.IsElementPresent("css=a[href='/']"));
 
             this.selenium.Open("/Training/Play/" + this.topicId + "/" + "0" + "/" + "Test");
             selenium.WaitForPageToLoad(LoadTime);
             Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
-            Assert.IsTrue(selenium.IsTextPresent("Не вдалось знайти обрану тему!"));
+            Assert.IsTrue(selenium.IsTextPresent("Не вдалось знайти обраний курс!"));
             Assert.IsTrue(selenium.IsElementPresent("css=a[href='/']"));
         }
 
