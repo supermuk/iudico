@@ -117,11 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlgorithmOutput" xml:space="preserve">
+    <value>Algorithm Output</value>
+  </data>
   <data name="Analytics" xml:space="preserve">
     <value>Analytics</value>
   </data>
+  <data name="Anomalities" xml:space="preserve">
+    <value>Anomalities</value>
+  </data>
+  <data name="Anomaly" xml:space="preserve">
+    <value>Anomaly</value>
+  </data>
   <data name="AnomalyDetection" xml:space="preserve">
     <value>Anomaly detection</value>
+  </data>
+  <data name="AnomalyOwnershipWarning" xml:space="preserve">
+    <value>Sorry, but you can use Anomaly Detection algorithm only to topics that you owned.</value>
   </data>
   <data name="Created" xml:space="preserve">
     <value>Created</value>
@@ -129,8 +141,14 @@
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="DisciplineTopicQuality" xml:space="preserve">
+    <value>Discipline and Topic Quality</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Group Name</value>
   </data>
   <data name="HelloAnalytics" xml:space="preserve">
     <value>Hello Analytics!</value>
@@ -141,17 +159,41 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="NoGroupsAvailableForThisTopic" xml:space="preserve">
+    <value>No Groups Available For This Topic</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
   <data name="Recommended" xml:space="preserve">
     <value>Recommended</value>
   </data>
   <data name="Recommender" xml:space="preserve">
     <value>Recommender</value>
   </data>
+  <data name="SelectGroup" xml:space="preserve">
+    <value>Select Group</value>
+  </data>
+  <data name="StudentName" xml:space="preserve">
+    <value>Student Name</value>
+  </data>
+  <data name="StudentScore" xml:space="preserve">
+    <value>Student Score</value>
+  </data>
+  <data name="StudentTime" xml:space="preserve">
+    <value>Student Time</value>
+  </data>
   <data name="Tags" xml:space="preserve">
     <value>Tags</value>
   </data>
   <data name="Teach" xml:space="preserve">
     <value>Teach</value>
+  </data>
+  <data name="TopicName" xml:space="preserve">
+    <value>Topic Name</value>
+  </data>
+  <data name="TrainTopic" xml:space="preserve">
+    <value>Train Topic</value>
   </data>
   <data name="Updated" xml:space="preserve">
     <value>Updated</value>

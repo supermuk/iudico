@@ -45,7 +45,7 @@ namespace IUDICO.Analytics
         {
             return new[]
                        {
-                           ////new Action(Localization.GetMessage("Analytics"), "Stats/Index"),
+                           new Action(Localization.GetMessage("Analytics"), "Stats/Index"),
                            new Action(Localization.GetMessage("Tags"), "Tags/Index"),
                            new Action(Localization.GetMessage("Recommender"), "Recommender/Index"),
                            new Action(Localization.GetMessage("AnomalyDetection"), "AnomalyDetection/Index")

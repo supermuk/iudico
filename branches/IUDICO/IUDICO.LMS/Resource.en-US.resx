@@ -175,7 +175,7 @@
     <value>Save&amp;nbsp;&amp;amp; Close</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
-    <value>AccessDenied</value>
+    <value>Access Denied</value>
   </data>
   <data name="Loginn" xml:space="preserve">
     <value>Login</value>
@@ -185,6 +185,9 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>ОК</value>
   </data>
   <data name="Recommended" xml:space="preserve">
     <value>Recommended</value>
