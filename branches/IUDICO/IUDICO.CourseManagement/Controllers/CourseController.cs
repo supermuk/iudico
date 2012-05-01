@@ -54,7 +54,7 @@ namespace IUDICO.CourseManagement.Controllers
                 Created = i.Created,
                 Updated = i.Updated,
                 Locked = i.Locked ?? false,
-                Shared = i.Owner != currentUser.UserId,
+                Shared = i.Owner != currentUser.Username,
                 OwnerName = dic.ContainsKey(i.Owner) ? dic[i.Owner] : i.Owner,
                 UpdatedByName = i.UpdatedBy
             });
