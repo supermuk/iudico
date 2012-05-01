@@ -57,9 +57,6 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                     new User { Username = "name2", Email = "mail2@mail.com", Password = "123" }, 
                 };
 
-            this.tests.MockDatabaseStorage.Setup(s => s.GetCurrentUser()).Returns(
-                this.tests.Storage.GetUser("panza"));
-
             foreach (var user in users)
             {
                 this.tests.Storage.CreateUser(user);
@@ -161,6 +158,20 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             {
                 Assert.IsFalse(this.tests.Storage.GetUserRoles(user.Username).Contains(roles.Single()));
             }
+        }
+
+        [Test]
+        public void RolesAvailableToUser()
+        {
+            this.tests.Storage.CreateUser(new User { Username = "name123", Email = "mail1@mail.com", Password = "123" });
+
+            this.tests.Storage.AddUserToRole(Role.Teacher, this.tests.Storage.GetUser("name123"));
+
+            Assert.IsFalse(this.tests.Storage.GetRolesAvailableToUser(this.tests.Storage.GetUser("name123")).Contains(Role.Teacher));
+
+            this.tests.Storage.RemoveUserFromRole(Role.Teacher, this.tests.Storage.GetUser("name123"));
+
+            this.tests.Storage.DeleteUser(u => u.Username == "name123");
         }
     }
 }

@@ -25,6 +25,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.AddUserToGroup(group, temp);
             Assert.IsTrue(this.tests.Storage.GetGroupsByUser(temp).Contains(group));
 
+            this.tests.Storage.RemoveUserFromGroup(group, temp);
             this.tests.Storage.DeleteGroup(group.Id);
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
