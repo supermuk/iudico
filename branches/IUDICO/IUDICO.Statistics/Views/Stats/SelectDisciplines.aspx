@@ -9,29 +9,6 @@
     <%: ViewData["Group"]%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <script type="text/javascript" language="javascript">
-        $(document).ready(function () {
-            $("#curriculumsTable").dataTable({
-                "bJQueryUI": true,
-                "bPaginate": false,
-                "bLengthChange": false,
-                "bFilter": true,
-                "bSort": false,
-                "bInfo": false,
-                "bAutoWidth": true
-                });
-            });
-        
-
-        function checkBox() {
-            if ($('input:checkbox:checked').length == 0) {
-                alert('<%=Localization.GetMessage("SelectDiscipline")%>')
-            }
-            else {
-                $('#curform').submit();
-            }
-        }
-    </script>
     <% if (Model.Count() != 0)
        { %>
     <h2>
@@ -76,7 +53,7 @@
                 <% } %>
             </tbody>
         </table>
-        <br/>
+        <br />
         <input type="button" class="submit_button" value='<%=Localization.GetMessage("Show") %>'
             onclick="checkBox();" />
         </form>
@@ -91,4 +68,33 @@
     <%} %>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+            $("#curriculumsTable").dataTable({
+                "bJQueryUI": true,
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bSort": false,
+                "bInfo": false,
+                "bAutoWidth": true
+            });
+        });
+
+        function checkBox() {
+            if ($('input:checkbox:checked').length == 0) {
+                alert('<%=Localization.GetMessage("SelectDiscipline")%>');
+            }
+            else {
+                $('#curform').submit();
+            }
+        }
+    </script>
+
+    <style type="text/css">
+        .dataTables_wrapper
+        {
+        	min-height: 100px;
+        }
+    </style>
 </asp:Content>
