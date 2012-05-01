@@ -29,7 +29,7 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult SelectGroup(int topicId)
         {
-            var availableGroups = this.storage.AvailebleGroups(topicId);
+            var availableGroups = this.storage.AvailableGroups(topicId);
             
             HttpContext.Session["TopicId"] = topicId;
 
