@@ -7,6 +7,7 @@ using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using IUDICO.Analytics.Models;
 using IUDICO.Analytics.Models.Storage;
+using IUDICO.Common;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Services;
@@ -44,10 +45,10 @@ namespace IUDICO.Analytics
         {
             return new[]
                        {
-                           new Action("Analytics", "Stats/Index"),
-                           new Action("Tags", "Tags/Index"),
-                           new Action("Recommender", "Recommender/Index"),
-                           new Action("Anomaly detection", "AnomalyDetection/Index")
+                           //new Action(Localization.GetMessage("Analytics"), "Stats/Index"),
+                           new Action(Localization.GetMessage("Tags"), "Tags/Index"),
+                           new Action(Localization.GetMessage("Recommender"), "Recommender/Index"),
+                           new Action(Localization.GetMessage("AnomalyDetection"), "AnomalyDetection/Index")
                        };
         }
 
@@ -55,7 +56,7 @@ namespace IUDICO.Analytics
         {
             return new[]
                        {
-                           new MenuItem("Analytics", "Analytics", "Index"),
+                        new MenuItem(Localization.GetMessage("Analytics"), "Analytics", "Index"),
                        };
         }
 

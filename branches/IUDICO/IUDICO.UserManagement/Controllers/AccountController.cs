@@ -306,7 +306,6 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult ChangeCulture(string lang, string returnUrl)
         {
             this.Session["Culture"] = new CultureInfo(lang);
-
             return this.Redirect(returnUrl);
         }
 

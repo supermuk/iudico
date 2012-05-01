@@ -89,7 +89,8 @@
             {%>
         <h4><%= plugin.Key.GetName() %></h4>
         <ul>
-        <% foreach (var item in plugin.Value)
+        <% 
+               foreach (var item in plugin.Value)
             { %>
             <li><a href="<%= item.Link %>"><%= item.Name %></a></li>
         <% } %>

@@ -26,7 +26,12 @@
         </div>
     </td>
     <td>
+<<<<<<< .mine
+        <a href="#" onclick="editCourse(<%: Model.Id %>)"><%=Localization.GetMessage("Edit")%></a>
+        |
+=======
         <a href="#" onclick="editCourse(<%: Model.Id %>)" class="buttonEdit button" title="<%: Localization.GetMessage("Rename") %>"></a>
+>>>>>>> .r1972
         <% if(Model.Locked) { %>
             <%: MvcHtmlString.Create(Html.ActionLink("[temp]", "Parse", "Course", new { CourseID = Model.Id }, new { @class = "buttonUnlock button", title = Localization.GetMessage("Unlock") }).ToString().Replace("[temp]", ""))%>
         <% }
@@ -34,10 +39,19 @@
            { %>
             <%: MvcHtmlString.Create(Html.ActionLink("[temp]", "Publish", new { CourseID = Model.Id }, new { @class = "buttonLock button", title = Localization.GetMessage("Lock") }).ToString().Replace("[temp]", "")) %>
         <% }  %>
+<<<<<<< .mine
+        |
+        <%: Html.ActionLink(Localization.GetMessage("Export"), "Export", new { CourseID = Model.Id })%>
+        |
+        <%: Ajax.ActionLink(Localization.GetMessage("Delete"), "Delete", new { CourseID = Model.Id }, new AjaxOptions { Confirm = Localization.GetMessage("AreYouSureYouWantToDelete") + Model.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" })%>
+        |
+        <a href="#" onclick="shareCourse(<%: Model.Id %>)"><%=Localization.GetMessage("Share") %></a>
+=======
         <a href="<%: Url.Action("Export", new { CourseID = Model.Id })%>" title="<%: Localization.GetMessage("Export") %>" class="buttonExport button"></a>
         
         
         <%: MvcHtmlString.Create(Ajax.ActionLink("[temp]", "Delete", new { CourseID = Model.Id }, new AjaxOptions { Confirm = "Are you sure you want to delete \"" + Model.Name + "\"?", HttpMethod = "Delete", OnSuccess = "removeRow" }, new { @class = "buttonDelete button", title = Localization.GetMessage("Delete") }).ToString().Replace("[temp]", ""))%>
         <a href="#" onclick="shareCourse(<%: Model.Id %>)" class="buttonShare button" title="<%: Localization.GetMessage("Share") %>"></a>
+>>>>>>> .r1972
     </td>
 </tr>
