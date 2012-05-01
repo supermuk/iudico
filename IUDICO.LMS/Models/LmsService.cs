@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Threading;
 using IUDICO.Common;
 using IUDICO.Common.Models.Services;
 using Castle.Windsor;
@@ -18,7 +19,7 @@ namespace IUDICO.LMS.Models
     public class LmsService : ILmsService
     {
         protected readonly IWindsorContainer Container;
-
+        protected string Culture;
         protected readonly string ServerPath;
 
         protected Menu Menu
@@ -67,7 +68,7 @@ namespace IUDICO.LMS.Models
 
         public Menu GetMenu()
         {
-            if (this.Menu == null)
+            if (this.Menu == null || Thread.CurrentThread.CurrentCulture.ToString() != Culture)
                 this.RebuildMenuAndActions();
 
             return this.Menu;
@@ -75,9 +76,11 @@ namespace IUDICO.LMS.Models
 
         public Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> GetActions()
         {
-            if (this.Actions == null)
+            if (this.Actions == null||Thread.CurrentThread.CurrentCulture.ToString()!=Culture)
+            {
                 this.RebuildMenuAndActions();
-
+               
+            }
             return this.Actions;
         }
 
@@ -151,6 +154,7 @@ namespace IUDICO.LMS.Models
                     plugin.BuildActions().Where(a =>
                         this.IsAllowed(a.Link.Split('/').First(), a.Link.Split('/').Skip(1).First(), roles)));
             }
+            Culture = Thread.CurrentThread.CurrentCulture.ToString();
         }
 
         protected bool IsPost(MethodInfo action)

@@ -117,7 +117,43 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Analytics" xml:space="preserve">
+    <value>Аналітика</value>
+  </data>
+  <data name="AnomalyDetection" xml:space="preserve">
+    <value>Виявлення Аномалій</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Створено</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
+  <data name="HelloAnalytics" xml:space="preserve">
+    <value>Аналітика</value>
+  </data>
+  <data name="MakeForecasting" xml:space="preserve">
+    <value>Спрогнозувати</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Ім'я</value>
+  </data>
   <data name="Recommended" xml:space="preserve">
     <value>Рекомендовані</value>
+  </data>
+  <data name="Recommender" xml:space="preserve">
+    <value>Рекомендації</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Відмітки</value>
+  </data>
+  <data name="Teach" xml:space="preserve">
+    <value>Навчити</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Оновлено</value>
   </data>
 </root>
