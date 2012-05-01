@@ -450,4 +450,7 @@
   <data name="Submit" xml:space="preserve">
     <value>Надіслати</value>
   </data>
+  <data name="Me" xml:space="preserve">
+    <value>Я</value>
+  </data>
 </root>

@@ -393,4 +393,7 @@
   <data name="DeleteAvatar" xml:space="preserve">
     <value>Delete Avatar</value>
   </data>
+  <data name="AreYouSureYouWantToDelete" xml:space="preserve">
+    <value>Are You sure you want to delete</value>
+  </data>
 </root>
