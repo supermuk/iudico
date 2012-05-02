@@ -217,11 +217,11 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             AdvAssert.AreEqual(expectedTopics, actualTopics, false);
         }
 
-        //[Test]
-        //public void MakeDisciplineInvalid() {
-        //    this.DataPreparer.CreateDisciplinesSet4();            
-        //    Assert.AreEqual(false, this.DisciplineStorage.GetDiscipline(id).IsValid);
-        //}
+        // [Test]
+        // public void MakeDisciplineInvalid() {
+        //     this.DataPreparer.CreateDisciplinesSet4();            
+        //     Assert.AreEqual(false, this.DisciplineStorage.GetDiscipline(id).IsValid);
+        // }
 
         #endregion
 
