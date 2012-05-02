@@ -6,22 +6,48 @@
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+    <%: Html.ActionLink("Back", "Index")%>
     <fieldset>
-    <legend>Discipline/Topics Quality</legend>
+    <legend>Discipline-Topics Quality</legend>
     <%if (Model.NoData() == false)
       { %>
        
-        <h3>
-        Discipline: <%: Model.GetDisciplineName()%> , Quality: <%: Model.GetDisciplineQuality()%>
-        </h3>
-        
-        <% for (int i = 1; i < Model.GetAllowedTopics().Count+1;i++ )
-           {%>
-                <p>
-                <%: i%>. <%: Model.GetAllowedTopics()[i-1].Key.Name%> - <%: Model.GetAllowedTopics()[i-1].Value%> 
-                </p>
-            <%} %>               
+        <table>     
+     <tr>
+        <th>Discipline</th>
+        <th>Quality</th>
+     </tr>   
+        <tr>
+            <td>
+            <%: Model.GetDisciplineName()%>
+            </td>
+            <td>
+            <%: Model.GetDisciplineQuality()%>
+            </td>
+        </tr>  
+     </table>
+        <br/>
+     <table>     
+     <tr>
+        <th>Topic</th>
+        <th>Quality</th>
+     </tr>
+     <%
+          foreach (var topic in Model.GetAllowedTopics())
+         {%>
+        <tr>
+            <td>
+            <%:topic.Key.Name%>
+            </td>
+            <td>
+            <%:topic.Value%>
+            </td>
+        </tr>
+     <%
+         }%>
+
+     </table>
+                      
         <%}
       else
       { %>

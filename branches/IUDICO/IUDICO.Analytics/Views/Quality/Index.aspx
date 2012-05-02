@@ -9,7 +9,7 @@ SelectDisciplines
 
     <h2>Discipline Quality</h2>
     <fieldset>
-    <legend>Select Discipline</legend>
+    <legend>Please, Select Discipline :</legend>
     <%if (Model.Count() != 0 && Model != null )
       { %>
         
