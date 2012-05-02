@@ -423,8 +423,8 @@
   <data name="SelectedNodes" xml:space="preserve">
     <value>Selected Nodes</value>
   </data>
-  <data name="ChoiseExit" xml:space="preserve">
-    <value>Choise Exit</value>
+  <data name="ChoiceExit" xml:space="preserve">
+    <value>Choice Exit</value>
   </data>
   <data name="CompletionSetByContent" xml:space="preserve">
     <value>Completion Set By Content</value>
