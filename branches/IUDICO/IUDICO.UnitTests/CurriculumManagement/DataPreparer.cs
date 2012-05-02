@@ -58,7 +58,8 @@ namespace IUDICO.UnitTests.CurriculumManagement
                 {
                     new Course { Id = 1, Name = "Course1", Owner = "panza" }, 
                     new Course { Id = 2, Name = "Course2", Owner = "panza" }, 
-                    new Course { Id = 3, Name = "Course3", Owner = "ozo" }
+                    new Course { Id = 3, Name = "Course3", Owner = "ozo" },
+                    new Course { Id = 4, Name = "Course4", Owner = "ozo", Deleted = true}
                 };
         }
 
