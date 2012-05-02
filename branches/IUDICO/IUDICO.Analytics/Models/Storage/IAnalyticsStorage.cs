@@ -41,5 +41,8 @@ namespace IUDICO.Analytics.Models.Storage
         IEnumerable<KeyValuePair<User, double[]>> GetStudentListForTraining(int topicId, int groupId);
 
         #endregion
+
+        double GaussianDistribution(Topic topic);
+        double GetTopicStatistic(Topic topic);
     }
 }
