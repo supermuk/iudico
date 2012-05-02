@@ -54,7 +54,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
         {
             ExSelenium.Selenium = selenium;
             ExSelenium.Timeout = LoadTime;
-            selenium.SetSpeed("200");
+            //selenium.SetSpeed("100");
 
             selenium.Open("/");
             selenium.WaitForPageToLoad(LoadTime);
@@ -111,7 +111,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             this.DeleteGroup(this.groupName, this.userName, UserPassword);
             this.DeleteUser(this.userId, this.userName, AdminName, AdminPassword);
             this.Logout();
-            selenium.SetSpeed("0");
+            //selenium.SetSpeed("0");
         }
 
         private void ChangeCulture()
@@ -902,7 +902,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             selenium.WaitForPageToLoad(LoadTime);
             selenium.WaitForPageToLoad(LoadTime);
+            selenium.WaitForPageToLoad(LoadTime);
 
+            this.WaitForText("Результати", LoadTime);
             Assert.IsTrue(selenium.IsTextPresent("Результати"));
 
             selenium.Open("/");
@@ -1046,6 +1048,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             selenium.WaitForPageToLoad(LoadTime);
             selenium.WaitForPageToLoad(LoadTime);
 
+            this.WaitForText("Результати", LoadTime);
             Assert.IsTrue(selenium.IsTextPresent("Результати"));
           
         }
