@@ -127,7 +127,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void GetCourseUsersNotFoundTest()
         {
             var courses = this.Storage.GetCourseUsers(-1);
-            Assert.AreEqual(courses.Count(), 0);
+            Assert.AreEqual(0, courses.Count());
         }
 
         [Test]
@@ -145,7 +145,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             guids.Add(new Guid("88345200-abe8-4f60-90c8-0d43c5f6c0f6"));
             this.Storage.UpdateCourseUsers(1, guids.AsEnumerable());
 
-            Assert.AreEqual(5, this.Storage.GetCourseUsers(1).Count()); // Expected: 0 But was: 3
+            Assert.AreEqual(2, this.Storage.GetCourseUsers(1).Count()); // Expected: 0 But was: 3
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             guids.Add(new Guid("88345200-abe8-4f60-90c8-0d43c5f6c0f6"));
             this.Storage.UpdateCourseUsers(100, guids.AsEnumerable());
 
-            Assert.AreEqual(3, this.Storage.GetCourseUsers(1).Count()); // Expected: 4 But was: 3
+            Assert.AreEqual(2, this.Storage.GetCourseUsers(100).Count()); // Expected: 4 But was: 3
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             var guids = new List<Guid>();
             this.Storage.UpdateCourseUsers(1, guids.AsEnumerable());
 
-            Assert.AreEqual(3, this.Storage.GetCourseUsers(1).Count()); // Expected: 0 But was: 3
+            Assert.AreEqual(0, this.Storage.GetCourseUsers(1).Count()); // Expected: 0 But was: 3
         }
 
         [Test]
