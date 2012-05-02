@@ -48,6 +48,7 @@ namespace IUDICO.Analytics.Controllers
                 {
                     List<double> quality = new List<double>();
                     quality.Add(this.storage.GetScoreRatingTopicStatistic(topic, groups));
+                    quality.Add(this.storage.GaussianDistribution(topic));
                     tempDisciplineQuality += quality.Sum() / quality.Count;
                     temp.Add(new KeyValuePair<Topic, double>(topic, quality.Sum() / quality.Count));
                 }
