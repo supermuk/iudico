@@ -58,7 +58,7 @@ namespace IUDICO.LMS
         {
             // AppDomain.CurrentDomain.SetupInformation.PrivateBinPath = "Plugins";
             // AppDomain.CurrentDomain.AppendPrivatePath(Server.MapPath("/Plugins"));
-            // AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
+            AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomain_AssemblyResolve;
 
             this.InitializeWindsor();
 
@@ -96,11 +96,11 @@ namespace IUDICO.LMS
             ((IoCRoleProvider)Roles.Provider).Initialize(this.Container.Resolve<RoleProvider>());
         }
 
-        // Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        // {
-        //    // log error
-        //    throw new NotImplementedException(args.RequestingAssembly.FullName);
-        // }
+        Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            // log error
+            throw new NotImplementedException(args.RequestingAssembly.FullName);
+        }
 
         protected void Application_End()
         {
