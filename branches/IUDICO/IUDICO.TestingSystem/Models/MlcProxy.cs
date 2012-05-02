@@ -363,13 +363,21 @@ namespace IUDICO.TestingSystem.Models
             {
                 var attemptResult = new AttemptResult();
 
-                foreach (var condition in conditions)
+                try
                 {
-                    this.ParseAttemptResultField(condition.Value, condition.ColumnName, ref attemptResult);
+                    foreach (var condition in conditions)
+                    {
+                        this.ParseAttemptResultField(condition.Value, condition.ColumnName, ref attemptResult);
+                    }
+                    foreach (var queryColumn in queryColumns)
+                    {
+                        this.ParseAttemptResultField(dataRow[queryColumn], queryColumn, ref attemptResult);
+                    }
                 }
-                foreach (var queryColumn in queryColumns)
+                catch (NoNullAllowedException)
                 {
-                    this.ParseAttemptResultField(dataRow[queryColumn], queryColumn, ref attemptResult);
+                    // skip not actual attempt results
+                    continue;
                 }
 
                 yield return attemptResult;
@@ -446,7 +454,7 @@ namespace IUDICO.TestingSystem.Models
                 case Schema.AllAttemptsResults.UserItemKey:
                     string userKey;
                     LStoreHelper.CastNonNull(rawValue, out userKey);
-                    var user = this.UserService.GetUsers().Single(curr => curr.Id.ToString() == userKey);
+                    var user = this.UserService.GetUsers().SingleOrDefault(curr => curr.Id.ToString() == userKey);
                     if (user == null)
                     {
                         throw new NoNullAllowedException("Error while getting user with id = " + userKey);
