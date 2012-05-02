@@ -4,33 +4,35 @@ using System.Linq;
 using System.Web;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
-
+using IUDICO.Analytics.Models.Storage;
 namespace IUDICO.Analytics.Models.Quality
 {
     public class DisciplineModel
     {
-        private IEnumerable<Discipline> allowedDisciplines;
-        public DisciplineModel(ILmsService ilmsService)
+        private List<KeyValuePair<Topic, double>> allowedTopics;
+        private string disciplineName;
+        private double disciplineQuality;
+        public DisciplineModel(List<KeyValuePair<Topic, double>> allowedTopics, string disciplineName, double disciplineQuality)
         {
-            IEnumerable<Discipline> temp_allowedDisciplines;
-            temp_allowedDisciplines = ilmsService.FindService<IDisciplineService>().GetDisciplines();
-            if (temp_allowedDisciplines != null & temp_allowedDisciplines.Count() != 0)
-            {
-                this.allowedDisciplines = temp_allowedDisciplines;
-            }
-            else
-            {
-                this.allowedDisciplines = null;
-            }
+            this.allowedTopics = allowedTopics;
+            this.disciplineName = disciplineName;
+            this.disciplineQuality = disciplineQuality;
+        }
+        public string GetDisciplineName()
+        {
+            return this.disciplineName;
+        }
+        public double GetDisciplineQuality()
+        {
+            return this.disciplineQuality;
         }
         public bool NoData()
         {
-            return this.allowedDisciplines == null;
+            return this.allowedTopics == null;
         }
-        public IEnumerable<Discipline> GetAllowedDisciplines()
+        public List<KeyValuePair<Topic, double>> GetAllowedTopics()
         {
-            return this.allowedDisciplines;
+            return this.allowedTopics;
         }
     }
-
 }

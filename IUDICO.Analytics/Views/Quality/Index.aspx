@@ -1,5 +1,5 @@
 ﻿<%@ Assembly Name="IUDICO.Analytics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Analytics.Models.Quality.DisciplineModel>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Discipline>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 SelectDisciplines
@@ -10,11 +10,11 @@ SelectDisciplines
     <h2>Discipline Quality</h2>
     <fieldset>
     <legend>Select Discipline</legend>
-    <%if (Model.NoData() == false)
+    <%if (Model.Count() != 0 && Model != null )
       { %>
         
-        <form action="/Quality/SelectDiscipline/" method="post">
-        <% foreach (var discipline in Model.GetAllowedDisciplines())
+        <form action="/Quality/ShowDiscipline/" method="post">
+        <% foreach (var discipline in Model)
            {%>
                 <div>
                 <input type="radio" name="selectDisciplineId" value="<%: discipline.Id %>" checked="checked" />
