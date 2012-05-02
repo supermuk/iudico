@@ -70,7 +70,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public IEnumerable<User> GetCourseUsers(int courseId)
         {
-            return this.cacheProvider.Get<IEnumerable<User>>("courseusers", @lockObject, () => this.storage.GetCourseUsers(courseId), DateTime.Now.AddDays(1), "courseusers");
+            return this.cacheProvider.Get("courseusers-" + courseId, @lockObject, () => this.storage.GetCourseUsers(courseId), DateTime.Now.AddDays(1), "courseusers");
         }
 
         public void UpdateCourse(int id, Course course)
