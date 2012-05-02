@@ -208,7 +208,9 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 selenium.GetAlert();
             }
 
-            selenium.Type("xpath=/html/body/div/div[2]/div[3]/div/div/div[2]/input", userLogin);
+            ExSelenium.WaitForElement("xpath=/html/body/div/div[2]/div[2]/div[3]/div/div/div[2]/input");
+
+            selenium.Type("xpath=/html/body/div/div[2]/div[2]/div[3]/div/div/div[2]/input", userLogin);
             ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + userLogin + "')]]/td[8]/a[2]");
 
             selenium.Click("xpath=//table//tr[td//text()[contains(., '" + userLogin + "')]]/td[8]/a[2]");
@@ -252,7 +254,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             if (!selenium.IsTextPresent(courseNameP))
             {
-                selenium.Click("css=a[href='/Course/Import']");
+                selenium.Click("xpath=/html/body/div/div[2]/div[2]/p/a[2]");
                 selenium.WaitForPageToLoad(LoadTime);
                 selenium.AttachFile("name=fileUpload", courseUriP);
                 selenium.Click("css=input[id='Import']");
@@ -277,12 +279,13 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                     string temp = selenium.GetAlert();                   
                 }
 
-                selenium.Type("xpath=/html/body/div/div[2]/div[2]/div/div/div[2]/input", courseNameP);
+                ExSelenium.WaitForElement("xpath=/html/body/div/div[2]/div[2]/div/div/div/div[2]/input");
+                selenium.Type("xpath=/html/body/div/div[2]/div[2]/div/div/div/div[2]/input", courseNameP);
 
 
-                ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a[4]");
+                ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a[5]");
 
-                selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a[4]");
+                selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a[5]");
                 selenium.GetConfirmation();
                 selenium.WaitForPageToLoad(LoadTime);
             }
@@ -309,7 +312,8 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                     selenium.GetAlert();
                 }
 
-                selenium.Type("xpath=/html/body/div/div[2]/div[2]/div/div/div[2]/input", courseNameP);
+                ExSelenium.WaitForElement("xpath=/html/body/div/div[2]/div[2]/div/div/div/div[2]/input");
+                selenium.Type("xpath=/html/body/div/div[2]/div[2]/div/div/div/div[2]/input", courseNameP);
                 ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a");
 
                 while (selenium.IsAlertPresent())
@@ -354,7 +358,8 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             if (selenium.IsTextPresent(courseNameP))
             {
-                selenium.Type("xpath=/html/body/div/div[2]/div[2]/div/div/div[2]/input", courseNameP);
+                ExSelenium.WaitForElement("xpath=/html/body/div/div[2]/div[2]/div/div/div/div[2]/input");
+                selenium.Type("xpath=/html/body/div/div[2]/div[2]/div/div/div/div[2]/input", courseNameP);
                 ExSelenium.WaitForElement("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a[2]");
 
                 selenium.Click("xpath=//table//tr[td//text()[contains(., '" + courseNameP + "')]]/td[4]/a[2]");
@@ -453,7 +458,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 selenium.Open("/Discipline/Create");
                 selenium.WaitForPageToLoad(LoadTime);
                 selenium.Type("id=Name", name);
-                selenium.Click("css=input[value='#Create']");
+                selenium.Click("css=input[value='Створити']");
                 selenium.WaitForPageToLoad(LoadTime);
             }
         }
@@ -894,14 +899,12 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             this.WaitForText("Підтвердити цей курс?", LoadTime);
             Assert.IsTrue(selenium.IsTextPresent("Підтвердити цей курс?"));
             selenium.Click("id=submitBtn");
+
             selenium.WaitForPageToLoad(LoadTime);
-            Assert.IsTrue(selenium.IsTextPresent("Курс пройдений"));
-            Assert.IsTrue(
-                selenium.IsTextPresent("Ви не можете робити будь-які подальші зміни після підтвердження цього курсу."));
-            selenium.SelectFrame("relative=up");
-            selenium.SelectFrame("relative=up");
-            selenium.SelectFrame("relative=up");
-            selenium.SelectWindow(null);
+            selenium.WaitForPageToLoad(LoadTime);
+
+            Assert.IsTrue(selenium.IsTextPresent("Результати"));
+
             selenium.Open("/");
             selenium.WaitForPageToLoad(LoadTime);
 
@@ -1039,15 +1042,12 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             this.WaitForText("Підтвердити цей курс?", LoadTime);
             Assert.IsTrue(selenium.IsTextPresent("Підтвердити цей курс?"));
             selenium.Click("id=submitBtn");
+           
             selenium.WaitForPageToLoad(LoadTime);
             selenium.WaitForPageToLoad(LoadTime);
-            Assert.IsTrue(selenium.IsTextPresent("Курс пройдений"));
-            Assert.IsTrue(
-                selenium.IsTextPresent("Ви не можете робити будь-які подальші зміни після підтвердження цього курсу."));
-            selenium.SelectFrame("relative=up");
-            selenium.SelectFrame("relative=up");
-            selenium.SelectFrame("relative=up");
-            selenium.SelectWindow(null);
+
+            Assert.IsTrue(selenium.IsTextPresent("Результати"));
+          
         }
 
         [Test]
