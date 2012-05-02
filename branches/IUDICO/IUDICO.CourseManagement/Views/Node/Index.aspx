@@ -395,7 +395,7 @@
                     return;
                 }
 
-                var editor = getEditor(data.obj.attr("id").replace("node_", ""));
+                
                 
                 $.ajax({
                     type: 'post',
@@ -404,11 +404,11 @@
 						"id": currentNodeId
 					},
 					success: function (r) {
-                        //var editor = getEditor($.data(editor, 'node-id'));
+                        var editor = getEditor(data.obj.attr("id").replace("node_", ""));
                         editor.ckeditorGet().setData(r.data, function () {
-                            this.resetDirty();
+                            setTimeout(function() { $editor.ckeditorGet().resetDirty(); }, 100);
+                            editor.parent('form').show();
                         });
-                        editor.parent('form').show();
 					}
 				});
             });
