@@ -362,6 +362,7 @@ namespace IUDICO.Analytics.Models.Storage
 
         public double GaussianDistribution(Topic topic)
         {
+            
             var results = this.GetResults(topic).Select(x => (double)x.Score.ScaledScore * 100).ToList();
             if (results == null || results.Count == 0)
             {
