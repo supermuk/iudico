@@ -171,6 +171,20 @@ namespace IUDICO.UserManagement.Models.Storage
             return false;
         }
 
+        public bool UserOpenIdAvailable(string openId, Guid id)
+        {
+            var db = this.GetDbContext();
+            var users = db.Users.Where(u => u.OpenId == openId && u.Deleted == false);
+            var count = users.Count();
+
+            if (count == 0 || (count == 1 && users.First().Id == id))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public void ActivateUser(Guid id)
         {
             var db = this.GetDbContext();

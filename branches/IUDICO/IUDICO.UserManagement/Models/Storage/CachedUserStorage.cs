@@ -99,6 +99,11 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.storage.UserUniqueIdAvailable(userUniqueId, userId);
         }
 
+        public bool UserOpenIdAvailable(string openId, Guid id)
+        {
+            return this.storage.UserOpenIdAvailable(openId, id);
+        }
+
         // TODO: rewrite interface method
         public void ActivateUser(Guid id)
         {

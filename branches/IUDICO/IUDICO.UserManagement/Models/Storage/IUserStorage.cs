@@ -30,6 +30,7 @@ namespace IUDICO.UserManagement.Models.Storage
         IEnumerable<User> GetUsersNotInGroup(Group group);
         bool UsernameExists(string username);
         bool UserUniqueIdAvailable(string userUniqueId, Guid userId);
+        bool UserOpenIdAvailable(string openId, Guid id);
         void ActivateUser(Guid id);
         void DeactivateUser(Guid id);
         User RegisterUser(RegisterModel registerModel);
