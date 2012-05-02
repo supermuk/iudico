@@ -209,7 +209,8 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public int AddCurriculumChapterTopic(CurriculumChapterTopic curriculumChapterTopic)
         {
             var id = this.storage.AddCurriculumChapterTopic(curriculumChapterTopic);
-            this.cacheProvider.Invalidate("curriculums", "curriculum-" + this.storage.GetCurriculumChapterTopic(id).CurriculumChapter.CurriculumRef);
+            var curriculumId = this.storage.GetCurriculumChapter(this.storage.GetCurriculumChapterTopic(id).CurriculumChapterRef).CurriculumRef;
+            this.cacheProvider.Invalidate("curriculums", "curriculum-" + curriculumId);
 
             this.cacheProvider.Invalidate("curriculumchaptertopics");
 
@@ -219,14 +220,17 @@ namespace IUDICO.CurriculumManagement.Models.Storage
         public void UpdateCurriculumChapterTopic(CurriculumChapterTopic curriculumChapterTopic)
         {
             this.storage.UpdateCurriculumChapterTopic(curriculumChapterTopic);
+            var curriculumId = this.storage.GetCurriculumChapter(this.storage.GetCurriculumChapterTopic(curriculumChapterTopic.Id).CurriculumChapterRef).CurriculumRef;
 
-            this.cacheProvider.Invalidate("curriculums", "curriculum-" + this.storage.GetCurriculumChapterTopic(curriculumChapterTopic.Id).CurriculumChapter.CurriculumRef);
+            this.cacheProvider.Invalidate("curriculums", "curriculum-" + curriculumId);
             this.cacheProvider.Invalidate("curriculumchaptertopics", "curriculumchaptertopic-" + curriculumChapterTopic.Id);
         }
 
         public void DeleteCurriculumChapterTopic(int id)
         {
-            this.cacheProvider.Invalidate("curriculums", "curriculum-" + this.storage.GetCurriculumChapterTopic(id).CurriculumChapter.CurriculumRef);
+            var curriculumId = this.storage.GetCurriculumChapter(this.storage.GetCurriculumChapterTopic(id).CurriculumChapterRef).CurriculumRef;
+            
+            this.cacheProvider.Invalidate("curriculums", "curriculum-" + curriculumId);
             this.storage.DeleteCurriculumChapterTopic(id);
 
             this.cacheProvider.Invalidate("curriculumchaptertopics", "curriculumchaptertopic-" + id);
