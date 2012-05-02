@@ -190,9 +190,9 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         }
 
         private bool IsDisciplineValid(Discipline discipline) {
-            var chapters = this.GetDiscipline(discipline.Id).Chapters.Where(item => !item.IsDeleted);
+            var chapters = this.GetChapters(item => item.DisciplineRef == discipline.Id);
             foreach (var chapter in chapters) {
-                var topics = chapter.Topics.Where(item => !item.IsDeleted);
+                var topics = this.GetTopics(item => item.ChapterRef == chapter.Id);
                 foreach (var topic in topics) {
                     if (topic.TheoryCourseRef == null && topic.TestCourseRef == null) {
                         return false;
@@ -217,16 +217,16 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         public void MakeDisciplinesInvalid(int courseId)
         {
             var db = this.GetDbContext();
-            var topics = db.Topics.Where(item => (item.TestCourseRef == courseId || item.TheoryCourseRef == courseId));
-            var chapters = topics.Select(item => item.Chapter);
+            var topics = db.Topics.Where(item => !item.IsDeleted && (item.TestCourseRef == courseId || item.TheoryCourseRef == courseId));
+            var chapters = topics.Select(item => db.Chapters.Single(chap => !chap.IsDeleted && chap.Id == item.ChapterRef));
             var disciplineIds = chapters.Select(item => item.DisciplineRef).Distinct();
-            var disciplines = db.Disciplines.Where(item => disciplineIds.Contains(item.Id));
-            foreach (var discipline in disciplines) {
+            foreach (var disciplineId in disciplineIds) {
+                var discipline = GetDiscipline(db, disciplineId);
                 discipline.IsValid = false;
             }
             db.SubmitChanges();
-            foreach (var discipline in disciplines) {
-                this.lmsService.Inform(DisciplineNotifications.DisciplineIsValidChange, discipline);
+            foreach (var disciplineId in disciplineIds) {
+                this.lmsService.Inform(DisciplineNotifications.DisciplineIsValidChange, GetDiscipline(db, disciplineId));
             }
         }
 
@@ -429,9 +429,10 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             updatingTopic.Updated = DateTime.Now;
             db.SubmitChanges();
 
-            updatingTopic.Chapter.Discipline.IsValid = this.IsDisciplineValid(updatingTopic.Chapter.Discipline);
+            var discipline = GetDiscipline(db, GetChapter(db, updatingTopic.ChapterRef).DisciplineRef);
+            discipline.IsValid = this.IsDisciplineValid(discipline);
             db.SubmitChanges();
-            this.lmsService.Inform(DisciplineNotifications.DisciplineIsValidChange, updatingTopic.Chapter.Discipline);
+            this.lmsService.Inform(DisciplineNotifications.DisciplineIsValidChange, discipline);
             data[0] = oldTopic;
             data[1] = updatingTopic;
             this.lmsService.Inform(DisciplineNotifications.TopicEdited, data);
@@ -447,9 +448,10 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             topic.IsDeleted = true;
             db.SubmitChanges();
 
-            topic.Chapter.Discipline.IsValid = this.IsDisciplineValid(topic.Chapter.Discipline);
+            var discipline = GetDiscipline(db, GetChapter(db, topic.ChapterRef).DisciplineRef);
+            discipline.IsValid = this.IsDisciplineValid(discipline);
             db.SubmitChanges();
-            this.lmsService.Inform(DisciplineNotifications.DisciplineIsValidChange, topic.Chapter.Discipline);
+            this.lmsService.Inform(DisciplineNotifications.DisciplineIsValidChange, discipline);
 
             this.lmsService.Inform(DisciplineNotifications.TopicDeleted, topic);
         }

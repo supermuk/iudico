@@ -223,6 +223,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
             this.MockCourseService.Setup(s => s.GetCourse(1)).Returns(courses[0]);
             this.MockCourseService.Setup(s => s.GetCourse(2)).Returns(courses[1]);
             this.MockCourseService.Setup(s => s.GetCourse(3)).Returns(courses[2]);
+            this.MockCourseService.Setup(s => s.GetCourse(4)).Returns(courses[3]);
 
             this.ClearTables();
         }
