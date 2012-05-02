@@ -263,7 +263,7 @@
 				});
 		    })
             .bind("remove.jstree", function (e, data) {
-                var answer = confirm("Are you sure you want to delete selected nodes?");
+                var answer = confirm("<%=String.Concat(Localization.GetMessage("AreYouSureYouWantToDelete")," ",Localization.GetMessage("SelectedNodes")) %>");
                 if (answer == false) {
                     return false;
                 }
@@ -469,10 +469,10 @@
 	                },
 	                success: function (r) {
                         if(r.status) {
-                            alert("Pattern successfully  applied");
+                            alert("<%=Localization.GetMessage("PatternSuccessfullyApplied") %>");
                         }
                         else {
-                            alert("Error! Please try again later");
+                            alert("<%=Localization.GetMessage("ErrorTryAgainLater") %>");
                         }
                     }
                 });
