@@ -372,9 +372,6 @@
   <data name="SaveChanges" xml:space="preserve">
     <value>Save changes</value>
   </data>
-  <data name="Attempt Limit" xml:space="preserve">
-    <value>Attempt Limit</value>
-  </data>
   <data name="RollupObjectiveSatisfied" xml:space="preserve">
     <value>Rollup Objective Satisfied</value>
   </data>
@@ -416,5 +413,56 @@
   </data>
   <data name="Me" xml:space="preserve">
     <value>Me</value>
+  </data>
+  <data name="ErrorTryAgainLater" xml:space="preserve">
+    <value>Error! Please try again later</value>
+  </data>
+  <data name="PatternSuccessfullyApplied" xml:space="preserve">
+    <value>Pattern successfully  applied</value>
+  </data>
+  <data name="SelectedNodes" xml:space="preserve">
+    <value>Selected Nodes</value>
+  </data>
+  <data name="ChoiseExit" xml:space="preserve">
+    <value>Choise Exit</value>
+  </data>
+  <data name="CompletionSetByContent" xml:space="preserve">
+    <value>Completion Set By Content</value>
+  </data>
+  <data name="MeasureSatisfactionIfActive" xml:space="preserve">
+    <value>Measure Satisfaction If Active</value>
+  </data>
+  <data name="ObjectiveMeasureWeight" xml:space="preserve">
+    <value>Objective Measure Weight</value>
+  </data>
+  <data name="ObjectiveSetByContent" xml:space="preserve">
+    <value>ObjectiveSetByContent</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Photo</value>
+  </data>
+  <data name="RandomizationTiming" xml:space="preserve">
+    <value>Randomization Timing</value>
+  </data>
+  <data name="RequiredForCompleted" xml:space="preserve">
+    <value>Required For Completed</value>
+  </data>
+  <data name="RequiredForIncomplete" xml:space="preserve">
+    <value>Required For Incomplete</value>
+  </data>
+  <data name="RequiredForNotSatisfied" xml:space="preserve">
+    <value>Required For Not Satisfied</value>
+  </data>
+  <data name="RequiredForSatisfied" xml:space="preserve">
+    <value>Required For Satisfied</value>
+  </data>
+  <data name="RollupProgressCompletion" xml:space="preserve">
+    <value>Rollup Progress Completion</value>
+  </data>
+  <data name="Tracked" xml:space="preserve">
+    <value>Tracked</value>
+  </data>
+  <data name="Flow" xml:space="preserve">
+    <value>Flow</value>
   </data>
 </root>

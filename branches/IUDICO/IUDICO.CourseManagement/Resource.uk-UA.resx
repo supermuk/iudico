@@ -235,7 +235,7 @@
     <value>Шаблон</value>
   </data>
   <data name="Preview" xml:space="preserve">
-    <value>Попередній</value>
+    <value>Переглянути</value>
   </data>
   <data name="RandomizationControls" xml:space="preserve">
     <value>Випадкова вибірка</value>
@@ -452,5 +452,17 @@
   </data>
   <data name="Me" xml:space="preserve">
     <value>Я</value>
+  </data>
+  <data name="ErrorTryAgainLater" xml:space="preserve">
+    <value>Помилка! Спробуйте пізніше</value>
+  </data>
+  <data name="PatternSuccessfullyApplied" xml:space="preserve">
+    <value>Шаблон успішно застосовано</value>
+  </data>
+  <data name="SelectedNodes" xml:space="preserve">
+    <value>Вибрані вузли</value>
+  </data>
+  <data name="Photo" xml:space="preserve">
+    <value>Фотографія</value>
   </data>
 </root>
