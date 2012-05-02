@@ -86,7 +86,10 @@ namespace IUDICO.Security.Controllers
 
             this.BanStorage.DeleteComputer(comp);
 
-            this.BanStorage.CreateComputer(new Computer {IpAddress = viewModel.ComputerIP, Banned = viewModel.Banned,CurrentUser = viewModel.CurrentUser});           
+            this.BanStorage.CreateComputer(new Computer
+                                               {
+                                                   IpAddress = viewModel.ComputerIP, Banned = viewModel.Banned, CurrentUser = viewModel.CurrentUser
+                                               } );           
 
             var viewModel1 = new EditComputersViewModel(
                     comp.IpAddress,
