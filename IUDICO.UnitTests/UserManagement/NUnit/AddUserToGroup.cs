@@ -112,7 +112,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void GetUsersInGroup()
         {
-            var group = new Group { Id = 12345678, Name = "pmi31", Deleted = false};
+            var group = new Group { Id = 12345678, Name = "pmi31", Deleted = false };
             this.tests.Storage.CreateGroup(group);
             group = this.tests.Storage.GetGroup(group.Id);
 

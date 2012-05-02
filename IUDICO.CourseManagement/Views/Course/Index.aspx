@@ -191,9 +191,9 @@
         function onCreateCourseSuccess(r) {
             var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
             if(resp.success) {
-                $(".course").after(resp.courseRow);
+                //$(".course").after(resp.courseRow);
                 $("#dialog").dialog("close");
-                window.location = window.location; // TODO : fix adding course if table is empty.
+                window.location.replace(window.location); // TODO : fix adding course if table is empty.
             } else {
                 fillDialogInner(resp.html, "courseId", resp.courseId);
             }
