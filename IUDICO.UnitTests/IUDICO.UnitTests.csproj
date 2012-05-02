@@ -121,6 +121,7 @@
     <Compile Include="Analytics\AnomalyDetectionAlgorithmTest.cs" />
     <Compile Include="Analytics\DecisionTreesTest.cs" />
     <Compile Include="Analytics\TrainingSetTest.cs" />
+    <Compile Include="Base\BaseControllerTest.cs" />
     <Compile Include="Base\SimpleWebTest.cs" />
     <Compile Include="CompileService\CompileServiceHelper.cs" />
     <Compile Include="CompileService\CompileServiceLanguageSourceCode.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="UserManagement\NUnit\BatchUserCreation.cs" />
     <Compile Include="UserManagement\NUnit\ChangePassword.cs" />
     <Compile Include="UserManagement\NUnit\ChangeUsersRole.cs" />
+    <Compile Include="UserManagement\NUnit\GroupControllerTest.cs" />
     <Compile Include="UserManagement\NUnit\CreateNewGroup.cs" />
     <Compile Include="UserManagement\NUnit\CreateNewUser.cs" />
     <Compile Include="UserManagement\NUnit\DeactivateUser.cs" />
