@@ -18,8 +18,8 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Login()
         {
             this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", ConfigurationManager.AppSettings["SELENIUM_URL"]);
-            selenium.Start();
-            verificationErrors = new StringBuilder();
+            this.selenium.Start();
+            this.verificationErrors = new StringBuilder();
         }
 
         [TearDown]
