@@ -14,7 +14,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
         public void OpenCourses()
         {
             this.DefaultLogin("prof", "prof");
-
+     
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("link=Create New");
@@ -562,6 +562,14 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
                 {
                     selenium.GetAlert();
                 }
+            }
+        }
+
+        public string SeleniumWait
+        {
+            get
+            {
+                return (this.seleniumWait + 10000).ToString();
             }
         }
 
