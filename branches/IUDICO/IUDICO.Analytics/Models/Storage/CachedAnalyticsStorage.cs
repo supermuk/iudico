@@ -13,7 +13,7 @@ namespace IUDICO.Analytics.Models.Storage
         private readonly IAnalyticsStorage storage;
         private readonly ICacheProvider cacheProvider;
         private readonly object lockObject = new object();
-
+        
         public CachedAnalyticsStorage(IAnalyticsStorage storage, ICacheProvider cacheProvider)
         {
             this.storage = storage;
@@ -137,6 +137,17 @@ namespace IUDICO.Analytics.Models.Storage
             return this.storage.GetStudentListForTraining(topicId, groupId);
         }
 
+        #endregion
+
+        #region Quality
+        public double GaussianDistribution(Topic topic)
+        {
+            return this.storage.GaussianDistribution(topic);
+        }
+        public double GetTopicStatistic(Topic topic)
+        {
+            return this.storage.GetTopicStatistic(topic);
+        }
         #endregion
     }
 }

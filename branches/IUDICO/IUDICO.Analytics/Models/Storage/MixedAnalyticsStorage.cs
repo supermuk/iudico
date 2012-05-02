@@ -298,6 +298,10 @@ namespace IUDICO.Analytics.Models.Storage
 
             foreach (var userWithTag in usersWithTags)
             {
+                if (userWithTag.Tags == null)
+                {
+                    return 0;
+                }
                 foreach (var tag in userWithTag.Tags)
                 {
                     var item = new KeyValuePair<double, double>(userWithTag.Tags[tag.Key], results.First(x => x.User.Id == userWithTag.Id).Score.ScaledScore.Value);
