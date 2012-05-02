@@ -22,11 +22,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Type("id=Name", "lex");
             this.selenium.Type("id=Email", "lex@iudico.com");
             this.selenium.Click("//input[@value='Save']");
-            this.selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
+            this.selenium.WaitForPageToLoad((this.seleniumWait * 5).ToString());
 
-            Assert.IsTrue(this.selenium.IsTextPresent("lex"));
-
-            this.Logout();
+            Assert.IsTrue(this.selenium.GetLocation().EndsWith("/Account/Index"));
         }
 
         [Test]
@@ -43,8 +41,6 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             Assert.IsTrue(this.selenium.IsTextPresent(Localization.GetMessage("FullNameRequired", "IUDICO.UserManagement")));
-
-            this.Logout();
         }
 
         [Test]
@@ -62,12 +58,12 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Type("id=Name", name);
             this.selenium.Type("id=Password", "lex");
             this.selenium.Type("id=Email", name + "@iudico.com");
+            this.selenium.Type("id=OpenId", name + "OId");
+            this.selenium.Type("id=UserId", name + " Id");
             this.selenium.Click("//input[@value='Save']");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             Assert.IsTrue(this.selenium.GetLocation().EndsWith("/User/Index"));
-
-            this.Logout();
         }
 
         [Test]
@@ -85,8 +81,6 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             Assert.IsTrue(this.selenium.GetLocation().Contains("/User/Edit?id="));
-
-            this.Logout();
         }
     }
 }

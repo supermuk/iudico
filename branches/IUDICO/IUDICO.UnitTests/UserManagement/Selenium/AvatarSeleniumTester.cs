@@ -52,7 +52,6 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             Assert.IsTrue(this.selenium.IsElementPresent("id=avatar"));
-            this.Logout();
         }
     }
 }

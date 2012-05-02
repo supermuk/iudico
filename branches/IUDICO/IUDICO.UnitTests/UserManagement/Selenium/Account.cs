@@ -14,8 +14,6 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 
             Assert.IsTrue(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
             Assert.IsTrue(this.selenium.IsTextPresent("Logged in as"));
-
-            this.Logout();
         }
 
         [Test]
@@ -27,8 +25,6 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
             Assert.IsFalse(this.selenium.IsTextPresent("Logged in as"));
             Assert.IsTrue(this.selenium.IsTextPresent("Login"));
-
-            this.Logout();
         }
     }
 }

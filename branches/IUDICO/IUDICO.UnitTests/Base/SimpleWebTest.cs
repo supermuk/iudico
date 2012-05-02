@@ -105,6 +105,14 @@ namespace IUDICO.UnitTests.Base
         {
             try
             {
+                this.Logout();
+            }
+            catch
+            {
+            }
+
+            try
+            {
                 this.selenium.Stop();
             }
             catch (Exception)
