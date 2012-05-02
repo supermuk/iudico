@@ -30,10 +30,10 @@
       </FilterEntry>
 
       <FilterEntry>
-        <ModuleMask>*</ModuleMask>
-        <ClassMask>DBDataContext</ClassMask>
-        <FunctionMask>*</FunctionMask>
-      </FilterEntry>
+		<ModuleMask>*</ModuleMask>
+		<ClassMask>*.Models.DBDataContext</ClassMask>
+		<FunctionMask>*</FunctionMask>
+	  </FilterEntry>
 
     </ExcludeFilters>
 
