@@ -252,31 +252,46 @@ namespace IUDICO.Analytics.Models.Storage
             var usersIds = usersParticipated.Select(u => u.Id);
 
             var groupRatings = group.GroupUsers
-                                    .Select(gu => new UserRating(gu.User, 1.0 * gu.User.TestsSum / gu.User.TestsTotal))
+                                    .Select(gu => new UserRating(gu.User, (gu.User.TestsTotal > 0 ? 1.0 * gu.User.TestsSum / gu.User.TestsTotal : 0)))
                                     .Where(gu => usersIds.Contains(gu.User.Id))
                                     .ToList();
 
             groupResults.Sort();
             groupRatings.Sort();
 
-            var ratResults = groupResults.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User, a => a.Index);
-            var ratRatings = groupRatings.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User, a => a.Index);
+            var ratResults = groupResults.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User.Id, a => a.Index);
+            var ratRatings = groupRatings.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User.Id, a => a.Index);
 
-            var ratingDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(ratResults[u] - ratRatings[u]));
+            var ratingDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(ratResults[u.Id] - ratRatings[u.Id]));
             var ratingMax = 2 * ((n + 1) / 2) * (n / 2);
             var ratingNormalized = ratingDifference / ratingMax;
 
-            var diffResults = groupResults.ToDictionary(a => a.User, a => a.Score);
-            var diffRatings = groupRatings.ToDictionary(a => a.User, a => a.Score);
+            var diffResults = groupResults.ToDictionary(a => a.User.Id, a => a.Score);
+            var diffRatings = groupRatings.ToDictionary(a => a.User.Id, a => a.Score);
 
-            var scoreDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(diffResults[u] - diffRatings[u]));
+            var scoreDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(diffResults[u.Id] - diffRatings[u.Id]));
             var scoreMax = n * 100;
             var scoreNormalized = scoreDifference / scoreMax;
 
             return new GroupTopicStat(ratingNormalized, scoreNormalized);
         }
 
-        public double GetTopicStatistic(Topic topic)
+        public double GetScoreRatingTopicStatistic(Topic topic, IEnumerable<Group> groups)
+        {
+            if (groups != null && groups.Count() != 0)
+            {
+                var result = 0.0;
+                foreach (var group in groups)
+                {
+                    GroupTopicStat groupStat = this.GetGroupTopicStatistic(topic, group);
+                    result += (groupStat.RatingDifference + groupStat.TopicDifficulty) / 2;
+                }
+                return result / groups.Count();
+            }
+            return 0.0;
+        }
+
+        public double GetTopicTagStatistic(Topic topic)
         {
             var results = this.GetResults(topic).ToList();
             var users = results.Select(r => r.User).ToList();
@@ -347,13 +362,15 @@ namespace IUDICO.Analytics.Models.Storage
 
         public double GaussianDistribution(Topic topic)
         {
-            var generalResult = 0.0;
-            var results = this.GetResults(topic).Select(x => (double)x.Score.ScaledScore).ToList();
-
+            var results = this.GetResults(topic).Select(x => (double)x.Score.ScaledScore * 100).ToList();
+            if (results == null || results.Count == 0)
+            {
+                return 0;
+            }
             var u = results.Sum() / results.Count;
             var variance = results.Sum(groupResult => Math.Pow(groupResult - u, 2)) / results.Count();
             var a = 1 / (Math.Sqrt(2 * Math.PI) * Math.Sqrt(variance));
-            var s = results.Select(groupResult => Math.Pow(Math.E, -Math.Pow(groupResult - Math.Sqrt(variance), 2) / (2 * variance))).Count(b => a * b < 0.0005);
+            var s = results.Select(groupResult => Math.Pow(Math.E, -Math.Pow(groupResult - Math.Sqrt(variance), 2) / (2 * variance))).Count(b => a * b < 0.001);
 
             return 1 - (double)s / results.Count;
         }

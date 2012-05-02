@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -144,9 +145,13 @@ namespace IUDICO.Analytics.Models.Storage
         {
             return this.storage.GaussianDistribution(topic);
         }
-        public double GetTopicStatistic(Topic topic)
+        public double GetTopicTagStatistic(Topic topic)
         {
-            return this.storage.GetTopicStatistic(topic);
+            return this.storage.GetTopicTagStatistic(topic);
+        }
+        public double GetScoreRatingTopicStatistic(Topic topic, IEnumerable<Group> groups)
+        {
+            return this.storage.GetScoreRatingTopicStatistic(topic, groups);
         }
         #endregion
     }

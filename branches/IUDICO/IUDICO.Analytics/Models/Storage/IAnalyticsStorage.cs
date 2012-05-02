@@ -43,6 +43,7 @@ namespace IUDICO.Analytics.Models.Storage
         #endregion
 
         double GaussianDistribution(Topic topic);
-        double GetTopicStatistic(Topic topic);
+        double GetTopicTagStatistic(Topic topic);
+        double GetScoreRatingTopicStatistic(Topic topic, IEnumerable<Group> groups);
     }
 }
