@@ -37,6 +37,18 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         }
 
         [Test]
+        public void EditModel()
+        {
+            new EditModel(this.tests.Storage.GetCurrentUser());
+        }
+
+        [Test]
+        public void EditUserModel()
+        {
+            new EditUserModel();
+        }
+
+        [Test]
         public void AdminDetailsModel()
         {
             new AdminDetailsModel(
@@ -55,6 +67,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.userService.GetCurrentUser();
             this.userService.GetGroup(0);
             this.userService.GetGroups();
+            this.userService.GetCurrentUserRoles();
+            
+            this.tests.ChangeCurrentUser(new User());
             this.userService.GetCurrentUserRoles();
         }
 
@@ -127,24 +142,10 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         }
 
         [Test]
-        [ExpectedException(typeof(ArgumentException))]
+        [ExpectedException(typeof(NotImplementedException))]
         public void OpenIdMembershipProviderUpdateUser()
         {
-            this.membProvider.UpdateUser(
-                new MembershipUser(
-                    "IoCMembershipProvider",
-                    string.Empty,
-                    new object(),
-                    string.Empty,
-                    string.Empty,
-                    string.Empty,
-                    true,
-                    true,
-                    DateTime.Now,
-                    DateTime.Now,
-                    DateTime.Now,
-                    DateTime.Now,
-                    DateTime.Now));
+            this.membProvider.UpdateUser(null);
         }
 
         [Test]
@@ -159,6 +160,13 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         public void OpenIdMembershipProviderUsersOnline()
         {
             this.membProvider.GetNumberOfUsersOnline();
+        }
+
+        [Test]
+        [ExpectedException(typeof(NotImplementedException))]
+        public void OpenIdMembershipProviderPassFormat()
+        {
+            var pf = this.membProvider.PasswordFormat;
         }
 
         [Test]
@@ -219,6 +227,16 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.membProvider.ValidateUser(string.Empty, string.Empty);
             this.membProvider.GetUserNameByEmail(this.tests.Storage.GetCurrentUser().Email);
             this.membProvider.DeleteUser(string.Empty, false);
+
+            var a = this.membProvider.EnablePasswordRetrieval;
+            var b = this.membProvider.EnablePasswordReset;
+            var c = this.membProvider.RequiresQuestionAndAnswer;
+            var d = this.membProvider.MaxInvalidPasswordAttempts;
+            var e = this.membProvider.PasswordAttemptWindow;
+            var f = this.membProvider.RequiresUniqueEmail;
+            var g = this.membProvider.MinRequiredPasswordLength;
+            var h = this.membProvider.MinRequiredNonAlphanumericCharacters;
+            var i = this.membProvider.PasswordStrengthRegularExpression;
         }
     }
 }

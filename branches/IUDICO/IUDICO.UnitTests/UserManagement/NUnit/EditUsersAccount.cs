@@ -109,5 +109,21 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
+
+        [Test]
+        public void EditAccount()
+        {
+            var temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass123" };
+
+            this.tests.Storage.CreateUser(temp);
+
+            this.tests.ChangeCurrentUser(temp);
+
+            this.tests.Storage.EditAccount(new EditModel(temp));
+
+            this.tests.ChangeCurrentUser("panza");
+
+            Assert.IsTrue(this.tests.Storage.GetUser(temp.Username) != null);
+        }
     }
 }
