@@ -26,14 +26,14 @@ namespace IUDICO.Security.ViewModels.Ban
         {
             this.ComputerIP = computer.IpAddress;
 
-            if(computer.Room != null)
+            if (computer.Room != null)
             {
                 this.Room = computer.Room.Name;
             }
             
             this.Banned = computer.Banned;
 
-            if(computer.CurrentUser != null)
+            if (computer.CurrentUser != null)
             {
                 this.CurrentUser = computer.CurrentUser;
             }
