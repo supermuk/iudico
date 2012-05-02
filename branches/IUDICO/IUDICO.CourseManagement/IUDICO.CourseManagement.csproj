@@ -179,11 +179,16 @@
     <Content Include="Content\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Scripts\ckeditor\ckeditor.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\lang\en.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\lang\uk.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\logo.gif" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\plugin.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\dialogs\spoiler.js" />
+    <Content Include="Scripts\ckeditor\plugins\switchtoolbar\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\switchtoolbar\lang\uk.js" />
+    <Content Include="Scripts\ckeditor\plugins\switchtoolbar\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\switchtoolbar\switchtoolbar.gif" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\dialogs\syntaxhighlight.js" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\images\syntaxhighlight.gif" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\lang\en.js" />
@@ -790,7 +795,6 @@
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
-    <Content Include="Scripts\ckeditor\ckeditor.js" />
     <Content Include="Scripts\ckeditor\ckeditor_basic.js" />
     <Content Include="Scripts\ckeditor\ckeditor_basic_source.js" />
     <Content Include="Scripts\ckeditor\ckeditor_source.js" />
