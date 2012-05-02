@@ -193,7 +193,7 @@
             if(resp.success) {
                 //$(".course").after(resp.courseRow);
                 $("#dialog").dialog("close");
-                window.location.replace(window.location); // TODO : fix adding course if table is empty.
+                window.location.reload( true ); // TODO : fix adding course if table is empty.
             } else {
                 fillDialogInner(resp.html, "courseId", resp.courseId);
             }

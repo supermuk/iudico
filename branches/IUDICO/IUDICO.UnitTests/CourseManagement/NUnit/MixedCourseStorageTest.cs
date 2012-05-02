@@ -385,16 +385,6 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             Assert.AreEqual(path, coursePath);
         }
 
-        [Test]
-        [Category("GetCoursePathMethods")]
-        public void GetCourseTempPathTest()
-        {
-            var coursePath = this.Storage.GetCourseTempPath(0);
-
-            var path = "IUDICO.UnitTests\\bin\\Debug\\Site\\Data\\WorkFolder\\0";
-            Assert.IsTrue(coursePath.Contains(path));
-        }
-
         #endregion
 
         #endregion
