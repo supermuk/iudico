@@ -108,11 +108,15 @@ namespace IUDICO.Analytics.Models.Storage
 
         public void UpdateUserScores(Guid id)
         {
+            this.storage.UpdateUserScores(id);
+
             this.cacheProvider.Invalidate("userscores");
         }
 
         public void UpdateTopicScores(int id)
         {
+            this.storage.UpdateTopicScores(id);
+
             this.cacheProvider.Invalidate("topicscores");
         }
 
