@@ -54,7 +54,11 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Edit computer");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Delete");
+
+            Assert.IsTrue(this.selenium.IsTextPresent("192.169.0.32"));
+
+            this.selenium.Click("//a[contains(@href, '/Ban/DeleteComputer?computer=192.169.0.32')]");
+
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Logout");
             this.selenium.WaitForPageToLoad("30000");
@@ -87,7 +91,10 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Edit computer");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Delete");
+
+            Assert.IsTrue(this.selenium.IsTextPresent("192.169.0.32"));
+
+            this.selenium.Click("//a[contains(@href, '/Ban/DeleteComputer?computer=192.169.0.32')]");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Logout");
             this.selenium.WaitForPageToLoad("30000");
@@ -120,7 +127,10 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Back to list");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Delete");
+
+            Assert.IsTrue(this.selenium.IsTextPresent("192.169.0.32"));
+
+            this.selenium.Click("//a[contains(@href, '/Ban/DeleteComputer?computer=192.169.0.32')]");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Logout");
             this.selenium.WaitForPageToLoad("30000");
@@ -145,7 +155,10 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Ban room");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Delete");
+
+            Assert.IsTrue(this.selenium.IsTextPresent("145"));
+
+            this.selenium.Click("//a[contains(@href, '/Ban/DeleteRoom?room=145')]");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Logout");
             this.selenium.WaitForPageToLoad("30000");
@@ -174,7 +187,10 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Ban");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Delete");
+
+            Assert.IsTrue(this.selenium.IsTextPresent("142"));
+
+            this.selenium.Click("//a[contains(@href, '/Ban/DeleteRoom?room=142')]");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Logout");
             this.selenium.WaitForPageToLoad("30000");
@@ -195,6 +211,8 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Logout");
             this.selenium.WaitForPageToLoad("30000");
+
+            Assert.True(this.selenium.IsTextPresent("User"));
         }
     }
 }
