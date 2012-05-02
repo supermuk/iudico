@@ -29,6 +29,27 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         }
 
         [Test]
+        public void UniqueOpenIdAvailablity()
+        {
+            const string OpenId = "UniqueUserId_UniqueIdAvailablity";
+            const string Username = OpenId + "_";
+
+            Assert.True(this.tests.Storage.UserOpenIdAvailable(OpenId, Guid.NewGuid()));
+
+            this.tests.Storage.CreateUser(
+                new User { Name = "OpenId Id Availablity", Username = Username, Password = "123456", OpenId = OpenId });
+
+            var created = this.tests.Storage.GetUser(u => u.Username == Username);
+
+            Assert.AreEqual(created.OpenId, OpenId);
+            Assert.True(this.tests.Storage.UserOpenIdAvailable("no such id", created.Id));
+            Assert.True(this.tests.Storage.UserOpenIdAvailable(OpenId, created.Id));
+            Assert.False(this.tests.Storage.UserOpenIdAvailable(OpenId, Guid.NewGuid()));
+
+            this.tests.Storage.DeleteUser(u => u.Username == Username);
+        }
+
+        [Test]
         public void UniqueIdAvailablity()
         {
             const string UserId = "UniqueUserId_UniqueIdAvailablity";
