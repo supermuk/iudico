@@ -194,8 +194,10 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
                 selenium.GetAlert();
             }
 
-            this.selenium.Click("xpath=//tr[contains(.,'SharedForProf2')]//a[contains(text(),'Share')]");
+            this.selenium.Click("xpath=//tr[contains(.,'SharedForProf2')]//a[contains(@title,'Share')]");
             Thread.Sleep(SleepTime);
+            Assert.IsFalse(this.selenium.IsElementPresent("//table[@id='shareUserTable']//tr//td[contains(.,'Admin')]"));
+            Assert.IsFalse(this.selenium.IsElementPresent("//table[@id='shareUserTable']//tr//td[contains(.,'Student')]"));
 
             this.selenium.Click("xpath=//tr[contains(.,'prof2')]//input[@name='sharewith']");
             this.selenium.Click("xpath=//button[@type='button']//span[contains(text(),'Share')]");
@@ -219,7 +221,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
 
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            this.selenium.Click("xpath=//tr[contains(.,'SharedForProf2')]//a[contains(text(),'Share')]");
+            this.selenium.Click("xpath=//tr[contains(.,'SharedForProf2')]//a[contains(@title,'Share')]");
             Thread.Sleep(SleepTime);
 
             this.selenium.Click("xpath=//tr[contains(.,'prof2')]//input[@name='sharewith']");
@@ -484,6 +486,65 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
                 // Ignore errors if unable to close the browser
             }
 
+        }
+
+        [Test]
+        public void UpdatedByTest()
+        {
+            this.DefaultLogin("prof", "prof");
+
+            this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DeleteAllCourses();
+
+            this.selenium.Click("link=Create New");
+            Thread.Sleep(SleepTime);
+            this.selenium.Type("id=Name", "new course");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'new course')]"));
+
+            this.selenium.Click("xpath=//tr[contains(.,'new course')]//a[contains(@title,'Share')]");
+            Thread.Sleep(SleepTime);
+            this.selenium.Click("xpath=//tr[contains(.,'prof2')]//input[@name='sharewith']");
+            this.selenium.Click("xpath=//button[@type='button']//span[contains(text(),'Share')]");
+            Thread.Sleep(SleepTime);
+
+            this.selenium.Click("link=Logout");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DefaultLogin("prof2", "prof2");
+
+            this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            this.selenium.Click("xpath=//tr[contains(.,'new course')]//a[contains(@title,'Rename')]");
+            Thread.Sleep(SleepTime);
+            this.selenium.Type("id=Name", "new course after edit");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'new course after edit')]//td[contains(.,'prof2')]"));
+
+            try
+            {
+                this.Logout();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
         }
 
         protected void DeleteAllCourses()
