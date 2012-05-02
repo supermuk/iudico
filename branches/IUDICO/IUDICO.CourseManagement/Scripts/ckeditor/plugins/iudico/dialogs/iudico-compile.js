@@ -165,7 +165,7 @@
                                 this.setValue(paramMap[this.id]);
                             } 
                             else {
-                                this.setValue(10000);
+                                this.setValue(1024);
                             }
                             
                         }
@@ -187,7 +187,7 @@
                                 this.setValue(paramMap[this.id]);
                             }
                             else {
-                                this.setValue(10000);
+                                this.setValue(1024);
                             }
                             
                         }
@@ -209,7 +209,7 @@
                                 this.setValue(paramMap[this.id]);
                             }
                             else {
-                                this.setValue(10000);
+                                this.setValue(1024);
                             }
                             
                         }
