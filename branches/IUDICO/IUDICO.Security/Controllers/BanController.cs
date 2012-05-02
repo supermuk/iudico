@@ -14,7 +14,7 @@ namespace IUDICO.Security.Controllers
 {
     public class BanController : PluginController
     {
-        private readonly IBanStorage BanStorage;
+        public readonly IBanStorage BanStorage;
 
         public BanController(IBanStorage banStorage)
         {
@@ -79,25 +79,22 @@ namespace IUDICO.Security.Controllers
             return View(viewModel);
         }
 
-        /*
-        [Allow(Role = Role.Admin)]
-        public ActionResult EditComputer()
-        {
-            return View(new EditComputersViewModel());
-        }
-        */
 
-        [Allow(Role = Role.Admin)]
-        public ActionResult EditComputer(string computer)
+        public ActionResult EditComputer(EditComputersViewModel viewModel)
         {
-            var comp = this.BanStorage.GetComputer(computer);
-            var viewModel = new EditComputersViewModel(
-                comp.IpAddress,
-                (comp.Room != null) ? comp.Room.Name : "N/A",
-                comp.Banned,
-                comp.CurrentUser);
+            var comp = this.BanStorage.GetComputer(viewModel.ComputerIP);
 
-            return View(viewModel);
+            this.BanStorage.DeleteComputer(comp);
+
+            this.BanStorage.CreateComputer(new Computer {IpAddress = viewModel.ComputerIP, Banned = viewModel.Banned,CurrentUser = viewModel.CurrentUser});           
+
+            var viewModel1 = new EditComputersViewModel(
+                    comp.IpAddress,
+                    (comp.Room != null) ? comp.Room.Name : "N/A",
+                    comp.Banned,
+                    comp.CurrentUser);
+
+            return View(viewModel1);
         }
 
         [Allow(Role = Role.Admin)]

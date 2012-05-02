@@ -25,7 +25,7 @@
             <td> <%: item.Room%> </td>
             <td> <%: item.CurrentUser%> </td>
             <td> <%: item.Banned %> </td>
-            <td> <%= Html.ActionLink(Localization.GetMessage("Edit"), "EditComputer", new { computer = item.IpAddress })%> | 
+            <td> <%= Html.ActionLink(Localization.GetMessage("Edit"), "EditComputer",new IUDICO.Security.ViewModels.Ban.EditComputersViewModel(new IUDICO.Security.Models.Storages.Database.DatabaseBanStorage().GetComputer(item.IpAddress)) )%> | 
                  <%= Html.ActionLink(Localization.GetMessage("Delete"), "DeleteComputer", new { computer = item.IpAddress })%>| 
                  <% if (item.Banned)
                    { %>

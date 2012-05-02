@@ -6,13 +6,22 @@
 </asp:Content>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
+    <fieldset>
 
     <h2>Edit Computer</h2>
 
-    <%= Html.EditorForModel(Model) %>
-    <p>
-        <input type="submit" value="Save" name="saveButton" />
-    </p>
+    <% using (Html.BeginForm())
+           { %>
+            
+            <%= Html.EditorForModel() %>
+        <p>
+           <input type="submit" value="Save" name="saveButton" />
+       </p>
+        <% } %>
+        
+        <%Writer.Write(Html.ActionLink("Back to list", "BanComputer", "Ban")); %>     
+
+</fieldset>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="HeadContent" runat="server">
