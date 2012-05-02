@@ -175,12 +175,15 @@ namespace IUDICO.CourseManagement.Controllers
             try
             {
                 var course = this.storage.GetCourse(courseId);
-
-                if (this.userService.GetCurrentUser().Username != course.Owner)
+                var currentUser = this.userService.GetCurrentUser();
+                if (currentUser.Username != course.Owner)
                 {
-                    return Json(new { success = false });
+                    this.storage.UpdateCourseUsers(courseId,this.storage.GetCourseUsers(courseId).Where(i => i.Username != currentUser.Username).Select(i => i.Id));
                 }
-                this.storage.DeleteCourse(courseId);
+                else
+                {
+                    this.storage.DeleteCourse(courseId);
+                }
 
                 return Json(new { success = true, id = courseId });
             }
