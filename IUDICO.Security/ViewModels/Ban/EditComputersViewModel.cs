@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Security.ViewModels.Ban
 {
@@ -19,6 +20,24 @@ namespace IUDICO.Security.ViewModels.Ban
             this.Room = room;
             this.Banned = banned;
             this.CurrentUser = curUser;
+        }
+
+        public EditComputersViewModel(Computer computer)
+        {
+            this.ComputerIP = computer.IpAddress;
+
+            if(computer.Room != null)
+            {
+                this.Room = computer.Room.Name;
+            }
+            
+            this.Banned = computer.Banned;
+
+            if(computer.CurrentUser != null)
+            {
+                this.CurrentUser = computer.CurrentUser;
+            }
+            
         }
     }
 }
