@@ -22,7 +22,7 @@ namespace IUDICO.Analytics.Controllers
             this.storage = analyticsStorage;
         }
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin | Role.Teacher)]
         public ActionResult Index()
         {
             IEnumerable<Discipline> allowedDisciplines;
@@ -30,13 +30,14 @@ namespace IUDICO.Analytics.Controllers
 
             return View(allowedDisciplines);
         }
-        
-        [Allow(Role = Role.Teacher)]
+
+        [Allow(Role = Role.Admin | Role.Teacher)]
         [HttpPost]
         public ActionResult ShowDiscipline(long selectDisciplineId)
         {
             IEnumerable<Topic> temp_allowedTopics = LmsService.FindService<IDisciplineService>().GetTopicsByDisciplineId((int)selectDisciplineId);
             var disciplineName = LmsService.FindService<IDisciplineService>().GetDiscipline((int)selectDisciplineId).Name;
+            var groups = LmsService.FindService<IUserService>().GetGroups();
             double disciplineQuality = 0;
             var allowedTopics = new List<KeyValuePair<Topic, double>>();
             if (temp_allowedTopics != null & temp_allowedTopics.Count() != 0)
@@ -46,7 +47,7 @@ namespace IUDICO.Analytics.Controllers
                 foreach (var topic in temp_allowedTopics)
                 {
                     List<double> quality = new List<double>();
-                    quality.Add(this.storage.GaussianDistribution(topic));
+                    quality.Add(this.storage.GetScoreRatingTopicStatistic(topic, groups));
                     tempDisciplineQuality += quality.Sum() / quality.Count;
                     temp.Add(new KeyValuePair<Topic, double>(topic, quality.Sum() / quality.Count));
                 }
@@ -56,8 +57,6 @@ namespace IUDICO.Analytics.Controllers
 
             DisciplineModel model = new DisciplineModel(allowedTopics, disciplineName, disciplineQuality);
             return View(model);
-            
-            
         }
 
     }
