@@ -45,9 +45,9 @@
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1345,6 +1345,7 @@
     <Content Include="Scripts\jquery\jquery.jstree.js" />
     <Content Include="Scripts\jquery\jquery.layout.js" />
     <Content Include="Scripts\jquery\jquery.multiselect2side.js" />
+    <Content Include="packages.config" />
     <None Include="Scripts\ckeditor\.htaccess" />
     <None Include="Scripts\ckeditor\ckeditor.pack" />
     <None Include="Scripts\ckeditor\ckeditor.php" />
@@ -1375,7 +1376,6 @@
     <None Include="Content\Tree\file.png" />
     <None Include="Content\Tree\folder.png" />
     <None Include="Content\Tree\root.png" />
-    <Content Include="Libraries\ICSharpCode.SharpZipLib.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Compression.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.XML">
