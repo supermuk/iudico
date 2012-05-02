@@ -24,7 +24,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Type("id=Email", "CreateUserSuccess@UniqueUserId.com");
             this.selenium.Type("id=Name", "name");
             this.selenium.Click("//input[@value='Register']");
-            this.selenium.WaitForPageToLoad((this.seleniumWait * 5).ToString());
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             Assert.IsTrue(this.selenium.IsTextPresent("Registered"));
         }
 
