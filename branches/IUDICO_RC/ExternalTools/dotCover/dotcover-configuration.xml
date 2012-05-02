@@ -2,7 +2,7 @@
 <AnalyseParams>
 
   <TargetExecutable><!-- File name of the program to analyse. -->C:\Program Files (x86)\NUnit 2.6\bin\nunit-console-x86.exe</TargetExecutable>
-  <TargetArguments>IUDICO.UnitTests\bin\Debug\IUDICO.UnitTests.dll</TargetArguments>
+  <TargetArguments>IUDICO.UnitTests\bin\Release\IUDICO.UnitTests.dll</TargetArguments>
   <TargetWorkingDir><!-- Program working directory. --></TargetWorkingDir>
   <TempDir><!-- Program working directory. --></TempDir>
   <Output><!-- Program working directory. -->\CodeCoverageReport.html</Output>
@@ -28,6 +28,12 @@
         <ClassMask>*</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
+
+      <FilterEntry>
+		<ModuleMask>*</ModuleMask>
+		<ClassMask>*.Models.DBDataContext</ClassMask>
+		<FunctionMask>*</FunctionMask>
+	  </FilterEntry>
 
     </ExcludeFilters>
 
