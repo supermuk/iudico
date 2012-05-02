@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Activated" xml:space="preserve">
+    <value>Активовано</value>
+  </data>
   <data name="AllowChoise" xml:space="preserve">
     <value>Allow Choise</value>
   </data>
@@ -174,6 +177,9 @@
   <data name="FullNameRequired" xml:space="preserve">
     <value>Прізвище, ім'я є обов'язкове</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>Група</value>
+  </data>
   <data name="IsFolder" xml:space="preserve">
     <value>Is Folder</value>
   </data>
@@ -209,6 +215,9 @@
   </data>
   <data name="Role" xml:space="preserve">
     <value>Роль</value>
+  </data>
+  <data name="SelectGroup" xml:space="preserve">
+    <value>Виберіть групу</value>
   </data>
   <data name="SelectRole" xml:space="preserve">
     <value>Виберіть роль</value>
