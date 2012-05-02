@@ -108,7 +108,6 @@
     <Compile Include="Models\Storage\CachedAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\MixedAnalyticsStorage.cs" />
-    <Compile Include="Models\TopicSimilarity.cs" />
     <Compile Include="Models\UserRating.cs" />
     <Compile Include="Models\UserTags.cs" />
     <Compile Include="Models\ViewDataClasses\ViewTagDetails.cs" />

@@ -36,7 +36,7 @@
                 </table>
             </td>
             <td>
-                <%:Html.ActionLink("Update User Scores", "UpdateUser", new { id = item.Key })%> |
+                <%:Html.ActionLink("Update User Scores", "UpdateUser", new { id = item.Key.Id })%> |
             </td>
         </tr>
      <% } %>
