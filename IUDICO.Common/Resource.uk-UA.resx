@@ -123,11 +123,23 @@
   <data name="AllowChoise" xml:space="preserve">
     <value>Allow Choise</value>
   </data>
+  <data name="Allowed" xml:space="preserve">
+    <value>Дозволено</value>
+  </data>
+  <data name="Allowed is required" xml:space="preserve">
+    <value>Це поле обов'язкове</value>
+  </data>
   <data name="AllowExit" xml:space="preserve">
     <value>Allow Exit</value>
   </data>
   <data name="AttemptLimit" xml:space="preserve">
     <value>Ліміт спроби</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Назад до списку</value>
+  </data>
+  <data name="Banned" xml:space="preserve">
+    <value>Заблоковано</value>
   </data>
   <data name="BlockCurriculumAtTesting" xml:space="preserve">
     <value>Блокувати навчальний план при тестуванні?</value>
@@ -147,11 +159,26 @@
   <data name="ChooseGroupForCurriculum" xml:space="preserve">
     <value>Виберіть групу</value>
   </data>
+  <data name="CompIDIsRequired" xml:space="preserve">
+    <value>ID комп'ютера обов'язковий</value>
+  </data>
+  <data name="ComputerIP" xml:space="preserve">
+    <value>IP адреса комп'ютера</value>
+  </data>
+  <data name="Computers" xml:space="preserve">
+    <value>Комп'ютери</value>
+  </data>
   <data name="CreateDate" xml:space="preserve">
     <value>Створити(додати) дату</value>
   </data>
   <data name="CreatedDate" xml:space="preserve">
     <value>Дата створення</value>
+  </data>
+  <data name="CurrentRoom" xml:space="preserve">
+    <value>Аудиторія</value>
+  </data>
+  <data name="CurrentUser" xml:space="preserve">
+    <value>Поточний користувач</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Емейл</value>
@@ -198,11 +225,23 @@
   <data name="MaxScoreRequired" xml:space="preserve">
     <value>Поле максимальна оцінка є обов'язкове</value>
   </data>
+  <data name="Must be less than 11 characters" xml:space="preserve">
+    <value>Це поле не повинно мати більше 11 символів!</value>
+  </data>
+  <data name="Must be less than 16 characters" xml:space="preserve">
+    <value>повинно містити менше ніж 16 символів</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Назва</value>
   </data>
+  <data name="Name is required" xml:space="preserve">
+    <value>Ім'я повинне бути обов'язково задане</value>
+  </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Назва є обов'язкова</value>
+  </data>
+  <data name="NotValidIP" xml:space="preserve">
+    <value>Неправильний формат IP адреси</value>
   </data>
   <data name="Owner" xml:space="preserve">
     <value>Власник</value>
@@ -215,6 +254,9 @@
   </data>
   <data name="Role" xml:space="preserve">
     <value>Роль</value>
+  </data>
+  <data name="Room" xml:space="preserve">
+    <value>Лабораторія</value>
   </data>
   <data name="SelectGroup" xml:space="preserve">
     <value>Виберіть групу</value>
@@ -254,6 +296,9 @@
   </data>
   <data name="TimeLimit" xml:space="preserve">
     <value>Часовий ліміт</value>
+  </data>
+  <data name="UnchoosenComputers" xml:space="preserve">
+    <value>Невибрані комп'ютери</value>
   </data>
   <data name="UpdateDate" xml:space="preserve">
     <value>Обновити дату</value>

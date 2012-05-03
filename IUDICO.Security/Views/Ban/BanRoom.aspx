@@ -8,12 +8,12 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Ban Room</h2>
+    <h2><%=Localization.GetMessage("Ban room") %></h2>
 
     <table>
         <tr>
-            <th> Name </th>
-            <th> Allowed </th>
+            <th> <%=Localization.GetMessage("Name")%> </th>
+            <th> <%=Localization.GetMessage("Allowed")%> </th>
             <th> </th>            
         </tr>
         <% foreach (var item in Model.Rooms)

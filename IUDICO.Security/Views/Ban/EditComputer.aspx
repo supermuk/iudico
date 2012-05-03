@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.Security" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Security.ViewModels.Ban.EditComputersViewModel>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="TitleContent" runat="server">
 	EditComputer
@@ -15,11 +16,11 @@
             
             <%= Html.EditorForModel() %>
         <p>
-           <input type="submit" value="Save" name="saveButton" />
+           <input type="submit" value="<%=Localization.GetMessage("Save")%>" name="saveButton" />
        </p>
         <% } %>
         
-        <%Writer.Write(Html.ActionLink("Back to list", "BanComputer", "Ban")); %>     
+        <%Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "BanComputer", "Ban")); %>     
 
 </fieldset>
 </asp:Content>
