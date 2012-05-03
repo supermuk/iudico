@@ -125,92 +125,144 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                     }.ToCreateModel());
             Assert.AreEqual(false, controller.ModelState.IsValid);
             Assert.AreEqual(expectedItems.Count + 1, this.CurriculumStorage.GetCurriculums().Count);
+
+            var curriculum = new Curriculum {
+                DisciplineRef = this.DataPreparer.DisciplineIds[0],
+                UserGroupRef = this.UserService.GetGroup(1).Id,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(2)
+            };
+            var curriculumId = this.CurriculumStorage.AddCurriculum(curriculum);
+            var discipline = this.DisciplineStorage.GetDiscipline(this.DataPreparer.DisciplineIds[0]);
+
+            var chapterId = this.DisciplineStorage.GetChapters(item => item.DisciplineRef == discipline.Id).First().Id;
+            var curriculumChapter = new CurriculumChapter() {
+                ChapterRef = chapterId,
+                CurriculumRef = curriculumId,
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now.AddDays(4)
+            };
+            this.CurriculumStorage.AddCurriculumChapter(curriculumChapter);
+            curriculum = this.CurriculumStorage.GetCurriculum(curriculumId);
+            Assert.IsFalse(curriculum.IsValid);
         }
 
-        /*        [Test]
-        public void UpdateCurriculum()
-        {
-            IUserService userService = _Tests.LmsService.FindService<IUserService>();
-            Group gr = userService.GetGroup(2);
-
-            var disciplines = CreateDefaultData();
-            disciplines.ForEach(item => _Storage.AddDiscipline(item));
-
-            var curriculums =
-                disciplines.Select(item => new Curriculum { Discipline = item, UserGroupRef = gr.Id }).ToList();
-            var ids = curriculums.Select(item => _Storage.AddCurriculum(item)).ToList();
-
-            curriculums.Select((item, i) => i)
-                .ToList()
-                .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
-
-            var timelines = curriculums.Select(item => new Timeline
-                                                           {
-                                                               Curriculum = item,
-                                                               StartDate = new DateTime(2011, 12, 1),
-                                                               EndDate = new DateTime(2011, 12, 31)
-                                                           }).ToList();
-            timelines.ForEach(item => _Storage.AddTimeline(item));
-
-            var chapters = disciplines.Select(item => new Chapter { Discipline = item, Name = "Chapter" }).ToList();
-            var idsSt = chapters.Select(item => _Storage.AddChapter(item)).ToList();
-
-            List<Timeline> chapterTimeline = new List<Timeline>();
-            for (int i = 0; i < disciplines.Count; ++i)
-            {
-                chapterTimeline.Add(new Timeline
-                                        {
-                                            Curriculum = curriculums[i],
-                                            ChapterRef = idsSt[i],
-                                            StartDate = new DateTime(2011, 12, 1 + i * 3),
-                                            EndDate = new DateTime(2011, 12, 4 + i * 3)
-                                        });
-            }
-            chapterTimeline.ForEach(item => _Storage.AddTimeline(item));
-
-            var topic =
-                chapters.Select(item => new Topic { Name = "Topic", Chapter = item, TopicType = _Storage.GetTopicType(2) })
-                    .ToList();
-            topic.ForEach(item => _Storage.AddTopic(item));
-
-            List<TopicAssignment> topicAssignments = new List<TopicAssignment>();
-            for (int i = 0; i < disciplines.Count; ++i)
-            {
-                topicAssignments.Add(new TopicAssignment
-                                         {
-                                             Curriculum = curriculums[i],
-                                             Topic = topic[i],
-                                             MaxScore = i * 5
-                                         });
-            }
-            topicAssignments.ForEach(item => _Storage.AddTopicAssignment(item));
-
-            curriculums.ForEach(item => _Storage.UpdateCurriculum(item));
-
-            curriculums.Select((item, i) => i)
-                .ToList()
-                .ForEach(i => AdvAssert.AreEqual(curriculums[i], _Storage.GetCurriculum(ids[i])));
-
-            try
-            {
-                _Storage.UpdateCurriculum(null);
-                Assert.Fail();
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual(true, true);
-            }
-            try
-            {
-                _Storage.UpdateCurriculum(new Curriculum());
-                Assert.Fail();
-            }
-            catch (Exception ex)
-            {
-                Assert.AreEqual(true, true);
-            }
+        [Test]
+        public void GetCurriculum() {
+            var ids = this.DataPreparer.CreateDisciplinesSet2();
+            var curriculums = this.DataPreparer.GetCurriculums();
+            AdvAssert.AreEqual(curriculums[0], this.CurriculumStorage.GetCurriculum(ids[0]));
+            AdvAssert.AreEqual(curriculums, this.CurriculumStorage.GetCurriculums(ids));
+            
+            this.tests.SetCurrentUser(Users.Panza);
+            var user = this.UserService.GetCurrentUser();
+            AdvAssert.AreEqual(curriculums, this.CurriculumStorage.GetCurriculums(user));
         }
 
+        [Test]
+        public void GetCurriculumChapterTopicByCurriculumId() {
+            var topicIds = this.DataPreparer.CreateDisciplinesSet4();
+            var curChapterIds = this.CurriculumStorage.GetCurriculumChapters(item => item.CurriculumRef == this.DataPreparer.CurriculumIds[0]).Select(item => item.Id);
+            var curChapterTopicIds = this.CurriculumStorage.GetCurriculumChapterTopics(item => curChapterIds.Contains(item.CurriculumChapterRef)).Select(item => item.Id).ToList();
+            var actualCurChaptTopicIds = this.CurriculumStorage.GetCurriculumChapterTopicsByCurriculumId(this.DataPreparer.CurriculumIds[0]).Select(item => item.Id).ToList();
+            for (int i = 0; i < curChapterTopicIds.Count; i++) {
+                Assert.AreEqual(curChapterTopicIds[i], actualCurChaptTopicIds[i]);
+            }
+        }
+       
+        // Tests Update of curriculums, curriculum chapters and curriculum chapter topics
+        [Test]
+        public void Update() {
+            this.DataPreparer.CreateDisciplinesSet4();
+            var curriculumController = this.GetController<CurriculumController>();
+            var curriculumChapterController = this.GetController<CurriculumChapterController>();
+            var curriculumChapterTopicController = this.GetController<CurriculumChapterTopicController>();
+            var id = this.DataPreparer.CurriculumIds[0];
+            var expected = this.DataPreparer.GetCurriculums()[0];
+            expected.StartDate = DateTime.Now;
+            expected.EndDate = DateTime.Now.AddDays(1);
+            curriculumController.Edit(id, expected.ToCreateModel());
+            AdvAssert.AreEqual(expected, this.CurriculumStorage.GetCurriculum(id));
+
+            // Tests invalidation of curriculum because of it's curriculum chapter dates
+            var curriculumChapter = this.CurriculumStorage.GetCurriculumChapters(item => item.CurriculumRef == id).First();
+            curriculumChapter.StartDate = DateTime.Now;
+            curriculumChapter.EndDate = DateTime.Now.AddDays(2);
+            curriculumChapterController.Edit(curriculumChapter.Id, curriculumChapter.ToCreateModel());
+            curriculumChapter = this.CurriculumStorage.GetCurriculumChapters(item => item.CurriculumRef == id).First();
+            Assert.AreEqual(curriculumChapter, this.CurriculumStorage.GetCurriculumChapter(curriculumChapter.Id));
+            Assert.IsFalse(this.CurriculumStorage.GetCurriculum(id).IsValid);
+            
+            // Tests if curriculum becomes valid if curriculum chapter becomes correct
+            curriculumChapter.EndDate = DateTime.Now.AddHours(1);
+            curriculumChapterController.Edit(curriculumChapter.Id, curriculumChapter.ToCreateModel());
+            curriculumChapter = this.CurriculumStorage.GetCurriculumChapters(item => item.CurriculumRef == id).First();
+            Assert.AreEqual(curriculumChapter, this.CurriculumStorage.GetCurriculumChapter(curriculumChapter.Id));
+            Assert.IsTrue(this.CurriculumStorage.GetCurriculum(id).IsValid);
+
+            // Tests invalidation of curriculum because of it's curriculum chapter topic dates
+            var curriculumChapterTopic = this.CurriculumStorage.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id).First();
+            curriculumChapterTopic.TestStartDate = DateTime.Now;
+            curriculumChapterTopic.TestEndDate = DateTime.Now.AddDays(2);
+            curriculumChapterTopicController.Edit(curriculumChapterTopic.Id, curriculumChapterTopic.ToCreateModel());
+            curriculumChapterTopic = this.CurriculumStorage.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id).First();
+            Assert.AreEqual(curriculumChapterTopic, this.CurriculumStorage.GetCurriculumChapterTopic(curriculumChapterTopic.Id));
+            Assert.IsFalse(this.CurriculumStorage.GetCurriculum(id).IsValid);
+
+            // Tests if curriculum becomes valid if curriculum chapter topic becomes correct
+            curriculumChapterTopic.TestStartDate = DateTime.Now;
+            curriculumChapterTopic.TestEndDate = DateTime.Now.AddMinutes(20);
+            var result = curriculumController.EditTopic(curriculumChapterTopic.Id, curriculumChapterTopic.ToCreateModel());
+            curriculumChapterTopic = this.CurriculumStorage.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id).First();
+            Assert.AreEqual(curriculumChapterTopic, this.CurriculumStorage.GetCurriculumChapterTopic(curriculumChapterTopic.Id));
+            Assert.IsTrue(result.Data.ToString().ToLower().Contains("success = true"));
+            Assert.IsTrue(this.CurriculumStorage.GetCurriculum(id).IsValid);
+
+            // Tests invalidation of curriculum because of it's curriculum chapter topic dates are out of curriculums
+            curriculumChapter.EndDate = null;
+            curriculumChapter.StartDate = null;
+            curriculumChapterController.Edit(curriculumChapter.Id, curriculumChapter.ToCreateModel());
+            curriculumChapterTopic.TestStartDate = DateTime.Now;
+            curriculumChapterTopic.TestEndDate = DateTime.Now.AddDays(2);
+            curriculumChapterTopicController.Edit(curriculumChapterTopic.Id, curriculumChapterTopic.ToCreateModel());
+            Assert.IsFalse(this.CurriculumStorage.GetCurriculum(id).IsValid);
+
+            // Tests invalidation of curriculum which group is deleted
+            expected.UserGroupRef = this.DataPreparer.GetGroups()[2].Id;
+            curriculumController.Edit(id, expected.ToCreateModel());
+            Assert.IsFalse(this.CurriculumStorage.GetCurriculum(id).IsValid);
+
+            // Tests invalidation of curriculum which discipline is invalid
+            expected.UserGroupRef = this.DataPreparer.GetGroups()[2].Id;
+            curriculumController.Edit(id, expected.ToCreateModel());
+            this.DisciplineStorage.MakeDisciplinesInvalid(this.CourseService.GetCourse(2).Id);
+            Assert.IsFalse(this.CurriculumStorage.GetCurriculum(id).IsValid);
+
+            // Tests bad data updates
+            expected.EndDate = new DateTime(2400, 1, 1);
+            curriculumController.Edit(id, expected.ToCreateModel());
+            Assert.IsFalse(curriculumController.ModelState.IsValid);
+
+            curriculumChapter = this.CurriculumStorage.GetCurriculumChapters(item => item.CurriculumRef == id).First();
+            curriculumChapter.StartDate = new DateTime(2400, 1, 1);
+            curriculumChapter.EndDate = new DateTime(2400, 1, 1);
+            curriculumChapterController.Edit(curriculumChapter.Id, curriculumChapter.ToCreateModel());
+            Assert.IsFalse(curriculumChapterController.ModelState.IsValid);
+
+            curriculumChapterTopic.TestEndDate = new DateTime(2400, 1, 1);
+            curriculumChapterTopicController.Edit(curriculumChapterTopic.Id, curriculumChapterTopic.ToCreateModel());
+            Assert.IsFalse(curriculumChapterTopicController.ModelState.IsValid);
+            
+            curriculumChapterTopic.TestEndDate = new DateTime(2400, 1, 1);
+            result = curriculumController.EditTopic(curriculumChapterTopic.Id, curriculumChapterTopic.ToCreateModel());            
+            Assert.IsTrue(result.Data.ToString().ToLower().Contains("success = false"));
+        }
+
+        [Test]
+        public void Delete() {
+            
+        }
+        /*      
         [Test]
         public void DeleteCurriculum()
         {

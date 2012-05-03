@@ -49,8 +49,8 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         {
             this.storage.MakeDisciplinesInvalid(courseId);
 
-            var topics = this.storage.GetTopics(item => (item.TestCourseRef == courseId || item.TheoryCourseRef == courseId));
-            var chapters = topics.Select(item => item.Chapter);
+            var topics = this.storage.GetTopicsByCourseId(courseId);
+            var chapters = topics.Select(item => this.storage.GetChapter(item.ChapterRef));
             var disciplineIds = chapters.Select(item => item.DisciplineRef).Distinct();
 
             this.cacheProvider.Invalidate("disciplines");
