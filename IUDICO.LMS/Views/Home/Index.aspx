@@ -196,7 +196,7 @@
                          
                          <% for (var i = 1; i <= 5; ++i)
 							{ %>
-                            <input name="rating_<%= package.Topic.Id + "_" + package.CurriculumChapterTopicId + "_" + package.CourseId + "_" + package.TopicType.ToString()%>" value="<%=i%>" <%= (package.Rating == i ? "checked='checked'" : "") %> <%= (package.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
+                            <input name="rating_<%= package.Topic.Id + "_" + package.CurriculumChapterTopicId + "_" + package.CourseId + "_" + package.TopicType.ToString()%>" value="<%=i%>" <%= (Model.TopicsRatings.ContainsKey(package.Topic.Id) && Model.TopicsRatings[package.Topic.Id] == i ? "checked='checked'" : "") %> <%= (Model.TopicsRatings.ContainsKey(package.Topic.Id) ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
                          <% } %>
                          
                          <%: Html.ActionLink("[" + package.TopicType.ToString() + "] " + package.Topic.Name + " ",
