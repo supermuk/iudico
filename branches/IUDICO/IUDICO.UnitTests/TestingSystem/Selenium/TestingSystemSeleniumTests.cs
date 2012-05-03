@@ -119,7 +119,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             Thread.Sleep(300);
             if (selenium.IsTextPresent("UK"))
             {
-                selenium.Click("xpath=/html/body/div/div/div[2]/div[2]/div[2]/span/a");
+                selenium.Click("xpath=/html/body/div/div/div[2]/div[2]/span/a");
                 selenium.WaitForPageToLoad(LoadTime);
             }
         }
