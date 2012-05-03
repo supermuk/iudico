@@ -207,4 +207,10 @@
   <data name="UserManagment" xml:space="preserve">
     <value>Керування користувачами</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Забули пароль?</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Реєстрація</value>
+  </data>
 </root>
