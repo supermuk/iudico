@@ -91,10 +91,6 @@ namespace IUDICO.Analytics
             // handle events
         }
 
-        public void Setup(IWindsorContainer container)
-        {
-        }
-
         #endregion
     }
 }
