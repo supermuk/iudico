@@ -120,6 +120,20 @@ namespace IUDICO.Analytics.Models.Storage
             this.cacheProvider.Invalidate("topicscores");
         }
 
+        public void UpdateAllUserScores()
+        {
+            this.storage.UpdateAllUserScores();
+
+            this.cacheProvider.Invalidate("userscores");
+        }
+
+        public void UpdateAllTopicScores()
+        {
+            this.storage.UpdateAllTopicScores();
+
+            this.cacheProvider.Invalidate("topicscores");
+        }
+
         #region Anomaly detection
 
         public IEnumerable<Topic> AvailebleTopics()
