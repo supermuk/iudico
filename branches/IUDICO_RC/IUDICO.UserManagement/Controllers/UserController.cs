@@ -162,14 +162,21 @@ namespace IUDICO.UserManagement.Controllers
             {
                 user.Password = null;
 
-                return View(user);
+                return this.View(user);
             }
 
             if (!this.storage.UserUniqueIdAvailable(user.UserId, user.Id))
             {
-                this.ModelState.AddModelError("UserID", Localization.GetMessage("Unique ID Error"));
+                this.ModelState.AddModelError("UserId", Localization.GetMessage("Unique ID Error"));
 
-                return View(user);
+                return this.View(user);
+            }
+
+            if (!this.storage.UserOpenIdAvailable(user.OpenId, user.Id))
+            {
+                this.ModelState.AddModelError("OpenId", Localization.GetMessage("OpenIdError"));
+
+                return this.View(user);
             }
 
             this.storage.EditUser(id, user);
@@ -243,7 +250,7 @@ namespace IUDICO.UserManagement.Controllers
 
             var userGroup = new UserGroupModel { GroupList = groupList };
 
-            return View(userGroup);
+            return this.View(userGroup);
         }
 
         [HttpPost]
@@ -334,7 +341,7 @@ namespace IUDICO.UserManagement.Controllers
 
             var userRole = new UserRoleModel { RoleList = roleList };
 
-            return View(userRole);
+            return this.View(userRole);
         }
 
         [HttpPost]
@@ -364,7 +371,7 @@ namespace IUDICO.UserManagement.Controllers
 
                 this.ModelState.AddModelError("RoleRef", "Please select role from list");
 
-                return View(userRole);
+                return this.View(userRole);
             }
 
             var role = UserRoles.GetRole(roleRef.Value);

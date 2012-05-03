@@ -97,7 +97,7 @@ namespace IUDICO.CurriculumManagement.Models
             var errors = new Dictionary<string, string>();
             
             if (this.Storage.GetGroup(curriculum.UserGroupRef) == null) {
-                errors.Add(Localization.GetMessage("ChooseGroup"),"/Curriculum/" + curriculum.Id + "/Edit");
+                errors.Add(Localization.GetMessage("ChooseGroup"), "/Curriculum/" + curriculum.Id + "/Edit");
             }
 
             if (!this.Storage.GetDiscipline(curriculum.DisciplineRef).IsValid) {
@@ -120,10 +120,17 @@ namespace IUDICO.CurriculumManagement.Models
             
                     if (curriculumChapter.StartDate > curriculumChapterTopic.TestStartDate
                         || curriculumChapter.StartDate > curriculumChapterTopic.TheoryStartDate
-                        || curriculumChapter.EndDate > curriculumChapterTopic.TheoryEndDate
-                        || curriculumChapter.EndDate > curriculumChapterTopic.TestEndDate)
+                        || curriculumChapter.EndDate < curriculumChapterTopic.TheoryEndDate
+                        || curriculumChapter.EndDate < curriculumChapterTopic.TestEndDate)
                     {
                         errors.Add(Localization.GetMessage("TopicTimelineOut") + " - " + curriculumChapterTopic.Topic.Name, "/CurriculumChapterTopic/" + curriculumChapterTopic.Id + "/Edit");
+                    }
+                    else if (curriculum.StartDate > curriculumChapterTopic.TestStartDate
+                        || curriculum.StartDate > curriculumChapterTopic.TheoryStartDate
+                        || curriculum.EndDate < curriculumChapterTopic.TheoryEndDate
+                        || curriculum.EndDate < curriculumChapterTopic.TestEndDate)
+                    {
+                        errors.Add(Localization.GetMessage("TopicTimelineOutOfCurriculum") + " - " + curriculumChapterTopic.Topic.Name, "/CurriculumChapterTopic/" + curriculumChapterTopic.Id + "/Edit");
                     }
                 }
             }

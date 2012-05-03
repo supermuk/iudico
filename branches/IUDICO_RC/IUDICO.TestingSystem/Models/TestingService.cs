@@ -55,7 +55,7 @@ namespace IUDICO.TestingSystem.Models
             return this.MlcProxy.GetResults(topic);
         }
 
-        public IEnumerable<AttemptResult> GetAllAttempts()
+        public IEnumerable<AttemptResult> GetResults()
         {
             return this.MlcProxy.GetResults();
         }

@@ -31,7 +31,7 @@ namespace IUDICO.CourseManagement
         #region IPlugin Members
         public string GetName()
         {
-            return Localization.GetMessage("CourseManagement");
+            return "CourseManagement";
         }
 
         public IEnumerable<Action> BuildActions()
@@ -40,14 +40,13 @@ namespace IUDICO.CourseManagement
             return new Action[]
             {
                 new Action(Localization.GetMessage("GetCourses"), "Course/Index"),
-                new Action(Localization.GetMessage("CreateCourse"), "Course/Create")
             };
             // actions.Add(new Action(Localization.getMessage("EditCourse"), "Course/Index", Role.Teacher));
         }
 
         public IEnumerable<MenuItem> BuildMenuItems()
         {
-            return new MenuItem[]
+          return new MenuItem[]
             {
                 new MenuItem(Localization.GetMessage("Courses"), "Course", "Index")
             };
@@ -79,11 +78,6 @@ namespace IUDICO.CourseManagement
                 "Courses",
                 "Course/{action}",
                 new { controller = "Course", action = "Index" });
-        }
-
-        public void Setup(IWindsorContainer container)
-        {
-
         }
 
         public void Update(string evt, params object[] data)

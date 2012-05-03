@@ -26,7 +26,7 @@ namespace IUDICO.CourseManagement.Controllers
             this.userService = LmsService.FindService<IUserService>();
         }
 
-        [Allow(Role = Role.Student | Role.Teacher | Role.CourseCreator)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Index()
         {
             var userId = this.userService.GetUsers().Single(i => i.Username == this.User.Identity.Name).Id;
@@ -54,7 +54,7 @@ namespace IUDICO.CourseManagement.Controllers
                 Created = i.Created,
                 Updated = i.Updated,
                 Locked = i.Locked ?? false,
-                Shared = i.Owner != currentUser.UserId,
+                Shared = i.Owner != currentUser.Username,
                 OwnerName = dic.ContainsKey(i.Owner) ? dic[i.Owner] : i.Owner,
                 UpdatedByName = i.UpdatedBy
             });
@@ -78,17 +78,8 @@ namespace IUDICO.CourseManagement.Controllers
                     course.Owner = this.userService.GetCurrentUser().Username;
                     var courseId = this.storage.AddCourse(course);
 
-                    var model = new ViewCourseModel
-                    {
-                        Id = course.Id,
-                        Name = course.Name,
-                        Created = course.Created,
-                        Updated = course.Updated,
-                        Locked = course.Locked ?? false,
-                        Shared = false,
-                        OwnerName = this.userService.GetCurrentUser().Name,
-                        UpdatedByName = this.userService.GetCurrentUser().Name
-                    };
+                    var model = this.ToViewCourseModel(course);
+
                     return Json(new { success = true, courseId = courseId, courseRow = PartialViewAsString("CourseRow", model) });
                 }
 
@@ -118,8 +109,10 @@ namespace IUDICO.CourseManagement.Controllers
                 if (ModelState.IsValid)
                 {
                     this.storage.UpdateCourse(courseId, course);
+                    
+                    var model = this.ToViewCourseModel(course);
 
-                    return Json(new { success = false, courseId = courseId, courseRow = PartialViewAsString("CourseRow", course) });
+                    return Json(new { success = true, courseId = courseId, courseRow = PartialViewAsString("CourseRow", model) });
                 }
 
                 return Json(new { success = false, courseId = courseId, html = PartialViewAsString("Edit", course) });
@@ -175,12 +168,18 @@ namespace IUDICO.CourseManagement.Controllers
             try
             {
                 var course = this.storage.GetCourse(courseId);
-
-                if (this.userService.GetCurrentUser().Username != course.Owner)
+                var currentUser = this.userService.GetCurrentUser();
+                if (currentUser.Username != course.Owner)
                 {
-                    return Json(new { success = false });
+                    this.storage.UpdateCourseUsers(
+                        courseId,
+                        this.storage.GetCourseUsers(courseId).Where(i => i.Username != currentUser.Username).Select(
+                            i => i.Id));
                 }
-                this.storage.DeleteCourse(courseId);
+                else
+                {
+                    this.storage.DeleteCourse(courseId);
+                }
 
                 return Json(new { success = true, id = courseId });
             }
@@ -288,6 +287,21 @@ namespace IUDICO.CourseManagement.Controllers
             ViewData["validateResults"] = Helpers.PackageValidator.Validate(path);
 
             return View("Import");
+        }
+
+        protected ViewCourseModel ToViewCourseModel(Course course)
+        {
+            return new ViewCourseModel
+                {
+                    Id = course.Id,
+                    Name = course.Name,
+                    Created = course.Created,
+                    Updated = course.Updated,
+                    Locked = course.Locked ?? false,
+                    Shared = false,
+                    OwnerName = this.userService.GetCurrentUser().Name,
+                    UpdatedByName = this.userService.GetCurrentUser().Name
+                };
         }
 
     }

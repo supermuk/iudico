@@ -16,6 +16,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            
             Thread.Sleep(3000);
             Assert.IsTrue(this.selenium.IsElementPresent("id=myDataTable_length"));
         }
@@ -28,6 +29,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            
             Thread.Sleep(3000);
             Assert.IsTrue(this.selenium.IsElementPresent("id=myDataTable_info"));
         }
@@ -40,6 +42,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            
             Thread.Sleep(3000);
             Assert.IsTrue(this.selenium.IsElementPresent("css=div.DataTables_sort_wrapper"));
         }
@@ -51,6 +54,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            
             Thread.Sleep(3000);
             Assert.IsTrue(this.selenium.IsElementPresent("id=myDataTable_filter"));
         }
@@ -59,18 +63,22 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         public void InitRolesContainer()
         {
             this.DefaultLogin();
+            
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            
             Thread.Sleep(3000);
-            Assert.IsTrue(this.selenium.IsElementPresent("css=span.ui-icon.ui-icon-triangle-1-e"));
+            Assert.IsTrue(this.selenium.IsElementPresent("//div[@id='catalog']//li[contains(@class, 'ui-draggable')]"));
         }
 
         [Test]
         public void LoadUsersPage()
         {
             this.DefaultLogin();
+            
             this.selenium.Click("//a[contains(@href, '/User/Index')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            
             Assert.IsTrue(this.selenium.IsElementPresent("css=h2"));
         }
     }

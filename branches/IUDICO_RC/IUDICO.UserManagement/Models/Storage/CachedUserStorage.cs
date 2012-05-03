@@ -71,7 +71,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public IEnumerable<User> GetUsers(int pageIndex, int pageSize)
         {
-            return this.GetUsers().Skip(pageIndex).Take(pageSize);
+            return this.storage.GetUsers(pageIndex, pageSize);
         }
 
         public User GetUser(Func<User, bool> predicate)
@@ -97,6 +97,11 @@ namespace IUDICO.UserManagement.Models.Storage
         public bool UserUniqueIdAvailable(string userUniqueId, Guid userId)
         {
             return this.storage.UserUniqueIdAvailable(userUniqueId, userId);
+        }
+
+        public bool UserOpenIdAvailable(string openId, Guid id)
+        {
+            return this.storage.UserOpenIdAvailable(openId, id);
         }
 
         // TODO: rewrite interface method
@@ -180,7 +185,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.cacheProvider.Get(
                 "users-ngroup-" + group.Id,
                 this.lockObject,
-                () => this.storage.GetUsersInGroup(group),
+                () => this.storage.GetUsersNotInGroup(group),
                 DateTime.Now.AddDays(1),
                 "users");
         }
@@ -346,7 +351,7 @@ namespace IUDICO.UserManagement.Models.Storage
             this.storage.AddUserToGroup(group, user);
 
             this.cacheProvider.Invalidate(
-                "groups", "users", "group-" + group.Id, "user-id-" + user.Id, "user-name-" + user.Username);
+                "groups", "users", "group-" + group.Id, "user-id-" + user.Id, "user-name-" + user.Username, "groups-user-" + user.Id);
         }
 
         public void RemoveUserFromGroup(Group group, User user)
@@ -354,7 +359,7 @@ namespace IUDICO.UserManagement.Models.Storage
             this.storage.RemoveUserFromGroup(group, user);
 
             this.cacheProvider.Invalidate(
-                "groups", "users", "group-" + group.Id, "user-id-" + user.Id, "user-name-" + user.Username);
+                "groups", "users", "group-" + group.Id, "user-id-" + user.Id, "user-name-" + user.Username, "groups-user-" + user.Id);
         }
 
         public IEnumerable<Group> GetGroupsByUser(User user)

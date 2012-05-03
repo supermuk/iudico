@@ -126,6 +126,15 @@
   <data name="Anonymous" xml:space="preserve">
     <value>Незалогований користувач</value>
   </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Назад до списку</value>
+  </data>
+  <data name="BackToSecurity" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="Ban" xml:space="preserve">
+    <value>Заблокувати</value>
+  </data>
   <data name="Ban / Unban" xml:space="preserve">
     <value>Заблокувати / розблокувати</value>
   </data>
@@ -135,8 +144,29 @@
   <data name="Ban room" xml:space="preserve">
     <value>Заблокувати лабораторію</value>
   </data>
+  <data name="Banned" xml:space="preserve">
+    <value>Заблоковано</value>
+  </data>
+  <data name="CompIDIsRequired" xml:space="preserve">
+    <value>ID комп'ютера обов'язковий</value>
+  </data>
   <data name="Computer" xml:space="preserve">
     <value>Комп'ютери</value>
+  </data>
+  <data name="ComputerIP" xml:space="preserve">
+    <value>IP адреса комп'ютера</value>
+  </data>
+  <data name="Computers at this room" xml:space="preserve">
+    <value>Комп'ютери, що в цій аудиторії</value>
+  </data>
+  <data name="CurrentUser" xml:space="preserve">
+    <value>Поточний користувач</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редагувати</value>
   </data>
   <data name="Edit computer" xml:space="preserve">
     <value>Редагувати комп'ютер</value>
@@ -144,14 +174,29 @@
   <data name="Edit room" xml:space="preserve">
     <value>Редагувати лабораторію</value>
   </data>
+  <data name="Edit Rooms" xml:space="preserve">
+    <value>Редагувати аудиторію</value>
+  </data>
+  <data name="IP" xml:space="preserve">
+    <value>IP адреса</value>
+  </data>
   <data name="LastActivityTime" xml:space="preserve">
     <value>Остання активність</value>
+  </data>
+  <data name="Must be less than 16 characters" xml:space="preserve">
+    <value>повинно містити менше ніж 16 символів</value>
+  </data>
+  <data name="NotValidIP" xml:space="preserve">
+    <value>Неправильний формат IP адреси</value>
   </data>
   <data name="Overall stats" xml:space="preserve">
     <value>Загальна статистика по активності користувачів</value>
   </data>
   <data name="Room" xml:space="preserve">
     <value>Комп'ютерна лабораторія</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Зберегти</value>
   </data>
   <data name="Security" xml:space="preserve">
     <value>Безпека</value>
@@ -165,10 +210,19 @@
   <data name="TotalNumberOfRequests" xml:space="preserve">
     <value>Загальна к-сть запитів</value>
   </data>
+  <data name="Unban" xml:space="preserve">
+    <value>Розблокувати</value>
+  </data>
+  <data name="Unchoosen computers" xml:space="preserve">
+    <value>Невибрані комп'ютери</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>Користувач</value>
   </data>
   <data name="UserActivity" xml:space="preserve">
     <value>Активність користувачів</value>
+  </data>
+  <data name="YouHaveBeenBanned" xml:space="preserve">
+    <value>Вас заблоковано</value>
   </data>
 </root>

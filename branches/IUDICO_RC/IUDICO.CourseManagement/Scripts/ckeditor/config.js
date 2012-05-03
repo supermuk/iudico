@@ -10,31 +10,44 @@ CKEDITOR.editorConfig = function (config) {
     // config.language = 'fr';
     // config.uiColor = '#AADC6E';
 
-    config.extraPlugins = 'iudico,save,syntaxhighlight,spoiler';
+    config.extraPlugins = 'iudico,save,syntaxhighlight,spoiler,switchtoolbar';
 
     CKEDITOR.config.toolbar_IUDICO =
     [
-	    ['Source','-','Save','NewPage','Preview','-','Templates'],
-	    ['Cut','Copy','Paste','PasteText','PasteFromWord','-','Print', 'SpellChecker', 'Scayt'],
-	    ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'],
+	    ['Source', '-', 'Save', 'NewPage', 'Preview', '-', 'Templates'],
+	    ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Print', 'SpellChecker', 'Scayt'],
+	    ['Undo', 'Redo', '-', 'Find', 'Replace', '-', 'SelectAll', 'RemoveFormat'],
 	    ['Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField'],
 	    '/',
-	    ['Bold','Italic','Underline','Strike','-','Subscript','Superscript'],
-	    ['NumberedList','BulletedList','-','Outdent','Indent','Blockquote','CreateDiv'],
-	    ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
-	    ['BidiLtr', 'BidiRtl' ],
-	    ['Link','Unlink','Anchor'],
-	    ['Image','Flash','Table','HorizontalRule','Smiley','SpecialChar','PageBreak'],
+	    ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript'],
+	    ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', 'CreateDiv'],
+	    ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+	    ['BidiLtr', 'BidiRtl'],
+	    ['Link', 'Unlink', 'Anchor'],
+	    ['Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak'],
 	    '/',
-	    ['Styles','Format','Font','FontSize'],
-	    ['TextColor','BGColor'],
+	    ['Styles', 'Format', 'Font', 'FontSize'],
+	    ['TextColor', 'BGColor'],
 	    ['Maximize', 'ShowBlocks', '-', 'About'],
         ['iudico-simple', 'iudico-choice', 'iudico-compile'],
-        ['Code','Spoiler']
+        ['Code', 'Spoiler', '-', 'SwitchToolbar']
     ];
-	
 
-    config.toolbar = 'IUDICO';
+    CKEDITOR.config.toolbar_IUDICOSmall =
+    [
+	    ['Source', '-', 'Save', '-', 'Undo', 'Redo', ],
+	    ['Bold', 'Italic', 'Underline', 'Strike', '-', 'Subscript', 'Superscript'],
+	    ['NumberedList', 'BulletedList'],
+	    ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+	    ['Image', 'Flash', 'Table'],
+	    '/',
+	    ['Styles', 'Format', 'Font', 'FontSize'],
+        ['iudico-simple', 'iudico-choice', 'iudico-compile'],
+        ['Code', 'Spoiler', '-', 'SwitchToolbar']
+    ];
+
+    config.toolbar = 'IUDICOSmall';
+    config.switchToToolbar = 'IUDICO';
     config.fullPage = true;
 };
 

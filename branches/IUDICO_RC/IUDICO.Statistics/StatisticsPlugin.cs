@@ -33,7 +33,7 @@ namespace IUDICO.Statistics
         #region IPlugin Members
         public string GetName()
         {
-            return Localization.GetMessage("Statistics");
+            return "Statistics";
         }
 
         public IEnumerable<Action> BuildActions()
@@ -61,11 +61,6 @@ namespace IUDICO.Statistics
         public void Update(string evt, params object[] data)
         {
             // handle events
-        }
-
-        public void Setup(IWindsorContainer container)
-        {
-
         }
 
         #endregion

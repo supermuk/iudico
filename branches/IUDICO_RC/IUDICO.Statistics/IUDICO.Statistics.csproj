@@ -113,7 +113,9 @@
     <Content Include="Views\Stats\CurrentTopicTestResults.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resource.uk-UA.resx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -127,7 +127,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void GetCourseUsersNotFoundTest()
         {
             var courses = this.Storage.GetCourseUsers(-1);
-            Assert.AreEqual(courses.Count(), 0);
+            Assert.AreEqual(0, courses.Count());
         }
 
         [Test]
@@ -145,7 +145,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             guids.Add(new Guid("88345200-abe8-4f60-90c8-0d43c5f6c0f6"));
             this.Storage.UpdateCourseUsers(1, guids.AsEnumerable());
 
-            Assert.AreEqual(5, this.Storage.GetCourseUsers(1).Count()); // Expected: 0 But was: 3
+            Assert.AreEqual(2, this.Storage.GetCourseUsers(1).Count()); // Expected: 0 But was: 3
         }
 
         [Test]
@@ -163,7 +163,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             guids.Add(new Guid("88345200-abe8-4f60-90c8-0d43c5f6c0f6"));
             this.Storage.UpdateCourseUsers(100, guids.AsEnumerable());
 
-            Assert.AreEqual(3, this.Storage.GetCourseUsers(1).Count()); // Expected: 4 But was: 3
+            Assert.AreEqual(2, this.Storage.GetCourseUsers(100).Count()); // Expected: 4 But was: 3
         }
 
         [Test]
@@ -173,7 +173,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             var guids = new List<Guid>();
             this.Storage.UpdateCourseUsers(1, guids.AsEnumerable());
 
-            Assert.AreEqual(3, this.Storage.GetCourseUsers(1).Count()); // Expected: 0 But was: 3
+            Assert.AreEqual(0, this.Storage.GetCourseUsers(1).Count()); // Expected: 0 But was: 3
         }
 
         [Test]
@@ -221,9 +221,11 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             var newCourse = new Course { Name = "New Course" };
 
             this.Storage.UpdateCourse(2, newCourse);
-            Assert.AreNotEqual(oldCourse.Owner, newCourse.Owner);
+            Assert.AreEqual(oldCourse.Owner, newCourse.Owner);
             Assert.AreEqual(oldCourse.Name, newCourse.Name);
-            Assert.AreNotEqual(oldCourse.Updated, newCourse.Updated);
+            Assert.AreEqual(oldCourse.Updated, newCourse.Updated);
+            Assert.AreEqual(oldCourse.Created, newCourse.Created);
+            Assert.AreEqual(oldCourse.Locked, newCourse.Locked);
         }
 
         #endregion
@@ -383,16 +385,6 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             var path = Path.Combine(this.tests._CourseStoragePath, "1");
 
             Assert.AreEqual(path, coursePath);
-        }
-
-        [Test]
-        [Category("GetCoursePathMethods")]
-        public void GetCourseTempPathTest()
-        {
-            var coursePath = this.Storage.GetCourseTempPath(0);
-
-            var path = "IUDICO.UnitTests\\bin\\Debug\\Site\\Data\\WorkFolder\\0";
-            Assert.IsTrue(coursePath.Contains(path));
         }
 
         #endregion

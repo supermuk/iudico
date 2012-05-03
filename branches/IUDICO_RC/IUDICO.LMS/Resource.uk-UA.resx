@@ -186,4 +186,31 @@
   <data name="Error" xml:space="preserve">
     <value>Помилка</value>
   </data>
+  <data name="Ok" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="Recommended" xml:space="preserve">
+    <value>Рекомендації</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>Керування курсами</value>
+  </data>
+  <data name="CurriculumManagement" xml:space="preserve">
+    <value>Керування навчальними планами</value>
+  </data>
+  <data name="DisciplineManagement" xml:space="preserve">
+    <value>Керування дисциплінами</value>
+  </data>
+  <data name="Statistic" xml:space="preserve">
+    <value>Статистика</value>
+  </data>
+  <data name="UserManagment" xml:space="preserve">
+    <value>Керування користувачами</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Забули пароль?</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Реєстрація</value>
+  </data>
 </root>

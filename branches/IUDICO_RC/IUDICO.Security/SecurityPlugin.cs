@@ -54,7 +54,7 @@ namespace IUDICO.Security
 
         public string GetName()
         {
-            return Localization.GetMessage("SecurityPlugin");
+            return "SecurityPlugin";
         }
 
         public IEnumerable<Action> BuildActions()
@@ -72,11 +72,6 @@ namespace IUDICO.Security
             {
                 new MenuItem(Localization.GetMessage("Security"), "Security", "Index")
             };
-        }
-
-        public void Setup(IWindsorContainer container)
-        {
-            // Unused?
         }
 
         public void RegisterRoutes(RouteCollection routes)

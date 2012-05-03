@@ -117,14 +117,29 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Activated" xml:space="preserve">
+    <value>Activated</value>
+  </data>
   <data name="AllowChoise" xml:space="preserve">
     <value>Allow Choice</value>
+  </data>
+  <data name="Allowed" xml:space="preserve">
+    <value>Allowed</value>
+  </data>
+  <data name="Allowed is required" xml:space="preserve">
+    <value>Allowed is required</value>
   </data>
   <data name="AllowExit" xml:space="preserve">
     <value>Allow Exit</value>
   </data>
   <data name="AttemptLimit" xml:space="preserve">
     <value>Attempt Limit</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Back To List</value>
+  </data>
+  <data name="Banned" xml:space="preserve">
+    <value>Banned</value>
   </data>
   <data name="BindTestCourse" xml:space="preserve">
     <value>Bind test course?</value>
@@ -150,11 +165,26 @@
   <data name="ChooseGroupForCurriculum" xml:space="preserve">
     <value>Choose group</value>
   </data>
+  <data name="CompIDIsRequired" xml:space="preserve">
+    <value>Compгеук ID is required</value>
+  </data>
+  <data name="ComputerIP" xml:space="preserve">
+    <value>Computer IP</value>
+  </data>
+  <data name="Computers" xml:space="preserve">
+    <value>Computers</value>
+  </data>
   <data name="CreateDate" xml:space="preserve">
     <value>Create Date</value>
   </data>
   <data name="CreatedDate" xml:space="preserve">
     <value>Created Date</value>
+  </data>
+  <data name="CurrentRoom" xml:space="preserve">
+    <value>Current Room</value>
+  </data>
+  <data name="CurrentUser" xml:space="preserve">
+    <value>Current User</value>
   </data>
   <data name="Email" xml:space="preserve">
     <value>Email</value>
@@ -180,6 +210,9 @@
   <data name="FullNameRequired" xml:space="preserve">
     <value>Full name is required</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
   <data name="IsFolder" xml:space="preserve">
     <value>Is Folder</value>
   </data>
@@ -198,11 +231,23 @@
   <data name="MaxScoreRequired" xml:space="preserve">
     <value>Max score is required</value>
   </data>
+  <data name="Must be less than 11 characters" xml:space="preserve">
+    <value>Must be less than 11 characters</value>
+  </data>
+  <data name="Must be less than 16 characters" xml:space="preserve">
+    <value>Must be less than 16 characters</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Name is required" xml:space="preserve">
+    <value>Name is required</value>
+  </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Name is required</value>
+  </data>
+  <data name="NotValidIP" xml:space="preserve">
+    <value>Not Valid IP</value>
   </data>
   <data name="Owner" xml:space="preserve">
     <value>Owner</value>
@@ -218,6 +263,12 @@
   </data>
   <data name="Role" xml:space="preserve">
     <value>Role</value>
+  </data>
+  <data name="Room" xml:space="preserve">
+    <value>Room</value>
+  </data>
+  <data name="SelectGroup" xml:space="preserve">
+    <value>Select Group</value>
   </data>
   <data name="SelectRole" xml:space="preserve">
     <value>Select Role</value>
@@ -254,6 +305,9 @@
   </data>
   <data name="TimeLimit" xml:space="preserve">
     <value>Time Limit</value>
+  </data>
+  <data name="UnchoosenComputers" xml:space="preserve">
+    <value>Unchoosen Computers</value>
   </data>
   <data name="UpdateDate" xml:space="preserve">
     <value>Update Date</value>

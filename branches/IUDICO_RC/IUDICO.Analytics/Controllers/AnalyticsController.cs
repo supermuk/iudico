@@ -17,7 +17,7 @@ namespace IUDICO.Analytics.Controllers
 
         // GET: /Analytics/
 
-        [Allow(Role = Role.Teacher)]
+        [Allow(Role = Role.Admin | Role.Teacher)]
         public ActionResult Index()
         {
             var query = this.storage.GetAllForecastingTrees();

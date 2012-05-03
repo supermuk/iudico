@@ -44,29 +44,37 @@ namespace IUDICO.Analytics.Models.Storage
 
         #region Recommender System
 
-        public Dictionary<int, IEnumerable<TopicScore>> GetTopicScores()
+        public Dictionary<Topic, IEnumerable<TopicScore>> GetTopicScores()
         {
             using (var d = this.GetDbDataContext())
             {
-                var topics = this.GetTopics();
-                var topicIds = topics.Select(t => t.Id);
-                var topicScores = d.TopicScores.Where(s => topicIds.Contains(s.TopicId))
-                    .GroupBy(e => e.TopicId)
-                    .OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.AsEnumerable());
-            
+                var topics = this.GetTopics().ToDictionary(t => t.Id, t => t);
+
+                var topicScores = (from t in topics.Values
+                                   join ts in d.TopicScores on t.Id equals ts.TopicId into tsj
+                                   from j in tsj.DefaultIfEmpty()
+                                   group j by t.Id
+                                   into grouped
+                                   select new { Topic = grouped.Key, Values = grouped }).OrderBy(g => g.Topic)
+                                   .ToDictionary(g => topics[g.Topic], g => g.Values.Where(f => f != null).ToList().AsEnumerable());
+
                 return topicScores;
             }
         }
 
-        public Dictionary<Guid, IEnumerable<UserScore>> GetUserScores()
+        public Dictionary<User, IEnumerable<UserScore>> GetUserScores()
         {
             using (var d = this.GetDbDataContext())
             {
-                var users = this.GetUsers();
-                var userIds = users.Select(u => u.Id);
-                var userScores = d.UserScores.Where(s => userIds.Contains(s.UserId))
-                    .GroupBy(e => e.UserId)
-                    .OrderBy(g => g.Key).ToDictionary(g => g.Key, g => g.AsEnumerable());
+                var users = this.GetUsers().ToDictionary(u => u.Id, u => u);
+
+                var userScores = (from u in users.Values
+                                  join us in this.db.UserScores on u.Id equals us.UserId into usj
+                                  from j in usj.DefaultIfEmpty()
+                                  group j by u.Id
+                                  into grouped
+                                  select new { User = grouped.Key, Values = grouped }).OrderBy(g => g.User)
+                                  .ToDictionary(g => users[g.User], g => g.Values.Where(f => f != null).ToList().AsEnumerable());
 
                 return userScores;
             }
@@ -103,9 +111,9 @@ namespace IUDICO.Analytics.Models.Storage
             
             var topicTags =
                 this.GetTopicTags(f => attempts.Keys.Contains(f.TopicId)).GroupBy(t => t.TopicId).ToDictionary(
-                    g => g.Key, g => g.Select(t => t.TagId));
+                    g => g.Key, g => g.Select(t => t.TagId).ToList());
 
-            if (attempts.Count() == 0)
+            if (!attempts.Any())
             {
                 return new List<UserScore>();
             }
@@ -126,17 +134,18 @@ namespace IUDICO.Analytics.Models.Storage
 
                 foreach (var tag in topic.Value)
                 {
+                    if (!tags.ContainsKey(tag))
+                    {
+                        tags.Add(tag, 0);
+                        count.Add(tag, 0);
+                    }
+
                     tags[tag] += (float)score.Value;
                     count[tag]++;
                 }
             }
 
-            foreach (var kv in tags)
-            {
-                tags[kv.Key] /= count[kv.Key];
-            }
-
-            return tags.Select(ut => new UserScore { UserId = user.Id, TagId = ut.Key, Score = ut.Value });
+            return tags.Select(ut => new UserScore { UserId = user.Id, TagId = ut.Key, Score = ut.Value / count[ut.Key] });
         }
 
         public void UpdateTopicScores(int id)
@@ -150,6 +159,22 @@ namespace IUDICO.Analytics.Models.Storage
                 d.TopicScores.InsertAllOnSubmit(topicTagScores);
 
                 d.SubmitChanges();
+            }
+        }
+
+        public void UpdateAllUserScores()
+        {
+            foreach (var user in this.GetUsers())
+            {
+                this.UpdateUserScores(user.Id);
+            }
+        }
+
+        public void UpdateAllTopicScores()
+        {
+            foreach (var topic in this.GetTopics())
+            {
+                this.UpdateTopicScores(topic.Id);
             }
         }
 
@@ -185,11 +210,11 @@ namespace IUDICO.Analytics.Models.Storage
             var userTagScores = this.db.UserScores.Where(s => s.UserId == user.Id).ToDictionary(s => s.TagId, s => 100 - s.Score);
             var topicTagScores = this.db.TopicScores.Where(s => s.TopicId == topic.Id).ToDictionary(s => s.TagId, s => s.Score);
 
-            var commonTags = userTagScores.Select(t => t.Key).Intersect(topicTagScores.Select(t => t.Key));
+            var commonTags = userTagScores.Select(t => t.Key).Intersect(topicTagScores.Select(t => t.Key)).ToList();
             var n = commonTags.Count();
 
-            var userCommonScores = userTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value);
-            var topicCommonScores = topicTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value);
+            var userCommonScores = userTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value).ToList();
+            var topicCommonScores = topicTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value).ToList();
 
             var sum1 = userCommonScores.Sum();
             var sum2 = topicCommonScores.Sum();
@@ -232,8 +257,8 @@ namespace IUDICO.Analytics.Models.Storage
                                       .Contains(group.Id))
                                       .Select(r => new UserRating(r.User, r.Score.ToPercents().Value))
                                       .ToList();
-            
-            var usersParticipated = groupResults.Select(g => g.User);
+
+            var usersParticipated = groupResults.Select(g => g.User).ToList();
             var n = usersParticipated.Count();
 
             if (n == 0)
@@ -244,28 +269,132 @@ namespace IUDICO.Analytics.Models.Storage
             var usersIds = usersParticipated.Select(u => u.Id);
 
             var groupRatings = group.GroupUsers
-                                    .Select(gu => new UserRating(gu.User, 1.0 * gu.User.TestsSum / gu.User.TestsTotal))
+                                    .Select(gu => new UserRating(gu.User, (gu.User.TestsTotal > 0 ? 1.0 * gu.User.TestsSum / gu.User.TestsTotal : 0)))
                                     .Where(gu => usersIds.Contains(gu.User.Id))
                                     .ToList();
 
             groupResults.Sort();
             groupRatings.Sort();
 
-            var ratResults = groupResults.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User, a => a.Index);
-            var ratRatings = groupRatings.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User, a => a.Index);
+            var ratResults = groupResults.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User.Id, a => a.Index);
+            var ratRatings = groupRatings.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User.Id, a => a.Index);
 
-            var ratingDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(ratResults[u] - ratRatings[u]));
+            var ratingDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(ratResults[u.Id] - ratRatings[u.Id]));
             var ratingMax = 2 * ((n + 1) / 2) * (n / 2);
             var ratingNormalized = ratingDifference / ratingMax;
 
-            var diffResults = groupResults.ToDictionary(a => a.User, a => a.Score);
-            var diffRatings = groupRatings.ToDictionary(a => a.User, a => a.Score);
+            var diffResults = groupResults.ToDictionary(a => a.User.Id, a => a.Score);
+            var diffRatings = groupRatings.ToDictionary(a => a.User.Id, a => a.Score);
 
-            var scoreDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(diffResults[u] - diffRatings[u]));
+            var scoreDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(diffResults[u.Id] - diffRatings[u.Id]));
             var scoreMax = n * 100;
             var scoreNormalized = scoreDifference / scoreMax;
 
             return new GroupTopicStat(ratingNormalized, scoreNormalized);
+        }
+
+        public double GetScoreRatingTopicStatistic(Topic topic, IEnumerable<Group> groups)
+        {
+            if (groups != null && groups.Count() != 0)
+            {
+                var result = 0.0;
+                foreach (var group in groups)
+                {
+                    GroupTopicStat groupStat = this.GetGroupTopicStatistic(topic, group);
+                    result += (groupStat.RatingDifference + groupStat.TopicDifficulty) / 2;
+                }
+                return result / groups.Count();
+            }
+            return 0.0;
+        }
+
+        public double GetTopicTagStatistic(Topic topic)
+        {
+            var results = this.GetResults(topic).ToList();
+            var users = results.Select(r => r.User).ToList();
+
+            // Масив типу : юзер - його теги і їх значення 
+            var usersWithTags = new List<UserTags>();
+            foreach (var user in users)
+            {
+                var temp = new UserTags { Id = user.Id };
+                temp.Tags = new Dictionary<int, double>();
+                foreach (var tag in this.GetUserTagScores(user))
+                {
+                    temp.Tags.Add(tag.TagId, tag.Score);
+                }
+                usersWithTags.Add(temp);
+            }
+
+            // Масив типу : тег - ( значення тегу певного юзера, результат тесту того ж юзера) 
+            var tagValueScores = new Dictionary<int, List<KeyValuePair<double, double>>>();
+
+            foreach (var userWithTag in usersWithTags)
+            {
+                if (userWithTag.Tags == null)
+                {
+                    return 0;
+                }
+                foreach (var tag in userWithTag.Tags)
+                {
+                    var item = new KeyValuePair<double, double>(userWithTag.Tags[tag.Key], results.First(x => x.User.Id == userWithTag.Id).Score.ScaledScore.Value * 100);
+                    
+                    if (!tagValueScores.Keys.Contains(tag.Key))
+                    {
+                        tagValueScores.Add(tag.Key, new List<KeyValuePair<double, double>>() { item });
+                    }
+                    else
+                    {
+                        tagValueScores[tag.Key].Add(item);
+                    }
+                }
+            }
+
+            var generalAmount = 0;
+            var successAmount = 0;
+
+            foreach (var tagValueScore in tagValueScores)
+            {
+                tagValueScore.Value.Sort(Comparer);
+                for (int i = 0; i < tagValueScore.Value.Count; i++)
+                {
+                    for (int j = 0; j < tagValueScore.Value.Count; j++)
+                    {
+                        if (Math.Abs(tagValueScore.Value[i].Key - tagValueScore.Value[j].Key) < 20)
+                        {
+                            if (Math.Abs(tagValueScore.Value[i].Value - tagValueScore.Value[j].Value) < 20)
+                            {
+                                successAmount++;
+                            }
+                            generalAmount++;
+                        }
+                        
+                    }
+                }
+                
+            }
+
+            return (double) successAmount / generalAmount;
+        }
+        static int Comparer(KeyValuePair<double, double> a, KeyValuePair<double, double> b)
+        {
+            return a.Key.CompareTo(b.Key);
+        }
+
+        public double GaussianDistribution(Topic topic)
+        {
+            
+            var results = this.GetResults(topic).Select(x => (double)x.Score.ScaledScore * 100).ToList();
+            if (results == null || results.Count == 0)
+            {
+                return 0;
+            }
+            var u = results.Sum() / results.Count;
+            var variance = results.Sum(groupResult => Math.Pow(groupResult - u, 2)) / results.Count();
+            var a = 1 / (Math.Sqrt(2 * Math.PI) * Math.Sqrt(variance));
+            var s = results.Select(groupResult => Math.Pow(Math.E, -Math.Pow(groupResult - Math.Sqrt(variance), 2) / (2 * variance))).Count(b => a * b < 0.001);
+
+            return 1 - (double)s / results.Count;
         }
 
         #endregion
@@ -310,11 +439,11 @@ namespace IUDICO.Analytics.Models.Storage
 
         public void DeleteTag(int id)
         {
-            var containsFeatures = this.db.TopicTags.Where(tf => tf.TagId == id).Any();
+            var containsFeatures = this.db.TopicTags.Any(tf => tf.TagId == id);
 
             if (containsFeatures)
             {
-                throw new Exception("Can't delete feature, which has topics assigned to it");
+                throw new Exception("Can't delete tag, which has topics assigned to it");
             }
 
             this.db.Tags.DeleteOnSubmit(this.GetTag(id));
@@ -322,7 +451,7 @@ namespace IUDICO.Analytics.Models.Storage
 
         public void EditTags(int id, IEnumerable<int> topics)
         {
-            var allTopics = this.db.TopicTags.Where(tf => tf.TagId == id).AsEnumerable();
+            var allTopics = this.db.TopicTags.Where(tf => tf.TagId == id).ToList();
             var deletedTopics = allTopics.Where(tf => !topics.Contains(tf.TopicId));
             var addTopics = topics.Where(i => !allTopics.Select(t => t.TopicId).Contains(i));
 
@@ -408,7 +537,7 @@ namespace IUDICO.Analytics.Models.Storage
             return listOfAvailableTopics;
         }
 
-        public IEnumerable<Group> AvailebleGroups(int topicId)
+        public IEnumerable<Group> AvailableGroups(int topicId)
         {
             var listOfAvailableGroups = new List<Group>();
            
@@ -434,12 +563,11 @@ namespace IUDICO.Analytics.Models.Storage
 
             var topic = this.lmsService.FindService<IDisciplineService>().GetTopic(topicId);
             var groups = this.lmsService.FindService<IUserService>().GetGroups();
-            var curriculumChapterTopic = topic.CurriculumChapterTopics.Where(item => item.TopicRef == topic.Id).First();
+            var curriculumChapterTopic = topic.CurriculumChapterTopics.First(item => item.TopicRef == topic.Id);
 
-            foreach (Group group in groups)
+            foreach (var group in groups)
             {
-                if (this.lmsService.FindService<IDisciplineService>()
-                    .GetTopicsByGroupId(group.Id).Contains(topic))
+                if (this.lmsService.FindService<IDisciplineService>().GetTopicsByGroupId(group.Id).Contains(topic))
                 {
                     listOfAvailableGroups.Add(group);
                 }
@@ -462,6 +590,7 @@ namespace IUDICO.Analytics.Models.Storage
 
                     var finishTime = studentScore.FinishTime.HasValue ? studentScore.FinishTime : null;
                     var startTime = studentScore.StartTime.HasValue ? studentScore.StartTime : null;
+                    
                     if (finishTime == null || startTime == null)
                     {
                         value[1] = 0;
@@ -472,6 +601,7 @@ namespace IUDICO.Analytics.Models.Storage
                     }
 
                     var userScores = this.GetUserTagScores(student);
+                    
                     for (int i = 0; i < userScores.Count(); i++)
                     {
                         value[i + 2] = userScores.ElementAt(i).Score;
@@ -488,11 +618,11 @@ namespace IUDICO.Analytics.Models.Storage
             var result = new List<KeyValuePair<User, double[]>>();
 
             var topic = this.lmsService.FindService<IDisciplineService>().GetTopic(topicId);
-            var curriculumChapterTopic = topic.CurriculumChapterTopics.Where(item => item.TopicRef == topic.Id).First();
+            var curriculumChapterTopic = topic.CurriculumChapterTopics.First(item => item.TopicRef == topic.Id);
             var group = this.lmsService.FindService<IUserService>().GetGroup(groupId);
             var students = this.lmsService.FindService<IUserService>().GetUsersByGroup(group);
 
-            foreach (User student in students)
+            foreach (var student in students)
             {
                 var value = new double[2 + this.GetTags().Count()];
                 var studentScore = this.lmsService.FindService<ITestingService>()
@@ -501,6 +631,7 @@ namespace IUDICO.Analytics.Models.Storage
 
                 var finishTime = studentScore.FinishTime.HasValue ? studentScore.FinishTime : null;
                 var startTime = studentScore.StartTime.HasValue ? studentScore.StartTime : null;
+
                 if (finishTime == null || startTime == null)
                 {
                     value[0] = 0;
@@ -513,10 +644,9 @@ namespace IUDICO.Analytics.Models.Storage
                 var score = studentScore.Score.ToPercents();
                 value[1] = (score == null) ? 0 : score.Value;
 
-                
-
                 var userScores = this.GetUserTagScores(student);
-                for (int i = 0; i < userScores.Count(); i++)
+                
+                for (var i = 0; i < userScores.Count(); i++)
                 {
                     value[i + 2] = userScores.ElementAt(i).Score;
                 }

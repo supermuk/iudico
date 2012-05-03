@@ -49,7 +49,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <td>
                     <%: Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new { CurriculumChapterId = item.Id }, null)%>
                     |
-                    <%: Html.ActionLink(Localization.GetMessage("EditCurriculumChapterTopics"), "Index", "CurriculumChapterTopic", new { CurriculumChapterId = item.Id }, null)%>
+                    <%: Html.ActionLink(Localization.GetMessage("EditTopicAssignment"), "Index", "CurriculumChapterTopic", new { CurriculumChapterId = item.Id }, null)%>
                 </td>
             </tr>
         <% } %>

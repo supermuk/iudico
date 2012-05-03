@@ -31,7 +31,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
         protected bool TestGroup(IEnumerable<Group> users, IEnumerable<Group> inserted)
         {
-            return inserted.Except(users, new GroupComparer()).Count() == 0;
+            return !inserted.Except(users, new GroupComparer()).Any();
         }
 
         protected class GroupComparer : IEqualityComparer<Group>

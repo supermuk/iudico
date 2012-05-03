@@ -1,6 +1,7 @@
 ﻿<%@ Assembly Name="IUDICO.Analytics" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.ForecastingTree>>" %>
 <%@ Import Namespace="IUDICO.Analytics" %>
+<%@ Import Namespace="IUDICO.Common" %>
 <%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
@@ -9,21 +10,21 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <%:Html.ActionLink("Tags", "Index", "Tags")%> | <%:Html.ActionLink("Recommender", "Index", "Recommender")%> | <%:Html.ActionLink("Anomaly Detection", "Index", "AnomalyDetection")%>
+    <%:Html.ActionLink(Localization.GetMessage("Tags"), "Index", "Tags")%> | <%:Html.ActionLink(Localization.GetMessage("Recommender"), "Index", "Recommender")%> | <%:Html.ActionLink(Localization.GetMessage("AnomalyDetection"), "Index", "AnomalyDetection")%> | <%:Html.ActionLink(Localization.GetMessage("DisciplineTopicQuality"), "Index", "Quality")%>
 
-    <h2>Hello Analytics</h2>
+    <h2><%=Localization.GetMessage("HelloAnalytics")%></h2>
 
      <table>
      
      <tr>
         <th> </th>
-        <th>Name</th>
-        <th>Created</th>
-        <th>Updated</th>
-        <th>Edit</th>
-        <th>Delete</th>
-        <th>Teach</th>
-        <th>Make forecasting</th>
+        <th><%=Localization.GetMessage("Name")%></th>
+        <th><%=Localization.GetMessage("Created") %></th>
+        <th><%=Localization.GetMessage("Updated") %></th>
+        <th><%=Localization.GetMessage("Edit") %></th>
+        <th><%=Localization.GetMessage("Delete") %></th>
+        <th><%=Localization.GetMessage("Teach") %></th>
+        <th><%=Localization.GetMessage("MakeForecasting") %></th>
      </tr>
 
      <%

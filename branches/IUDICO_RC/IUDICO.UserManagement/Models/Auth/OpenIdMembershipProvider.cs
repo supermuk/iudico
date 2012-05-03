@@ -17,10 +17,10 @@ namespace IUDICO.UserManagement.Models.Auth
             this.userStorage = userStorage;
         }
 
-        protected string GetConfigValue(string configValue, string defaultValue)
+        /*protected string GetConfigValue(string configValue, string defaultValue)
         {
             return string.IsNullOrEmpty(configValue) ? defaultValue : configValue;
-        }
+        }*/
 
         public MembershipCreateStatus CreateUser(string username, string password, string email, string openId, bool isApproved)
         {

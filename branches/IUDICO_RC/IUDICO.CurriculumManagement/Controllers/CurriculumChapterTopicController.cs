@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using IUDICO.Common;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Models.Storage;
@@ -30,7 +31,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
             ViewData["DisciplineName"] = Storage.GetDiscipline(curriculum.DisciplineRef).Name;
             ViewData["CurriculumId"] = curriculum.Id;
-            ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef).Name;
+            ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef) != null ? Storage.GetGroup(curriculum.UserGroupRef).Name : Localization.GetMessage("GroupNotExist");
             ViewData["ChapterName"] = Storage.GetChapter(curriculumChapter.ChapterRef).Name;
             return View(
                 curriculumChapterTopics.Select(item => new ViewCurriculumChapterTopicModel
@@ -64,7 +65,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                 curriculumChapterTopic.TheoryEndDate);
 
             Session["CurriculumChapterId"] = curriculumChapter.Id;
-            ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef).Name;
+            ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef) != null ? Storage.GetGroup(curriculum.UserGroupRef).Name : Localization.GetMessage("GroupNotExist");
             ViewData["DisciplineName"] = Storage.GetDiscipline(curriculum.DisciplineRef).Name;
             ViewData["ChapterName"] = Storage.GetChapter(curriculumChapter.ChapterRef).Name;
             ViewData["TopicName"] = Storage.GetTopic(curriculumChapterTopic.TopicRef).Name;

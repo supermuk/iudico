@@ -17,6 +17,8 @@ using IUDICO.TestingSystem.ViewModels;
 
 namespace IUDICO.TestingSystem.Controllers
 {
+    using System;
+
     using IUDICO.Common;
 
     public class TrainingController : PluginController
@@ -79,7 +81,16 @@ namespace IUDICO.TestingSystem.Controllers
                 return this.View("Error", "~/Views/Shared/Site.Master", Localization.GetMessage("Topic_Not_Found"));
             }
 
-            var course = this.CourseService.GetCourse(courseId);
+            Course course;
+            try
+            {
+                course = this.CourseService.GetCourse(courseId);
+            }
+            catch (InvalidOperationException)
+            {
+                course = null;    
+            }
+            
             if (course == null)
             {
                 return this.View("Error", "~/Views/Shared/Site.Master", Localization.GetMessage("Course_Not_Found"));

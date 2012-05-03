@@ -404,7 +404,29 @@ namespace IUDICO.Common.Models.Shared
         }
     }
 
-
+    public class LocalizedStringLengthAttribute : StringLengthAttribute
+    {
+        public LocalizedStringLengthAttribute(int length)
+            : base(length)
+        {
+           
+        }
+        public override string FormatErrorMessage(string name)
+        {
+            return Localization.GetMessage(this.ErrorMessage);
+        }
+    }
+    public class LocalizedRegularExpressionAttribute : RegularExpressionAttribute
+    {
+        public LocalizedRegularExpressionAttribute(string pattern) : base(pattern)
+        {
+            ErrorMessage = Localization.GetMessage(ErrorMessage);
+        }
+        public override string FormatErrorMessage(string name)
+        {
+            return Localization.GetMessage(this.ErrorMessage);
+        }
+    }
     public class LocalizedDisplayNameAttribute : DisplayNameAttribute
     {
 

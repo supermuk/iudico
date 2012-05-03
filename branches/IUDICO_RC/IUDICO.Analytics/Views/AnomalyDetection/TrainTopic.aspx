@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.Analytics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<KeyValuePair<IUDICO.Common.Models.Shared.User,double[]>>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="IUDICO.Common.Models.Shared.User,double[]>>>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Train Topic
@@ -24,7 +25,7 @@
             }
         }
     </script>
-    <h2>Train Topic</h2>
+    <h2><%=Localization.GetMessage("TrainTopic")%></h2>
     <%if (ViewData["ShowError"] != null)
       { %>
       Please, select valid training set!<br /> 
@@ -35,11 +36,11 @@
     <form action="/AnomalyDetection/TrainAlg/" method="get">
      <table>
         <tr>
-            <th>Student Name</th>
-            <th>Student Score</th>
-            <th>Student Time</th>
-            <th>Normal</th>
-            <th>Anomalies</th>
+            <th><%=Localization.GetMessage("StudentName") %></th>
+            <th><%=Localization.GetMessage("StudentScore") %></th>
+            <th><%=Localization.GetMessage("StudentTime") %></th>
+            <th><%=Localization.GetMessage("Normal") %></th>
+            <th><%=Localization.GetMessage("Anomalities") %></th>
         </tr>
 
      <%

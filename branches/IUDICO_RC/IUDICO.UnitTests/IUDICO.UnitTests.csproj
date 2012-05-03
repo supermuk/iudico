@@ -74,6 +74,10 @@
     <Reference Include="Microsoft.LearningComponents.Compression">
       <HintPath>..\IUDICO.CourseManagement\Libraries\Microsoft.LearningComponents.Compression.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.LearningComponents.Storage, Version=1.3.1.0, Culture=neutral, PublicKeyToken=24e5ae139825747e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\IUDICO.TestingSystem\Libraries\Microsoft.LearningComponents.Storage.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Moq, Version=4.0.10827.0, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -117,6 +121,7 @@
     <Compile Include="Analytics\AnomalyDetectionAlgorithmTest.cs" />
     <Compile Include="Analytics\DecisionTreesTest.cs" />
     <Compile Include="Analytics\TrainingSetTest.cs" />
+    <Compile Include="Base\BaseControllerTest.cs" />
     <Compile Include="Base\SimpleWebTest.cs" />
     <Compile Include="CompileService\CompileServiceHelper.cs" />
     <Compile Include="CompileService\CompileServiceLanguageSourceCode.cs" />
@@ -136,12 +141,13 @@
     <Compile Include="CompileService\UnitTests\CompileServiceUnitTests.cs" />
     <Compile Include="CourseManagement\CourseManagmentTest.cs" />
     <Compile Include="CourseManagement\BaseCourseManagementTest.cs" />
+    <Compile Include="CourseManagement\NUnit\DateFormatConverterTests.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestManagerTest.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestModelsTest.cs" />
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
     <Compile Include="CourseManagement\NUnit\SequencingPatternManagerTests.cs" />
     <Compile Include="CourseManagement\NUnit\HelpersTest.cs" />
-    <Compile Include="CourseManagement\Selenium\StudentRole.cs" />
+    <Compile Include="CourseManagement\Selenium\TeacherRole.cs" />
     <Compile Include="CurriculumManagement\Constants.cs" />
     <Compile Include="CurriculumManagement\ContextMocks.cs" />
     <Compile Include="CurriculumManagement\DataPreparer.cs" />
@@ -172,14 +178,18 @@
     <Compile Include="Security\Selenium\SecuritySeleniumTester.cs" />
     <Compile Include="TestingSystem\NUnit\FileSystemPackageTests.cs" />
     <Compile Include="TestingSystem\NUnit\PlayModelTests.cs" />
+    <Compile Include="TestingSystem\NUnit\QueryConditionTests.cs" />
+    <Compile Include="TestingSystem\NUnit\TrainingControllerTests.cs" />
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="TestingSystem\Selenium\ExSelenium.cs" />
     <Compile Include="TestingSystem\Selenium\TestingSystemSeleniumTests.cs" />
     <Compile Include="UserManagement\NUnit\ActivateUser.cs" />
     <Compile Include="UserManagement\NUnit\AddUserToGroup.cs" />
+    <Compile Include="UserManagement\NUnit\Analytics.cs" />
     <Compile Include="UserManagement\NUnit\BatchUserCreation.cs" />
     <Compile Include="UserManagement\NUnit\ChangePassword.cs" />
     <Compile Include="UserManagement\NUnit\ChangeUsersRole.cs" />
+    <Compile Include="UserManagement\NUnit\GroupControllerTest.cs" />
     <Compile Include="UserManagement\NUnit\CreateNewGroup.cs" />
     <Compile Include="UserManagement\NUnit\CreateNewUser.cs" />
     <Compile Include="UserManagement\NUnit\DeactivateUser.cs" />
@@ -187,8 +197,10 @@
     <Compile Include="UserManagement\NUnit\DeleteUser.cs" />
     <Compile Include="UserManagement\NUnit\EditGroup.cs" />
     <Compile Include="UserManagement\NUnit\EditUsersAccount.cs" />
+    <Compile Include="UserManagement\NUnit\General.cs" />
     <Compile Include="UserManagement\NUnit\GetGroups.cs" />
     <Compile Include="UserManagement\NUnit\GetUsers.cs" />
+    <Compile Include="UserManagement\NUnit\Models.cs" />
     <Compile Include="UserManagement\NUnit\Register.cs" />
     <Compile Include="UserManagement\NUnit\RemoveUserFromGroup.cs" />
     <Compile Include="UserManagement\NUnit\RestorePassword.cs" />

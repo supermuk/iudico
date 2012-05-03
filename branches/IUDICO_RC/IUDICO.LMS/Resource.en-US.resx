@@ -175,7 +175,7 @@
     <value>Save&amp;nbsp;&amp;amp; Close</value>
   </data>
   <data name="AccessDenied" xml:space="preserve">
-    <value>AccessDenied</value>
+    <value>Access Denied</value>
   </data>
   <data name="Loginn" xml:space="preserve">
     <value>Login</value>
@@ -185,5 +185,32 @@
   </data>
   <data name="Error" xml:space="preserve">
     <value>Error</value>
+  </data>
+  <data name="Ok" xml:space="preserve">
+    <value>ОК</value>
+  </data>
+  <data name="Recommended" xml:space="preserve">
+    <value>Recommended</value>
+  </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>Course Management</value>
+  </data>
+  <data name="CurriculumManagement" xml:space="preserve">
+    <value>Curriculum Managment</value>
+  </data>
+  <data name="DisciplineManagement" xml:space="preserve">
+    <value>Discipline Management</value>
+  </data>
+  <data name="Statistic" xml:space="preserve">
+    <value>Statistic</value>
+  </data>
+  <data name="UserManagment" xml:space="preserve">
+    <value>User Management</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
   </data>
 </root>

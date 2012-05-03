@@ -1,4 +1,7 @@
-﻿namespace IUDICO.UnitTests.Security.NUnit
+﻿using IUDICO.Common.Models.Caching.Provider;
+using IUDICO.Security.Models.Storages.Cache;
+
+namespace IUDICO.UnitTests.Security.NUnit
 {
     using System;
 
@@ -71,7 +74,10 @@
         {
             var context = this.mockSecurityDataContext.Object;
             Func<ISecurityDataContext> createSecurityDataContext = () => { return context; };
-            this.banStorage = new DatabaseBanStorage(this.mockLmsService.Object, createSecurityDataContext);
+
+            var dbbanStorage = new DatabaseBanStorage(this.mockLmsService.Object, createSecurityDataContext);
+            var cachePrvoider = new HttpCache();
+            this.banStorage = new CachedBanStorage(dbbanStorage, cachePrvoider);
         }
 
         private void MockSecurityStorage()
@@ -80,7 +86,9 @@
 
             Func<ISecurityDataContext> createSecurityDataContext = () => { return context; };
 
-            this.securityStorage = new DatabaseSecurityStorage(createSecurityDataContext);
+            var dbsecurityStorage = new DatabaseSecurityStorage(createSecurityDataContext);
+            var cachePrvoider = new HttpCache();
+            this.securityStorage = new CachedSecurityStorage(dbsecurityStorage, cachePrvoider);
         }
 
         private static IMockableTable<Computer> CreateComputers()

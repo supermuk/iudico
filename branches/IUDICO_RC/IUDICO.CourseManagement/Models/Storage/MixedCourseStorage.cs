@@ -160,6 +160,13 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             db.SubmitChanges();
 
+            course.Updated = oldCourse.Updated;
+            course.Created = oldCourse.Created;
+            course.UpdatedBy = oldCourse.UpdatedBy;
+            course.Locked = oldCourse.Locked;
+            course.Owner = oldCourse.Owner;
+            course.Id = oldCourse.Id;
+
             this.LmsService.Inform(CourseNotifications.CourseEdit, course);
         }
 
