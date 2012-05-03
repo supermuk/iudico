@@ -27,5 +27,7 @@ namespace IUDICO.Common.Models.Services
         Group GetGroup(int id);
 
         #endregion
+
+        IEnumerable<UserTopicRating> GetRatings(User user, IEnumerable<int> topicIds);
     }
 }
