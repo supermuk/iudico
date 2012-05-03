@@ -13,10 +13,10 @@ namespace IUDICO.Analytics.Models.Storage
 
         IEnumerable<ForecastingTree> GetAllForecastingTrees();
         IEnumerable<ForecastingTree> GetForecastingTrees(Guid userRef);
-        IEnumerable<TopicStat> GetRecommenderTopics(User user);
-        IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount);
 
         #endregion
+
+        #region Tags methods
 
         IEnumerable<Tag> GetTags();
         Tag GetTag(int id);
@@ -27,19 +27,32 @@ namespace IUDICO.Analytics.Models.Storage
         void DeleteTag(int id);
         void EditTags(int id, IEnumerable<int> topics);
 
-        Dictionary<int, IEnumerable<TopicScore>> GetTopicScores();
-        Dictionary<Guid, IEnumerable<UserScore>> GetUserScores();
-        
+        #endregion
+
+        #region Recommender System
+
+        IEnumerable<TopicStat> GetRecommenderTopics(User user);
+        IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount);
+        Dictionary<Topic, IEnumerable<TopicScore>> GetTopicScores();
+        Dictionary<User, IEnumerable<UserScore>> GetUserScores();
         void UpdateUserScores(Guid id);
         void UpdateTopicScores(int id);
+        void UpdateAllUserScores();
+        void UpdateAllTopicScores();
+
+        #endregion
 
         #region Anomaly detection
 
         IEnumerable<Topic> AvailebleTopics();
-        IEnumerable<Group> AvailebleGroups(int topicId);
+        IEnumerable<Group> AvailableGroups(int topicId);
         IEnumerable<KeyValuePair<User, double[]>> GetAllStudentListForTraining(int topicId);
         IEnumerable<KeyValuePair<User, double[]>> GetStudentListForTraining(int topicId, int groupId);
 
         #endregion
+
+        double GaussianDistribution(Topic topic);
+        double GetTopicTagStatistic(Topic topic);
+        double GetScoreRatingTopicStatistic(Topic topic, IEnumerable<Group> groups);
     }
 }

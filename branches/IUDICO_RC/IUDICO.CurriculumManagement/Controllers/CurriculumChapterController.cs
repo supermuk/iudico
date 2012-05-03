@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using IUDICO.Common;
 using IUDICO.Common.Models.Shared;
 using IUDICO.CurriculumManagement.Models.Storage;
 using IUDICO.CurriculumManagement.Models;
@@ -35,7 +36,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                         ChapterName = Storage.GetChapter((int)item.ChapterRef).Name
                     });
 
-            ViewData["GroupName"] = group != null ? group.Name : string.Empty;
+            ViewData["GroupName"] = group != null ? group.Name : Localization.GetMessage("GroupNotExist");
             ViewData["Discipline"] = discipline;
             
             return View(model);

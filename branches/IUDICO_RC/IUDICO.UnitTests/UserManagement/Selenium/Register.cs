@@ -13,7 +13,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         public void RegisterValid()
         {
             this.selenium.Open("/");
-            this.selenium.Click("link=Register");
+            this.selenium.Click("//a[contains(@href, '/Account/Register')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             var guid = Guid.NewGuid();
@@ -24,7 +24,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Type("id=Email", "CreateUserSuccess@UniqueUserId.com");
             this.selenium.Type("id=Name", "name");
             this.selenium.Click("//input[@value='Register']");
-            this.selenium.WaitForPageToLoad((this.seleniumWait * 2).ToString());
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             Assert.IsTrue(this.selenium.IsTextPresent("Registered"));
         }
 
@@ -32,7 +32,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         public void RegisterInvalid()
         {
             this.selenium.Open("/");
-            this.selenium.Click("link=Register");
+            this.selenium.Click("//a[contains(@href, '/Account/Register')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             var guid = Guid.NewGuid();

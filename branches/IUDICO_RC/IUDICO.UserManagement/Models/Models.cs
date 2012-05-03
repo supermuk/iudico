@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
@@ -10,8 +9,6 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.UserManagement.Models
 {
-    using IUDICO.Common;
-
     public class DetailsModel
     {
         public DetailsModel(User user, IEnumerable<Role> roles, IEnumerable<Group> groups)
@@ -234,34 +231,5 @@ namespace IUDICO.UserManagement.Models
         [LocalizedDropDownList("SelectRole", SourceProperty = "RoleList")]
         [LocalizedDisplayName("Role")]
         public int RoleRef { get; set; }
-    }
-
-    public class LocalizedDisplayNameAttribute : DisplayNameAttribute
-    {
-        public LocalizedDisplayNameAttribute(string displayNameKey)
-            : base(displayNameKey)
-        {
-        }
-
-        public override string DisplayName
-        {
-            get { return Localization.GetMessage(base.DisplayName); }
-        }
-    }
-
-    public class LocalizedRequiredAttribute : RequiredAttribute
-    {
-        public override string FormatErrorMessage(string name)
-        {
-            return Localization.GetMessage(this.ErrorMessage);
-        }
-    }
-
-    public class LocalizedDropDownListAttribute : DropDownListAttribute
-    {
-        public LocalizedDropDownListAttribute(string dropDownListKey)
-        {
-            this.OptionLabel = Localization.GetMessage(dropDownListKey);
-        }
     }
 }

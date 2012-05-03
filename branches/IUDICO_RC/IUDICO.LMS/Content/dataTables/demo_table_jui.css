@@ -129,18 +129,15 @@ table.display thead th div.DataTables_sort_wrapper span {
 }
 
 .dataTables_length {
-	width: 40%;
 	float: left;
 }
 
 .dataTables_filter {
-	width: 50%;
 	float: right;
 	text-align: right;
 }
 
 .dataTables_info {
-	width: 50%;
 	float: left;
 }
 
@@ -234,7 +231,7 @@ table.display td.center {
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * DataTables row classes
- */
+
 table.display tr.odd.gradeA {
 	background-color: #ddffdd;
 }
@@ -280,14 +277,14 @@ table.display tr.even.gradeU {
 
 
 tr.odd {
-	background-color: #DCE6F0; /*#E2E4FF;*/
+	background-color: #DCE6F0;
 }
 
 tr.even {
 	background-color: white;
 }
 
-
+ */
 
 
 
@@ -377,31 +374,30 @@ table.display tr.odd.row_selected td {
 /*
  * Sorting classes for columns
  */
-/* For the standard odd/even */
+/* For the standard odd/even 
 tr.odd td.sorting_1 {
-	background-color: #B7C9DD; /*#D3D6FF; ше темніший*/
+	background-color: #B7C9DD; 
 }
 
 tr.odd td.sorting_2 {
-	background-color: #C6D5E3; /*#DADCFF;ше темніший BEC9E0 */
-}
+	background-color: #C6D5E3;
 
 tr.odd td.sorting_3 {
-	background-color: #E8EEF4; /*#E0E2FF;темніший*/
+	background-color: #E8EEF4;
 }
 
 tr.even td.sorting_1 {
-	background-color: #D3DFEB; /*#EAEBFF;світліший*/
+	background-color: #D3DFEB; 
 }
 
 tr.even td.sorting_2 {
-	background-color: #D3DFEB; /*#F2F3FF;*/
+	background-color: #D3DFEB;
 }
 
 tr.even td.sorting_3 {
-	background-color: #EEF2F7; /*#F9F9FF*/
+	background-color: #EEF2F7; 
 }
-
+*/
 
 /* For the Conditional-CSS grading rows */
 /*
@@ -412,7 +408,7 @@ tr.even td.sorting_3 {
 	Level 2:
 	  dd > d1
 	  ee > e2
- */
+
 tr.odd.gradeA td.sorting_1 {
 	background-color: #c4ffc4;
 }
@@ -508,15 +504,15 @@ tr.even.gradeU td.sorting_2 {
 tr.even.gradeU td.sorting_3 {
 	background-color: #e2e2e2;
 }
-
+ */
 
 /*
  * Row highlighting example
- */
+
 .ex_highlight #example tbody tr.even:hover, #example tbody tr.even td.highlighted {
 	background-color: #ECFFB3;
 }
 
 .ex_highlight #example tbody tr.odd:hover, #example tbody tr.odd td.highlighted {
 	background-color: #E6FF99;
-}
+} */

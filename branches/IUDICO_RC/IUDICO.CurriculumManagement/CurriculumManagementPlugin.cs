@@ -47,7 +47,7 @@ namespace IUDICO.CurriculumManagement
         #region IPlugin Members
         public string GetName()
         {
-            return Localization.GetMessage("CurriculumManagement");
+            return "CurriculumManagement";
         }
 
         public IEnumerable<Action> BuildActions()
@@ -105,12 +105,12 @@ namespace IUDICO.CurriculumManagement
 
             switch (evt)
             {  
-				case DisciplineNotifications.DisciplineIsValidChange:
-					// makes corresponding Curriculums invalid
-            	    var disciplineId = ((Discipline)data[0]).Id;
-					var curriculumIds = curriculumStorage.GetCurriculums(c => c.DisciplineRef == disciplineId).Select(item => item.Id);
-					curriculumStorage.ChangeCurriculumsIsValid(curriculumIds, ((Discipline)data[0]).IsValid);
-					break;
+                case DisciplineNotifications.DisciplineIsValidChange:
+                    // makes corresponding Curriculums invalid
+                    var disciplineId = ((Discipline)data[0]).Id;
+                    var curriculumIds = curriculumStorage.GetCurriculums(c => c.DisciplineRef == disciplineId).Select(item => item.Id);
+                    curriculumStorage.ChangeCurriculumsIsValid(curriculumIds, ((Discipline)data[0]).IsValid);
+                    break;
                 case DisciplineNotifications.DisciplineDeleting:
                     // delete corresponding Curriculums
                     disciplineId = ((Discipline)data[0]).Id;
@@ -162,16 +162,11 @@ namespace IUDICO.CurriculumManagement
                     break;
                 case UserNotifications.GroupDelete:
                     // make connected Curriculums invalid:
-                    var groupId = ((Group) data[0]).Id;
+                    var groupId = ((Group)data[0]).Id;
                     curriculumIds = curriculumStorage.GetCurriculums(c => c.UserGroupRef == groupId).Select(item => item.Id);
                     curriculumStorage.ChangeCurriculumsIsValid(curriculumIds, false);
                     break;
             }
-        }
-
-        public void Setup(IWindsorContainer container)
-        {
-
         }
 
         #endregion

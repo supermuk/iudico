@@ -264,4 +264,10 @@
   <data name="CorrectTopics" xml:space="preserve">
     <value>Correct topic(s):</value>
   </data>
+  <data name="Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
 </root>

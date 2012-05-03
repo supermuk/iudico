@@ -65,44 +65,49 @@ namespace IUDICO.DisciplineManagement.Models
             }
             return validationStatus;
         }
-		  public string GetValidationError(Discipline discipline) {
-		  		string error = Localization.GetMessage("CorrectTopics");			   
-		  		var chapters = _storage.GetDiscipline(discipline.Id).Chapters.Where(item => !item.IsDeleted);
-		  		var count = 0;
-		  		foreach (var chapter in chapters) {
-		  			 var topics = chapter.Topics.Where(item => !item.IsDeleted);
-		  			 foreach (var topic in topics) {
-		  			 	  if (topic.TheoryCourseRef == null && topic.TestCourseRef == null) {
-							   if(count==0) {
-							  		error += " " + topic.Name;
-							   }else {
-							   	error += ", " + topic.Name;
-							   }
-		  			 	  		count++;
-		  			 	  }else {
-		  			 	  		if(topic.TheoryCourseRef != null) {
-									if(_storage.GetCourse((int)topic.TheoryCourseRef).Deleted == true) {
-										if(count==0) {
-							  				error += " " + topic.Name;
-										}else {
-							   			error += ", " + topic.Name;
-										}
-		  			 	  				count++;
-									}
-		  			 	  		}else if((int)topic.TestCourseRef != -1){
-		  			 	  			if(_storage.GetCourse((int)topic.TestCourseRef).Deleted == true) {
-										if(count==0) {
-							  				error += " " + topic.Name;
-										}else {
-							   			error += ", " + topic.Name;
-										}
-		  			 	  				count++;
-									}
-		  			 	  		}
-		  			 	  }
-		  			 }
-		  		}
-		  		return error;
-		  }
+        public string GetValidationError(Discipline discipline) {
+            string error = Localization.GetMessage("CorrectTopics");
+            var chapters = this._storage.GetDiscipline(discipline.Id).Chapters.Where(item => !item.IsDeleted);
+            var count = 0;
+            foreach (var chapter in chapters) {
+                var topics = chapter.Topics.Where(item => !item.IsDeleted);
+                foreach (var topic in topics) {
+                    if (topic.TheoryCourseRef == null && topic.TestCourseRef == null) {
+                        if (count == 0) {
+                            error += " " + topic.Name;
+                        }
+                        else {
+                            error += ", " + topic.Name;
+                        }
+                        count++;
+                    }
+                    else {
+                        if (topic.TheoryCourseRef != null) {
+                            if (this._storage.GetCourse((int)topic.TheoryCourseRef).Deleted == true) {
+                                if (count == 0) {
+                                    error += " " + topic.Name;
+                                }
+                                else {
+                                    error += ", " + topic.Name;
+                                }
+                                count++;
+                            }
+                        }
+                        else if ((int)topic.TestCourseRef != -1) {
+                            if (this._storage.GetCourse((int)topic.TestCourseRef).Deleted == true) {
+                                if (count == 0) {
+                                    error += " " + topic.Name;
+                                }
+                                else {
+                                    error += ", " + topic.Name;
+                                }
+                                count++;
+                            }
+                        }
+                    }
+                }
+            }
+            return error;
+        }
     }
 }

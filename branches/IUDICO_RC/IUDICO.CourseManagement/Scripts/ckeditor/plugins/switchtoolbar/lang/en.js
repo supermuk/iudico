@@ -1,0 +1,1 @@
+CKEDITOR.plugins.setLang("switchtoolbar", "en", { switchtoolbar: { title: "Switch Toolbar"} });

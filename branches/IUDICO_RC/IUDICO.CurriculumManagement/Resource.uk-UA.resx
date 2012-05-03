@@ -468,4 +468,19 @@
   <data name="ClickErrorToCorrect" xml:space="preserve">
     <value>Натисніть на помилку, щоб виправити її.</value>
   </data>
+  <data name="BackCurriculumChapters" xml:space="preserve">
+    <value>Повернутися до часових меж розділів</value>
+  </data>
+  <data name="TopicTimelineOutOfCurriculum" xml:space="preserve">
+    <value>Часові межі теми є за межами навчального плану. Назва теми</value>
+  </data>
+  <data name="CurriculumsMarkedInRed" xml:space="preserve">
+    <value>Навчальні плани позначені червоним кольорем є невалідними. Будь ласка, натисніть "Показати помилки", щоб виправити їх.</value>
+  </data>
+  <data name="GroupNotExist" xml:space="preserve">
+    <value>Такої групи не існує</value>
+  </data>
+  <data name="ShowErrors" xml:space="preserve">
+    <value>Показати помилку(и)</value>
+  </data>
 </root>

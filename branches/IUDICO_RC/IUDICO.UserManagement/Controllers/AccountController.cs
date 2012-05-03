@@ -66,8 +66,7 @@ namespace IUDICO.UserManagement.Controllers
 
                         if (user == null)
                         {
-                            this.ModelState.AddModelError(
-                                string.Empty, "Login failed using the provided OpenID identifier");
+                            this.ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
 
                             break;
                         }
@@ -81,8 +80,10 @@ namespace IUDICO.UserManagement.Controllers
                         else
                         {
                             FormsAuthentication.SetAuthCookie(user.Username, false);
+                            
                             ILog log = LogManager.GetLogger(typeof(AccountController));
                             log.Info("OpenID user " + user.Username + " logged in.");
+
                             return this.Redirect("/");
                         }
 
@@ -144,6 +145,7 @@ namespace IUDICO.UserManagement.Controllers
 
                     ILog log = LogManager.GetLogger(typeof(AccountController));
                     log.Info(loginUsername + " logged in.");
+
                     return this.Redirect("/");
                 }
             }
@@ -170,6 +172,13 @@ namespace IUDICO.UserManagement.Controllers
             else if (registerModel.Password != registerModel.ConfirmPassword)
             {
                 this.ModelState.AddModelError("ConfirmPassword", "Passwords don't match");
+            }
+
+            if (!this.storage.UserOpenIdAvailable(registerModel.OpenId, Guid.Empty))
+            {
+                this.ModelState.AddModelError("OpenId", Localization.GetMessage("OpenIdError"));
+
+                return this.View();
             }
 
             if (!this.ModelState.IsValid)
@@ -212,7 +221,7 @@ namespace IUDICO.UserManagement.Controllers
         {
             var editModel = new EditModel(this.storage.GetCurrentUser());
 
-            return View(editModel);
+            return this.View(editModel);
         }
 
         [HttpPost]
@@ -223,14 +232,21 @@ namespace IUDICO.UserManagement.Controllers
             {
                 editModel.Id = this.storage.GetCurrentUser().Id;
 
-                return View(editModel);
+                return this.View(editModel);
             }
 
             if (!this.storage.UserUniqueIdAvailable(editModel.UserId, this.storage.GetCurrentUser().Id))
             {
-                this.ModelState.AddModelError("UserID", Localization.GetMessage("Unique ID Error"));
+                this.ModelState.AddModelError("UserId", Localization.GetMessage("Unique ID Error"));
 
-                return View(editModel);
+                return this.View(editModel);
+            }
+
+            if (!this.storage.UserOpenIdAvailable(editModel.OpenId, this.storage.GetCurrentUser().Id))
+            {
+                this.ModelState.AddModelError("OpenId", Localization.GetMessage("OpenIdError"));
+
+                return this.View(editModel);
             }
 
             this.storage.EditAccount(editModel);
@@ -304,7 +320,6 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult ChangeCulture(string lang, string returnUrl)
         {
             this.Session["Culture"] = new CultureInfo(lang);
-
             return this.Redirect(returnUrl);
         }
 

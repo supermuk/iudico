@@ -1,5 +1,5 @@
 <%@ Assembly Name="IUDICO.Analytics" %>
-<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Dictionary<Guid, IEnumerable<IUDICO.Common.Models.Shared.UserScore>>>" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<Dictionary<IUDICO.Common.Models.Shared.User, IEnumerable<IUDICO.Common.Models.Shared.UserScore>>>" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	User Scores
@@ -11,18 +11,19 @@
 
      <table>
         <tr>
-            <th><input name="checkall" type="checkbox" /></th>
+            <th><!--<input name="checkall" type="checkbox" />--></th>
             <th>User</th>
             <th>Scores</th>
+            <th>Actions</th>
         </tr>
 
      <% foreach (var item in Model) { %>
         <tr>
             <td>
-                <input name="check[]" value="<%:item.Key%>" type="checkbox" />
+                <input name="check[]" value="<%:item.Key.Id%>" type="checkbox" />
             </td>
             <td>
-                <%:item.Key%>
+                <%:item.Key.Name %> (<%:item.Key.Username %>)
             </td>
             <td>
                 <table>
@@ -35,11 +36,13 @@
                 </table>
             </td>
             <td>
-                <%:Html.ActionLink("Update User Scores", "UpdateUser", new { id = item.Key })%> |
+                <%:Html.ActionLink("Update User Scores", "UpdateUser", new { id = item.Key.Id })%>
             </td>
         </tr>
      <% } %>
      </table>
+     
+     <%:Html.ActionLink("Update All User Scores", "UpdateAllUsers")%>
 
 </asp:Content>
 

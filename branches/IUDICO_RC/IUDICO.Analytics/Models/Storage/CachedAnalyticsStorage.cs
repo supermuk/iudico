@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,7 +14,7 @@ namespace IUDICO.Analytics.Models.Storage
         private readonly IAnalyticsStorage storage;
         private readonly ICacheProvider cacheProvider;
         private readonly object lockObject = new object();
-
+        
         public CachedAnalyticsStorage(IAnalyticsStorage storage, ICacheProvider cacheProvider)
         {
             this.storage = storage;
@@ -95,23 +96,41 @@ namespace IUDICO.Analytics.Models.Storage
             this.cacheProvider.Invalidate("tags", "tag-" + id);
         }
 
-        public Dictionary<int, IEnumerable<TopicScore>> GetTopicScores()
+        public Dictionary<Topic, IEnumerable<TopicScore>> GetTopicScores()
         {
-            return this.cacheProvider.Get("topicscores", @lockObject, () => this.storage.GetTopicScores(), DateTime.Now.AddDays(1), "topicscores"); 
+            return this.storage.GetTopicScores(); 
         }
 
-        public Dictionary<Guid, IEnumerable<UserScore>> GetUserScores()
+        public Dictionary<User, IEnumerable<UserScore>> GetUserScores()
         {
-            return this.cacheProvider.Get("userscores", @lockObject, () => this.storage.GetUserScores(), DateTime.Now.AddDays(1), "userscores");
+            return this.storage.GetUserScores();
         }
 
         public void UpdateUserScores(Guid id)
         {
+            this.storage.UpdateUserScores(id);
+
             this.cacheProvider.Invalidate("userscores");
         }
 
         public void UpdateTopicScores(int id)
         {
+            this.storage.UpdateTopicScores(id);
+
+            this.cacheProvider.Invalidate("topicscores");
+        }
+
+        public void UpdateAllUserScores()
+        {
+            this.storage.UpdateAllUserScores();
+
+            this.cacheProvider.Invalidate("userscores");
+        }
+
+        public void UpdateAllTopicScores()
+        {
+            this.storage.UpdateAllTopicScores();
+
             this.cacheProvider.Invalidate("topicscores");
         }
 
@@ -122,9 +141,9 @@ namespace IUDICO.Analytics.Models.Storage
             return this.storage.AvailebleTopics();
         }
 
-        public IEnumerable<Group> AvailebleGroups(int topicId)
+        public IEnumerable<Group> AvailableGroups(int topicId)
         {
-            return this.storage.AvailebleGroups(topicId);
+            return this.storage.AvailableGroups(topicId);
         }
 
         public IEnumerable<KeyValuePair<User, double[]>> GetAllStudentListForTraining(int topicId)
@@ -137,6 +156,21 @@ namespace IUDICO.Analytics.Models.Storage
             return this.storage.GetStudentListForTraining(topicId, groupId);
         }
 
+        #endregion
+
+        #region Quality
+        public double GaussianDistribution(Topic topic)
+        {
+            return this.storage.GaussianDistribution(topic);
+        }
+        public double GetTopicTagStatistic(Topic topic)
+        {
+            return this.storage.GetTopicTagStatistic(topic);
+        }
+        public double GetScoreRatingTopicStatistic(Topic topic, IEnumerable<Group> groups)
+        {
+            return this.storage.GetScoreRatingTopicStatistic(topic, groups);
+        }
         #endregion
     }
 }

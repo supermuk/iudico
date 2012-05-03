@@ -249,9 +249,6 @@ namespace IUDICO.Search
             this.mTimer.Start();
         }
         */
-        public void Setup(IWindsorContainer container)
-        {
-        }
 
         #endregion
 

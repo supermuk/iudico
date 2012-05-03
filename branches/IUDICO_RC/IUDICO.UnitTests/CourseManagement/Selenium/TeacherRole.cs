@@ -6,7 +6,7 @@ using NUnit.Framework;
 namespace IUDICO.UnitTests.CourseManagement.Selenium
 {
     [TestFixture]
-    internal class StudentRole : SimpleWebTest
+    internal class TeacherRole : SimpleWebTest
     {
         private const int SleepTime = 8000;
 
@@ -14,7 +14,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
         public void OpenCourses()
         {
             this.DefaultLogin("prof", "prof");
-
+     
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("link=Create New");
@@ -66,6 +66,9 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
 
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DeleteAllCourses();
+
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", string.Empty);
@@ -91,6 +94,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
 
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            
+            this.DeleteAllCourses();
 
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
@@ -102,7 +107,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             {
                 selenium.GetAlert();
             }
-            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//a[contains(text(),'Edit')]");
+            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//a[contains(@title,'Rename')]");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "Edited");
             this.selenium.Click("xpath=(//button[@type='button'])[3]");
@@ -138,6 +143,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
+            this.DeleteAllCourses();
+
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forEditContent");
@@ -149,6 +156,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
                 selenium.GetAlert();
             }
             this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//div[contains(text(),'forEditContent')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.ContextMenu("//a[contains(text(),'Root')]");
             this.selenium.Click("//a[contains(text(),'Create Node')]");
@@ -167,12 +175,15 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
         }
 
         [Test]
+        [Ignore]
         public void ShareCourseAndUnshareCourse()
         {
             this.DefaultLogin("prof", "prof");
 
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DeleteAllCourses();
 
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
@@ -185,8 +196,10 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
                 selenium.GetAlert();
             }
 
-            this.selenium.Click("xpath=//tr[contains(.,'SharedForProf2')]//a[contains(text(),'Share')]");
+            this.selenium.Click("xpath=//tr[contains(.,'SharedForProf2')]//a[contains(@title,'Share')]");
             Thread.Sleep(SleepTime);
+            Assert.IsFalse(this.selenium.IsElementPresent("//table[@id='shareUserTable']//tr//td[contains(.,'Admin')]"));
+            Assert.IsFalse(this.selenium.IsElementPresent("//table[@id='shareUserTable']//tr//td[contains(.,'Student')]"));
 
             this.selenium.Click("xpath=//tr[contains(.,'prof2')]//input[@name='sharewith']");
             this.selenium.Click("xpath=//button[@type='button']//span[contains(text(),'Share')]");
@@ -206,13 +219,11 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-
-            //unshare)
             this.DefaultLogin("prof", "prof");
 
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            this.selenium.Click("xpath=//tr[contains(.,'SharedForProf2')]//a[contains(text(),'Share')]");
+            this.selenium.Click("xpath=//tr[contains(.,'SharedForProf2')]//a[contains(@title,'Share')]");
             Thread.Sleep(SleepTime);
 
             this.selenium.Click("xpath=//tr[contains(.,'prof2')]//input[@name='sharewith']");
@@ -249,6 +260,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
+            this.DeleteAllCourses();
+
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forLocking");
@@ -260,15 +273,15 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
                 selenium.GetAlert();
             }
 
-            this.selenium.Click("xpath=//tr[contains(.,'forLocking')]//a[text()='#Lock']");
+            this.selenium.Click("xpath=//tr[contains(.,'forLocking')]//a[contains(@title, 'Lock')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             var isPresent =
-                this.selenium.IsElementPresent("xpath=//tr[contains(.,'forLocking')]//a[text()='Unlock']");
+                this.selenium.IsElementPresent("xpath=//tr[contains(.,'forLocking')]//a[contains(@title, 'Unlock')]");
             Assert.IsTrue(isPresent);
-            this.selenium.Click("xpath=//tr[contains(.,'forLocking')]//a[text()='Unlock']");
+            this.selenium.Click("xpath=//tr[contains(.,'forLocking')]//a[contains(@title,'Unlock')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             isPresent =
-               this.selenium.IsElementPresent("xpath=//tr[contains(.,'forLocking')]//a[text()='Unlock']");
+               this.selenium.IsElementPresent("xpath=//tr[contains(.,'forLocking')]//a[contains(@title,'Unlock')]");
             Assert.IsFalse(isPresent);
             try
             {
@@ -288,6 +301,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
+            this.DeleteAllCourses();
+
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forExport");
@@ -301,7 +316,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             Thread.Sleep(SleepTime);
             Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forExport')]"));
 
-            this.selenium.Click("xpath=//tr[contains(.,'forExport')]//a[text()='Export']");
+            this.selenium.Click("xpath=//tr[contains(.,'forExport')]//a[contains(@title,'Export')]");
             try
             {
                 this.Logout();
@@ -321,6 +336,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
+            this.DeleteAllCourses();
+
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forDeletion");
@@ -334,7 +351,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             Thread.Sleep(SleepTime);
             Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'forDeletion')]"));
 
-            this.selenium.Click("xpath=//tr[contains(.,'forDeletion')]//a[contains(text(),'Delete')]");
+            this.selenium.Click("xpath=//tr[contains(.,'forDeletion')]//a[contains(@title,'Delete')]");
             this.selenium.GetConfirmation();
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
@@ -360,6 +377,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
 
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DeleteAllCourses();
 
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
@@ -433,6 +452,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
+            this.DeleteAllCourses();
+
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forDeletion");
@@ -467,6 +488,89 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
                 // Ignore errors if unable to close the browser
             }
 
+        }
+
+        [Test]
+        public void UpdatedByTest()
+        {
+            this.DefaultLogin("prof", "prof");
+
+            this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DeleteAllCourses();
+
+            this.selenium.Click("link=Create New");
+            Thread.Sleep(SleepTime);
+            this.selenium.Type("id=Name", "new course");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'new course')]"));
+
+            this.selenium.Click("xpath=//tr[contains(.,'new course')]//a[contains(@title,'Share')]");
+            Thread.Sleep(SleepTime);
+            this.selenium.Click("xpath=//tr[contains(.,'prof2')]//input[@name='sharewith']");
+            this.selenium.Click("xpath=//button[@type='button']//span[contains(text(),'Share')]");
+            Thread.Sleep(SleepTime);
+
+            this.selenium.Click("link=Logout");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DefaultLogin("prof2", "prof2");
+
+            this.selenium.Click("link=Courses");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            this.selenium.Click("xpath=//tr[contains(.,'new course')]//a[contains(@title,'Rename')]");
+            Thread.Sleep(SleepTime);
+            this.selenium.Type("id=Name", "new course after edit");
+            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            Assert.IsTrue(this.selenium.IsElementPresent("xpath=//tr[contains(.,'new course after edit')]//td[contains(.,'prof2')]"));
+
+            try
+            {
+                this.Logout();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+        }
+
+        protected void DeleteAllCourses()
+        {
+            if (this.selenium.IsElementPresent("xpath=//input[@id='CoursesCheckAll']"))
+            {
+                this.selenium.Click("xpath=//input[@id='CoursesCheckAll']");
+                this.selenium.Click("link=Delete Selected");
+                this.selenium.GetConfirmation();
+                this.selenium.Refresh();
+                this.selenium.WaitForPageToLoad(this.SeleniumWait);
+                while (selenium.IsAlertPresent())
+                {
+                    selenium.GetAlert();
+                }
+            }
+        }
+
+        public string SeleniumWait
+        {
+            get
+            {
+                return (this.seleniumWait + 10000).ToString();
+            }
         }
 
     }

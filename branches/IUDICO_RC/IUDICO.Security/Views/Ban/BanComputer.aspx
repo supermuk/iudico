@@ -1,5 +1,6 @@
 ﻿<%@ Assembly Name="IUDICO.Security" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Security.ViewModels.Ban.BanComputerViewModel>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Ban Computer
@@ -7,14 +8,14 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Ban Computer</h2>
+    <h2><%=Localization.GetMessage("Ban computer")%></h2>
 
      <table>
         <tr>
-            <th> IP Address </th>
-            <th> Room </th>
-            <th> Current user </th>
-            <th> Banned </th>
+            <th> <%=Localization.GetMessage("IP") %> </th>
+            <th> <%=Localization.GetMessage("Room") %> </th>
+            <th> <%=Localization.GetMessage("CurrentUser") %> </th>
+            <th> <%=Localization.GetMessage("Banned") %> </th>
             <th> </th>
         </tr>
         <% foreach (var item in Model.Computers)
@@ -24,21 +25,21 @@
             <td> <%: item.Room%> </td>
             <td> <%: item.CurrentUser%> </td>
             <td> <%: item.Banned %> </td>
-            <td> <%= Html.ActionLink("Edit", "EditComputer", new { computer = item.IpAddress })%> | 
-                 <%= Html.ActionLink("Delete", "DeleteComputer", new { computer = item.IpAddress })%>| 
+            <td> <%= Html.ActionLink(Localization.GetMessage("Edit"), "EditComputer",new IUDICO.Security.ViewModels.Ban.EditComputersViewModel(new IUDICO.Security.Models.Storages.Database.DatabaseBanStorage().GetComputer(item.IpAddress)) )%> | 
+                 <%= Html.ActionLink(Localization.GetMessage("Delete"), "DeleteComputer", new { computer = item.IpAddress })%>| 
                  <% if (item.Banned)
                    { %>
-                    <%: Html.ActionLink("Unban", "ComputerUnban", new { computer = item.IpAddress })%> 
+                    <%: Html.ActionLink(Localization.GetMessage("Unban"), "ComputerUnban", new { computer = item.IpAddress })%> 
                 <% }
                    else
                    { %>
-                    <%:Html.ActionLink("Ban", "ComputerBan", new { computer = item.IpAddress })%> 
+                    <%:Html.ActionLink(Localization.GetMessage("Ban"), "ComputerBan", new { computer = item.IpAddress })%> 
                 <% } %> 
             </td>
         <//tr>
         <%} %>
     </table>
-    <%= Html.ActionLink("Back to Security", "Index", "Security") %>
+    <%= Html.ActionLink(Localization.GetMessage("BackToSecurity"), "Index", "Security") %>
 
 
 

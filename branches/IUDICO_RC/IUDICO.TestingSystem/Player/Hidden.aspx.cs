@@ -121,7 +121,14 @@ namespace Microsoft.LearningComponents.Frameset
                             {
                                 attemptResult = null;
                             }
-                            ServicesProxy.Instance.LmsService.Inform(TestingNotifications.TestCompleted, attemptResult);
+                            try
+                            {
+                                ServicesProxy.Instance.LmsService.Inform(TestingNotifications.TestCompleted, attemptResult);
+                            }
+                            catch (Exception)
+                            {
+                                // NOTE: do not handle event, just ignore it.
+                            }
                             messageTitle = Localization.GetMessage("HID_SessionCompletedTitle");
                             message = Localization.GetMessage("FRM_ExecuteViewCompletedSessionMsg");
                             break;

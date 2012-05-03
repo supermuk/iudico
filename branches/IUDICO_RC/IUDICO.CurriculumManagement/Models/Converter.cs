@@ -30,7 +30,8 @@ namespace IUDICO.CurriculumManagement.Models
         public static void UpdateFromModel(this Curriculum curriculum, CreateCurriculumModel model)
         {
             curriculum.UserGroupRef = model.GroupId;
-            curriculum.DisciplineRef = model.DisciplineId;
+            if (model.DisciplineId > 0)
+                curriculum.DisciplineRef = model.DisciplineId;
             curriculum.StartDate = model.SetTimeline ? model.StartDate : (DateTime?)null;
             curriculum.EndDate = model.SetTimeline ? model.EndDate : (DateTime?)null;
         }

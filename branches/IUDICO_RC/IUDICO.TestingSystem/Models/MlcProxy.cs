@@ -174,20 +174,20 @@ namespace IUDICO.TestingSystem.Models
             }
 
             // perform request on DB
-            var dataTable = job.Execute<DataTable>();
+            var dataTables = job.Execute().AsEnumerable().Cast<DataTable>().ToList();
 
             var result = new List<AttemptResult>();
 
+            var i = 0;
             foreach (var curriculumChapterTopic in topic.CurriculumChapterTopics)
             {
                 var curriculumChapterTopicId = curriculumChapterTopic.Id;
                 conditions.Clear();
                 conditions.Add(
                     new QueryCondition(Schema.AllAttemptsResults.CurriculumChapterTopicId, curriculumChapterTopicId));
-                var filteredRows =
-                    dataTable.AsEnumerable().Where(
-                        dataRow => this.ParseCurriculumChapterTopicId(dataRow) == curriculumChapterTopicId);
+                var filteredRows = dataTables[i].AsEnumerable();
                 result.AddRange(this.ParseAttemptResults(filteredRows, conditions));
+                i++;
             }
             return result;
         }
@@ -363,13 +363,21 @@ namespace IUDICO.TestingSystem.Models
             {
                 var attemptResult = new AttemptResult();
 
-                foreach (var condition in conditions)
+                try
                 {
-                    this.ParseAttemptResultField(condition.Value, condition.ColumnName, ref attemptResult);
+                    foreach (var condition in conditions)
+                    {
+                        this.ParseAttemptResultField(condition.Value, condition.ColumnName, ref attemptResult);
+                    }
+                    foreach (var queryColumn in queryColumns)
+                    {
+                        this.ParseAttemptResultField(dataRow[queryColumn], queryColumn, ref attemptResult);
+                    }
                 }
-                foreach (var queryColumn in queryColumns)
+                catch (NoNullAllowedException)
                 {
-                    this.ParseAttemptResultField(dataRow[queryColumn], queryColumn, ref attemptResult);
+                    // skip not actual attempt results
+                    continue;
                 }
 
                 yield return attemptResult;
@@ -446,7 +454,7 @@ namespace IUDICO.TestingSystem.Models
                 case Schema.AllAttemptsResults.UserItemKey:
                     string userKey;
                     LStoreHelper.CastNonNull(rawValue, out userKey);
-                    var user = this.UserService.GetUsers().Single(curr => curr.Id.ToString() == userKey);
+                    var user = this.UserService.GetUsers().SingleOrDefault(curr => curr.Id.ToString() == userKey);
                     if (user == null)
                     {
                         throw new NoNullAllowedException("Error while getting user with id = " + userKey);

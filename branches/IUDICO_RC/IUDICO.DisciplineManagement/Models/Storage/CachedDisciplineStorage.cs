@@ -49,8 +49,8 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         {
             this.storage.MakeDisciplinesInvalid(courseId);
 
-            var topics = this.storage.GetTopics(item => (item.TestCourseRef == courseId || item.TheoryCourseRef == courseId));
-            var chapters = topics.Select(item => item.Chapter);
+            var topics = this.storage.GetTopicsByCourseId(courseId);
+            var chapters = topics.Select(item => this.storage.GetChapter(item.ChapterRef));
             var disciplineIds = chapters.Select(item => item.DisciplineRef).Distinct();
 
             this.cacheProvider.Invalidate("disciplines");
@@ -278,16 +278,18 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         public void UpdateTopic(Topic topic)
         {
-            this.storage.UpdateTopic(topic);        		
-			   this.cacheProvider.Invalidate("disciplines", "discipline-" + this.storage.GetTopic(topic.Id).Chapter.DisciplineRef);
-
+            this.storage.UpdateTopic(topic);
+            var chapter = this.storage.GetChapter(this.storage.GetTopic(topic.Id).ChapterRef);
+            this.cacheProvider.Invalidate("disciplines", "discipline-" + chapter.DisciplineRef);
+            
             this.cacheProvider.Invalidate("topics", "topic-" + topic.Id);
         }
 
         public void DeleteTopic(int id)
         {
-            this.storage.DeleteTopic(id);
-				this.cacheProvider.Invalidate("disciplines", "discipline-" + this.storage.GetTopic(id).Chapter.DisciplineRef);
+            var chapter = this.storage.GetChapter(this.storage.GetTopic(id).ChapterRef);
+            this.storage.DeleteTopic(id);            
+            this.cacheProvider.Invalidate("disciplines", "discipline-" + chapter.DisciplineRef);
 
             this.cacheProvider.Invalidate("topics", "topic-" + id);
         }

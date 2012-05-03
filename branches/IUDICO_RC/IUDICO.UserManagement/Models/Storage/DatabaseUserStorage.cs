@@ -36,9 +36,8 @@ namespace IUDICO.UserManagement.Models.Storage
             this.Logger = logger;
         }
 
-        public DatabaseUserStorage(ILmsService lmsService)
+        public DatabaseUserStorage(ILmsService lmsService) : this(lmsService, null)
         {
-            this.lmsService = lmsService;
         }
 
         protected virtual IDataContext GetDbContext()
@@ -71,31 +70,21 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public virtual bool SendEmail(string addressFrom, string addressTo, string subject, string body)
         {
-            try
+            ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) => true;
+
+            var message = new MailMessage(new MailAddress(EmailUser), new MailAddress(addressTo)) { Subject = subject, Body = body };
+
+            var client = new SmtpClient(EmailHost, EmailPort)
             {
-                ServicePointManager.ServerCertificateValidationCallback =
-                    delegate(object sender, X509Certificate certificate, X509Chain chain,
-                             SslPolicyErrors sslPolicyErrors)
-                        { return true; };
+                EnableSsl = false,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                /*Credentials = new NetworkCredential(EmailUser, EmailPassword),*/
+            };
 
-                var message = new MailMessage(new MailAddress(EmailUser), new MailAddress(addressTo)) { Subject = subject, Body = body };
+            client.SendAsync(message, null);
 
-                var client = new SmtpClient(EmailHost, EmailPort)
-                                 {
-                                     EnableSsl = false,
-                                     DeliveryMethod = SmtpDeliveryMethod.Network,
-                                     UseDefaultCredentials = false,
-                                     /*Credentials = new NetworkCredential(EmailUser, EmailPassword),*/
-                                 };
-
-                client.Send(message);
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            return true;
         }
 
         protected string RandomPassword()
@@ -158,7 +147,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public IEnumerable<User> GetUsers(int pageIndex, int pageSize)
         {
-            return this.GetDbContext().Users.Skip(pageIndex).Take(pageSize);
+            return this.GetDbContext().Users.Where(u => !u.Deleted).Skip(pageIndex).Take(pageSize);
         }
 
         public bool UsernameExists(string username)
@@ -175,6 +164,20 @@ namespace IUDICO.UserManagement.Models.Storage
             var count = users.Count();
 
             if (count == 0 || (count == 1 && users.First().Id == userId))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool UserOpenIdAvailable(string openId, Guid id)
+        {
+            var db = this.GetDbContext();
+            var users = db.Users.Where(u => u.OpenId == openId && u.Deleted == false);
+            var count = users.Count();
+
+            if (count == 0 || (count == 1 && users.First().Id == id))
             {
                 return true;
             }
@@ -408,17 +411,17 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<User> GetUsersInGroup(Group group)
         {
             var db = this.GetDbContext();
+            var userIds = db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.UserRef);
 
-            return db.GroupUsers.Where(g => g.GroupRef == group.Id && !g.User.Deleted).Select(g => g.User);
+            return db.Users.Where(u =>  !u.Deleted && userIds.Contains(u.Id));
         }
 
         public IEnumerable<User> GetUsersNotInGroup(Group group)
         {
             var db = this.GetDbContext();
+            var userIds = db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.UserRef);
 
-            return
-                db.Users.Where(u => !u.Deleted).Except(
-                    db.GroupUsers.Where(g => g.GroupRef == group.Id).Select(g => g.User));
+            return db.Users.Where(u => !u.Deleted && !userIds.Contains(u.Id));
         }
 
         public User RegisterUser(RegisterModel registerModel)
@@ -523,15 +526,17 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<User> GetUsersInRole(Role role)
         {
             var db = this.GetDbContext();
+            var userIds = db.UserRoles.Where(ur => ur.RoleRef == (int)role).Select(ur => ur.UserRef);
 
-            return db.UserRoles.Where(ur => ur.RoleRef == (int)role).Select(ur => ur.User);
+            return db.Users.Where(u => userIds.Contains(u.Id));
         }
 
-        public virtual IEnumerable<Role> GetUserRoles(string username)
+        public IEnumerable<Role> GetUserRoles(string username)
         {
             var db = this.GetDbContext();
+            var userId = this.GetUser(username).Id;
 
-            var roles = db.UserRoles.Where(ur => ur.User.Username == username).Select(ur => (Role)ur.RoleRef).ToList();
+            var roles = db.UserRoles.Where(ur => ur.UserRef == userId).Select(ur => (Role)ur.RoleRef).ToList();
 
             if (this.IsPromotedToAdmin() && !roles.Contains(Role.Admin))
             {
@@ -627,11 +632,12 @@ namespace IUDICO.UserManagement.Models.Storage
             this.lmsService.Inform(UserNotifications.GroupDelete, group);
         }
 
-        public virtual IEnumerable<Group> GetGroupsByUser(User user)
+        public IEnumerable<Group> GetGroupsByUser(User user)
         {
             var db = this.GetDbContext();
+            var groupIds = db.GroupUsers.Where(g => g.UserRef == user.Id).Select(g => g.GroupRef);
 
-            return db.GroupUsers.Where(g => g.UserRef == user.Id).Select(g => g.Group);
+            return db.Groups.Where(g => groupIds.Contains(g.Id));
         }
 
         public IEnumerable<Group> GetGroupsAvailableToUser(User user)
@@ -640,7 +646,7 @@ namespace IUDICO.UserManagement.Models.Storage
 
             var groupRefsByUser = this.GetGroupsByUser(user).Select(g => g.Id);
 
-            return db.Groups.Where(g => !groupRefsByUser.Contains(g.Id));
+            return db.Groups.Where(g => !groupRefsByUser.Contains(g.Id) && !g.Deleted);
         }
 
         public void AddUserToGroup(Group group, User user)

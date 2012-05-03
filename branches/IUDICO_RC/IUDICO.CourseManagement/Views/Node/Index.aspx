@@ -3,6 +3,7 @@
 
 <%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="System.Web.Mvc" %>
+<%@ Import Namespace="System.Web.Mvc.Html" %>
 <%@ Import Namespace="IUDICO.Common.Models" %>
 <%@ Import Namespace="IUDICO.CourseManagement.Models.ManifestModels" %>
 <%@ Import Namespace="System.Security.Policy" %>
@@ -11,8 +12,7 @@
     <%=Localization.GetMessage("EditingCourse")%>
 </asp:Content>
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
-    <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>"
-        rel="stylesheet" type="text/css" />
+    <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery-ui.css") %>" id="theme" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery.fileupload-ui.css") %>" />
 
@@ -236,7 +236,7 @@
                                 "action": function (obj) { this.paste(obj); },
                                 "_disabled" : !(this.data.crrm.ct_nodes || this.data.crrm.cp_nodes) || node.attr("rel") == "default"
                             }
-                        }
+                        };
                     }
                 }
 		    })
@@ -263,7 +263,7 @@
 				});
 		    })
             .bind("remove.jstree", function (e, data) {
-                var answer = confirm("Are you sure you want to delete selected nodes?");
+                var answer = confirm("<%=String.Concat(Localization.GetMessage("AreYouSureYouWantToDelete")," ",Localization.GetMessage("SelectedNodes")) %>");
                 if (answer == false) {
                     return false;
                 }
@@ -395,7 +395,7 @@
                     return;
                 }
 
-                var editor = getEditor(data.obj.attr("id").replace("node_", ""));
+                
                 
                 $.ajax({
                     type: 'post',
@@ -404,11 +404,11 @@
 						"id": currentNodeId
 					},
 					success: function (r) {
-                        //var editor = getEditor($.data(editor, 'node-id'));
+                        var editor = getEditor(data.obj.attr("id").replace("node_", ""));
                         editor.ckeditorGet().setData(r.data, function () {
-                            this.resetDirty();
+                            setTimeout(function() { $editor.ckeditorGet().resetDirty(); }, 100);
+                            editor.parent('form').show();
                         });
-                        editor.parent('form').show();
 					}
 				});
             });
@@ -455,7 +455,7 @@
                             $("#" + r.type + "Properties")[0].innerHTML = r.data;
                         }
                     }
-                })
+                });
             });
             $("#ApplyPattern").click(function () {
                 $("#accordion").accordion( "option", "active", -1 );
@@ -469,10 +469,10 @@
 	                },
 	                success: function (r) {
                         if(r.status) {
-                            alert("Pattern successfully  applied");
+                            alert("<%=Localization.GetMessage("PatternSuccessfullyApplied") %>");
                         }
                         else {
-                            alert("Error! Please try again later");
+                            alert("<%=Localization.GetMessage("ErrorTryAgainLater") %>");
                         }
                     }
                 });

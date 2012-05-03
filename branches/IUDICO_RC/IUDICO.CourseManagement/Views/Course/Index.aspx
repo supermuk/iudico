@@ -11,10 +11,9 @@
                 "sPaginationType": "full_numbers",
                 iDisplayLength: 50,
                 "bSort": true,
+                "bAutoWidth": false,
                 "aoColumns": [
                 { "bSortable": false },
-                null,
-                null,
                 null,
                 null,
                 { "bSortable": false }
@@ -66,11 +65,14 @@
                autoOpen: false,
                modal: true,
                width: 450,
+               height: 545,
+               dialogClass: "hiddenTitle",
+               resizable: false,
                buttons: {
-                   "Share": function () {
+                   "<%=Localization.GetMessage("Share") %>": function () {
                        $("#shareDialog").find("form").submit();
                    },
-                   "Close": function () {
+                   "<%=Localization.GetMessage("Close") %>": function () {
                        $(this).dialog("close");
                    }
                }
@@ -80,17 +82,17 @@
                autoOpen: false,
                modal: true,
                buttons: {
-                   "Submit": function () {
+                  "<%=Localization.GetMessage("Submit") %>": function () {
                        $("#dialog").find("form").submit();
                    },
-                   "Close": function () {
+                   "<%=Localization.GetMessage("Close") %>": function () {
                        $(this).dialog("close");
                    }
                }
             });
 
             $(".courseEditable").click(function () {
-                window.location.replace("/Course/" + this.parentNode.id.replace("course", "") + "/Node/Index");
+                window.location.replace("/Course/" + this.parentNode.id.replace("course", "") + "/Node");
             });
         });
         
@@ -99,7 +101,7 @@
         }
         
         function openDialog(title) {
-            $("#dialogInner").html("Loading...");
+            $("#dialogInner").html("<%=Localization.GetMessage("Loading") %>");
             $("#dialog").dialog("option", "title", title);
             $("#dialog").dialog("open");
         }
@@ -127,8 +129,10 @@
                    var table = $("#shareUserTable").dataTable({
                        "bJQueryUI": true,
                        "sPaginationType": "full_numbers",
+                       "sScrollY": "360px",
                        iDisplayLength: 8,
                        "bSort": true,
+                       "bAutoWidth": false,
                        "aoColumns": [
                            { "bSortable": false },
                            { "bSortable": false },
@@ -164,7 +168,7 @@
         }
         
         function editCourse(id) {
-            openDialog("Edit course");
+            openDialog("<%=Localization.GetMessage("EditCourse") %>");
 
             $.ajax({
                 type: "get",
@@ -187,9 +191,9 @@
         function onCreateCourseSuccess(r) {
             var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
             if(resp.success) {
-                $(".course").after(resp.courseRow);
+                //$(".course").after(resp.courseRow);
                 $("#dialog").dialog("close");
-                window.location = window.location; // TODO : fix adding course if table is empty.
+                window.location.reload( true ); // TODO : fix adding course if table is empty.
             } else {
                 fillDialogInner(resp.html, "courseId", resp.courseId);
             }
@@ -214,39 +218,31 @@
     <%=Localization.GetMessage("Courses")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <h2><%=Localization.GetMessage("Courses")%>:</h2>
+    
     <p>
-        <a href="#" onclick="addCourse();"><%:Localization.GetMessage("CreateNew")%></a>
+        <a href="#" onclick="addCourse();"><%: Localization.GetMessage("CreateNew")%></a>
         |
-        <%: Html.ActionLink(Localization.GetMessage("Import"), "Import")%>
-        | <a id="DeleteMany" href="#">
-            <%=Localization.GetMessage("DeleteSelected")%></a>
+        <a  href="/Course/Import" ><%: Localization.GetMessage("Import")%></a>
+        |
+        <a id="DeleteMany" href="#"><%: Localization.GetMessage("DeleteSelected")%></a>
     </p>
-    <div style="float: inherit; width: 400px;">
-        <h2>
-            <%=Localization.GetMessage("Allcourses")%>:</h2>
-    </div>
     <div>
         <% if (Model.Count() > 0)
            { %>
         <table id="Courses" class="courseTable">
             <thead>
                 <tr>
-                    <th>
+                    <th class="checkboxColumn">
                         <input type="checkbox" id="CoursesCheckAll" />
                     </th>
                     <th>
                         <%=Localization.GetMessage("Title")%>
                     </th>
-                    <th>
-                        <%=Localization.GetMessage("Owner")%>
+                    <th class="updatedByColumn">
+                        <%=Localization.GetMessage("LastModified")%>
                     </th>
-                    <th>
-                        <%=Localization.GetMessage("Last modified")%>
-                    </th>
-                    <th>
-                        <%=Localization.GetMessage("Updated by")%>
-                    </th>
-                    <th>
+                    <th class="courseActionsColumn">
                         <%=Localization.GetMessage("Actions")%>
                     </th>
                 </tr>

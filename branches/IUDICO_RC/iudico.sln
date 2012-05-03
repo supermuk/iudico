@@ -53,6 +53,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4D5C9993-E74B-4632-862A-0C42A18FF1AA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.UnitTests", "IUDICO.UnitTests\IUDICO.UnitTests.csproj", "{7ED61E8B-D581-46AB-83CA-3BDD72A87C94}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D78C9681-A4BF-4C4B-B992-36B2CBBE1583} = {D78C9681-A4BF-4C4B-B992-36B2CBBE1583}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.CompileService", "IUDICO.CompileSystem\IUDICO.CompileService.csproj", "{F1672FAC-08D5-4CA9-B278-FA0F928C8E1A}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -70,6 +73,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IUDICO.DisciplineManagement", "IUDICO.DisciplineManagement\IUDICO.DisciplineManagement.csproj", "{4B4BADE2-1C2F-4D0A-B435-1D88CE59D601}"
 EndProject
 Global
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -244,9 +251,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
 	EndGlobalSection
 EndGlobal
