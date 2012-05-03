@@ -49,7 +49,7 @@ namespace IUDICO.UserManagement
 
         public string GetName()
         {
-            return Localization.GetMessage("UserManagement");
+            return "UserManagement";
         }
 
         public IEnumerable<Action> BuildActions()

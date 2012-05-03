@@ -197,6 +197,8 @@
     <Content Include="Content\Images\button_37_20.png" />
     <Content Include="Content\Images\check.png" />
     <Content Include="Content\Images\check2.png" />
+    <Content Include="Content\Images\course_logo.png" />
+    <Content Include="Content\Images\curriculum_logo.png" />
     <Content Include="Content\Images\del-a.png" />
     <Content Include="Content\Images\del.png" />
     <Content Include="Content\Images\delete-a.png" />
@@ -228,12 +230,14 @@
     <Content Include="Content\Images\star1.png" />
     <Content Include="Content\Images\star2.png" />
     <Content Include="Content\Images\star3.png" />
+    <Content Include="Content\Images\statistic_logo.png" />
     <Content Include="Content\Images\status_icon_delete.png" />
     <Content Include="Content\Images\uncheck.png" />
     <Content Include="Content\Images\unlock-h.png" />
     <Content Include="Content\Images\unlock.png" />
     <Content Include="Content\Images\up-h.png" />
     <Content Include="Content\Images\up.png" />
+    <Content Include="Content\Images\users_logo.png" />
     <Content Include="Content\jAlert\jquery.alerts.css" />
     <Content Include="Content\jAlert\jquery.alerts.js" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
