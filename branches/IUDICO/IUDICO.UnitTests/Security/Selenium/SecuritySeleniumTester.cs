@@ -179,7 +179,7 @@ namespace IUDICO.UnitTests.Security.Selenium
 
             this.selenium.Click("//a[contains(@href, '/Ban/RoomUnban?room=145')]");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("//a[contains(@href, '/Ban/RoomBan?room=145)']");
+            this.selenium.Click("//a[contains(@href, '/Ban/RoomBan?room=145')]");
             this.selenium.WaitForPageToLoad("30000");
 
             Assert.IsTrue(this.selenium.IsTextPresent("145"));
