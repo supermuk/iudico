@@ -172,6 +172,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Type("id=Name", "145");
             this.selenium.Click("css=p > input[type=\"submit\"]");
+            this.selenium.WaitForPageToLoad("30000");
 
             this.selenium.Click("//a[contains(@href, '/Ban/BanRoom')]");
             this.selenium.WaitForPageToLoad("30000");
