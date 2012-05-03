@@ -50,9 +50,8 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Type("id=ComputerIP", "192.169.0.32");
             this.selenium.Click("name=saveButton");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Edit computer");
+
+            this.selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
             this.selenium.WaitForPageToLoad("30000");
 
             Assert.IsTrue(this.selenium.IsTextPresent("192.169.0.32"));
@@ -79,20 +78,16 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Type("id=ComputerIP", "192.169.0.32");
             this.selenium.Click("name=saveButton");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Edit computer");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Ban");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Unban");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Edit computer");
+
+            this.selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
             this.selenium.WaitForPageToLoad("30000");
 
             Assert.IsTrue(this.selenium.IsTextPresent("192.169.0.32"));
+
+            this.selenium.Click("//a[contains(@href, '/Ban/ComputerBan?computer=192.169.0.32')]");
+            this.selenium.WaitForPageToLoad("30000");
+            this.selenium.Click("//a[contains(@href, '/Ban/ComputerUnban?computer=192.169.0.32')]");
+            this.selenium.WaitForPageToLoad("30000");      
 
             this.selenium.Click("//a[contains(@href, '/Ban/DeleteComputer?computer=192.169.0.32')]");
             this.selenium.WaitForPageToLoad("30000");
@@ -116,11 +111,11 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Type("id=ComputerIP", "192.169.0.32");
             this.selenium.Click("name=saveButton");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
+
+            this.selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Edit computer");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Edit");
+
+            this.selenium.Click("//a[contains(@href, '/Ban/EditComputer?ComputerIP=192.169.0.32&Banned=False')]");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Type("id=CurrentUser", "lex");
             this.selenium.Click("name=saveButton");
@@ -151,9 +146,8 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Type("id=Name", "145");
             this.selenium.Click("css=p > input[type=\"submit\"]");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Ban room");
+
+            this.selenium.Click("//a[contains(@href, '/Ban/BanRoom')]");
             this.selenium.WaitForPageToLoad("30000");
 
             Assert.IsTrue(this.selenium.IsTextPresent("145"));
@@ -178,14 +172,13 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Type("id=Name", "142");
             this.selenium.Click("css=p > input[type=\"submit\"]");
+
+            this.selenium.Click("//a[contains(@href, '/Ban/BanRoom')]");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
+
+            this.selenium.Click("//a[contains(@href, '/Ban/RoomUnban?room=142')]");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Ban room");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Unban");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Ban");
+            this.selenium.Click("//a[contains(@href, '/Ban/RoomBan?room=142')]");
             this.selenium.WaitForPageToLoad("30000");
 
             Assert.IsTrue(this.selenium.IsTextPresent("142"));
