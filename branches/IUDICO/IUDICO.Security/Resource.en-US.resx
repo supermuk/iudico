@@ -126,6 +126,9 @@
   <data name="Anonymous" xml:space="preserve">
     <value>Anonymous</value>
   </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Back To List</value>
+  </data>
   <data name="BackToSecurity" xml:space="preserve">
     <value>Back</value>
   </data>
@@ -144,8 +147,14 @@
   <data name="Banned" xml:space="preserve">
     <value>Banned</value>
   </data>
+  <data name="CompIDIsRequired" xml:space="preserve">
+    <value>Compгеук ID is required</value>
+  </data>
   <data name="Computer" xml:space="preserve">
     <value>Сomputer</value>
+  </data>
+  <data name="ComputerIP" xml:space="preserve">
+    <value>Computer IP</value>
   </data>
   <data name="Computers at this room" xml:space="preserve">
     <value>Computers at this room</value>
@@ -165,17 +174,26 @@
   <data name="Edit room" xml:space="preserve">
     <value>Edit room</value>
   </data>
+  <data name="Edit Rooms" xml:space="preserve">
+    <value>Edit Rooms</value>
+  </data>
   <data name="IP" xml:space="preserve">
     <value>IP Address</value>
   </data>
   <data name="LastActivityTime" xml:space="preserve">
     <value>Last activity time</value>
   </data>
+  <data name="Must be less than 16 characters" xml:space="preserve">
+    <value>Must be less than 16 characters</value>
+  </data>
   <data name="Overall stats" xml:space="preserve">
     <value>Overall stats</value>
   </data>
   <data name="Room" xml:space="preserve">
     <value>Room</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
   </data>
   <data name="Security" xml:space="preserve">
     <value>Security</value>

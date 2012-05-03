@@ -8,9 +8,13 @@ namespace IUDICO.Security.ViewModels.Ban
 {
     public class EditComputersViewModel
     {
+        [LocalizedDisplayName("ComputerIP")]
         public string ComputerIP { get; set; }
+        [LocalizedDisplayName("Room")]
         public string Room { get; set; }
+        [LocalizedDisplayName("Banned")]
         public bool Banned { get; set; }
+        [LocalizedDisplayName("CurrentUser")]
         public string CurrentUser { get; set; }
 
         public EditComputersViewModel() { }
