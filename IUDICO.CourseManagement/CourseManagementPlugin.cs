@@ -40,7 +40,6 @@ namespace IUDICO.CourseManagement
             return new Action[]
             {
                 new Action(Localization.GetMessage("GetCourses"), "Course/Index"),
-                new Action(Localization.GetMessage("CreateCourse"), "Course/Create")
             };
             // actions.Add(new Action(Localization.getMessage("EditCourse"), "Course/Index", Role.Teacher));
         }

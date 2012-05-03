@@ -46,7 +46,7 @@ namespace IUDICO.CourseManagement.Controllers
             base.Initialize(requestContext);
         }
 
-        [Allow(Role = Role.CourseCreator)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Index()
         {
             ViewData["SequencingPatternsList"] = new List<SelectListItem>
@@ -71,6 +71,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult List(int? id)
         {
             try
@@ -86,6 +87,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult Create(Node node)
         {
             try
@@ -111,6 +113,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult Delete(int id)
         {
             try
@@ -126,6 +129,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult Rename(int id, string name)
         {
             try
@@ -144,6 +148,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult Move(int id, int? parentId, int position, bool copy)
         {
             try
@@ -173,6 +178,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult Data(int id)
         {
             try
@@ -186,6 +192,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult Preview(int id)
         {
             var path = Path.Combine(HttpContext.Request.ApplicationPath, this.storage.GetPreviewNodePath(id)).Replace('\\', '/');
@@ -200,12 +207,14 @@ namespace IUDICO.CourseManagement.Controllers
 
         [HttpPost]
         [ValidateInput(false)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public void Edit(int id, string data)
         {
             this.storage.UpdateNodeContents(id, data);
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult ApplyPattern(int id, SequencingPattern pattern, int data)
         {
             var node = this.storage.GetNode(id);
@@ -243,6 +252,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult Properties(int id, string type)
         {
             var xml = new XmlSerializer(typeof(Sequencing));
@@ -294,6 +304,7 @@ namespace IUDICO.CourseManagement.Controllers
         }
 
         [HttpPost]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public JsonResult SaveProperties(int nodeId, string type)
         {
             var node = this.storage.GetNode(nodeId);
