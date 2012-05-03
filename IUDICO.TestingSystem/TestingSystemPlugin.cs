@@ -107,10 +107,6 @@ namespace IUDICO.TestingSystem
         {
         }
 
-        public void Setup(IWindsorContainer container)
-        {
-        }
-
         #endregion
     }
 }

@@ -74,11 +74,6 @@ namespace IUDICO.Security
             };
         }
 
-        public void Setup(IWindsorContainer container)
-        {
-            // Unused?
-        }
-
         public void RegisterRoutes(RouteCollection routes)
         {
             /*
