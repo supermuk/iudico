@@ -26,7 +26,7 @@ namespace IUDICO.CourseManagement.Controllers
             this.userService = LmsService.FindService<IUserService>();
         }
 
-        [Allow(Role = Role.Student | Role.Teacher | Role.CourseCreator)]
+        [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Index()
         {
             var userId = this.userService.GetUsers().Single(i => i.Username == this.User.Identity.Name).Id;
