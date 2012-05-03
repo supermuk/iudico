@@ -47,6 +47,7 @@ namespace IUDICO.Analytics.Controllers
                 foreach (var topic in temp_allowedTopics)
                 {
                     List<double> quality = new List<double>();
+                    quality.Add(this.storage.GetTopicTagStatistic(topic));
                     quality.Add(this.storage.GetScoreRatingTopicStatistic(topic, groups));
                     quality.Add(this.storage.GaussianDistribution(topic));
                     tempDisciplineQuality += quality.Sum() / quality.Count;
