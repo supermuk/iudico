@@ -45,7 +45,9 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Security");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Add computer");
+
+
+            this.selenium.Click("//a[contains(@href, '/Ban/AddComputers')]");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Type("id=ComputerIP", "192.169.0.32");
             this.selenium.Click("name=saveButton");
@@ -120,7 +122,9 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Type("id=CurrentUser", "lex");
             this.selenium.Click("name=saveButton");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Back to list");
+
+
+            this.selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
             this.selenium.WaitForPageToLoad("30000");
 
             Assert.IsTrue(this.selenium.IsTextPresent("192.169.0.32"));
