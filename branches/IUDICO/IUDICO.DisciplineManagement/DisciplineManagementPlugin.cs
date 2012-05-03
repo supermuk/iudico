@@ -132,11 +132,6 @@ namespace IUDICO.DisciplineManagement
             }
         }
 
-        public void Setup(IWindsorContainer container)
-        {
-
-        }
-
         #endregion
     }
 }

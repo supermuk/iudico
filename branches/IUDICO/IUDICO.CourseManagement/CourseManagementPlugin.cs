@@ -81,11 +81,6 @@ namespace IUDICO.CourseManagement
                 new { controller = "Course", action = "Index" });
         }
 
-        public void Setup(IWindsorContainer container)
-        {
-
-        }
-
         public void Update(string evt, params object[] data)
         {
             // handle appropriate events

@@ -169,11 +169,6 @@ namespace IUDICO.CurriculumManagement
             }
         }
 
-        public void Setup(IWindsorContainer container)
-        {
-
-        }
-
         #endregion
     }
 }
