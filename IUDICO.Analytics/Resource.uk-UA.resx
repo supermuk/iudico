@@ -117,7 +117,85 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlgorithmOutput" xml:space="preserve">
+    <value>Вихідні дані алгоритму</value>
+  </data>
+  <data name="Analytics" xml:space="preserve">
+    <value>Аналітика</value>
+  </data>
+  <data name="Anomalities" xml:space="preserve">
+    <value>Аномалій</value>
+  </data>
+  <data name="Anomaly" xml:space="preserve">
+    <value>Аномалія</value>
+  </data>
+  <data name="AnomalyDetection" xml:space="preserve">
+    <value>Виявлення Аномалій</value>
+  </data>
+  <data name="AnomalyOwnershipWarning" xml:space="preserve">
+    <value>Ви можете виявляти аномалії лише у Ваших навчальних темах.</value>
+  </data>
+  <data name="Created" xml:space="preserve">
+    <value>Створено</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="DisciplineTopicQuality" xml:space="preserve">
+    <value>Якість навчального матеріалу</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Редагувати</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Назва групи</value>
+  </data>
+  <data name="HelloAnalytics" xml:space="preserve">
+    <value>Аналітика</value>
+  </data>
+  <data name="MakeForecasting" xml:space="preserve">
+    <value>Спрогнозувати</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Ім'я</value>
+  </data>
+  <data name="NoGroupsAvailableForThisTopic" xml:space="preserve">
+    <value>Для вибраної теми немає груп</value>
+  </data>
+  <data name="Normal" xml:space="preserve">
+    <value>Нормально</value>
+  </data>
   <data name="Recommended" xml:space="preserve">
     <value>Рекомендовані</value>
+  </data>
+  <data name="Recommender" xml:space="preserve">
+    <value>Рекомендації</value>
+  </data>
+  <data name="SelectGroup" xml:space="preserve">
+    <value>Вибрати групу</value>
+  </data>
+  <data name="StudentName" xml:space="preserve">
+    <value>Ім'я студента</value>
+  </data>
+  <data name="StudentScore" xml:space="preserve">
+    <value>Оцінка студента</value>
+  </data>
+  <data name="StudentTime" xml:space="preserve">
+    <value>Час проходження</value>
+  </data>
+  <data name="Tags" xml:space="preserve">
+    <value>Теги</value>
+  </data>
+  <data name="Teach" xml:space="preserve">
+    <value>Навчити</value>
+  </data>
+  <data name="TopicName" xml:space="preserve">
+    <value>Назва теми</value>
+  </data>
+  <data name="TrainTopic" xml:space="preserve">
+    <value>Трненувати тему</value>
+  </data>
+  <data name="Updated" xml:space="preserve">
+    <value>Оновлено</value>
   </data>
 </root>

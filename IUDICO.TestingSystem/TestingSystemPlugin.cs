@@ -41,7 +41,7 @@ namespace IUDICO.TestingSystem
 
         public string GetName()
         {
-            return "Testing System";
+            return "TestingSystem";
         }
 
         public IEnumerable<Action> BuildActions()
@@ -104,10 +104,6 @@ namespace IUDICO.TestingSystem
         }
 
         public void Update(string name, params object[] data)
-        {
-        }
-
-        public void Setup(IWindsorContainer container)
         {
         }
 

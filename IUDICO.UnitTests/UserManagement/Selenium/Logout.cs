@@ -11,9 +11,8 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         public void LogoutSuccess()
         {
             this.DefaultLogin();
+            this.Logout();
 
-            this.selenium.Click("//a[contains(@href, '/Account/Logout')]");
-            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"));
         }
     }

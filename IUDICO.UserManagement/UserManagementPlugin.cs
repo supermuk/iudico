@@ -34,7 +34,8 @@ namespace IUDICO.UserManagement
                     .BasedOn<IController>()
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
-                Component.For<IPlugin>().ImplementedBy<UserManagementPlugin>().LifeStyle.Is(LifestyleType.Singleton),
+                Component.For<IPlugin>().Instance(this).LifeStyle.Is(LifestyleType.Singleton),
+                ////Component.For<IPlugin>().ImplementedBy<UserManagementPlugin>().LifeStyle.Is(LifestyleType.Singleton),
                 ////Component.For<IUserStorage>().ImplementedBy<CachedUserStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IUserStorage>().ImplementedBy<DatabaseUserStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Is(LifestyleType.Singleton),
@@ -48,7 +49,7 @@ namespace IUDICO.UserManagement
 
         public string GetName()
         {
-            return Localization.GetMessage("UserManagement");
+            return "UserManagement";
         }
 
         public IEnumerable<Action> BuildActions()
@@ -91,10 +92,6 @@ namespace IUDICO.UserManagement
                 var attemptResult = (AttemptResult)data[0];
                 this.container.Resolve<IUserStorage>().UpdateUserAverage(attemptResult);
             }
-        }
-
-        public void Setup(IWindsorContainer container)
-        {
         }
 
         #endregion

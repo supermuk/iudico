@@ -155,6 +155,12 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 				{
 					if ( event.data.space == editor.config.toolbarLocation )
 					{
+					 event.data.html += generateToolbarHtml( editor ); 
+                    } 
+            }); 
+ 
+			var generateToolbarHtml = function ( editor ) 
+			{ 
 						editor.toolbox = new toolbox();
 
 						var labelId = 'cke_' + CKEDITOR.tools.getNextNumber();
@@ -341,10 +347,54 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 										'</a>' );
 						}
 
-						event.data.html += output.join( '' );
-					}
-				});
+						return output.join( '' ); 
+					};
 
+			var destroyToolbar = function()
+			{
+				var toolbars, index = 0, i,
+						items, instance;
+				toolbars = this.toolbox.toolbars;
+				for ( ; index < toolbars.length; index++ )
+				{
+					items = toolbars[ index ].items;
+					for ( i = 0; i < items.length; i++ )
+					{
+						instance = items[ i ];
+						if ( instance.clickFn ) CKEDITOR.tools.removeFunction( instance.clickFn );
+						if ( instance.keyDownFn ) CKEDITOR.tools.removeFunction( instance.keyDownFn );
+					}
+				}
+			};
+			
+			editor.on( 'destroy', destroyToolbar ); 
+
+			// Method to switch the currently used toolbar 
+			editor.setToolbar = function( toolbar ) 
+			{ 
+					// Remove existing toolbar 
+					destroyToolbar.call( this ); 
+
+					// Set new one 
+					this.config.toolbar = toolbar; 
+
+					// Create it 
+					var toolbarLocation = this.config.toolbarLocation, 
+							space = document.getElementById( 'cke_' + toolbarLocation + '_' + this.name ); 
+
+					space.innerHTML = generateToolbarHtml( this ); 
+
+					// IE... 
+					if ( CKEDITOR.env.ie ) 
+					{ 
+							var table = space.parentNode.parentNode.parentNode; 
+							table.style.display = 'none'; 
+							// Force refresh 
+							var h = table.scrollHeight; 
+							table.style.display = ''; 
+					} 
+			}; 
+			
 			editor.addCommand( 'toolbarFocus', commands.toolbarFocus );
 		}
 	});

@@ -1,6 +1,7 @@
 ﻿<%@ Assembly Name="IUDICO.Security" %>
 
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Security.ViewModels.Ban.RoomsViewModel>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <link href="<%= Html.ResolveUrl("~/Content/jquery.multiselect2side.css") %>" rel="Stylesheet"
@@ -18,8 +19,8 @@
             $('#sharewith').multiselect2side({
                 selectedPosition: 'left',
                 moveOptions: false,
-                labelsx: "Computers at this room",
-                labeldx: "Unchoosen computers"
+                labelsx: "<%=Localization.GetMessage("Computers at this room") %>",
+                labeldx: "<%=Localization.GetMessage("Unchoosen computers") %>"
             });
 
             $("#rooms-list").change(function (event) {
@@ -45,11 +46,11 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-    Edit Room
+    <%=Localization.GetMessage("Edit room") %>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
     <fieldset>
-    <legend> Edit Rooms </legend>
+    <legend> <%=Localization.GetMessage("Edit Rooms") %> </legend>
     <% using (Html.BeginForm())
        {%>
     <select id="rooms-list" name="CurrentRoom">

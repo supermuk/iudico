@@ -457,11 +457,11 @@
 	<table id="disciplines" class="disciplineTable">
     <thead>
 		<tr id="tableHeader">
-		     <th></th>
-			<th class="disciplineNameColumn">Назва</th>
-			<th class="disciplineDateColumn">Створено</th>
-			<th class="disciplineDateColumn">Оновлено</th>
-			<th class="disciplineActionColumn"></th>
+		    <th class="checkboxColumn"></th>
+			<th class="disciplineNameColumn"><%=Localization.GetMessage("Name") %></th>
+			<th class="disciplineDateColumn" class="datetimeColumn"><%=Localization.GetMessage("Created") %></th>
+			<th class="disciplineDateColumn"  class="datetimeColumn"><%=Localization.GetMessage("Updated") %></th>
+			<th class="disciplineActionColumn" class="actionsColumn"></th>
 		</tr>
     </thead>
     <tbody>

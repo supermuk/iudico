@@ -384,4 +384,7 @@
   <data name="Topic_Not_Found" xml:space="preserve">
     <value>Не вдалось знайти обрану тему!</value>
   </data>
+  <data name="Course_Not_Found" xml:space="preserve">
+    <value>Не вдалось знайти обраний курс!</value>
+  </data>
 </root>

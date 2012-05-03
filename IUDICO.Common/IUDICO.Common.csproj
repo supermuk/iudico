@@ -70,7 +70,6 @@
     <Compile Include="Log4NetLogger.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Models\Action.cs" />
-    <Compile Include="Models\ActionLink.cs" />
     <Compile Include="Models\Attributes\AllowAttribute.cs" />
     <Compile Include="Models\Attributes\DropDownListAttribute.cs" />
     <Compile Include="Models\Attributes\EmailAddressAttribute.cs" />

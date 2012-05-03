@@ -49,7 +49,7 @@ namespace IUDICO.UnitTests.Base
         {
             get
             {
-                return this.seleniumWait.ToString();
+                return (10 * this.seleniumWait).ToString();
             }
         }
 
@@ -105,6 +105,14 @@ namespace IUDICO.UnitTests.Base
         {
             try
             {
+                this.Logout();
+            }
+            catch
+            {
+            }
+
+            try
+            {
                 this.selenium.Stop();
             }
             catch (Exception)
@@ -118,9 +126,16 @@ namespace IUDICO.UnitTests.Base
         protected void DefaultLogin(string username, string password)
         {
             this.selenium.Open("/");
+
+            if (this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"))
+            {
+                return;
+            }
+
             this.selenium.Type("id=loginPassword", username);
             this.selenium.Type("id=loginUsername", password);
             this.selenium.Click("id=loginDefaultButton");
+
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
         }
 
@@ -134,7 +149,7 @@ namespace IUDICO.UnitTests.Base
             this.selenium.Open("/");
             this.selenium.Type("id=loginIdentifier", openId);
             this.selenium.Click("id=loginOpenIdButton");
-            this.selenium.WaitForPageToLoad((this.seleniumWait * 5).ToString());
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             if (this.selenium.IsElementPresent("//a[contains(@href, '/Account/Index')]"))
             {
@@ -150,13 +165,13 @@ namespace IUDICO.UnitTests.Base
             this.selenium.Type("id=login_password", openIdPass);
             this.selenium.Click("//input[@id='loginlj_submit']");
 
-            this.selenium.WaitForPageToLoad((this.seleniumWait * 6).ToString());
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             if (this.selenium.GetLocation().Contains("http://www.livejournal.com"))
             {
                 this.selenium.Click("//input[@name='yes:once']");
 
-                this.selenium.WaitForPageToLoad((this.seleniumWait * 6).ToString());
+                this.selenium.WaitForPageToLoad(this.SeleniumWait);
             }
         }
 

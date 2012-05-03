@@ -28,18 +28,5 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         {
             Assert.AreEqual(null, this.tests.Storage.GetGroup(123));
         }
-
-        protected class GroupComparer : IEqualityComparer<Group>
-        {
-            public bool Equals(Group x, Group y)
-            {
-                return x.Name == y.Name && x.Id == y.Id;
-            }
-
-            public int GetHashCode(Group obj)
-            {
-                return (obj.Name + obj.Id).GetHashCode();
-            }
-        }
     }
 }

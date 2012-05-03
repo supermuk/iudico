@@ -34,7 +34,7 @@
         [Test]
         public void GetOverallNumberOfRequestsForTodayTest()
         {
-            var overallViewModel = new OverallViewModel("1");
+            var overallViewModel = new OverallViewModel();
 
             var tempUser1 = new User { UserId = "User1", Name = "User1", IsApproved = true };
 

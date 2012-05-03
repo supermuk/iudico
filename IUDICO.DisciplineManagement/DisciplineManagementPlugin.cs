@@ -46,7 +46,7 @@ namespace IUDICO.DisciplineManagement
         #region IPlugin Members
         public string GetName()
         {
-            return Localization.GetMessage("DisciplineManagement");
+            return "DisciplineManagement";
         }
 
         public IEnumerable<Action> BuildActions()
@@ -118,19 +118,18 @@ namespace IUDICO.DisciplineManagement
                     // makes connected disciplines invalid
                     var courseId = ((Course)data[0]).Id;
                     // curriculumStorage.MakeDisciplineInvalid(courseId);
-						  disciplineStorage.MakeDisciplinesInvalid(courseId);
+                    disciplineStorage.MakeDisciplinesInvalid(courseId);
                     break;
                 case UserNotifications.UserDelete:
-                    // delete connected Disciplines(Curriculums)
+                    // delete connected Disciplines(Curriculums)                    
                     var disciplineIds = disciplineStorage.GetDisciplines((User)data[0]).Select(item => item.Id);
-                    disciplineStorage.DeleteDisciplines(disciplineIds);
+                    foreach (var disciplineId in disciplineIds) {
+                        if (disciplineStorage.GetDisciplineSharedUsers(disciplineId).Count == 0) {
+                            disciplineStorage.DeleteDiscipline(disciplineId);
+                        }
+                    }
                     break;
             }
-        }
-
-        public void Setup(IWindsorContainer container)
-        {
-
         }
 
         #endregion

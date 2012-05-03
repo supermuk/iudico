@@ -34,7 +34,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
                 if (value != null)
                 {
                     if (value < -1 || value > 1)
-                        throw new ArgumentOutOfRangeException("ScaledScore", "Value of scaled score should be in range of [-1;1]");
+                        throw new ArgumentOutOfRangeException("value", "Value of scaled score should be in range of [-1;1]");
                 }
 
                 this.scaledScore = value;

@@ -273,4 +273,10 @@
   <data name="CorrectTopics" xml:space="preserve">
     <value>Виправіть тему(и):</value>
   </data>
+  <data name="Created" xml:space="preserve">
+    <value>Створено</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Створити</value>
+  </data>
 </root>

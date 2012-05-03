@@ -19,55 +19,7 @@ namespace IUDICO.TestingSystem.Models
         #region Service Properties
 
         public ILmsService LmsService { get; protected set; }
-
-        public ICourseService CourseService
-        {
-            get
-            {
-                if (this.LmsService == null)
-                {
-                    throw new NullReferenceException("You should initialize LMSService first!");
-                }
-                return this.LmsService.FindService<ICourseService>();
-            }
-        }
-
-        public IDisciplineService DisciplineService
-        {
-            get
-            {
-                if (this.LmsService == null)
-                {
-                    throw new NullReferenceException("You should initialize LMSService first!");
-                }
-                return this.LmsService.FindService<IDisciplineService>();
-            }
-        }
-
-        public ISearchService SearchService
-        {
-            get
-            {
-                if (this.LmsService == null)
-                {
-                    throw new NullReferenceException("You should initialize LMSService first!");
-                }
-                return this.LmsService.FindService<ISearchService>();
-            }
-        }
-
-        public IStatisticsService StatisticsService
-        {
-            get
-            {
-                if (this.LmsService == null)
-                {
-                    throw new NullReferenceException("You should initialize LMSService first!");
-                }
-                return this.LmsService.FindService<IStatisticsService>();
-            }
-        }
-
+        
         public IUserService UserService
         {
             get

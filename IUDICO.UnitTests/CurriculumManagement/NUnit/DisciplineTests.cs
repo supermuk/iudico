@@ -217,18 +217,15 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             AdvAssert.AreEqual(expectedTopics, actualTopics, false);
         }
 
-        /*        [Test]
-                public void MakeDisciplineInvalid()
-                {
-                    Discipline discipline = new Discipline { Name = "Discipline1" };
-                    var id = _Storage.AddDiscipline(discipline);
-                    Chapter chapter = new Chapter { Discipline = discipline, Name = "Chapter1" };
-                    _Storage.AddChapter(chapter);
-                    Topic topic = new Topic { Name = "Topic1", Chapter = chapter, TopicType = _Storage.GetTopicType(1), CourseRef = 1 };
-                    _Storage.AddTopic(topic);
-                    _Storage.MakeDisciplineInvalid(id);
-                    Assert.AreEqual(false, _Storage.GetDiscipline(id).IsValid);
-                }*/
+         [Test]
+         public void MakeDisciplineInvalid() {
+             this.DataPreparer.CreateDisciplinesSet4();
+             var disciplineId = this.DataPreparer.DisciplineIds[0];             
+             this.DisciplineStorage.MakeDisciplinesInvalid(1);
+             var chapterIds = this.DisciplineStorage.GetTopicsByCourseId(1).Select(item => item.ChapterRef);
+             var disciplineIds = this.DisciplineStorage.GetChapters(chapterIds).Select(item => item.DisciplineRef).ToList();
+             disciplineIds.ForEach(id => Assert.IsFalse(this.DisciplineStorage.GetDiscipline(id).IsValid));
+         }
 
         #endregion
 
@@ -301,7 +298,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         public void DeleteChapters()
         {
             var controller = this.GetController<ChapterController>();
-            var chapterIds = this.DataPreparer.CreateDisciplinesSet3();
+            this.DataPreparer.CreateDisciplinesSet4();
+            var chapterIds = this.DataPreparer.ChapterIds;
 
             // delete 1 item
             var result = controller.DeleteItem(chapterIds[1]);
@@ -463,6 +461,39 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.AreEqual(false, actual.IsDeleted);
             Assert.AreEqual(topicIds[0], actual.Id);
             Assert.AreEqual(this.DataPreparer.GetTopics()[0].ChapterRef, actual.ChapterRef);
+
+            var wrongTopic = newTopicF();
+            wrongTopic.Id = topicIds[1];
+            wrongTopic.TheoryCourseRef = null;
+            wrongTopic.ChapterRef = this.DataPreparer.GetTopics()[1].ChapterRef;
+
+            this.DisciplineStorage.UpdateTopic(wrongTopic);
+            Assert.AreEqual(false, this.DisciplineStorage.GetDiscipline(this.DisciplineStorage.GetChapter(wrongTopic.ChapterRef).DisciplineRef).IsValid);
+            
+            wrongTopic = newTopicF();
+            wrongTopic.Id = topicIds[0];
+            wrongTopic.TheoryCourseRef = this.CourseService.GetCourse(4).Id;
+            wrongTopic.ChapterRef = this.DataPreparer.GetTopics()[0].ChapterRef;
+
+            this.DisciplineStorage.UpdateTopic(wrongTopic);
+            Assert.AreEqual(false, this.DisciplineStorage.GetDiscipline(this.DisciplineStorage.GetChapter(wrongTopic.ChapterRef).DisciplineRef).IsValid);
+
+            wrongTopic = newTopicF();
+            wrongTopic.Id = topicIds[0];
+            wrongTopic.TheoryCourseRef = this.CourseService.GetCourse(3).Id;
+            wrongTopic.ChapterRef = this.DataPreparer.GetTopics()[0].ChapterRef;
+
+            this.DisciplineStorage.UpdateTopic(wrongTopic);
+            Assert.AreEqual(true, this.DisciplineStorage.GetDiscipline(this.DisciplineStorage.GetChapter(wrongTopic.ChapterRef).DisciplineRef).IsValid);
+
+            wrongTopic = newTopicF();
+            wrongTopic.Id = topicIds[0];
+            wrongTopic.TheoryCourseRef = null;
+            wrongTopic.TestCourseRef = this.CourseService.GetCourse(4).Id;
+            wrongTopic.ChapterRef = this.DataPreparer.GetTopics()[0].ChapterRef;
+
+            this.DisciplineStorage.UpdateTopic(wrongTopic);
+            Assert.AreEqual(false, this.DisciplineStorage.GetDiscipline(this.DisciplineStorage.GetChapter(wrongTopic.ChapterRef).DisciplineRef).IsValid);
         }
 
         [Test]

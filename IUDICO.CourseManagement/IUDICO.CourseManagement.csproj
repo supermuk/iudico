@@ -45,9 +45,9 @@
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib, Version=0.85.4.369, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\ICSharpCode.SharpZipLib.dll</HintPath>
+      <HintPath>..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -179,11 +179,16 @@
     <Content Include="Content\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Scripts\ckeditor\ckeditor.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\lang\en.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\lang\uk.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\logo.gif" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\plugin.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\dialogs\spoiler.js" />
+    <Content Include="Scripts\ckeditor\plugins\switchtoolbar\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\switchtoolbar\lang\uk.js" />
+    <Content Include="Scripts\ckeditor\plugins\switchtoolbar\plugin.js" />
+    <Content Include="Scripts\ckeditor\plugins\switchtoolbar\switchtoolbar.gif" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\dialogs\syntaxhighlight.js" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\images\syntaxhighlight.gif" />
     <Content Include="Scripts\ckeditor\plugins\syntaxhighlight\lang\en.js" />
@@ -790,7 +795,6 @@
     <Content Include="Scripts\ckeditor\adapters\jquery.js" />
     <Content Include="Scripts\ckeditor\CHANGES.html" />
     <Content Include="Scripts\ckeditor\ckeditor.asp" />
-    <Content Include="Scripts\ckeditor\ckeditor.js" />
     <Content Include="Scripts\ckeditor\ckeditor_basic.js" />
     <Content Include="Scripts\ckeditor\ckeditor_basic_source.js" />
     <Content Include="Scripts\ckeditor\ckeditor_source.js" />
@@ -1345,6 +1349,7 @@
     <Content Include="Scripts\jquery\jquery.jstree.js" />
     <Content Include="Scripts\jquery\jquery.layout.js" />
     <Content Include="Scripts\jquery\jquery.multiselect2side.js" />
+    <Content Include="packages.config" />
     <None Include="Scripts\ckeditor\.htaccess" />
     <None Include="Scripts\ckeditor\ckeditor.pack" />
     <None Include="Scripts\ckeditor\ckeditor.php" />
@@ -1375,7 +1380,6 @@
     <None Include="Content\Tree\file.png" />
     <None Include="Content\Tree\folder.png" />
     <None Include="Content\Tree\root.png" />
-    <Content Include="Libraries\ICSharpCode.SharpZipLib.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.Compression.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.dll" />
     <Content Include="Libraries\Microsoft.LearningComponents.XML">

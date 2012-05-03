@@ -18,11 +18,11 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.CreateUser(temp);
 
-            var gg = this.tests.Storage.GetUser(u => u.Username == "name").Id;
+            var gg = this.tests.Storage.GetUser("name").Id;
 
             this.tests.Storage.ActivateUser(gg);
 
-            Assert.AreEqual(this.tests.Storage.GetUser(u => u.Username == "name").IsApproved, true);
+            Assert.AreEqual(this.tests.Storage.GetUser("name").IsApproved, true);
 
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }

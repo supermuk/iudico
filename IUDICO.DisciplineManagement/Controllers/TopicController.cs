@@ -95,8 +95,8 @@ namespace IUDICO.DisciplineManagement.Controllers
                 {
                     Storage.UpdateTopic(topic);
                     var viewTopic = topic.ToViewTopicModel(Storage);
-                	  var discipline = Storage.GetTopic(topicId).Chapter.Discipline;
-						  return Json(new { success = true, topicId = topicId, topicRow = PartialViewAsString("TopicRow", viewTopic), disciplineId = discipline.Id, error = discipline.IsValid ? "" : Validator.GetValidationError(discipline) });
+                    var discipline = Storage.GetTopic(topicId).Chapter.Discipline;
+                    return Json(new { success = true, topicId = topicId, topicRow = PartialViewAsString("TopicRow", viewTopic), disciplineId = discipline.Id, error = discipline.IsValid ? string.Empty : Validator.GetValidationError(discipline) });
                 }
 
                 var m = new CreateTopicModel(Storage.GetCourses(), topic);

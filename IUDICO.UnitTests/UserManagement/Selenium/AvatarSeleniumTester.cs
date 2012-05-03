@@ -18,7 +18,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.WaitForPageToLoad(this.SeleniumWait);
             selenium.AttachFile("name=file", "http://dl.dropbox.com/u/38366179/test.jpg");
             selenium.Click("//form[contains(@action, '/Account/UploadAvatar')]//input[@type='submit']");
-            selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
+            selenium.WaitForPageToLoad(this.SeleniumWait);
             
             Assert.IsTrue(selenium.IsElementPresent("id=avatar"));
             Assert.IsTrue(selenium.GetAttribute("//img[@id='avatar']/@src") != "/Data/Avatars/default.png");
@@ -35,7 +35,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.WaitForPageToLoad(this.SeleniumWait);
             selenium.AttachFile("name=file", "http://dl.dropbox.com/u/38366179/test2.png");
             selenium.Click("//form[contains(@action, '/User/UploadAvatar')]//input[@type='submit']");
-            selenium.WaitForPageToLoad((this.seleniumWait * 3).ToString());
+            selenium.WaitForPageToLoad(this.SeleniumWait);
 
             Assert.IsTrue(selenium.IsElementPresent("id=avatar"));
             Assert.IsTrue(selenium.GetAttribute("//img[@id='avatar']/@src") != "/Data/Avatars/default.png");
@@ -47,12 +47,11 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.DefaultLogin();
 
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
-            this.selenium.WaitForPageToLoad((this.seleniumWait * 2).ToString());
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/Edit')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             Assert.IsTrue(this.selenium.IsElementPresent("id=avatar"));
-            this.Logout();
         }
     }
 }

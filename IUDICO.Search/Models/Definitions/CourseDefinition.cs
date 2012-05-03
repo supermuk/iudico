@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 using IUDICO.Common.Models.Shared;
 using IUDICO.Search.Models.Queries;
 
@@ -14,7 +12,7 @@ namespace IUDICO.Search.Models.Definitions
     {
         public CourseDefinition()
         {
-            this.Query = new DefaultQuery(new string[] { "Course" });
+            this.Query = new DefaultQuery(new[] { "Course" });
         }
 
         public override Document Convert(Course entity)

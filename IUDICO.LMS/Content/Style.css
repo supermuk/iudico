@@ -32,11 +32,90 @@ a:active
     color: #12eb87;
 }
 
+table tr:hover
+{
+    background-color: #F0ECB4;
+}
+
 p, ul
 {
     margin-bottom: 20px;
     line-height: 1.6em;
 }
+
+/* BUTTONS */
+.clickable {
+    cursor: pointer;
+}
+
+.button {
+    display: inline-block;
+    width: 37px;
+    height: 36px;
+}
+
+.buttonEdit
+{
+    background: url("/Content/Images/edit.png") no-repeat;
+}
+.buttonEdit:hover
+{
+    background: url("/Content/Images/edit-a.png") no-repeat;
+}
+.buttonExport
+{
+    background: url("/Content/Images/export.png") no-repeat;
+}
+.buttonExport:hover
+{
+    background: url("/Content/Images/export-a.png") no-repeat;
+}
+
+.buttonLock
+{
+    background: url("/Content/Images/lock.png") no-repeat;
+}
+.buttonLock:hover
+{
+    background: url("/Content/Images/lock-h.png") no-repeat;
+}
+.buttonUnlock
+{
+    background: url("/Content/Images/unlock.png") no-repeat;
+
+}
+.buttonUnlock:hover
+{
+    background: url("/Content/Images/unlock-h.png") no-repeat;
+
+}
+.buttonShare
+{
+    background: url("/Content/Images/share.png") no-repeat;
+}
+.buttonShare:hover
+{
+    background: url("/Content/Images/share-a.png") no-repeat;
+}
+.buttonDelete
+{
+    background: url("/Content/Images/del.png") no-repeat;
+}
+.buttonDelete:hover
+{
+    background: url("/Content/Images/del-a.png") no-repeat;
+}
+/* CHECKBOX */
+.checkbox, .radio {
+	width: 19px;
+	height: 25px;
+	padding: 0 5px 0 0;
+	background: url("/Content/Images/check.png") no-repeat;
+	display: block;
+	clear: left;
+	float: left;
+}
+
 
 /* HEADINGS   
 ----------------------------------------------------------*/
@@ -49,12 +128,16 @@ h1, h2, h3, h4, h5, h6
 
 h1
 {
-    font-size: 2em;
-    padding-bottom: 0;
-    margin-bottom: 0;
+    font-size: 3em;
+    padding: 0;
+    margin: 0;
+    color: #336699;
+    text-transform: uppercase;
 }
 h2
 {
+    color: #336699;
+    text-transform: uppercase;
     padding: 0 0 0px 0;
 }
 h3
@@ -84,10 +167,9 @@ first child of the left and right table columns */
 page width. Or, you can specify an exact pixel width. */
 .page
 {
-    width: 90%;
+    width: 1100px;
     margin-left: auto;
     margin-right: auto;
-    min-width: 900px;
 }
 
 #header
@@ -179,7 +261,7 @@ ul#menu li a:active
     text-decoration: none;
 }
 
-ul#menu li.selected a
+ul#menu li a.selected
 {
     background-color: #fff;
     color: #477aa3;
@@ -220,7 +302,7 @@ input[type="password"]
     width: 200px;
 }
 
-input[type="submit"] 
+.blueButton, button[type="button"], input[type="button"], input[type="submit"]
 {
     background-image: url(/Content/Images/button_116_25.png);
     width: 115px;
@@ -228,7 +310,14 @@ input[type="submit"]
     border: 0px none;
     color: #FFFFFF;
 }
-
+.blueButton:hover, button[type="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover
+{
+    opacity: 0.8;
+}
+.blueButton:active, button[type="button"]:active, input[type="button"]:active, input[type="submit"]:active
+{
+    opacity: 0.6;
+}
 input[type="submit"].okButton 
 {
     background-image: url(/Content/Images/button_37_20.png);
@@ -243,6 +332,7 @@ table
 {
   border: solid 1px #e8eef4;
   border-collapse: collapse;
+  width: 100%;
 }
 
 table td 
@@ -306,7 +396,9 @@ div#title
     margin:10px;
     color:#575757;
 }
-
+#logindisplay span {
+    margin: 2px;
+}
 #logindisplay a:link
 {
     text-decoration: underline;
@@ -430,7 +522,45 @@ select option.added
     width: 200px;
     height: 80px;
 }
-
+/* HOME
+----------------------------------------------------------*/
+.verticalLine {
+    background-image: url("/Content/Images/line_1_288.png");
+    width: 1px;
+    height: 288px;
+    margin: 50px 10px;
+    float: left;
+}
+.homeArea
+{
+    float: left;
+    padding: 30px;
+}
+.homeActionList
+{
+    height: 90px;
+}
+.homeActionList ul
+{
+    padding-left: 20px;
+    color: #198efc;
+}
+.homeActionList ul li a
+{
+    color: #198efc;
+}
+.homeActionLogo 
+{
+    height: 220px;
+    width: 180px;
+    position: relative;
+}
+.homeActionImg
+{
+    bottom: 0px;
+    position: absolute;
+    width: 100%;
+}
 /* COURSES
 ----------------------------------------------------------*/
 .courseTable
@@ -438,26 +568,60 @@ select option.added
     width:100%;
 }
 
+.course:hover {
+    background-color: #F0ECB4;
+}
+.courseName 
+{
+    color: #257dd6;
+    font-size: 1.5em;
+}
+.courseCreatedBy {
+    color: #888889;
+    font-size: 0.8em;
+}
 #Courses td.courseCheck
 {
-    background-color: #FFFFFF;
+
 }
 
 #Courses tr.courseMy
 {
-    background-color: #FFFFFF;
+
 }
 #Courses tr.courseShared
 {
-    background-color: #FFFFFF;
+
 }
+
 #Courses tr.courseLocked
 {
     background-color: #F0F0F0;
 }
-.courseEditable {
+#Courses tr.courseLocked:hover
+{
+    background-color: #D0D0D0;
+    cursor: not-allowed;
+}
+.courseEditable
+{
     cursor: pointer;
 }
+
+.courseActionsColumn
+{
+    width: 200px;
+}
+.updatedByColumn 
+{
+    width: 150px;
+}
+.updatedByField 
+{
+    color: #7A7979;
+    font-size: 1.2em;
+}
+
 /* DISCIPLINES
 ----------------------------------------------------------*/
 .disciplineTable
@@ -509,6 +673,8 @@ select option.added
     cursor: pointer;
     padding-left: 80px;
 }
+/* GROUPS
+----------------------------------------------------------*/
 
 /* CURRICULUMS
 ----------------------------------------------------------*/
@@ -522,9 +688,46 @@ select option.added
 
 /* SHAREUSERS
 ----------------------------------------------------------*/
-.checkboxColumn {
-    width: 40px;
+.hiddenTitle .ui-dialog-titlebar
+{
+    display: none;
 }
-.usernameColumn {
+.hiddenTitle div.ui-dialog-buttonpane
+{
+    margin: 0px;
+    border-top: none;
+}
+
+div.hiddenTitle
+{
+    padding: 0px;
+}
+
+#shareDialog
+{
+    padding: 0px;
+}
+.checkboxColumn
+{
+    width: 25px;
+}
+.usernameColumn
+{
     width: 200px;
+}
+.actionsColumn
+{
+    width: 200px;
+}
+.photoColumn {
+    width: 50px;
+}
+.smallColumn {
+    width: 50px;
+}
+.normalColumn {
+    width: 100px;
+}
+.bigColumn {
+    width: 150px;
 }

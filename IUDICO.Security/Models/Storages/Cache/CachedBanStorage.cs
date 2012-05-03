@@ -43,7 +43,7 @@ namespace IUDICO.Security.Models.Storages.Cache
 
         public void UnbanComputer(Computer computer)
         {
-            this.storage.BanComputer(computer);
+            this.storage.UnbanComputer(computer);
 
             this.cachePrvoider.Invalidate("computers", "computer-" + computer.IpAddress);
         }

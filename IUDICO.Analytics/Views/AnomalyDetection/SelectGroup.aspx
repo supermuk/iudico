@@ -1,4 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Group>>" %>
+<%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Select Group
@@ -6,13 +7,13 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2>Select Group</h2>
+    <h2><%=Localization.GetMessage("SelectGroup")%></h2>
     <%if (Model.Count() != 0)
       {%>
     <form action="/AnomalyDetection/TrainTopic/" method="get">
      <table>
         <tr>
-            <th>Group Name</th>
+            <th><%=Localization.GetMessage("GroupName") %></th>
             <th></th>
         </tr>
 
@@ -37,7 +38,7 @@
     <%}
       else
       { %>
-      No groups available for this topic.
+      <%=Localization.GetMessage("NoGroupsAvailableForThisTopic") %>
       <%} %>
 </asp:Content>
 

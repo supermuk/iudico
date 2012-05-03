@@ -468,4 +468,19 @@
   <data name="ClickErrorToCorrect" xml:space="preserve">
     <value>Click on the error to correct it.</value>
   </data>
+  <data name="BackCurriculumChapters" xml:space="preserve">
+    <value>Back to chapter timelines</value>
+  </data>
+  <data name="TopicTimelineOutOfCurriculum" xml:space="preserve">
+    <value>The topic timeline is out of curriculum's.  Topic name</value>
+  </data>
+  <data name="CurriculumsMarkedInRed" xml:space="preserve">
+    <value>Curriculums marked in red are invalid. Please click "Show errors" to fix them.</value>
+  </data>
+  <data name="GroupNotExist" xml:space="preserve">
+    <value>There are no such group</value>
+  </data>
+  <data name="ShowErrors" xml:space="preserve">
+    <value>Show error(s)</value>
+  </data>
 </root>
