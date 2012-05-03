@@ -41,7 +41,7 @@ namespace IUDICO.TestingSystem
 
         public string GetName()
         {
-            return "Testing System";
+            return "TestingSystem";
         }
 
         public IEnumerable<Action> BuildActions()

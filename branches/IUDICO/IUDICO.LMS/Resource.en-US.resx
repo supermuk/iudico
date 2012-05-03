@@ -192,4 +192,19 @@
   <data name="Recommended" xml:space="preserve">
     <value>Recommended</value>
   </data>
+  <data name="CourseManagement" xml:space="preserve">
+    <value>Course Management</value>
+  </data>
+  <data name="CurriculumManagement" xml:space="preserve">
+    <value>Curriculum Managment</value>
+  </data>
+  <data name="DisciplineManagement" xml:space="preserve">
+    <value>Discipline Management</value>
+  </data>
+  <data name="Statistic" xml:space="preserve">
+    <value>Statistic</value>
+  </data>
+  <data name="UserManagment" xml:space="preserve">
+    <value>User Management</value>
+  </data>
 </root>

@@ -54,7 +54,7 @@ namespace IUDICO.Security
 
         public string GetName()
         {
-            return Localization.GetMessage("SecurityPlugin");
+            return "SecurityPlugin";
         }
 
         public IEnumerable<Action> BuildActions()
