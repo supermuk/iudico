@@ -11,7 +11,7 @@
 
      <table>
         <tr>
-            <th><input name="checkall" type="checkbox" /></th>
+            <th><!--<input name="checkall" type="checkbox" />--></th>
             <th>User</th>
             <th>Scores</th>
             <th>Actions</th>
@@ -36,11 +36,13 @@
                 </table>
             </td>
             <td>
-                <%:Html.ActionLink("Update User Scores", "UpdateUser", new { id = item.Key.Id })%> |
+                <%:Html.ActionLink("Update User Scores", "UpdateUser", new { id = item.Key.Id })%>
             </td>
         </tr>
      <% } %>
      </table>
+     
+     <%:Html.ActionLink("Update All User Scores", "UpdateAllUsers")%>
 
 </asp:Content>
 

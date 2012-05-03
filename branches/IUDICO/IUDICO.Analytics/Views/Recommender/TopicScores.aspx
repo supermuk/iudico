@@ -11,7 +11,7 @@
 
      <table>
         <tr>
-            <th><input name="checkall" type="checkbox" /></th>
+            <th><!--<input name="checkall" type="checkbox" />--></th>
             <th>Topic</th>
             <th>Scores</th>
             <th>Actions</th>
@@ -20,7 +20,7 @@
      <% foreach (var item in Model) { %>
         <tr>
             <td>
-                <input name="check[]" value="<%:item.Key.Id%>" type="checkbox" />
+                <!--<input name="check[]" value="<%:item.Key.Id%>" type="checkbox" />-->
             </td>
             <td>
                 <%:item.Key.Name%>
@@ -36,11 +36,13 @@
                 </table>
             </td>
             <td>
-                <%:Html.ActionLink("Update Topic Scores", "UpdateTopic", new { id = item.Key.Id })%> |
+                <%:Html.ActionLink("Update Topic Scores", "UpdateTopic", new { id = item.Key.Id })%>
             </td>
         </tr>
      <% } %>
      </table>
+     
+     <%:Html.ActionLink("Update All Topic Scores", "UpdateAllTopics")%>
 
 </asp:Content>
 

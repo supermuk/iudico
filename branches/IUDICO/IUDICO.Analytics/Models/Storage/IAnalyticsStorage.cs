@@ -13,10 +13,10 @@ namespace IUDICO.Analytics.Models.Storage
 
         IEnumerable<ForecastingTree> GetAllForecastingTrees();
         IEnumerable<ForecastingTree> GetForecastingTrees(Guid userRef);
-        IEnumerable<TopicStat> GetRecommenderTopics(User user);
-        IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount);
 
         #endregion
+
+        #region Tags methods
 
         IEnumerable<Tag> GetTags();
         Tag GetTag(int id);
@@ -27,11 +27,20 @@ namespace IUDICO.Analytics.Models.Storage
         void DeleteTag(int id);
         void EditTags(int id, IEnumerable<int> topics);
 
+        #endregion
+
+        #region Recommender System
+
+        IEnumerable<TopicStat> GetRecommenderTopics(User user);
+        IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount);
         Dictionary<Topic, IEnumerable<TopicScore>> GetTopicScores();
         Dictionary<User, IEnumerable<UserScore>> GetUserScores();
-        
         void UpdateUserScores(Guid id);
         void UpdateTopicScores(int id);
+        void UpdateAllUserScores();
+        void UpdateAllTopicScores();
+
+        #endregion
 
         #region Anomaly detection
 
