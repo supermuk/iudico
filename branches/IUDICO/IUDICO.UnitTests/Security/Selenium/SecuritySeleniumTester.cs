@@ -206,7 +206,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Click("link=Logout");
             this.selenium.WaitForPageToLoad("30000");
 
-            Assert.True(this.selenium.IsTextPresent("User"));
+            Assert.True(this.selenium.IsTextPresent("Total number of requests"));
         }
     }
 }
