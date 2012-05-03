@@ -31,7 +31,7 @@ namespace IUDICO.CourseManagement
         #region IPlugin Members
         public string GetName()
         {
-            return Localization.GetMessage("CourseManagement");
+            return "CourseManagement";
         }
 
         public IEnumerable<Action> BuildActions()

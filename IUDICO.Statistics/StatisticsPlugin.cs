@@ -33,7 +33,7 @@ namespace IUDICO.Statistics
         #region IPlugin Members
         public string GetName()
         {
-            return Localization.GetMessage("Statistics");
+            return "Statistics";
         }
 
         public IEnumerable<Action> BuildActions()

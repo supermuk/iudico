@@ -1,6 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.LMS.Models.HomeModel>" %>
 <%@ Import Namespace="IUDICO.Common.Models.Shared.DisciplineManagement" %>
 <%@ Import Namespace="IUDICO.Common" %>
+<%@ Import Namespace="IUDICO.Common.Models.Services" %>
+<%@ Import Namespace="IUDICO.LMS" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	IUDICO
@@ -82,22 +84,97 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h3><%=Localization.GetMessage("WelcomeIudico")%></h3>
-    
-    <% foreach (var plugin in Model.Actions) { %>
-        <% if (plugin.Value.Any())
-            {%>
-        <h4><%= plugin.Key.GetName() %></h4>
+    <h1><%=Localization.GetMessage("WelcomeIudico")%></h1>
+
+    <% var user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser(); %>
+
+    <% if(user != null && user.Roles != null && user.Roles.Contains(Role.Teacher)) {%>
+    <div>
+        <div class="homeArea">
+        <div class="homeAreaTitle">
+            <%: Localization.GetMessage("CourseManagement") %>
+        </div>
+        <div class="homeActionList">
         <ul>
-        <% 
-               foreach (var item in plugin.Value)
-            { %>
-            <li><a href="<%= item.Link %>"><%= item.Name %></a></li>
+        <% foreach (var action in Model.Actions.Single(i => i.Key.GetName() == "CourseManagement").Value)
+           { %>
+            <li>
+                <a href="<%: action.Link %>"><%: action.Name %></a>
+            </li>
         <% } %>
         </ul>
+        </div>
+        <div class="homeActionLogo">
+        <img src="/Content/Images/course_logo.png" class="homeActionImg" alt="<%: Localization.GetMessage("CourseManagement") %>"/>
+        </div>
+    </div>
+        <div class="verticalLine"></div>
+        <div class="homeArea">
+        <div class="homeAreaTitle">
+            <%: Localization.GetMessage("CurriculumManagement") %>
+        </div>
+        <div class="homeActionList">
+        <ul>
+        <% foreach (var action in Model.Actions.Single(i => i.Key.GetName() == "CurriculumManagement").Value)
+           { %>
+            <li>
+                <a href="<%: action.Link %>"><%: action.Name %></a>
+            </li>
         <% } %>
-    <% } %>    
-    
+        <% foreach (var action in Model.Actions.ElementAt(3).Value)
+           { %>
+            <li>
+                <a href="<%: action.Link %>"><%: action.Name %></a>
+            </li>
+        <% } %>
+        </ul>
+        </div>
+        <div class="homeActionLogo">
+            <img src="/Content/Images/curriculum_logo.png" class="homeActionImg" alt="<%: Localization.GetMessage("CurriculumManagement") %>"/>
+        </div>
+    </div>
+        <div class="verticalLine"></div>
+        <div class="homeArea">
+        <div class="homeAreaTitle">
+            <%: Localization.GetMessage("Statistic") %>
+        </div>
+        <div class="homeActionList">
+        <ul>
+        <% foreach (var action in Model.Actions.Single(i => i.Key.GetName() == "Statistics").Value)
+           { %>
+            <li>
+                <a href="<%: action.Link %>"><%: action.Name %></a>
+            </li>
+        <% } %>
+        </ul>
+        </div>
+        <div class="homeActionLogo">
+            <img src="/Content/Images/statistic_logo.png" class="homeActionImg" alt="<%: Localization.GetMessage("Statistic") %>"/>
+        </div>
+    </div>
+        <div class="verticalLine"></div>
+        <div class="homeArea">
+        <div class="homeAreaTitle">
+            <%: Localization.GetMessage("UserManagment") %>
+        </div>
+        <div class="homeActionList">
+        <ul>
+        <% foreach (var action in Model.Actions.Single(i => i.Key.GetName() == "UserManagement").Value)
+           { %>
+            <li>
+                <a href="<%: action.Link %>"><%: action.Name %></a>
+            </li>
+        <% } %>
+        </ul>
+        </div>
+        <div class="homeActionLogo">
+            <img src="/Content/Images/users_logo.png" class="homeActionImg" alt="<%: Localization.GetMessage("UserManagment") %>"/>
+        </div>
+    </div>
+        <div style="clear:both;"></div>
+    </div>
+    <% } %>
+
 	<% if (Model.TopicsDescriptions.Any())
 	   {%>
     <h4 class="availableTopics"><%= Localization.GetMessage("AvailableTopics") %></h4>

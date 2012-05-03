@@ -171,7 +171,10 @@ namespace IUDICO.CourseManagement.Controllers
                 var currentUser = this.userService.GetCurrentUser();
                 if (currentUser.Username != course.Owner)
                 {
-                    this.storage.UpdateCourseUsers(courseId,this.storage.GetCourseUsers(courseId).Where(i => i.Username != currentUser.Username).Select(i => i.Id));
+                    this.storage.UpdateCourseUsers(
+                        courseId,
+                        this.storage.GetCourseUsers(courseId).Where(i => i.Username != currentUser.Username).Select(
+                            i => i.Id));
                 }
                 else
                 {

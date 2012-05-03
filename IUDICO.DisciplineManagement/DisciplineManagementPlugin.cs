@@ -46,7 +46,7 @@ namespace IUDICO.DisciplineManagement
         #region IPlugin Members
         public string GetName()
         {
-            return Localization.GetMessage("DisciplineManagement");
+            return "DisciplineManagement";
         }
 
         public IEnumerable<Action> BuildActions()

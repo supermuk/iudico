@@ -9,6 +9,8 @@ using System.Linq;
 
 namespace IUDICO.LMS.Controllers
 {
+    using IUDICO.Common.Models;
+
     public class HomeController : BaseController
     {
         /// <summary>
@@ -29,10 +31,7 @@ namespace IUDICO.LMS.Controllers
         {
             User user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
             
-            // show actions for guest only
             var actions = MvcApplication.LmsService.GetActions();
-            if (user.UserId != null)
-                actions.Clear();
 
             IEnumerable<TopicDescription> description = this.GetTopicsDescriptions();
 

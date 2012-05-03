@@ -1,9 +1,10 @@
 ﻿<%@ Assembly Name="IUDICO.UserManagement" %>
+
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Group>>" %>
-<%@ Import Namespace="IUDICO.UserManagement" %>
 <%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
+    
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
 
@@ -34,40 +35,41 @@
         }
     </script>
 </asp:Content>
-
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
-	<%=Localization.GetMessage("Groups")%>
+    <%=Localization.GetMessage("Groups")%>
 </asp:Content>
 
-
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
-
-    <h2><%=Localization.GetMessage("Groups")%></h2>
-
-    <table id="groupsTable">
-        <thead>
-        <tr>
-            <th>
-                <%=Localization.GetMessage("Name1")%>
-            </th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
+    <h2>
+        <%=Localization.GetMessage("Groups")%></h2>
+    <p>
+        <%:Html.ActionLink(Localization.GetMessage("CreateNewGroup"), "Create")%>
+    </p>
     <%
         if (Model.GetEnumerator().MoveNext())
-        {
+        { %>
+    <table id="groupsTable">
+        <thead>
+            <tr>
+                <th>
+                    <%=Localization.GetMessage("Name1")%>
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <%
             foreach (var item in Model)
             {%>
-    
-        <tr>
-            <td id="groupsName" onclick="detailsClick(<%:item.Id%>);">
-                <%:item.Name%>
-            </td>
-            <td>
-                <%:Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new {id = item.Id})%> |
-                <%:Ajax.ActionLink(Localization.GetMessage("Delete"), "Delete", new {id = item.Id},
+            <tr>
+                <td class="clickable" onclick="detailsClick(<%:item.Id%>);">
+                    <%:item.Name%>
+                </td>
+                <td>
+                    <%:Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new {id = item.Id})%>
+                    |
+                    <%:Ajax.ActionLink(Localization.GetMessage("Delete"), "Delete", new {id = item.Id},
                                                   new AjaxOptions
                                                       {
                                                           Confirm =
@@ -75,30 +77,16 @@
                                                           HttpMethod = "Delete",
                                                           OnSuccess = "removeRow"
                                                       })%>
-            </td>
-        </tr>
+                </td>
+            </tr>
+            <%
+            } %>
         </tbody>
-    <%
-            }
-        }
+    </table>
+    <%}
         else
         {%>
-        <tr>
-            <td>
-                <%=Localization.GetMessage("NoData")%>
-            </td>
-            <td>
-                <%=Localization.GetMessage("NoActions")%>
-            </td>
-        </tr>
+    <%=Localization.GetMessage("NoData")%>
     <%
         }%>
-    </table>
-
-    <p>
-        <%:Html.ActionLink(Localization.GetMessage("CreateNewGroup"), "Create")%>
-    </p>
-
 </asp:Content>
-
-
