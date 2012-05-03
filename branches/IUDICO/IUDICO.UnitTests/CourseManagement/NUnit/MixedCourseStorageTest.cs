@@ -223,7 +223,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             this.Storage.UpdateCourse(2, newCourse);
             Assert.AreEqual(oldCourse.Owner, newCourse.Owner);
             Assert.AreEqual(oldCourse.Name, newCourse.Name);
-            Assert.AreNotEqual(oldCourse.Updated, newCourse.Updated);
+            Assert.AreEqual(oldCourse.Updated, newCourse.Updated);
             Assert.AreEqual(oldCourse.Created, newCourse.Created);
             Assert.AreEqual(oldCourse.Locked, newCourse.Locked);
         }
