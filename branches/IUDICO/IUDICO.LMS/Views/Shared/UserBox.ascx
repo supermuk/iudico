@@ -35,6 +35,15 @@
 	    
         <input id="loginOpenIdButton" type="submit" value="<%=Localization.GetMessage("Ok")%>" class="okButton" />
 	</form>
+    <span id="langContainer">
+    <%= Html.ActionLink(Localization.GetMessage("Language")+"  ", "ChangeCulture", "Account", new { lang = Localization.GetMessage("ChangeCulture"), returnUrl = this.Request.RawUrl }, null)%>
+    </span>
+    <span>
+        <%: Html.ActionLink(Localization.GetMessage("Register"), "Register", "Account") %>
+    </span>
+    <span>
+        <%: Html.ActionLink(Localization.GetMessage("ForgotPassword"), "Forgot", "Account")%>
+    </span>
 <%
     }
 %>

@@ -207,4 +207,10 @@
   <data name="UserManagment" xml:space="preserve">
     <value>User Management</value>
   </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot password?</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Register</value>
+  </data>
 </root>

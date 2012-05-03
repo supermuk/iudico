@@ -396,7 +396,9 @@ div#title
     margin:10px;
     color:#575757;
 }
-
+#logindisplay span {
+    margin: 2px;
+}
 #logindisplay a:link
 {
     text-decoration: underline;
