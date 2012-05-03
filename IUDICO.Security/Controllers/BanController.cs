@@ -40,16 +40,20 @@ namespace IUDICO.Security.Controllers
             viewModel.State = Models.ViewModelState.Edit;
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(viewModel.ComputerIP))
+                if (this.BanStorage.GetComputer(viewModel.ComputerIP) == null)
                 {
-                    var newComputer = new Computer
+                    if (!string.IsNullOrEmpty(viewModel.ComputerIP))
                     {
-                        Banned = false,
-                        IpAddress = viewModel.ComputerIP
-                    };
+                        var newComputer = new Computer
+                        {
+                            Banned = false,
+                            IpAddress = viewModel.ComputerIP
+                        };
 
-                    this.BanStorage.CreateComputer(newComputer);
+                        this.BanStorage.CreateComputer(newComputer);
+                    }
                 }
+                
                 viewModel.State = Models.ViewModelState.View;
             }
 
