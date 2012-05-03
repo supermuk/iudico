@@ -164,8 +164,9 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
         </tr>
         </thead>
         <tbody>
-        <% foreach (var item in Model)
-           { %>
+        <% int k = 0;
+			  foreach (var item in Model) {
+              %>
         <tr id="item<%: item.Id %>">
             <td>
                 <input type="checkbox" id="<%= item.Id %>" />
@@ -173,7 +174,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
             <td onclick="details(<%: item.Id %>);">
                 <%: item.GroupName %>
             </td>
-            <td  onclick="details(<%: item.Id %>);">
+            <td  onclick="details(<%: item.Id %>);"<%if(!item.IsValid) {%> style="color: red" <% } %>>
                 <%: item.DisciplineName %>
             </td>
             <td  onclick="details(<%: item.Id %>);">
@@ -188,14 +189,16 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%: Html.ActionLink(Localization.GetMessage("EditCurriculumChapters"), "Index", "CurriculumChapter", new { CurriculumId = item.Id }, null)%>
                 |
                 <a onclick="deleteItem(<%: item.Id %>)" href="#"><%=Localization.GetMessage("Delete")%></a>
-					 <% if(!item.IsValid) {%>
-						<a onclick="showValidationErrors(<%: item.Id %>)" href="#" style="color: red"><%=Localization.GetMessage("Invalid") %></a>
+					 <% if(!item.IsValid) {
+                      k++;%>
+						<a onclick="showValidationErrors(<%: item.Id %>)" href="#" style="color: red"><%=Localization.GetMessage("ShowErrors") %></a>
 					 <% } %>
             </td>				
         </tr>		
         <% } %>
         </tbody>
     </table>
+	 <%if(k!= 0){%> <br/><br/><legend style="color: red"><%=Localization.GetMessage("CurriculumsMarkedInRed") %></legend> <%} %>
 	 <div id="errorsDialog">
 	 	<div id="errorsDialogInner"></div>
 	 </div>

@@ -258,10 +258,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.IsTrue(result.Data.ToString().ToLower().Contains("success = false"));
         }
 
-        [Test]
-        public void Delete() {
-            
-        }
         /*      
         [Test]
         public void DeleteCurriculum()
