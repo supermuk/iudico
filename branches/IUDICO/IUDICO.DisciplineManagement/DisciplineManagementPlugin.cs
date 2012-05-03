@@ -121,9 +121,13 @@ namespace IUDICO.DisciplineManagement
                     disciplineStorage.MakeDisciplinesInvalid(courseId);
                     break;
                 case UserNotifications.UserDelete:
-                    // delete connected Disciplines(Curriculums)
+                    // delete connected Disciplines(Curriculums)                    
                     var disciplineIds = disciplineStorage.GetDisciplines((User)data[0]).Select(item => item.Id);
-                    disciplineStorage.DeleteDisciplines(disciplineIds);
+                    foreach (var disciplineId in disciplineIds) {
+                        if (disciplineStorage.GetDisciplineSharedUsers(disciplineId).Count == 0) {
+                            disciplineStorage.DeleteDiscipline(disciplineId);
+                        }
+                    }
                     break;
             }
         }

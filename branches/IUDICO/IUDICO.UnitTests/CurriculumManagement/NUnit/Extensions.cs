@@ -140,5 +140,20 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
                     GroupId = curriculum.UserGroupRef
                 };
         }
+
+        public static CreateCurriculumChapterModel ToCreateModel(this CurriculumChapter curriculumChapter) {
+            return new CreateCurriculumChapterModel(curriculumChapter.StartDate, curriculumChapter.EndDate);
+        }
+        
+        public static CreateCurriculumChapterTopicModel ToCreateModel(this CurriculumChapterTopic curriculumChapterTopic) {
+            return new CreateCurriculumChapterTopicModel(
+                curriculumChapterTopic.MaxScore,
+                curriculumChapterTopic.BlockTopicAtTesting,
+                curriculumChapterTopic.BlockCurriculumAtTesting,
+                curriculumChapterTopic.TestStartDate,
+                curriculumChapterTopic.TestEndDate,
+                curriculumChapterTopic.TheoryStartDate,
+                curriculumChapterTopic.TheoryEndDate);
+        }
     }
 }

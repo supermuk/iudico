@@ -59,7 +59,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
                     new Course { Id = 1, Name = "Course1", Owner = "panza" }, 
                     new Course { Id = 2, Name = "Course2", Owner = "panza" }, 
                     new Course { Id = 3, Name = "Course3", Owner = "ozo" },
-                    new Course { Id = 4, Name = "Course4", Owner = "ozo", Deleted = true}
+                    new Course { Id = 4, Name = "Course4", Owner = "ozo", Deleted = true }
                 };
         }
 
@@ -98,7 +98,8 @@ namespace IUDICO.UnitTests.CurriculumManagement
             return new[]
                 {
                     new Group { Id = 1, Name = "PMI51", Deleted = false }, 
-                    new Group { Id = 2, Name = "PMI31", Deleted = false }
+                    new Group { Id = 2, Name = "PMI31", Deleted = false },
+                    new Group { Id = 3, Name = "PMI41", Deleted = true }
                 };
         }
 
