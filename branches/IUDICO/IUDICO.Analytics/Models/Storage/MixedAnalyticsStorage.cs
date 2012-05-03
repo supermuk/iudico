@@ -318,6 +318,7 @@ namespace IUDICO.Analytics.Models.Storage
             foreach (var user in users)
             {
                 var temp = new UserTags { Id = user.Id };
+                temp.Tags = new Dictionary<int, double>();
                 foreach (var tag in this.GetUserTagScores(user))
                 {
                     temp.Tags.Add(tag.TagId, tag.Score);
@@ -336,7 +337,7 @@ namespace IUDICO.Analytics.Models.Storage
                 }
                 foreach (var tag in userWithTag.Tags)
                 {
-                    var item = new KeyValuePair<double, double>(userWithTag.Tags[tag.Key], results.First(x => x.User.Id == userWithTag.Id).Score.ScaledScore.Value);
+                    var item = new KeyValuePair<double, double>(userWithTag.Tags[tag.Key], results.First(x => x.User.Id == userWithTag.Id).Score.ScaledScore.Value * 100);
                     
                     if (!tagValueScores.Keys.Contains(tag.Key))
                     {
@@ -354,27 +355,30 @@ namespace IUDICO.Analytics.Models.Storage
 
             foreach (var tagValueScore in tagValueScores)
             {
-                tagValueScore.Value.Sort();
-
-                var prev = tagValueScore.Value.First();
-
-                foreach (var valueScore in tagValueScore.Value)
+                tagValueScore.Value.Sort(Comparer);
+                for (int i = 0; i < tagValueScore.Value.Count; i++)
                 {
-                    if (Math.Abs(valueScore.Key - prev.Key) < 0.2)
+                    for (int j = 0; j < tagValueScore.Value.Count; j++)
                     {
-                        if (Math.Abs(valueScore.Value - prev.Value) < 25)
+                        if (Math.Abs(tagValueScore.Value[i].Key - tagValueScore.Value[j].Key) < 20)
                         {
-                            successAmount++;
+                            if (Math.Abs(tagValueScore.Value[i].Value - tagValueScore.Value[j].Value) < 20)
+                            {
+                                successAmount++;
+                            }
+                            generalAmount++;
                         }
+                        
                     }
-
-                    prev = valueScore;
                 }
-
-                generalAmount++;
+                
             }
 
-            return successAmount / generalAmount;
+            return (double) successAmount / generalAmount;
+        }
+        static int Comparer(KeyValuePair<double, double> a, KeyValuePair<double, double> b)
+        {
+            return a.Key.CompareTo(b.Key);
         }
 
         public double GaussianDistribution(Topic topic)
