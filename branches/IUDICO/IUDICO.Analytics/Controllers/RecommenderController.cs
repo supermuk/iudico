@@ -47,9 +47,25 @@ namespace IUDICO.Analytics.Controllers
         }
 
         [Allow(Role = Role.Admin)]
+        public ActionResult UpdateAllUsers()
+        {
+            this.storage.UpdateAllUserScores();
+
+            return RedirectToAction("UserScores");
+        }
+
+        [Allow(Role = Role.Admin)]
         public ActionResult UpdateTopic(int id)
         {
             this.storage.UpdateTopicScores(id);
+
+            return RedirectToAction("TopicScores");
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult UpdateAllTopics()
+        {
+            this.storage.UpdateAllUserScores();
 
             return RedirectToAction("TopicScores");
         }

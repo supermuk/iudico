@@ -162,6 +162,22 @@ namespace IUDICO.Analytics.Models.Storage
             }
         }
 
+        public void UpdateAllUserScores()
+        {
+            foreach (var user in this.GetUsers())
+            {
+                this.UpdateUserScores(user.Id);
+            }
+        }
+
+        public void UpdateAllTopicScores()
+        {
+            foreach (var topic in this.GetTopics())
+            {
+                this.UpdateTopicScores(topic.Id);
+            }
+        }
+
         protected IEnumerable<TopicScore> GetTopicTagScores(Topic topic)
         {
             var topicTags = this.GetTopicTags(t => t.TopicId == topic.Id);
