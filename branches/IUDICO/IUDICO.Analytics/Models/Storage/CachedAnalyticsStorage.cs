@@ -38,12 +38,14 @@ namespace IUDICO.Analytics.Models.Storage
 
         public IEnumerable<TopicStat> GetRecommenderTopics(User user)
         {
-            return this.cacheProvider.Get("recommendertopics-" + user.Username, @lockObject, () => this.storage.GetRecommenderTopics(user), DateTime.Now.AddDays(1), "recommendertopics-" + user.Username);
+            return this.storage.GetRecommenderTopics(user);
+
+            // return this.cacheProvider.Get("recommendertopics-" + user.Username, @lockObject, () => this.storage.GetRecommenderTopics(user), DateTime.Now.AddDays(1), "recommendertopics-" + user.Username);
         }
 
         public IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount)
         {
-            return this.GetRecommenderTopics(user).Take(amount);
+            return this.GetRecommenderTopics(user, amount);
 
             // return _cacheProvider.Get<IEnumerable<TopicStat>>("recommendertopics-" + user.Username + "", @lockObject, () => _storage.GetRecommenderTopics(user), DateTime.Now.AddDays(1), "recommendertopics-" + user.Username);
         }

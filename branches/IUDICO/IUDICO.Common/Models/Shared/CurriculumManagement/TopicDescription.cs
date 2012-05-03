@@ -16,7 +16,6 @@ namespace IUDICO.Common.Models.Shared.CurriculumManagement
         public Curriculum Curriculum { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int Rating { get; set; }
 
         public override string ToString()
         {

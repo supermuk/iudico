@@ -10,5 +10,10 @@
 
         public double RatingDifference { get; protected set; }
         public double TopicDifficulty { get; protected set; }
+
+        public double Average()
+        {
+            return (this.RatingDifference + this.TopicDifficulty) / 2;
+        }
     }
 }
