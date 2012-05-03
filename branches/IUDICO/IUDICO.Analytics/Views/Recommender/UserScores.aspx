@@ -20,7 +20,7 @@
      <% foreach (var item in Model) { %>
         <tr>
             <td>
-                <input name="check[]" value="<%:item.Key.Name%>" type="checkbox" />
+                <input name="check[]" value="<%:item.Key.Id%>" type="checkbox" />
             </td>
             <td>
                 <%:item.Key.Name %> (<%:item.Key.Username %>)
