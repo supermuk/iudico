@@ -111,7 +111,7 @@ namespace IUDICO.Analytics.Models.Storage
             
             var topicTags =
                 this.GetTopicTags(f => attempts.Keys.Contains(f.TopicId)).GroupBy(t => t.TopicId).ToDictionary(
-                    g => g.Key, g => g.Select(t => t.TagId));
+                    g => g.Key, g => g.Select(t => t.TagId).ToList());
 
             if (!attempts.Any())
             {
@@ -134,17 +134,18 @@ namespace IUDICO.Analytics.Models.Storage
 
                 foreach (var tag in topic.Value)
                 {
+                    if (!tags.ContainsKey(tag))
+                    {
+                        tags.Add(tag, 0);
+                        count.Add(tag, 0);
+                    }
+
                     tags[tag] += (float)score.Value;
                     count[tag]++;
                 }
             }
 
-            foreach (var kv in tags)
-            {
-                tags[kv.Key] /= count[kv.Key];
-            }
-
-            return tags.Select(ut => new UserScore { UserId = user.Id, TagId = ut.Key, Score = ut.Value });
+            return tags.Select(ut => new UserScore { UserId = user.Id, TagId = ut.Key, Score = ut.Value / count[ut.Key] });
         }
 
         public void UpdateTopicScores(int id)
