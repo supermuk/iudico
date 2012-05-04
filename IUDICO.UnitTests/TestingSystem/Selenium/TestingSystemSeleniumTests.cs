@@ -330,7 +330,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 }
 
                 selenium.Type("id=Name", newCourseName);
-                selenium.Click("xpath=/html/body/div[3]/div[11]/div/button");
+                selenium.Click("xpath=//button[contains(., 'Надіслати')]");
 
                 selenium.Open("/Course");
             }
