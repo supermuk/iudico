@@ -260,10 +260,15 @@ namespace IUDICO.Analytics.Models.Storage
             var topics = this.GetTopicsAvailableForUser(user);
             var list = topics.Select(topic => new TopicStat(topic, this.CustomDistance(user, topic.Topic))).ToList();
 
+            if (!list.Any())
+            {
+                return list;
+            }
+
             var max = list.Max(t => t.Score);
             var min = list.Min(t => t.Score);
 
-            list = list.Select(t => new TopicStat(t.Topic, Math.Round(100.0 * (t.Score - min) / (max - min)) )).ToList();
+            list = list.Select(t => new TopicStat(t.Topic, Math.Round(100.0 * (t.Score - min) / (max - min)))).ToList();
 
             list.Sort();
 
