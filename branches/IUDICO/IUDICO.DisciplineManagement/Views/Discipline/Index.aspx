@@ -356,7 +356,7 @@
         
         function onShareDisciplineSuccess(resp) {
             if(resp.success) {
-                $("#dialog").dialog("close");
+                $("#shareDialog").dialog("close");
             } else {
                 alert(r.message);
             }
