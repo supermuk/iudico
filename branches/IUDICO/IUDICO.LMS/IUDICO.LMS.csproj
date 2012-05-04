@@ -212,6 +212,7 @@
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\forward_disabled.jpg" />
     <Content Include="Content\Images\forward_enabled.jpg" />
+    <Content Include="Content\Images\header_back.png" />
     <Content Include="Content\Images\import-a.png" />
     <Content Include="Content\Images\import.png" />
     <Content Include="Content\Images\lock-h.png" />
