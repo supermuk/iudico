@@ -212,6 +212,7 @@
     <Content Include="Content\Images\favicon.ico" />
     <Content Include="Content\Images\forward_disabled.jpg" />
     <Content Include="Content\Images\forward_enabled.jpg" />
+    <Content Include="Content\Images\header_back.png" />
     <Content Include="Content\Images\import-a.png" />
     <Content Include="Content\Images\import.png" />
     <Content Include="Content\Images\lock-h.png" />
@@ -268,6 +269,7 @@
     <Content Include="Content\themes\smoothness\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\smoothness\jquery-ui-1.7.2.custom.css" />
+    <Content Include="Scripts\ajax-dialog.js" />
     <Content Include="Scripts\CheckStyle.js" />
     <Content Include="Scripts\jquery\jquery-ui.js" />
     <Content Include="Scripts\jquery\jquery.validate.js" />

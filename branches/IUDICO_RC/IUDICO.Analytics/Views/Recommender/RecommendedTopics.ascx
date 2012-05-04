@@ -1,22 +1,23 @@
-﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<IUDICO.Common.Models.Shared.CurriculumManagement.TopicDescription>>" %>
+﻿<%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IEnumerable<IUDICO.Common.Models.Shared.TopicStat>>" %>
 <%@ Import Namespace="IUDICO.Common.Models.Shared.DisciplineManagement" %>
 <%@ Import Namespace="IUDICO.Common" %>
 
 <div class="recommended">
     <h2><%: Localization.GetMessage("Recommended") %></h2>
-<% foreach (var package in Model) {%>
+<% foreach (var ts in Model) {%>
     <li class="topicLink topicName">
                          
-    <%: Html.ActionLink("[" + package.TopicType.ToString() + "] " + package.Topic.Name + " ",
+    <%: Html.ActionLink("[" + ts.Topic.TopicType.ToString() + "] " + ts.Topic.Topic.Name + " ",
                 "Play",
                 "Training",
                 new {
-                    curriculumChapterTopicId = package.CurriculumChapterTopicId,
-                    courseId = package.CourseId, 
-                    topicType = package.TopicType 
+                    curriculumChapterTopicId = ts.Topic.CurriculumChapterTopicId,
+                    courseId = ts.Topic.CourseId,
+                    topicType = ts.Topic.TopicType 
                     },
-                new {@class = package.TopicType == TopicTypeEnum.Test ? "test" : "theory", @title = "Start " + package.Discipline.Name + "/" + package.Chapter.Name + "/" + package.Topic.Name}) %>
-                         
+                new { @class = ts.Topic.TopicType == TopicTypeEnum.Test ? "test" : "theory", @title = "Start " + ts.Topic.Discipline.Name + "/" + ts.Topic.Chapter.Name + "/" + ts.Topic.Topic.Name })%>
+                
+        [<%: ts.Score %>%]
     </li>
 <% } %>
 </div>

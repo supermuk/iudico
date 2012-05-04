@@ -213,4 +213,16 @@
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Test" xml:space="preserve">
+    <value>Test</value>
+  </data>
+  <data name="TestWithoutCourse" xml:space="preserve">
+    <value>Paper test</value>
+  </data>
+  <data name="Theory" xml:space="preserve">
+    <value>Theory</value>
+  </data>
 </root>

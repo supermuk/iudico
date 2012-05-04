@@ -32,6 +32,11 @@ a:active
     color: #12eb87;
 }
 
+a img
+{
+  border:none;
+}
+
 table tr:hover
 {
     background-color: #F0ECB4;
@@ -128,7 +133,7 @@ h1, h2, h3, h4, h5, h6
 
 h1
 {
-    font-size: 3em;
+    font-size: 2.5em;
     padding: 0;
     margin: 0;
     color: #336699;
@@ -153,6 +158,9 @@ h5, h6
     font-size: 1em;
 }
 
+#ui-dialog-title-dialog {
+    color: #336699;
+}
 /* this rule styles <h2> tags that are the 
 first child of the left and right table columns */
 .rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
@@ -168,10 +176,13 @@ page width. Or, you can specify an exact pixel width. */
 .page
 {
     width: 1100px;
+    min-height: 700px;
     margin-left: auto;
     margin-right: auto;
 }
-
+#footer {
+    
+}
 #header
 {
     position: relative;
@@ -302,7 +313,7 @@ input[type="password"]
     width: 200px;
 }
 
-.blueButton, button[type="button"], input[type="button"], input[type="submit"]
+.blueButton, button[type="button"].blueButton ,button[type="button"], input[type="button"], input[type="submit"]
 {
     background-image: url(/Content/Images/button_116_25.png);
     width: 115px;
@@ -310,11 +321,12 @@ input[type="password"]
     border: 0px none;
     color: #FFFFFF;
 }
-.blueButton:hover, button[type="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover
+
+.blueButton:hover, button[type="button"].blueButton:hover, button[type="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover
 {
     opacity: 0.8;
 }
-.blueButton:active, button[type="button"]:active, input[type="button"]:active, input[type="submit"]:active
+.blueButton:active, button[type="button"].blueButton:active, button[type="button"]:active, input[type="button"]:active, input[type="submit"]:active
 {
     opacity: 0.6;
 }
@@ -534,7 +546,7 @@ select option.added
 .homeArea
 {
     float: left;
-    padding: 30px;
+    padding: 25px;
 }
 .homeActionList
 {
@@ -560,6 +572,60 @@ select option.added
     bottom: 0px;
     position: absolute;
     width: 100%;
+}
+.homeDiscipline {
+    border: solid 1px #b9cddd;
+    border-radius: 2px;
+    margin-bottom: 20px;
+}
+.homeDisciplineName 
+{
+    background: url("/Content/Images/header_back.png");
+    height: 29px;
+    font-size: 1.8em;
+    color: #00060d;
+    padding-left: 20px;
+}
+.homeChapterName 
+{
+    color: #37618c;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    padding-left: 20px;
+    margin: 5px 0px;
+}
+.homePackageName a {
+    color: #3679bd;
+    font-size: 1.4em;
+}
+.homePackage {
+
+    padding-left: 60px;
+    border: solid 1px #d9dfe5;
+    background-color: #e9eff5;
+    line-height: 19px;
+    margin: 5px 0px;
+}
+.homePackageName {
+    display: inline-block;
+}
+
+.homePackage:hover {
+    border: solid 1px #cadaf0;
+    color: #0f82f7;
+    background-color: #FFF;
+}
+.raitingHolder 
+{
+    margin-top: 1px;
+    float: right;
+    display: block;
+}
+.homeTopicType {
+    display: inline-block;
+    width: 90px;
+    font-size: 0.9em;
+    text-align: right;
 }
 /* COURSES
 ----------------------------------------------------------*/
