@@ -3,7 +3,7 @@ Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.html or http://ckeditor.com/license
 */
 
-var compileServiceString = "http://server1.abtollc.com:4499/CompileService.asmx";
+var compileServiceString = "http://server1.abtollc.com:54332/CompileService.asmx";
 
 CKEDITOR.editorConfig = function (config) {
     // Define changes to default configuration here. For example:
