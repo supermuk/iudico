@@ -43,7 +43,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "Test");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             var isPresent = this.selenium.IsElementPresent("//table[@id='Courses']//tr//td[contains(.,'Test')]");
@@ -72,11 +72,10 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", string.Empty);
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             Thread.Sleep(SleepTime);
-            Assert.IsTrue(this.selenium.IsElementPresent("id=Name_validationMessage"));
             Assert.IsTrue(this.selenium.IsElementPresent("//span[contains(.,'Name is required')]"));
-            this.selenium.Click("xpath=(//button[@type='button'])[4]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[2])");
             try
             {
                 this.Logout();
@@ -100,7 +99,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forEdit");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -110,7 +109,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//a[contains(@title,'Rename')]");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "Edited");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
 
             this.selenium.Open("/");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
@@ -148,7 +147,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forEditContent");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -188,7 +187,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "SharedForProf2");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -265,7 +264,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forLocking");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -306,7 +305,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forExport");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -341,7 +340,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forDeletion");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -383,7 +382,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forDeletion1");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -395,7 +394,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forDeletion2");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -406,7 +405,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forDeletion3");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -457,7 +456,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "forDeletion");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -503,7 +502,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("link=Create New");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "new course");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -529,7 +528,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("xpath=//tr[contains(.,'new course')]//a[contains(@title,'Rename')]");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "new course after edit");
-            this.selenium.Click("xpath=(//button[@type='button'])[3]");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             while (selenium.IsAlertPresent())
@@ -564,14 +563,5 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
                 }
             }
         }
-
-        public string SeleniumWait
-        {
-            get
-            {
-                return (this.seleniumWait + 10000).ToString();
-            }
-        }
-
     }
 }

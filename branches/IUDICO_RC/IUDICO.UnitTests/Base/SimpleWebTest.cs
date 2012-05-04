@@ -49,7 +49,7 @@ namespace IUDICO.UnitTests.Base
         {
             get
             {
-                return (10 * this.seleniumWait).ToString();
+                return this.seleniumWait.ToString();
             }
         }
 

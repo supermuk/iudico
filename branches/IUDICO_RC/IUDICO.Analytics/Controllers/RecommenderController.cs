@@ -65,7 +65,7 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult UpdateAllTopics()
         {
-            this.storage.UpdateAllUserScores();
+            this.storage.UpdateAllTopicScores();
 
             return RedirectToAction("TopicScores");
         }
@@ -88,9 +88,8 @@ namespace IUDICO.Analytics.Controllers
             }
 
             var topics = this.storage.GetRecommenderTopics(user);
-            var topicDescriptions = LmsService.FindService<ICurriculumService>().GetTopicDescriptionsByTopics(topics.Select(t => t.Topic), user);
 
-            return PartialView(topicDescriptions);
+            return PartialView(topics);
         }
     }
 }

@@ -25,61 +25,6 @@
         });
     });
 </script>
-
-<style type="text/css">
-    .topicLink:hover 
-    {
-    	background-color: whitesmoke;
-		border-width: 2px;
-    	border-style: solid;
-    	border-color: gainsboro; 
-		border-radius: 7px;
-    }
-    .topicLink 
-    {
-    	display: table;
-    }
-    .availableTopics 
-    {
-    	color: slategrey;
-    	font-size: 20px;
-		text-shadow: 1px 1px 2px #b9bec9;
-		filter: dropshadow(color=#b9bec9, offx=1, offy=1);
-    }
-    .disciplineName 
-    {
-    	font-size: 16px;
-    	font-weight: bold;
-    }
-    .chapterName 
-    {
-    	font-size: 14px;
-    	font-style: oblique;
-    	font-weight: normal;
-    }
-    .topicName 
-    {
-    	font-size: 13px;
-    	font-style: normal;
-    	text-decoration: underline;
-    	
-    }
-	A.test
-	{
-		color: orange;
-	}
-	A.theory
-	{
-		color: green;
-	}
-	.ul 
-	{
-		padding: 0;
-		margin-left: 20px;
-		list-style-type: none;
-	}
-</style>
-
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
@@ -177,50 +122,58 @@
 
 	<% if (Model.TopicsDescriptions.Any())
 	   {%>
-    <h4 class="availableTopics"><%= Localization.GetMessage("AvailableTopics") %></h4>
     <div>
-    <ul class="topics">
+    <h2 class="availableTopics"><%= Localization.GetMessage("AvailableTopics") %></h2>
+        
+    <div>
     <% foreach (var dis in Model.GroupedTopicsDescriptions)
 	   {%>
-       
-           <li class="disciplineName">
-               <%: dis.Key %>
-               <ul>
+           <div class="homeDiscipline">
+               <div class="homeDisciplineName">
+                <%: dis.Key %>
+               </div>
+
+               <div class="homeChapters">
                <% foreach (var chapter in dis.Value)
 				  {%>
-                    <li class="chapterName"><%: chapter.Key %>
-                    <ul class="ul">
-                    <% foreach (var package in chapter.Value)
-					   {%>
-                         <li class="topicLink topicName">
-                         
-                         <% for (var i = 1; i <= 5; ++i)
-							{ %>
-                            <input name="rating_<%= package.Topic.Id + "_" + package.CurriculumChapterTopicId + "_" + package.CourseId + "_" + package.TopicType.ToString()%>" value="<%=i%>" <%= (package.Rating == i ? "checked='checked'" : "") %> <%= (package.Rating != 0 ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
-                         <% } %>
-                         
-                         <%: Html.ActionLink("[" + package.TopicType.ToString() + "] " + package.Topic.Name + " ",
-                                        "Play",
-                                        "Training",
-                                        new {
-                                            curriculumChapterTopicId = package.CurriculumChapterTopicId,
-                                            courseId = package.CourseId, 
-                                            topicType = package.TopicType 
-                                            },
-                                        new {@class = package.TopicType == TopicTypeEnum.Test ? "test" : "theory", @title = "Start " + package.Discipline.Name + "/" + package.Chapter.Name + "/" + package.Topic.Name}) %>
-                         
-                         </li>
+                    <div class="homeChapter">
+                        <div class="homeChapterName">
+                            <%: chapter.Key %>
+                        </div>
 
-                    <% } %>
-                    </ul>
-                   </li>
+                        <div class="homePackages">
+                        <% foreach (var package in chapter.Value)
+					       {%>
+                             <div class="homePackage">
+                             <div class="homePackageName">
+                                 <span class="homeTopicType">[<%: Localization.GetMessage(package.TopicType.ToString()) %>] </span>
+                             <%: Html.ActionLink( package.Topic.Name + " ",
+                                            "Play",
+                                            "Training",
+                                            new {
+                                                curriculumChapterTopicId = package.CurriculumChapterTopicId,
+                                                courseId = package.CourseId, 
+                                                topicType = package.TopicType 
+                                                },
+                                            new {@class = package.TopicType == TopicTypeEnum.Test ? "test" : "theory", @title = "Start " + package.Discipline.Name + "/" + package.Chapter.Name + "/" + package.Topic.Name}) %>
+                                </div>
+                                <div class="raitingHolder">
+                                <% for (var i = 1; i <= 5; ++i)
+                                    { %>
+                                    <input name="rating_<%= package.Topic.Id + "_" + package.CurriculumChapterTopicId + "_" + package.CourseId + "_" + package.TopicType.ToString()%>" value="<%=i%>" <%= (Model.TopicsRatings.ContainsKey(package.Topic.Id) && Model.TopicsRatings[package.Topic.Id] == i ? "checked='checked'" : "") %> <%= (Model.TopicsRatings.ContainsKey(package.Topic.Id) ? "disabled='disabled'" : "") %> type="radio" class="rating required"/>
+                                <% } %>
+                                </div>
+                            </div>
+                        <% } %>
+                        </div>
+                   </div>
                <% } %>
-               </ul>
-           </li>
+               </div>
+           </div>
        
   
        <% } %>
-       </ul>
+       </div>
     </div>
 	<% } %>
 	

@@ -69,7 +69,7 @@ namespace IUDICO.Analytics.Models.Storage
                 var users = this.GetUsers().ToDictionary(u => u.Id, u => u);
 
                 var userScores = (from u in users.Values
-                                  join us in this.db.UserScores on u.Id equals us.UserId into usj
+                                  join us in d.UserScores on u.Id equals us.UserId into usj
                                   from j in usj.DefaultIfEmpty()
                                   group j by u.Id
                                   into grouped
@@ -198,37 +198,57 @@ namespace IUDICO.Analytics.Models.Storage
                 count++;
             }
 
-            var average = (float)(total / count);
+            var average = (float)(count > 0 ? total / count : 0);
 
             var tags = topicTags.Select(t => new TopicScore { TagId = t.TagId, TopicId = t.TopicId, Score = average });
 
             return tags;
         }
 
-        protected double PearsonDistance(User user, Topic topic)
+        protected double CustomDistance(User user, Topic topic)
         {
-            var userTagScores = this.db.UserScores.Where(s => s.UserId == user.Id).ToDictionary(s => s.TagId, s => 100 - s.Score);
-            var topicTagScores = this.db.TopicScores.Where(s => s.TopicId == topic.Id).ToDictionary(s => s.TagId, s => s.Score);
+            using (var d = this.GetDbDataContext())
+            {
+                var userTagScores = d.UserScores.Where(s => s.UserId == user.Id).ToDictionary(
+                    s => s.TagId, s => s.Score);
+                var topicTagScores = d.TopicScores.Where(s => s.TopicId == topic.Id).ToDictionary(
+                    s => s.TagId, s => s.Score);
 
-            var commonTags = userTagScores.Select(t => t.Key).Intersect(topicTagScores.Select(t => t.Key)).ToList();
-            var n = commonTags.Count();
+                var commonTags = userTagScores.Select(t => t.Key).Intersect(topicTagScores.Select(t => t.Key)).ToList();
 
-            var userCommonScores = userTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value).ToList();
-            var topicCommonScores = topicTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value).ToList();
+                var sum = commonTags.Sum(tag => Math.Pow(userTagScores[tag] - topicTagScores[tag], 2) * Math.Sign(topicTagScores[tag] - userTagScores[tag]));
 
-            var sum1 = userCommonScores.Sum();
-            var sum2 = topicCommonScores.Sum();
-
-            var sum1Sq = userCommonScores.Sum(x => x * x);
-            var sum2Sq = topicCommonScores.Sum(x => x * x);
-
-            var sum = commonTags.Sum(tag => (userTagScores[tag] * topicTagScores[tag]));
-
-            var num = sum - (sum1 * sum2 / n);
-            var den = Math.Sqrt((sum1Sq - Math.Pow(sum1, 2) / n) * (sum2Sq - Math.Pow(sum2, 2) / n));
-
-            return den == 0 ? 0 : num / den;
+                return sum;
+            }
         }
+
+        /*protected double PearsonDistance(User user, Topic topic)
+        {
+            using (var d = this.GetDbDataContext())
+            {
+                var userTagScores = this.db.UserScores.Where(s => s.UserId == user.Id).ToDictionary(s => s.TagId, s => 100 - s.Score);
+                var topicTagScores = this.db.TopicScores.Where(s => s.TopicId == topic.Id).ToDictionary(s => s.TagId, s => s.Score);
+
+                var commonTags = userTagScores.Select(t => t.Key).Intersect(topicTagScores.Select(t => t.Key)).ToList();
+                var n = commonTags.Count();
+
+                var userCommonScores = userTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value).ToList();
+                var topicCommonScores = topicTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value).ToList();
+
+                var sum1 = userCommonScores.Sum();
+                var sum2 = topicCommonScores.Sum();
+
+                var sum1Sq = userCommonScores.Sum(x => x * x);
+                var sum2Sq = topicCommonScores.Sum(x => x * x);
+
+                var sum = commonTags.Sum(tag => (userTagScores[tag] * topicTagScores[tag]));
+
+                var num = sum - (sum1 * sum2 / n);
+                var den = Math.Sqrt((sum1Sq - Math.Pow(sum1, 2) / n) * (sum2Sq - Math.Pow(sum2, 2) / n));
+
+                return den == 0 ? 0 : num / den;
+            }
+        }*/
 
         public IEnumerable<TopicStat> GetRecommenderTopics(User user)
         {
@@ -238,7 +258,17 @@ namespace IUDICO.Analytics.Models.Storage
         public IEnumerable<TopicStat> GetRecommenderTopics(User user, int amount)
         {
             var topics = this.GetTopicsAvailableForUser(user);
-            var list = topics.Select(topic => new TopicStat(topic.Topic, this.PearsonDistance(user, topic.Topic))).ToList();
+            var list = topics.Select(topic => new TopicStat(topic, this.CustomDistance(user, topic.Topic))).ToList();
+
+            if (!list.Any())
+            {
+                return list;
+            }
+
+            var max = list.Max(t => t.Score);
+            var min = list.Min(t => t.Score);
+
+            list = list.Select(t => new TopicStat(t.Topic, Math.Round(100.0 * (t.Score - min) / (max - min)))).ToList();
 
             list.Sort();
 
@@ -297,14 +327,9 @@ namespace IUDICO.Analytics.Models.Storage
         {
             if (groups != null && groups.Count() != 0)
             {
-                var result = 0.0;
-                foreach (var group in groups)
-                {
-                    GroupTopicStat groupStat = this.GetGroupTopicStatistic(topic, group);
-                    result += (groupStat.RatingDifference + groupStat.TopicDifficulty) / 2;
-                }
-                return result / groups.Count();
+                return groups.Sum(g => this.GetGroupTopicStatistic(topic, g).Average()) / groups.Count();
             }
+
             return 0.0;
         }
 
@@ -341,7 +366,7 @@ namespace IUDICO.Analytics.Models.Storage
                     
                     if (!tagValueScores.Keys.Contains(tag.Key))
                     {
-                        tagValueScores.Add(tag.Key, new List<KeyValuePair<double, double>>() { item });
+                        tagValueScores.Add(tag.Key, new List<KeyValuePair<double, double>> { item });
                     }
                     else
                     {
@@ -374,7 +399,7 @@ namespace IUDICO.Analytics.Models.Storage
                 
             }
 
-            return (double) successAmount / generalAmount;
+            return 1.0 * successAmount / generalAmount;
         }
         static int Comparer(KeyValuePair<double, double> a, KeyValuePair<double, double> b)
         {
@@ -405,62 +430,77 @@ namespace IUDICO.Analytics.Models.Storage
 
         public IEnumerable<Tag> GetTags()
         {
-            return this.db.Tags;
+            return this.GetDbDataContext().Tags;
         }
 
         public ViewTagDetails GetTagDetails(int id)
         {
-            var tag = this.db.Tags.SingleOrDefault(f => f.Id == id);
-            var topicIds = this.db.TopicTags.Where(t => t.TagId == tag.Id).Select(t => t.TopicId);
-            var topics = GetTopics(topicIds);
+            using (var d = this.GetDbDataContext())
+            {
+                var tag = d.Tags.SingleOrDefault(f => f.Id == id);
+                var topicIds = d.TopicTags.Where(t => t.TagId == tag.Id).Select(t => t.TopicId);
+                var topics = GetTopics(topicIds);
 
-            return new ViewTagDetails(tag, topics);
+                return new ViewTagDetails(tag, topics);
+            }
         }
 
         public void CreateTag(Tag tag)
         {
-            this.db.Tags.InsertOnSubmit(tag);
-            this.db.SubmitChanges();
+            using (var d = this.GetDbDataContext())
+            {
+                d.Tags.InsertOnSubmit(tag);
+                d.SubmitChanges();
+            }
         }
 
         public Tag GetTag(int id)
         {
-            return this.db.Tags.SingleOrDefault(f => f.Id == id);
+            return this.GetDbDataContext().Tags.SingleOrDefault(f => f.Id == id);
         }
 
         public void EditTag(int id, Tag tag)
         {
-            var oldFeature = this.GetTag(id);
+            using (var d = this.GetDbDataContext())
+            {
+                var oldTag = d.Tags.SingleOrDefault(f => f.Id == id);
 
-            oldFeature.Name = tag.Name;
+                oldTag.Name = tag.Name;
 
-            this.db.SubmitChanges();
+                d.SubmitChanges();
+            }
         }
 
         public void DeleteTag(int id)
         {
-            var containsFeatures = this.db.TopicTags.Any(tf => tf.TagId == id);
-
-            if (containsFeatures)
+            using (var d = this.GetDbDataContext())
             {
-                throw new Exception("Can't delete tag, which has topics assigned to it");
-            }
+                var containsFeatures = d.TopicTags.Any(tf => tf.TagId == id);
 
-            this.db.Tags.DeleteOnSubmit(this.GetTag(id));
+                if (containsFeatures)
+                {
+                    throw new Exception("Can't delete tag, which has topics assigned to it");
+                }
+
+                d.Tags.DeleteOnSubmit(d.Tags.SingleOrDefault(f => f.Id == id));
+            }
         }
 
         public void EditTags(int id, IEnumerable<int> topics)
         {
-            var allTopics = this.db.TopicTags.Where(tf => tf.TagId == id).ToList();
-            var deletedTopics = allTopics.Where(tf => !topics.Contains(tf.TopicId));
-            var addTopics = topics.Where(i => !allTopics.Select(t => t.TopicId).Contains(i));
+            using (var d = this.GetDbDataContext())
+            {
+                var allTopics = d.TopicTags.Where(tf => tf.TagId == id).ToList();
+                var deletedTopics = allTopics.Where(tf => !topics.Contains(tf.TopicId));
+                var addTopics = topics.Where(i => !allTopics.Select(t => t.TopicId).Contains(i));
 
-            this.db.TopicTags.DeleteAllOnSubmit(deletedTopics);
+                d.TopicTags.DeleteAllOnSubmit(deletedTopics);
 
-            var topticTags = addTopics.Select(topic => new TopicTag { TagId = id, TopicId = topic }).ToList();
+                var topticTags = addTopics.Select(topic => new TopicTag { TagId = id, TopicId = topic }).ToList();
 
-            this.db.TopicTags.InsertAllOnSubmit(topticTags);
-            this.db.SubmitChanges();
+                d.TopicTags.InsertAllOnSubmit(topticTags);
+                d.SubmitChanges();
+            }
         }
 
         public ViewTagDetails GetTagDetailsWithTopics(int id)
