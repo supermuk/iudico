@@ -12,9 +12,6 @@
                 expandDiscipline(this.parentNode);
             });
 
-            $("#dialog").dialog({autoOpen: false});
-            setDialogDefaultSettings();
-
             $('#disciplines').dataTable({
                 "bJQueryUI": true,
                 "sPaginationType": "full_numbers",
@@ -71,12 +68,7 @@
 
         });
 
-        function onFailure() {
-            alert('error'); 
-        }
-        
-        function onCreateTopicSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
+        function onCreateTopicSuccess(resp) {
             if(resp.success) {
                $("#chapter" + resp.chapterId).add($(".child-of-chapter" + resp.chapterId)).last().after(resp.topicRow);
                 $("#dialog").dialog("close");
@@ -85,8 +77,7 @@
             }
         }
         
-        function onCreateChapterSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
+        function onCreateChapterSuccess(resp) {
             if(resp.success) {
                 
                 var $last = $("#discipline" + resp.disciplineId);
@@ -113,8 +104,7 @@
             }
         }
         
-        function onEditTopicSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
+        function onEditTopicSuccess(resp) {
             if(resp.success) {
                 $("#topic" + resp.topicId).replaceWith(resp.topicRow);
             	 $("#error" + resp.disciplineId).text(resp.error);
@@ -124,8 +114,7 @@
             }
         }
         
-        function onEditChapterSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
+        function onEditChapterSuccess(resp) {
             if(resp.success) {
                 $("#chapter" + resp.chapterId).replaceWith(resp.chapterRow);
                 $("#dialog").dialog("close");
@@ -141,38 +130,7 @@
                 .attr('value', itemId)
                 .appendTo('#dialogInner > form');
         }
-        
-        function setDialogDefaultSettings() {
-            $("#dialogInner").html("Loading...");
-            var dialog = $("#dialog");
-            //set to default settings
-            dialog.dialog("option", $.ui.dialog.prototype.options);
-            var settings = {
-                autoOpen: false,
-                modal: true,
-                buttons: {
-                    "<%=Localization.GetMessage("Submit") %>": function() {
-                        $("#dialogInner").find("form").submit();
-                    },
-                    "<%=Localization.GetMessage("Cancel") %>": function() {
-                        $(this).dialog('close');
-                    }
-                }
-            };
-            dialog.dialog("option", settings);
-            dialog.css('overflow', 'hidden');
-        }
 
-        function openDialog(title, settings) {
-            setDialogDefaultSettings();
-            var dialog = $("#dialog");
-            dialog.dialog("option", "title", title);
-            if(settings) {
-                dialog.dialog("option", settings);
-            }
-            $("#dialog").dialog("open");
-        }
-        
         function rowClick(rowObj, idPrefix, url, postLoadFunction) {
             var $row = $(rowObj);
             var parentId = $row.attr("id").replace(idPrefix, "");
@@ -393,39 +351,10 @@
         }
         
         function shareDiscipline(disciplineId) {
-            openDialog("<%=Localization.GetMessage("ShareDiscipline") %>", {width: 450});
-
-            $.ajax({
-               type: "get",
-               url: "/Discipline/Share",
-               data: { disciplineId : disciplineId },
-               success: function (r) {
-                   fillDialogInner(r, "disciplineId", disciplineId);
-
-                   var table = $("#shareUserTable").dataTable({
-                       "bJQueryUI": true,
-                       "sPaginationType": "full_numbers",
-                       iDisplayLength: 7,
-                       "bSort": true,
-                       "aoColumns": [
-                           { "bSortable": false },
-                           { "bSortable": false },
-                           null
-                       ]
-                   });
-
-                   //submit rows not visible in table(on other pages)
-                   table.closest("form").submit(function() {
-                       var hiddenRows = table.fnGetHiddenNodes();
-                       $(hiddenRows).css('display', 'none');
-                       table.find("tbody").append(hiddenRows);
-                   });
-               }
-            });
+            openShareDialog("/Discipline/Share", {disciplineId: disciplineId}, "onShareDisciplineSuccess");
         }
         
-        function onShareDisciplineSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
+        function onShareDisciplineSuccess(resp) {
             if(resp.success) {
                 $("#dialog").dialog("close");
             } else {
@@ -491,5 +420,5 @@
 		<% } %>
         </tbody>
 	</table>
-    <div id="dialog"><div id="dialogInner"></div></div>
+
 </asp:Content>

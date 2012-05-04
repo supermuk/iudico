@@ -128,7 +128,7 @@ h1, h2, h3, h4, h5, h6
 
 h1
 {
-    font-size: 3em;
+    font-size: 2.5em;
     padding: 0;
     margin: 0;
     color: #336699;
@@ -168,10 +168,13 @@ page width. Or, you can specify an exact pixel width. */
 .page
 {
     width: 1100px;
+    min-height: 700px;
     margin-left: auto;
     margin-right: auto;
 }
-
+#footer {
+    
+}
 #header
 {
     position: relative;
@@ -302,7 +305,7 @@ input[type="password"]
     width: 200px;
 }
 
-.blueButton, button[type="button"], input[type="button"], input[type="submit"]
+.blueButton, button[type="button"].blueButton ,button[type="button"], input[type="button"], input[type="submit"]
 {
     background-image: url(/Content/Images/button_116_25.png);
     width: 115px;
@@ -310,11 +313,12 @@ input[type="password"]
     border: 0px none;
     color: #FFFFFF;
 }
-.blueButton:hover, button[type="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover
+
+.blueButton:hover, button[type="button"].blueButton, button[type="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover
 {
     opacity: 0.8;
 }
-.blueButton:active, button[type="button"]:active, input[type="button"]:active, input[type="submit"]:active
+.blueButton:active, button[type="button"].blueButton, button[type="button"]:active, input[type="button"]:active, input[type="submit"]:active
 {
     opacity: 0.6;
 }
@@ -534,7 +538,7 @@ select option.added
 .homeArea
 {
     float: left;
-    padding: 30px;
+    padding: 25px;
 }
 .homeActionList
 {
