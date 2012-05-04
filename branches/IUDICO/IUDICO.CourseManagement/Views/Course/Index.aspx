@@ -97,7 +97,7 @@
                 type: "get",
                 url: "/Course/" + id + "/Edit",
                 success: function(r) {
-                    $("#dialogInner").html(r);
+                    fillDialogInner(r, "courseId", id);
                 }
             });
         }        
