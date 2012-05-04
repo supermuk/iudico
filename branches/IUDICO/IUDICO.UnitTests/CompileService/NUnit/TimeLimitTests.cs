@@ -31,7 +31,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         public void IncorrectCPPTimeLimitTest()
         {
             var actualResult = this.compileService.Compile(
-                CompileServiceLanguageSourceCode.CPPCorrectSourceCode, 
+                CompileServiceLanguageSourceCode.CPPTimelimitCorrectSourceCode, 
                 CompileServiceHelper.CPPLanguageName, 
                 CompileServiceHelper.Input, 
                 CompileServiceHelper.Output, 
