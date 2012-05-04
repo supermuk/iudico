@@ -83,7 +83,7 @@ namespace IUDICO.CourseManagement.Controllers
                     return Json(new { success = true, courseId = courseId, courseRow = PartialViewAsString("CourseRow", model) });
                 }
 
-                return Json(new { success = false, html = PartialViewAsString("Create", course) });
+                return Json(new { success = false, courseId = 0, html = PartialViewAsString("Create", course) });
             }
             catch (Exception ex)
             {
