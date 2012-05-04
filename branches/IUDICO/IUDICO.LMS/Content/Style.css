@@ -573,6 +573,60 @@ select option.added
     position: absolute;
     width: 100%;
 }
+.homeDiscipline {
+    border: solid 1px #b9cddd;
+    border-radius: 2px;
+    margin-bottom: 20px;
+}
+.homeDisciplineName 
+{
+    background: url("/Content/Images/header_back.png");
+    height: 29px;
+    font-size: 1.8em;
+    color: #00060d;
+    padding-left: 20px;
+}
+.homeChapterName 
+{
+    color: #37618c;
+    font-size: 1.5em;
+    text-transform: uppercase;
+    padding-left: 20px;
+    margin: 5px 0px;
+}
+.homePackageName a {
+    color: #3679bd;
+    font-size: 1.4em;
+}
+.homePackage {
+
+    padding-left: 60px;
+    border: solid 1px #d9dfe5;
+    background-color: #e9eff5;
+    line-height: 19px;
+    margin: 5px 0px;
+}
+.homePackageName {
+    display: inline-block;
+}
+
+.homePackage:hover {
+    border: solid 1px #cadaf0;
+    color: #0f82f7;
+    background-color: #FFF;
+}
+.raitingHolder 
+{
+    margin-top: 1px;
+    float: right;
+    display: block;
+}
+.homeTopicType {
+    display: inline-block;
+    width: 90px;
+    font-size: 0.9em;
+    text-align: right;
+}
 /* COURSES
 ----------------------------------------------------------*/
 .courseTable
