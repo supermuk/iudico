@@ -32,6 +32,11 @@ a:active
     color: #12eb87;
 }
 
+a img
+{
+  border:none;
+}
+
 table tr:hover
 {
     background-color: #F0ECB4;
@@ -153,6 +158,9 @@ h5, h6
     font-size: 1em;
 }
 
+#ui-dialog-title-dialog {
+    color: #336699;
+}
 /* this rule styles <h2> tags that are the 
 first child of the left and right table columns */
 .rightColumn > h1, .rightColumn > h2, .leftColumn > h1, .leftColumn > h2
@@ -314,11 +322,11 @@ input[type="password"]
     color: #FFFFFF;
 }
 
-.blueButton:hover, button[type="button"].blueButton, button[type="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover
+.blueButton:hover, button[type="button"].blueButton:hover, button[type="button"]:hover, input[type="button"]:hover, input[type="submit"]:hover
 {
     opacity: 0.8;
 }
-.blueButton:active, button[type="button"].blueButton, button[type="button"]:active, input[type="button"]:active, input[type="submit"]:active
+.blueButton:active, button[type="button"].blueButton:active, button[type="button"]:active, input[type="button"]:active, input[type="submit"]:active
 {
     opacity: 0.6;
 }
