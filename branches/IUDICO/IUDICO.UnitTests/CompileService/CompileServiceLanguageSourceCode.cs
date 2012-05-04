@@ -46,7 +46,7 @@
 
         // CPP timeLimit bad code
         public static string CPPTimelimitCorrectSourceCode =
-            "#include<iostream>\n#include<string>\nusing namespace std;\nvoid main(){\nstring a,b;\nwhile(true){}\ncin>>a>>b;\ncout<<a<<b;}";
+            "#include<iostream>\n#include<string>\nusing namespace std;\nvoid main(){\nstring a,b;\ncin>>a>>b;\nwhile(true){}\ncout<<a<<b;}";
 
         // CS timelimit bad code
         public static string CSTimelimitCorrectSourceCode =
