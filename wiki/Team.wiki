@@ -2,21 +2,35 @@
 = Contact Information =
 
 *currently working on a project:* 
-|| *Name* || *Phone* || *Skype ID* || *E-Mail* ||
-|| Anatoliy Muzychuk ||  || anatoliy.muzychuk || anatol.muzychuk@gmail.com||
-|| Petro Kushchak || +38 (050) 37-07-193 || peter.kuschak ||pkushchak@gmail.com ||
-|| Svyatoslav Litynskyy || +38 (067) 92-83-828 || liVELYKISTERTYtykyahoo.com || s.litynsVELYKISTERTYkyy@gmail.com ||
-|| Lubomir Galamaga || +38 (097) 04-36-518 || galamaga.lyubomir || galamagal86@gmail.com ||
-|| Orest Mykhaylovych || +38 (097) 30-65-564 || orest.mykhaylovych || sm.lpml@gmail.com ||
-|| Andrew Hymytsya || +38 (096) 65-90-109 || andriy.khymytsia || akhymytsia@gmail.com ||
-|| Igor Petrovych || +38 (067) 34-08-164 || ipetrovych || ipetrovych@gmail.com ||
-|| Andriy Shafran || +38 (067) 25-78-340 || shopen21 || shopen21@gmail.com ||
-|| Olexandr Zotov || +38 (067) 15-12-430 || boblox5 || Boblox12@gmail.com ||
-|| Vladyslav Petrovych || || vladykx || ||
-|| Ivan Gurskii || +38 (096) 74-62-198 || huakin || huakin1990@gmail.com ||
-|| Igor Gerasym || +38 (097) 17-74-260 || telepatboy || gerasymi@gmail.com ||
-|| Oleg Mukutyuk || +38 (096) 750-66-37 || dohlito || OlegMukutyuk@gmail.com ||
-|| Roman Bayik || +38 (063) 245-01-14  || rocky_balboa || superkivi007@gmail.com ||
-|| Andriy Pachva || +38 (067) 923-76-99  || pachva || pachva92@gmail.com  ||
-|| Andriy Stashko || +38 (097) 464-30-10  || andriy stashko || stashko.andriy@gmail.com ||
-|| Sasha Kozachuk || +38 (067) 341-92-83  || kozalviv || sashkokozachuk@gmail.com ||
+|| # || *Name* || *Phone* || *Skype ID* || *E-Mail* ||
+|| 1 || Anatoliy Muzychuk ||  || anatoliy.muzychuk || anatol.muzychuk@gmail.com||
+|| 2 || Petro Kushchak || +38 (050) 37-07-193 || peter.kuschak || pkushchak@gmail.com ||
+|| 3 || Svyatoslav Litynskyy || +38 (067) 92-83-828 || liVELYKISTERTYtykyahoo.com || s.litynsVELYKISTERTYkyy@gmail.com ||
+|| 4 || Lubomir Galamaga || +38 (097) 04-36-518 || galamaga.lyubomir || galamagal86@gmail.com ||
+|| 5 || Orest Mykhaylovych || +38 (097) 30-65-564 || orest.mykhaylovych || sm.lpml@gmail.com ||
+|| 6 || Igor Petrovych || +38 (067) 34-08-164 || ipetrovych || ipetrovych@gmail.com ||
+|| 7 || Andriy Shafran || +38 (067) 25-78-340 || shopen21 || shopen21@gmail.com ||
+|| 8 || Olexandr Zotov || +38 (067) 15-12-430 || boblox5 || Boblox12@gmail.com ||
+|| 9 || Vladyslav Petrovych || || vladykx || ||
+|| 10 || Ivan Gurskii || +38 (096) 74-62-198 || huakin || huakin1990@gmail.com ||
+|| 11 || Igor Gerasym || +38 (097) 17-74-260 || telepatboy || gerasymi@gmail.com ||
+|| 12 || Volodymyr Klyuka || +38 (063) 49-96-384 || voka.lviv || v.klyuka@gmail.com ||
+|| 13 || Roman Bayik || +38 (063) 24-50-114  || rocky_balboa || superkivi007@gmail.com ||
+|| 14 || Roman Kravets || +38 (098) 58-66-945 || lost_ed_roma || romankravets@gmail.com ||
+|| 15 || Andriy Pachva || +38 (067) 92-37-699  || pachva || pachva92@gmail.com  ||
+|| 16 || Andriy Stashko || +38 (097) 46-43-010  || andriy stashko || stashko.andriy@gmail.com ||
+|| 17 || Sasha Kozachuk || +38 (067) 34-19-283  || kozalviv || sashkokozachuk@gmail.com ||
+|| 18 || Vitalik Nobis || +38 (098) 44-99-649 || vitaliknobis || nobisvitaliy@gmail.com ||
+|| 19 || Orest Holod || +38 (050) 73-80-066 || orest.holod || o.holod@gmail.com ||
+|| 20 || Andriy Katsyubka || +38 (097) 29-24-271 || andriy.katsyubka || akatsyubka@gmail.com ||
+|| 21 || Oleg Kachmar || +38 (093) 19-23-584 || prokach_electro || prokach4@gmail.com ||
+|| 22 || Nestor Yavorskyy || +38 (063) 06-90-451 || nestor.yavorskyy || yavorskyy.nestor@gmail.com ||
+|| 23 || Andriy Moscovchuk || +38 (095)19-19-816 || fenics99 || fenics.and@gmail.com ||
+|| 24 || Markiyan Harbych ||+38 (063) 27-85-646 || markiyan92 || 2007marsa@gmail.com ||
+|| 25 || Yaroslav Skorokhid || +38 (097) 96-43-918 || niassin || radomba@gmail.com ||
+
+
+*worked on the project:*
+|| # || *Name* || *Phone* || *Skype ID* || *E-Mail* ||
+|| 1 || Andrew Hymytsya || +38 (096) 65-90-109 || andriy.khymytsia || akhymytsia@gmail.com ||
+|| 2 || Oleg Mukutyuk || +38 (096) 75-06-637 || dohlito || OlegMukutyuk@gmail.com ||
