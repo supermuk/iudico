@@ -1,6 +1,7 @@
 ﻿<%@ Assembly Name="IUDICO.CourseManagement" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CourseManagement.Models.ViewCourseModel>>" %>
 <%@ Import Namespace="IUDICO.Common" %>
+<%@ Import Namespace="System.Web.Mvc.Ajax" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
@@ -61,35 +62,6 @@
                 });
             });
 
-            $("#shareDialog").dialog({
-               autoOpen: false,
-               modal: true,
-               width: 450,
-               height: 545,
-               dialogClass: "hiddenTitle",
-               resizable: false,
-               buttons: {
-                   "<%=Localization.GetMessage("Share") %>": function () {
-                       $("#shareDialog").find("form").submit();
-                   },
-                   "<%=Localization.GetMessage("Close") %>": function () {
-                       $(this).dialog("close");
-                   }
-               }
-            });
-
-            $("#dialog").dialog({
-               autoOpen: false,
-               modal: true,
-               buttons: {
-                  "<%=Localization.GetMessage("Submit") %>": function () {
-                       $("#dialog").find("form").submit();
-                   },
-                   "<%=Localization.GetMessage("Close") %>": function () {
-                       $(this).dialog("close");
-                   }
-               }
-            });
 
             $(".courseEditable").click(function () {
                 window.location.replace("/Course/" + this.parentNode.id.replace("course", "") + "/Node");
@@ -100,59 +72,9 @@
             window.location = window.location;
         }
         
-        function openDialog(title) {
-            $("#dialogInner").html("<%=Localization.GetMessage("Loading") %>");
-            $("#dialog").dialog("option", "title", title);
-            $("#dialog").dialog("open");
-        }
-        
-        function fillDialogInner(html, itemName, itemId) {
-            $("#dialogInner").html(html);
-            $('<input />').attr('type', 'hidden')
-                .attr('name', itemName)
-                .attr('value', itemId)
-                .appendTo('#dialogInner > form');
-        }
         
         function shareCourse(courseId) {
-            
-            $("#shareDialogInner").html("Loading...");
-            $("#shareDialog").dialog("open");
-
-            $.ajax({
-               type: "get",
-               url: "/Course/Share",
-               data: { courseId : courseId },
-               success: function (r) {
-                   $("#shareDialogInner").html(r);
-
-                   var table = $("#shareUserTable").dataTable({
-                       "bJQueryUI": true,
-                       "sPaginationType": "full_numbers",
-                       "sScrollY": "360px",
-                       iDisplayLength: 8,
-                       "bSort": true,
-                       "bAutoWidth": false,
-                       "aoColumns": [
-                           { "bSortable": false },
-                           { "bSortable": false },
-                           null
-                       ]
-                   });
-
-                   //submit rows not visible in table(on other pages)
-                   table.closest("form").submit(function() {
-                       var hiddenRows = table.fnGetHiddenNodes();
-                       $(hiddenRows).css('display', 'none');
-                       table.find("tbody").append(hiddenRows);
-                   });
-
-                   $('<input />').attr('type', 'hidden')
-                       .attr('name', "courseId")
-                       .attr('value', courseId)
-                       .appendTo('#shareDialog > form');
-               }
-            });
+            openShareDialog("/Course/Share", { courseId: courseId }, "onShareCourseSuccess");
         }
 
         function addCourse() {
@@ -167,6 +89,7 @@
             });
         }
         
+        
         function editCourse(id) {
             openDialog("<%=Localization.GetMessage("EditCourse") %>");
 
@@ -174,13 +97,12 @@
                 type: "get",
                 url: "/Course/" + id + "/Edit",
                 success: function(r) {
-                    $("#dialogInner").html(r);
+                    fillDialogInner(r, "courseId", id);
                 }
             });
         }        
         
-        function onShareCourseSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
+        function onShareCourseSuccess(resp) {
             if(resp.success) {
                 $("#shareDialog").dialog("close");
             } else {
@@ -188,8 +110,7 @@
             }
         }
         
-        function onCreateCourseSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
+        function onCreateCourseSuccess(resp) {
             if(resp.success) {
                 //$(".course").after(resp.courseRow);
                 $("#dialog").dialog("close");
@@ -199,8 +120,7 @@
             }
         }
 
-        function onEditCourseSuccess(r) {
-            var resp = eval("(" + r.$2._xmlHttpRequest.responseText + ")");
+        function onEditCourseSuccess(resp) {
             if(resp.success) {
                 $("#course" + resp.courseId).replaceWith(resp.courseRow);
                 $("#dialog").dialog("close");
@@ -208,16 +128,13 @@
                 fillDialogInner(resp.html, "courseId", resp.courseId);
             }
         }
-
-        function onFailure(r) {
-            alert("error");
-        }
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     <%=Localization.GetMessage("Courses")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+
     <h2><%=Localization.GetMessage("Courses")%>:</h2>
     
     <p>
@@ -258,15 +175,5 @@
            {%>
             <%=Localization.GetMessage("NoCourses")%>
         <% } %>
-    </div>
-    <div id="shareDialog">
-        <% using (Ajax.BeginForm("Share", "Course", new { }, new AjaxOptions() { OnFailure = "onFailure", OnSuccess = "onShareCourseSuccess" }))
-           {%>
-        <div id="shareDialogInner">
-        </div>
-        <% } %>
-    </div>
-    <div id="dialog">
-        <div id="dialogInner"></div>
     </div>
 </asp:Content>

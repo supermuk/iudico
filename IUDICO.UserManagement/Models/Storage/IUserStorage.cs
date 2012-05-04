@@ -72,5 +72,7 @@ namespace IUDICO.UserManagement.Models.Storage
         void RateTopic(int topicId, int score);
 
         void UpdateUserAverage(AttemptResult attemptResult);
+
+        IEnumerable<UserTopicRating> GetRatings(User user, IEnumerable<int> topicIds);
     }
 }

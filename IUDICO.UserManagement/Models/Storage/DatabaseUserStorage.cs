@@ -695,17 +695,27 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public void UpdateUserAverage(AttemptResult attemptResult)
         {
-            var db = this.GetDbContext();
-            var user = db.Users.Single(u => u.Id == attemptResult.User.Id);
-            var score = attemptResult.Score.ToPercents();
-            
-            if (score != null)
+            using (var db = this.GetDbContext())
             {
-                user.TestsTotal += 1;
-                user.TestsSum += (int)score.Value;
-            }
+                var user = db.Users.Single(u => u.Id == attemptResult.User.Id);
+                var score = attemptResult.Score.ToPercents();
 
-            db.SubmitChanges();
+                if (score != null)
+                {
+                    user.TestsTotal += 1;
+                    user.TestsSum += (int)score.Value;
+                }
+
+                db.SubmitChanges();
+            }
+        }
+
+        public IEnumerable<UserTopicRating> GetRatings(User user, IEnumerable<int> topicIds)
+        {
+            using (var db = this.GetDbContext())
+            {
+                return db.UserTopicRatings.Where(ut => ut.UserId == user.Id && topicIds.Contains(ut.TopicId)).ToList();
+            }
         }
 
         public int UploadAvatar(Guid id, HttpPostedFileBase file)

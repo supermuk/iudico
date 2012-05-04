@@ -309,6 +309,11 @@ namespace IUDICO.UserManagement.Models.Storage
             this.storage.UpdateUserAverage(attemptResult);
         }
 
+        public IEnumerable<UserTopicRating> GetRatings(User user, IEnumerable<int> topicIds)
+        {
+            return this.storage.GetRatings(user, topicIds);
+        }
+
         #endregion
 
         #region Group memebers

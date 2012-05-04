@@ -88,7 +88,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.cacheProvider.Get(
                 "disciplines-" + groupId,
                 this.lockObject,
-                () => this.storage.GetDisciplines(),
+                () => this.storage.GetDisciplinesByGroupId(groupId),
                 DateTime.Now.AddDays(1),
                 "disciplines");
         }
@@ -239,7 +239,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.cacheProvider.Get(
                 "topics-group-" + groupId,
                 @lockObject,
-                () => this.storage.GetTopicsByDisciplineId(groupId),
+                () => this.storage.GetTopicsByGroupId(groupId),
                 DateTime.Now.AddDays(1),
                 "topics",
                 "topics-sort");
