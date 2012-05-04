@@ -74,7 +74,6 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Type("id=Name", string.Empty);
             this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
             Thread.Sleep(SleepTime);
-            Assert.IsTrue(this.selenium.IsElementPresent("id=Name_validationMessage"));
             Assert.IsTrue(this.selenium.IsElementPresent("//span[contains(.,'Name is required')]"));
             this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[2])");
             try
