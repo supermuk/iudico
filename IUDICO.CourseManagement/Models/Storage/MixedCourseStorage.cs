@@ -25,7 +25,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         protected readonly ILmsService LmsService;
         protected readonly LinqLogger Logger;
 
-        private readonly string[] templateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf" };
+        private readonly string[] templateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf", "wait.gif" };
 
         private const string ResourceIdForTemplateFiles = "TemplateFiles";
 
