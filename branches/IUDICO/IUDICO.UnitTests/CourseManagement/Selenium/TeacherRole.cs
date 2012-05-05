@@ -157,9 +157,9 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
 			   Thread.Sleep(SleepTime);
             this.selenium.ContextMenu("//a[contains(text(),'Root')]");
 			   Thread.Sleep(SleepTime);
-            this.selenium.Click("//a[contains(text(),'Create Node')]");
+            this.selenium.Click("//a[@rel='create']");
             this.selenium.ContextMenu("//a[contains(text(),'Root')]");
-            this.selenium.Click("//a[contains(text(),'Create Folder')]");
+            this.selenium.Click("//a[@rel='create_folder']");
             this.selenium.Click("link=Back to List");
             try
             {
