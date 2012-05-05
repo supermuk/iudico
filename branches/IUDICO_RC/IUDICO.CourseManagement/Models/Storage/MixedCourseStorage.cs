@@ -90,9 +90,8 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = this.GetDbContext();
 
-            var userIds = db.CourseUsers.Where(i => i.CourseRef == courseId);
-            var users = this.LmsService.FindService<IUserService>().GetUsers().Where(i => userIds.Any(j => j.UserRef == i.Id));
-
+            var userIds = db.CourseUsers.Where(i => i.CourseRef == courseId).Select(i => i.UserRef).ToList();
+            var users = this.LmsService.FindService<IUserService>().GetUsers().Where(i => userIds.Contains(i.Id)).ToList();
             return users;
         }
 
