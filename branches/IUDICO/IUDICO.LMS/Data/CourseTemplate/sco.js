@@ -63,6 +63,9 @@ function SCO(element, passrank, _questions) {
 
         this.Element.append($button);
         this.Element.find('#ScoSubmit').click(function () { obj.submit(); });
+
+        var spinner = '<div id="spinner" class="spinner" style="display:none;"><img id="img-spinner" src="wait.gif" alt="Loading"/></div>';
+        $('#ScoSubmit').after(spinner);
     };
 
     this.count = function () {
@@ -75,6 +78,9 @@ function SCO(element, passrank, _questions) {
                 this.Questions[i].processAnswer(this, i);
 
                 this.Compiled++;
+                if($('#compilationSubmitStatus').length == 0){
+                     $('#ScoSubmit').after('<p id ="compilationSubmitStatus" style="color:red">' + 'Зачекайте доки закінчиться компіляція на сервері.' + '</p>');
+                }
             }
             else {
                 $.rteSetValue("cmi.interactions." + i + ".learner_response", this.Questions[i].getAnswer());
@@ -86,6 +92,12 @@ function SCO(element, passrank, _questions) {
             this.ScoreMin += this.Questions[i].getScoreMin();
             this.ScoreMax += this.Questions[i].getScoreMax();
         }
+
+        if($('#compilationSubmitStatus').length > 0){
+            $('#compilationSubmitStatus').text('Код відіслано. Компіляція на сервері завершена.');
+            $('#compilationSubmitStatus').attr('style','color:green;');
+        }
+
 
         $('#ScoSubmit').attr('disabled', true);
 
@@ -123,6 +135,6 @@ function SCO(element, passrank, _questions) {
             $.rteTerminate();
         }
     };
-	
-	this.init(_questions);
+    
+    this.init(_questions);
 };

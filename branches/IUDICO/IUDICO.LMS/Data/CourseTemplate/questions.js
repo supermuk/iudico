@@ -87,8 +87,8 @@ function simpleTest($object, id) {
     this.getScoreMax = function () {
         return this.Rank;
     }
-	
-	this.parse($object);
+    
+    this.parse($object);
 }
 
 function complexTest($object, id) {
@@ -182,8 +182,8 @@ function complexTest($object, id) {
     this.getScoreMax = function () {
         return this.Rank;
     }
-	
-	this.parse($object);
+    
+    this.parse($object);
 }
 
 function compiledTest($object, id) {
@@ -242,7 +242,43 @@ function compiledTest($object, id) {
             $question.append('<div id="' + this.Id + 'After"><pre>' + postCode + '</pre></div>');
         }
 
+        if(testsCount > 0)
+        {
+            var $button = $('<input type="submit" name="check" value="Перевірити на 1 тесті" id="ScoCheck" />');
+
+            $question.append($button);
+            var obj = this;
+            $question.find('#ScoCheck').click(function () { obj.check(); });
+        }
+
         $object.replaceWith($question);
+    }
+
+    this.check = function () {
+        var sourceCode = encodeURIComponent(this.PreCode + $('#' + this.Id + 'Answer').val() + this.PostCode);
+        var sourceCodeData = { 'source': sourceCode, 'language': this.Language, 'input': this.Input[0], 'output': this.Output[0], 'timelimit': this.Timelimit, 'memorylimit': this.Memorylimit };
+
+        $.flXHRproxy.registerOptions(this.Url, { xmlResponseText: false });
+
+        var request = $.ajax({
+            type: "POST",
+            beforeSend: function(){
+                $('#ScoCheck').after('<p id ="compilationStatus" style="color:red">' + 'Зачекайте доки закінчиться компіляція.' + '</p>');
+                $('#ScoCheck').attr('disabled', true);
+            },
+            url: this.Url,
+            data: sourceCodeData,
+            dataType: 'xml',
+            transport: 'flXHRproxy',
+            traditional: true,
+            complete: function (transport) {
+                var checkAnswer = $.trim($(transport.responseText).text());
+                alert('Результат одного тесту: ' + (checkAnswer == "Accepted" ? "Прийнято" : "Трапилася помилка") );
+                
+                $('#compilationStatus').remove();
+                $('#ScoCheck').attr('disabled', false);
+            }
+        });        
     }
 
     this.processAnswer = function (SCOObj, i) {
@@ -298,6 +334,6 @@ function compiledTest($object, id) {
     this.getScoreMax = function () {
         return this.Rank;
     }
-	
-	this.parse($object);
+    
+    this.parse($object);
 };
