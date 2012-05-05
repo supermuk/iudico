@@ -18,6 +18,12 @@ namespace CompileSystem
     [ScriptService]
     public class CompileService : WebService
     {
+        [WebMethod]
+        public string Check()
+        {
+            return "Check";
+        }
+
         /// <summary>
         /// Creates and compiles program
         /// </summary>
