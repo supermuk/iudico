@@ -128,11 +128,11 @@ namespace IUDICO.CourseManagement.Controllers
         public string Share(int courseId)
         {
             var course = this.storage.GetCourse(courseId);
-            var allUsers = this.userService.GetUsers().Where(i => i.Username != course.Owner);
+            var allUsers = this.userService.GetUsers().Where(i => i.Username != course.Owner).Where(i => i.Roles.Contains(Role.CourseCreator) | i.Roles.Contains(Role.Teacher));
             var courseUsers = this.storage.GetCourseUsers(courseId);
 
             var model =
-                allUsers.Where(i => i.Roles.Contains(Role.CourseCreator) | i.Roles.Contains(Role.Teacher)).Select(
+                allUsers.Select(
                     i =>
                     new ShareUser
                     {
