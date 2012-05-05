@@ -17,8 +17,6 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
      
             this.selenium.Click("link=Courses");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            this.selenium.Click("link=Create New");
-            this.selenium.Click("xpath=(//button[@type='button'])[4]");
             this.selenium.Click("link=Import");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("link=Back to List");
