@@ -118,8 +118,10 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analytics\AnalyticsTests.cs" />
     <Compile Include="Analytics\AnomalyDetectionAlgorithmTest.cs" />
     <Compile Include="Analytics\DecisionTreesTest.cs" />
+    <Compile Include="Analytics\NUnit\Recommender.cs" />
     <Compile Include="Analytics\TrainingSetTest.cs" />
     <Compile Include="Base\BaseControllerTest.cs" />
     <Compile Include="Base\SimpleWebTest.cs" />
@@ -285,6 +287,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Analytics\Selenium\" />
     <Folder Include="CourseManagement\Data\1\0\somePath0\" />
     <Folder Include="CourseManagement\Data\1\Node\0\Images\" />
     <Folder Include="Libs\" />
