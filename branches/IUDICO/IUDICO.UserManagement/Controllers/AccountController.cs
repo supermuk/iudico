@@ -117,7 +117,10 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     var request = this.openId.CreateRequest(Identifier.Parse(loginIdentifier));
 
-                    request.AddCallbackArguments("ReturnUrl", Request.QueryString["ReturnUrl"]);
+                    if (!string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
+                    {
+                        request.AddCallbackArguments("ReturnUrl", Request.QueryString["ReturnUrl"]);
+                    }
 
                     return request.RedirectingResponse.AsActionResult();
                 }
@@ -322,6 +325,7 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult ChangeCulture(string lang, string returnUrl)
         {
             this.Session["Culture"] = new CultureInfo(lang);
+
             return this.Redirect(returnUrl);
         }
 

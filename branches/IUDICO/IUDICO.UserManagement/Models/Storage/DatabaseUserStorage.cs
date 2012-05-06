@@ -286,6 +286,11 @@ namespace IUDICO.UserManagement.Models.Storage
                 CreationDate = DateTime.Now,
             };
 
+            if (!string.IsNullOrEmpty(user.OpenId) && !this.UserOpenIdAvailable(user.OpenId, Guid.Empty))
+            {
+                user.OpenId = string.Empty;
+            }
+
             user.UserRoles.Add(new UserRole { RoleRef = role, UserRef = user.Id });
 
             return user;
