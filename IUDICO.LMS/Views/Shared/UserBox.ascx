@@ -23,14 +23,14 @@
 %>
 
 
-    <form action="<%: Url.Action("LoginDefault", "Account") %>" method="post">
+    <form action="<%: Url.Action("LoginDefault", "Account", new {ReturnUrl = ViewContext.HttpContext.Request.QueryString["ReturnUrl"]}) %>" method="post">
         <input type="text" id="loginUsername" placeholder="<%=Localization.GetMessage("Loginn") %>" name="loginUsername" size="40" />
         <input type="password" id="loginPassword" placeholder="<%=Localization.GetMessage("Password") %>"  name="loginPassword" size="40" />
 
         <input id="loginDefaultButton" type="submit" value="<%=Localization.GetMessage("Ok") %>" class="okButton" />
     </form>
 
-    <form action="<%: Url.Action("Login", "Account")  %>" method="post">
+    <form action="<%: Url.Action("Login", "Account", new {ReturnUrl = ViewContext.HttpContext.Request.QueryString["ReturnUrl"]})  %>" method="post">
 	    <input type="text" id="loginIdentifier" placeholder="<%=Localization.GetMessage("OpenID") %>" name="loginIdentifier" size="40" />
 	    
         <input id="loginOpenIdButton" type="submit" value="<%=Localization.GetMessage("Ok")%>" class="okButton" />
