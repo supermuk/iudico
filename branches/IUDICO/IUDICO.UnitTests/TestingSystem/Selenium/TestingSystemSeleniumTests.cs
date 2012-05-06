@@ -163,6 +163,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
                 selenium.Type("id=Username", userLogin);
                 selenium.Type("id=Password", userPassword);
                 selenium.Type("id=Email", userLogin + "@gmail.com");
+                selenium.Type("id=OpenId", userLogin);
                 selenium.Type("id=Name", userLogin);
                 selenium.Type("id=UserId", userLogin);
                 selenium.Submit("css=form[action='/User/Create']");
