@@ -73,7 +73,7 @@ namespace IUDICO.UserManagement.Controllers
 
                         LmsService.Inform(UserNotifications.UserLogin, user);
 
-                        if (this.Request.QueryString["ReturnUrl"] != null)
+                        if (!string.IsNullOrEmpty(this.Request.QueryString["ReturnUrl"]))
                         {
                             FormsAuthentication.RedirectFromLoginPage(user.Username, false);
                         }
@@ -117,6 +117,8 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     var request = this.openId.CreateRequest(Identifier.Parse(loginIdentifier));
 
+                    request.AddCallbackArguments("ReturnUrl", Request.QueryString["ReturnUrl"]);
+
                     return request.RedirectingResponse.AsActionResult();
                 }
                 catch (Exception)
@@ -135,7 +137,7 @@ namespace IUDICO.UserManagement.Controllers
             {
                 LmsService.Inform(UserNotifications.UserLogin, this.storage.GetCurrentUser());
 
-                if (this.Request.QueryString["ReturnUrl"] != null)
+                if (!string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
                 {
                     FormsAuthentication.RedirectFromLoginPage(loginUsername, false);
                 }
