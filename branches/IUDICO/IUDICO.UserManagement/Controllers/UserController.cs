@@ -77,6 +77,12 @@ namespace IUDICO.UserManagement.Controllers
                     error = true;
                     this.ModelState.AddModelError("UserID", Localization.GetMessage("Unique ID Error"));
                 }
+                if (!this.storage.UserOpenIdAvailable(user.OpenId, user.Id))
+                {
+                    this.ModelState.AddModelError("OpenId", Localization.GetMessage("OpenIdError"));
+
+                    return this.View(user);
+                }
 
                 if (!error)
                 {
