@@ -396,4 +396,7 @@
   <data name="AreYouSureYouWantToDelete" xml:space="preserve">
     <value>Ви справді хочете видалити</value>
   </data>
+  <data name="NoUserOpenID" xml:space="preserve">
+    <value>Немає користувачам з даним OpenID</value>
+  </data>
 </root>
