@@ -7,13 +7,15 @@ using IUDICO.Common.Models.Services;
 
 using Moq;
 
+using System;
+
+using IUDICO.Common.Models;
+using IUDICO.Common.Models.Shared;
+
+using Moq.Protected;
+
 namespace IUDICO.UnitTests.Analytics
 {
-    using System;
-
-    using IUDICO.Common.Models;
-    using IUDICO.Common.Models.Shared;
-
     public class AnalyticsTests
     {
         #region Protected members
@@ -28,7 +30,7 @@ namespace IUDICO.UnitTests.Analytics
 
         public Mock<ILmsService> MockLmsService { get; protected set; }
 
-        public Mock<MixedAnalyticsStorage> MockMixedStorage { get; protected set; }
+        public Mock<TestMixedAnalyticsStorage> MockMixedStorage { get; protected set; }
 
         public Mock<HttpCache> MockCacheProvider { get; protected set; }
 
@@ -50,11 +52,11 @@ namespace IUDICO.UnitTests.Analytics
             }
         }
 
-        public IAnalyticsStorage Storage
+        public TestMixedAnalyticsStorage Storage
         {
             get
             {
-                return this.MockStorage.Object;
+                return this.MockMixedStorage.Object;
             }
         }
 
@@ -68,13 +70,15 @@ namespace IUDICO.UnitTests.Analytics
 
         public Mock<ITable> TopicTags { get; protected set; }
 
+        public Guid UserId { get; protected set; }
+
         #endregion
 
         private AnalyticsTests()
         {
             this.MockDataContext = new Mock<IDataContext>();
             this.MockLmsService = new Mock<ILmsService>();
-            this.MockMixedStorage = new Mock<MixedAnalyticsStorage>(this.MockLmsService.Object);
+            this.MockMixedStorage = new Mock<TestMixedAnalyticsStorage>(this.MockLmsService.Object);
             this.MockCacheProvider = new Mock<HttpCache>();
             this.MockStorage = new Mock<CachedAnalyticsStorage>(this.MockMixedStorage.Object, this.MockCacheProvider.Object);
 
@@ -95,7 +99,7 @@ namespace IUDICO.UnitTests.Analytics
 
         public void Setup()
         {
-
+            this.MockMixedStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this.MockDataContext.Object);
         }
 
         public void SetupTables()
@@ -115,13 +119,13 @@ namespace IUDICO.UnitTests.Analytics
                     new TopicTag { TopicId = 1, TagId = 4 }
                 };
 
-            var userId = Guid.NewGuid();
+            this.UserId = Guid.NewGuid();
 
             var mockUserScoresData = new[]
                 {
-                    new UserScore { Score = 80, TagId = 1, UserId = userId },
-                    new UserScore { Score = 90, TagId = 2, UserId = userId },
-                    new UserScore { Score = 60, TagId = 3, UserId = userId }
+                    new UserScore { Score = 80, TagId = 1, UserId = this.UserId },
+                    new UserScore { Score = 90, TagId = 2, UserId = this.UserId },
+                    new UserScore { Score = 60, TagId = 3, UserId = this.UserId }
                 };
 
             var mockTopicScoresData = new[]
