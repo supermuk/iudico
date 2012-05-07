@@ -154,9 +154,9 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             }
             this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//div[contains(text(),'forEditContent')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-			   Thread.Sleep(SleepTime);
+            Thread.Sleep(SleepTime);
             this.selenium.ContextMenu("//a[contains(text(),'Root')]");
-			   Thread.Sleep(SleepTime);
+            Thread.Sleep(SleepTime);
             this.selenium.Click("//a[@rel='create']");
             this.selenium.ContextMenu("//a[contains(text(),'Root')]");
             this.selenium.Click("//a[@rel='create_folder']");
@@ -173,7 +173,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
         }
 
         [Test]
-		  [Ignore]
+        [Ignore]
         public void ShareCourseAndUnshareCourse()
         {
             this.DefaultLogin("prof", "prof");

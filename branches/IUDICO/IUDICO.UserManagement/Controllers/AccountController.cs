@@ -66,7 +66,7 @@ namespace IUDICO.UserManagement.Controllers
 
                         if (user == null)
                         {
-                            this.ModelState.AddModelError(string.Empty, "No user with such OpenId");
+                            this.ModelState.AddModelError(string.Empty, Localization.GetMessage("NoUserOpenID"));
 
                             break;
                         }
@@ -119,7 +119,7 @@ namespace IUDICO.UserManagement.Controllers
 
                     if (user == null)
                     {
-                        this.ModelState.AddModelError(string.Empty, "No user with such OpenId");
+                        this.ModelState.AddModelError(string.Empty, Localization.GetMessage("NoUserOpenID"));
 
                         return this.View();
                     }
