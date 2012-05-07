@@ -119,10 +119,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analytics\AnalyticsTests.cs" />
-    <Compile Include="Analytics\AnomalyDetectionAlgorithmTest.cs" />
-    <Compile Include="Analytics\DecisionTreesTest.cs" />
+    <Compile Include="Analytics\NUnit\AnomalyDetectionAlgorithmTest.cs" />
+    <Compile Include="Analytics\NUnit\DecisionTreesTest.cs" />
     <Compile Include="Analytics\NUnit\Recommender.cs" />
-    <Compile Include="Analytics\TrainingSetTest.cs" />
+    <Compile Include="Analytics\TestMixedAnalyticsStorage.cs" />
+    <Compile Include="Analytics\NUnit\TrainingSetTest.cs" />
     <Compile Include="Base\BaseControllerTest.cs" />
     <Compile Include="Base\SimpleWebTest.cs" />
     <Compile Include="CompileService\CompileServiceHelper.cs" />
