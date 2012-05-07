@@ -66,7 +66,7 @@ namespace IUDICO.UserManagement.Controllers
 
                         if (user == null)
                         {
-                            this.ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
+                            this.ModelState.AddModelError(string.Empty, "No user with such OpenId");
 
                             break;
                         }
@@ -109,12 +109,21 @@ namespace IUDICO.UserManagement.Controllers
             {
                 this.ModelState.AddModelError(string.Empty, Localization.GetMessage("InvalidOpenID"));
 
-                return this.View("Login");
+                return this.View();
             }
             else
             {
                 try
                 {
+                    var user = this.storage.GetUser(u => u.OpenId == loginIdentifier);
+
+                    if (user == null)
+                    {
+                        this.ModelState.AddModelError(string.Empty, "No user with such OpenId");
+
+                        return this.View();
+                    }
+
                     var request = this.openId.CreateRequest(Identifier.Parse(loginIdentifier));
 
                     if (!string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
@@ -128,7 +137,7 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     this.ModelState.AddModelError(string.Empty, Localization.GetMessage("InvalidOpenID"));
 
-                    return this.View("Login");
+                    return this.View();
                 }
             }
         }
