@@ -390,6 +390,9 @@
     <Content Include="CourseManagement\Data\Templates\updateplayer.swf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="CourseManagement\Data\Templates\wait.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\ExternalTools\StyleCop\v4.7\StyleCop.targets" />
