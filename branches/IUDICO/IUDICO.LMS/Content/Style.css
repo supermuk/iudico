@@ -777,6 +777,23 @@ select option.added
     padding: 5px;
     margin-top: 5px;
 }
+.headerName {
+    font-size: 1.5em;
+    color: #336699;
+    margin-bottom: 10px;
+}
+.headerValue {
+    font-size: 1.5em;
+    color: #3679BD;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
+.headerValue a {
+    color: #3679BD;
+}
+.backLink {
+    padding:10px 0px;
+}
 
 /* SHAREUSERS
 ----------------------------------------------------------*/

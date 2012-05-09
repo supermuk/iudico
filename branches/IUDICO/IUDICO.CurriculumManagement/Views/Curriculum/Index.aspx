@@ -127,7 +127,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
         }
         
         function details(id) {
-            window.location.replace("Curriculum/" + id + "/CurriculumChapter/Index");
+            window.location.replace("/Curriculum/" + id + "/CurriculumChapter/Index");
         }
     </script>
 </asp:Content>
@@ -171,16 +171,16 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
             <td>
                 <input type="checkbox" id="<%= item.Id %>" />
             </td>
-            <td onclick="details(<%: item.Id %>);">
+            <td onclick="details(<%: item.Id %>);" class="clickable">
                 <%: item.GroupName %>
             </td>
-            <td  onclick="details(<%: item.Id %>);"<%if(!item.IsValid) {%> style="color: red" <% } %>>
+            <td  onclick="details(<%: item.Id %>);"<%if(!item.IsValid) {%> style="color: red" <% } %> class="clickable">
                 <%: item.DisciplineName %>
             </td>
-            <td  onclick="details(<%: item.Id %>);">
+            <td  onclick="details(<%: item.Id %>);" class="clickable">
                 <%: item.StartDate %>
             </td>
-            <td>
+            <td onclick="details(<%: item.Id %>);" class="clickable">
                 <%: item.EndDate %>
             </td>
             <td>
