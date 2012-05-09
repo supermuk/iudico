@@ -326,6 +326,7 @@ namespace IUDICO.UserManagement.Controllers
             if (!allow && !Roles.IsUserInRole(Role.Admin.ToString()))
             {
                 this.Session["AllowAdmin"] = true;
+                LmsService.Inform(LMSNotifications.ActionsChanged);
             }
 
             return this.RedirectToAction("Index");
