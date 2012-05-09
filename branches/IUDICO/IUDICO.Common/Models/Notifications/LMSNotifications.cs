@@ -29,5 +29,10 @@ namespace IUDICO.Common.Models.Notifications
         /// Application Request End notification is sent when requested has been processed by applcation.
         /// </summary>
         public const string ApplicationRequestEnd = "application/request/end";
+
+        /// <summary>
+        /// Notification is sent when actions are changed
+        /// </summary>
+        public const string ActionsChanged = "lms/actions/changed";
     }
 }
