@@ -18,15 +18,18 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
     <h2>
         <%=Localization.GetMessage("EditTopicAssignmentFor")%>
     </h2>
-    <h4>
-        <%: ViewData["DisciplineName"]%>
-        <%= Localization.GetMessage("PrevNext")%>
-        <%: ViewData["GroupName"] %>
-        <%= Localization.GetMessage("Next")%>
-        <%: ViewData["ChapterName"] %>
-        <%= Localization.GetMessage("Next")%>
-        <%: ViewData["TopicName"] %>
-    </h4>
+
+    <span class="headerName"><%=Localization.GetMessage("Chapter")%>:</span>
+    <span class="headerValue"><%: ViewData["ChapterName"] %></span>
+    <span class="headerName"><%=Localization.GetMessage("Discipline")%>:</span>
+    <span class="headerValue"><%: Html.RouteLink(ViewData["DisciplineName"].ToString(), "CurriculumChapters", new { action = "Index", CurriculumId = ViewData["CurriculumId"] })%></span>
+    <span class="headerName"><%=Localization.GetMessage("Group")%>:</span>
+    <span class="headerValue"><%: ViewData["GroupName"] %></span>
+
+    <div class="backLink">
+        <%: Html.RouteLink(Localization.GetMessage("BackTopicAssignmentList"), "CurriculumChapterTopics", new { action = "Index", CurriculumChapterId = HttpContext.Current.Session["CurriculumChapterId"] })%>
+    </div>
+
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
@@ -37,7 +40,5 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
     </p>
     <% } %>
 
-    <div>
-        <%: Html.RouteLink(Localization.GetMessage("BackTopicAssignmentList"), "CurriculumChapterTopics", new { action = "Index", CurriculumChapterId = HttpContext.Current.Session["CurriculumChapterId"] })%>
-    </div>
+
 </asp:Content>
