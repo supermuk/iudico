@@ -30,6 +30,7 @@
 || 25 || Yaroslav Skorokhid || +38 (097) 96-43-918 || niassin || radomba@gmail.com ||
 || 26  || Ostap Stasenko || +38 (067) 15-17-026 || ostap.stasenko || osst.os@gmail.com ||
 || 27 || Oleh Shchur || +38 (063) 31-35-153 || shchuroleh || shchuroleh@gmail.com ||
+|| 28  || Ivan Shelest || +38 (067) 30-69-047 || ivan.shelest || ivan.shelest@me.com ||
 
 *worked on the project:*
 || # || *Name* || *Phone* || *Skype ID* || *E-Mail* ||
