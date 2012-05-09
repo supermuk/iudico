@@ -7,6 +7,7 @@ using System.Web.Security;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.RelyingParty;
+using IUDICO.Common;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
@@ -18,8 +19,6 @@ using log4net;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    using IUDICO.Common;
-
     public class AccountController : PluginController
     {
         private readonly OpenIdRelyingParty openId = new OpenIdRelyingParty();
