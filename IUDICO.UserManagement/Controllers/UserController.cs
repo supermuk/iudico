@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
+using IUDICO.Common.Models.Notifications;
 using IUDICO.Common.Models.Shared;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
@@ -325,6 +326,7 @@ namespace IUDICO.UserManagement.Controllers
             var role = UserRoles.GetRole(roleRef.Value);
 
             this.storage.RemoveUserFromRole(role, user);
+            LmsService.Inform(LMSNotifications.ActionsChanged);
 
             return this.RedirectToAction("Details", new { id });
         }
@@ -346,6 +348,8 @@ namespace IUDICO.UserManagement.Controllers
                         { Text = Localization.GetMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
 
             var userRole = new UserRoleModel { RoleList = roleList };
+
+            LmsService.Inform(LMSNotifications.ActionsChanged);
 
             return this.View(userRole);
         }
@@ -383,6 +387,7 @@ namespace IUDICO.UserManagement.Controllers
             var role = UserRoles.GetRole(roleRef.Value);
 
             this.storage.AddUserToRole(role, user);
+            LmsService.Inform(LMSNotifications.ActionsChanged);
 
             return this.RedirectToAction("Details", new { Id = id });
         }
