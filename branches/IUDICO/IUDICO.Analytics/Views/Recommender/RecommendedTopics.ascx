@@ -17,7 +17,7 @@
                     },
                 new { @class = ts.Topic.TopicType == TopicTypeEnum.Test ? "test" : "theory", @title = "Start " + ts.Topic.Discipline.Name + "/" + ts.Topic.Chapter.Name + "/" + ts.Topic.Topic.Name })%>
                 
-        [<%: float.IsNaN(ts.Score) ? 'N/A' : ts.Score + "%" %>]
+        [<%: (float.IsNaN(ts.Score) ? "N/A" : ts.Score + "%") %>]
     </li>
 <% } %>
 </div>
