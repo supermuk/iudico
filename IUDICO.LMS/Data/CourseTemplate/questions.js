@@ -220,6 +220,19 @@ function compiledTest($object, id) {
         this.Input = [];
         this.Output = [];
 
+		var shLang = {
+			"CSharp": "sh_csharp",
+			"CPP8": "sh_cpp",
+			"Java": "sh_java",
+
+			toShStyle : function (lang) {
+				if (this[lang] === undefined) {
+					return "sh_" + lang.toLowerCase();
+				}
+				return this[lang];
+			}
+		};
+		
         var testsCount = parseInt(params['count']);
 
         for (var i = 0; i < testsCount; i++) {
@@ -232,14 +245,14 @@ function compiledTest($object, id) {
 
         if (params['preCode'].length > 0) {
             var preCode = $('<div/>').text(params['preCode']).html();
-            $question.append('<div id="' + this.Id + 'Before"><pre>' + preCode + '</pre></div>');
+            $question.append('<div id="' + this.Id + 'Before"><pre class="' + shLang.toShStyle(this.Language) + '">' + preCode + '</pre></div>');
         }
 
         $question.append('<p><textarea name="' + this.Id + 'Answer" id="' + this.Id + 'Answer"></textarea></p>');
 
         if (params['postCode'].length > 0) {
             var postCode = $('<div/>').text(params['postCode']).html();
-            $question.append('<div id="' + this.Id + 'After"><pre>' + postCode + '</pre></div>');
+            $question.append('<div id="' + this.Id + 'After"><pre class="' + shLang.toShStyle(this.Language) + '">' + postCode + '</pre></div>');
         }
 
         if(testsCount > 0)
@@ -252,6 +265,7 @@ function compiledTest($object, id) {
         }
 
         $object.replaceWith($question);
+		window.sh_highlightDocument();
     }
 
     this.check = function () {
