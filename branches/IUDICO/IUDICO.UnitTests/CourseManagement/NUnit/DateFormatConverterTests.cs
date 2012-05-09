@@ -4,6 +4,8 @@ using NUnit.Framework;
 
 namespace IUDICO.UnitTests.CourseManagement.NUnit
 {
+    using IUDICO.Common.Models;
+
     [TestFixture]
     public class DateFormatConverterTests : BaseCourseManagementTest
     {

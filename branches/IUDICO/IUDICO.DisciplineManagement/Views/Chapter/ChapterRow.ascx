@@ -3,10 +3,10 @@
 <%@ Import Namespace="IUDICO.Common" %>
 
 <tr id="chapter<%:Model.Id%>" class="child-of-discipline<%:Model.DisciplineRef%> disciplineChapter">
-	<td></td>
+	<td><div class="collapsedIcon"></div></td>
 	<td  class="disciplineChapterName">	<%: Model.Name%>									</td>
-	<td>	<%: String.Format("{0:g}", Model.Created)%>		</td>
-	<td>	<%: String.Format("{0:g}", Model.Updated)%>		</td>
+	<td>	<%: DateFormatConverter.DataConvert(Model.Created) %>	</td>
+	<td>	<%: DateFormatConverter.DataConvert(Model.Updated)%>	</td>
 	<td>
 		<a href="#" onclick="addTopic(<%: Model.Id %>);"><%=Localization.GetMessage("AddTopic")%></a>
         |

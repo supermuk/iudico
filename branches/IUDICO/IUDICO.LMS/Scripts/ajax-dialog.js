@@ -1,11 +1,11 @@
 ﻿function openDialog(title) {
-    $("#dialogInner").html("Loading...");
+    $("#dialogInner").html('<span class="loading"><img src="/Content/Images/wait.gif"/></span>');
     $("#dialog").dialog("option", "title", title);
     $("#dialog").dialog("open");
 }
 
 function openShareDialog(url, data, onSuccess) {
-    $("#shareDialogInner").html("Loading...");
+    $("#shareDialogInner").html('<span class="loading"><img src="/Content/Images/wait.gif"/></span>');
     $("#shareDialog").dialog("open");
     
     $.ajax({

@@ -8,8 +8,8 @@
             <%: !string.IsNullOrEmpty(Model.TestTopicType) ? "[" + Model.TestTopicType + ":" + Model.TestCourseName + "]" : ""%> 
             <%: !string.IsNullOrEmpty(Model.TheoryTopicType) ? "[" + Model.TheoryTopicType  + ":" + Model.TheoryCourseName + "]" : ""%>
     </td>
-	<td>	<%: String.Format("{0:g}", Model.Created)%>		</td>
-	<td>	<%: String.Format("{0:g}", Model.Updated)%>		</td>
+	<td>	<%: Model.Created %>		</td>
+	<td>	<%: Model.Updated %>		</td>
 	<td>
         <a href="#" onclick="editTopic(<%: Model.Id %>);"><%=Localization.GetMessage("Edit")%></a>
         |
