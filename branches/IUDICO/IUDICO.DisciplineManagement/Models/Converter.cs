@@ -8,7 +8,10 @@ using IUDICO.DisciplineManagement.Models.ViewDataClasses;
 
 namespace IUDICO.DisciplineManagement.Models
 {
+    using System.ComponentModel;
+
     using IUDICO.Common;
+    using IUDICO.Common.Models;
 
     public static class Converter
     {
@@ -42,7 +45,7 @@ namespace IUDICO.DisciplineManagement.Models
         public static string ToString(DateTime? value)
         {
             return value.HasValue ?
-                string.Format("{0:g}", value.Value) :
+                DateFormatConverter.DataConvert(value.Value) :
                 Localization.GetMessage("DateNotSpecified");
         }
 
