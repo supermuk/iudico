@@ -35,7 +35,7 @@
         <//tr>
         <%} %>
     </table>
-    <%= Html.ActionLink(Localization.GetMessage("BackToSecurity"), "Index", "Security") %>
+    <%= Html.ActionLink(Localization.GetMessage("BackToBan"), "Index", "Ban") %>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">

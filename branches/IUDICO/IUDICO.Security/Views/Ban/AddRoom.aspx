@@ -22,11 +22,13 @@
        }
        else
        {
-           Writer.Write(Html.DisplayForModel().ToHtmlString());
-           Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "BanRoom", "Ban"));
-       } %>
+           Writer.Write(Html.DisplayForModel().ToHtmlString());           
+       }
+        
+        %>
        
     </fieldset>
+    <%Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "BanRoom", "Ban")); %>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>

@@ -152,6 +152,10 @@ namespace IUDICO.Security
             {
                 userActivity.UserRef = currentUser.Id;
             }
+            else 
+            {
+                userActivity.UserRef = null;
+            }
 
             userActivity.Request = this.GetRawRequest(context.Request);
             userActivity.RequestLength = userActivity.Request.Length;

@@ -19,6 +19,7 @@ namespace IUDICO.Security.Models.Storages
         
         Computer GetComputer(string compAddress);
         Room GetRoom(string name);
+        Room GetRoom(int id);
         IEnumerable<Computer> GetComputers();
         IEnumerable<Room> GetRooms();
         
