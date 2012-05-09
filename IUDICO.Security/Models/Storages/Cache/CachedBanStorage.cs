@@ -24,13 +24,13 @@ namespace IUDICO.Security.Models.Storages.Cache
         {
             this.storage.AttachComputerToRoom(computer, room);
 
-            this.cachePrvoider.Invalidate("computers", "rooms", "computer-" + computer.IpAddress, "room-" + computer.Room.Name);
+            this.cachePrvoider.Invalidate("computers", "rooms", "computer-" + computer.IpAddress);
         }
 
         public void DetachComputer(Computer computer)
         {
-            this.cachePrvoider.Invalidate("computers", "rooms", "computer-" + computer.IpAddress, "room-" + computer.Room.Name);
-
+            this.cachePrvoider.Invalidate("computers", "rooms", "computer-" + computer.IpAddress); 
+            
             this.storage.DetachComputer(computer);
         }
 
@@ -76,6 +76,11 @@ namespace IUDICO.Security.Models.Storages.Cache
         public Room GetRoom(string name)
         {
             return this.cachePrvoider.Get<Room>("room-" + name, @lockObject, () => this.storage.GetRoom(name), DateTime.Now.AddDays(1), "room-" + name, "rooms");
+        }
+
+        public Room GetRoom(int id)
+        {
+            return this.cachePrvoider.Get<Room>("room-" + id, @lockObject, () => this.storage.GetRoom(id), DateTime.Now.AddDays(1), "room-" + id, "rooms");
         }
 
         public IEnumerable<Computer> GetComputers()

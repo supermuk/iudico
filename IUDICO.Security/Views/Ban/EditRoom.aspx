@@ -27,22 +27,28 @@
                 var $rooms = $(event.target);
                 $rooms.closest('form').submit();
             });
+            $("#saveButton").click(function (event) {
+                event.preventDefault();
+                var arr = $("#sharewith option:not(:checked)");
+                var unchecked = '';
+                for (var key in arr)
+                    if (arr[key].value != undefined)
+                        unchecked = unchecked + arr[key].value + ',';
+
+                $.ajax({
+                    type: "get",
+                    url: "/Ban/UpdateRoom",
+                    data: {
+                        CurrentRoom: $("#rooms-list").val(),
+                        compArray: $("select#sharewith").val().toString(),
+                        unchoosenComputers: unchecked.slice(0, unchecked.length - 1)
+                    },
+                    success: function (r) {
+                        alert(r);
+                    }
+                });
+            });            
         });
-        //                $.ajax({
-        //                    type: "post",
-        //                    url: "/Ban/EditRooms",
-        //                    data: { CurrentRoom: $(event.target).find(":selected").val() },
-        //                    success: function (r) {
-        //                        if (r.success) {
-        //                            
-        //                        }
-        //                        else {
-        //                            alert("5");
-        //                        }
-        //                    }
-        //                });
-        //            });            
-        //      });
     </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
@@ -71,8 +77,9 @@
             <%= room %>
         </option>
         <% }%>
-        </fieldset>
+                
     </select>
+
     <select multiple="multiple" id="sharewith" name="sharewith">
         <%  foreach (var comp in Model.UnchoosenComputers)
             { %>
@@ -87,8 +94,11 @@
         </option>
         <% }%>
     </select>
-   <!-- <p>
-        <input type="submit" value="Save" name="saveButton" />
-    </p> -->
+
+    <div>
+    <input type="submit" value="Save" id="saveButton" />
+    </div>
+    </fieldset>
     <% } %>
+    <%= Html.ActionLink(Localization.GetMessage("BackToList"), "BanRoom", "Ban") %>
 </asp:Content>

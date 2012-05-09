@@ -44,10 +44,10 @@ namespace IUDICO.Security.Controllers
                     });
 
             var userService = SecurityPlugin.Container.Resolve<IUserService>();
-            var users = userService.GetUsers();
+            var users = userService.GetUsers().ToList();
             
             var model = new OverallViewModel();
-
+            
             foreach (var stats in activitiesByUser.OrderBy(x => x.UserRef))
             {
                 model.AddUserStats(
