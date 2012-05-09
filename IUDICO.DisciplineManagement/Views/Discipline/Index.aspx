@@ -4,7 +4,7 @@
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
     <script type="text/javascript" language="javascript">
-        var loadingRow = "<tr id='loadingRow'><td></td><td>Loading...</td><td></td><td></td><td></td></tr>";
+        var loadingRow = "<tr id='loadingRow'><td></td><td><img src='/Content/Images/wait.gif'/> </td><td></td><td></td><td></td></tr>";
         
         $(document).ready(function () {
             
@@ -19,7 +19,8 @@
                 "bSort": false,
                 "bPaginate": false,
                 "bLengthChange": false,
-                "bFilter": false,                
+                "bFilter": false,
+                "bAutoWidth": false,
                 "aoColumns": [
                 { "bSortable": false },
                 { "bSortable": false },
@@ -123,18 +124,22 @@
             }
         }
         
-        function fillDialogInner(html, itemName, itemId) {
-            $("#dialogInner").html(html);
-            $('<input />').attr('type', 'hidden')
-                .attr('name', itemName)
-                .attr('value', itemId)
-                .appendTo('#dialogInner > form');
-        }
 
         function rowClick(rowObj, idPrefix, url, postLoadFunction) {
             var $row = $(rowObj);
             var parentId = $row.attr("id").replace(idPrefix, "");
                 
+            
+            var $icon = $row.find("div").first();
+            
+            if($icon.hasClass("collapsedIcon")) {
+                $icon.removeClass("collapsedIcon").addClass("expandedIcon");
+                $row.expand();
+            } else {
+                $icon.removeClass("expandedIcon").addClass("collapsedIcon");
+                $row.collapse();
+            }
+            
             if(! $row.hasClass("visited")) {
                 $row.after(loadingRow);
                 $.ajax({
@@ -153,13 +158,13 @@
                         } else {
                             alert('error');
                         }
-                    }
+                    },
+                    async: false
                 });
                     
                 $row.addClass("visited");
             }
-                
-            $row.toggleBranch();
+
         }
         
         function expandRow( id, expandFunction) {
@@ -179,6 +184,11 @@
         
         function expandDiscipline(itemObj) {
             rowClick(itemObj, "discipline", "/ChapterAction/ViewChapters", function () {
+                var selector = ".child-of-" + $(itemObj).attr("id");
+
+                $(selector).find(".disciplineChapterName").each(function(i, val) {
+                    $(this).prepend('<span class="disciplineChapterIndex"><%: Localization.GetMessage("Chapter") %> ' + (i + 1) + '.</span>');
+                });
                 $(".disciplineChapterName").click(function() {
                     expandChapter(this.parentNode);
                 });
@@ -396,10 +406,10 @@
     <tbody>
 		<% foreach (var item in Model){ %>
 			<tr id="discipline<%:item.Discipline.Id%>" class="discipline" >
-			    <td></td>
+			    <td><div class="collapsedIcon"></div></td>
 				<td class="disciplineName">	<%:item.Discipline.Name %>				</td>
-				<td>	<%: String.Format("{0:g}", item.Discipline.Created) %>		</td>
-				<td>	<%: String.Format("{0:g}", item.Discipline.Updated) %>		</td>
+				<td>	<%: DateFormatConverter.DataConvert(item.Discipline.Created) %>		</td>
+				<td>	<%: DateFormatConverter.DataConvert(item.Discipline.Updated)%>		</td>
 				<td>
 					<div style="width: 75%; float: left">
 						<a href="#" onclick="addChapter(<%: item.Discipline.Id %>);"><%=Localization.GetMessage("AddChapter")%></a>

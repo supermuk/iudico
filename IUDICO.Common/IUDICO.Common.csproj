@@ -76,6 +76,7 @@
     <Compile Include="Models\Attributes\OrderAttribute.cs" />
     <Compile Include="Models\Caching\ICacheProvider.cs" />
     <Compile Include="Models\Caching\Provider\HttpCache.cs" />
+    <Compile Include="Models\DateFormatConverter.cs" />
     <Compile Include="Models\Interfaces\IMockableDataContext.cs" />
     <Compile Include="Models\Interfaces\IMockableTable.cs" />
     <Compile Include="Models\LinqLogger.cs" />

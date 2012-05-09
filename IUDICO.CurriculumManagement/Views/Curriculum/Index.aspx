@@ -127,7 +127,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
         }
         
         function details(id) {
-            window.location.replace("/Curriculum?Details?id=" + id);
+            window.location.replace("Curriculum/" + id + "/CurriculumChapter/Index");
         }
     </script>
 </asp:Content>
