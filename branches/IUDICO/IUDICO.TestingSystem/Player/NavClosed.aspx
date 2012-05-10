@@ -22,7 +22,6 @@
                 <TBODY>
                     <TR vAlign=top>
                         <TD vAlign=top align=left width="100%"><IMG id=HeadShadow1 height=12 src="Theme/HeadShadow.gif" width="100%" border=0 tabIndex=1></TD>
-                        <TD vAlign=top align=right width=28><IMG id=HeadCornerRight1 height=21 src="Theme/HeadCornerRt.gif" width=28 border=0 tabIndex=1></TD>
                     </TR>
                 </TBODY>
             </TABLE>
@@ -34,33 +33,22 @@
                     <TR vAlign=top>
                         <TD vAlign=top align=left width=179><IMG id=TocClosedTab height=20 src="Theme/TocClosedTab.gif" width=179 border=0 ></TD>
                         <TD vAlign=top align=left width="100%"><IMG id=HeadShadow2 height=12 src="Theme/HeadShadow.gif" width="100%" border=0 ></TD>
-                        <TD vAlign=top align=right width=28><IMG id=HeadCornerRight2 height=21 src="Theme/HeadCornerRt.gif" width=28 border=0 ></TD>
                     </TR>
                 </TBODY>
             </TABLE>
 	
             <DIV class=NavClosedPreviousBtnGrphic id="divPrevious">
-                <IMG id=imgPrevious title="<%=PreviousTitleHtml%>" height=15 src="Theme/Prev.gif" width=15 border=0 tabindex=1>
+                <IMG id=imgPrevious title="<%=PreviousTitleHtml%>" height=15 src="Theme/Prev.png" width=15 border=0 tabindex=1>
             </DIV>
             <DIV class=NavClosedNextBtnGrphic id="divNext">
-                <IMG id=imgNext title="<%=NextTitleHtml%>" height=15 src="Theme/Next.gif" width=15 border=0 tabindex=1>
+                <IMG id=imgNext title="<%=NextTitleHtml%>" height=15 src="Theme/Next.png" width=15 border=0 tabindex=1>
             </DIV>
             <DIV class=NavClosedSaveBtnGrphic id="divSave">
-                <IMG id=imgSave title="<%=SaveTitleHtml%>" height=15 src="Theme/Save.gif" width=15 border=0 tabindex=1>
+                <IMG id=imgSave title="<%=SaveTitleHtml%>" height=15 src="Theme/Save.png" width=15 border=0 tabindex=1>
             </DIV>
             <DIV class=NavClosedShowTOCGrphic>
                 <IMG id=imgOpenToc title="<%=MaximizeTitleHtml%>" height=14 src="Theme/TocOpen.gif" width=14 border=0 tabindex=1>
             </DIV>
         </DIV>
     </body>
-
-    <%
-        // <body>
-        //     <form id="form1" runat="server">
-        //     <div>
-        //     
-        //     </div>
-        //    </form>
-        // </body>
-%>
 </html>

@@ -182,7 +182,6 @@
     <Compile Include="TestingSystem\NUnit\FileSystemPackageTests.cs" />
     <Compile Include="TestingSystem\NUnit\PlayModelTests.cs" />
     <Compile Include="TestingSystem\NUnit\QueryConditionTests.cs" />
-    <Compile Include="TestingSystem\NUnit\TrainingControllerTests.cs" />
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="TestingSystem\Selenium\ExSelenium.cs" />
     <Compile Include="TestingSystem\Selenium\TestingSystemSeleniumTests.cs" />

@@ -13,7 +13,7 @@ CONTENT_FRAME = "frameContent";
 HIDDEN_FRAME = "frameHidden";
 NAVCLOSED_FRAME = "frameNavClosed";
 NAVOPEN_FRAME = "frameNavOpen";
-TITLE_FRAME = "frameTitle";
+// TITLE_FRAME = "frameTitle";
 TOC_FRAME = "frameToc";
 MAIN_FRAME = "frameLearnTask";
 PARENTUI_FRAMESET = "framesetParentUI"
@@ -69,7 +69,7 @@ function FramesetManager() {
     this.SetTocNodes = null; // value set by toc frame
     this.ClearContentFrameAndPost = FM_ClearContentFrameAndPost;
     this.ContentIsCleared = FM_ContentIsCleared;    // callback when content frame has been cleared
-    this.SetTitle = FM_SetTitle;    // Saves the title value. Must call UpdateTitle to make it change.
+    this.SetTitle = FM_SetTitle;    // Saves the title value.
     this.SetNavVisibility = FM_SetNavVisibility;    // Sets the nav visibility state. Must call UpdateNavVisibility to make it change.
     this.SetContentFrameUrl = FM_SetContentFrameUrl;    // Sets the url that will be loaded into the content frame.
     this.SetPostFrame = FM_SetPostFrame;    // Sets the frame to post when post is required. Call DoPost to post the frame.
@@ -99,7 +99,7 @@ function FramesetManager() {
     this.m_framesRegistered[TOC_FRAME] = false;
     this.m_framesRegistered[NAVOPEN_FRAME] = false;
     this.m_framesRegistered[NAVCLOSED_FRAME] = false;
-    this.m_framesRegistered[TITLE_FRAME] = false;
+    // this.m_framesRegistered[TITLE_FRAME] = false;
 
     // The RteSite object to communicate with RTE
     this.m_rteSite = new RteApiSite(this);
@@ -185,7 +185,6 @@ function FM_RegisterFrameLoad(frameName) {
 
             // Update all the ui controls
             UpdateNavVisibility(this.m_showNext, this.m_showPrevious, this.m_showAbandon, this.m_showExit, this.m_showSave);
-            UpdateTitle(this.m_title);
 
             this.ShowActivityId(this.m_activityId);    // tell TOC about the activity
 
@@ -276,25 +275,21 @@ function FM_IsTrainingComplete() {
 // Hides the UI controls frameset. 
 function HideUIControls() {
     frames[MAIN_FRAME].document.getElementById("navigationColumn").style.width = "0";
-
-    var titleDoc =frames[TITLE_FRAME].document;
-    titleDoc.getElementById("imgSaveAndCloseTd").innerHTML = "&nbsp;";
-    titleDoc.getElementById("aSaveAndClose").innerHTML = "&nbsp;";
 }
 
 // Returns true if all frames have been registered as loaded.
 function AllFramesRegistered(framesRegistered) {
     return (framesRegistered[HIDDEN_FRAME]
-        && framesRegistered[TITLE_FRAME]
+        // && framesRegistered[TITLE_FRAME]
         && framesRegistered[TOC_FRAME]
         && framesRegistered[NAVOPEN_FRAME]
         && framesRegistered[NAVCLOSED_FRAME]);
 }
 
 // Return the document in the Title frame.
-function GetTitleDoc() {
-    return document.getElementById(TITLE_FRAME).contentWindow.document;
-}
+// function GetTitleDoc() {
+//    return document.getElementById(TITLE_FRAME).contentWindow.document;
+// }
 
 function GetTocDoc() {
     return frames[MAIN_FRAME].document.getElementById(TOC_FRAME).contentWindow.document;
@@ -304,8 +299,12 @@ function GetContentFrame() {
     return frames[MAIN_FRAME].document.getElementById(CONTENT_FRAME);
 }
 
-function GetNavFrame(navFrameName) {
-    return frames[MAIN_FRAME].document.getElementById(navFrameName);
+function GetClosedNavFrame() {
+    return frames[MAIN_FRAME].document.getElementById(NAVCLOSED_FRAME);
+}
+
+function GetOpenNavFrame() {
+    return frames[NAVOPEN_FRAME];
 }
 
 
@@ -316,21 +315,13 @@ function GetHiddenFrame() {
 
 // Set all values in the various frames and then make them visible.
 function FM_MakeFramesVisible() {
-    // Make title and toc visible
-    GetTitleDoc().getElementById("txtTitle").style.display = "block";
+    // Make toc visible
     GetTocDoc().getElementById("divMain").style.visibility = "visible";
 }
 
-// Save the value to set the title string to. Later, call UpdateTitle to change the contents of the frame.
+// Save the value to set the title string to.
 function FM_SetTitle(title) {
     this.m_title = title;
-}
-
-
-// Update the title string in the Title Frame.
-function UpdateTitle(title) {
-    var titleDoc = GetTitleDoc();
-    titleDoc.getElementById("txtTitle").innerHTML = title;
 }
 
 // Returns true if the frameset is closing.
@@ -546,14 +537,14 @@ function FM_SetNavVisibility(showNext, showPrevious, showAbandon, showExit, show
 
 // Update the frames that display the navigation UI. (Currently, abandon and exit are ignored.)
 function UpdateNavVisibility(showNext, showPrevious, showAbandon, showExit, showSave) {
-    var frame = GetNavFrame(NAVOPEN_FRAME);
-    var navDoc = frame.contentWindow.document;
+    var frame = GetOpenNavFrame();
+    var navDoc = frame.document;
 
-    SetVisibility(navDoc.getElementById("divNext"), showNext);
-    SetVisibility(navDoc.getElementById("divPrevious"), showPrevious);
-    SetVisibility(navDoc.getElementById("divSave"), showSave);
+    SetVisibility(navDoc.getElementById("imgNext"), showNext);
+    SetVisibility(navDoc.getElementById("imgPrevious"), showPrevious);
+    SetVisibility(navDoc.getElementById("imgSave"), showSave);
 
-    frame = GetNavFrame(NAVCLOSED_FRAME);
+    frame = GetClosedNavFrame();
     navDoc = frame.contentWindow.document;
 
     SetVisibility(navDoc.getElementById("divNext"), showNext);
