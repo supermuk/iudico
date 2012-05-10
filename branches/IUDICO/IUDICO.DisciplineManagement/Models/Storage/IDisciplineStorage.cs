@@ -74,7 +74,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// Updates the discipline.
         /// </summary>
         /// <param name="discipline">The discipline.</param>
-        void UpdateDiscipline(Discipline discipline);
+        Discipline UpdateDiscipline(Discipline discipline);
 
         /// <summary>
         /// Deletes the discipline.
@@ -142,7 +142,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// Updates the chapter.
         /// </summary>
         /// <param name="chapter">The chapter.</param>
-        void UpdateChapter(Chapter chapter);
+        Chapter UpdateChapter(Chapter chapter);
 
         /// <summary>
         /// Deletes the chapter.
@@ -215,7 +215,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// Updates the topic.
         /// </summary>
         /// <param name="topic">The topic.</param>
-        void UpdateTopic(Topic topic);
+        Topic UpdateTopic(Topic topic);
 
         /// <summary>
         /// Deletes the topic.
