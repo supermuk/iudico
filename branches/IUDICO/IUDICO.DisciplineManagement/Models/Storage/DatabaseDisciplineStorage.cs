@@ -149,7 +149,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return discipline.Id;
         }
 
-        public void UpdateDiscipline(Discipline discipline)
+        public Discipline UpdateDiscipline(Discipline discipline)
         {
             var db = this.GetDbContext();
             var updatingDiscipline = GetDiscipline(db, discipline.Id);
@@ -166,6 +166,8 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             data[0] = oldDiscipline;
             data[1] = updatingDiscipline;
             this.lmsService.Inform(DisciplineNotifications.DisciplineEdited, data);
+
+            return updatingDiscipline;
         }
 
         public void DeleteDiscipline(int id)
@@ -309,7 +311,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return chapter.Id;
         }
 
-        public void UpdateChapter(Chapter chapter)
+        public Chapter UpdateChapter(Chapter chapter)
         {
             var db = this.GetDbContext();
             Chapter oldChapter = GetChapter(db, chapter.Id);
@@ -318,6 +320,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             oldChapter.Updated = DateTime.Now;
 
             db.SubmitChanges();
+            return oldChapter;
         }
 
         public void DeleteChapter(int id)
@@ -410,7 +413,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return topic.Id;
         }
 
-        public void UpdateTopic(Topic topic)
+        public Topic UpdateTopic(Topic topic)
         {
             var db = this.GetDbContext();
             var data = new object[2];
@@ -432,10 +435,13 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             var discipline = GetDiscipline(db, GetChapter(db, updatingTopic.ChapterRef).DisciplineRef);
             discipline.IsValid = this.IsDisciplineValid(discipline);
             db.SubmitChanges();
+
             this.lmsService.Inform(DisciplineNotifications.DisciplineIsValidChange, discipline);
             data[0] = oldTopic;
             data[1] = updatingTopic;
             this.lmsService.Inform(DisciplineNotifications.TopicEdited, data);
+
+            return updatingTopic;
         }
 
         public void DeleteTopic(int id)
