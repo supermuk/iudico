@@ -117,7 +117,8 @@ namespace IUDICO.TestingSystem.Controllers
                     {
                         AttemptId = attemptId,
                         CurriculumChapterTopicId = curriculumChapterTopicId,
-                        TopicType = topicType
+                        TopicType = topicType,
+                        TopicName = string.Format("{0}: {1}", Localization.GetMessage(topicType.ToString()), curriculumChapterTopic.Topic.Name)
                     });
         }
     }

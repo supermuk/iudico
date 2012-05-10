@@ -34,6 +34,7 @@
 </script>
     </head>
     <body class="NavBody" onload="body_onload(event)" onmousedown=" body_onclick(event); ">
+        <div class="NavTopShadow"></div>
         <DIV id="divMain" style="visibility: hidden; MARGIN: 5px">
             <DIV noWrap >
                 <!-- <p class="NavClosedPreviousBtnGrphic">&nbsp;</p> -->

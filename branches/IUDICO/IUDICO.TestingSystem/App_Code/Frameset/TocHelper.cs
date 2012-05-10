@@ -212,11 +212,11 @@ namespace Microsoft.LearningComponents.Frameset
                     sw.AddAttribute(HtmlTextWriterAttribute.Id, ResHelper.FormatInvariant("icon{0}", activityIdHtml));
                     if (currentElement.HasVisibleChildren)
                     {
-                        sw.AddAttribute(HtmlTextWriterAttribute.Src, "Theme/MinusBtn.gif");
+                        sw.AddAttribute(HtmlTextWriterAttribute.Src, "Theme/Minus.png");
                     }
                     else
                     {
-                        sw.AddAttribute(HtmlTextWriterAttribute.Src, "Theme/Leaf.gif");
+                        sw.AddAttribute(HtmlTextWriterAttribute.Src, "Theme/Leaf.png");
                     }
                     sw.AddAttribute(HtmlTextWriterAttribute.Align, "absMiddle");
                     sw.RenderBeginTag(HtmlTextWriterTag.Img);
@@ -319,7 +319,7 @@ namespace Microsoft.LearningComponents.Frameset
             sw.RenderBeginTag(HtmlTextWriterTag.Div); // #Div1
 
             sw.AddAttribute(HtmlTextWriterAttribute.Id, ResHelper.FormatInvariant("icon{0}", activityIdHtml));
-            sw.AddAttribute(HtmlTextWriterAttribute.Src, "Theme/Leaf.gif");
+            sw.AddAttribute(HtmlTextWriterAttribute.Src, "Theme/Leaf.png");
             sw.AddAttribute(HtmlTextWriterAttribute.Align, "absMiddle");
             sw.RenderBeginTag(HtmlTextWriterTag.Img);
             sw.RenderEndTag();
