@@ -84,6 +84,15 @@ namespace IUDICO.DisciplineManagement.Models
             topic.TheoryTopicTypeRef = (int?)theoryTopicType;
         }
 
+        public static ViewDisciplineModel ToViewDisciplineModel(this Discipline discipline, string error)
+        {
+            return new ViewDisciplineModel
+            {
+                Discipline = discipline,
+                Error = !discipline.IsValid ? error : string.Empty
+            };
+        }
+
         public static ViewTopicModel ToViewTopicModel(this Topic topic, IDisciplineStorage storage)
         {
             return new ViewTopicModel
