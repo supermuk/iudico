@@ -4,10 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Net.Security;
 using System.Reflection;
 using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Web;
 using IUDICO.Common.Models;
@@ -173,6 +171,11 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public bool UserOpenIdAvailable(string openId, Guid id)
         {
+            if (string.IsNullOrEmpty(openId))
+            {
+                return true;
+            }
+
             var db = this.GetDbContext();
             var users = db.Users.Where(u => u.OpenId == openId && u.Deleted == false);
             var count = users.Count();
@@ -285,6 +288,11 @@ namespace IUDICO.UserManagement.Models.Storage
                 ApprovedBy = this.GetCurrentUser().Id,
                 CreationDate = DateTime.Now,
             };
+
+            if (!string.IsNullOrEmpty(user.OpenId) && !this.UserOpenIdAvailable(user.OpenId, Guid.Empty))
+            {
+                user.OpenId = string.Empty;
+            }
 
             user.UserRoles.Add(new UserRole { RoleRef = role, UserRef = user.Id });
 

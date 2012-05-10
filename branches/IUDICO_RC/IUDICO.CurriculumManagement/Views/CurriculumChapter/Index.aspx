@@ -6,6 +6,11 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
 <%@ Import Namespace="IUDICO.Common" %>
 
 <asp:Content ID="Content0" ContentPlaceHolderID="HeadContent" runat="server">
+    <script type="text/javascript">
+        function onRowClick(id) {
+            window.location.replace("/CurriculumChapter/" + id + "/CurriculumChapterTopic/Index");
+        }
+    </script>
 </asp:Content>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
     <%=Localization.GetMessage("ChapterTimelines")%>
@@ -15,11 +20,16 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
     <h2>
         <%=Localization.GetMessage("ChapterTimelinesFor")%>
     </h2>
-    <h4>
-        <%: (ViewData["Discipline"] as Discipline).Name%>
-        <% =Localization.GetMessage("PrevNext")%>
-        <%: ViewData["GroupName"] %>
-    </h4>
+
+    <span class="headerName"><%: Localization.GetMessage("Discipline")%>:</span>
+    <span class="headerValue"><%: ViewData["DisciplineName"] %></span>
+    <span class="headerName"><%: Localization.GetMessage("Group")%>:</span>
+    <span class="headerValue"><%: ViewData["GroupName"] %></span>
+
+    <div class="backLink">
+        <%: Html.RouteLink(Localization.GetMessage("BackCurriculums"), "Curriculums", new { action = "Index", DisciplineId = (ViewData["Discipline"] as Discipline).Id })%>
+    </div>
+
     <table>
         <tr>
             <th>
@@ -37,13 +47,13 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
         <% foreach (var item in Model)
            { %>
             <tr>
-                <td>
+                <td class="clickable" onclick="onRowClick(<%: item.Id %>);">
                     <%: item.ChapterName %>
                 </td>
-                <td>
+                <td class="clickable" onclick="onRowClick(<%: item.Id %>);">
                     <%: String.Format("{0:g}", item.StartDate)%>
                 </td>
-                <td>
+                <td class="clickable" onclick="onRowClick(<%: item.Id %>);">
                     <%: String.Format("{0:g}", item.EndDate)%>
                 </td>
                 <td>
@@ -55,8 +65,4 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
         <% } %>
     </table>
 
-    <div>
-        <br />
-        <%: Html.RouteLink(Localization.GetMessage("BackCurriculums"), "Curriculums", new { action = "Index", DisciplineId = (ViewData["Discipline"] as Discipline).Id })%>
-    </div>
 </asp:Content>

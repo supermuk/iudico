@@ -119,6 +119,7 @@
     <Compile Include="ViewModels\Ban\BanRoomViewModel.cs" />
     <Compile Include="ViewModels\Ban\BaseViewModel.cs" />
     <Compile Include="ViewModels\Ban\EditComputersViewModel.cs" />
+    <Compile Include="ViewModels\Ban\IndexViewModel.cs" />
     <Compile Include="ViewModels\Ban\RoomsViewModel.cs" />
     <Compile Include="ViewModels\Security\IndexViewModel.cs" />
     <Compile Include="ViewModels\LocalizedViewModel.cs" />
@@ -146,7 +147,9 @@
     <Folder Include="Scripts\jquery\themes\default\.svn\tmp\text-base\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resource.uk-UA.resx" />
   </ItemGroup>
   <ItemGroup>

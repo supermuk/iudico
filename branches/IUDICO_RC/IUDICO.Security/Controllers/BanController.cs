@@ -24,7 +24,7 @@ namespace IUDICO.Security.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
-            return View();
+            return View(new IndexViewModel());
         }
 
         [Allow(Role = Role.Admin)]
@@ -90,16 +90,17 @@ namespace IUDICO.Security.Controllers
 
             this.BanStorage.DeleteComputer(comp);
 
-            this.BanStorage.CreateComputer(new Computer
-                                               {
-                                                   IpAddress = viewModel.ComputerIP,
-                                                   Banned = viewModel.Banned,
-                                                   CurrentUser = viewModel.CurrentUser
-                                               });
+            this.BanStorage.CreateComputer(
+                new Computer
+                {
+                    IpAddress = viewModel.ComputerIP,
+                    Banned = viewModel.Banned,
+                    CurrentUser = viewModel.CurrentUser
+                });
 
             var viewModel1 = new EditComputersViewModel(
                     comp.IpAddress,
-                    (comp.Room != null) ? comp.Room.Name : "N/A",
+                    (comp.RoomRef != null) ? comp.Room.Name : "N/A",
                     comp.Banned,
                     comp.CurrentUser);
 
@@ -128,26 +129,27 @@ namespace IUDICO.Security.Controllers
             return View(viewModel);
         }
 
-        // [HttpPost]
-        // public ActionResult EditRoom(RoomsViewModel Model)
-        // {
-        //    var room = new Room();
-        //    room = BanStorage.GetRoom(Model.CurrentRoom);
-        //    foreach(string comp in Model.Computers)
-        //    {
-        //        var computer = BanStorage.GetComputer(comp);
-        //        if (computer.Room == null)
-        //            BanStorage.AttachComputerToRoom(computer, room);
-        //    }
-
-        // foreach (string comp in Model.UnchoosenComputers)
-        //    {
-        //        var computer = BanStorage.GetComputer(comp);
-        //        if (computer.Room != null)
-        //            BanStorage.DetachComputer(computer);
-        //    }
-        //    return View(Model);
-        //  }
+        [HttpGet]
+        [Allow(Role = Role.Admin)]
+        public void UpdateRoom(string currentRoom, string compArray, string unchoosenComputers)
+        {
+            var room = new Room();
+            room = this.BanStorage.GetRoom(currentRoom);
+            var computers = compArray.Split(',');
+            foreach (string computer in computers)
+            {
+                var tempComp = this.BanStorage.GetComputer(computer);   
+                if (tempComp.RoomRef == null)
+                    this.BanStorage.AttachComputerToRoom(tempComp, room);
+            }
+            computers = unchoosenComputers.Split(',');
+            foreach (string comp in computers)
+            {
+                var computer = this.BanStorage.GetComputer(comp);
+                if (computer.RoomRef != null)
+                    this.BanStorage.DetachComputer(computer);
+            }
+        }
 
         [Allow(Role = Role.Admin)]
         public ActionResult BanComputer()

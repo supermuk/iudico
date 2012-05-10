@@ -129,7 +129,7 @@ namespace IUDICO.LMS.Models
 
         protected void Update(string evt, params object[] data)
         {
-            if (evt == UserNotifications.UserLogin || evt == UserNotifications.UserLogout)
+            if (evt == UserNotifications.UserLogin || evt == UserNotifications.UserLogout || evt == LMSNotifications.ActionsChanged)
             {
                 // temporary hack
                 this.Menu = null;

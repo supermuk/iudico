@@ -19,10 +19,8 @@
            <input type="submit" value="<%=Localization.GetMessage("Save")%>" name="saveButton" />
        </p>
         <% } %>
-        
-        <%Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "BanComputer", "Ban")); %>     
-
-</fieldset>
+    </fieldset>
+<%Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "BanComputer", "Ban")); %>    
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="HeadContent" runat="server">

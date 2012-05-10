@@ -6,7 +6,10 @@ using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Analytics.Models
 {
-    public partial class DBDataContext : DataContext
+    using IUDICO.Common.Models;
+    using IUDICO.Common.Models.Interfaces;
+
+    public partial class DBDataContext : DataContext, IDataContext
     {
         private static MappingSource mappingSource = new AttributeMappingSource();
 
@@ -76,6 +79,31 @@ namespace IUDICO.Analytics.Models
         public Table<TopicTag> TopicTags
         {
             get { return this.GetTable<TopicTag>(); }
+        }
+
+        IMockableTable<ForecastingTree> IDataContext.ForecastingTrees
+        {
+            get { return new MockableTable<ForecastingTree>(this.ForecastingTrees); }
+        }
+
+        IMockableTable<TopicScore> IDataContext.TopicScores
+        {
+            get { return new MockableTable<TopicScore>(this.TopicScores); }
+        }
+
+        IMockableTable<UserScore> IDataContext.UserScores
+        {
+            get { return new MockableTable<UserScore>(this.UserScores); }
+        }
+
+        IMockableTable<Tag> IDataContext.Tags
+        {
+            get { return new MockableTable<Tag>(this.Tags); }
+        }
+
+        IMockableTable<TopicTag> IDataContext.TopicTags
+        {
+            get { return new MockableTable<TopicTag>(this.TopicTags); }
         }
     }
 }

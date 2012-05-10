@@ -19,11 +19,16 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
     <h2>
         <%=Localization.GetMessage("EditChapterTimeline")%>
     </h2>
-    <h4>
-        <%: ViewData["DisciplineName"]%>
-        <%= Localization.GetMessage("PrevNext")%>
-        <%: ViewData["GroupName"] %>
-    </h4>
+
+    <span class="headerName"><%: Localization.GetMessage("Discipline")%>:</span>
+    <span class="headerValue"><%: ViewData["DisciplineName"] %></span>
+    <span class="headerName"><%: Localization.GetMessage("Group")%>:</span>
+    <span class="headerValue"><%: ViewData["GroupName"] %></span>
+    
+    <div class="backLink">
+        <%: Html.RouteLink(Localization.GetMessage("BackToList"), "CurriculumChapters", new { action = "Index", CurriculumId = HttpContext.Current.Session["CurriculumId"] })%>
+    </div>
+
     <% Html.EnableClientValidation(); %>
     <% using (Html.BeginForm())
        {%>
@@ -33,9 +38,6 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
             <input type="submit" value="<%=Localization.GetMessage("Update")%>" />
         </p>
     <% } %>
-    <div>
-        <br />
-        <%: Html.RouteLink(Localization.GetMessage("BackToList"), "CurriculumChapters", new { action = "Index", CurriculumId = HttpContext.Current.Session["CurriculumId"] })%>
-    </div>
+
 </asp:Content>
 

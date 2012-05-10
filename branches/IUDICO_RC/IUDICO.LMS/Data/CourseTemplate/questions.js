@@ -87,8 +87,8 @@ function simpleTest($object, id) {
     this.getScoreMax = function () {
         return this.Rank;
     }
-	
-	this.parse($object);
+    
+    this.parse($object);
 }
 
 function complexTest($object, id) {
@@ -182,8 +182,8 @@ function complexTest($object, id) {
     this.getScoreMax = function () {
         return this.Rank;
     }
-	
-	this.parse($object);
+    
+    this.parse($object);
 }
 
 function compiledTest($object, id) {
@@ -220,6 +220,19 @@ function compiledTest($object, id) {
         this.Input = [];
         this.Output = [];
 
+		var shLang = {
+			"CSharp": "sh_csharp",
+			"CPP8": "sh_cpp",
+			"Java": "sh_java",
+
+			toShStyle : function (lang) {
+				if (this[lang] === undefined) {
+					return "sh_" + lang.toLowerCase();
+				}
+				return this[lang];
+			}
+		};
+		
         var testsCount = parseInt(params['count']);
 
         for (var i = 0; i < testsCount; i++) {
@@ -232,17 +245,54 @@ function compiledTest($object, id) {
 
         if (params['preCode'].length > 0) {
             var preCode = $('<div/>').text(params['preCode']).html();
-            $question.append('<div id="' + this.Id + 'Before"><pre>' + preCode + '</pre></div>');
+            $question.append('<div id="' + this.Id + 'Before"><pre class="' + shLang.toShStyle(this.Language) + '">' + preCode + '</pre></div>');
         }
 
         $question.append('<p><textarea name="' + this.Id + 'Answer" id="' + this.Id + 'Answer"></textarea></p>');
 
         if (params['postCode'].length > 0) {
             var postCode = $('<div/>').text(params['postCode']).html();
-            $question.append('<div id="' + this.Id + 'After"><pre>' + postCode + '</pre></div>');
+            $question.append('<div id="' + this.Id + 'After"><pre class="' + shLang.toShStyle(this.Language) + '">' + postCode + '</pre></div>');
+        }
+
+        if(testsCount > 0)
+        {
+            var $button = $('<input type="submit" name="check" value="Перевірити на 1 тесті" id="ScoCheck" />');
+
+            $question.append($button);
+            var obj = this;
+            $question.find('#ScoCheck').click(function () { obj.check(); });
         }
 
         $object.replaceWith($question);
+		window.sh_highlightDocument();
+    }
+
+    this.check = function () {
+        var sourceCode = encodeURIComponent(this.PreCode + $('#' + this.Id + 'Answer').val() + this.PostCode);
+        var sourceCodeData = { 'source': sourceCode, 'language': this.Language, 'input': this.Input[0], 'output': this.Output[0], 'timelimit': this.Timelimit, 'memorylimit': this.Memorylimit };
+
+        $.flXHRproxy.registerOptions(this.Url, { xmlResponseText: false });
+
+        var request = $.ajax({
+            type: "POST",
+            beforeSend: function(){
+                $('#ScoCheck').after('<p id ="compilationStatus" style="color:red">' + 'Зачекайте доки закінчиться компіляція.' + '</p>');
+                $('#ScoCheck').attr('disabled', true);
+            },
+            url: this.Url,
+            data: sourceCodeData,
+            dataType: 'xml',
+            transport: 'flXHRproxy',
+            traditional: true,
+            complete: function (transport) {
+                var checkAnswer = $.trim($(transport.responseText).text());
+                alert('Результат одного тесту: ' + (checkAnswer == "Accepted" ? "Прийнято" : "Трапилася помилка") );
+                
+                $('#compilationStatus').remove();
+                $('#ScoCheck').attr('disabled', false);
+            }
+        });        
     }
 
     this.processAnswer = function (SCOObj, i) {
@@ -298,6 +348,6 @@ function compiledTest($object, id) {
     this.getScoreMax = function () {
         return this.Rank;
     }
-	
-	this.parse($object);
+    
+    this.parse($object);
 };

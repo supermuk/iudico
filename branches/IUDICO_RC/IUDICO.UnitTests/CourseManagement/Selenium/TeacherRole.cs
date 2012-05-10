@@ -154,11 +154,12 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             }
             this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//div[contains(text(),'forEditContent')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            Thread.Sleep(SleepTime);
             this.selenium.ContextMenu("//a[contains(text(),'Root')]");
-            this.selenium.Click("//a[contains(text(),'Create Node')]");
+            Thread.Sleep(SleepTime);
+            this.selenium.Click("//a[@rel='create']");
             this.selenium.ContextMenu("//a[contains(text(),'Root')]");
-            this.selenium.Click("//a[contains(text(),'Create Folder')]");
+            this.selenium.Click("//a[@rel='create_folder']");
             this.selenium.Click("link=Back to List");
             try
             {
