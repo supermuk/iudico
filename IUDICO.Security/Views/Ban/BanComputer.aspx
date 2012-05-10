@@ -22,7 +22,14 @@
            { %>
         <tr>
             <td> <%: item.IpAddress%> </td>
-            <td> <%: item.Room%> </td>
+            <td> <% if (item.RoomRef != null)
+                   { %>
+                    <%: Html.Label(item.Room.Name)%> 
+                <% }
+                   else
+                   { %>
+                    <%: Html.Label("None")%> 
+                <% } %>  </td>
             <td> <%: item.CurrentUser%> </td>
             <td> <%: item.Banned %> </td>
             <td> <%= Html.ActionLink(Localization.GetMessage("Edit"), "EditComputer",new IUDICO.Security.ViewModels.Ban.EditComputersViewModel(new IUDICO.Security.Models.Storages.Database.DatabaseBanStorage().GetComputer(item.IpAddress)) )%> | 
@@ -39,7 +46,7 @@
         <//tr>
         <%} %>
     </table>
-    <%= Html.ActionLink(Localization.GetMessage("BackToSecurity"), "Index", "Security") %>
+    <%= Html.ActionLink(Localization.GetMessage("BackToBan"), "Index", "Ban") %>
 
 
 

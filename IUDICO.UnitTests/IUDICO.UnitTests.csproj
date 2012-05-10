@@ -118,9 +118,12 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analytics\AnomalyDetectionAlgorithmTest.cs" />
-    <Compile Include="Analytics\DecisionTreesTest.cs" />
-    <Compile Include="Analytics\TrainingSetTest.cs" />
+    <Compile Include="Analytics\AnalyticsTests.cs" />
+    <Compile Include="Analytics\NUnit\AnomalyDetectionAlgorithmTest.cs" />
+    <Compile Include="Analytics\NUnit\DecisionTreesTest.cs" />
+    <Compile Include="Analytics\NUnit\Recommender.cs" />
+    <Compile Include="Analytics\TestMixedAnalyticsStorage.cs" />
+    <Compile Include="Analytics\NUnit\TrainingSetTest.cs" />
     <Compile Include="Base\BaseControllerTest.cs" />
     <Compile Include="Base\SimpleWebTest.cs" />
     <Compile Include="CompileService\CompileServiceHelper.cs" />
@@ -285,6 +288,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Analytics\Selenium\" />
     <Folder Include="CourseManagement\Data\1\0\somePath0\" />
     <Folder Include="CourseManagement\Data\1\Node\0\Images\" />
     <Folder Include="Libs\" />
@@ -384,6 +388,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="CourseManagement\Data\Templates\updateplayer.swf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="CourseManagement\Data\Templates\wait.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

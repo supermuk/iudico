@@ -135,7 +135,7 @@
                         id: 'language',
                         type: 'select',
                         label: editor.lang.iudico.language,
-                        items: [['C#', 'CSharp'], ['C++', 'CPP8'], ['Java']],
+                        items: [['C#', 'CSharp'], ['C++', 'CPP8'], ['Java'], ['Pascal', 'Pascal']],
                         labelLayout: 'horizontal',
                         commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
                             if (paramMap[this.id]) {
@@ -165,7 +165,7 @@
                                 this.setValue(paramMap[this.id]);
                             } 
                             else {
-                                this.setValue(1024);
+                                this.setValue(4000);
                             }
                             
                         }
@@ -187,7 +187,7 @@
                                 this.setValue(paramMap[this.id]);
                             }
                             else {
-                                this.setValue(1024);
+                                this.setValue(4000);
                             }
                             
                         }
@@ -209,7 +209,7 @@
                                 this.setValue(paramMap[this.id]);
                             }
                             else {
-                                this.setValue(1024);
+                                this.setValue(2000);
                             }
                             
                         }

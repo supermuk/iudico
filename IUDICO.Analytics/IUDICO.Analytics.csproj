@@ -104,6 +104,7 @@
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\DecisionTrees\TrainingSetsCreator.cs" />
     <Compile Include="Models\GroupTopicStat.cs" />
+    <Compile Include="Models\IDataContext.cs" />
     <Compile Include="Models\Quality\DisciplineModel.cs" />
     <Compile Include="Models\Storage\CachedAnalyticsStorage.cs" />
     <Compile Include="Models\Storage\IAnalyticsStorage.cs" />

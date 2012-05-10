@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 
-namespace IUDICO.CourseManagement.Models
+namespace IUDICO.Common.Models
 {
     public static class DateFormatConverter
     {

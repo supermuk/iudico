@@ -375,6 +375,18 @@ table tfoot
     border-top: 5px solid white;
 }
 
+.collapsedIcon {
+    background: url(/Content/Images/collapsed.png);
+    width: 24px;
+    height: 24px;
+}
+
+.expandedIcon {
+    background: url(/Content/Images/expanded.png);
+    width: 24px;
+    height: 24px;
+}
+
 /* MISC  
 ----------------------------------------------------------*/
 .clear
@@ -385,6 +397,12 @@ table tfoot
 .error
 {
     color:Red;
+}
+
+.loading {
+    margin: auto;
+    display:block;
+    text-align: center;
 }
 
 #menucontainer
@@ -707,30 +725,38 @@ select option.added
 
 .disciplineActionColumn 
 {
-    width: 360px;
+    width: 260px;
 }
 
-#disciplines tr.discipline 
+.discipline 
 {
-    background-color: #E6CCFF;
+
 }
 
-#disciplines tr.disciplineChapter
+.disciplineChapter
 {
-    background-color: #CCCCFF;
+
 }
 
-#disciplines tr.disciplineTopic
+.disciplineTopic
 {
-    background-color: #CCE6FF;
-}
 
+}
+.disciplineChapterIndex 
+{
+    color: #8A8989;
+    font-size: 0.8em;
+}
 .disciplineName 
 {
     cursor: pointer;
+    color: #00060D;
+    font-size: 1.5em;
 }
 .disciplineChapterName 
 {
+    color: #37618C;
+    font-size: 1.5em;
     cursor: pointer;
     padding-left: 40px;
 }
@@ -750,6 +776,23 @@ select option.added
     width: 205px;
     padding: 5px;
     margin-top: 5px;
+}
+.headerName {
+    font-size: 1.5em;
+    color: #336699;
+    margin-bottom: 10px;
+}
+.headerValue {
+    font-size: 1.5em;
+    color: #3679BD;
+    text-transform: uppercase;
+    margin-right: 10px;
+}
+.headerValue a {
+    color: #3679BD;
+}
+.backLink {
+    padding:10px 0px;
 }
 
 /* SHAREUSERS
@@ -796,4 +839,7 @@ div.hiddenTitle
 }
 .bigColumn {
     width: 150px;
+}
+.css_right {
+    float: right;
 }

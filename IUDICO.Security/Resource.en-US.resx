@@ -213,6 +213,9 @@
   <data name="Unchoosen computers" xml:space="preserve">
     <value>Unchoosen computers</value>
   </data>
+  <data name="BackToBan" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>

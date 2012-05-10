@@ -12,7 +12,7 @@
     <%=Localization.GetMessage("EditingCourse")%>
 </asp:Content>
 <asp:Content ID="HeadContent2" ContentPlaceHolderID="HeadContent" runat="server">
-    <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.5.custom.css") %>" rel="stylesheet" type="text/css" />
+    <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.20.custom.css") %>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery-ui.css") %>" id="theme" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery.fileupload-ui.css") %>" />
 

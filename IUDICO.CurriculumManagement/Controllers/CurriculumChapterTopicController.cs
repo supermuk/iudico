@@ -28,8 +28,10 @@ namespace IUDICO.CurriculumManagement.Controllers
             var curriculumChapter = Storage.GetCurriculumChapter(curriculumChapterId);
             var curriculum = Storage.GetCurriculum(curriculumChapter.CurriculumRef);
             var curriculumChapterTopics = Storage.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapterId);
+            var discipline = Storage.GetDiscipline(curriculum.DisciplineRef);
 
-            ViewData["DisciplineName"] = Storage.GetDiscipline(curriculum.DisciplineRef).Name;
+            ViewData["DisciplineId"] = discipline.Id;
+            ViewData["DisciplineName"] = discipline.Name;
             ViewData["CurriculumId"] = curriculum.Id;
             ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef) != null ? Storage.GetGroup(curriculum.UserGroupRef).Name : Localization.GetMessage("GroupNotExist");
             ViewData["ChapterName"] = Storage.GetChapter(curriculumChapter.ChapterRef).Name;

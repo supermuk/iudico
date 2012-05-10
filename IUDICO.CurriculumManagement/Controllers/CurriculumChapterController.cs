@@ -38,6 +38,7 @@ namespace IUDICO.CurriculumManagement.Controllers
 
             ViewData["GroupName"] = group != null ? group.Name : Localization.GetMessage("GroupNotExist");
             ViewData["Discipline"] = discipline;
+            ViewData["DisciplineName"] = discipline.Name;
             
             return View(model);
         }

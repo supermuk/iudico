@@ -21,18 +21,16 @@
            { %>
             
             <%= Html.EditorForModel() %>
-        <p>
+        <div>
            <input type="submit" value="<%=Localization.GetMessage("Save") %>" name="saveButton" />
-       </p>
+       </div>
         <% }
        }
        else 
        {
-           Writer.Write(Html.DisplayForModel().ToHtmlString());
-           Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "BanComputer", "Ban"));           
-       } %>
-
-       
+           Writer.Write(Html.DisplayForModel().ToHtmlString());                      
+       } 
+       %>
     </fieldset>
-
+    <% Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "BanComputer", "Ban")); %>
 </asp:Content>

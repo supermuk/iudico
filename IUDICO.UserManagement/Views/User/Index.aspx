@@ -21,10 +21,10 @@
     <div id="catalog" dir="<%=Html.ResolveUrl("/Content/images/status_icon_delete.png")%> ">
         <h2><%:Localization.GetMessage("Roles") %></h2>
         <ul>
-            <li class="example1">Student</li>
-            <li class="example1">Teacher</li>
-            <li class="example1">CourseCreator</li>
-            <li class="example1">Admin</li>
+            <li class="role">Student</li>
+            <li class="role">Teacher</li>
+            <li class="role">CourseCreator</li>
+            <li class="role">Admin</li>
         </ul>
     </div>
     <div>
@@ -250,7 +250,7 @@
     <script language="javascript" type="text/javascript">
 
         $(document).ready(function () {
-            $('#myDataTable').dataTable({
+            var dataTable = $('#myDataTable').dataTable({
                 "bJQueryUI": true,
                 "sPaginationType": "full_numbers",
                 iDisplayLength: 50,
@@ -317,6 +317,9 @@
                 }
             });
 
+            $(".role").click(function () {
+                dataTable.fnFilter($(this).text());
+            });
         });
         
     </script>
@@ -345,7 +348,7 @@
         }
     </style>
     <style type="text/css">
-        .example1
+        .role
         {
             border-width: 1px;
             border-style: solid;

@@ -16,8 +16,6 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     [TestFixture]
     internal class GroupControllerTest : BaseControllerTest
     {
-        protected UserManagementTests tests = UserManagementTests.GetInstance();
-
         protected GroupController groupController;
 
         [SetUp]

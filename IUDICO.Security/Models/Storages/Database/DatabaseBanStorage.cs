@@ -54,10 +54,10 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = this.NewContext())
             {
-                computer.Room = room;
-                context.Computers.Attach(computer, true);
-
-                context.SubmitChanges();
+                var curRoom = GetRoom(context, room.Name);
+                var curComp = context.Computers.FirstOrDefault(i => i.IpAddress == computer.IpAddress);
+                curComp.Room = curRoom;
+                context.SubmitChanges();                
             }
         }
 
@@ -65,9 +65,8 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = this.NewContext())
             {
-                computer.Room = null;
-                context.Computers.Attach(computer, true);
-
+                var curComp = context.Computers.FirstOrDefault(i => i.IpAddress == computer.IpAddress);
+                curComp.RoomRef = null;
                 context.SubmitChanges();
             }
         }
@@ -131,6 +130,19 @@ namespace IUDICO.Security.Models.Storages.Database
             {
                 return context.Rooms.FirstOrDefault(room => room.Name == name);
             }
+        }
+
+        public Room GetRoom(int id)
+        {
+            using (var context = this.NewContext())
+            {
+                return context.Rooms.FirstOrDefault(room => room.Id == id);
+            }
+        }
+
+        public Room GetRoom(ISecurityDataContext context, string name)
+        {   
+                return context.Rooms.FirstOrDefault(room => room.Name == name);            
         }
 
         public IEnumerable<Room> GetRooms()
