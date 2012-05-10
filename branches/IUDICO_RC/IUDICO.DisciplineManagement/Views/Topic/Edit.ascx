@@ -7,10 +7,5 @@
 <form action="/TopicAction/Edit" data-onSuccess="onEditTopicSuccess" data-onFailure="onFailure">
     <%: Html.ValidationSummary(true, Localization.GetMessage("CorrectFollowingErrorAndTryAgain") + ":")%>
 
-    <fieldset>
-        <legend><%=Localization.GetMessage("Fields")%></legend>
-            
-        <%= Html.EditorForModel() %>
-
-    </fieldset>
+   <%= Html.EditorForModel() %>
 </form>

@@ -6,7 +6,7 @@ using IUDICO.Common.Models.Shared;
 
 using NUnit.Framework;
 
-namespace IUDICO.UnitTests.Analytics
+namespace IUDICO.UnitTests.Analytics.NUnit
 {
     [TestFixture]
     public class DecisionTreesTest

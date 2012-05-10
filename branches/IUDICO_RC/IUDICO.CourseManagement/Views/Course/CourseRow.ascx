@@ -5,6 +5,7 @@
 <%@ Import Namespace="IUDICO.CourseManagement.Models" %>
 <%@ Import Namespace="IUDICO.Common" %>
 <%@ Import Namespace="System.Web.Mvc" %>
+<%@ Import Namespace="IUDICO.Common.Models" %>
 
 
 <tr id="course<%: Model.Id %>" class="<%: Model.Locked? "courseLocked" : Model.Shared ? "courseShared" : "courseMy"%> course">

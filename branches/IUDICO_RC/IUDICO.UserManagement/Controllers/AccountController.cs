@@ -7,6 +7,7 @@ using System.Web.Security;
 using DotNetOpenAuth.Messaging;
 using DotNetOpenAuth.OpenId;
 using DotNetOpenAuth.OpenId.RelyingParty;
+using IUDICO.Common;
 using IUDICO.Common.Controllers;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Attributes;
@@ -18,8 +19,6 @@ using log4net;
 
 namespace IUDICO.UserManagement.Controllers
 {
-    using IUDICO.Common;
-
     public class AccountController : PluginController
     {
         private readonly OpenIdRelyingParty openId = new OpenIdRelyingParty();
@@ -66,14 +65,14 @@ namespace IUDICO.UserManagement.Controllers
 
                         if (user == null)
                         {
-                            this.ModelState.AddModelError(string.Empty, "Login failed using the provided OpenID identifier");
+                            this.ModelState.AddModelError(string.Empty, Localization.GetMessage("NoUserOpenID"));
 
                             break;
                         }
 
                         LmsService.Inform(UserNotifications.UserLogin, user);
 
-                        if (this.Request.QueryString["ReturnUrl"] != null)
+                        if (!string.IsNullOrEmpty(this.Request.QueryString["ReturnUrl"]))
                         {
                             FormsAuthentication.RedirectFromLoginPage(user.Username, false);
                         }
@@ -109,13 +108,27 @@ namespace IUDICO.UserManagement.Controllers
             {
                 this.ModelState.AddModelError(string.Empty, Localization.GetMessage("InvalidOpenID"));
 
-                return this.View("Login");
+                return this.View();
             }
             else
             {
                 try
                 {
+                    var user = this.storage.GetUser(u => u.OpenId == loginIdentifier);
+
+                    if (user == null)
+                    {
+                        this.ModelState.AddModelError(string.Empty, Localization.GetMessage("NoUserOpenID"));
+
+                        return this.View();
+                    }
+
                     var request = this.openId.CreateRequest(Identifier.Parse(loginIdentifier));
+
+                    if (!string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
+                    {
+                        request.AddCallbackArguments("ReturnUrl", Request.QueryString["ReturnUrl"]);
+                    }
 
                     return request.RedirectingResponse.AsActionResult();
                 }
@@ -123,7 +136,7 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     this.ModelState.AddModelError(string.Empty, Localization.GetMessage("InvalidOpenID"));
 
-                    return this.View("Login");
+                    return this.View();
                 }
             }
         }
@@ -135,7 +148,7 @@ namespace IUDICO.UserManagement.Controllers
             {
                 LmsService.Inform(UserNotifications.UserLogin, this.storage.GetCurrentUser());
 
-                if (this.Request.QueryString["ReturnUrl"] != null)
+                if (!string.IsNullOrEmpty(Request.QueryString["ReturnUrl"]))
                 {
                     FormsAuthentication.RedirectFromLoginPage(loginUsername, false);
                 }
@@ -312,6 +325,7 @@ namespace IUDICO.UserManagement.Controllers
             if (!allow && !Roles.IsUserInRole(Role.Admin.ToString()))
             {
                 this.Session["AllowAdmin"] = true;
+                LmsService.Inform(LMSNotifications.ActionsChanged);
             }
 
             return this.RedirectToAction("Index");
@@ -320,6 +334,7 @@ namespace IUDICO.UserManagement.Controllers
         public ActionResult ChangeCulture(string lang, string returnUrl)
         {
             this.Session["Culture"] = new CultureInfo(lang);
+
             return this.Redirect(returnUrl);
         }
 

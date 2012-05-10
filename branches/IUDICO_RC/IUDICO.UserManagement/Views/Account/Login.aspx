@@ -13,14 +13,14 @@
 
     <div><%=Html.ValidationSummary(true)%></div>
 
-    <form action="<%:Url.Action("Login", "Account")%>" method="post">
+    <form action="<%:Url.Action("Login", "Account", new {ReturnUrl = ViewContext.HttpContext.Request.QueryString["ReturnUrl"]})%>" method="post">
 	    <label for="loginIdentifier">OpenID: </label>
 	    <input type="text" id="loginIdentifier" name="loginIdentifier" size="40" />
 	    
         <input type="submit" value=<%=Localization.GetMessage("Login")%> />
 	</form>
 
-    <form action="<%:Url.Action("LoginDefault", "Account")%>" method="post">
+    <form action="<%:Url.Action("LoginDefault", "Account", new {ReturnUrl = ViewContext.HttpContext.Request.QueryString["ReturnUrl"]})%>" method="post">
         <label for="loginUsername"><%=Localization.GetMessage("Loginn")%>: </label>
         <input type="text" id="loginUsername" name="loginUsername" size="40" />
         <label for="loginPassword"><%=Localization.GetMessage("Password")%>: </label>

@@ -12,9 +12,8 @@ namespace IUDICO.Analytics.Models.Storage
     public class MixedAnalyticsStorage : IAnalyticsStorage
     {
         private readonly ILmsService lmsService;
-        private DBDataContext db;
 
-        protected DBDataContext GetDbDataContext()
+        protected virtual IDataContext GetDbContext()
         {
             return new DBDataContext();
         }
@@ -22,31 +21,25 @@ namespace IUDICO.Analytics.Models.Storage
         public MixedAnalyticsStorage(ILmsService lmsService)
         {
             this.lmsService = lmsService;
-            this.RefreshState();
-        }
-        
-        public void RefreshState()
-        {
-            this.db = new DBDataContext();
         }
         
         #region Analytics methods
 
         public IEnumerable<ForecastingTree> GetAllForecastingTrees()
         { 
-            return this.GetDbDataContext().ForecastingTrees.Where(x => x.IsDeleted == false);
+            return this.GetDbContext().ForecastingTrees.Where(x => x.IsDeleted == false);
         }
 
         public IEnumerable<ForecastingTree> GetForecastingTrees(Guid userRef)
         {
-            return this.GetDbDataContext().ForecastingTrees.Where(x => x.UserRef == userRef && x.IsDeleted == false);
+            return this.GetDbContext().ForecastingTrees.Where(x => x.UserRef == userRef && x.IsDeleted == false);
         }
 
         #region Recommender System
 
         public Dictionary<Topic, IEnumerable<TopicScore>> GetTopicScores()
         {
-            using (var d = this.GetDbDataContext())
+            using (var d = this.GetDbContext())
             {
                 var topics = this.GetTopics().ToDictionary(t => t.Id, t => t);
 
@@ -64,7 +57,7 @@ namespace IUDICO.Analytics.Models.Storage
 
         public Dictionary<User, IEnumerable<UserScore>> GetUserScores()
         {
-            using (var d = this.GetDbDataContext())
+            using (var d = this.GetDbContext())
             {
                 var users = this.GetUsers().ToDictionary(u => u.Id, u => u);
 
@@ -80,9 +73,23 @@ namespace IUDICO.Analytics.Models.Storage
             }
         }
 
+        public void UpdateTopicScores(int id)
+        {
+            using (var d = this.GetDbContext())
+            {
+                var topic = this.GetTopic(id);
+                var topicTagScores = this.GetTopicTagScores(topic);
+
+                d.TopicScores.DeleteAllOnSubmit(d.TopicScores.Where(us => us.TopicId == id));
+                d.TopicScores.InsertAllOnSubmit(topicTagScores);
+
+                d.SubmitChanges();
+            }
+        }
+
         public void UpdateUserScores(Guid id)
         {
-            using (var d = this.GetDbDataContext())
+            using (var d = this.GetDbContext())
             {
                 var user = this.GetUser(id);
                 var userTagScores = this.GetUserTagScores(user);
@@ -94,9 +101,47 @@ namespace IUDICO.Analytics.Models.Storage
             }
         }
 
-        protected IEnumerable<TopicTag> GetTopicTags(Func<TopicTag, bool> predicate)
+        public void UpdateAllTopicScores()
         {
-            return this.GetDbDataContext().TopicTags.Where(predicate).Select(tt => new { Tag = tt.Tag, TopicTag = tt }).AsEnumerable().Select(a => a.TopicTag);
+            foreach (var topic in this.GetTopics())
+            {
+                this.UpdateTopicScores(topic.Id);
+            }
+        }
+
+        public void UpdateAllUserScores()
+        {
+            foreach (var user in this.GetUsers())
+            {
+                this.UpdateUserScores(user.Id);
+            }
+        }
+
+        protected IEnumerable<TopicScore> GetTopicTagScores(Topic topic)
+        {
+            var topicTags = this.GetTopicTags(t => t.TopicId == topic.Id);
+            var attempts = this.GetResults(topic).GroupBy(a => new { UserId = a.User.Id, TopicId = a.CurriculumChapterTopic.TopicRef }).Select(g => g.First());
+            var total = 0.0;
+            var count = 0;
+
+            foreach (var attempt in attempts)
+            {
+                var score = attempt.Score.ToPercents();
+
+                if (score == null)
+                {
+                    continue;
+                }
+
+                total += score.Value;
+                count++;
+            }
+
+            var average = (float)(count > 0 ? total / count : 0);
+
+            var tags = topicTags.Select(t => new TopicScore { TagId = t.TagId, TopicId = t.TopicId, Score = average });
+
+            return tags;
         }
 
         protected IEnumerable<UserScore> GetUserTagScores(User user)
@@ -108,7 +153,7 @@ namespace IUDICO.Analytics.Models.Storage
                 this.GetResults(user).GroupBy(
                     a => new { UserId = a.User.Id, TopicId = a.CurriculumChapterTopic.TopicRef }).Select(g => g.First())
                     .ToDictionary(a => a.CurriculumChapterTopic.TopicRef, a => a);
-            
+
             var topicTags =
                 this.GetTopicTags(f => attempts.Keys.Contains(f.TopicId)).GroupBy(t => t.TopicId).ToDictionary(
                     g => g.Key, g => g.Select(t => t.TagId).ToList());
@@ -148,66 +193,14 @@ namespace IUDICO.Analytics.Models.Storage
             return tags.Select(ut => new UserScore { UserId = user.Id, TagId = ut.Key, Score = ut.Value / count[ut.Key] });
         }
 
-        public void UpdateTopicScores(int id)
+        protected IEnumerable<TopicTag> GetTopicTags(Func<TopicTag, bool> predicate)
         {
-            using (var d = this.GetDbDataContext())
-            {
-                var topic = this.GetTopic(id);
-                var topicTagScores = this.GetTopicTagScores(topic);
-
-                d.TopicScores.DeleteAllOnSubmit(d.TopicScores.Where(us => us.TopicId == id));
-                d.TopicScores.InsertAllOnSubmit(topicTagScores);
-
-                d.SubmitChanges();
-            }
-        }
-
-        public void UpdateAllUserScores()
-        {
-            foreach (var user in this.GetUsers())
-            {
-                this.UpdateUserScores(user.Id);
-            }
-        }
-
-        public void UpdateAllTopicScores()
-        {
-            foreach (var topic in this.GetTopics())
-            {
-                this.UpdateTopicScores(topic.Id);
-            }
-        }
-
-        protected IEnumerable<TopicScore> GetTopicTagScores(Topic topic)
-        {
-            var topicTags = this.GetTopicTags(t => t.TopicId == topic.Id);
-            var attempts = this.GetResults(topic).GroupBy(a => new { UserId = a.User.Id, TopicId = a.CurriculumChapterTopic.TopicRef }).Select(g => g.First());
-            var total = 0.0;
-            var count = 0;
-
-            foreach (var attempt in attempts)
-            {
-                var score = attempt.Score.ToPercents();
-
-                if (score == null)
-                {
-                    continue;
-                }
-
-                total += score.Value;
-                count++;
-            }
-
-            var average = (float)(count > 0 ? total / count : 0);
-
-            var tags = topicTags.Select(t => new TopicScore { TagId = t.TagId, TopicId = t.TopicId, Score = average });
-
-            return tags;
+            return this.GetDbContext().TopicTags.Where(predicate).Select(tt => new { Tag = tt.Tag, TopicTag = tt }).AsEnumerable().Select(a => a.TopicTag);
         }
 
         protected double CustomDistance(User user, Topic topic)
         {
-            using (var d = this.GetDbDataContext())
+            using (var d = this.GetDbContext())
             {
                 var userTagScores = d.UserScores.Where(s => s.UserId == user.Id).ToDictionary(
                     s => s.TagId, s => s.Score);
@@ -221,34 +214,6 @@ namespace IUDICO.Analytics.Models.Storage
                 return sum;
             }
         }
-
-        /*protected double PearsonDistance(User user, Topic topic)
-        {
-            using (var d = this.GetDbDataContext())
-            {
-                var userTagScores = this.db.UserScores.Where(s => s.UserId == user.Id).ToDictionary(s => s.TagId, s => 100 - s.Score);
-                var topicTagScores = this.db.TopicScores.Where(s => s.TopicId == topic.Id).ToDictionary(s => s.TagId, s => s.Score);
-
-                var commonTags = userTagScores.Select(t => t.Key).Intersect(topicTagScores.Select(t => t.Key)).ToList();
-                var n = commonTags.Count();
-
-                var userCommonScores = userTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value).ToList();
-                var topicCommonScores = topicTagScores.Where(t => commonTags.Contains(t.Key)).Select(t => 1.0 * t.Value).ToList();
-
-                var sum1 = userCommonScores.Sum();
-                var sum2 = topicCommonScores.Sum();
-
-                var sum1Sq = userCommonScores.Sum(x => x * x);
-                var sum2Sq = topicCommonScores.Sum(x => x * x);
-
-                var sum = commonTags.Sum(tag => (userTagScores[tag] * topicTagScores[tag]));
-
-                var num = sum - (sum1 * sum2 / n);
-                var den = Math.Sqrt((sum1Sq - Math.Pow(sum1, 2) / n) * (sum2Sq - Math.Pow(sum2, 2) / n));
-
-                return den == 0 ? 0 : num / den;
-            }
-        }*/
 
         public IEnumerable<TopicStat> GetRecommenderTopics(User user)
         {
@@ -430,12 +395,12 @@ namespace IUDICO.Analytics.Models.Storage
 
         public IEnumerable<Tag> GetTags()
         {
-            return this.GetDbDataContext().Tags;
+            return this.GetDbContext().Tags;
         }
 
         public ViewTagDetails GetTagDetails(int id)
         {
-            using (var d = this.GetDbDataContext())
+            using (var d = this.GetDbContext())
             {
                 var tag = d.Tags.SingleOrDefault(f => f.Id == id);
                 var topicIds = d.TopicTags.Where(t => t.TagId == tag.Id).Select(t => t.TopicId);
@@ -447,7 +412,7 @@ namespace IUDICO.Analytics.Models.Storage
 
         public void CreateTag(Tag tag)
         {
-            using (var d = this.GetDbDataContext())
+            using (var d = this.GetDbContext())
             {
                 d.Tags.InsertOnSubmit(tag);
                 d.SubmitChanges();
@@ -456,12 +421,12 @@ namespace IUDICO.Analytics.Models.Storage
 
         public Tag GetTag(int id)
         {
-            return this.GetDbDataContext().Tags.SingleOrDefault(f => f.Id == id);
+            return this.GetDbContext().Tags.SingleOrDefault(f => f.Id == id);
         }
 
         public void EditTag(int id, Tag tag)
         {
-            using (var d = this.GetDbDataContext())
+            using (var d = this.GetDbContext())
             {
                 var oldTag = d.Tags.SingleOrDefault(f => f.Id == id);
 
@@ -473,7 +438,7 @@ namespace IUDICO.Analytics.Models.Storage
 
         public void DeleteTag(int id)
         {
-            using (var d = this.GetDbDataContext())
+            using (var d = this.GetDbContext())
             {
                 var containsFeatures = d.TopicTags.Any(tf => tf.TagId == id);
 
@@ -488,7 +453,7 @@ namespace IUDICO.Analytics.Models.Storage
 
         public void EditTags(int id, IEnumerable<int> topics)
         {
-            using (var d = this.GetDbDataContext())
+            using (var d = this.GetDbContext())
             {
                 var allTopics = d.TopicTags.Where(tf => tf.TagId == id).ToList();
                 var deletedTopics = allTopics.Where(tf => !topics.Contains(tf.TopicId));

@@ -14,13 +14,19 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
     <h2>
         <%=Localization.GetMessage("TopicAssignmentsFor")%>
     </h2>
-    <h4>
-        <%: ViewData["DisciplineName"] %>
-        <%=Localization.GetMessage("PrevNext")%>
-        <%: ViewData["GroupName"] %>
-        <%=Localization.GetMessage("Next")%>
-        <%: ViewData["ChapterName"] %>
-    </h4>
+
+    <span class="headerName"><%=Localization.GetMessage("Chapter")%>:</span>
+    <span class="headerValue"><%: ViewData["ChapterName"] %></span>
+    <span class="headerName"><%=Localization.GetMessage("Discipline")%>:</span>
+    <span class="headerValue"><%: Html.RouteLink(ViewData["DisciplineName"].ToString(), "CurriculumChapters", new { action = "Index", CurriculumId = ViewData["CurriculumId"] })%></span>
+    <span class="headerName"><%=Localization.GetMessage("Group")%>:</span>
+    <span class="headerValue"><%: ViewData["GroupName"] %></span>
+    
+    
+    <div class="backLink">
+        <%: Html.RouteLink(Localization.GetMessage("BackCurriculumChapters"), "CurriculumChapters", new { action = "Index", CurriculumId = ViewData["CurriculumId"] })%>
+    </div>
+
     <table>
         <tr>
             <th>
@@ -83,8 +89,5 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
         </tr>
         <% } %>
     </table>
-    <div>
-        <br />
-        <%: Html.RouteLink(Localization.GetMessage("BackCurriculumChapters"), "CurriculumChapters", new { action = "Index", CurriculumId = ViewData["CurriculumId"] })%>
-    </div>
+
 </asp:Content>
