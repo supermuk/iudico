@@ -36,12 +36,13 @@ namespace IUDICO.UnitTests.Security.NUnit
             var computer = this.BanStorage.GetComputers().First();
             var room = this.BanStorage.GetRooms().First();
 
-            // BanStorage.AttachComputerToRoom(computer, room);
-            computer.Room = room;
+            BanStorage.AttachComputerToRoom(computer, room);
+            //computer.RoomRef = room.Id;
 
             Assert.AreEqual(room.Id, computer.Room.Id);
         }
 
+        /*
         [Test]
         public void AttachComputerToRoomTest()
         {
@@ -62,38 +63,30 @@ namespace IUDICO.UnitTests.Security.NUnit
             }
 
             Assert.True(room.Computers.Contains(computer));
-        }
-
+        } */
+/*
         [Test]
         public void DetachComputerTest()
         {
-            // Create computer with fake ip-address;
             var computer = new Computer { Banned = false, IpAddress = "999.999.999.999" };
+            this.BanStorage.CreateComputer(computer);
 
-            var room = new Room { Name = "Some room", Id = "Some room".GetHashCode() };
+            var room = new Room { Name = "Some room"};
+            this.BanStorage.CreateRoom(room);
 
-            // At the moment of developing this test attach method ( public void Attach(object entity) ) wasn't implemented;
-            try
-            {
-                this.BanStorage.AttachComputerToRoom(computer, room);
-            }
-            catch (NotImplementedException)
-            {
-            }
+            this.BanStorage.AttachComputerToRoom(computer, room);
+            Assert.False(computer.Room == null);
 
-            // public void Attach(object entity, bool asModified) wasn't implemented;
-            try
-            {
-                this.BanStorage.DetachComputer(computer);
-            }
-            catch (NotImplementedException)
-            {
-            }
-
+            this.BanStorage.DetachComputer(computer);
             Assert.True(computer.Room == null);
 
-            Assert.False(room.Computers.Contains(computer));
-        }
+            var computer = this.BanStorage.GetComputers().First();
+            var room = this.BanStorage.GetRooms().First();
+            BanStorage.AttachComputerToRoom(computer, room);
+            Assert.AreEqual(room.Id, computer.Room.Id);
+            BanStorage.DetachComputer(computer);
+            Assert.True(computer.RoomRef == null);         
+        }*/
 
         [Test]
         public void BanComputerTest()
@@ -138,59 +131,21 @@ namespace IUDICO.UnitTests.Security.NUnit
         [Test]
         public void BanRoomTest()
         {
-            // Create computers with fake ip-address;
-            var computer1 = new Computer { Banned = false, IpAddress = "999.999.999.997" };
-            var computer2 = new Computer { Banned = true, IpAddress = "888.888.888.888" };
-
-            var room = new Room { Name = "Some room", Id = "Some room".GetHashCode() };
-
-            // At the moment of developing this test attach method wasn't implemented;
-            try
-            {
-                this.BanStorage.AttachComputerToRoom(computer1, room);
-                this.BanStorage.AttachComputerToRoom(computer2, room);
-            }
-            catch (NotImplementedException)
-            {
-            }
-
+            var room = new Room { Name = "Room", Allowed = true};
             this.BanStorage.CreateRoom(room);
-
+            Assert.True(this.BanStorage.GetRoom("Room").Allowed);
             this.BanStorage.BanRoom(room);
-
-            Assert.False(this.BanStorage.GetRoom("Some room").Allowed);
-
-            Assert.True(this.BanStorage.GetRoom("Some room").Computers.All(c => c.Banned));
+            Assert.False(this.BanStorage.GetRoom("Room").Allowed);
         }
 
         [Test]
         public void UnbanRoomTest()
         {
-            var room = new Room { Name = "Some Room", Id = "Some Room".GetHashCode(), Allowed = false };
-
+            var room = new Room { Name = "Room",Allowed = false };
             this.BanStorage.CreateRoom(room);
-
-            // Create computers with fake ip-address;
-            var computer1 = new Computer { Banned = true, IpAddress = "999.999.999.998" };
-
-            // At the moment of developing this test attach method wasn't implemented;
-            try
-            {
-                this.BanStorage.AttachComputerToRoom(computer1, room);
-            }
-            catch (NotImplementedException)
-            {
-            }
-
+            Assert.False(this.BanStorage.GetRoom(room.Name).Allowed);
             this.BanStorage.UnbanRoom(room);
-
-            Assert.True(this.BanStorage.GetRoom(room.Name).Allowed);
-
-            Assert.True(room.Allowed);
-
-            // Check if computers in this room are banned;
-            // The testing method failed at this place;
-            // Assert.True(BanStorage.GetRoom(room.Name).Computers.All(c => c.Banned == false));
+            Assert.True(this.BanStorage.GetRoom(room.Name).Allowed);            
         }
 
         [Test]
