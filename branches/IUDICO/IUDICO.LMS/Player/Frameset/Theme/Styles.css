@@ -10,7 +10,7 @@ body
 
 .ErrorBody
 {
-	background-color: #f9faf3;
+	background-color: #ffffff;
 	color: #42507e;
 	font-size: 11px;
 	font-family: Tahoma, Arial, Helvetica, sans-serif;
@@ -122,6 +122,9 @@ body
 
 .TocWrapper
 {
+    padding: 0;
+    margin: 0;
+    height: 100%;
 	background-color: #eef2f5;
 	width: 248px;
 	border-right: solid 1px #d8e0e6;
