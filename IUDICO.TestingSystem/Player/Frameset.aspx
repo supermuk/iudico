@@ -34,8 +34,8 @@
 
     function SetContentHeight(height) {
         parent.document.getElementById("player").height = height;
-        frames["frameLearnTask"].document.getElementById("framesetParentMain").style.height = height + "px";
-        document.getElementById("frameLearnTask").height = height;
+        frames["frameLearnTask"].document.getElementById("framesetParentMain").style.height = height - 36 + "px";
+        document.getElementById("frameLearnTask").height = height - 36;
     }
 
     function OnIFrameContentLoad() {

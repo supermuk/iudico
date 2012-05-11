@@ -22,7 +22,7 @@
         <%: Model.TopicName %></h2>
     <div id="playerWrapper">
         <iframe width="100%" height="600px" frameborder="0" src="<%:"/Player/Frameset/Frameset.aspx?View=0&AttemptId=" + Model.AttemptId.ToString()%>"
-            id="player" name="player" />
+            id="player" name="player" scrolling="no"/>
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
