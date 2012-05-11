@@ -338,8 +338,11 @@ namespace IUDICO.UserManagement.Models.Storage
 
             foreach (var user in users)
             {
-                var message = "Your account has been created:\nUsername: " + user.Username + "\nPassword: " + passwords[user.Username];
-                this.SendEmail("admin@iudico", user.Email, "Iudico Notification", message);
+                if (!string.IsNullOrEmpty(user.Email))
+                {
+                    var message = "Your account has been created:\nUsername: " + user.Username + "\nPassword: " + passwords[user.Username];
+                    this.SendEmail("admin@iudico", user.Email, "Iudico Notification", message);
+                }
             }
 
             this.lmsService.Inform(UserNotifications.UserCreateMultiple, users);
