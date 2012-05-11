@@ -13,7 +13,6 @@ function openShareDialog(url, data, onSuccess) {
         url: url,
         data: data,
         success: function (r) {
-
             var form = "<form action='" + url + "' data-onSuccess='" + onSuccess + "' data-onFailure='onFailure'>" + r + "</form>";
 
             $("#shareDialogInner").html(form);
@@ -32,18 +31,11 @@ function openShareDialog(url, data, onSuccess) {
                        ]
             });
 
-            //submit rows not visible in table(on other pages)
-            table.closest("form").submit(function () {
-                var hiddenRows = table.fnGetHiddenNodes();
-                $(hiddenRows).css('display', 'none');
-                table.find("tbody").append(hiddenRows);
-            });
-            
             for(var prop in data) {
                 $('<input />').attr('type', 'hidden')
-                       .attr('name', prop)
-                       .attr('value', data[prop])
-                       .appendTo('#shareDialogInner > form');
+                  .attr('name', prop)
+                  .attr('value', data[prop])
+                  .appendTo('#shareDialogInner > form');
             }
         }
     });
@@ -107,6 +99,12 @@ function setupShareDialog (shareName, cancelName) {
                 text: shareName,
                 click: function() {
                     var $form = $("#shareDialog").find("form");
+
+                    //submit rows not visible in table(on other pages)
+                    var table = $("#shareUserTable").dataTable();
+                    var hiddenRows = table.fnGetHiddenNodes();
+                    $(hiddenRows).css('display', 'none');
+                    table.find("tbody").append(hiddenRows);
 
                     $.ajax({
                         type: "post",
