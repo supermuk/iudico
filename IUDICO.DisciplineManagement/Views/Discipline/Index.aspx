@@ -428,7 +428,7 @@
             if(resp.success) {
                 $("#shareDialog").dialog("close");
             } else {
-                alert(r.message);
+                alert(resp.message);
             }
         }
     </script>
