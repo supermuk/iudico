@@ -11,17 +11,26 @@
         NO WARRANTY OF TITLE OR NONINFRINGEMENT FOR THE SOURCE CODE. -->
 <head runat="server">
     <link rel="stylesheet" type="text/css" href="Theme/Styles.css" />
+    <script language="javascript">
+        function onLoad() {
+            if (navigator.appName == 'Microsoft Internet Explorer') {
+                var tocFrame = document.getElementById("frameToc");
+                tocFrame.style.position = 'relative';
+                tocFrame.style.top = '-6px';
+            }
+        }
+    </script>
 </head>
-<body>
+<body onload="onLoad()">
     <table id="framesetParentMain" cellpadding="0" cellspacing="0" border="0" style="height: 500px;
         width: 100%">
         <tr>
             <td style="height: 100%">
                 <table cellpadding="0" cellspacing="0" border="0" style="height: 100%; width: 100%">
                     <tr>
-                        <td id="navigationColumn" class="TocWrapper" style="width: 220px; height: 100%;">
-                            <iframe id="frameToc" name="frameToc" width="100%" height="100%" marginwidth="0"
-                                marginheight="0" src="<%=this.TocFrameUrl%>" frameborder="0"></iframe>
+                        <td id="navigationColumn" class="TocWrapper">
+                            <iframe id="frameToc" name="frameToc" width="100%" height="100%" marginwidth="0" marginheight="0"
+                                src="<%=this.TocFrameUrl%>" frameborder="0"></iframe>
                         </td>
                         <td style="height: 100%">
                             <table cellpadding="0" cellspacing="0" border="0" style="height: 100%; width: 100%">
