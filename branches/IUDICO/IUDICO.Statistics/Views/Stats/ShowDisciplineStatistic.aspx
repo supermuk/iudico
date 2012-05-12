@@ -112,16 +112,16 @@
         /* styling link inside table header */
         div.DataTables_sort_wrapper a:link
         {
-            color: #034af3;
+            color: #fffff0;
             text-decoration: underline;
         }
         div.DataTables_sort_wrapper a:visited
         {
-            color: #505abc;
+            color: #f8f8ff;
         }
         div.DataTables_sort_wrapper a:hover
         {
-            color: #1d60ff;
+            color: #ffffff;
             text-decoration: none;
         }
         div.DataTables_sort_wrapper a:active
