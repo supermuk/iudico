@@ -34,6 +34,7 @@ namespace IUDICO.Security.Controllers
         {
             var activitiesByUser = this.SecurityStorage
                 .GetUserActivities()
+                .AsParallel()
                 .GroupBy(ua => ua.UserRef)
                 .Select(g => new
                     {
