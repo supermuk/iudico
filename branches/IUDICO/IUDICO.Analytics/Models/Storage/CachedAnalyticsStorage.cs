@@ -169,9 +169,13 @@ namespace IUDICO.Analytics.Models.Storage
         {
             return this.storage.GetTopicTagStatistic(topic);
         }
-        public double GetScoreRatingTopicStatistic(Topic topic, IEnumerable<Group> groups)
+        public double GetCorrTopicStatistic(Topic topic, IEnumerable<Group> groups)
         {
-            return this.storage.GetScoreRatingTopicStatistic(topic, groups);
+            return this.storage.GetCorrTopicStatistic(topic, groups);
+        }
+        public double GetDiffTopicStatistic(Topic topic, IEnumerable<Group> groups)
+        {
+            return this.storage.GetDiffTopicStatistic(topic, groups);
         }
         #endregion
     }
