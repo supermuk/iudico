@@ -37,7 +37,7 @@ namespace IUDICO.UnitTests.Security.NUnit
             var room = this.BanStorage.GetRooms().First();
 
             BanStorage.AttachComputerToRoom(computer, room);
-            //computer.RoomRef = room.Id;
+            // computer.RoomRef = room.Id;
 
             Assert.AreEqual(room.Id, computer.Room.Id);
         }
@@ -131,7 +131,7 @@ namespace IUDICO.UnitTests.Security.NUnit
         [Test]
         public void BanRoomTest()
         {
-            var room = new Room { Name = "Room", Allowed = true};
+            var room = new Room { Name = "Room", Allowed = true };
             this.BanStorage.CreateRoom(room);
             Assert.True(this.BanStorage.GetRoom("Room").Allowed);
             this.BanStorage.BanRoom(room);
@@ -141,7 +141,7 @@ namespace IUDICO.UnitTests.Security.NUnit
         [Test]
         public void UnbanRoomTest()
         {
-            var room = new Room { Name = "Room",Allowed = false };
+            var room = new Room { Name = "Room", Allowed = false };
             this.BanStorage.CreateRoom(room);
             Assert.False(this.BanStorage.GetRoom(room.Name).Allowed);
             this.BanStorage.UnbanRoom(room);
