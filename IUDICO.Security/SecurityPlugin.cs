@@ -127,7 +127,7 @@ namespace IUDICO.Security
             {
                 if (!securityService.CheckRequestSafety(new HttpRequestWrapper(HttpContext.Current.Request)))
                 {
-                    HttpContext.Current.Response.Redirect("/Ban/Banned", true);
+                    HttpContext.Current.Response.Redirect("BanUnban/Ban/Banned", true);
                 }
             }
         }
