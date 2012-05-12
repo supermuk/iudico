@@ -275,24 +275,34 @@ namespace IUDICO.Analytics.Models.Storage
             var ratRatings = groupRatings.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User.Id, a => a.Index);
 
             var ratingDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(ratResults[u.Id] - ratRatings[u.Id]));
-            var ratingMax = 2 * ((n + 1) / 2) * (n / 2);
-            var ratingNormalized = ratingDifference / ratingMax;
+            //var ratingMax = 2 * ((n + 1) / 2) * (n / 2);
+            var ratingMax = (n*n + n) / 2;
+            var ratingNormalized = 1 - (ratingDifference / ratingMax);
 
             var diffResults = groupResults.ToDictionary(a => a.User.Id, a => a.Score);
             var diffRatings = groupRatings.ToDictionary(a => a.User.Id, a => a.Score);
 
             var scoreDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(diffResults[u.Id] - diffRatings[u.Id]));
             var scoreMax = n * 100;
-            var scoreNormalized = scoreDifference / scoreMax;
+            var scoreNormalized = 1- (scoreDifference / scoreMax);
 
             return new GroupTopicStat(ratingNormalized, scoreNormalized);
         }
 
-        public double GetScoreRatingTopicStatistic(Topic topic, IEnumerable<Group> groups)
+        public double GetCorrTopicStatistic(Topic topic, IEnumerable<Group> groups)
         {
             if (groups != null && groups.Count() != 0)
             {
-                return groups.Sum(g => this.GetGroupTopicStatistic(topic, g).Average()) / groups.Count();
+                return groups.Sum(g => this.GetGroupTopicStatistic(topic, g).RatingDifference) / groups.Count();
+            }
+
+            return 0.0;
+        }
+        public double GetDiffTopicStatistic(Topic topic, IEnumerable<Group> groups)
+        {
+            if (groups != null && groups.Count() != 0)
+            {
+                return groups.Sum(g => this.GetGroupTopicStatistic(topic, g).TopicDifficulty) / groups.Count();
             }
 
             return 0.0;
@@ -302,13 +312,20 @@ namespace IUDICO.Analytics.Models.Storage
         {
             var results = this.GetResults(topic).ToList();
             var users = results.Select(r => r.User).ToList();
-
+            if (users.Count == 0 || results.Count==0)
+            {
+                return 0;
+            }
             // Масив типу : юзер - його теги і їх значення 
             var usersWithTags = new List<UserTags>();
             foreach (var user in users)
             {
                 var temp = new UserTags { Id = user.Id };
                 temp.Tags = new Dictionary<int, double>();
+                if (this.GetUserTagScores(user).Count()==0)
+                {
+                    return 0;
+                }
                 foreach (var tag in this.GetUserTagScores(user))
                 {
                     temp.Tags.Add(tag.TagId, tag.Score);
@@ -373,7 +390,6 @@ namespace IUDICO.Analytics.Models.Storage
 
         public double GaussianDistribution(Topic topic)
         {
-            
             var results = this.GetResults(topic).Select(x => (double)x.Score.ScaledScore * 100).ToList();
             if (results == null || results.Count == 0)
             {

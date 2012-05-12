@@ -6,7 +6,7 @@ SelectDisciplines
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-
+<%: Html.ActionLink("Back", "Index","Analytics")%>
     <h2>Discipline Quality</h2>
     <fieldset>
     <legend>Please, Select Discipline :</legend>
