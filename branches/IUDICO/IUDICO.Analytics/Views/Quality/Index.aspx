@@ -1,15 +1,16 @@
 ﻿<%@ Assembly Name="IUDICO.Analytics" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.Common.Models.Shared.Discipline>>" %>
-
+<%@ Import Namespace="IUDICO.Common" %>
+<%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 SelectDisciplines
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 <%: Html.ActionLink("Back", "Index","Analytics")%>
-    <h2>Discipline Quality</h2>
+    <h2><%=Localization.GetMessage("DisciplineQuality")%></h2>
     <fieldset>
-    <legend>Please, Select Discipline :</legend>
+    <legend><%=Localization.GetMessage("PleaseSelect")%> :</legend>
     <%if (Model.Count() != 0 && Model != null )
       { %>
         
