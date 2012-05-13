@@ -135,8 +135,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         public void PassNotExistingCurriculumChapterTopicIdToPlayAction()
         {
             // setup
-            this.curriculumServiceMock.Setup(service => service.GetCurriculumChapterTopicById(It.IsAny<int>())).Throws
-                <InvalidOperationException>().Verifiable();
+            this.curriculumServiceMock.Setup(service => service.GetCurriculumChapterTopicById(It.IsAny<int>())).Throws<InvalidOperationException>().Verifiable();
 
             // call
             var result = this.CallPlayAction();
@@ -159,8 +158,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         public void PassNonExistingCourseIdToPlayAction()
         {
             // setup
-            this.courseServiceMock.Setup(service => service.GetCourse(It.IsAny<int>())).Throws
-                <InvalidOperationException>().Verifiable();
+            this.courseServiceMock.Setup(service => service.GetCourse(It.IsAny<int>())).Throws<InvalidOperationException>().Verifiable();
 
             // call
             var result = this.CallPlayAction();
@@ -184,9 +182,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
             // setup
             this.curriculumServiceMock.Setup(
                 service =>
-                service.CanPassCurriculumChapterTopic(
-                    It.IsAny<User>(), It.IsAny<CurriculumChapterTopic>(), It.IsAny<TopicTypeEnum>())).Returns(false).
-                Verifiable();
+                service.CanPassCurriculumChapterTopic(It.IsAny<User>(), It.IsAny<CurriculumChapterTopic>(), It.IsAny<TopicTypeEnum>())).Returns(false).Verifiable();
 
             // call
             var result = this.CallPlayAction();
