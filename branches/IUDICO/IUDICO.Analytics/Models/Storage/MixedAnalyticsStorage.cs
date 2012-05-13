@@ -275,8 +275,8 @@ namespace IUDICO.Analytics.Models.Storage
             var ratRatings = groupRatings.Select((r, i) => new { User = r.User, Index = i }).ToDictionary(a => a.User.Id, a => a.Index);
 
             var ratingDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(ratResults[u.Id] - ratRatings[u.Id]));
-            //var ratingMax = 2 * ((n + 1) / 2) * (n / 2);
-            var ratingMax = (n*n + n) / 2;
+            
+            var ratingMax = (n * n + n) / 2;
             var ratingNormalized = 1 - (ratingDifference / ratingMax);
 
             var diffResults = groupResults.ToDictionary(a => a.User.Id, a => a.Score);
@@ -284,7 +284,7 @@ namespace IUDICO.Analytics.Models.Storage
 
             var scoreDifference = 1.0 * usersParticipated.Sum(u => Math.Abs(diffResults[u.Id] - diffRatings[u.Id]));
             var scoreMax = n * 100;
-            var scoreNormalized = 1- (scoreDifference / scoreMax);
+            var scoreNormalized = 1 - (scoreDifference / scoreMax);
 
             return new GroupTopicStat(ratingNormalized, scoreNormalized);
         }
@@ -312,7 +312,7 @@ namespace IUDICO.Analytics.Models.Storage
         {
             var results = this.GetResults(topic).ToList();
             var users = results.Select(r => r.User).ToList();
-            if (users.Count == 0 || results.Count==0)
+            if (users.Count == 0 || results.Count == 0)
             {
                 return 0;
             }
@@ -322,7 +322,7 @@ namespace IUDICO.Analytics.Models.Storage
             {
                 var temp = new UserTags { Id = user.Id };
                 temp.Tags = new Dictionary<int, double>();
-                if (this.GetUserTagScores(user).Count()==0)
+                if (this.GetUserTagScores(user).Count() == 0)
                 {
                     return 0;
                 }
