@@ -186,6 +186,8 @@
     <Compile Include="TestingSystem\NUnit\QueryConditionTests.cs" />
     <Compile Include="TestingSystem\NUnit\ScoreTests.cs" />
     <Compile Include="TestingSystem\NUnit\ServicesProxyTests.cs" />
+    <Compile Include="TestingSystem\NUnit\TestingServiceTests.cs" />
+    <Compile Include="TestingSystem\NUnit\TrainingControllerTests.cs" />
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="TestingSystem\Selenium\ExSelenium.cs" />
     <Compile Include="TestingSystem\Selenium\TestingSystemSeleniumTests.cs" />
