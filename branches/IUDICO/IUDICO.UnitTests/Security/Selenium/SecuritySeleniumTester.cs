@@ -214,7 +214,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Click("link=Security");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Overall stats");
-            this.selenium.WaitForPageToLoad("300000");
+            this.selenium.WaitForPageToLoad("30000");
 
             Assert.True(this.selenium.IsTextPresent("User"));
             
