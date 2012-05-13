@@ -1,6 +1,7 @@
 ﻿<%@ Assembly Name="IUDICO.Analytics" %>
 <%@ Page Title="" Language="C#" MasterPageFile="~/Views/Shared/Site.Master" Inherits="System.Web.Mvc.ViewPage<IUDICO.Analytics.Models.Quality.DisciplineModel>" %>
-
+<%@ Import Namespace="IUDICO.Common" %>
+<%@ Import Namespace="IUDICO.Common.Models.Shared" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="TitleContent" runat="server">
 	Discipline/Topics Quality
 </asp:Content>
@@ -9,14 +10,14 @@
     <%: Html.ActionLink("Back", "Index")%>
     <fieldset>
 
-    <legend><h2>Discipline-Topics Quality</h2></legend>
+    <legend><h2><%=Localization.GetMessage("DTQuality")%></h2></legend>
     <%if (Model.NoData() == false)
       { %>
        
         <table>     
      <tr>
-        <th>Discipline</th>
-        <th>Quality</th>
+        <th><%=Localization.GetMessage("Discipline")%></th>
+        <th><%=Localization.GetMessage("Quality")%></th>
      </tr>   
         <tr>
             <td>
@@ -30,11 +31,11 @@
         <br/>
      <table>     
      <tr>
-        <th>Topic</th>
-        <th>Quality 1</th>
-        <th>Quality 2</th>
-        <th>Quality 3</th>
-        <th>Quality 4</th>
+        <th><%=Localization.GetMessage("Topic")%></th>
+        <th><%=Localization.GetMessage("Quality")%> 1</th>
+        <th><%=Localization.GetMessage("Quality")%> 2</th>
+        <th><%=Localization.GetMessage("Quality")%> 3</th>
+        <th><%=Localization.GetMessage("Quality")%> 4</th>
      </tr>
      <%
           foreach (var topic in Model.GetAllowedTopics())
