@@ -47,10 +47,10 @@ namespace IUDICO.Analytics.Controllers
                 foreach (var topic in temp_allowedTopics)
                 {
                     List<double> quality = new List<double>();
-                    quality.Add(Math.Round(this.storage.GetTopicTagStatistic(topic),3)*100);
-                    quality.Add(Math.Round(this.storage.GetCorrTopicStatistic(topic, groups),3)*100);
+                    quality.Add(Math.Round(this.storage.GetTopicTagStatistic(topic), 3) * 100);
+                    quality.Add(Math.Round(this.storage.GetCorrTopicStatistic(topic, groups), 3) * 100);
                     quality.Add(Math.Round(this.storage.GetDiffTopicStatistic(topic, groups), 3) * 100);
-                    quality.Add(Math.Round(this.storage.GaussianDistribution(topic),3)*100);
+                    quality.Add(Math.Round(this.storage.GaussianDistribution(topic), 3) * 100);
                     tempDisciplineQuality += quality.Sum() / quality.Count;
                     temp.Add(new KeyValuePair<Topic, List<double>>(topic, quality));
                 }
