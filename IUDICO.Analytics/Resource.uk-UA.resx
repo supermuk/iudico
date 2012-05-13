@@ -135,14 +135,26 @@
   <data name="AnomalyOwnershipWarning" xml:space="preserve">
     <value>Ви можете виявляти аномалії лише у Ваших навчальних темах.</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
   <data name="Created" xml:space="preserve">
     <value>Створено</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Видалити</value>
   </data>
+  <data name="Discipline" xml:space="preserve">
+    <value>Дисципліна</value>
+  </data>
+  <data name="DisciplineQuality" xml:space="preserve">
+    <value>Якість дисципліни</value>
+  </data>
   <data name="DisciplineTopicQuality" xml:space="preserve">
     <value>Якість навчального матеріалу</value>
+  </data>
+  <data name="DTQuality" xml:space="preserve">
+    <value>Якість дисципліни та її тем</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Редагувати</value>
@@ -164,6 +176,12 @@
   </data>
   <data name="Normal" xml:space="preserve">
     <value>Нормально</value>
+  </data>
+  <data name="PleaseSelect" xml:space="preserve">
+    <value>Виберіть дисципліну</value>
+  </data>
+  <data name="Quality" xml:space="preserve">
+    <value>Якість</value>
   </data>
   <data name="Recommended" xml:space="preserve">
     <value>Рекомендовані</value>
@@ -188,6 +206,9 @@
   </data>
   <data name="Teach" xml:space="preserve">
     <value>Навчити</value>
+  </data>
+  <data name="Topic" xml:space="preserve">
+    <value>Тема</value>
   </data>
   <data name="TopicName" xml:space="preserve">
     <value>Назва теми</value>
