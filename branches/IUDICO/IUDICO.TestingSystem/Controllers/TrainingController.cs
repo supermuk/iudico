@@ -49,14 +49,6 @@ namespace IUDICO.TestingSystem.Controllers
             }
         }
 
-        protected IDisciplineService DisciplineService
-        {
-            get
-            {
-                return LmsService.FindService<IDisciplineService>();
-            }
-        }
-
         public TrainingController(IMlcProxy mlcProxy)
         {
             this.MlcProxy = mlcProxy;
@@ -74,7 +66,15 @@ namespace IUDICO.TestingSystem.Controllers
         [Allow(Role = Role.Student)]
         public ActionResult Play(int curriculumChapterTopicId, int courseId, TopicTypeEnum topicType)
         {
-            var curriculumChapterTopic = this.CurriculumService.GetCurriculumChapterTopicById(curriculumChapterTopicId);
+            CurriculumChapterTopic curriculumChapterTopic;
+            try
+            {
+                curriculumChapterTopic = this.CurriculumService.GetCurriculumChapterTopicById(curriculumChapterTopicId);
+            }
+            catch (InvalidOperationException)
+            {
+                curriculumChapterTopic = null;
+            }
 
             if (curriculumChapterTopic == null)
             {
@@ -96,10 +96,8 @@ namespace IUDICO.TestingSystem.Controllers
                 return this.View("Error", "~/Views/Shared/Site.Master", Localization.GetMessage("Course_Not_Found"));
             }
 
-            var currentUser = this.UserService.GetCurrentUser();
-
             var canPass = this.CurriculumService.CanPassCurriculumChapterTopic(
-                currentUser, curriculumChapterTopic, topicType);
+                this.CurrentUser, curriculumChapterTopic, topicType);
 
             if (!canPass)
             {
