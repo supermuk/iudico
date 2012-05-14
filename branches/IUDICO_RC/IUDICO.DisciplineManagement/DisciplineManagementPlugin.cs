@@ -73,6 +73,11 @@ namespace IUDICO.DisciplineManagement
                 new { controller = "Discipline" });
 
             routes.MapRoute(
+                "DisciplineAction",
+                "DisciplineAction/{action}",
+                new { controller = "Discipline" });
+
+            routes.MapRoute(
                 "Disciplines",
                 "Discipline/{action}",
                 new { controller = "Discipline", action = "Index" });

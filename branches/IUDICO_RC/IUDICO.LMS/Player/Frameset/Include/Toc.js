@@ -212,7 +212,7 @@ function ExpandCollapseGroup( strActivityId, elCluster, bExpandOnly )
 
         if (elClusterImg != undefined)
         {
-            elClusterImg.src = "Theme/MinusBtn.gif";
+            elClusterImg.src = "Theme/Minus.png";
         }
     }
     else
@@ -224,7 +224,7 @@ function ExpandCollapseGroup( strActivityId, elCluster, bExpandOnly )
             
             if (elClusterImg != undefined)
             {
-                elClusterImg.src = "Theme/PlusBtn.gif";
+                elClusterImg.src = "Theme/Plus.png";
             }
         }     
     }

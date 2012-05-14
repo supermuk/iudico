@@ -9,10 +9,10 @@ namespace IUDICO.Analytics.Models.Quality
 {
     public class DisciplineModel
     {
-        private List<KeyValuePair<Topic, double>> allowedTopics;
+        private List<KeyValuePair<Topic, List<double>>> allowedTopics;
         private string disciplineName;
         private double disciplineQuality;
-        public DisciplineModel(List<KeyValuePair<Topic, double>> allowedTopics, string disciplineName, double disciplineQuality)
+        public DisciplineModel(List<KeyValuePair<Topic, List<double>>> allowedTopics, string disciplineName, double disciplineQuality)
         {
             this.allowedTopics = allowedTopics;
             this.disciplineName = disciplineName;
@@ -30,7 +30,7 @@ namespace IUDICO.Analytics.Models.Quality
         {
             return this.allowedTopics == null;
         }
-        public List<KeyValuePair<Topic, double>> GetAllowedTopics()
+        public List<KeyValuePair<Topic, List<double>>> GetAllowedTopics()
         {
             return this.allowedTopics;
         }

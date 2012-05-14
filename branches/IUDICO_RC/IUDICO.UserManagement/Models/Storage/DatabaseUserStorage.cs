@@ -23,7 +23,7 @@ namespace IUDICO.UserManagement.Models.Storage
         protected ILmsService lmsService;
         protected readonly LinqLogger Logger;
         protected const string AllowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
-        protected const string EmailHost = "mail.lviv.ua";
+        protected const string EmailHost = "192.168.0.47";
         protected const int EmailPort = 25;
         protected const string EmailUser = "report@tests-ua.com";
         /*protected const string EmailPassword = "iudico2012";*/
@@ -338,8 +338,11 @@ namespace IUDICO.UserManagement.Models.Storage
 
             foreach (var user in users)
             {
-                var message = "Your account has been created:\nUsername: " + user.Username + "\nPassword: " + passwords[user.Username];
-                this.SendEmail("admin@iudico", user.Email, "Iudico Notification", message);
+                if (!string.IsNullOrEmpty(user.Email))
+                {
+                    var message = "Your account has been created:\nUsername: " + user.Username + "\nPassword: " + passwords[user.Username];
+                    this.SendEmail("admin@iudico", user.Email, "Iudico Notification", message);
+                }
             }
 
             this.lmsService.Inform(UserNotifications.UserCreateMultiple, users);
