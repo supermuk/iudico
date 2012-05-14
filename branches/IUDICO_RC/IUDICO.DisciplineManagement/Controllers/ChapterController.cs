@@ -22,8 +22,6 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
             try
             {
-                ViewData["DisciplineId"] = parentId;
-
                 var chapters = Storage.GetChapters(item => item.DisciplineRef == parentId);
 
                 var partialViews = chapters.Select(chapter => PartialViewAsString("ChapterRow", chapter)).ToArray();
@@ -40,20 +38,16 @@ namespace IUDICO.DisciplineManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create(int disciplineId)
         {
-            var discipline = Storage.GetDiscipline(disciplineId);
-
-            ViewData["DisciplineName"] = discipline.Name;
-
             return PartialView("Create", new Chapter());
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public JsonResult Create(Chapter chapter, int disciplineRef)
+        public JsonResult Create(Chapter chapter, int disciplineId)
         {
             try
             {
-                chapter.DisciplineRef = disciplineRef;
+                chapter.DisciplineRef = disciplineId;
 
                 if (ModelState.IsValid)
                 {
@@ -75,10 +69,6 @@ namespace IUDICO.DisciplineManagement.Controllers
         public ActionResult Edit(int chapterId)
         {
             var chapter = Storage.GetChapter(chapterId);
-
-            ViewData["DisciplineName"] = Storage.GetDiscipline(chapter.DisciplineRef).Name;
-            Session["DisciplineId"] = chapter.DisciplineRef;
-
             return PartialView("Edit", chapter);
         }
 
@@ -91,7 +81,7 @@ namespace IUDICO.DisciplineManagement.Controllers
                 if (ModelState.IsValid)
                 {
                     chapter.Id = chapterId;
-                    Storage.UpdateChapter(chapter);
+                    chapter = Storage.UpdateChapter(chapter);
 
                     return Json(new { success = true, chapterId = chapterId, chapterRow = PartialViewAsString("ChapterRow", chapter) });
                 }

@@ -15,5 +15,7 @@ namespace IUDICO.TestingSystem.ViewModels
         public int CurriculumChapterTopicId { get; set; }
 
         public TopicTypeEnum TopicType { get; set; }
+
+        public string TopicName { get; set; }
     }
 }

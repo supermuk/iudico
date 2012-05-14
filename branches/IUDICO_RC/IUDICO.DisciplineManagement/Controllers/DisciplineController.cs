@@ -25,11 +25,7 @@ namespace IUDICO.DisciplineManagement.Controllers
         public ActionResult Index()
         {
             var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
-            var model = disciplines.Select(item => new ViewDisciplineModel {
-                Discipline = item,
-                Error = !item.IsValid ? Validator.GetValidationError(item)
-                    : string.Empty
-            });
+            var model = disciplines.Select(item => item.ToViewDisciplineModel(Validator.GetValidationError(item)));
             return View(model);
         }
 
@@ -37,19 +33,34 @@ namespace IUDICO.DisciplineManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Create(Discipline discipline)
+        public JsonResult Create(Discipline discipline)
         {
-            if (ModelState.IsValid)
+            try
             {
-                Storage.AddDiscipline(discipline);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    Storage.AddDiscipline(discipline);
+                    return Json(
+                        new
+                        {
+                            success = true,
+                            disciplineRow = PartialViewAsString(
+                                "DisciplineRow", 
+                                discipline.ToViewDisciplineModel(Validator.GetValidationError(discipline)))
+                        });
+                }
+
+                return Json(new { success = false, html = PartialViewAsString("Create", discipline) });
             }
-            return View(discipline);
+            catch (Exception ex)
+            {
+                return Json(new { success = false, html = ex.Message });
+            }
         }
 
         [HttpGet]
@@ -58,17 +69,37 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
             var discipline = Storage.GetDiscipline(disciplineId);
 
-            return View(discipline);
+            return PartialView(discipline);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int disciplineId, Discipline discipline)
         {
-            discipline.Id = disciplineId;
-            Storage.UpdateDiscipline(discipline);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    discipline.Id = disciplineId;
+                    discipline = Storage.UpdateDiscipline(discipline);
 
-            return RedirectToAction("Index");
+                    return Json(
+                        new
+                        {
+                            success = true,
+                            disciplineId = disciplineId,
+                            disciplineRow =
+                                PartialViewAsString(
+                                    "DisciplineRow",
+                                    discipline.ToViewDisciplineModel(Validator.GetValidationError(discipline)))
+                        });
+                }
+                return Json(new { success = false, chapterId = disciplineId, html = PartialViewAsString("Edit", discipline) });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, html = ex.Message });
+            }
         }
 
         [HttpGet]

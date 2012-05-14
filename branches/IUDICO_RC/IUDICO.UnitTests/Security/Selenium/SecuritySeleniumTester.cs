@@ -17,7 +17,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         [SetUp]
         public void Login()
         {
-            this.selenium = new DefaultSelenium("localhost", 4444, "*chrome", ConfigurationManager.AppSettings["SELENIUM_URL"]);
+            this.selenium = new DefaultSelenium("localhost", 4444, "*firefox", ConfigurationManager.AppSettings["SELENIUM_URL"]);
             this.selenium.Start();
             this.verificationErrors = new StringBuilder();
         }
@@ -45,7 +45,8 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Security");
             this.selenium.WaitForPageToLoad("30000");
-
+            this.selenium.Click("link=Ban / Unban");
+            this.selenium.WaitForPageToLoad("30000");
 
             this.selenium.Click("//a[contains(@href, '/Ban/AddComputers')]");
             this.selenium.WaitForPageToLoad("30000");
@@ -74,6 +75,8 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Click("id=loginDefaultButton");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Security");
+            this.selenium.WaitForPageToLoad("30000");
+            this.selenium.Click("link=Ban / Unban");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Add computer");
             this.selenium.WaitForPageToLoad("30000");
@@ -108,6 +111,8 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Security");
             this.selenium.WaitForPageToLoad("30000");
+            this.selenium.Click("link=Ban / Unban");            
+            this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Add computer");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Type("id=ComputerIP", "192.169.0.32");
@@ -119,7 +124,6 @@ namespace IUDICO.UnitTests.Security.Selenium
 
             this.selenium.Click("//a[contains(@href, '/Ban/EditComputer?ComputerIP=192.169.0.32&Banned=False')]");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Type("id=CurrentUser", "lex");
             this.selenium.Click("name=saveButton");
             this.selenium.WaitForPageToLoad("30000");
 
@@ -144,6 +148,8 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Click("id=loginDefaultButton");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Security");
+            this.selenium.WaitForPageToLoad("30000");
+            this.selenium.Click("link=Ban / Unban");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Add room");
             this.selenium.WaitForPageToLoad("30000");
@@ -171,6 +177,8 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Click("id=loginDefaultButton");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Security");
+            this.selenium.WaitForPageToLoad("30000");
+            this.selenium.Click("link=Ban / Unban");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Add room");
             this.selenium.WaitForPageToLoad("30000");
@@ -206,7 +214,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Click("link=Security");
             this.selenium.WaitForPageToLoad("30000");
             this.selenium.Click("link=Overall stats");
-            this.selenium.WaitForPageToLoad("50000");
+            this.selenium.WaitForPageToLoad("30000");
 
             Assert.True(this.selenium.IsTextPresent("User"));
             

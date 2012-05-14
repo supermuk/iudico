@@ -451,11 +451,10 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
             if (!selenium.IsTextPresent(name))
             {
-                selenium.Open("/Discipline/Create");
-                selenium.WaitForPageToLoad(LoadTime);
+                selenium.Click("css=a[onclick='addDiscipline();']");
+                ExSelenium.WaitForElement("id=Name");
                 selenium.Type("id=Name", name);
-                selenium.Click("css=input[value='Створити']");
-                selenium.WaitForPageToLoad(LoadTime);
+                selenium.Click("xpath=//button[contains(., 'Згода')]");
             }
         }
 

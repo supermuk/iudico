@@ -102,11 +102,11 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return id;
         }
 
-        public void UpdateDiscipline(Discipline discipline)
+        public Discipline UpdateDiscipline(Discipline discipline)
         {
-            this.storage.UpdateDiscipline(discipline);
-
+            var updatedDiscipline = this.storage.UpdateDiscipline(discipline);
             this.cacheProvider.Invalidate("disciplines", "discipline-" + discipline.Id);
+            return updatedDiscipline;
         }
 
         public void DeleteDiscipline(int id)
@@ -180,11 +180,11 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return id;
         }
 
-        public void UpdateChapter(Chapter chapter)
+        public Chapter UpdateChapter(Chapter chapter)
         {
-            this.storage.UpdateChapter(chapter);
-
+            var updatedChapter = this.storage.UpdateChapter(chapter);
             this.cacheProvider.Invalidate("chaprters", "chapter-" + chapter.Id);
+            return updatedChapter;
         }
 
         public void DeleteChapter(int id)
@@ -276,13 +276,14 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return id;
         }
 
-        public void UpdateTopic(Topic topic)
+        public Topic UpdateTopic(Topic topic)
         {
-            this.storage.UpdateTopic(topic);
+            var updatedTopic = this.storage.UpdateTopic(topic);
             var chapter = this.storage.GetChapter(this.storage.GetTopic(topic.Id).ChapterRef);
             this.cacheProvider.Invalidate("disciplines", "discipline-" + chapter.DisciplineRef);
             
             this.cacheProvider.Invalidate("topics", "topic-" + topic.Id);
+            return updatedTopic;
         }
 
         public void DeleteTopic(int id)

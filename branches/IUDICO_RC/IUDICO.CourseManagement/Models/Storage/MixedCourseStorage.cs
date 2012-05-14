@@ -367,6 +367,16 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             importer.Import();
 
+            // QUICK FIX for importing images
+            var imagesPath = Path.Combine(courseTempPath, "Node");
+            if (Directory.Exists(imagesPath))
+            {
+                FileHelper.DirectoryCopy(imagesPath, Path.Combine(coursePath, "Node"));
+            }
+
+            // QUICK FIX for "Row not found or changed." exception
+            db = this.GetDbContext();
+            course = db.Courses.Single(c => c.Id == courseId);
             course.Locked = false;
 
             db.SubmitChanges();

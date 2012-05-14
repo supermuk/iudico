@@ -34,14 +34,14 @@
 
     function SetContentHeight(height) {
         parent.document.getElementById("player").height = height;
-        frames["frameLearnTask"].document.getElementById("framesetParentMain").style.height = (height - 53) + "px";
-        document.getElementById("frameLearnTask").height = height - 53;
+        frames["frameLearnTask"].document.getElementById("framesetParentMain").style.height = height - 36 + "px";
+        document.getElementById("frameLearnTask").height = height - 36;
     }
 
     function OnIFrameContentLoad() {
         /*var taskHeight = frames["frameLearnTask"].document.body.offsetHeight;
         frames["frameLearnTask"].document.body.offsetHeight;*/
-        SetContentHeight(parent.viewPortHeight - parent.viewPortOffsetTop - parent.viewPortOffsetBottom);
+        SetContentHeight(Math.max(parent.viewPortHeight - parent.viewPortOffsetTop - parent.viewPortOffsetBottom - 100, 300));
     }
 
     // Constants
@@ -121,7 +121,7 @@
        else // no error, so show frameset	
        { %>
     <body  onload="OnIFrameContentLoad()">
-        <iframe name="frameTitle" id="frameTitle"  class="frameTitle" src="Title.htm" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" height="53" width="100%"></iframe>
+        <iframe name="frameNavOpen" id="frameNavOpen" src="Title.aspx" marginwidth="0" marginheight="0" scrolling="no" frameborder="0" height="36" width="100%"></iframe>
 
         <iframe name="frameLearnTask" id="frameLearnTask" class="ShellFrame" src="<%=this.MainFramesUrl%>" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" height="600px" width="100%"></iframe>
 
