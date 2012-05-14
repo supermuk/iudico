@@ -720,12 +720,12 @@ select option.added
 
 .disciplineDateColumn 
 {
-    width: 100px;
+    width: 90px !important;
 }
 
 .disciplineActionColumn 
 {
-    width: 260px;
+    width: 350px;
 }
 
 .discipline 

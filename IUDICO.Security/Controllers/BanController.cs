@@ -72,13 +72,12 @@ namespace IUDICO.Security.Controllers
         {
             if (!string.IsNullOrEmpty(viewModel.Name))
             {
-                var newRoom = new Room
+                if (this.BanStorage.GetRoom(viewModel.Name) == null)
                 {
-                    Name = viewModel.Name,
-                    Allowed = viewModel.Allowed
-                };
+                    var newRoom = new Room { Name = viewModel.Name, Allowed = viewModel.Allowed };
 
-                this.BanStorage.CreateRoom(newRoom);
+                    this.BanStorage.CreateRoom(newRoom);
+                }
             }
             return View(viewModel);
         }

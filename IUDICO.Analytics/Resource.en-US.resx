@@ -135,14 +135,26 @@
   <data name="AnomalyOwnershipWarning" xml:space="preserve">
     <value>Sorry, but you can use Anomaly Detection algorithm only to topics that you owned.</value>
   </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
   <data name="Created" xml:space="preserve">
     <value>Created</value>
   </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="Discipline" xml:space="preserve">
+    <value>Discipline</value>
+  </data>
+  <data name="DisciplineQuality" xml:space="preserve">
+    <value>Discipline Quality</value>
+  </data>
   <data name="DisciplineTopicQuality" xml:space="preserve">
     <value>Discipline and Topic Quality</value>
+  </data>
+  <data name="DTQuality" xml:space="preserve">
+    <value>Discipline-Topic Quality</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
@@ -164,6 +176,12 @@
   </data>
   <data name="Normal" xml:space="preserve">
     <value>Normal</value>
+  </data>
+  <data name="PleaseSelect" xml:space="preserve">
+    <value>Please, select Discipline</value>
+  </data>
+  <data name="Quality" xml:space="preserve">
+    <value>Quality</value>
   </data>
   <data name="Recommended" xml:space="preserve">
     <value>Recommended</value>
@@ -188,6 +206,9 @@
   </data>
   <data name="Teach" xml:space="preserve">
     <value>Teach</value>
+  </data>
+  <data name="Topic" xml:space="preserve">
+    <value>Topic</value>
   </data>
   <data name="TopicName" xml:space="preserve">
     <value>Topic Name</value>

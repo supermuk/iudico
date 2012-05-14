@@ -39,19 +39,20 @@ namespace IUDICO.Analytics.Controllers
             var disciplineName = LmsService.FindService<IDisciplineService>().GetDiscipline((int)selectDisciplineId).Name;
             var groups = LmsService.FindService<IUserService>().GetGroups();
             double disciplineQuality = 0;
-            var allowedTopics = new List<KeyValuePair<Topic, double>>();
+            var allowedTopics = new List<KeyValuePair<Topic, List<double>>>();
             if (temp_allowedTopics != null & temp_allowedTopics.Count() != 0)
             {
                 double tempDisciplineQuality = 0;
-                var temp = new List<KeyValuePair<Topic, double>>();
+                var temp = new List<KeyValuePair<Topic, List<double>>>();
                 foreach (var topic in temp_allowedTopics)
                 {
                     List<double> quality = new List<double>();
-                    quality.Add(this.storage.GetTopicTagStatistic(topic));
-                    quality.Add(this.storage.GetScoreRatingTopicStatistic(topic, groups));
-                    quality.Add(this.storage.GaussianDistribution(topic));
+                    quality.Add(Math.Round(this.storage.GetTopicTagStatistic(topic), 3) * 100);
+                    quality.Add(Math.Round(this.storage.GetCorrTopicStatistic(topic, groups), 3) * 100);
+                    quality.Add(Math.Round(this.storage.GetDiffTopicStatistic(topic, groups), 3) * 100);
+                    quality.Add(Math.Round(this.storage.GaussianDistribution(topic), 3) * 100);
                     tempDisciplineQuality += quality.Sum() / quality.Count;
-                    temp.Add(new KeyValuePair<Topic, double>(topic, quality.Sum() / quality.Count));
+                    temp.Add(new KeyValuePair<Topic, List<double>>(topic, quality));
                 }
                 disciplineQuality = tempDisciplineQuality / temp.Count;
                 allowedTopics = temp;

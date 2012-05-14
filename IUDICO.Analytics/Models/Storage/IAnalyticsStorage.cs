@@ -53,6 +53,7 @@ namespace IUDICO.Analytics.Models.Storage
 
         double GaussianDistribution(Topic topic);
         double GetTopicTagStatistic(Topic topic);
-        double GetScoreRatingTopicStatistic(Topic topic, IEnumerable<Group> groups);
+        double GetCorrTopicStatistic(Topic topic, IEnumerable<Group> groups);
+        double GetDiffTopicStatistic(Topic topic, IEnumerable<Group> groups);
     }
 }

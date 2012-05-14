@@ -86,63 +86,67 @@ namespace IUDICO.Search
 
         public void Update(string evt, params object[] data)
         {
-            var luceneThread = this.container.Resolve<LuceneThread>();
-
-            if (evt == LMSNotifications.ApplicationStart)
+            try
             {
-                /*
-                var types = Assembly.GetExecutingAssembly().GetTypes()
-                    .Where(typeof(IIndexDefinition<>).IsAssignableFrom);
+                var luceneThread = this.container.Resolve<LuceneThread>();
 
-                http://stackoverflow.com/questions/6174956/isassignablefrom-when-interface-has-generics-but-not-the-implementation
-
-                foreach (var type in types)
+                if (evt == LMSNotifications.ApplicationStart)
                 {
-                    directoryIndex.Add(type, type.AssemblyQualifiedName);
+                    /*
+                    var types = Assembly.GetExecutingAssembly().GetTypes()
+                        .Where(typeof(IIndexDefinition<>).IsAssignableFrom);
+
+                    http://stackoverflow.com/questions/6174956/isassignablefrom-when-interface-has-generics-but-not-the-implementation
+
+                    foreach (var type in types)
+                    {
+                        directoryIndex.Add(type, type.AssemblyQualifiedName);
+                    }
+                    */
+
+                    // luceneThread = new LuceneThread(data[0] as ILmsService);
+                    // this.thread = new Thread(luceneThread.Run);
+                    // this.thread.Start();
+
+                    this.bw = new BackgroundWorker();
+                    this.bw.DoWork += (sender, args) => ((LuceneThread)args.Argument).RebuildIndex();
+                    this.bw.RunWorkerAsync(luceneThread);
                 }
-                */
+                else if (evt == LMSNotifications.ApplicationStop)
+                {
 
-                // luceneThread = new LuceneThread(data[0] as ILmsService);
-                // this.thread = new Thread(luceneThread.Run);
-                // this.thread.Start();
+                }
 
-                this.bw = new BackgroundWorker();
-                this.bw.DoWork += (sender, args) => ((LuceneThread)args.Argument).RebuildIndex();
-                this.bw.RunWorkerAsync(luceneThread);
-            }
-            else if (evt == LMSNotifications.ApplicationStop)
-            {
-                
-            }
+                switch (evt)
+                {
+                    case UserNotifications.UserCreate:
+                    case UserNotifications.UserEdit:
+                        luceneThread.UpdateIndex((User)data[0]);
+                        break;
+                    case UserNotifications.UserDelete:
+                        luceneThread.DeleteIndex((User)data[0]);
+                        break;
+                    case UserNotifications.GroupCreate:
+                    case UserNotifications.GroupEdit:
+                        luceneThread.UpdateIndex((Group)data[0]);
+                        break;
+                    case UserNotifications.GroupDelete:
+                        luceneThread.DeleteIndex((Group)data[0]);
+                        break;
+                    case DisciplineNotifications.DisciplineCreated:
+                    case DisciplineNotifications.DisciplineEdited:
+                        luceneThread.UpdateIndex((Discipline)data[0]);
+                        break;
+                    case DisciplineNotifications.DisciplineDeleted:
+                        luceneThread.DeleteIndex((Discipline)data[0]);
+                        break;
+                }
 
-            switch (evt)
-            {
-                case UserNotifications.UserCreate:
-                case UserNotifications.UserEdit:
-                    luceneThread.UpdateIndex((User)data[0]);
-                    break;
-                case UserNotifications.UserDelete:
-                    luceneThread.DeleteIndex((User)data[0]);
-                    break;
-                case UserNotifications.GroupCreate:
-                case UserNotifications.GroupEdit:
-                    luceneThread.UpdateIndex((Group)data[0]);
-                    break;
-                case UserNotifications.GroupDelete:
-                    luceneThread.DeleteIndex((Group)data[0]);
-                    break;
-                case DisciplineNotifications.DisciplineCreated:
-                case DisciplineNotifications.DisciplineEdited:
-                    luceneThread.UpdateIndex((Discipline)data[0]);
-                    break;
-                case DisciplineNotifications.DisciplineDeleted:
-                    luceneThread.DeleteIndex((Discipline)data[0]);
-                    break;
-            }
+                luceneThread.ProcessQueue();
 
-            luceneThread.ProcessQueue();
+                #region Comments:)
 
-            /*
+                /*
 
             if (evt == DisciplineNotifications.TopicCreated)
             {
@@ -233,6 +237,12 @@ namespace IUDICO.Search
             }
             */
 
+                #endregion
+            }
+            catch (Exception)
+            {
+                // Maybe log exceptions?
+            }
         }
 
         /*protected Timer mTimer = new Timer(1000 * 60 * 60);

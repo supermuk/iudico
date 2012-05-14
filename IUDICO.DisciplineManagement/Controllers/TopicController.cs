@@ -93,9 +93,10 @@ namespace IUDICO.DisciplineManagement.Controllers
                 AddValidationErrorsToModelState(Validator.ValidateTopic(topic).Errors);
                 if (ModelState.IsValid)
                 {
-                    Storage.UpdateTopic(topic);
+                    topic = Storage.UpdateTopic(topic);
+
                     var viewTopic = topic.ToViewTopicModel(Storage);
-                    var discipline = Storage.GetTopic(topicId).Chapter.Discipline;
+                    var discipline = Storage.GetTopic(topicId).Chapter.Discipline; // TODO: FatTony;wtf?
                     return Json(new { success = true, topicId = topicId, topicRow = PartialViewAsString("TopicRow", viewTopic), disciplineId = discipline.Id, error = discipline.IsValid ? string.Empty : Validator.GetValidationError(discipline) });
                 }
 
