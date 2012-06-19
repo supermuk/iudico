@@ -138,7 +138,7 @@ namespace IUDICO.UserManagement.Controllers
             }
             catch (Exception ex)
             {
-                this.ModelState.AddModelError(string.Empty, ex);
+                this.ModelState.AddModelError(string.Empty, ex.Message);
 
                 return this.View();
             }

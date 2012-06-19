@@ -232,7 +232,7 @@
     <value>Групи</value>
   </data>
   <data name="Login" xml:space="preserve">
-    <value>Увійти</value>
+    <value>Логін</value>
   </data>
   <data name="Loginn" xml:space="preserve">
     <value>Логін</value>
@@ -352,7 +352,7 @@
     <value>Ідентифікатор користувача є обов'язковим</value>
   </data>
   <data name="CreateMultiple" xml:space="preserve">
-    <value>Створити багато</value>
+    <value>Група користувачів</value>
   </data>
   <data name="RestorePassword" xml:space="preserve">
     <value>Отримати пароль</value>
