@@ -8,7 +8,7 @@
     <%=Localization.GetMessage("SearchResults")%>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
-    <form action="/Search/Search" method="post">
+    <form action="/Search/SearchSimple" method="post">
         <%= Html.TextBoxFor(model=> model.SearchText)%>
         <%--    <%= Html.TextBox("query",  ViewData["SearchString"])%>--%>
         <input type="submit" value='<%=Localization.GetMessage("Search")%>' />
@@ -33,6 +33,13 @@
         <ul>
            <% foreach (var discipline in Model.Disciplines) { %>
            <li><%= discipline.Name %></li>
+           <% } %>
+        </ul>
+
+        <h2>Courses</h2>
+        <ul>
+           <% foreach (var course in Model.Courses) { %>
+           <li><%= course.Name %></li>
            <% } %>
         </ul>
     </form>

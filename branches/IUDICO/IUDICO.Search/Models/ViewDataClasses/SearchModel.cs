@@ -19,5 +19,7 @@ namespace IUDICO.Search.Models.ViewDataClasses
         public IEnumerable<User> Users;
 
         public IEnumerable<Discipline> Disciplines;
+
+        public IEnumerable<Course> Courses;
     }
 }

@@ -20,8 +20,6 @@ namespace IUDICO.Search.Models.SearchTypes
     {
         private Definition<T> definition;
 
-        private DefaultQuery query;
-
         private FileSystemIndexLocation fsiLocation;
 
         public SearchType()
@@ -68,7 +66,7 @@ namespace IUDICO.Search.Models.SearchTypes
 
         public DefaultQuery GetQuery()
         {
-            return this.query;
+            return this.definition.Query;
         }
 
         public virtual IEnumerable<T> Search(string keywords)
