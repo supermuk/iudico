@@ -69,6 +69,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             Session["CurriculumChapterId"] = curriculumChapter.Id;
             ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef) != null ? Storage.GetGroup(curriculum.UserGroupRef).Name : Localization.GetMessage("GroupNotExist");
             ViewData["DisciplineName"] = Storage.GetDiscipline(curriculum.DisciplineRef).Name;
+            ViewData["CurriculumId"] = curriculum.Id;
             ViewData["ChapterName"] = Storage.GetChapter(curriculumChapter.ChapterRef).Name;
             ViewData["TopicName"] = Storage.GetTopic(curriculumChapterTopic.TopicRef).Name;
             return View(model);

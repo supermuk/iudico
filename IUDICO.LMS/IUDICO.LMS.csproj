@@ -178,7 +178,9 @@
     <EmbeddedResource Include="Resource.en-US.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resource.uk-UA.resx" />
+    <EmbeddedResource Include="Resource.uk-UA.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Home\Index.aspx" />
     <None Include="Scripts\jquery\jquery-1.4.1-vsdoc.js">
     </None>
