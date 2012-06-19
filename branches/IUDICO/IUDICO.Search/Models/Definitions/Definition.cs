@@ -16,7 +16,7 @@ namespace IUDICO.Search.Models.Definitions
     abstract public class Definition<T> : IIndexDefinition<T>, IResultDefinition<T>
         where T : class
     {
-        public DefaultQuery Query
+        public virtual DefaultQuery Query
         {
             get; protected set;
         }

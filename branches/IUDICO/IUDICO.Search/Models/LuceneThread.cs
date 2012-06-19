@@ -65,6 +65,7 @@ namespace IUDICO.Search.Models
             this.SearchTypes.Add(typeof(User), new SearchType<User>(new UserDefinition(), this.LuceneDataPath));
             this.SearchTypes.Add(typeof(Group), new SearchType<Group>(new GroupDefinition(), this.LuceneDataPath));
             this.SearchTypes.Add(typeof(Discipline), new SearchType<Discipline>(new DisciplineDefinition(), this.LuceneDataPath));
+            this.SearchTypes.Add(typeof(Course), new SearchType<Course>(new CourseDefinition(), this.LuceneDataPath));
         }
 
         ~LuceneThread()

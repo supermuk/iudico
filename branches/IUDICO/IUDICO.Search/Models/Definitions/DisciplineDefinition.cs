@@ -10,9 +10,12 @@ namespace IUDICO.Search.Models.Definitions
 {
     public class DisciplineDefinition : Definition<Discipline>
     {
-        public DisciplineDefinition()
+        public override DefaultQuery Query
         {
-            this.Query = new DisciplineQuery();
+            get
+            {
+                return new DisciplineQuery();
+            }
         }
 
         public override Document Convert(Discipline entity)

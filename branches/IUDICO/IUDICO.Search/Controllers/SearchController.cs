@@ -50,17 +50,22 @@ namespace IUDICO.Search.Controllers
         }
 
         [HttpPost]
-        public ActionResult SearchSimple(string query)
+        public ActionResult SearchSimple(string SearchText)
         {
+            DateTime datastart = DateTime.Now;
+
             var model = new SearchModel
             {
-                SearchText = query,
-                Users = this.thread.Search<User>(query),
-                Disciplines = this.thread.Search<Discipline>(query)
+                SearchText = SearchText,
+                Users = this.thread.Search<User>(SearchText),
+                Disciplines = this.thread.Search<Discipline>(SearchText),
+                Courses = this.thread.Search<Course>(SearchText)
                 // CheckBoxes = this.GetAvailableCheckBoxes()
             };
 
-            // sthis.MakeSearch(model);
+            DateTime dataend = DateTime.Now;
+            model.Score = Math.Abs(dataend.Millisecond - datastart.Millisecond);
+
             return View("Search", model);
         }
 
