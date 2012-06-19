@@ -22,7 +22,6 @@ Inherits="System.Web.Mvc.ViewPage<IUDICO.CurriculumManagement.Models.ViewDataCla
     <span class="headerName"><%=Localization.GetMessage("Chapter")%>:</span>
     <span class="headerValue"><%: ViewData["ChapterName"] %></span>
     <span class="headerName"><%=Localization.GetMessage("Discipline")%>:</span>
-    <span class="headerValue"><%: Html.RouteLink(ViewData["DisciplineName"].ToString(), "CurriculumChapters", new { action = "Index", CurriculumId = ViewData["CurriculumId"] })%></span>
     <span class="headerName"><%=Localization.GetMessage("Group")%>:</span>
     <span class="headerValue"><%: ViewData["GroupName"] %></span>
 

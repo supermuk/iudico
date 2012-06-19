@@ -106,9 +106,12 @@
         <ul>
         <% foreach (var action in Model.Actions.Single(i => i.Key.GetName() == "UserManagement").Value)
            { %>
+           <% if (action.Link == "User/Index" || action.Link == "Group/Index") %>
+           <% { %>
             <li>
-                <a href="<%: action.Link %>"><%: action.Name %></a>
+                <a href="<%: action.Link %>"><%: action.Name%></a>
             </li>
+            <% } %>
         <% } %>
         </ul>
         </div>
