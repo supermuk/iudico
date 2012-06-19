@@ -43,6 +43,8 @@ namespace IUDICO.Search
 
         private BackgroundWorker bw;
 
+        protected static string serverPath;
+
         // protected LuceneThread luceneThread;
 
         #region IWindsorInstaller Members
@@ -108,6 +110,11 @@ namespace IUDICO.Search
                     // this.thread = new Thread(luceneThread.Run);
                     // this.thread.Start();
 
+                    string root = new FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).FullName;
+                    int index = root.IndexOf("\\Plugins");
+                    root = root.Substring(0, index);
+                    serverPath = root.Insert(index, "\\Data\\Index");
+
                     this.bw = new BackgroundWorker();
                     this.bw.DoWork += (sender, args) => ((LuceneThread)args.Argument).RebuildIndex();
                     this.bw.RunWorkerAsync(luceneThread);
@@ -140,109 +147,114 @@ namespace IUDICO.Search
                     case DisciplineNotifications.DisciplineDeleted:
                         luceneThread.DeleteIndex((Discipline)data[0]);
                         break;
+                    case CourseNotifications.CourseCreate:
+                        luceneThread.UpdateIndex((Course)data[0]);
+                        break;
+                    case CourseNotifications.CourseEdit:
+                        luceneThread.DeleteIndex((Course)data[0]);
+                        luceneThread.UpdateIndex((Course)data[1]);
+                        break;
+                    case CourseNotifications.CourseDelete:
+                        luceneThread.DeleteIndex((Course)data[0]);
+                        break;
                 }
 
                 luceneThread.ProcessQueue();
 
-                #region Comments:)
 
-                /*
-
-            if (evt == DisciplineNotifications.TopicCreated)
-            {
-                Topic topic = (Topic)data[0];
-                Document document = new Document();
-                document = new Document();
-                document.Add(new Field("Type", "Topic", Field.Store.YES, Field.Index.NO));
-                document.Add(new Field("TopicID", topic.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-                document.Add(new Field("Topic", topic.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-                if (topic.TestCourseRef == null)
+                if (evt == DisciplineNotifications.TopicCreated)
                 {
-                    document.Add(new Field("CourseRef", "null", Field.Store.YES, Field.Index.NO));
+                    Topic topic = (Topic)data[0];
+                    Document document = new Document();
+                    document = new Document();
+                    document.Add(new Field("Type", "Topic", Field.Store.YES, Field.Index.NO));
+                    document.Add(new Field("TopicID", topic.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
+                    document.Add(new Field("Topic", topic.Name.ToString(), Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
+                    if (topic.TestCourseRef == null)
+                    {
+                        document.Add(new Field("CourseRef", "null", Field.Store.YES, Field.Index.NO));
+                    }
+                    else
+                    {
+                        document.Add(new Field("CourseRef", topic.TestCourseRef.ToString(), Field.Store.YES, Field.Index.NO));
+                    }
+
+                    this.AddToIndex(document);
                 }
-                else
+
+                if (evt == DisciplineNotifications.TopicEdited)
                 {
-                    document.Add(new Field("CourseRef", topic.TestCourseRef.ToString(), Field.Store.YES, Field.Index.NO));
+                    this.Update(DisciplineNotifications.TopicDeleted, data[0]);
+                    this.Update(DisciplineNotifications.TopicCreated, data[1]);
                 }
 
-                this.AddToIndex(document);
-            }
-
-            if (evt == DisciplineNotifications.TopicEdited)
-            {
-                this.Update(DisciplineNotifications.TopicDeleted, data[0]);
-                this.Update(DisciplineNotifications.TopicCreated, data[1]);
-            }
-
-            if (evt == DisciplineNotifications.TopicDeleted)
-            {
-                Topic topic = (Topic)data[0];
-                Term term = new Term("TopicID", topic.Id.ToString());
-                this.DeleteFromIndex(term);
-            }
-
-            if (evt == CourseNotifications.NodeCreate)
-            {
-                Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
-                Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
-
-                IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED);
-                try
+                if (evt == DisciplineNotifications.TopicDeleted)
                 {
-                    ProcessNode(writer, (IUDICO.Common.Models.Shared.Node)data[0], (container.Resolve<ILmsService>()).FindService<ICourseService>());
+                    Topic topic = (Topic)data[0];
+                    Term term = new Term("TopicID", topic.Id.ToString());
+                    this.DeleteFromIndex(term);
                 }
-                finally
+
+                if (evt == CourseNotifications.NodeCreate)
                 {
-                    writer.Optimize();
-                    writer.Close();
+                    Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
+                    Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
+
+                    IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED);
+                    try
+                    {
+                        ProcessNode(writer, (IUDICO.Common.Models.Shared.Node)data[0], (container.Resolve<ILmsService>()).FindService<ICourseService>());
+                    }
+                    finally
+                    {
+                        writer.Optimize();
+                        writer.Close();
+                    }
                 }
-            }
 
-            if (evt == CourseNotifications.NodeEdit)
-            {
-                this.Update(CourseNotifications.NodeDelete, data[0]);
-                this.Update(CourseNotifications.NodeCreate, data[1]);
-            }
+                if (evt == CourseNotifications.NodeEdit)
+                {
+                    this.Update(CourseNotifications.NodeDelete, data[0]);
+                    this.Update(CourseNotifications.NodeCreate, data[1]);
+                }
 
-            if (evt == CourseNotifications.NodeDelete)
-            {
-                Node node = (IUDICO.Common.Models.Shared.Node)data[0];
-                Term term = new Term("NodeID", node.Id.ToString());
-                this.DeleteFromIndex(term);
-            }
-
-            if (evt == CourseNotifications.CourseCreate)
-            {
-                Course course = (Course)data[0];
-                Document document = new Document();
-                document.Add(new Field("Type", "Course", Field.Store.YES, Field.Index.NO));
-                document.Add(new Field("CourseID", course.Id.ToString(), Field.Store.YES, Field.Index.ANALYZED));
-                document.Add(new Field("Name", course.Name, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-                document.Add(new Field("Owner", course.Owner, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
-
-                this.AddToIndex(document);
-            }
-
-            if (evt == CourseNotifications.CourseEdit)
-            {
-                this.Update(CourseNotifications.CourseDelete, data[0]);
-                this.Update(CourseNotifications.CourseCreate, data[1]);
-            }
-
-            if (evt == CourseNotifications.CourseDelete)
-            {
-                Course course = (Course)data[0];
-                Term term = new Term("GroupID", course.Id.ToString());
-                this.DeleteFromIndex(term);
-            }
-            */
-
-                #endregion
+                if (evt == CourseNotifications.NodeDelete)
+                {
+                    Node node = (IUDICO.Common.Models.Shared.Node)data[0];
+                    Term term = new Term("NodeID", node.Id.ToString());
+                    this.DeleteFromIndex(term);
+                }
+            
             }
             catch (Exception)
             {
                 // Maybe log exceptions?
             }
+        }
+
+        public void AddToIndex(Document doc)
+        {
+            Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
+            Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
+            IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED);
+
+
+            writer.AddDocument(doc);
+            writer.Optimize();
+            writer.Close();
+        }
+
+
+        public void DeleteFromIndex(Term term)
+        {
+            Directory directory = FSDirectory.Open(new DirectoryInfo(serverPath));
+            Analyzer analyzer = new StandardAnalyzer(Lucene.Net.Util.Version.LUCENE_29);
+            IndexWriter writer = new IndexWriter(directory, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED);
+
+
+            writer.DeleteDocuments(term);
+            writer.Commit();
+            writer.Close();
         }
 
         /*protected Timer mTimer = new Timer(1000 * 60 * 60);

@@ -12,9 +12,12 @@ namespace IUDICO.Search.Models.Definitions
 {
     public class GroupDefinition : Definition<Group>
     {
-        public GroupDefinition()
+        public override DefaultQuery Query
         {
-            this.Query = new GroupQuery();
+            get
+            {
+                return new GroupQuery();
+            }
         }
 
         public override Document Convert(Group entity)
