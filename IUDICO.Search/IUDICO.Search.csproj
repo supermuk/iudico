@@ -94,6 +94,7 @@
     <Compile Include="Models\Definitions\Definition.cs" />
     <Compile Include="Models\Definitions\DisciplineDefinition.cs" />
     <Compile Include="Models\Definitions\GroupDefinition.cs" />
+    <Compile Include="Models\Definitions\NodeDefinition.cs" />
     <Compile Include="Models\Definitions\TopicDefinition.cs" />
     <Compile Include="Models\Definitions\UserDefinition.cs" />
     <Compile Include="Models\LuceneThread.cs" />
