@@ -73,7 +73,8 @@ function setupDialog(submitName, cancelName) {
                         }
                     });
                 },
-                'class': "blueButton"
+                'class': "blueButton",
+                id: "DialogSubmitButton"
             },
             {
                 text: cancelName,
@@ -83,6 +84,12 @@ function setupDialog(submitName, cancelName) {
                 'class': "blueButton"
             }
         ]
+    });
+
+    $("body").delegate("#dialog form", "submit", function (event) {
+        event.preventDefault();
+        event.stopPropagation()
+        $('#DialogSubmitButton').click(); 
     });
 }
 
