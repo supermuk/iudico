@@ -36,6 +36,11 @@
         public const string NodeEdit = "node/edit";
 
         /// <summary>
+        /// Node Content Edit notification is sent when node content has been modified
+        /// </summary>
+        public const string NodeContentEdit = "node/contentedit";
+
+        /// <summary>
         /// Node Delete notification is sent when node has been deleted.
         /// <param name="course">Course value represents deleted course object.</param>
         /// </summary>
