@@ -8,7 +8,7 @@ namespace IUDICO.Search.Models.Queries
     public class CourseQuery : DefaultQuery
     {
         public CourseQuery()
-            : base(new[] { "Name", "Owner" })
+            : base(new[] { "Name", "Owner", "Content" })
         {
 
         }

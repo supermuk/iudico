@@ -59,9 +59,17 @@ namespace IUDICO.Search.Controllers
                 SearchText = SearchText,
                 Users = this.thread.Search<User>(SearchText),
                 Disciplines = this.thread.Search<Discipline>(SearchText),
-                Courses = this.thread.Search<Course>(SearchText)
+                Courses = this.thread.Search<Course>(SearchText),
+                Topics = this.thread.Search<Topic>(SearchText),
+                Nodes = this.thread.Search<Node>(SearchText)
                 // CheckBoxes = this.GetAvailableCheckBoxes()
             };
+
+            model.Total =   model.Users.Count() +
+                            model.Disciplines.Count() +
+                            model.Courses.Count() +
+                            model.Topics.Count() +
+                            model.Nodes.Count();
 
             DateTime dataend = DateTime.Now;
             model.Score = Math.Abs(dataend.Millisecond - datastart.Millisecond);

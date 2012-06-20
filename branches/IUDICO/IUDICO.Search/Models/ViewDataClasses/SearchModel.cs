@@ -21,5 +21,9 @@ namespace IUDICO.Search.Models.ViewDataClasses
         public IEnumerable<Discipline> Disciplines;
 
         public IEnumerable<Course> Courses;
+
+        public IEnumerable<Topic> Topics;
+
+        public IEnumerable<Node> Nodes;
     }
 }

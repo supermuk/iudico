@@ -42,6 +42,20 @@
            <li><%= course.Name %></li>
            <% } %>
         </ul>
+
+        <h2>Topics</h2>
+        <ul>
+           <% foreach (var topic in Model.Topics) { %>
+           <li><%= topic.Name %></li>
+           <% } %>
+        </ul>
+
+        <h2>Nodes</h2>
+        <ul>
+           <% foreach (var node in Model.Nodes) { %>
+           <li><%= node.Name %></li>
+           <% } %>
+        </ul>
     </form>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
