@@ -41,7 +41,7 @@ namespace IUDICO.UserManagement.Models
         public string OpenId { get; set; }
 
         [LocalizedDisplayName("Email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "NotValidEmail")]
         [Order(4)]
         public string Email { get; set; }
 
@@ -95,7 +95,7 @@ namespace IUDICO.UserManagement.Models
 
         [LocalizedRequired(ErrorMessage = "EmailRequired")]
         [LocalizedDisplayName("Email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "NotValidEmail")]
         public string Email { get; set; }
 
         [LocalizedRequired(ErrorMessage = "FullNameRequired")]
@@ -131,7 +131,7 @@ namespace IUDICO.UserManagement.Models
 
         [LocalizedRequired(ErrorMessage = "EmailRequired")]
         [LocalizedDisplayName("Email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "NotValidEmail")]
         public string Email { get; set; }
 
         [LocalizedRequired(ErrorMessage = "UserID")]
@@ -162,7 +162,7 @@ namespace IUDICO.UserManagement.Models
     {
         [LocalizedRequired(ErrorMessage = "EmailRequired")]
         [LocalizedDisplayName("Email")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "NotValidEmail")]
         public string Email { get; set; }
     }
 
@@ -199,7 +199,7 @@ namespace IUDICO.UserManagement.Models
         [LocalizedDisplayName("Email")]
         [LocalizedRequired(ErrorMessage = "EmailRequired")]
         [StringLength(100, ErrorMessage = "Email can not be longer than 100")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "NotValidEmail")]
         public string Email { get; set; }
 
         [DisplayName("OpenId")]

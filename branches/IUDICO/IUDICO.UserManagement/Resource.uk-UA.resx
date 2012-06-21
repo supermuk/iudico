@@ -399,4 +399,7 @@
   <data name="NoUserOpenID" xml:space="preserve">
     <value>Немає користувачам з даним OpenID</value>
   </data>
+  <data name="NotValidEmail" xml:space="preserve">
+    <value>Емейл не є валідним</value>
+  </data>
 </root>
