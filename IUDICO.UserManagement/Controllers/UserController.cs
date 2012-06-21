@@ -118,6 +118,13 @@ namespace IUDICO.UserManagement.Controllers
 
                 return this.View();
             }
+
+            if (fileUpload.ContentType != ".csv")
+            {
+                this.ModelState.AddModelError(string.Empty, "Incorrect file format. Please, upload csv file");
+
+                return this.View();
+            }
             
             var path = this.HttpContext.Request.PhysicalApplicationPath;
 
