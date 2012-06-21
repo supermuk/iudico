@@ -267,7 +267,7 @@ namespace IUDICO.Common.Models.Shared
             [LocalizedDisplayName("Email")]
             [LocalizedRequired(ErrorMessage = "EmailRequired")]
             [StringLength(100, ErrorMessage = "Email can not be longer than 100")]
-            [EmailAddress(ErrorMessage = "Not a valid email")]
+            [EmailAddress(ErrorMessage = "NotValidEmail")]
             [Order(3)]
             public string Email { get; set; }
 

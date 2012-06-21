@@ -28,5 +28,10 @@ namespace IUDICO.Common.Models.Attributes
 
             return ((match.Success && (match.Index == 0)) && (match.Length == str.Length));
         }
+
+        public override string FormatErrorMessage(string name)
+        {
+            return Localization.GetMessage(this.ErrorMessage);
+        }
     }
 }
