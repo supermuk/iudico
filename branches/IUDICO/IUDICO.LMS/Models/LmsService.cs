@@ -26,25 +26,34 @@ namespace IUDICO.LMS.Models
         {
             get
             {
-                return HttpContext.Current.Session["menu"] as Menu;
+                return HttpContext.Current.Items["menu"] as Menu;
             }
+
 
             set
             {
-                HttpContext.Current.Session["menu"] = value;
+                if (HttpContext.Current.Items.Contains("menu"))
+                    HttpContext.Current.Items["menu"] = value;
+                else
+                    HttpContext.Current.Items.Add("menu", value);
             }
         }
 
-        protected Dictionary<IPlugin, IEnumerable<Common.Models.Action>> Actions
+
+        protected Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>> Actions
         {
             get
             {
-                return HttpContext.Current.Session["actions"] as Dictionary<IPlugin, IEnumerable<Common.Models.Action>>;
+                return HttpContext.Current.Items["actions"] as Dictionary<IPlugin, IEnumerable<IUDICO.Common.Models.Action>>;
             }
+
 
             set
             {
-                HttpContext.Current.Session["actions"] = value;
+                if (HttpContext.Current.Items.Contains("actions"))
+                    HttpContext.Current.Items["actions"] = value;
+                else
+                    HttpContext.Current.Items.Add("actions", value);
             }
         }
 
