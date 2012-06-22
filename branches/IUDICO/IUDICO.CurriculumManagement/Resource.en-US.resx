@@ -484,6 +484,6 @@
     <value>Show error(s)</value>
   </data>
   <data name="MaxScoreMustBeGreaterThanZero" xml:space="preserve">
-    <value>Maximal Score Must Be Greater Than Zero</value>
+    <value>Maximal score must be greater than zero</value>
   </data>
 </root>
