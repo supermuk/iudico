@@ -136,6 +136,11 @@ namespace IUDICO.CourseManagement.Models.Storage
             return this.cacheProvider.Get<IEnumerable<Node>>("nodes-" + courseId + "-" + parentId, @lockObject, () => this.storage.GetNodes(courseId), DateTime.Now.AddDays(1), "nodes-" + courseId + "-" + parentId, "nodes-" + courseId);
         }
 
+        public IEnumerable<Node> GetAllNodes(int courseId)
+        {
+            return this.cacheProvider.Get<IEnumerable<Node>>("nodes-" + courseId, @lockObject, () => this.storage.GetAllNodes(courseId), DateTime.Now.AddDays(1), "nodes-" + courseId);
+        }
+
         public Node GetNode(int id)
         {
             return this.cacheProvider.Get<Node>("node-" + id, @lockObject, () => this.storage.GetNode(id), DateTime.Now.AddDays(1), "node-" + id);
