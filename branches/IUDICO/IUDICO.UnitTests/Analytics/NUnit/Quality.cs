@@ -15,8 +15,8 @@ namespace IUDICO.UnitTests.Analytics.NUnit
         [Test]
         public void GetTopicTagStatistic()
         {
-            var topic= this.tests.DisciplineService.GetTopic(1);
-            Assert.AreEqual(this.tests.Storage.GetTopicTagStatistic(topic),0.5);
+            var topic = this.tests.DisciplineService.GetTopic(1);
+            Assert.AreEqual(this.tests.Storage.GetTopicTagStatistic(topic), 0.5);
         }
         [Test]
         public void Gaussian()

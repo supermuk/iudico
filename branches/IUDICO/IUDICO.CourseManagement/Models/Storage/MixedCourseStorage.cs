@@ -410,6 +410,16 @@ namespace IUDICO.CourseManagement.Models.Storage
             return nodes;
         }
 
+        public IEnumerable<Node> GetAllNodes(int courseId)
+        {
+            var db = this.GetDbContext();
+
+            var course = this.GetCourse(courseId);
+            var nodes = course.Nodes.OrderBy(n => n.Position).ToList();
+
+            return nodes;
+        }
+
         public virtual Node GetNode(int id)
         {
             return this.GetDbContext().Nodes.SingleOrDefault(n => n.Id == id);

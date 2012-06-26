@@ -39,7 +39,7 @@ namespace IUDICO.Search.Models.Definitions
 
             if (!node.IsFolder)
             {
-                var content = CourseService.GetNodeContents(node.Id);
+                var content = this.CourseService.GetNodeContents(node.Id);
 
                 document.Add(new Field("Content", content, Field.Store.YES, Field.Index.ANALYZED, Field.TermVector.YES));
             }

@@ -10,7 +10,6 @@ using SimpleLucene.IndexManagement;
 
 using System;
 using IUDICO.Common.Models.Shared;
-using IUDICO.Common.Models.Services;
 
 namespace IUDICO.Search.Models
 {
@@ -68,7 +67,7 @@ namespace IUDICO.Search.Models
             this.SearchTypes.Add(typeof(Discipline), new SearchType<Discipline>(new DisciplineDefinition(), this.LuceneDataPath));
             this.SearchTypes.Add(typeof(Course), new SearchType<Course>(new CourseDefinition(), this.LuceneDataPath));
             this.SearchTypes.Add(typeof(Topic), new SearchType<Topic>(new TopicDefinition(), this.LuceneDataPath));
-            this.SearchTypes.Add(typeof(Node), new SearchType<Node>(new NodeDefinition() { CourseService = LmsService.FindService<ICourseService>() }, this.LuceneDataPath));
+            this.SearchTypes.Add(typeof(Node), new SearchType<Node>(new NodeDefinition() { CourseService = this.LmsService.FindService<ICourseService>() }, this.LuceneDataPath));
         }
 
         ~LuceneThread()
@@ -132,7 +131,7 @@ namespace IUDICO.Search.Models
 
             foreach (var course in courses)
             {
-                var nodes = courseService.GetNodes(course.Id);
+                var nodes = courseService.GetAllNodes(course.Id);
                 this.ReIndex(nodes);
             }
         }

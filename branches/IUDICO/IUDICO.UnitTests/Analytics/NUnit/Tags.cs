@@ -16,7 +16,7 @@ namespace IUDICO.UnitTests.Analytics.NUnit
         [Test]
         public void CreateTag()
         {
-            var tag = new Tag {Id = 1, Name = "C++"};
+            var tag = new Tag { Id = 1, Name = "C++" };
             this.tests.Storage.CreateTag(tag);
             Assert.AreEqual(this.tests.Storage.GetTags().Count(), 5);
         }
@@ -24,7 +24,7 @@ namespace IUDICO.UnitTests.Analytics.NUnit
         public void EditTag()
         {
             var tag = new Tag { Id = 1, Name = "C--" };
-            this.tests.Storage.EditTag(2,tag);
+            this.tests.Storage.EditTag(2, tag);
             Assert.AreEqual(this.tests.Storage.GetTag(2).Name, "C--");
         }
         [Test]
