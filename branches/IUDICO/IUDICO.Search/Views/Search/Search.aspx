@@ -25,7 +25,7 @@
         <h2>Users</h2>
         <ul>
            <% foreach (var user in Model.Users) { %>
-           <li><%= user.Username %></li>
+           <li><%= Html.ActionLink(user.Username, "Details", "User", new { id = user.Id }, null) %></li>
            <% } %>
         </ul>
     
@@ -39,7 +39,7 @@
         <h2>Courses</h2>
         <ul>
            <% foreach (var course in Model.Courses) { %>
-           <li><%= course.Name %></li>
+           <li><a href="/Course/<%= course.Id %>/Node"> <%= course.Name %> </a></li>
            <% } %>
         </ul>
 

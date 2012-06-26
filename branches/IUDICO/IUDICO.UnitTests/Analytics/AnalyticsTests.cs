@@ -255,7 +255,7 @@ namespace IUDICO.UnitTests.Analytics
                         }, 
                 };
 
-            var group =new Group { Id = 1, Name = "PMI31", Deleted = false};
+            var group = new Group { Id = 1, Name = "PMI31", Deleted = false };
 
             this.MockUserService.Setup(c => c.GetGroup(1)).Returns(group);
             this.MockUserService.Setup(c => c.GetUsers()).Returns(users);

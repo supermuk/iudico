@@ -262,7 +262,7 @@
                 null,
                 null,
                 null,
-                { "bSortable": false },
+                { "sType": 'date' },
                 null,
                 { "bSortable": false }
                 ],
