@@ -367,9 +367,11 @@
 
                 currentNodeId = data.obj.attr("id").replace("node_", "");
                 if (history.state == null || currentNodeId != history.state.nodeId || history.state.type == "edit") {
-                    history.pushState({ nodeId : currentNodeId, type : "preview" }, "preview node_" + currentNodeId);
+                    if (history.pushState) {
+                        history.pushState({ nodeId: currentNodeId, type: "preview" }, "preview node_" + currentNodeId);
+                    } 
                 }
-                
+
                 var parentsObjectList = $(data.obj).parents('li');
                 var parents = currentNodeId;
                 for (var i = 0; i < parentsObjectList.length; ++i)
@@ -413,7 +415,9 @@
                 
                 currentNodeId = data.obj.attr("id").replace("node_", "");
                 if (history.state == null || currentNodeId != history.state.nodeId || history.state.type != "edit") {
-                    history.pushState({ nodeId : currentNodeId, type : "edit" }, "preview node_" + currentNodeId);
+                    if (history.pushState) {
+                        history.pushState({ nodeId: currentNodeId, type: "edit" }, "preview node_" + currentNodeId);
+                    }
                 }
 
                 var parentsObjectList = $(data.obj).parents('li');
