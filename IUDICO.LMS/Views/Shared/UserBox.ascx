@@ -29,6 +29,7 @@
 
         <input id="loginDefaultButton" type="submit" value="<%=Localization.GetMessage("Ok") %>" class="okButton" />
     </form>
+    <br style="line-height:5px" />
 
     <form action="<%: Url.Action("Login", "Account", new {ReturnUrl = ViewContext.HttpContext.Request.QueryString["ReturnUrl"]})  %>" method="post">
 	    <input type="text" id="loginIdentifier" placeholder="<%=Localization.GetMessage("OpenID") %>" name="loginIdentifier" size="40" />

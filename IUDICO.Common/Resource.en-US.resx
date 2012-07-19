@@ -327,4 +327,7 @@
   <data name="UsernameRequired" xml:space="preserve">
     <value>Username is required</value>
   </data>
+  <data name="NotValidEmail" xml:space="preserve">
+    <value>Not a valid email</value>
+  </data>
 </root>

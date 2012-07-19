@@ -12,9 +12,12 @@ namespace IUDICO.Search.Models.Definitions
 {
     public class UserDefinition : Definition<User>
     {
-        public UserDefinition()
+        public override DefaultQuery Query
         {
-            this.Query = new UserQuery();
+            get
+            {
+                return new UserQuery();
+            }
         }
 
         public override Document Convert(User entity)

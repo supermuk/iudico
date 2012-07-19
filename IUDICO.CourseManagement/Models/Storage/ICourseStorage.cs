@@ -34,6 +34,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         IEnumerable<Node> GetNodes(int courseId);
         IEnumerable<Node> GetNodes(int courseId, int? parentId);
+        IEnumerable<Node> GetAllNodes(int courseId);
         Node GetNode(int id);
         int? AddNode(Node node);
         void UpdateNode(int id, Node node);

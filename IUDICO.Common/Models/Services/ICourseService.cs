@@ -19,6 +19,7 @@ namespace IUDICO.Common.Models.Services
 
         IEnumerable<Node> GetNodes(int courseId);
         IEnumerable<Node> GetNodes(int courseId, int? parentId);
+        IEnumerable<Node> GetAllNodes(int courseId);
         Node GetNode(int id);
         string GetNodeContents(int id);
 

@@ -21,10 +21,10 @@
     <div id="catalog" dir="<%=Html.ResolveUrl("/Content/images/status_icon_delete.png")%> ">
         <h2><%:Localization.GetMessage("Roles") %></h2>
         <ul>
-            <li class="role">Student</li>
-            <li class="role">Teacher</li>
-            <li class="role">CourseCreator</li>
-            <li class="role">Admin</li>
+            <li class="role" style="cursor:pointer;">Student</li>
+            <li class="role" style="cursor:pointer;">Teacher</li>
+            <li class="role" style="cursor:pointer;">CourseCreator</li>
+            <li class="role" style="cursor:pointer;">Admin</li>
         </ul>
     </div>
     <div>
@@ -259,12 +259,12 @@
                 "aoColumns": [
                 null,
                 null,
-                { "bSortable": false },
                 null,
                 null,
                 null,
-                { "bSortable": false },
-                null
+                { "sType": 'date' },
+                null,
+                { "bSortable": false }
                 ],
                 "fnDrawCallback": function () {
 
