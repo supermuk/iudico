@@ -121,7 +121,9 @@
     <Compile Include="Analytics\AnalyticsTests.cs" />
     <Compile Include="Analytics\NUnit\AnomalyDetectionAlgorithmTest.cs" />
     <Compile Include="Analytics\NUnit\DecisionTreesTest.cs" />
+    <Compile Include="Analytics\NUnit\Quality.cs" />
     <Compile Include="Analytics\NUnit\Recommender.cs" />
+    <Compile Include="Analytics\NUnit\Tags.cs" />
     <Compile Include="Analytics\TestMixedAnalyticsStorage.cs" />
     <Compile Include="Analytics\NUnit\TrainingSetTest.cs" />
     <Compile Include="Base\BaseControllerTest.cs" />

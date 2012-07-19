@@ -42,6 +42,11 @@ namespace IUDICO.CourseManagement.Models
             return this.courseStorage.GetNodes(courseId, parentId);
         }
 
+        public IEnumerable<Node> GetAllNodes(int courseId)
+        {
+            return this.courseStorage.GetAllNodes(courseId);
+        }
+
         public Node GetNode(int id)
         {
             return this.courseStorage.GetNode(id);

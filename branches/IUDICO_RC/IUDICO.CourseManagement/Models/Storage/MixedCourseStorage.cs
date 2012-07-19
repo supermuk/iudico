@@ -410,6 +410,16 @@ namespace IUDICO.CourseManagement.Models.Storage
             return nodes;
         }
 
+        public IEnumerable<Node> GetAllNodes(int courseId)
+        {
+            var db = this.GetDbContext();
+
+            var course = this.GetCourse(courseId);
+            var nodes = course.Nodes.OrderBy(n => n.Position).ToList();
+
+            return nodes;
+        }
+
         public virtual Node GetNode(int id)
         {
             return this.GetDbContext().Nodes.SingleOrDefault(n => n.Id == id);
@@ -558,6 +568,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             var course = this.GetNode(id).Course;
             this.UpdateCourse(course.Id, course);
 
+            this.LmsService.Inform(CourseNotifications.NodeContentEdit, this.GetNode(id));
+
             // return System.IO.File.ReadAllText(nodePath);
         }
 
@@ -578,21 +590,21 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public virtual string GetCourseTempPath(int courseId)
         {
-            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+            var path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\WorkFolder", courseId.ToString());
         }
 
         public virtual string GetTemplatesPath()
         {
-            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+            var path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\CourseTemplate");
         }
 
         protected virtual string GetCoursesPath()
         {
-            var path = HttpContext.Current == null ? Path.Combine(Environment.CurrentDirectory, "Site") : HttpContext.Current.Request.PhysicalApplicationPath;
+            var path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
 
             return Path.Combine(path, @"Data\Courses");
         }

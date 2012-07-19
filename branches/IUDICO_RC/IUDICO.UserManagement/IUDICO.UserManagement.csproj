@@ -115,6 +115,8 @@
     <Content Include="Libraries\DotNetOpenAuth.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Libraries\Kent.Boogaart.HelperTrinity.dll" />
+    <Content Include="Libraries\Kent.Boogaart.KBCsv.dll" />
     <Content Include="Libraries\log4net.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

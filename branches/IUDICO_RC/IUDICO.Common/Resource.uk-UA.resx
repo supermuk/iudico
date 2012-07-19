@@ -318,4 +318,7 @@
   <data name="UsernameRequired" xml:space="preserve">
     <value>Ім'я користувача є обов'язкове</value>
   </data>
+  <data name="NotValidEmail" xml:space="preserve">
+    <value>Емейл не є валідним</value>
+  </data>
 </root>

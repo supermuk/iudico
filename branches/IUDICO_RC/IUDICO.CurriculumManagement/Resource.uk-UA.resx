@@ -483,4 +483,7 @@
   <data name="ShowErrors" xml:space="preserve">
     <value>Показати помилку(и)</value>
   </data>
+  <data name="MaxScoreMustBeGreaterThanZero" xml:space="preserve">
+    <value>Максимальна оцінка повинна бути більшою за нуль</value>
+  </data>
 </root>
