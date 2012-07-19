@@ -65,6 +65,9 @@ namespace IUDICO.Search.Models
             this.SearchTypes.Add(typeof(User), new SearchType<User>(new UserDefinition(), this.LuceneDataPath));
             this.SearchTypes.Add(typeof(Group), new SearchType<Group>(new GroupDefinition(), this.LuceneDataPath));
             this.SearchTypes.Add(typeof(Discipline), new SearchType<Discipline>(new DisciplineDefinition(), this.LuceneDataPath));
+            this.SearchTypes.Add(typeof(Course), new SearchType<Course>(new CourseDefinition(), this.LuceneDataPath));
+            this.SearchTypes.Add(typeof(Topic), new SearchType<Topic>(new TopicDefinition(), this.LuceneDataPath));
+            this.SearchTypes.Add(typeof(Node), new SearchType<Node>(new NodeDefinition() { CourseService = this.LmsService.FindService<ICourseService>() }, this.LuceneDataPath));
         }
 
         ~LuceneThread()
@@ -120,9 +123,17 @@ namespace IUDICO.Search.Models
 
             var courses = courseService.GetCourses();
             var disciplines = disciplineService.GetDisciplines();
+            var topics = disciplineService.GetTopics();
 
-            // this.ReIndex(courses);
+            this.ReIndex(courses);
             this.ReIndex(disciplines);
+            this.ReIndex(topics);
+
+            foreach (var course in courses)
+            {
+                var nodes = courseService.GetAllNodes(course.Id);
+                this.ReIndex(nodes);
+            }
         }
 
         protected void ReIndex<T>(IEnumerable<T> entities) where T : class

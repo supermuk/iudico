@@ -399,4 +399,7 @@
   <data name="NoUserOpenID" xml:space="preserve">
     <value>No user with such OpenId</value>
   </data>
+  <data name="NotValidEmail" xml:space="preserve">
+    <value>Not a valid email</value>
+  </data>
 </root>

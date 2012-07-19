@@ -14,6 +14,7 @@
     <AssemblyName>IUDICO.Search</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -93,9 +94,11 @@
     <Compile Include="Models\Definitions\Definition.cs" />
     <Compile Include="Models\Definitions\DisciplineDefinition.cs" />
     <Compile Include="Models\Definitions\GroupDefinition.cs" />
+    <Compile Include="Models\Definitions\NodeDefinition.cs" />
     <Compile Include="Models\Definitions\TopicDefinition.cs" />
     <Compile Include="Models\Definitions\UserDefinition.cs" />
     <Compile Include="Models\LuceneThread.cs" />
+    <Compile Include="Models\Queries\CourseQuery.cs" />
     <Compile Include="Models\Queries\DefaultQuery.cs" />
     <Compile Include="Models\Queries\DisciplineQuery.cs" />
     <Compile Include="Models\Queries\GroupQuery.cs" />

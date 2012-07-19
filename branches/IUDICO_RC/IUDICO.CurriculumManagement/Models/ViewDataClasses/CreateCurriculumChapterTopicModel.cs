@@ -7,6 +7,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
     public class CreateCurriculumChapterTopicModel
     {
         [LocalizedDisplayName("MaxScore")]
+        [LocalizedRequired(ErrorMessage = "MaxScoreMustBeGreaterThanZero")]
         public int MaxScore { get; set; }
 
         [LocalizedDisplayName("BlockTopicAtTesting")]

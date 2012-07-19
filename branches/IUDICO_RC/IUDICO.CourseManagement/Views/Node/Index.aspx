@@ -115,6 +115,35 @@
                 }
             });
         });
+
+        $(function () {
+            var historyObject;
+
+            var changeState = function(state) {
+                    $("#treeView").jstree("deselect_all");
+                    if (state.type != "edit") {
+                        $("#treeView").jstree("select_node", "#node_" + historyObject.nodeId);
+                    } else {
+                        $.jstree._reference("#treeView").get_container().triggerHandler(historyObject.type + "_node.jstree", { "obj": $("#node_" + historyObject.nodeId) });
+                    }
+            }
+
+            $(window).bind("popstate", function(e) {
+                historyObject = e.originalEvent.state;
+
+                if ($("#treeView").hasClass("jstree")) {
+                    changeState(historyObject);
+                }
+            });
+
+            $("#treeView").bind("loaded.jstree", function(){
+                if (historyObject !== undefined) {
+                    changeState(historyObject);
+                }
+            });
+
+
+        });
     </script>
     <script type="text/javascript">
         $(function () {
@@ -335,8 +364,14 @@
                         $editor.parent("form").trigger('save');   
                     }
                 }
-                
+
                 currentNodeId = data.obj.attr("id").replace("node_", "");
+                if (history.state == null || currentNodeId != history.state.nodeId || history.state.type == "edit") {
+                    if (history.pushState) {
+                        history.pushState({ nodeId: currentNodeId, type: "preview" }, "preview node_" + currentNodeId);
+                    } 
+                }
+
                 var parentsObjectList = $(data.obj).parents('li');
                 var parents = currentNodeId;
                 for (var i = 0; i < parentsObjectList.length; ++i)
@@ -379,6 +414,12 @@
                 }
                 
                 currentNodeId = data.obj.attr("id").replace("node_", "");
+                if (history.state == null || currentNodeId != history.state.nodeId || history.state.type != "edit") {
+                    if (history.pushState) {
+                        history.pushState({ nodeId: currentNodeId, type: "edit" }, "preview node_" + currentNodeId);
+                    }
+                }
+
                 var parentsObjectList = $(data.obj).parents('li');
                 var parents = currentNodeId;
                 for (var i = 0; i < parentsObjectList.length; ++i)

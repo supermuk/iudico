@@ -12,9 +12,12 @@ namespace IUDICO.Search.Models.Definitions
 {
     public class TopicDefinition : Definition<Topic>
     {
-        public TopicDefinition()
+        public override DefaultQuery Query
         {
-            this.Query = new DefaultQuery(new[] { "Topic" });
+            get
+            {
+                return new DefaultQuery(new[] { "Topic" });
+            }
         }
 
         public override Document Convert(Topic entity)
