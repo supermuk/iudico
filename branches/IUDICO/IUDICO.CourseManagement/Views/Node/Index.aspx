@@ -82,8 +82,9 @@
                     filebrowserFlashUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash") %>' + '&courseId=' + currentCourseId + '&nodeId=' + nodeId
                     
                 });
-                $.data($editor, 'node-id', nodeId);
                 
+                $.data($editor, 'node-id', nodeId);
+
                 $editor.parent('form').bind('save', function (e) {
                     //e.preventDefault();
 
@@ -94,9 +95,10 @@
                     $ckEditor.updateElement();
                     data = $ckEditor.getData();
                     $ckEditor.resetDirty();
-
                     $.post("<%: Url.Action("Edit", "Node") %>", { id: id, data: data });
                 });
+            } else {
+                $.data($editor, 'node-id', nodeId);
             }
 
             return $editor;
