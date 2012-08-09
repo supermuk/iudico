@@ -58,7 +58,7 @@ namespace IUDICO.DataGenerator
 					//if (generate)
 					//{
 						UserGenerator.Generate(this.container);
-						CourseGenerator.Generate(this.container);
+					// CourseGenerator.Generate(this.container);
 					//}
 
 					break;
