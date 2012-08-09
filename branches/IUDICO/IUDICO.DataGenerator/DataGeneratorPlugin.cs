@@ -54,12 +54,12 @@ namespace IUDICO.DataGenerator
 			{
 				case LMSNotifications.ApplicationStart:
 
-					bool generate = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["DataGenerate"]);
-					if (generate)
-					{
+					//bool generate = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["DataGenerate"]) ?? true;
+					//if (generate)
+					//{
 						UserGenerator.Generate(this.container);
 						CourseGenerator.Generate(this.container);
-					}
+					//}
 
 					break;
 			}
