@@ -31,18 +31,6 @@ BEGIN TRANSACTION
 INSERT INTO [dbo].[UserRoles] (UserRef, RoleRef) VALUES(N'd47e8c09-2827-e011-840f-93b2f3060fee', 4);
 COMMIT TRANSACTION
 BEGIN TRANSACTION
-INSERT INTO [dbo].[User] ([Id], [Username], [Password], [Email], [OpenId], [Name], [IsApproved], [Deleted], [UserID]) VALUES (N'fd29cab2-a7c3-4e2a-bc44-f2fb2717254e', N'prof', N'D9F02D46BE016F1B301F7C02A4B9C4EBE0DDE7EF', N'prof@mail.com', N'prof', N'prof', 3, 0, N'prof 000001')
-COMMIT TRANSACTION
-BEGIN TRANSACTION
-INSERT INTO [dbo].[UserRoles] (UserRef, RoleRef) VALUES(N'fd29cab2-a7c3-4e2a-bc44-f2fb2717254e', 2);
-COMMIT TRANSACTION
-BEGIN TRANSACTION
-INSERT INTO [dbo].[User] ([Id], [Username], [Password], [Email], [OpenId], [Name], [IsApproved], [Deleted], [UserID]) VALUES (N'fc7dc1d0-863d-46e1-90b6-c963f0ce1008', N'prof2', N'F90FFB852C92DD9CAD2B643F8E96E41222C0AA85', N'prof2@mail.com', N'prof2', N'prof2', 3, 0, N'prof 000002')
-COMMIT TRANSACTION
-BEGIN TRANSACTION
-INSERT INTO [dbo].[UserRoles] (UserRef, RoleRef) VALUES(N'fc7dc1d0-863d-46e1-90b6-c963f0ce1008', 2);
-COMMIT TRANSACTION
-BEGIN TRANSACTION
 UPDATE [dbo].[User] SET [dbo].[User].[ApprovedBy] = N'd47e8c09-2827-e011-840f-93b2f3060fee' WHERE [dbo].[User].[ApprovedBy] is null AND [dbo].[User].[IsApproved] = 1
 COMMIT TRANSACTION
 
