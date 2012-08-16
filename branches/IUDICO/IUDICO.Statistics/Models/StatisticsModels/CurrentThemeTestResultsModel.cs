@@ -58,16 +58,43 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             return this.attempt != null ? this.attempt.SuccessStatus.ToString() : string.Empty;
         }
 
-        public string GetScore()
+        public double GetScore()
         {
-            if (this.attempt != null)
+            double totalRawScore = 0;
+            foreach (var answer in this.userAnswers)
             {
-                if (this.attempt.Score.ToPercents().HasValue == true)
-                    return Math.Round((double)this.attempt.Score.ToPercents(), 2).ToString();
+                if (answer.RawScore.HasValue)
+                {
+                    totalRawScore += answer.RawScore.Value;
+                }
             }
-
-            return string.Empty;
+            return totalRawScore;
         }
+
+        public double GetMaxScore()
+        {
+            double totalMaxScore = 0;
+            foreach (var answer in this.userAnswers)
+            {
+                if (answer.MaxScore.HasValue)
+                {
+                    totalMaxScore += answer.MaxScore.Value;
+                }
+            }
+            return totalMaxScore;
+        }
+
+        public double GetPercentScore()
+        {
+            double rawScore = this.GetScore();
+            double maxScore = this.GetMaxScore();
+
+            if (maxScore == 0)
+                return 0;
+
+            return rawScore / maxScore * 100;            
+        }
+
         public string GetUserAnswer(AnswerResult answerResult)
         {
             return answerResult.LearnerResponse != null ? Uri.UnescapeDataString(answerResult.LearnerResponse.ToString()) : string.Empty;

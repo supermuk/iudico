@@ -8,6 +8,12 @@ namespace IUDICO.Common.Models.Shared.Statistics
     public class Score
     {
         #region Private Fields
+
+        private float? minScore;
+
+        private float? maxScore;
+
+        private float? rawScore;
                 
         private float? scaledScore;
 
@@ -29,7 +35,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
                 return this.scaledScore;
             }
 
-            protected set
+            set
             {
                 if (value != null)
                 {
@@ -41,13 +47,69 @@ namespace IUDICO.Common.Models.Shared.Statistics
             }
         }
 
+        public float? MinScore
+        {
+            get { return this.minScore; }
+            set
+            {
+                if (value != null)
+                {
+                    if (value < 0)
+                        throw new ArgumentOutOfRangeException("value", "Value of minimum score should be greater or equal than zero");
+
+                    this.minScore = value;
+                }
+            }
+        }
+
+        public float? MaxScore
+        {
+            get { return this.maxScore; }
+            set
+            {
+                if (value != null)
+                {
+                    if (value <= 0)
+                        throw new ArgumentOutOfRangeException("value", "Value of maximum score should be greater than zero");
+
+                    this.maxScore = value;
+                }
+            }
+        }
+
+        public float? RawScore
+        {
+            get { return this.rawScore; }
+            set
+            {
+                if (value != null)
+                {
+                    if (value < 0)
+                        throw new ArgumentOutOfRangeException("value", "Value of raw score should be greater than zero");
+
+                    this.rawScore = value;
+                }
+            }
+        }
+
         #endregion
 
         #region Constructors
 
-        public Score(float? scaledScore)
+        public Score(float? minScore, float? maxScore, float? rawScore, float? scaledScore)
         {
+            this.MinScore = minScore;
+            this.MaxScore = maxScore;
+            this.RawScore = rawScore;
             this.ScaledScore = scaledScore;
+        }
+
+        public Score()
+        {
+            this.minScore = 0;
+            this.maxScore = 0;
+            this.rawScore = 0;
+            this.scaledScore = 0;
         }
 
         #endregion

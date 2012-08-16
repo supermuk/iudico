@@ -150,6 +150,9 @@
               AttemptItem.SuccessStatus AS SuccessStatus,
               AttemptItem.StartedTimestamp AS StartedTimestamp,
               AttemptItem.FinishedTimestamp AS FinishedTimestamp,
+	          (SELECT SUM(MinScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MinScore,
+	            (SELECT SUM(MaxScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MaxScore,
+	            (SELECT SUM(RawScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as RawScore,
               AttemptItem.TotalPoints AS Score
       FROM AttemptItem
       INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
@@ -174,25 +177,31 @@
       <Column Name="LearnerResponseNumeric" Type="Double"/>
       <Column Name="CorrectResponse" Type="String"/>
       <Column Name="InteractionType" Type="Enum" EnumName="InteractionType"/>
+      <Column Name="MinScore" Type="Double"/>
+      <Column Name="MaxScore" Type="Double"/>
+      <Column Name="RawScore" Type="Double"/>
       <Column Name="ScaledScore" Type="Double"/>
     </Columns>
     <Implementation>
       SELECT  ActivityAttemptItem.Id AS ActivityAttemptId,
-              ActivityAttemptItem.ActivityPackageId as ActivityPackageId,
-              ActivityPackageItem.Title AS ActivityTitle,
-              InteractionItem.Id AS InteractionId,
-              ActivityAttemptItem.CompletionStatus AS CompletionStatus,
-              ActivityAttemptItem.SuccessStatus AS SuccessStatus,
-              InteractionItem.LearnerResponseBool AS LearnerResponseBool,
-              InteractionItem.LearnerResponseString AS LearnerResponseString,
-              InteractionItem.LearnerResponseNumeric AS LearnerResponseNumeric,
-              CorrectResponseItem.ResponsePattern AS CorrectResponse,
-              InteractionItem.InteractionType AS InteractionType,
-              ActivityAttemptItem.ScaledScore AS ScaledScore
+      ActivityAttemptItem.ActivityPackageId as ActivityPackageId,
+      ActivityPackageItem.Title AS ActivityTitle,
+      InteractionItem.Id AS InteractionId,
+      ActivityAttemptItem.CompletionStatus AS CompletionStatus,
+      ActivityAttemptItem.SuccessStatus AS SuccessStatus,
+      InteractionItem.LearnerResponseBool AS LearnerResponseBool,
+      InteractionItem.LearnerResponseString AS LearnerResponseString,
+      InteractionItem.LearnerResponseNumeric AS LearnerResponseNumeric,
+      CorrectResponseItem.ResponsePattern AS CorrectResponse,
+      InteractionItem.InteractionType AS InteractionType,
+      ActivityAttemptItem.MinScore AS MinScore,
+      ActivityAttemptItem.MaxScore AS MaxScore,
+      ActivityAttemptItem.RawScore AS RawScore,
+      ActivityAttemptItem.ScaledScore AS ScaledScore
       FROM  ActivityAttemptItem
-            LEFT JOIN InteractionItem ON InteractionItem.ActivityAttemptId = ActivityAttemptItem.Id
-            LEFT JOIN CorrectResponseItem ON CorrectResponseItem.InteractionId = InteractionItem.Id
-            INNER JOIN ActivityPackageItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
+      LEFT JOIN InteractionItem ON InteractionItem.ActivityAttemptId = ActivityAttemptItem.Id
+      LEFT JOIN CorrectResponseItem ON CorrectResponseItem.InteractionId = InteractionItem.Id
+      INNER JOIN ActivityPackageItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
       WHERE ((ActivityAttemptItem.AttemptId = @AttemptIdParam) AND (ActivityPackageItem.ResourceId IS NOT NULL))
     </Implementation>
     <GrantQueryRight>

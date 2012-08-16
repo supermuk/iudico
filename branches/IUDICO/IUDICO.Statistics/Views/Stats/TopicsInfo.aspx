@@ -52,9 +52,9 @@
                         <input type="hidden" name="attemptId" value="<%: Model.GetAttempId(student, curriculumChapterTopic)%>" />
                         </form>
                         <a href="javascript:document.forms['linkform<%:i%>'].submit();">
-                            <%: Model.GetStudentResultForTopic(student, curriculumChapterTopic).ToString() %>
+                            <%: Model.GetStudentResultForTopic(student, curriculumChapterTopic)%>
                             /
-                            <%: Model.GetMaxResutForTopic(curriculumChapterTopic).ToString() %>
+                            <%: Model.GetMaxResutForTopic(student, curriculumChapterTopic) %>
                         </a>
                         <%}
                           else
@@ -66,17 +66,14 @@
                     <td>
                         <%: Model.GetStudentResultForAllTopicsInSelectedDiscipline(student)%>
                         /
-                        <%: Model.GetAllTopicsInSelectedDisciplineMaxMark()%>
+                        <%: Model.GetAllTopicsInSelectedDisciplineMaxMark(student)%>
                     </td>
                     <td>
-                        <%:Model.GetStudentResultForAllTopicsInSelectedDiscipline(student) / Model.GetAllTopicsInSelectedDisciplineMaxMark() * 100%>
+                        <%: Math.Round(Model.GetPercentScore(student)) %>
                         %
                     </td>
                     <td>
-                        <%:Model.Ects
-                         (
-                         Model.GetStudentResultForAllTopicsInSelectedDiscipline(student) / Model.GetAllTopicsInSelectedDisciplineMaxMark() * 100
-                          )%>
+                        <%:Model.Ects(Math.Round(Model.GetPercentScore(student)))%>
                     </td>
                 </tr>
                 <% } %>

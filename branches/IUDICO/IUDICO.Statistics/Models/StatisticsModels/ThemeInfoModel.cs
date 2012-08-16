@@ -73,9 +73,8 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                         x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id);
                 if (attemptResult != null)
                 {
-                    var result = attemptResult.Score.ToPercents();
-                    
-                    return result.HasValue ? Math.Round((double)result, 2) : 0;
+                    var result = attemptResult.Score.RawScore;
+                    return result.HasValue ? result.Value : 0;
                 }
                 
                 return 0;
@@ -94,11 +93,11 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                 {
                     if (this.lastAttempts.Count(x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id) != 0)
                     {
-                        var value = this.lastAttempts.First(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id).Score.ToPercents();
+                        var value = this.lastAttempts.First(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id).Score.RawScore;
                         
                         if (value.HasValue)
                         {
-                            result += Math.Round((double)value, 2);
+                            result += value.Value;
                         }
                     }
                 }
@@ -107,14 +106,56 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             return result;
         }
 
-        public double GetAllTopicsInSelectedDisciplineMaxMark()
+        public double GetAllTopicsInSelectedDisciplineMaxMark(User student)
         {
-            return 100 * this.selectedCurriculumChapterTopics.Count();
+            double result = 0;
+
+            if (this.lastAttempts.Count != 0)
+            {
+                foreach (var curriculumChapterTopic in this.SelectedCurriculumChapterTopics)
+                {
+                    if (this.lastAttempts.Count(x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id) != 0)
+                    {
+                        var value = this.lastAttempts.First(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id).Score.MaxScore;
+
+                        if (value.HasValue)
+                        {
+                            result += value.Value;
+                        }
+                    }
+                }
+            }
+
+            return result;
         }
 
-        public double GetMaxResutForTopic(CurriculumChapterTopic curriculumChapterTopic)
+        public double GetMaxResutForTopic(User student, CurriculumChapterTopic curriculumChapterTopic)
         {
-            return 100;
+            if (this.AllAttempts.Count != 0)
+            {
+                var attemptResult =
+                    this.AllAttempts.SingleOrDefault(
+                        x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id);
+                if (attemptResult != null)
+                {
+                    var result = attemptResult.Score.MaxScore;
+                    return result.HasValue ? result.Value : 0;
+                }
+
+                return 0;
+            }
+
+            return 0;
+        }
+
+        public double GetPercentScore(User student)
+        {
+            var res = this.GetStudentResultForAllTopicsInSelectedDiscipline(student);
+            var resall = this.GetAllTopicsInSelectedDisciplineMaxMark(student);
+
+            if (resall == 0)
+                return 0;
+            return res / resall * 100;
         }
 
         public char Ects(double percent)

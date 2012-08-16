@@ -280,6 +280,15 @@ namespace IUDICO.TestingSystem.Models
                     learnerResponseType = (Common.Models.Shared.Statistics.InteractionType)interactionType;
                 }
 
+                float? minScore;
+                LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.MinScore], out minScore);
+
+                float? maxScore;
+                LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.MaxScore], out maxScore);
+
+                float? rawScore;
+                LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.RawScore], out rawScore);
+
                 float? scaledScore;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.ScaledScore], out scaledScore);
 
@@ -295,6 +304,9 @@ namespace IUDICO.TestingSystem.Models
                     learnerResponse,
                     correctResponse,
                     learnerResponseType,
+                    minScore,
+                    maxScore,
+                    rawScore,
                     scaledScore);
                 yield return answerResult;
             }
@@ -312,6 +324,9 @@ namespace IUDICO.TestingSystem.Models
                         Schema.AllAttemptsResults.AttemptStatus,
                         Schema.AllAttemptsResults.CompletionStatus,
                         Schema.AllAttemptsResults.CurriculumChapterTopicId,
+                        Schema.AllAttemptsResults.MinScore,
+                        Schema.AllAttemptsResults.MaxScore,
+                        Schema.AllAttemptsResults.RawScore,
                         Schema.AllAttemptsResults.Score,
                         Schema.AllAttemptsResults.StartedTimestamp,
                         Schema.AllAttemptsResults.FinishedTimestamp,
@@ -421,15 +436,38 @@ namespace IUDICO.TestingSystem.Models
                     }
                     attemptResult.CurriculumChapterTopic = curriculumChapterTopic;
                     break;
-                case Schema.AllAttemptsResults.Score:
-                    float? score;
-                    LStoreHelper.Cast(rawValue, out score);
-                    float? scaledScore = null;
-                    if (score != null)
+                case Schema.AllAttemptsResults.MinScore:
                     {
-                        scaledScore = score / 100;
+                        float? score;
+                        LStoreHelper.Cast(rawValue, out score);
+                        attemptResult.Score.MinScore = score;
                     }
-                    attemptResult.Score = new Score(scaledScore);
+                    break;
+                case Schema.AllAttemptsResults.MaxScore:
+                    {
+                        float? score;
+                        LStoreHelper.Cast(rawValue, out score);
+                        attemptResult.Score.MaxScore = score;
+                    }
+                    break;
+                case Schema.AllAttemptsResults.RawScore:
+                    {
+                        float? score;
+                        LStoreHelper.Cast(rawValue, out score);
+                        attemptResult.Score.RawScore = score;
+                    }
+                    break;
+                case Schema.AllAttemptsResults.Score:
+                    {
+                        float? score;
+                        LStoreHelper.Cast(rawValue, out score);
+                        float? scaledScore = null;
+                        if (score != null)
+                        {
+                            scaledScore = score / 100;
+                        }
+                        attemptResult.Score.ScaledScore = scaledScore;
+                    }
                     break;
                 case Schema.AllAttemptsResults.StartedTimestamp:
                     DateTime? startTime;
@@ -498,6 +536,9 @@ namespace IUDICO.TestingSystem.Models
             query.AddColumn(Schema.InteractionResultsByAttempt.LearnerResponseNumeric);
             query.AddColumn(Schema.InteractionResultsByAttempt.CorrectResponse);
             query.AddColumn(Schema.InteractionResultsByAttempt.InteractionType);
+            query.AddColumn(Schema.InteractionResultsByAttempt.MinScore);
+            query.AddColumn(Schema.InteractionResultsByAttempt.MaxScore);
+            query.AddColumn(Schema.InteractionResultsByAttempt.RawScore);
             query.AddColumn(Schema.InteractionResultsByAttempt.ScaledScore);
 
             query.SetParameter(Schema.InteractionResultsByAttempt.AttemptIdParam, attemptId);
