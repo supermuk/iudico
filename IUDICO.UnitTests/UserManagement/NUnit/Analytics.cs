@@ -37,7 +37,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
                     CompletionStatus = CompletionStatus.Completed,
                     FinishTime = DateTime.Now,
                     StartTime = DateTime.Now,
-                    Score = new Score(0.9F),
+                    Score = new Score(0, 50, 45, 0.9F),
                     SuccessStatus = SuccessStatus.Passed,
                     TopicType = TopicTypeEnum.Test,
                     User = this.tests.Storage.GetUser(user.Username)

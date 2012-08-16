@@ -50,6 +50,9 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
             DateTime? startTime = new DateTime(32478932);
             DateTime? finishTime = new DateTime(189041324);
             float? score = 0.22f;
+            float? minScore = 0;
+            float? maxScore = 50;
+            float? rawScore = 11;
 
             var attemptResult = new AttemptResult(
                 AttemptId,
@@ -61,6 +64,9 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
                 SuccessStatus,
                 startTime,
                 finishTime,
+                minScore,
+                maxScore,
+                rawScore,
                 score);
 
             Assert.AreEqual(AttemptId, attemptResult.AttemptId);

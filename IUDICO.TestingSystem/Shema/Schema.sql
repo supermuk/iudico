@@ -617,7 +617,10 @@ SET @schema = @schema +
         '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
         '<Column Name="StartedTimestamp" TypeCode="4" Nullable="true"/>' +
         '<Column Name="FinishedTimestamp" TypeCode="4" Nullable="true"/>' +
-        '<Column Name="Score" TypeCode="5" Nullable="true"/>' +
+        '<Column Name="MinScore" TypeCode="5" Nullable="true"/>' +
+		'<Column Name="MaxScore" TypeCode="5" Nullable="true"/>' +
+		'<Column Name="RawScore" TypeCode="5" Nullable="true"/>' +
+		'<Column Name="Score" TypeCode="5" Nullable="true"/>' +
     '</View>'
 SET @schema = @schema +
     '<View Name="InteractionResultsByAttempt" Function="InteractionResultsByAttempt" SecurityFunction="InteractionResultsByAttempt$Security">' + 
@@ -632,7 +635,10 @@ SET @schema = @schema +
         '<Column Name="LearnerResponseNumeric" TypeCode="6" Nullable="true"/>' +
         '<Column Name="CorrectResponse" TypeCode="2" Nullable="true"/>' +
         '<Column Name="InteractionType" TypeCode="8" Nullable="true" EnumName="InteractionType"/>' +
-        '<Column Name="ScaledScore" TypeCode="6" Nullable="true"/>' +
+		'<Column Name="MinScore" TypeCode="6" Nullable="true"/>' +
+		'<Column Name="MaxScore" TypeCode="6" Nullable="true"/>' +
+		'<Column Name="RawScore" TypeCode="6" Nullable="true"/>' +
+		'<Column Name="ScaledScore" TypeCode="6" Nullable="true"/>' +
         '<Parameter Name="AttemptIdParam" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
     '</View>'
 SET @schema = @schema +
@@ -2278,6 +2284,9 @@ RETURN (
     AttemptItem.SuccessStatus AS SuccessStatus,
     AttemptItem.StartedTimestamp AS StartedTimestamp,
     AttemptItem.FinishedTimestamp AS FinishedTimestamp,
+	(SELECT SUM(MinScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MinScore,
+	(SELECT SUM(MaxScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MaxScore,
+	(SELECT SUM(RawScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as RawScore,
     AttemptItem.TotalPoints AS Score
     FROM AttemptItem
     INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
@@ -2313,7 +2322,10 @@ RETURN (
     InteractionItem.LearnerResponseNumeric AS LearnerResponseNumeric,
     CorrectResponseItem.ResponsePattern AS CorrectResponse,
     InteractionItem.InteractionType AS InteractionType,
-    ActivityAttemptItem.ScaledScore AS ScaledScore
+	ActivityAttemptItem.MinScore AS MinScore,
+	ActivityAttemptItem.MaxScore AS MaxScore,
+	ActivityAttemptItem.RawScore AS RawScore,
+	ActivityAttemptItem.ScaledScore AS ScaledScore
     FROM  ActivityAttemptItem
     LEFT JOIN InteractionItem ON InteractionItem.ActivityAttemptId = ActivityAttemptItem.Id
     LEFT JOIN CorrectResponseItem ON CorrectResponseItem.InteractionId = InteractionItem.Id

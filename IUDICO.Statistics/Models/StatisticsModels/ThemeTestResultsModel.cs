@@ -105,17 +105,42 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// Return summary score for current attempt
         /// </summary>
         /// <returns></returns>
-        public string GetScore()
+        public double GetScore()
         {
-            if (this.attempt != null)
+            double totalRawScore = 0;
+            foreach (var answer in this.userAnswers)
             {
-                if (this.attempt.Score.ToPercents().HasValue)
+                if (answer.RawScore.HasValue)
                 {
-                    return Math.Round((double)this.attempt.Score.ToPercents(), 2).ToString();
+                    totalRawScore += answer.RawScore.Value;
                 }
             }
+            return totalRawScore;
+        }
 
-            return string.Empty;
+        public double GetMaxScore()
+        {
+            double totalMaxScore = 0;
+            foreach (var answer in this.userAnswers)
+            {
+                if (answer.MaxScore.HasValue)
+                {
+                    totalMaxScore += answer.MaxScore.Value;
+                }
+            }
+            return totalMaxScore;
+        }
+
+        public double GetPercentScore()
+        {
+            double rawScore = this.GetScore();
+
+            double maxScore = this.GetMaxScore();
+
+            if (maxScore == 0)
+                return 0;
+
+            return rawScore / maxScore * 100;          
         }
 
         /// <summary>
@@ -133,15 +158,31 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// </summary>
         /// <param name="answerResult">AnswerResult for question</param>
         /// <returns></returns>
-        public string GetUserScoreForAnswer(AnswerResult answerResult)
+        public double GetUserScoreForAnswer(AnswerResult answerResult)
         {
-            if (answerResult.ScaledScore != null)
-                {
-                    if (answerResult.ScaledScore.HasValue == true)
-                    return Math.Round((double)answerResult.ScaledScore, 2).ToString();
+            if (answerResult.RawScore != null)
+            {
+                if (answerResult.RawScore.HasValue)
+                    return answerResult.RawScore.Value;
             }
 
-            return string.Empty;
+            return 0;
+        }
+
+        /// <summary>
+        /// Return maximum score from AnswerResult
+        /// </summary>
+        /// <param name="answerResult">AnswerResult for question</param>
+        /// <returns></returns>
+        public double GetMaxScoreForAnswer(AnswerResult answerResult)
+        {
+            if (answerResult.MaxScore != null)
+            {
+                if (answerResult.MaxScore.HasValue)
+                    return answerResult.MaxScore.Value;
+            }
+
+            return 0;
         }
 
         /// <summary>

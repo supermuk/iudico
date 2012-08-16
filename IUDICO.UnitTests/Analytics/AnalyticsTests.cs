@@ -269,7 +269,7 @@ namespace IUDICO.UnitTests.Analytics
                     new AttemptResult
                         {
                             AttemptId = 1,
-                            Score = new Score(0.5F),
+                            Score = new Score(0, 50, 25, 0.5F),
                             User = users[0],
                             CurriculumChapterTopic = new CurriculumChapterTopic
                                 {
@@ -279,7 +279,7 @@ namespace IUDICO.UnitTests.Analytics
                     new AttemptResult
                         {
                             AttemptId = 2,
-                            Score = new Score(0.7F),
+                            Score = new Score(0, 50, 35, 0.7F),
                             User = users[1],
                             CurriculumChapterTopic = new CurriculumChapterTopic
                                 {
@@ -289,7 +289,7 @@ namespace IUDICO.UnitTests.Analytics
                     new AttemptResult
                         {
                             AttemptId = 3,
-                            Score = new Score(0.9F),
+                            Score = new Score(0, 50, 45, 0.9F),
                             User = users[0],
                             CurriculumChapterTopic = new CurriculumChapterTopic
                                 {
@@ -299,7 +299,7 @@ namespace IUDICO.UnitTests.Analytics
                     new AttemptResult
                         {
                             AttemptId = 3,
-                            Score = new Score(0.6F),
+                            Score = new Score(0, 50, 30, 0.6F),
                             User = users[1],
                             CurriculumChapterTopic = new CurriculumChapterTopic
                                 {

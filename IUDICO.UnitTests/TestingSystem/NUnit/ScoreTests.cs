@@ -21,8 +21,8 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         [Test]
         public void ConstructScoreWithValidParams()
         {
-            float? scaledScore = -0.3f;
-            var score = new Score(scaledScore);
+            float? scaledScore = 0.3f;
+            var score = new Score(0, 50, 15, scaledScore);
 
             Assert.AreEqual(scaledScore, score.ScaledScore);
         }
@@ -31,13 +31,13 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ConstructScoreWithInvalidParams()
         {
-            new Score(94f);
+            new Score(0, 50, 40, 94f);
         }
 
         [Test]
         public void TestToPercentsMethod()
         {
-            var score = new Score(0.65f);
+            var score = new Score(0, 50, 32.5F, 0.65f);
             Assert.AreEqual(65, score.ToPercents());
         }
     }
