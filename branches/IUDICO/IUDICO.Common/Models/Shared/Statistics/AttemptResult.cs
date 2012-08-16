@@ -63,13 +63,13 @@ namespace IUDICO.Common.Models.Shared.Statistics
         /// <summary>
         /// Score user got in result of one(this) attempt.
         /// </summary>
-        public Score Score { get; set; }
+        public Score Score = new Score();
 
         #endregion
 
         #region Constructors
 
-        public AttemptResult(long attemptId, User user, CurriculumChapterTopic curriculumChapterTopic, TopicTypeEnum topicType, CompletionStatus completionStatus, AttemptStatus attemptStatus, SuccessStatus successStatus, DateTime? startTime, DateTime? finishTime, float? scaledScore)
+        public AttemptResult(long attemptId, User user, CurriculumChapterTopic curriculumChapterTopic, TopicTypeEnum topicType, CompletionStatus completionStatus, AttemptStatus attemptStatus, SuccessStatus successStatus, DateTime? startTime, DateTime? finishTime, float? minScore, float? maxScore, float? rawScore, float? scaledScore)
         {
             this.AttemptId = attemptId;
             this.User = user;
@@ -81,7 +81,7 @@ namespace IUDICO.Common.Models.Shared.Statistics
             this.SuccessStatus = successStatus;
             this.StartTime = startTime;
             this.FinishTime = finishTime;
-            this.Score = new Score(scaledScore);
+            this.Score = new Score(minScore, maxScore, rawScore, scaledScore);
         }
 
         public AttemptResult()

@@ -68,12 +68,27 @@
         /// Float Nullable value represents scaled score, calculated while attempting activity.
         /// </summary>
         public float? ScaledScore { get; protected set; }
+
+        /// <summary>
+        /// Float Nullable value represents raw score, calculated while attempting activity.
+        /// </summary>
+        public float? RawScore { get; protected set; }
+
+        /// <summary>
+        /// Float Nullable value represents miniumum score, calculated while attempting activity.
+        /// </summary>
+        public float? MinScore { get; protected set; }
+
+        /// <summary>
+        /// Float Nullable value represents maximum score, calculated while attempting activity.
+        /// </summary>
+        public float? MaxScore { get; protected set; }
         
         #endregion
 
         #region Constructors
 
-        public AnswerResult(long activityAttempId, long activityPackageId, string activityTitle, long? interactionId, CompletionStatus completionStatus, SuccessStatus? successStatus, AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
+        public AnswerResult(long activityAttempId, long activityPackageId, string activityTitle, long? interactionId, CompletionStatus completionStatus, SuccessStatus? successStatus, AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? minScore, float? maxScore, float? rawScore, float? scaledScore)
         {
             this.ActivityAttemptId = activityAttempId;
             this.ActivityPackageId = activityPackageId;
@@ -85,6 +100,9 @@
             this.LearnerResponse = learnerResponse;
             this.CorrectResponse = correctResponse;
             this.LearnerResponseType = learnerResponseType;
+            this.MinScore = minScore;
+            this.MaxScore = maxScore;
+            this.RawScore = rawScore;
             this.ScaledScore = scaledScore;
         }
 
