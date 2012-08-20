@@ -591,14 +591,32 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public virtual string GetCourseTempPath(int courseId)
         {
-            var path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+			  string path = string.Empty;
+			  try
+			  {
+				  path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+			  }
+			  catch
+			  {
+				  path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+				  path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", "");
+			  }
 
             return Path.Combine(path, @"Data\WorkFolder", courseId.ToString());
         }
 
         public virtual string GetTemplatesPath()
         {
-            var path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+           string path = string.Empty;
+           try
+           {
+				  path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+			  }
+			  catch
+			  {
+				  path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+	           path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", "");
+			  }
 
             return Path.Combine(path, @"Data\CourseTemplate");
         }
