@@ -7,35 +7,35 @@ using IUDICO.Common.Models.Caching;
 
 namespace IUDICO.UnitTests.DataGenerator.Fakes
 {
-	public class FakeCacheProvider
-	{
-		protected static FakeCacheProvider provider;
+   public class FakeCacheProvider
+   {
+      protected static FakeCacheProvider provider;
 
-		protected Mock<ICacheProvider> mockCacheProvider;
+      protected Mock<ICacheProvider> mockCacheProvider;
 
-		public ICacheProvider CacheProvider
-		{
-			get;
-			protected set;
-		}
+      public ICacheProvider CacheProvider
+      {
+         get;
+         protected set;
+      }
 
-		public static FakeCacheProvider GetInstance()
-		{
-			return provider ?? (provider = new FakeCacheProvider());
-		}
+      public static FakeCacheProvider GetInstance()
+      {
+         return provider ?? (provider = new FakeCacheProvider());
+      }
 
-		protected FakeCacheProvider()
-		{
-			mockCacheProvider = new Mock<ICacheProvider>();
+      protected FakeCacheProvider()
+      {
+         mockCacheProvider = new Mock<ICacheProvider>();
 
-			this.Setup();
+         this.Setup();
 
-			CacheProvider = mockCacheProvider.Object;
-		}
+         CacheProvider = mockCacheProvider.Object;
+      }
 
-		protected void Setup()
-		{
-			this.mockCacheProvider.Setup(c => c.Invalidate(It.IsAny<string>(), It.IsAny<string>()));
-		}
-	}
+      protected void Setup()
+      {
+         this.mockCacheProvider.Setup(c => c.Invalidate(It.IsAny<string>(), It.IsAny<string>()));
+      }
+   }
 }
