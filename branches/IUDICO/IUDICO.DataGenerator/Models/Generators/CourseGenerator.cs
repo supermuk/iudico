@@ -18,26 +18,11 @@ namespace IUDICO.DataGenerator.Models.Generators
 {
 	public static class CourseGenerator
 	{
-		public static void Generate(IWindsorContainer container)
+		public static void PascalCourse(ICourseStorage courseStorage, ICacheProvider cacheProvider, string path)
 		{
-			var courseStorage = container.Resolve<ICourseStorage>();
-			var cacheProvider = container.Resolve<ICacheProvider>();
-
-			CourseGenerator.PascalCourse(courseStorage,cacheProvider);
-
-		}
-
-		private static void PascalCourse(ICourseStorage courseStorage, ICacheProvider cacheProvider)
-		{
-		//   var path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
-		//   path = path.Replace("IUDICO.LMS\\", @"IUDICO.DataGenerator\Content\Courses\Pascal\");
-
-			var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-			path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Courses/Pascal/");
-
 			if (Directory.Exists(path))
 			{
-				var files = Directory.GetFiles(path);
+				var files = Directory.GetFiles(path,"*.zip");
 
 				foreach (var file in files)
 				{
