@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Reflection;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
@@ -604,9 +605,18 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         protected virtual string GetCoursesPath()
         {
-            var path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+			  string path = string.Empty;
+			  try
+			  {
+				  path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+			  }
+			  catch
+			  {
+				  path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+				  path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", "");
+			  }
 
-            return Path.Combine(path, @"Data\Courses");
+           return Path.Combine(path, @"Data\Courses");
         }
 
         protected virtual void CopyNodes(Node node, Node newnode)
