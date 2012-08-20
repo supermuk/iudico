@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using Castle.Windsor;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Notifications;
+using IUDICO.UserManagement.Controllers;
 using IUDICO.UserManagement.Models.Storage;
 using IUDICO.DataGenerator.Models.Storage;
+
 
 namespace IUDICO.DataGenerator.Models.Generators
 {
 	public static class UserGenerator
 	{
-		public static void Generate( IWindsorContainer container )
+		public static void Generate(IUserStorage userStorage, IDemoStorage demoStorage)
 		{
-			var userStorage = container.Resolve<IUserStorage>();
-			var demoStorage = container.Resolve<IDemoStorage>();
-
-			Group demoGroup = new Group { Name = "Демонстраційна група"};
+   		Group demoGroup = new Group { Name = "Демонстраційна група"};
 
 			if(!userStorage.GetGroups().Select(g=>g.Name).Contains(demoGroup.Name))
 			{

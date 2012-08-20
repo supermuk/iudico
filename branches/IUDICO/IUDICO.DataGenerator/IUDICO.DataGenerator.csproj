@@ -40,6 +40,9 @@
       <HintPath>..\IUDICO.LMS\Plugins\Castle.Windsor.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Moq">
+      <HintPath>..\IUDICO.UnitTests\bin\Debug\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -74,8 +77,12 @@
   <ItemGroup>
     <Compile Include="DataGeneratorPlugin.cs" />
     <Compile Include="Models\Generators\CourseGenerator.cs" />
+    <Compile Include="Models\Generators\CurriculumGenerator.cs" />
+    <Compile Include="Models\Generators\DisciplineGenerator.cs" />
     <Compile Include="Models\Generators\UserGenerator.cs" />
     <Compile Include="Models\Storage\DemoStorage.cs" />
+    <Compile Include="Models\Storage\FakeDatabaseDisciplineStorage.cs" />
+    <Compile Include="Models\Storage\FakeDatabaseUserStorage.cs" />
     <Compile Include="Models\Storage\IDemoStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -88,12 +95,22 @@
       <Project>{CB470DA7-0981-45B5-BEB9-6FD06586BA7E}</Project>
       <Name>IUDICO.CourseManagement</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IUDICO.CurriculumManagement\IUDICO.CurriculumManagement.csproj">
+      <Project>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</Project>
+      <Name>IUDICO.CurriculumManagement</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IUDICO.DisciplineManagement\IUDICO.DisciplineManagement.csproj">
+      <Project>{4B4BADE2-1C2F-4D0A-B435-1D88CE59D601}</Project>
+      <Name>IUDICO.DisciplineManagement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IUDICO.UserManagement\IUDICO.UserManagement.csproj">
       <Project>{2D0C4A4E-D442-4BC5-879B-CB3990D57647}</Project>
       <Name>IUDICO.UserManagement</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Content\Courses\Pascal\Pascal.disc" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Courses\Pascal\1-5.Tests.zip" />
     <Content Include="Content\Courses\Pascal\1.Вступ до інформатики.zip" />

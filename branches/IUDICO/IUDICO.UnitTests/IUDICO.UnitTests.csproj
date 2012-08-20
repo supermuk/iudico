@@ -163,6 +163,13 @@
     <Compile Include="CurriculumManagement\NUnit\Extensions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DataGenerator\Fakes\FakeCacheProvider.cs" />
+    <Compile Include="DataGenerator\Fakes\FakeCourseStorage.cs" />
+    <Compile Include="DataGenerator\Fakes\FakeDisciplineStorage.cs" />
+    <Compile Include="DataGenerator\Fakes\FakeUserStorage.cs" />
+    <Compile Include="DataGenerator\NUnit\CourseGenerationTest.cs" />
+    <Compile Include="DataGenerator\NUnit\DisciplineGenerationTest.cs" />
+    <Compile Include="DataGenerator\NUnit\UserGenerationTest.cs" />
     <Compile Include="LMS\NUnit\ChangingLanguageTestsTests.cs" />
     <Compile Include="LMS\NUnit\ErrorHandlingTests.cs" />
     <Compile Include="LMS\NUnit\GenerateActions.cs" />
@@ -251,6 +258,10 @@
       <Project>{E6F7266F-760A-4D43-B78C-378CA12DBE08}</Project>
       <Name>IUDICO.CurriculumManagement</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IUDICO.DataGenerator\IUDICO.DataGenerator.csproj">
+      <Project>{16675131-2EAF-4322-996E-0902E7A84082}</Project>
+      <Name>IUDICO.DataGenerator</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IUDICO.DisciplineManagement\IUDICO.DisciplineManagement.csproj">
       <Project>{4B4BADE2-1C2F-4D0A-B435-1D88CE59D601}</Project>
       <Name>IUDICO.DisciplineManagement</Name>
@@ -292,12 +303,38 @@
     <None Include="CourseManagement\Data\20.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="DataGenerator\Data\Courses\Pascal\1-5.Tests.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\1.Вступ до інформатики.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\10.Процедурні типи.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\11-15.Tests.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\11. Рядковий тип.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\12.Множинний тип.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\13.Комбінований тип.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\14. Файлові типи..zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\15.Використання типізованих, текстових....zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\16-18.Tests.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\16.Концепції модульного програмування..zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\17.Ресурси стандартних модулів.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\18.Метод покрокової розробки алгоритмів..zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\2. Мова програмування Object Pascal.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\3.Стандарті числові, логічний, літерний типи..zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\4.Прості оператори....zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\5.Структуровані оператори.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\6-7.Tests.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\6.Перелічувані та обмежені типи.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\7. Структури даних.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\8-10.Tests.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\8.Процедури та функції.zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\9.Використ парам без типу, відкритих масивів..zip" />
+    <None Include="DataGenerator\Data\Courses\Pascal\Pascal.disc" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Analytics\Selenium\" />
     <Folder Include="CourseManagement\Data\1\0\somePath0\" />
     <Folder Include="CourseManagement\Data\1\Node\0\Images\" />
+    <Folder Include="DataGenerator\Data\Tests\" />
+    <Folder Include="DataGenerator\Data\WorkFolder\" />
     <Folder Include="Libs\" />
   </ItemGroup>
   <ItemGroup>
@@ -400,6 +437,30 @@
     <Content Include="CourseManagement\Data\Templates\wait.gif">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DataGenerator\Data\Templates\api.js" />
+    <Content Include="DataGenerator\Data\Templates\checkplayer.js" />
+    <Content Include="DataGenerator\Data\Templates\flensed.js" />
+    <Content Include="DataGenerator\Data\Templates\flXHR.js" />
+    <Content Include="DataGenerator\Data\Templates\flXHR.swf" />
+    <Content Include="DataGenerator\Data\Templates\iudico.css" />
+    <Content Include="DataGenerator\Data\Templates\iudico.html" />
+    <Content Include="DataGenerator\Data\Templates\iudico.js" />
+    <Content Include="DataGenerator\Data\Templates\jquery-1.5.2.min-vsdoc.js" />
+    <Content Include="DataGenerator\Data\Templates\jquery-1.5.2.min.js" />
+    <Content Include="DataGenerator\Data\Templates\jquery.flXHRproxy.js" />
+    <Content Include="DataGenerator\Data\Templates\jquery.xhr.js" />
+    <Content Include="DataGenerator\Data\Templates\lms.js" />
+    <Content Include="DataGenerator\Data\Templates\questions.js" />
+    <Content Include="DataGenerator\Data\Templates\sco.js" />
+    <Content Include="DataGenerator\Data\Templates\sh_cpp.min.js" />
+    <Content Include="DataGenerator\Data\Templates\sh_csharp.min.js" />
+    <Content Include="DataGenerator\Data\Templates\sh_java.min.js" />
+    <Content Include="DataGenerator\Data\Templates\sh_main.min.js" />
+    <Content Include="DataGenerator\Data\Templates\sh_style.css" />
+    <Content Include="DataGenerator\Data\Templates\sh_xml.min.js" />
+    <Content Include="DataGenerator\Data\Templates\swfobject.js" />
+    <Content Include="DataGenerator\Data\Templates\updateplayer.swf" />
+    <Content Include="DataGenerator\Data\Templates\wait.gif" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\ExternalTools\StyleCop\v4.7\StyleCop.targets" />

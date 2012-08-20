@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<DisciplineDto xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Pascal</Name>
+  <Chapters>
+    <ChapterDto>
+      <Name>Вступ</Name>
+      <Topics>
+        <TopicDto>
+          <Name>1.Вступ до інформатики</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>2</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>2.Мова програмування Object Pascal</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>14</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>3.Типи</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>15</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>4.Прості оператори</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>16</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>5.Структуровані оператори</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>17</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>1-5.Tests</Name>
+          <TestCourseRef>1</TestCourseRef>
+          <TestTopicTypeRef>1</TestTopicTypeRef>
+          <TheoryCourseRef xsi:nil="true" />
+          <TheoryTopicTypeRef xsi:nil="true" />
+        </TopicDto>
+      </Topics>
+    </ChapterDto>
+    <ChapterDto>
+      <Name>Типи</Name>
+      <Topics>
+        <TopicDto>
+          <Name>6.Перелічувані та обмежені типи</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>19</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>7.Структури даних</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>20</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>6-7.Tests</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>18</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+      </Topics>
+    </ChapterDto>
+    <ChapterDto>
+      <Name>Процедури та функції</Name>
+      <Topics>
+        <TopicDto>
+          <Name>8.Процедури та функції</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>22</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>9. Параметри без типу</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>23</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>10.Процедурні типи</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>3</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>8-10.Tests</Name>
+          <TestCourseRef>21</TestCourseRef>
+          <TestTopicTypeRef>1</TestTopicTypeRef>
+          <TheoryCourseRef xsi:nil="true" />
+          <TheoryTopicTypeRef xsi:nil="true" />
+        </TopicDto>
+      </Topics>
+    </ChapterDto>
+    <ChapterDto>
+      <Name>Концепція типів даних</Name>
+      <Topics>
+        <TopicDto>
+          <Name>11.Рядковий тип</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>5</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>12.Множинний тип</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>6</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>13.Комбінований тип</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>7</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>14.Файлові типи</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>8</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>15.Використ типіз.,текстових файлів</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>9</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>11-15.Tests</Name>
+          <TestCourseRef>4</TestCourseRef>
+          <TestTopicTypeRef>1</TestTopicTypeRef>
+          <TheoryCourseRef xsi:nil="true" />
+          <TheoryTopicTypeRef xsi:nil="true" />
+        </TopicDto>
+      </Topics>
+    </ChapterDto>
+    <ChapterDto>
+      <Name>Модулі</Name>
+      <Topics>
+        <TopicDto>
+          <Name>16.Концепції модульного програмування</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>11</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>17.Ресурси стандартних модулів</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>12</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>18.Метод покрокової розробки алгоритмів</Name>
+          <TestCourseRef xsi:nil="true" />
+          <TestTopicTypeRef xsi:nil="true" />
+          <TheoryCourseRef>13</TheoryCourseRef>
+          <TheoryTopicTypeRef>2</TheoryTopicTypeRef>
+        </TopicDto>
+        <TopicDto>
+          <Name>16-18.Tests</Name>
+          <TestCourseRef>10</TestCourseRef>
+          <TestTopicTypeRef>1</TestTopicTypeRef>
+          <TheoryCourseRef xsi:nil="true" />
+          <TheoryTopicTypeRef xsi:nil="true" />
+        </TopicDto>
+      </Topics>
+    </ChapterDto>
+  </Chapters>
+</DisciplineDto>
