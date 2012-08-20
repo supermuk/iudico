@@ -257,11 +257,6 @@ namespace IUDICO.UserManagement.Models.Storage
             user.CreationDate = DateTime.Now;
             user.ApprovedBy = this.GetCurrentUser().Id;
 
-				if (user.ApprovedBy == new Guid("00000000-0000-0000-0000-000000000000"))
-				{
-					user.ApprovedBy = this.GetUser("lex").Id;
-				}
-
             db.Users.InsertOnSubmit(user);
             db.SubmitChanges();
 
