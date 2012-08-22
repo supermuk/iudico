@@ -178,6 +178,7 @@
     <Content Include="Content\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\ui.multichoice.css" />
     <Content Include="Scripts\ckeditor\ckeditor.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\lang\en.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\lang\uk.js" />
@@ -766,6 +767,7 @@
     <Content Include="Scripts\jquery\themes\default\style.css" />
     <Content Include="Scripts\jquery\themes\default\throbber.gif" />
     <Content Include="Scripts\lms.js" />
+    <Content Include="Scripts\multiChoiceWidget.js" />
     <Content Include="Views\Course\CourseRow.ascx" />
     <Content Include="Views\Course\Create.ascx" />
     <Content Include="Views\Course\Edit.ascx" />

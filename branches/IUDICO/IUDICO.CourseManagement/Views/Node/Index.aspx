@@ -15,6 +15,7 @@
     <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.20.custom.css") %>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery-ui.css") %>" id="theme" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery.fileupload-ui.css") %>" />
+    <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/ui.multichoice.css") %>" />
 
     <script src="<%= Html.ResolveUrl("~/Scripts/lms.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.layout.js") %>" type="text/javascript"></script>
@@ -23,7 +24,8 @@
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.cookie.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.hotkeys.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.jstree.js") %>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("/Scripts/jquery/jquery-ui-1.8.5.js") %>"></script>
+    <script src="<%= Html.ResolveUrl("/Scripts/jquery/jquery-ui-1.8.5.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/multiChoiceWidget.js") %>" type="text/javascript"></script>
 
     <script type="text/javascript">
 
