@@ -77,7 +77,7 @@ namespace IUDICO.DataGenerator
 		{
 			switch (evt)
 			{
-				case LMSNotifications.ApplicationStart:
+            case LMSNotifications.ApplicationStart:
 
 					//bool generate = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["DataGenerate"]) ?? true;
 					//if (generate)
@@ -101,10 +101,10 @@ namespace IUDICO.DataGenerator
 			var cacheProvider = container.Resolve<ICacheProvider>();
 			var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
 			path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Courses/Pascal/");
-			CourseGenerator.PascalCourse(courseStorage,cacheProvider,path);
+			//CourseGenerator.PascalCourse(courseStorage,cacheProvider,path);
 
 			path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-			path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Courses/Pascal/Pascal.disc");
+			path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Disciplines/Pascal.zip");
 			var databaseStorage = new FakeDatabaseDisciplineStorage(container.Resolve<ILmsService>(), "OlehVukladachenko");
 			var storage = new CachedDisciplineStorage(databaseStorage, cacheProvider);
 			DisciplineGenerator.PascalDiscipline(storage, path);
