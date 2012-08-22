@@ -28,7 +28,7 @@ namespace IUDICO.DisciplineManagement.Models
                catch(Exception ex)
                {
                   var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-                  path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", "");
+                  path = path.Replace("Plugins/IUDICO.DisciplineManagement.DLL", "");
                   return path;
                }
             }
