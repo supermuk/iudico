@@ -14,11 +14,11 @@ namespace IUDICO.DataGenerator.Models.Storage
 	public class FakeDatabaseDisciplineStorage : DatabaseDisciplineStorage
 	{
 		protected string _username;
-		protected ILmsService service;
+      protected ILmsService lmsService;
 
 		public FakeDatabaseDisciplineStorage(ILmsService lmsService, LinqLogger logger, string username): base(lmsService, logger)
 		{
-			this.service = lmsService;
+         this.lmsService = lmsService;
 			this._username = username;
 		}
 
@@ -28,7 +28,7 @@ namespace IUDICO.DataGenerator.Models.Storage
 
 		public override User GetCurrentUser()
 		{
-			return this.service.FindService<IUserService>().GetUsers().SingleOrDefault(u => u.Username == this._username);
+         return this.lmsService.FindService<IUserService>().GetUsers().SingleOrDefault(u => u.Username == this._username);
 		}
 	}
 }

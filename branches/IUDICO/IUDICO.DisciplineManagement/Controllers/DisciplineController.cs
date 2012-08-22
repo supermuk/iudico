@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using IUDICO.DisciplineManagement.Models.ViewDataClasses;
+using IUDICO.DisciplineManagement.Helpers;
 
 namespace IUDICO.DisciplineManagement.Controllers
 {
@@ -183,7 +184,9 @@ namespace IUDICO.DisciplineManagement.Controllers
             {
                 return View();
             }
+
             var importer = new ImportExportDiscipline(Storage);
+            
             importer.Import(fileUpload);
 
             return RedirectToAction("Index");

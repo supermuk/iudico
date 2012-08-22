@@ -20,8 +20,8 @@ namespace IUDICO.DataGenerator.Models.Generators
 
 			var curriculum = new Curriculum
 													{
-														UserGroupRef = userStorage.GetGroups().SingleOrDefault(g => g.Name == "Демонстраційна група").Id,
-														DisciplineRef = disciplineStorage.GetDisciplines().SingleOrDefault(d => d.Name == "Pascal" && d.Owner == "OlehVukladachenko").Id,
+														UserGroupRef = userStorage.GetGroups().FirstOrDefault(g => g.Name == "Демонстраційна група").Id,
+														DisciplineRef = disciplineStorage.GetDisciplines().FirstOrDefault(d => d.Name == "Pascal" && d.Owner == "OlehVukladachenko").Id,
 														StartDate = DateTime.Now,
 														EndDate = DateTime.Now + new TimeSpan(365,0,0,0,0)
 													};

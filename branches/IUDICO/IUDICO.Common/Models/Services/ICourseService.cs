@@ -12,6 +12,8 @@ namespace IUDICO.Common.Models.Services
         IEnumerable<Course> GetCourses(User owner);
         Course GetCourse(int id);
         string Export(int id);
+        void Import(string path, string owner);
+        void Unlock(int id);
 
         #endregion
 
