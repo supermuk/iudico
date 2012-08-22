@@ -110,6 +110,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Content\Courses\Pascal\Pascal.disc" />
+    <Content Include="Content\Disciplines\Pascal.zip" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Courses\Pascal\1-5.Tests.zip" />

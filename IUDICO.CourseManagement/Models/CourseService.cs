@@ -62,6 +62,16 @@ namespace IUDICO.CourseManagement.Models
             return this.courseStorage.Export(id);
         }
 
+        public void Import(string path, string owner)
+        {
+           this.courseStorage.Import(path, owner);
+        }
+
+        public void Unlock(int id)
+        {
+           this.courseStorage.Parse(id);
+        }
+
         #endregion
     }
 }

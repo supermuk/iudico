@@ -41,7 +41,20 @@
       <HintPath>..\References\Castle.Windsor.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Users\user\Downloads\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\..\..\Users\user\Downloads\DotNetZipLib-DevKit-v1.9\zip-v1.9\Release\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.LearningComponents">
+      <HintPath>..\IUDICO.CourseManagement\bin\Microsoft.LearningComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.LearningComponents.Compression">
+      <HintPath>..\IUDICO.CourseManagement\bin\Microsoft.LearningComponents.Compression.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -72,6 +85,7 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ChapterController.cs" />
@@ -79,6 +93,8 @@
     <Compile Include="Controllers\DisciplineController.cs" />
     <Compile Include="Controllers\TopicController.cs" />
     <Compile Include="DisciplineManagementPlugin.cs" />
+    <Compile Include="Helpers\PackageValidator.cs" />
+    <Compile Include="Helpers\Zipper.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\Converter.cs" />
     <Compile Include="Models\DisciplineService.cs" />
