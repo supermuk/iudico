@@ -121,142 +121,90 @@
                             this.setValue(paramMap['rank']);
                         }
                     },
-                    {
-                        id: 'correctAnswer',
-                        type: 'select',
-                        label: editor.lang.iudico.correctAnswer,
-                        labelLayout: 'horizontal',
-                        items: [],
-                        commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
-                            if (paramMap['correct']) {
-                                paramMap['correct'].setAttribute("value", this.getValue());
-                            } else {
-                                paramMap['correct'] = this.getDialog().addParam(objectNode, 'correct', this.getValue());
-                            }
-                        },
-                        setup: function (objectNode, embedNode, paramMap) {
-                            //this.setValue(paramMap['correct']);
-                        }
-                    },
-                    {
-                        type: 'hbox',
-                        widths: ['100px', '200px'],
-                        children:
-                        [
-                            {
-                                id: 'addChoice',
-                                type: 'button',
-                                label: editor.lang.iudico.addChoice,
-                                onClick: function () {
-                                    var dialog = this.getDialog(),
-										choices = dialog.getContentElement('choiceTab', 'cmbChoices'),
-                                        choice = dialog.getContentElement('choiceTab', 'choice'),
-                                        correctAnswer = dialog.getContentElement('choiceTab', 'correctAnswer');
+				    {
+				        type: 'checkbox',
+				        id: 'singleCase',
+				        label: editor.lang.iudico.singleCase,
+				        'default': 'checked',
+				        onClick: function () {
+				            $('#choise-answers').multichoice('switchInputType', this.getValue() ? 'radio' : 'checkbox');
+				        },
+				        setup: function (objectNode, embedNode, paramMap) {
+				            if (paramMap['multichoice']) {
+				                this.setValue(paramMap['multichoice'] == 0);
+				            }
+				        }
+				    },
+				    {
+				        id: 'answers',
+				        type: 'html',
+				        html: '<div id="choise-answers" style="width: 400px; height: 200px;"></div>',
+				        setup: function (objectNode, embedNode, paramMap) {
+				            var inputtype = 'radio';
+				            if (paramMap['multichoice']) {
+				                inputtype = paramMap['multichoice'] == 0 ? 'radio' : 'checkbox';
+				            }
 
-                                    if (choice.getValue() == '') {
-                                        alert('Empty field!');
-                                        return;
-                                    }
+				            $('#choise-answers').multichoice({ inputType: inputtype });
+				            $('#choise-answers').multichoice("clearItemList");
 
-                                    addOption(choices, choice.getValue(), choice.getValue(), dialog.getParentEditor().document);
-                                    addOption(correctAnswer, choice.getValue(), choice.getValue(), dialog.getParentEditor().document);
+				            var correctAnswer = paramMap['correct'] ? paramMap['correct'] : '';
+				            for (var i = 'A'; paramMap['option' + i]; i = String.fromCharCode(i.charCodeAt(0) + 1)) {
+				                var selected = false;
+				                if (correctAnswer.indexOf(i) != -1) {
+				                    selected = true;
+				                }
 
-                                    choice.setValue('');
-                                }
-                            },
-                            {
-                                id: 'choice',
-                                type: 'text',
-                                label: editor.lang.iudico.choice,
-                                labelLayout: 'horizontal',
-                                items: [],
-                                setup: function () {
-                                    this.setValue('');
-                                }
-                            }
-                        ]
-                    },
-                    {
-                        type: 'hbox',
-                        widths: ['50px', '200px'],
-                        children:
-                        [
-                            {
-                                id: 'deleteChoice',
-                                type: 'button',
-                                label: editor.lang.iudico.deleteChoice,
-                                onClick: function () {
-                                    var dialog = this.getDialog(),
-										choices = dialog.getContentElement('choiceTab', 'cmbChoices'),
-                                        choice = dialog.getContentElement('choiceTab', 'choice'),
-                                        correctAnswer = dialog.getContentElement('choiceTab', 'correctAnswer');
+				                $('#choise-answers').multichoice("addItem", decodeURIComponent(paramMap['option' + i]), selected);
+				            }
 
-                                    index = getSelectedIndex(choices);
+                            // support of the old style 
+				            for (var i = 0; paramMap['option' + i]; ++i) {
+				                var selected = false;
+				                if (correctAnswer.indexOf(paramMap['option' + i]) != -1) {
+				                    selected = true;
+				                }
 
-                                    removeOption(choices, index);
-                                    removeOption(correctAnswer, index);
-                                }
-                            },
-                            {
-                                type: 'select',
-                                id: 'cmbChoices',
-                                label: '',
-                                title: '',
-                                size: 5,
-                                style: 'width:115px;height:75px',
-                                items: [],
-                                commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
-                                    for (var i = 0; paramMap['option' + i]; ++i) {
-                                        paramMap['option' + i].remove();
-                                        delete paramMap['option' + i];
-                                    }
+				                $('#choise-answers').multichoice("addItem", decodeURIComponent(paramMap['option' + i]), selected);
+				            }
+				        },
+				        commit: function (objectNode, paramMap, extraStyles, extraAttributes) {
+				            for (var i = 'A'; paramMap['option' + i]; i = String.fromCharCode(i.charCodeAt(0) + 1)) {
+				                paramMap['option' + i].remove();
+				                delete paramMap['option' + i];
+				            }
 
-                                    var dialog = this.getDialog(),
-										choices = dialog.getContentElement('choiceTab', 'cmbChoices'),
-                                        choice = dialog.getContentElement('choiceTab', 'choice'),
-                                        correctAnswer = dialog.getContentElement('choiceTab', 'correctAnswer');
+				            var dialog = this.getDialog();
+				            var checkbox = dialog.getContentElement('choiceTab', 'singleCase');
+				            var items = $('#choise-answers').multichoice('getItems');
+				            var correctAnswers = [];
 
-                                    choices = getSelect(choices);
-                                    correctAnswer = getSelect(correctAnswer);
+				            for (var j = 0; j < items.length; ++j) {
+				                paramMap['option' + String.fromCharCode(65 + j)] = dialog.addParam(objectNode, 'option' + String.fromCharCode(65 + j), items[j].item);
+				                if (items[j].checked) {
+				                    correctAnswers.push(String.fromCharCode(65 + j));
+				                }
+				            }
 
-                                    for (var i = 0; i < choices.getChildCount(); ++i) {
-                                        paramMap['option' + i] = this.getDialog().addParam(objectNode, 'option' + i, choices.getChild(i).getText());
-                                    }
+				            if (paramMap['count']) {
+				                paramMap['count'].setAttribute("value", items.length);
+				            } else {
+				                paramMap['count'] = this.getDialog().addParam(objectNode, "count", items.length);
+				            }
 
-                                    if (paramMap['count']) {
-                                        paramMap['count'].setAttribute("value", i);
-                                    } else {
-                                        paramMap['count'] = this.getDialog().addParam(objectNode, "count", i);
-                                    }
+				            if (paramMap['multichoice']) {
+				                paramMap['multichoice'].setAttribute("value", checkbox.getValue() ? '0' : '1');
+				            } else {
+				                paramMap['multichoice'] = this.getDialog().addParam(objectNode, "multichoice", checkbox.getValue() ? '1' : '0');
+				            }
 
-                                    if (paramMap['multichoice']) {
-                                        paramMap['multichoice'].setAttribute("value", "0");
-                                    } else {
-                                        paramMap['multichoice'] = this.getDialog().addParam(objectNode, "multichoice", "0");
-                                    }
-                                },
-                                setup: function (objectNode, embedNode, paramMap) {
-                                    var dialog = this.getDialog(),
-										choices = dialog.getContentElement('choiceTab', 'cmbChoices'),
-                                        choice = dialog.getContentElement('choiceTab', 'choice'),
-                                        correctAnswer = dialog.getContentElement('choiceTab', 'correctAnswer');
-
-                                    removeAllOptions(choices);
-                                    removeAllOptions(correctAnswer);
-
-                                    for (var i = 0; paramMap['option' + i]; ++i) {
-                                        addOption(choices, paramMap['option' + i], paramMap['option' + i], dialog.getParentEditor().document);
-                                        var oOption = addOption(correctAnswer, paramMap['option' + i], paramMap['option' + i], dialog.getParentEditor().document);
-
-                                        if (paramMap['option' + i] == paramMap['correct']) {
-                                            oOption.setAttribute('selected', 'selected');
-                                            oOption.selected = true;
-                                        }
-                                    }
-                                }
-                            }
-                        ]
-                    }
+				            if (paramMap['correct']) {
+				                paramMap['correct'].setAttribute("value", correctAnswers.join('[,]'));
+				            } else {
+				                paramMap['correct'] = this.getDialog().addParam(objectNode, 'correct', correctAnswers.join('[,]'));
+				            }
+				        }
+				    }
 				]
 
             }

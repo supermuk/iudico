@@ -110,7 +110,7 @@ function complexTest($object, id) {
         var answersCount = parseInt(params['count']);
 
         for (var i = 0; i < answersCount; i++) {
-            $question.append('<p><input type="' + (params['multichoice'] == '1' ? 'check' : 'radio') + '" name="' + this.Id + 'Answer[]" id="' + this.Id + 'Answer' + i + '" value="' + params['option' + i] + '" /> ' + params['option' + i] + '</p>');
+            $question.append('<p><input type="' + (params['multichoice'] == '1' ? 'checkbox' : 'radio') + '" name="' + this.Id + 'Answer[]" id="' + this.Id + 'Answer' + String.fromCharCode(65 + i) + '" value="' + params['option' + String.fromCharCode(65 + i)] + '" /> ' + decodeURIComponent(params['option' + String.fromCharCode(65 + i)]) + '</p>');
         }
 
         $object.replaceWith($question);
@@ -125,17 +125,17 @@ function complexTest($object, id) {
 
         return result.join('');*/
 
-        var result = null;
+        var result = [];
 
         $('input[name="' + this.Id + 'Answer[]"]').each(function () {
             if ($(this).is(':checked')) {
-                result = $(this).val();
-
-                return false;
+                var id = $(this).attr('id');
+                result.push(id.charAt(id.length - 1));
             }
         });
 
-        return encodeURIComponent(result);
+        //return encodeURIComponent(result);
+        return result.join('[,]');
     }
 
     this.setAnswer = function (answer) {
@@ -143,14 +143,18 @@ function complexTest($object, id) {
         var inputArray = $('#' + this.Id + ' input');
 
         $('input[@name="' + this.Id + 'Answer[]"').each(function (i) {
-            $(this).attr('checked', (result[i] == '1'));
+        $(this).attr('checked', (result[i] == '1'));
         });*/
 
-        $('input[name="' + this.Id + 'Answer[]"][value="' + answer + '"]').attr('checked', 'checked');
+        var parts = answer.split('[,]');
+        for (var i = 0; i < parts.length; ++i) {
+            $('input[name="' + this.Id + 'Answer[]"][id="' + this.Id + 'Answer' + parts[i] + '"]').attr('checked', 'checked');
+        }
     }
 
     this.getCorrectAnswer = function () {
-        return encodeURIComponent(this.CorrectAnswer);
+        //return encodeURIComponent(this.CorrectAnswer);
+        return this.CorrectAnswer;
     }
 
     this.getType = function () {
@@ -158,21 +162,41 @@ function complexTest($object, id) {
     }
 
     this.getResult = function () {
-        return (this.getCorrectAnswer() == this.getAnswer() ? "correct" : "incorrect");
+        return (isAnswersEqual(this.getCorrectAnswer(), this.getAnswer()) ? "correct" : "incorrect");
+    }
+
+    function isAnswersEqual(answer1, answer2) {
+        var arr1 = answer1.split('[,]');
+        var arr2 = answer2.split('[,]');
+
+        arr1.sort();
+        arr2.sort();
+        
+        return arr1.join('') == arr2.join('');
     }
 
     this.getScoreRaw = function () {
-        var answer = this.getAnswer();
-        var correctAnswer = this.getCorrectAnswer();
+        var answerArray = this.getAnswer().split('[,]');
+        var correctAnswerArray = this.getCorrectAnswer().split('[,]');
+
+        answerArray.sort();
+        correctAnswerArray.sort();
 
         var count = 0;
-        var min = Math.min(answer.length, correctAnswer.length);
-
-        for (var i = 0; i < min; i++) {
-            count += (answer.charAt(i) == correctAnswer.charAt(i) ? 1 : 0);
+        var i = 0, j = 0;
+        while (i < answerArray.length && j < correctAnswerArray.length) {
+            if (answerArray[i] == correctAnswerArray[j]) {
+                ++count;
+                ++i;
+                ++j;
+            } else if (answerArray[i] > correctAnswerArray[j]) {
+                ++j;
+            } else {
+                ++i;
+            }
         }
 
-        return count * this.Rank / correctAnswer.length;
+        return count * this.Rank / correctAnswerArray.length;
     }
 
     this.getScoreMin = function () {
