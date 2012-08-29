@@ -244,6 +244,7 @@
     <Content Include="Content\Images\wait.gif" />
     <Content Include="Content\jAlert\jquery.alerts.css" />
     <Content Include="Content\jAlert\jquery.alerts.js" />
+    <Content Include="Content\jquery.fileupload-ui.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -312,6 +313,7 @@
     <Content Include="Scripts\ajax-dialog.js" />
     <Content Include="Scripts\CheckStyle.js" />
     <Content Include="Scripts\jquery\jquery-ui.js" />
+    <Content Include="Scripts\jquery\jquery.fileupload.js" />
     <Content Include="Scripts\jquery\jquery.validate.js" />
     <None Include="Scripts\jquery\jquery.validate.min.js">
     </None>
@@ -345,7 +347,7 @@
     <Content Include="Data\CourseTemplate\sco.js" />
     <Content Include="Data\CourseTemplate\swfobject.js" />
     <Content Include="Data\CourseTemplate\updateplayer.swf" />
-    <Content Include="log.xml">
+    <Content Include="Views\Shared\log.xml">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Player\Frameset\Images\BoxOff.gif" />
@@ -441,10 +443,10 @@
     <Content Include="Plugins\*.*" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\" />
     <Folder Include="Data\Avatars\" />
     <Folder Include="Data\Courses\" />
     <Folder Include="Data\CSV\" />
+    <Folder Include="Data\Disciplines\" />
     <Folder Include="Data\Index\" />
     <Folder Include="Data\PlayerPackages\" />
     <Folder Include="Data\WorkFolder\" />

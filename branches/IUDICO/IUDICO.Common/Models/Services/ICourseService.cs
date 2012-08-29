@@ -13,6 +13,7 @@ namespace IUDICO.Common.Models.Services
         Course GetCourse(int id);
         string Export(int id);
         void Import(string path, string owner);
+        void Import(string path, string name, string owner);
         void Unlock(int id);
 
         #endregion
