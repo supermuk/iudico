@@ -15,7 +15,8 @@ using IUDICO.DataGenerator.Models.Generators;
 using IUDICO.Common.Models.Notifications;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.DisciplineManagement.Models.Storage;
-
+using IUDICO.CurriculumManagement.Models.Storage;
+using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.DataGenerator
 {
@@ -99,17 +100,21 @@ namespace IUDICO.DataGenerator
 		{
 			var courseStorage = container.Resolve<ICourseStorage>();
 			var cacheProvider = container.Resolve<ICacheProvider>();
-			var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-			path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Courses/Pascal/");
+         //var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+         //path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Courses/Pascal/");
 			//CourseGenerator.PascalCourse(courseStorage,cacheProvider,path);
 
-			path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+			var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
 			path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Disciplines/Pascal.zip");
 			var databaseStorage = new FakeDatabaseDisciplineStorage(container.Resolve<ILmsService>(), "OlehVukladachenko");
 			var storage = new CachedDisciplineStorage(databaseStorage, cacheProvider);
 			DisciplineGenerator.PascalDiscipline(storage, path);
 
-			CurriculumGenerator.PascalCurriculum(this.container);
+
+         var curriculumStorage = container.Resolve<ICurriculumStorage>();
+         var userStorage = container.Resolve<IUserStorage>();
+         var disciplineStorage = container.Resolve<IDisciplineStorage>();
+			CurriculumGenerator.PascalCurriculum(curriculumStorage,disciplineStorage,userStorage);
 		}
 	}
 }

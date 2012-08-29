@@ -12,12 +12,8 @@ namespace IUDICO.DataGenerator.Models.Generators
 {
 	public static class CurriculumGenerator
 	{
-		public static void PascalCurriculum(IWindsorContainer container)
+      public static void PascalCurriculum(ICurriculumStorage curriculumStorage, IDisciplineStorage disciplineStorage, IUserStorage userStorage)
 		{
-			var curriculumStorage = container.Resolve<ICurriculumStorage>();
-			var userStorage = container.Resolve<IUserStorage>();
-			var disciplineStorage = container.Resolve<IDisciplineStorage>();
-
 			var curriculum = new Curriculum
 													{
 														UserGroupRef = userStorage.GetGroups().FirstOrDefault(g => g.Name == "Демонстраційна група").Id,

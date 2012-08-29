@@ -191,7 +191,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = this.GetDbContext();
 
-            var courses = (from n in db.Courses where ids.Contains(n.Id) select n);
+           var courses = (from n in db.Courses where ids.Contains(n.Id) select n);
 
             foreach (var course in courses)
             {
@@ -333,16 +333,21 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var zipName = Path.GetFileNameWithoutExtension(path);
 
-            var course = new Course
-                             {
-                                 Name = zipName,
-                                 Owner = owner,
-                                 Locked = true
-                             };
+            this.Import(path, zipName, owner);
+        }
 
-            this.AddCourse(course);
-            
-            File.Copy(path, this.GetCoursePath(course.Id) + ".zip");
+        public virtual void Import(string path, string courseName, string owner)
+        {
+           var course = new Course
+           {
+              Name = courseName,
+              Owner = owner,
+              Locked = true
+           };
+
+           this.AddCourse(course);
+
+           File.Copy(path, this.GetCoursePath(course.Id) + ".zip");
         }
 
         public virtual void Parse(int courseId)

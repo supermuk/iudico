@@ -176,20 +176,81 @@ namespace IUDICO.DisciplineManagement.Controllers
             return new FilePathResult(path, "application/octet-stream") { FileDownloadName = importer.GetFileName(disciplineId) };
         }
 
+        [HttpGet]
+        [Allow(Role = Role.Teacher)]
+        public ActionResult Import()
+        {
+           return PartialView();
+        }
+
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Import(string action, HttpPostedFileBase fileUpload)
+        public ActionResult Import(HttpPostedFileBase file)
         {
-            if (fileUpload == null)
+            if (file == null)
             {
                 return View();
             }
 
             var importer = new ImportExportDiscipline(Storage);
             
-            importer.Import(fileUpload);
+            importer.Import(file);
 
             return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public ActionResult Import(string path)
+        {
+           if (path == string.Empty)
+           {
+              return View();
+           }
+
+           var importer = new ImportExportDiscipline(Storage);
+
+           importer.Import(path);
+
+           return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public ContentResult UploadFiles()
+        {
+           var r = new List<ViewDataUploadFilesResult>();
+
+           string savedFileName = "";
+
+           foreach (string file in Request.Files)
+           {
+              HttpPostedFileBase hpf = Request.Files[file] as HttpPostedFileBase;
+              if (hpf.ContentLength == 0)
+                 continue;
+
+              savedFileName = Path.Combine(Server.MapPath("~/Data/Disciplines"), Path.GetFileName(hpf.FileName));
+              hpf.SaveAs(savedFileName); // Save the file
+
+              r.Add(new ViewDataUploadFilesResult()
+              {
+                 Name = hpf.FileName,
+                 Length = hpf.ContentLength,
+                 Type = hpf.ContentType
+              });
+
+              var importer = new ImportExportDiscipline(Storage);
+
+              if (importer.Validate(savedFileName))
+              {
+                 importer.Import(savedFileName);
+              }
+
+           }
+
+           // Returns json
+           return Content("{\"name\":\"" + r[0].Name + "\",\"type\":\"" + r[0].Type + "\",\"size\":\"" + string.Format("{0} bytes", r[0].Length) + /*"\",\"path\":\""+ savedFileName.ToString() +*/ "\"}", "application/json");
         }
     }
 }

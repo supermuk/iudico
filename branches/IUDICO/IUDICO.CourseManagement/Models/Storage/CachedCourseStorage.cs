@@ -109,6 +109,13 @@ namespace IUDICO.CourseManagement.Models.Storage
             this.cacheProvider.Invalidate("courses");
         }
 
+        public void Import(string path, string courseName, string owner)
+        {
+           this.storage.Import(path, courseName, owner);
+
+           this.cacheProvider.Invalidate("courses");
+        }
+
         public void Parse(int id)
         {
             this.storage.Parse(id);
