@@ -7,7 +7,7 @@
     <script type="text/javascript" language="javascript">
         $(document).ready(function () {
 
-            $('#Courses').dataTable({
+				$('#Courses').dataTable({
                 "bJQueryUI": true,
                 "sPaginationType": "full_numbers",
                 iDisplayLength: 50,
@@ -30,7 +30,7 @@
                 }
             });
 
-            $("#DeleteMany").click(function () {
+				$("#DeleteMany").click(function () {
                 var ids = $("td input:checked:not(id$='CheckAll')").map(function () {
                     return $(this).attr('id');
                 });
@@ -47,10 +47,11 @@
                     return false;
                 }
 
-                $.ajax({
-                    type: "post",
-                    url: "/Course/Delete",
-                    data: { courseIds: ids },
+					 $.ajax({
+                    type: "POST",
+						  url: "/Course/Delete",
+						  traditional: true,
+                    data: {courseIds : ids.toArray()},
                     success: function (r) {
                         if (r.success) {
                             $("td input:checked").parents("tr").remove();

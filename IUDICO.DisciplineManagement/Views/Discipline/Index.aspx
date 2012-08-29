@@ -301,6 +301,17 @@
             });
         }
         
+		  function importDiscipline() {
+            openDialog("<%=Localization.GetMessage("ImportDiscipline") %>");
+
+            $.get(
+                "/DisciplineAction/Import",
+                function (r) {
+                    fillDialogInner(r, "", 0);
+                }
+            );
+        }
+
         function addDiscipline() {
             openDialog("<%=Localization.GetMessage("CreateDiscipline") %>");
 
@@ -312,7 +323,7 @@
             );
         }
 
-        function addTopic(chapterId) {
+		  function addTopic(chapterId) {
             openDialog("<%=Localization.GetMessage("CreateTopic") %>");
 
             expandRow("chapter" + chapterId, expandChapter);
@@ -448,7 +459,7 @@
     <div>
         <a href="#" onclick="addDiscipline();"><%=Localization.GetMessage("CreateNew")%></a>
         |
-        <% Html.RenderPartial("Import"); %>
+		  <a id="ImportDiscipline" href="#" onclick="importDiscipline();"><%= Localization.GetMessage("Import") %></a>
         |
         <a id="DeleteMany" href="#" style="display:none"><%=Localization.GetMessage("DeleteSelected")%></a>
     </div>

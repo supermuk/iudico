@@ -76,9 +76,13 @@ namespace IUDICO.DisciplineManagement.Models
                             .Select(topic => new TopicDto
                                 {
                                     Name = topic.Name,
-                                    TestCourseName = topic.TestCourseRef == null ? string.Empty : this.courseService.GetCourse((int)topic.TestCourseRef).Name,
+                                    TestCourseName = topic.TestCourseRef == null ? 
+                                                                         string.Empty : 
+                                                                         String.Format("{0}-Test_{1}", this.courseService.GetCourse((int)topic.TestCourseRef).Name, (int)topic.TestCourseRef),
                                     TestTopicTypeRef = topic.TestTopicTypeRef,
-                                    TheoryCourseName = topic.TheoryCourseRef == null ? string.Empty : this.courseService.GetCourse((int)topic.TheoryCourseRef).Name,
+                                    TheoryCourseName = topic.TheoryCourseRef == null ? 
+                                                                         string.Empty : 
+                                                                         String.Format("{0}-Theory_{1}", this.courseService.GetCourse((int)topic.TheoryCourseRef).Name,(int)topic.TheoryCourseRef),
                                     TheoryTopicTypeRef = topic.TheoryTopicTypeRef
                                 }).ToList()
                     }).ToList()
@@ -123,18 +127,21 @@ namespace IUDICO.DisciplineManagement.Models
                             TestTopicTypeRef = topicDto.TestTopicTypeRef,
                             TheoryTopicTypeRef = topicDto.TheoryTopicTypeRef
                         };
+                   
                    if(topicDto.TestCourseName!=string.Empty)
                    {
-                      this.courseService.Import(Path.Combine(path, topicDto.TestCourseName + ".zip"), currentUser);
-                      var id = this.courseService.GetCourses(this.storage.GetCurrentUser()).Where(c => c.Name == topicDto.TestCourseName).Max(c => c.Id);
+                      var testCourseName = topicDto.TestCourseName.Remove(topicDto.TestCourseName.IndexOf("-Test_"));
+                      this.courseService.Import(Path.Combine(path, topicDto.TestCourseName + ".zip"), testCourseName , currentUser);
+                      var id = this.courseService.GetCourses(this.storage.GetCurrentUser()).Where(c => c.Name == testCourseName).Max(c => c.Id);
                       this.courseService.Unlock(id);
                       topic.TestCourseRef = id;
                    }
 
                    if (topicDto.TheoryCourseName != string.Empty)
                    {
-                      this.courseService.Import(Path.Combine(path, topicDto.TheoryCourseName + ".zip"), currentUser);
-                      var id = this.courseService.GetCourses(this.storage.GetCurrentUser()).Where(c => c.Name == topicDto.TheoryCourseName).Max(c => c.Id);
+                      var theoryCourseName = topicDto.TheoryCourseName.Remove(topicDto.TheoryCourseName.IndexOf("-Theory_"));
+                      this.courseService.Import(Path.Combine(path, topicDto.TheoryCourseName + ".zip"), theoryCourseName, currentUser);
+                      var id = this.courseService.GetCourses(this.storage.GetCurrentUser()).Where(c => c.Name == theoryCourseName).Max(c => c.Id);
                       this.courseService.Unlock(id);
                       topic.TheoryCourseRef = id;
                    }
@@ -155,9 +162,9 @@ namespace IUDICO.DisciplineManagement.Models
         public string Export(int disciplineId)
         {
            var discname = this.storage.GetDiscipline(disciplineId).Name;
-           var path = Path.Combine(GetFolderPath(),Guid.NewGuid().ToString());
-           var fullPath = Path.Combine(path,discname);
-           Directory.CreateDirectory(fullPath);
+           var pathToDisc = Path.Combine(GetFolderPath(),Guid.NewGuid().ToString());
+           var tempPath = Path.Combine(pathToDisc,discname);
+           Directory.CreateDirectory(tempPath);
 
                       
            foreach (var chapter in this.storage.GetDiscipline(disciplineId).Chapters)
@@ -167,19 +174,20 @@ namespace IUDICO.DisciplineManagement.Models
                  if (topic.TheoryCourseRef != null)
                  {
                     File.Copy(this.courseService.Export((int)topic.TheoryCourseRef), 
-                               Path.Combine(fullPath, String.Format("{0}.zip", this.courseService.GetCourse((int)topic.TheoryCourseRef).Name)));
+                               Path.Combine(tempPath, String.Format("{0}-Theory_{1}.zip", this.courseService.GetCourse((int)topic.TheoryCourseRef).Name,(int)topic.TheoryCourseRef)));
                  }
                  if (topic.TestCourseRef != null)
                  {
                     File.Copy(this.courseService.Export((int)topic.TestCourseRef),
-                               Path.Combine(fullPath, String.Format("{0}.zip", this.courseService.GetCourse((int)topic.TestCourseRef).Name)));
+                               Path.Combine(tempPath, String.Format("{0}-Test_{1}.zip", this.courseService.GetCourse((int)topic.TestCourseRef).Name, (int)topic.TestCourseRef)));
                  }
               }
            }
-           this.Serialize(Path.Combine(fullPath,String.Format("{0}.disc",discname)), disciplineId);
-           Zipper.CreateZip(Path.Combine(path, discname + ".zip"), fullPath);
 
-           return Path.Combine(path, discname + ".zip");
+           this.Serialize(Path.Combine(tempPath,String.Format("{0}.disc",discname)), disciplineId);
+           Zipper.CreateZip(Path.Combine(pathToDisc, discname + ".zip"), tempPath);
+
+           return Path.Combine(pathToDisc, discname + ".zip");
         }
 
 
@@ -189,6 +197,7 @@ namespace IUDICO.DisciplineManagement.Models
             var path = Path.Combine(GetFolderPath(), fileName);
             Directory.CreateDirectory(GetFolderPath());
             file.SaveAs(path);
+
             var pathToExtract = Path.Combine(GetFolderPath(),Guid.NewGuid().ToString());
             Zipper.ExtractZipFile(path, pathToExtract);
             this.Deserialize(pathToExtract);
@@ -225,6 +234,25 @@ namespace IUDICO.DisciplineManagement.Models
            return true;
         }
 
+        public bool Validate(string path)
+        {
+           var pathToExtract = Path.Combine(GetFolderPath(), Guid.NewGuid().ToString());
+           Zipper.ExtractZipFile(path, pathToExtract);
+
+           foreach (var courseFile in Directory.GetFiles(pathToExtract, "*.zip"))
+           {
+              if (!PackageValidator.Validate(courseFile).Contains("Package is valid."))
+              {
+                 return false;
+              }
+           }
+           if (Directory.GetFiles(pathToExtract, "*.disc").Count() == 0)
+           {
+              return false;
+           }
+
+           return true;
+        }
         #endregion
     }
 

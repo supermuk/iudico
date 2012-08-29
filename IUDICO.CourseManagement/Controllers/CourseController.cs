@@ -14,7 +14,7 @@ using IUDICO.Common.Models.Attributes;
 namespace IUDICO.CourseManagement.Controllers
 {
     using IUDICO.Common;
-
+   
     public class CourseController : CourseBaseController
     {
         private readonly ICourseStorage storage;
@@ -191,11 +191,11 @@ namespace IUDICO.CourseManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
-        public JsonResult Delete(int[] courseIds)
+        public JsonResult Delete(List<int> courseIds)
         {
             try
             {
-                this.storage.DeleteCourses(new List<int>(courseIds));
+                this.storage.DeleteCourses(courseIds);
 
                 return Json(new { success = true });
             }

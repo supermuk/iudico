@@ -24,6 +24,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         void DeleteCourses(List<int> ids);
         string Export(int id);
         void Import(string path, string owner);
+        void Import(string path, string courseName, string owner);
         void Parse(int id);
         string GetCoursePath(int id);
         string GetCourseTempPath(int id);
