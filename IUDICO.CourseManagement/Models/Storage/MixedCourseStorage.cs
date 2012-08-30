@@ -490,7 +490,16 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             if (!node.IsFolder)
             {
-                @File.Delete(this.GetNodePath(id));
+                @File.Delete(this.GetNodePath(id) + ".html");
+            }
+            else
+            {
+                var childNodes = db.Nodes.Where(n => n.ParentId == node.Id);
+
+                foreach (var childNode in childNodes)
+                {
+                    this.DeleteNode(childNode.Id);
+                }
             }
 
             db.Nodes.DeleteOnSubmit(node);
@@ -596,50 +605,50 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public virtual string GetCourseTempPath(int courseId)
         {
-			  string path = string.Empty;
-			  try
-			  {
-				  path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
-			  }
-			  catch
-			  {
-				  path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-				  path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", "");
-			  }
+            string path = string.Empty;
+            try
+            {
+                path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+            }
+            catch
+            {
+                path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+                path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", string.Empty);
+            }
 
             return Path.Combine(path, @"Data\WorkFolder", courseId.ToString());
         }
 
         public virtual string GetTemplatesPath()
         {
-           string path = string.Empty;
-           try
-           {
-				  path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
-			  }
-			  catch
-			  {
-				  path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-	           path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", "");
-			  }
+            string path = string.Empty;
+            try
+            {
+                path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+            }
+            catch
+            {
+                path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+                path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", string.Empty);
+            }
 
             return Path.Combine(path, @"Data\CourseTemplate");
         }
 
         protected virtual string GetCoursesPath()
         {
-			  string path = string.Empty;
-			  try
-			  {
-				  path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
-			  }
-			  catch
-			  {
-				  path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-				  path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", "");
-			  }
+            string path = string.Empty;
+            try
+            {
+                path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+            }
+            catch
+            {
+                path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+                path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", string.Empty);
+            }
 
-           return Path.Combine(path, @"Data\Courses");
+            return Path.Combine(path, @"Data\Courses");
         }
 
         protected virtual void CopyNodes(Node node, Node newnode)
