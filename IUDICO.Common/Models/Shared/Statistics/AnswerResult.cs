@@ -65,16 +65,6 @@
         public SuccessStatus? SuccessStatus { get; protected set; }
 
         /// <summary>
-        /// Float Nullable value represents scaled score, calculated while attempting activity.
-        /// </summary>
-        public float? ScaledScore { get; protected set; }
-
-        /// <summary>
-        /// Float Nullable value represents raw score, calculated while attempting activity.
-        /// </summary>
-        public float? RawScore { get; protected set; }
-
-        /// <summary>
         /// Float Nullable value represents miniumum score, calculated while attempting activity.
         /// </summary>
         public float? MinScore { get; protected set; }
@@ -83,6 +73,16 @@
         /// Float Nullable value represents maximum score, calculated while attempting activity.
         /// </summary>
         public float? MaxScore { get; protected set; }
+
+        /// <summary>
+        /// Float Nullable value represents raw score, calculated while attempting activity.
+        /// </summary>
+        public float? RawScore { get; protected set; }
+
+        /// <summary>
+        /// Float Nullable value represents scaled score, calculated while attempting activity.
+        /// </summary>
+        public float? ScaledScore { get; protected set; }
         
         #endregion
 

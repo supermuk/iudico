@@ -5,6 +5,7 @@ using System.Web;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Caching;
+using IUDICO.Common.Models;
 
 namespace IUDICO.CourseManagement.Models.Storage
 {
@@ -54,6 +55,20 @@ namespace IUDICO.CourseManagement.Models.Storage
             return id;
         }
 
+        public int AddCourseInfo(IudicoCourseInfo courseInfo)
+        {
+            var id = this.storage.AddCourseInfo(courseInfo);
+
+            this.cacheProvider.Invalidate("coursesInfo");
+
+            return id;
+        }
+
+        public IudicoCourseInfo GetCourseInfo(int id)
+        {
+            return this.cacheProvider.Get<IudicoCourseInfo>("courseInfo-" + id, @lockObject, () => this.storage.GetCourseInfo(id), DateTime.Now.AddDays(1), "courseInfo-" + id);
+        }
+
         public void UpdateCourseUsers(int courseId, IEnumerable<Guid> userIds)
         {
             this.storage.UpdateCourseUsers(courseId, userIds);
@@ -97,9 +112,9 @@ namespace IUDICO.CourseManagement.Models.Storage
             this.cacheProvider.Invalidate("courses");
         }
 
-        public string Export(int id)
+        public string Export(int id, bool exportForPlayCourse = false)
         {
-            return this.cacheProvider.Get<string>("course-path", @lockObject, () => this.storage.Export(id), DateTime.Now.AddDays(1), "course-" + id);
+            return this.cacheProvider.Get<string>("course-path", @lockObject, () => this.storage.Export(id, exportForPlayCourse), DateTime.Now.AddDays(1), "course-" + id);
         }
 
         public void Import(string path, string owner)

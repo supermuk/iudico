@@ -44,7 +44,7 @@ namespace IUDICO.UnitTests.DataGenerator.NUnit
       [TearDown]
       public void OnTearDown()
       {
-         Storage.DeleteCourses(Storage.GetCourses().Select(c => c.Id).ToList());
+         this.Storage.DeleteCourses(this.Storage.GetCourses().Select(c => c.Id).ToList());
          this.DeleteFiles();
       }
 
@@ -61,29 +61,29 @@ namespace IUDICO.UnitTests.DataGenerator.NUnit
       [Test]
       public void Test1()
       {
-         var files = Directory.GetFiles(path, "*.zip");
+         var files = Directory.GetFiles(this.path, "*.zip");
 
          foreach (var file in files)
          {
             var name = Path.GetFileNameWithoutExtension(file);
 
-            Assert.AreEqual(0, Storage.GetCourses().Where(c => c.Name == name && c.Owner == "OlehVukladachenko").Count());
+            Assert.AreEqual(0, this.Storage.GetCourses().Where(c => c.Name == name && c.Owner == "OlehVukladachenko").Count());
          }
 
-         CourseGenerator.PascalCourse(Storage, CacheProvider, path);
+         CourseGenerator.PascalCourse(this.Storage, this.CacheProvider, this.path);
          foreach (var file in files)
          {
             var name = Path.GetFileNameWithoutExtension(file);
 
-            Assert.AreEqual(1, Storage.GetCourses().Where(c => c.Name == name && c.Owner == "OlehVukladachenko").Count());
+            Assert.AreEqual(1, this.Storage.GetCourses().Where(c => c.Name == name && c.Owner == "OlehVukladachenko").Count());
          }
          this.DeleteFiles();
-         CourseGenerator.PascalCourse(Storage, CacheProvider, path);
+         CourseGenerator.PascalCourse(this.Storage, this.CacheProvider, this.path);
          foreach (var file in files)
          {
             var name = Path.GetFileNameWithoutExtension(file);
 
-            Assert.AreEqual(1, Storage.GetCourses().Where(c => c.Name == name && c.Owner == "OlehVukladachenko").Count());
+            Assert.AreEqual(1, this.Storage.GetCourses().Where(c => c.Name == name && c.Owner == "OlehVukladachenko").Count());
          }
       }
 

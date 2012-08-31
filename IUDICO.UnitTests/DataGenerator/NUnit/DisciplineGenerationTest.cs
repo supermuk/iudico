@@ -19,27 +19,27 @@ namespace IUDICO.UnitTests.DataGenerator.NUnit
 
       public IDisciplineStorage Storage
       {
-         get
-         {
-            return this.tests.CachedStorage;
-         }
+          get
+          {
+              return this.tests.CachedStorage;
+          }
       }
 
       [SetUp]
       public void Init()
       {
-         tests.ClearTables();
+          this.tests.ClearTables();
       }
 
       [Test]
       [Ignore]
       public void Test1()
       {
-         Assert.AreEqual(0, Storage.GetDisciplines().Where(d => d.Name == "Pascal" && d.Owner == "OlehVukladachenko").Count());
+         Assert.AreEqual(0, this.Storage.GetDisciplines().Where(d => d.Name == "Pascal" && d.Owner == "OlehVukladachenko").Count());
 
-         DisciplineGenerator.PascalDiscipline(Storage, path);
+         DisciplineGenerator.PascalDiscipline(this.Storage, this.path);
 
-         Assert.AreEqual(1, Storage.GetDisciplines().Where(d => d.Name == "Pascal" && d.Owner == "OlehVukladachenko").Count());
+         Assert.AreEqual(1, this.Storage.GetDisciplines().Where(d => d.Name == "Pascal" && d.Owner == "OlehVukladachenko").Count());
       }
    }
 }

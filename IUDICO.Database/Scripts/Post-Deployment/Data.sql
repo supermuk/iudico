@@ -41,3 +41,11 @@ GO
 INSERT [dbo].[TopicTypes] ([Id], [Name]) VALUES (1, N'Test')
 INSERT [dbo].[TopicTypes] ([Id], [Name]) VALUES (2, N'Theory')
 INSERT [dbo].[TopicTypes] ([Id], [Name]) VALUES (3, N'TestWithoutCourse')
+
+/****** Object:  Table [dbo].[ThemeTypes]    Script Date: 01/25/2011 01:34:49 ******/
+DELETE FROM [dbo].[QuestionTypes]
+GO
+/****** Object:  Table [dbo].[ThemeTypes]    Script Date: 01/25/2011 01:34:49 ******/
+INSERT [dbo].[QuestionTypes] ([Type], [Name]) VALUES (1, N'SimpleQuestion')
+INSERT [dbo].[QuestionTypes] ([Type], [Name]) VALUES (2, N'ChoiceQuestion')
+INSERT [dbo].[QuestionTypes] ([Type], [Name]) VALUES (3, N'CompiledTest')

@@ -6539,6 +6539,7 @@ namespace IUDICO.TestingSystem.Schema
     /// <li><Fld>CompletionStatus</Fld></li>
     /// <li><Fld>CurriculumChapterTopicId</Fld></li>
     /// <li><Fld>FinishedTimestamp</Fld></li>
+    /// <li><Fld>IudicoCourseRef</Fld></li>
     /// <li><Fld>MinScore</Fld></li>
     /// <li><Fld>MaxScore</Fld></li>
     /// <li><Fld>RawScore</Fld></li>
@@ -6661,6 +6662,17 @@ namespace IUDICO.TestingSystem.Schema
         public const string FinishedTimestamp = "FinishedTimestamp";
 
         /// <summary>
+        /// Name of the IudicoCourseRef column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Int32
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string IudicoCourseRef = "IudicoCourseRef";
+
+        /// <summary>
         /// Name of the MinScore column on the <Typ>AllAttemptsResults</Typ> view.
         /// </summary>
         /// <remarks>
@@ -6721,6 +6733,9 @@ namespace IUDICO.TestingSystem.Schema
     /// <li><Fld>LearnerResponseBool</Fld></li>
     /// <li><Fld>LearnerResponseNumeric</Fld></li>
     /// <li><Fld>LearnerResponseString</Fld></li>
+    /// <li><Fld>MinScore</Fld></li>
+    /// <li><Fld>MaxScore</Fld></li>
+    /// <li><Fld>RawScore</Fld></li>
     /// <li><Fld>ScaledScore</Fld></li>
     /// <li><Fld>SuccessStatus</Fld></li>
     /// </ul>
