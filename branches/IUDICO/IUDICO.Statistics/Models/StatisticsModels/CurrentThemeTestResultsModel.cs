@@ -77,7 +77,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
 
         public double GetMaxScore()
         {
-            return courseInfo.OverallMaxScore;
+            return this.courseInfo.OverallMaxScore;
         }
 
         public double GetPercentScore()

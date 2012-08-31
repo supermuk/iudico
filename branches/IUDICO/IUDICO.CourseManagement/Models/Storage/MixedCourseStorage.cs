@@ -472,9 +472,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                 }
                 catch (Exception ex)
                 {
-                    log.Error(string.Format("Exception message: {0}\nData: {1}\nHelp Link: {2}\nInner exception: {3}\nSource: {4}\nStack trace: {5}\nTarget site: {6}",
-
-ex.Message, ex.Data, ex.HelpLink, ex.InnerException, ex.Source, ex.StackTrace, ex.TargetSite));
+                    log.Error(string.Format("Exception message: {0}\nData: {1}\nHelp Link: {2}\nInner exception: {3}\nSource: {4}\nStack trace: {5}\nTarget site: {6}", ex.Message, ex.Data, ex.HelpLink, ex.InnerException, ex.Source, ex.StackTrace, ex.TargetSite));
                 }
             }
 
