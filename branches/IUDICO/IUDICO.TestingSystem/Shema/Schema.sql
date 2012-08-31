@@ -617,6 +617,7 @@ SET @schema = @schema +
         '<Column Name="SuccessStatus" TypeCode="8" Nullable="true" EnumName="SuccessStatus"/>' +
         '<Column Name="StartedTimestamp" TypeCode="4" Nullable="true"/>' +
         '<Column Name="FinishedTimestamp" TypeCode="4" Nullable="true"/>' +
+		'<Column Name="IudicoCourseRef" TypeCode="9" Nullable="true"/>' +
         '<Column Name="MinScore" TypeCode="5" Nullable="true"/>' +
 		'<Column Name="MaxScore" TypeCode="5" Nullable="true"/>' +
 		'<Column Name="RawScore" TypeCode="5" Nullable="true"/>' +
@@ -2284,12 +2285,14 @@ RETURN (
     AttemptItem.SuccessStatus AS SuccessStatus,
     AttemptItem.StartedTimestamp AS StartedTimestamp,
     AttemptItem.FinishedTimestamp AS FinishedTimestamp,
+	PackageItem.IudicoCourseRef AS IudicoCourseRef,
 	(SELECT SUM(MinScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MinScore,
 	(SELECT SUM(MaxScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MaxScore,
 	(SELECT SUM(RawScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as RawScore,
     AttemptItem.TotalPoints AS Score
     FROM AttemptItem
     INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
+	INNER JOIN PackageItem ON PackageItem.Id = AttemptItem.PackageId
 )
 GO
 GRANT SELECT ON [AllAttemptsResults] TO LearningStore

@@ -52,8 +52,6 @@ namespace IUDICO.UnitTests.DataGenerator.Fakes
 
       private Mock<MixedCourseStorage> _MockDatabaseStorage { get; set; }
 
-      //        private Mock<MixedCourseStorageProtectedMethodTestClass> _MockStorageProtectedMethodTestClass { get; set; }
-
       private Mock<HttpPostedFileBase> _HttpPostedFileBase { get; set; }
 
       #endregion
@@ -83,14 +81,6 @@ namespace IUDICO.UnitTests.DataGenerator.Fakes
             return this._MockStorage.Object;
          }
       }
-
-      //public MixedCourseStorageProtectedMethodTestClass StorageForTestingProtectedMethods
-      //{
-      //    get
-      //    {
-      //        return this._MockStorageProtectedMethodTestClass.Object;
-      //    }
-      //}
 
       public string _CourseStoragePath { get; protected set; }
 
@@ -130,14 +120,9 @@ namespace IUDICO.UnitTests.DataGenerator.Fakes
              this._MockUserDataContext.Object);
          this._HttpPostedFileBase = new Mock<HttpPostedFileBase>();
          this._HttpPostedFileBase.SetupGet(i => i.FileName).Returns("file");
-         //this._CourseStoragePath = Path.Combine(
-         //    ConfigurationManager.AppSettings.Get("RootTestFolder"), @"CourseManagement\Data");
 
          this._CourseStoragePath = Path.Combine(
              ConfigurationManager.AppSettings.Get("PathToIUDICO.UnitTests"), @"IUDICO.UnitTests\DataGenerator\Data");
-         //this._MockStorageProtectedMethodTestClass = new Mock<MixedCourseStorageProtectedMethodTestClass>();
-         //this._MockStorageProtectedMethodTestClass.Protected().Setup<IDataContext>("GetDbContext").Returns(
-         //    this._MockDataContext.Object);
 
          this.Setup();
       }
@@ -179,19 +164,4 @@ namespace IUDICO.UnitTests.DataGenerator.Fakes
          this._MockDataContext.SetupGet(c => c.CourseUsers).Returns(new MemoryTable<CourseUser>(mockCourseUserData));
       }
    }
-
-   // public class MixedCourseStorageProtectedMethodTestClass : MixedCourseStorage
-   // {
-   //     public MixedCourseStorageProtectedMethodTestClass(ILmsService ilmsService)
-   //         : base(ilmsService)
-   //     {
-   //     }
-
-   //     public Item AddSubItemsTest(
-   //         Item parentItem, Node parentNode, int courseId, ManifestManager helper, ref Manifest manifest)
-   //     {
-   //         return this.AddSubItems(parentItem, parentNode, courseId, helper, ref manifest);
-   //     }
-   // }
-   //}
 }

@@ -16,13 +16,15 @@ namespace IUDICO.CourseManagement.Models.Storage
         IEnumerable<Course> GetCourses(User owner);
         Course GetCourse(int id);
         int AddCourse(Course course);
+        int AddCourseInfo(IudicoCourseInfo courseInfo);
+        IudicoCourseInfo GetCourseInfo(int id);
         void UpdateCourseUsers(int courseId, IEnumerable<Guid> userIds);
         void DeleteCourseUsers(Guid userId);
         IEnumerable<User> GetCourseUsers(int courseId);
         void UpdateCourse(int id, Course course);
         void DeleteCourse(int id);
         void DeleteCourses(List<int> ids);
-        string Export(int id);
+        string Export(int id, bool exportForPlayCourse = false);
         void Import(string path, string owner);
         void Import(string path, string courseName, string owner);
         void Parse(int id);

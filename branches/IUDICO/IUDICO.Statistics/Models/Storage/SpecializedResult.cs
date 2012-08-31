@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.Statistics;
 
@@ -147,7 +148,7 @@ namespace IUDICO.Statistics.Models.Storage
             this.curriculumChapterTopic = curriculumChapterTopic;
         }
 
-        public double? GetTopicResultScore()
+        public double? GetTopicResultScore(ILmsService lmsService)
         {
             if (this.AttemptResults.Count() == 0 || this.AttemptResults.First().Score.ScaledScore == null)
             {
@@ -157,7 +158,11 @@ namespace IUDICO.Statistics.Models.Storage
             else
             {
                 this.Res = this.AttemptResults.First(x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id).Score.RawScore;
-                this.ResMax = this.AttemptResults.First(x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id).Score.MaxScore;
+                int iudicoCourseRef =
+                    this.AttemptResults.First(
+                        x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id).
+                        IudicoCourseRef;
+                this.ResMax = lmsService.FindService<ICourseService>().GetCourseInfo(iudicoCourseRef).OverallMaxScore;
             }
 
             return this.Res;

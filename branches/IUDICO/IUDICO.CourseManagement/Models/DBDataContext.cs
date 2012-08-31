@@ -84,6 +84,62 @@ namespace IUDICO.CourseManagement.Models
             }
         }
 
+        public System.Data.Linq.Table<CoursesInfo> CoursesInfo
+        {
+            get
+            {
+                return this.GetTable<CoursesInfo>();
+            }
+        }
+
+        public System.Data.Linq.Table<NodesInfo> NodesInfo
+        {
+            get
+            {
+                return this.GetTable<NodesInfo>();
+            }
+        }
+
+        public System.Data.Linq.Table<QuestionsInfo> QuestionsInfo
+        {
+            get
+            {
+                return this.GetTable<QuestionsInfo>();
+            }
+        }
+
+        public System.Data.Linq.Table<SimpleQuestion> SimpleQuestions
+        {
+            get
+            {
+                return this.GetTable<SimpleQuestion>();
+            }
+        }
+
+        public System.Data.Linq.Table<ChoiceQuestionsOption> ChoiceQuestionsOptions
+        {
+            get
+            {
+                return this.GetTable<ChoiceQuestionsOption>();
+            }
+        }
+
+        public System.Data.Linq.Table<ChoiceQuestionsCorrectChoice> ChoiceQuestionsCorrectChoices
+        {
+            get
+            {
+                return this.GetTable<ChoiceQuestionsCorrectChoice>();
+            }
+        }
+
+        public System.Data.Linq.Table<CompiledTestQuestion> CompiledTestQuestions
+        {
+            get
+            {
+                return this.GetTable<CompiledTestQuestion>();
+            }
+        }
+
         public System.Data.Linq.Table<NodeResource> NodeResources
         {
             get
@@ -95,6 +151,41 @@ namespace IUDICO.CourseManagement.Models
         IMockableTable<Course> IDataContext.Courses
         {
             get { return new MockableTable<Course>(this.Courses); }
+        }
+
+        IMockableTable<CoursesInfo> IDataContext.CoursesInfo
+        {
+            get { return new MockableTable<CoursesInfo>(this.CoursesInfo); }
+        }
+
+        IMockableTable<NodesInfo> IDataContext.NodesInfo
+        {
+            get { return new MockableTable<NodesInfo>(this.NodesInfo); }
+        }
+
+        IMockableTable<QuestionsInfo> IDataContext.QuestionsInfo
+        {
+            get { return new MockableTable<QuestionsInfo>(this.QuestionsInfo); }
+        }
+
+        IMockableTable<SimpleQuestion> IDataContext.SimpleQuestions
+        {
+            get { return new MockableTable<SimpleQuestion>(this.SimpleQuestions); }
+        }
+
+        IMockableTable<ChoiceQuestionsCorrectChoice> IDataContext.ChoiceQuestionsCorrectChoices
+        {
+            get { return new MockableTable<ChoiceQuestionsCorrectChoice>(this.ChoiceQuestionsCorrectChoices); }
+        }
+
+        IMockableTable<ChoiceQuestionsOption> IDataContext.ChoiceQuestionsOptions
+        {
+            get { return new MockableTable<ChoiceQuestionsOption>(this.ChoiceQuestionsOptions); }
+        }
+
+        IMockableTable<CompiledTestQuestion> IDataContext.CompiledTestQuestions
+        {
+            get { return new MockableTable<CompiledTestQuestion>(this.CompiledTestQuestions); }
         }
 
         IMockableTable<CourseUser> IDataContext.CourseUsers

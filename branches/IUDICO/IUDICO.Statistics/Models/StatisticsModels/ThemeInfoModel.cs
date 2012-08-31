@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Models.Shared;
@@ -21,14 +22,17 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         private readonly int curriculumId;
 
         private readonly List<AttemptResult> lastAttempts;
+        private readonly List<IudicoCourseInfo> coursesInfos;
         private readonly IEnumerable<User> selectedGroupStudents;
         private readonly IEnumerable<CurriculumChapterTopic> selectedCurriculumChapterTopics;
+        private readonly ILmsService lmsService;
 
         #endregion
 
         public TopicInfoModel(int groupId, int curriculumId, ILmsService lmsService)
         {
             this.lastAttempts = new List<AttemptResult>();
+            this.lmsService = lmsService;
 
             this.curriculumId = curriculumId;
 
@@ -116,12 +120,13 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                 {
                     if (this.lastAttempts.Count(x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id) != 0)
                     {
-                        var value = this.lastAttempts.First(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id).Score.MaxScore;
+                        var courseId = this.lastAttempts.First(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id).IudicoCourseRef;
 
-                        if (value.HasValue)
-                        {
-                            result += value.Value;
-                        }
+                        var courseMaxScore =
+                            this.lmsService.FindService<ICourseService>().GetCourseInfo(courseId).OverallMaxScore;
+
+
+                        result += courseMaxScore;
                     }
                 }
             }
@@ -139,7 +144,11 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                 if (attemptResult != null)
                 {
                     var result = attemptResult.Score.MaxScore;
-                    return result.HasValue ? result.Value : 0;
+                    var courseId = attemptResult.IudicoCourseRef;
+                    var courseMaxScore =
+                        this.lmsService.FindService<ICourseService>().GetCourseInfo(courseId).OverallMaxScore;
+
+                    return courseMaxScore;
                 }
 
                 return 0;

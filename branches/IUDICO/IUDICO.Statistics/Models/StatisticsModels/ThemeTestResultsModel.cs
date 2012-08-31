@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.Statistics;
 
@@ -19,6 +20,8 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// attempt to show
         /// </summary>
         private readonly AttemptResult attempt;
+
+        private readonly IudicoCourseInfo courseInfo;
 
         /// <summary>
         /// user answers for this attempt
@@ -49,6 +52,8 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                 if (this.attempt != null)
                 {
                     this.userAnswers = lmsService.FindService<ITestingService>().GetAnswers(this.attempt);
+                    this.courseInfo =
+                            lmsService.FindService<ICourseService>().GetCourseInfo(this.attempt.IudicoCourseRef);
 
                     this.hasNoData = this.userAnswers == null;
                 }
@@ -120,15 +125,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
 
         public double GetMaxScore()
         {
-            double totalMaxScore = 0;
-            foreach (var answer in this.userAnswers)
-            {
-                if (answer.MaxScore.HasValue)
-                {
-                    totalMaxScore += answer.MaxScore.Value;
-                }
-            }
-            return totalMaxScore;
+            return courseInfo.OverallMaxScore;
         }
 
         public double GetPercentScore()

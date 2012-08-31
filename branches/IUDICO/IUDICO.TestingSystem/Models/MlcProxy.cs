@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
@@ -65,7 +66,7 @@ namespace IUDICO.TestingSystem.Models
             // in case package has not been uploaded yet.
             if (packageId == null)
             {
-                string zipPath = this.CourseService.Export(courseId);
+                string zipPath = this.CourseService.Export(courseId, true);
                 Package package = new ZipPackage(zipPath);
                 package.CourseID = courseId;
                 packageId = this.AddPackage(package);
@@ -324,6 +325,7 @@ namespace IUDICO.TestingSystem.Models
                         Schema.AllAttemptsResults.AttemptStatus,
                         Schema.AllAttemptsResults.CompletionStatus,
                         Schema.AllAttemptsResults.CurriculumChapterTopicId,
+                        Schema.AllAttemptsResults.IudicoCourseRef,
                         Schema.AllAttemptsResults.MinScore,
                         Schema.AllAttemptsResults.MaxScore,
                         Schema.AllAttemptsResults.RawScore,
@@ -435,6 +437,18 @@ namespace IUDICO.TestingSystem.Models
                             "Error while getting curriculum-chapter-topic with id = " + curriculumChapterTopicId);
                     }
                     attemptResult.CurriculumChapterTopic = curriculumChapterTopic;
+                    break;
+                case Schema.AllAttemptsResults.IudicoCourseRef:
+                     int courseId;
+                     LStoreHelper.CastNonNull(rawValue, out courseId);
+                     var course =
+                         this.CourseService.GetCourse(courseId);
+                    if (course == null)
+                    {
+                        throw new NoNullAllowedException(
+                            "Error while getting course with id = " + courseId);
+                    }
+                    attemptResult.IudicoCourseRef = courseId;
                     break;
                 case Schema.AllAttemptsResults.MinScore:
                     {
