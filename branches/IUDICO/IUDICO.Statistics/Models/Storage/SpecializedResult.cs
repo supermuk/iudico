@@ -101,7 +101,7 @@ namespace IUDICO.Statistics.Models.Storage
 
     }
 
-    public class DisciplineResult 
+    public class DisciplineResult
     {
         public DisciplineResult()
         {
@@ -158,10 +158,7 @@ namespace IUDICO.Statistics.Models.Storage
             else
             {
                 this.Res = this.AttemptResults.First(x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id).Score.RawScore;
-                int iudicoCourseRef =
-                    this.AttemptResults.First(
-                        x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id).
-                        IudicoCourseRef;
+                int iudicoCourseRef = this.AttemptResults.First(x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id).IudicoCourseRef;
                 this.ResMax = lmsService.FindService<ICourseService>().GetCourseInfo(iudicoCourseRef).OverallMaxScore;
             }
 
