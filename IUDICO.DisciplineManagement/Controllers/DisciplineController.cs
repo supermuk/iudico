@@ -222,7 +222,7 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
            var r = new List<ViewDataUploadFilesResult>();
 
-           string savedFileName = "";
+           string savedFileName = string.Empty;
 
            foreach (string file in Request.Files)
            {
