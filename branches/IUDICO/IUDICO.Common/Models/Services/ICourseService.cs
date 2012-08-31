@@ -11,7 +11,8 @@ namespace IUDICO.Common.Models.Services
         IEnumerable<Course> GetCourses();
         IEnumerable<Course> GetCourses(User owner);
         Course GetCourse(int id);
-        string Export(int id);
+        IudicoCourseInfo GetCourseInfo(int id);
+        string Export(int id, bool exportForPlayCourse = false);
         void Import(string path, string owner);
         void Import(string path, string name, string owner);
         void Unlock(int id);

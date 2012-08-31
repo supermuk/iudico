@@ -26,11 +26,11 @@ namespace IUDICO.UnitTests.DataGenerator.Fakes
 
       protected FakeCacheProvider()
       {
-         mockCacheProvider = new Mock<ICacheProvider>();
+         this.mockCacheProvider = new Mock<ICacheProvider>();
 
          this.Setup();
 
-         CacheProvider = mockCacheProvider.Object;
+         this.CacheProvider = this.mockCacheProvider.Object;
       }
 
       protected void Setup()

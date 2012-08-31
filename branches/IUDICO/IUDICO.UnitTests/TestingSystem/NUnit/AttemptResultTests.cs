@@ -41,6 +41,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
         public void CreateAttemptResultWithParameters()
         {
             const long AttemptId = 12312;
+            const int IudicoCourseRef = 23;
             var user = new User();
             var curriculumChapterTopic = new CurriculumChapterTopic();
             const TopicTypeEnum TopicTypeEnum = TopicTypeEnum.TestWithoutCourse;
@@ -64,6 +65,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
                 SuccessStatus,
                 startTime,
                 finishTime,
+                IudicoCourseRef,
                 minScore,
                 maxScore,
                 rawScore,

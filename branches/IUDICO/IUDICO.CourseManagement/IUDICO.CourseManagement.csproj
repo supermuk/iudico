@@ -61,6 +61,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libraries\Microsoft.LearningComponents.Compression.dll</HintPath>
     </Reference>
+    <Reference Include="SgmlReaderDll, Version=1.8.8.26447, Culture=neutral, PublicKeyToken=46b2db9ca481831b, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\SgmlReaderDll.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
@@ -99,6 +103,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\NodeController.cs" />
     <Compile Include="CourseManagementPlugin.cs" />
+    <Compile Include="Helpers\CourseParser.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Models\DBDataContext.cs" />
     <Compile Include="Models\IDataContext.cs" />
@@ -179,6 +184,7 @@
     <Content Include="Content\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\ui.multichoice.css" />
+    <Content Include="Libraries\SgmlReaderDll.dll" />
     <Content Include="Scripts\ckeditor\ckeditor.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\lang\en.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\lang\uk.js" />

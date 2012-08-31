@@ -138,24 +138,30 @@
       <Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus"/>
       <Column Name="StartedTimestamp" Type="DateTime"/>
       <Column Name="FinishedTimestamp" Type="DateTime"/>
+      <Column Name="IudicoCourseRef" Type="Int32"/>
+      <Column Name="MinScore" Type="Single"/>
+      <Column Name="MaxScore" Type="Single"/>
+      <Column Name="RawScore" Type="Single"/>
       <Column Name="Score" Type="Single"/>
     </Columns>
     <Implementation>
       SELECT  AttemptItem.Id AS AttemptId,
-              UserItem.[Key] AS UserItemKey,
-              AttemptItem.IudicoCurriculumChapterTopicRef as CurriculumChapterTopicId,
-              AttemptItem.IudicoTopicType as TopicType,
-              AttemptItem.CompletionStatus AS CompletionStatus,
-              AttemptItem.AttemptStatus AS AttemptStatus,
-              AttemptItem.SuccessStatus AS SuccessStatus,
-              AttemptItem.StartedTimestamp AS StartedTimestamp,
-              AttemptItem.FinishedTimestamp AS FinishedTimestamp,
-	          (SELECT SUM(MinScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MinScore,
-	            (SELECT SUM(MaxScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MaxScore,
-	            (SELECT SUM(RawScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as RawScore,
-              AttemptItem.TotalPoints AS Score
+      UserItem.[Key] AS UserItemKey,
+      AttemptItem.IudicoCurriculumChapterTopicRef as CurriculumChapterTopicId,
+      AttemptItem.IudicoTopicType as TopicType,
+      AttemptItem.CompletionStatus AS CompletionStatus,
+      AttemptItem.AttemptStatus AS AttemptStatus,
+      AttemptItem.SuccessStatus AS SuccessStatus,
+      AttemptItem.StartedTimestamp AS StartedTimestamp,
+      AttemptItem.FinishedTimestamp AS FinishedTimestamp,
+      PackageItem.IudicoCourseRef AS IudicoCourseRef,
+      (SELECT SUM(MinScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MinScore,
+      (SELECT SUM(MaxScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MaxScore,
+      (SELECT SUM(RawScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as RawScore,
+      AttemptItem.TotalPoints AS Score
       FROM AttemptItem
       INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
+      INNER JOIN PackageItem ON PackageItem.Id = AttemptItem.PackageId 
     </Implementation>
     <GrantQueryRight>
       <Expression>1</Expression>
@@ -194,6 +200,7 @@
       InteractionItem.LearnerResponseNumeric AS LearnerResponseNumeric,
       CorrectResponseItem.ResponsePattern AS CorrectResponse,
       InteractionItem.InteractionType AS InteractionType,
+      ActivityPackageItem.PrimaryResourceFromManifest AS PrimaryResourceFromManifest,
       ActivityAttemptItem.MinScore AS MinScore,
       ActivityAttemptItem.MaxScore AS MaxScore,
       ActivityAttemptItem.RawScore AS RawScore,

@@ -113,8 +113,6 @@ namespace IUDICO.UnitTests.DataGenerator.Fakes
 
          this.Setup();
          this.SetupTables();
-
-         //            this.ChangeCurrentUser("panza");
       }
 
       public static FakeUserStorage GetInstance()
@@ -125,10 +123,7 @@ namespace IUDICO.UnitTests.DataGenerator.Fakes
       public void Setup()
       {
          this.MockDatabaseStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this.MockDataContext.Object);
-         //this.MockDatabaseStorage.Protected().Setup<string>("GetPath").Returns(Path.Combine(ConfigurationManager.AppSettings["PathToIUDICO.UnitTests"], "IUDICO.LMS"));
-         //this.MockDatabaseStorage.Setup(s => s.SendEmail(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
          this.MockDatabaseStorage.Setup(s => s.GetCurrentUser()).Returns(new User { Username = "lex" });
-
       }
 
       public void SetupTables()
@@ -164,18 +159,5 @@ namespace IUDICO.UnitTests.DataGenerator.Fakes
          this.MockDataContext.SetupGet(c => c.UserRoles).Returns(mockUserRoles);
          this.MockDataContext.SetupGet(c => c.UserTopicRatings).Returns(mockUserRatings);
       }
-
-      //#region Mocked Functions
-
-      //public void ChangeCurrentUser(User user)
-      //{
-      //    this.MockDatabaseStorage.Setup(s => s.GetCurrentUser()).Returns(user);
-      //    this.MockDatabaseStorage.Protected().Setup<string>("GetIdentityName").Returns(user.Username);
-      //}
-
-      //public void ChangeCurrentUser(string username)
-      //{
-      //    this.ChangeCurrentUser(this.Storage.GetUser(u => u.Username == username));
-      //}
    }
 }
