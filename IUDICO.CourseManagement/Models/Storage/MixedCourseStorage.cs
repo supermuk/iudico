@@ -563,8 +563,10 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             Zipper.ExtractZipFile(coursePath + ".zip", courseTempPath);
 
-            var reader = new XmlTextReader(new FileStream(manifestPath, FileMode.Open));
-            var manifest = Manifest.Deserialize(reader);
+ //           var reader = new XmlTextReader(new FileStream(manifestPath, FileMode.Open));
+
+
+            var manifest = Manifest.Deserialize(manifestPath);
 
             var importer = new Importer(manifest, course, this);
 
