@@ -30,6 +30,14 @@
                 }
             });
 
+				$("td input:checkbox:not(id$='CheckAll')").click(function(){
+					if($("td input:checkbox:not(id$='CheckAll')").length == $("td input:checked:not(id$='CheckAll')").length)	{
+						$('input[id$="CheckAll"]').attr('checked', true);
+					}else {
+						$('input[id$="CheckAll"]').attr('checked', false);
+					}
+				});
+
 				$("#DeleteMany").click(function () {
                 var ids = $("td input:checked:not(id$='CheckAll')").map(function () {
                     return $(this).attr('id');
