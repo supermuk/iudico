@@ -8,67 +8,114 @@ using log4net.Config;
 
 namespace IUDICO.Common
 {
-    public interface ILoggerService
-    {
-        void Info(string message);
-        void Warn(string message);
-        void Debug(string message);
-        void Error(string message);
-        void Error(Exception ex);
-        void Fatal(string message);
-        void Fatal(Exception ex);
-    }
+   public interface ILoggerService
+   {
+      void Info(string message);
+      void Warn(string message);
+      void Debug(string message);
+      void Error(string message);
+      void Error(Exception ex);
+      void Fatal(string message);
+      void Fatal(Exception ex);
+   }
 
-    public class Log4NetLoggerService : ILoggerService
-    {
-        private readonly ILog logger;
+   public class Log4NetLoggerService : ILoggerService
+   {
+      private readonly ILog logger;
+      private bool enableLogging;
 
-        public Log4NetLoggerService()
-        {
-            this.logger = LogManager.GetLogger(
-                System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        }
-        public static void InitLogger()
-        {
-            XmlConfigurator.Configure();
-        }
+      public Log4NetLoggerService()
+      {
+         this.logger = LogManager.GetLogger(
+             System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+         System.Configuration.Configuration rootWebConfig =
+            System.Web.Configuration.WebConfigurationManager.OpenWebConfiguration(null);
+         if (rootWebConfig.AppSettings.Settings.Count > 0)
+         {
+            System.Configuration.KeyValueConfigurationElement customSetting =
+               rootWebConfig.AppSettings.Settings["EnableLogging"];
+            if (customSetting != null)
+            {
+               this.enableLogging = bool.Parse(customSetting.Value);
+            }
+         }
+      }
+      public static void InitLogger()
+      {
+         XmlConfigurator.Configure();
+      }
 
 
 
-        public void Info(string message)
-        {
-            this.logger.Info(message);
-        }
+      public void Info(string message)
+      {
+         if (!this.enableLogging)
+         {
+            return;
+         }
+         this.logger.Info(message);
+      }
 
-        public void Warn(string message)
-        {
-            this.logger.Warn(message);
-        }
+      public void Warn(string message)
+      {
+         if (!this.enableLogging)
+         {
+            return;
+         }
 
-        public void Debug(string message)
-        {
-            this.logger.Debug(message);
-        }
+         this.logger.Warn(message);
+      }
 
-        public void Error(string message)
-        {
-            this.logger.Error(message);
-        }
+      public void Debug(string message)
+      {
+         if (!this.enableLogging)
+         {
+            return;
+         }
 
-        public void Error(Exception ex)
-        {
-            this.logger.Error(ex.Message, ex);
-        }
+         this.logger.Debug(message);
+      }
 
-        public void Fatal(string message)
-        {
-            this.logger.Fatal(message);
-        }
+      public void Error(string message)
+      {
+         if (!this.enableLogging)
+         {
+            return;
+         }
 
-        public void Fatal(Exception ex)
-        {
-            this.logger.Fatal(ex.Message, ex);
-        }
-    }
+         this.logger.Error(message);
+      }
+
+      public void Error(Exception ex)
+      {
+         if (!this.enableLogging)
+         {
+            return;
+         }
+
+         this.logger.Error(ex.Message, ex);
+      }
+
+      public void Fatal(string message)
+      {
+         if (!this.enableLogging)
+         {
+            return;
+         }
+
+         this.logger.Fatal(message);
+      }
+
+      public void Fatal(Exception ex)
+      {
+         if (!this.enableLogging)
+         {
+            return;
+         }
+
+         this.logger.Fatal(ex.Message, ex);
+      }
+   }
 }
 
