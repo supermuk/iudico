@@ -4,12 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Reflection;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Plugin;
 using IUDICO.Common.Models.Caching;
 using IUDICO.Common.Models.Services;
 using Castle.Windsor;
 using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
+using IUDICO.Common.Models.Shared;
 using IUDICO.DataGenerator.Models.Storage;
 using IUDICO.DataGenerator.Models.Generators;
 using IUDICO.Common.Models.Notifications;
@@ -20,101 +22,110 @@ using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.DataGenerator
 {
-	public class DataGeneratorPlugin : IWindsorInstaller, IPlugin
-	{
+   public class DataGeneratorPlugin : IWindsorInstaller, IPlugin
+   {
 
-		IWindsorContainer container;
+      IWindsorContainer container;
 
-		IDemoStorage DemoStorage
-		{
-			get
-			{
-				return this.container.Resolve<IDemoStorage>();
-			}
-		}
-
-
-		#region IWindsorInstaller Members
-
-		public void Install(IWindsorContainer container, IConfigurationStore store)
-		{
-			container.Register(
-					 AllTypes
-						  .FromThisAssembly()
-						  .BasedOn<IController>()
-						  .Configure(c => c.LifeStyle.Transient
-													 .Named(c.Implementation.Name)),
-					 Component.For<IPlugin>().Instance(this).LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
-					 Component.For<IDemoStorage>().ImplementedBy<DemoStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
-
-			this.container = container;
-		}
-
-		#endregion
+      IDemoStorage DemoStorage
+      {
+         get
+         {
+            return this.container.Resolve<IDemoStorage>();
+         }
+      }
 
 
-		#region IPlugin Members
+      #region IWindsorInstaller Members
 
-		public string GetName()
-		{
-			return "DataGenerator";
-		}
+      public void Install(IWindsorContainer container, IConfigurationStore store)
+      {
+         container.Register(
+                AllTypes
+                    .FromThisAssembly()
+                    .BasedOn<IController>()
+                    .Configure(c => c.LifeStyle.Transient
+                                        .Named(c.Implementation.Name)),
+                Component.For<IPlugin>().Instance(this).LifeStyle.Is(Castle.Core.LifestyleType.Singleton),
+                Component.For<IDemoStorage>().ImplementedBy<DemoStorage>().LifeStyle.Is(Castle.Core.LifestyleType.Singleton));
 
-		public IEnumerable<Common.Models.Action> BuildActions()
-		{
-			return new Common.Models.Action[] { };
-		}
+         this.container = container;
+      }
 
-		public IEnumerable<Common.Models.MenuItem> BuildMenuItems()
-		{
-			return new Common.Models.MenuItem[] { };
-		}
+      #endregion
 
-		public void RegisterRoutes( System.Web.Routing.RouteCollection routes )
-		{
-		}
 
-		public void Update( string evt, params object[] data )
-		{
-			switch (evt)
-			{
+      #region IPlugin Members
+
+      public string GetName()
+      {
+         return "DataGenerator";
+      }
+
+      public IEnumerable<Common.Models.Action> BuildActions()
+      {
+         return new Common.Models.Action[] { };
+      }
+
+      public IEnumerable<Common.Models.MenuItem> BuildMenuItems()
+      {
+         return new Common.Models.MenuItem[] { };
+      }
+
+      public void RegisterRoutes(System.Web.Routing.RouteCollection routes)
+      {
+      }
+
+      public void Update(string evt, params object[] data)
+      {
+         switch (evt)
+         {
             case LMSNotifications.ApplicationStart:
 
-					//bool generate = bool.Parse(System.Configuration.ConfigurationManager.AppSettings["DataGenerate"]) ?? true;
-					//if (generate)
-					//{
-					var userStorage = new FakeDatabaseUserStorage(container.Resolve<ILmsService>(),"lex");
-					var demoStorage = container.Resolve<IDemoStorage>();
-					UserGenerator.Generate(userStorage,demoStorage);
+               var userStorage = new FakeDatabaseUserStorage(container.Resolve<ILmsService>(), "lex");
+               var demoStorage = container.Resolve<IDemoStorage>();
+               UserGenerator.Generate(userStorage, demoStorage);
 
-					this.GeneratePascal();
-					//}
+               this.GeneratePascal();
 
-					break;
-			}
-		}
+               this.GenerateForTestingSystemSeleniumTests();
 
-		#endregion
+               break;
 
-		private void GeneratePascal()
-		{
-			var courseStorage = container.Resolve<ICourseStorage>();
-			var cacheProvider = container.Resolve<ICacheProvider>();
-         //var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-         //path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Courses/Pascal/");
-			//CourseGenerator.PascalCourse(courseStorage,cacheProvider,path);
+         }
+      }
 
-			var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
-			path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Disciplines/Pascal.zip");
-			var databaseStorage = new FakeDatabaseDisciplineStorage(container.Resolve<ILmsService>(), "OlehVukladachenko");
-			var storage = new CachedDisciplineStorage(databaseStorage, cacheProvider);
-			DisciplineGenerator.PascalDiscipline(storage, path);
+      #endregion
+
+      private void GeneratePascal()
+      {
+         var cacheProvider = container.Resolve<ICacheProvider>();
+         var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+         path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Disciplines/Pascal.zip");
+         var databaseStorage = new FakeDatabaseDisciplineStorage(container.Resolve<ILmsService>(), "OlehVukladachenko");
+         var storage = new CachedDisciplineStorage(databaseStorage, cacheProvider);
+         DisciplineGenerator.PascalDiscipline(storage, path);
 
 
          var curriculumStorage = container.Resolve<ICurriculumStorage>();
          var userStorage = container.Resolve<IUserStorage>();
          var disciplineStorage = container.Resolve<IDisciplineStorage>();
-			CurriculumGenerator.PascalCurriculum(curriculumStorage,disciplineStorage,userStorage);
-		}
-	}
+         CurriculumGenerator.PascalCurriculum(curriculumStorage, disciplineStorage, userStorage);
+      }
+
+      private void GenerateForTestingSystemSeleniumTests()
+      {
+         var userStorage = new FakeDatabaseUserStorage(container.Resolve<ILmsService>(), "lex");
+         var demoStorage = container.Resolve<IDemoStorage>();
+         UserGenerator.GenerateForTestingSystemSeleniumTests(userStorage,demoStorage);
+
+         var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+         path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Disciplines/Testing discipline.zip");
+         var databaseStorage = new FakeDatabaseDisciplineStorage(container.Resolve<ILmsService>(), "SeleniumTeacher");
+         var cacheProvider = container.Resolve<ICacheProvider>();
+         var storage = new CachedDisciplineStorage(databaseStorage, cacheProvider);
+         DisciplineGenerator.SeleniumTestingSystemTestDiscipline(storage, path);
+
+      }
+   }
 }
