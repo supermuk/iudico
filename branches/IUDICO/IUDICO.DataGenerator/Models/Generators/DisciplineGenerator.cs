@@ -27,5 +27,17 @@ namespace IUDICO.DataGenerator.Models.Generators
 
 		}
 
+      public static void SeleniumTestingSystemTestDiscipline(IDisciplineStorage storage, string path)
+      {
+         if (storage.GetDisciplines().Where(d => d.Name == "Testing discipline" && d.Owner == "SeleniumTeacher").Count() > 0)
+         {
+            return;
+         }
+
+         ImportExportDiscipline importer = new ImportExportDiscipline(storage);
+         importer.Import(path);
+
+      }
+
 	}
 }

@@ -70,7 +70,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
             this.AddToRole(this.userId, StudentRole, AdminName, AdminPassword);
 
             this.ImportCourse(this.courseUri, this.courseName, this.userName, UserPassword);
-
+          
             string newCourseName = "000" + this.random.Next().ToString(CultureInfo.InvariantCulture);
             this.RenameCourse(this.courseName, newCourseName, this.userName, UserPassword);
             this.courseName = newCourseName;

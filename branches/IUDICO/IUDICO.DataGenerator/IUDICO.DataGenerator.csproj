@@ -109,8 +109,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\Courses\ForTestingSystemSeleniumTests\ContentPackagingOneFilePerSCO_SCORM20043rdEdition.zip" />
     <None Include="Content\Courses\Pascal\Pascal.disc" />
     <Content Include="Content\Disciplines\Pascal.zip" />
+    <Content Include="Content\Courses\ForTestingSystemSeleniumTests\SequencingRandomTest_SCORM20043rdEdition.zip" />
+    <Content Include="Content\Disciplines\Selenium testing system discipline.zip" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Courses\Pascal\1-5.Tests.zip" />
