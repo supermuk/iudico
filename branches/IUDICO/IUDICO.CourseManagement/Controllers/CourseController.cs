@@ -4,9 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.CourseManagement.Models;
+using IUDICO.CourseManagement.Models.ManifestModels;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Attributes;
@@ -77,6 +80,7 @@ namespace IUDICO.CourseManagement.Controllers
                 {
                     course.Owner = this.userService.GetCurrentUser().Username;
                     var courseId = this.storage.AddCourse(course);
+                    this.ApplyDefaultPattern(course);
 
                     var model = this.ToViewCourseModel(course);
 
@@ -90,6 +94,21 @@ namespace IUDICO.CourseManagement.Controllers
                 return Json(new { success = false, html = ex.Message });
             }
 
+        }
+
+        private void ApplyDefaultPattern(Course course)
+        {
+            var xml = new XmlSerializer(typeof(Sequencing));
+
+            var xelement = course.Sequencing;
+
+            var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
+
+
+            sequencing = SequencingPatternManager.ApplyDefaultChapterSequencing(sequencing);
+
+            course.Sequencing = xml.SerializeToXElemet(sequencing);
+            this.storage.UpdateCourse(course.Id, course);
         }
 
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
