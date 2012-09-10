@@ -195,7 +195,7 @@
 				            if (paramMap['multichoice']) {
 				                paramMap['multichoice'].setAttribute("value", checkbox.getValue() ? '0' : '1');
 				            } else {
-				                paramMap['multichoice'] = this.getDialog().addParam(objectNode, "multichoice", checkbox.getValue() ? '1' : '0');
+				                paramMap['multichoice'] = this.getDialog().addParam(objectNode, "multichoice", checkbox.getValue() ? '0' : '1');
 				            }
 
 				            if (paramMap['correct']) {
