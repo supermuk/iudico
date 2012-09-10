@@ -98,7 +98,6 @@ namespace IUDICO.CourseManagement.Controllers
 
                 if (id != null)
                 {
-                    this.ApplyPattern(id ?? 0, SequencingPattern.OrganizationDefaultSequencingPattern, 0);
                     return Json(new { status = true, id = node.Id });
                 }
                 else
