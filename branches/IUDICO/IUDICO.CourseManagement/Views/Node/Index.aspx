@@ -246,7 +246,11 @@
                                 "separator_before": false,
                                 "separator_after": false,
                                 "label": "<%=Localization.GetMessage("Delete") %>",
-                                "action": function (obj) { if (this.is_selected(obj)) { this.remove(); } else { this.remove(obj); } }
+                                "action": function (obj) { var answer = confirm("<%=String.Concat(Localization.GetMessage("AreYouSureYouWantToDelete")," ",Localization.GetMessage("SelectedNodes")) %>");
+                if (answer == false) {
+                    return false;
+                }
+                                    if (this.is_selected(obj)) { this.remove(); } else { this.remove(obj); } }
                             },
                             "cut": {
                                 "separator_before": true,
@@ -296,11 +300,6 @@
 				});
 		    })
             .bind("remove.jstree", function (e, data) {
-                var answer = confirm("<%=String.Concat(Localization.GetMessage("AreYouSureYouWantToDelete")," ",Localization.GetMessage("SelectedNodes")) %>");
-                if (answer == false) {
-                    return false;
-                }
-                
                 data.rslt.obj.each(function () {
 	                $.ajax({
 	                    async : true,
