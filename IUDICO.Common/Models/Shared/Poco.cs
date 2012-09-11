@@ -450,7 +450,7 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CorrectChoice", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CorrectChoice", DbType = "NVarChar(255) NOT NULL", CanBeNull = false)]
         public string CorrectChoice
         {
             get
@@ -581,7 +581,7 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Name = "[Option]", Storage = "_Option", DbType = "NVarChar(25) NOT NULL", CanBeNull = false, IsPrimaryKey = true)]
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Name = "[Option]", Storage = "_Option", DbType = "NVarChar(10) NOT NULL", CanBeNull = false, IsPrimaryKey = true)]
         public string Option
         {
             get
@@ -601,7 +601,7 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Description", DbType = "NVarChar(500) NOT NULL", CanBeNull = false)]
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Description", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
         public string Description
         {
             get
@@ -756,7 +756,7 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestInput", DbType = "NVarChar(500) NOT NULL", CanBeNull = false)]
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestInput", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
         public string TestInput
         {
             get
@@ -776,7 +776,7 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestOutput", DbType = "NVarChar(500) NOT NULL", CanBeNull = false)]
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_TestOutput", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
         public string TestOutput
         {
             get
@@ -5112,7 +5112,7 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Text", DbType = "NVarChar(800) NOT NULL", CanBeNull = false)]
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_Text", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
         public string Text
         {
             get
@@ -5804,7 +5804,7 @@ namespace IUDICO.Common.Models.Shared
             }
         }
 
-        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CorrectAnswer", DbType = "NVarChar(50) NOT NULL", CanBeNull = false)]
+        [global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_CorrectAnswer", DbType = "NVarChar(MAX) NOT NULL", CanBeNull = false)]
         public string CorrectAnswer
         {
             get
