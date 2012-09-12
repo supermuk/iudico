@@ -761,12 +761,6 @@
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_QuestionsInfo_QuestionsInfo.fkey.sql">
       <SubType>Code</SubType>
     </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_CompiledTestQuestions_1.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_ChoiceQuestionsOptions_1.pkey.sql">
-      <SubType>Code</SubType>
-    </Build>
   </ItemGroup>
   <ItemGroup>
     <NotInBuild Include="Scripts\Post-Deployment\Data.sql">
