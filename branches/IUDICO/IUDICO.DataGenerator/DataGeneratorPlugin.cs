@@ -115,7 +115,7 @@ namespace IUDICO.DataGenerator
 
       private void GenerateForTestingSystemSeleniumTests()
       {
-         var userStorage = new FakeDatabaseUserStorage(container.Resolve<ILmsService>(), "lex");
+         IUserStorage userStorage = new FakeDatabaseUserStorage(container.Resolve<ILmsService>(), "lex");
          var demoStorage = container.Resolve<IDemoStorage>();
          UserGenerator.GenerateForTestingSystemSeleniumTests(userStorage,demoStorage);
 
@@ -124,8 +124,12 @@ namespace IUDICO.DataGenerator
          var databaseStorage = new FakeDatabaseDisciplineStorage(container.Resolve<ILmsService>(), "SeleniumTeacher");
          var cacheProvider = container.Resolve<ICacheProvider>();
          var storage = new CachedDisciplineStorage(databaseStorage, cacheProvider);
-         DisciplineGenerator.SeleniumTestingSystemTestDiscipline(storage, path);
 
+         var curriculumStorage = container.Resolve<ICurriculumStorage>();
+         userStorage = container.Resolve<IUserStorage>();
+         var disciplineStorage = container.Resolve<IDisciplineStorage>();
+         DisciplineGenerator.SeleniumTestingSystemTestDiscipline(storage, path);
+         CurriculumGenerator.CurriculumForSeleniumTestingSystem(curriculumStorage, disciplineStorage, userStorage);
       }
    }
 }

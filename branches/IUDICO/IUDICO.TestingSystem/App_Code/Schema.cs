@@ -6929,6 +6929,17 @@ namespace IUDICO.TestingSystem.Schema
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AttemptIdParam = "AttemptIdParam";
+
+        /// <summary>
+        /// Name of the PrimaryResourceFromManifest column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: String
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string PrimaryResourceFromManifest = "PrimaryResourceFromManifest";
     }
 
     /// <summary>
