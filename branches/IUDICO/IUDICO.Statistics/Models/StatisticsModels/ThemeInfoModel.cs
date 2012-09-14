@@ -22,7 +22,6 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         private readonly int curriculumId;
 
         private readonly List<AttemptResult> lastAttempts;
-        private readonly List<IudicoCourseInfo> coursesInfos;
         private readonly IEnumerable<User> selectedGroupStudents;
         private readonly IEnumerable<CurriculumChapterTopic> selectedCurriculumChapterTopics;
         private readonly ILmsService lmsService;
@@ -120,13 +119,25 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                 {
                     if (this.lastAttempts.Count(x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id) != 0)
                     {
-                        var courseId = this.lastAttempts.First(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id).IudicoCourseRef;
+                        var attemptResult =
+                            this.lastAttempts.First(
+                                x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id);
+                        var courseId = attemptResult.IudicoCourseRef;
+                        var answerResults = lmsService.FindService<ITestingService>().GetAnswers(attemptResult);
 
-                        var courseMaxScore =
-                            this.lmsService.FindService<ICourseService>().GetCourseInfo(courseId).OverallMaxScore;
+                        var courseInfo = this.lmsService.FindService<ICourseService>().GetCourseInfo(courseId);
+
+                        double maxScore = 0;
+                        foreach (var node in courseInfo.NodesInfo)
+                        {
+                            if (answerResults.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", "")) == node.Id))
+                            {
+                                maxScore += node.MaxScore;
+                            }
+                        }
 
 
-                        result += courseMaxScore;
+                        result += maxScore;
                     }
                 }
             }
@@ -143,12 +154,20 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                         x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id);
                 if (attemptResult != null)
                 {
-                    var result = attemptResult.Score.MaxScore;
+                    var answerResults = lmsService.FindService<ITestingService>().GetAnswers(attemptResult);
                     var courseId = attemptResult.IudicoCourseRef;
-                    var courseMaxScore =
-                        this.lmsService.FindService<ICourseService>().GetCourseInfo(courseId).OverallMaxScore;
+                    var courseInfo = this.lmsService.FindService<ICourseService>().GetCourseInfo(courseId);
 
-                    return courseMaxScore;
+                    double maxScore = 0;
+                    foreach (var node in courseInfo.NodesInfo)
+                    {
+                        if (answerResults.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", "")) == node.Id))
+                        {
+                            maxScore += node.MaxScore;
+                        }
+                    }
+
+                    return maxScore;
                 }
 
                 return 0;
