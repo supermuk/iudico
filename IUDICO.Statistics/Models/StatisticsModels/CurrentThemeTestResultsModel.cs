@@ -77,7 +77,15 @@ namespace IUDICO.Statistics.Models.StatisticsModels
 
         public double GetMaxScore()
         {
-            return this.courseInfo.OverallMaxScore;
+            double maxScore = 0;
+            foreach (var node in this.courseInfo.NodesInfo)
+            {
+                if (this.userAnswers.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html","")) == node.Id))
+                {
+                    maxScore += node.MaxScore;
+                }
+            }
+            return maxScore;
         }
 
         public double GetPercentScore()
