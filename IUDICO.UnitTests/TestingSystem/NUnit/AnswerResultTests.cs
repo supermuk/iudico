@@ -33,6 +33,7 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
             float? minScore = 0;
             float? maxScore = 50;
             float? rawScore = 29;
+           string primaryResourceFromManifest = "0.html";
 
 
             var answerResult = new AnswerResult(
@@ -49,7 +50,8 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
                 minScore,
                 maxScore,
                 rawScore,
-                scaledScore);
+                scaledScore,
+                primaryResourceFromManifest);
 
             Assert.AreEqual(ActivityAttemptId, answerResult.ActivityAttemptId);
             Assert.AreEqual(ActivityPackageId, answerResult.ActivityPackageId);

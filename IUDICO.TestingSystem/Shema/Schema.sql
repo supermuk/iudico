@@ -640,6 +640,7 @@ SET @schema = @schema +
 		'<Column Name="MaxScore" TypeCode="6" Nullable="true"/>' +
 		'<Column Name="RawScore" TypeCode="6" Nullable="true"/>' +
 		'<Column Name="ScaledScore" TypeCode="6" Nullable="true"/>' +
+		'<Column Name="PrimaryResourceFromManifest" TypeCode="2" Nullable="true"/>' +
         '<Parameter Name="AttemptIdParam" TypeCode="1" Nullable="true" ReferencedItemTypeName="AttemptItem"/>' +
     '</View>'
 SET @schema = @schema +
@@ -2328,7 +2329,8 @@ RETURN (
 	ActivityAttemptItem.MinScore AS MinScore,
 	ActivityAttemptItem.MaxScore AS MaxScore,
 	ActivityAttemptItem.RawScore AS RawScore,
-	ActivityAttemptItem.ScaledScore AS ScaledScore
+	ActivityAttemptItem.ScaledScore AS ScaledScore,
+	ActivityPackageItem.PrimaryResourceFromManifest AS PrimaryResourceFromManifest
     FROM  ActivityAttemptItem
     LEFT JOIN InteractionItem ON InteractionItem.ActivityAttemptId = ActivityAttemptItem.Id
     LEFT JOIN CorrectResponseItem ON CorrectResponseItem.InteractionId = InteractionItem.Id
