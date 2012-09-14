@@ -293,6 +293,9 @@ namespace IUDICO.TestingSystem.Models
                 float? scaledScore;
                 LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.ScaledScore], out scaledScore);
 
+                string primaryResourceFromManifest;
+                LStoreHelper.Cast(dataRow[Schema.InteractionResultsByAttempt.PrimaryResourceFromManifest], out primaryResourceFromManifest);
+
                 // Create AnswerResult object
                 var answerResult = new AnswerResult(
                     activityAttemptId,
@@ -308,7 +311,8 @@ namespace IUDICO.TestingSystem.Models
                     minScore,
                     maxScore,
                     rawScore,
-                    scaledScore);
+                    scaledScore,
+                    primaryResourceFromManifest);
                 yield return answerResult;
             }
         }
@@ -554,6 +558,7 @@ namespace IUDICO.TestingSystem.Models
             query.AddColumn(Schema.InteractionResultsByAttempt.MaxScore);
             query.AddColumn(Schema.InteractionResultsByAttempt.RawScore);
             query.AddColumn(Schema.InteractionResultsByAttempt.ScaledScore);
+            query.AddColumn(Schema.InteractionResultsByAttempt.PrimaryResourceFromManifest);
 
             query.SetParameter(Schema.InteractionResultsByAttempt.AttemptIdParam, attemptId);
 

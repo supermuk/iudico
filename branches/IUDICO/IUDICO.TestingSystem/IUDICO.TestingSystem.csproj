@@ -207,7 +207,9 @@
     <None Include="Shema\CompileSchema.bat" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resource.en-US.resx" />
+    <EmbeddedResource Include="Resource.en-US.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resource.uk-UA.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

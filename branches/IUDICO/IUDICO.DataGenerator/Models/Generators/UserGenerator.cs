@@ -19,21 +19,8 @@ namespace IUDICO.DataGenerator.Models.Generators
 	{
 		public static void Generate(IUserStorage userStorage, IDemoStorage demoStorage)
 		{
-   		Group demoGroup = new Group { Name = "Демонстраційна група"};
-
-			if(!userStorage.GetGroups().Select(g=>g.Name).Contains(demoGroup.Name))
-			{
-				userStorage.CreateGroup(demoGroup);
-			}
-
-			var students = demoStorage.GetStudents().Select(s => s)
-										.Where(s => !userStorage.GetUsers().Select(u => u.Username).Contains(s.Username));
-			foreach (var stud in students)
-			{
-				userStorage.CreateUser(stud);
-				userStorage.AddUserToRole(Role.Student, stud);
-				userStorage.AddUserToGroup(demoGroup, stud);
-			}
+		   var students = demoStorage.GetStudents();
+         GroupOfStudents("Демонстраційна група", students,userStorage);
 
 			var teachers = demoStorage.GetTeachers().Select(t => t)
 										.Where(t => !userStorage.GetUsers().Select(u => u.Username).Contains(t.Username));
@@ -62,30 +49,72 @@ namespace IUDICO.DataGenerator.Models.Generators
 
       public static void GenerateForTestingSystemSeleniumTests(IUserStorage userStorage, IDemoStorage demoStorage)
       {
-         Group demoGroup = new Group { Name = "Selenium testing system group" };
+         var students = new List<User>
+                           {
+                              new User
+                                 {
+                                    Username = "SeleniumStudent",
+                                    Password = "test",
+                                    Email = "SeleniumStudent@mail.com",
+                                    OpenId = "SeleniumStudent@mail.com",
+                                    Name = "SeleniumStudent"
+                                 },
+                           };
+         GroupOfStudents("Selenium testing system group",students,userStorage);
 
-         if (!userStorage.GetGroups().Select(g => g.Name).Contains(demoGroup.Name))
+         User userWithoutGroup = new User
+                                    {
+                                       Username = "SeleniumStudent2",
+                                       Password = "test",
+                                       Email = "SeleniumStudent2@mail.com",
+                                       OpenId = "SeleniumStudent2@mail.com",
+                                       Name = "SeleniumStudent2"
+                                    };
+         if (userStorage.CreateUser(userWithoutGroup))
          {
-            userStorage.CreateGroup(demoGroup);
+            userStorage.AddUserToRole(Role.Student, userWithoutGroup);
          }
 
-         var students = new List<User>{ 
-            new User
-            {
-             Username  = "SeleniumStudent",
-             Password = "test",
-             Email = "SeleniumStudent@mail.com",
-             OpenId = "SeleniumStudent@mail.com",
-             Name = "SeleniumStudent"
-            }
-         }.Select(s => s).Where(s => !userStorage.GetUsers().Select(u => u.Username).Contains(s.Username));
+         //students = new List<User>
+         //              {
+         //                 new User
+         //                    {
+         //                       Username = "SeleniumStudentDiscTimeline",
+         //                       Password = "test",
+         //                       Email = "SeleniumStudentDiscTimeline@mail.com",
+         //                       OpenId = "SeleniumStudentDiscTimeline@mail.com",
+         //                       Name = "SeleniumStudentDiscTimeline"
+         //                    },
+         //              };
+         //GroupOfStudents("Disc timeline",students,userStorage);
 
-         foreach (var stud in students)
-         {
-            userStorage.CreateUser(stud);
-            userStorage.AddUserToRole(Role.Student, stud);
-            userStorage.AddUserToGroup(demoGroup, stud);
-         }
+         //students = new List<User>
+         //              {
+         //                 new User
+         //                    {
+         //                       Username = "SeleniumStudentChapterTimeline",
+         //                       Password = "test",
+         //                       Email = "SeleniumStudentChapterTimeline@mail.com",
+         //                       OpenId = "SeleniumStudentChapterTimeline@mail.com",
+         //                       Name = "SeleniumStudentChapterTimeline"
+         //                    },
+         //              };
+         //GroupOfStudents("Chapter timeline", students, userStorage);
+
+         //students = new List<User>
+         //              {
+         //                 new User
+         //                    {
+         //                       Username = "SeleniumStudentTopicTimeline",
+         //                       Password = "test",
+         //                       Email = "SeleniumStudentTopicTimeline@mail.com",
+         //                       OpenId = "SeleniumStudentTopicTimeline@mail.com",
+         //                       Name = "SeleniumStudentTopicTimeline"
+         //                    },
+         //              };
+         //GroupOfStudents("Topic timeline", students, userStorage);
+
+
 
          var teachers = new List<User>{ 
            new User()
@@ -101,6 +130,27 @@ namespace IUDICO.DataGenerator.Models.Generators
          {
             userStorage.CreateUser(t);
             userStorage.AddUserToRole(Role.Teacher, t);
+         }
+      }
+
+      public static void GroupOfStudents(string groupName, IEnumerable<User> students, IUserStorage userStorage)
+      {
+         Group demoGroup = new Group { Name = groupName };
+
+         if (!userStorage.GetGroups().Select(g => g.Name).Contains(demoGroup.Name))
+         {
+            userStorage.CreateGroup(demoGroup);
+         }
+         else
+         {
+            demoGroup.Id = userStorage.GetGroups().FirstOrDefault(g => g.Name == demoGroup.Name).Id;
+         }
+
+         foreach (var stud in students.Select(s => s).Where(s => !userStorage.GetUsers().Select(u => u.Username).Contains(s.Username)))
+         {
+            userStorage.CreateUser(stud);
+            userStorage.AddUserToRole(Role.Student, stud);
+            userStorage.AddUserToGroup(demoGroup, stud);
          }
       }
 	}
