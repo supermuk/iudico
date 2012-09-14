@@ -158,8 +158,23 @@ namespace IUDICO.Statistics.Models.Storage
             else
             {
                 this.Res = this.AttemptResults.First(x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id).Score.RawScore;
-                int iudicoCourseRef = this.AttemptResults.First(x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id).IudicoCourseRef;
-                this.ResMax = lmsService.FindService<ICourseService>().GetCourseInfo(iudicoCourseRef).OverallMaxScore;
+                var attemptResult =
+                    this.AttemptResults.First(
+                        x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id);
+                var answerResults = lmsService.FindService<ITestingService>().GetAnswers(attemptResult);
+
+                int iudicoCourseRef = attemptResult.IudicoCourseRef;
+                var courseInfo = lmsService.FindService<ICourseService>().GetCourseInfo(iudicoCourseRef);
+
+                double maxScore = 0;
+                foreach (var node in courseInfo.NodesInfo)
+                {
+                    if (answerResults.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", "")) == node.Id))
+                    {
+                        maxScore += node.MaxScore;
+                    }
+                }
+                this.ResMax = maxScore;
             }
 
             return this.Res;
