@@ -80,17 +80,17 @@ namespace IUDICO.CurriculumManagement.Models.Storage
 
         public IList<Curriculum> GetCurriculums()
         {
-            return this.cacheProvider.Get<IList<Curriculum>>("curriculums", @lockObject, () => this.storage.GetCurriculums(), DateTime.Now.AddDays(1), "curriculums");
+            return this.cacheProvider.Get<IList<Curriculum>>("curriculums", @lockObject, () => this.storage.GetCurriculums().ToList(), DateTime.Now.AddDays(1), "curriculums");
         }
 
         public IList<Curriculum> GetCurriculums(IEnumerable<int> ids)
         {
-            return this.cacheProvider.Get<IList<Curriculum>>("curriculums-" + string.Join("-", ids.ToArray()), @lockObject, () => this.storage.GetCurriculums(ids), DateTime.Now.AddDays(1), "curriculums");
+            return this.cacheProvider.Get<IList<Curriculum>>("curriculums-" + string.Join("-", ids.ToArray()), @lockObject, () => this.storage.GetCurriculums(ids).ToList(), DateTime.Now.AddDays(1), "curriculums");
         }
 
         public IList<Curriculum> GetCurriculums(User user)
         {
-            return this.cacheProvider.Get<IList<Curriculum>>("curriculums-user-" + user.Id, @lockObject, () => this.storage.GetCurriculums(user), DateTime.Now.AddDays(1), "curriculums");
+            return this.cacheProvider.Get<IList<Curriculum>>("curriculums-user-" + user.Id, @lockObject, () => this.storage.GetCurriculums(user).ToList(), DateTime.Now.AddDays(1), "curriculums");
         }
 
         public Curriculum GetCurriculum(int curriculumId)
