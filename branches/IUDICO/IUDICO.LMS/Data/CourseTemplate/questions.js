@@ -98,22 +98,23 @@ function complexTest($object, id) {
     this.MultiChoice = null;
 
     this.parse = function ($object) {
-        var params = $object.params();
+    	var params = $object.params();
 
-        this.CorrectAnswer = params['correct'];
-        this.Rank = parseInt(params['rank']);
-        this.MultiChoice = params['multichoice'];
+    	this.CorrectAnswer = params['correct'];
+    	this.Rank = parseInt(params['rank']);
+    	this.MultiChoice = params['multichoice'];
 
-        var $question = $('<div id="' + this.Id + '"></div>');
-        $question.append('<b>' + params['question'] + '</b>');
+    	var $question = $('<div id="' + this.Id + '"></div>');
+    	$question.append('<b>' + params['question'] + '</b>');
 
-        var answersCount = parseInt(params['count']);
+    	var answersCount = parseInt(params['count']);
 
-        for (var i = 0; i < answersCount; i++) {
-            $question.append('<p><input type="' + (params['multichoice'] == '1' ? 'checkbox' : 'radio') + '" name="' + this.Id + 'Answer[]" id="' + this.Id + 'Answer' + String.fromCharCode(65 + i) + '" value="' + params['option' + String.fromCharCode(65 + i)] + '" /> ' + decodeURIComponent(params['option' + String.fromCharCode(65 + i)]) + '</p>');
-        }
+    	for (var i = 0; i < answersCount; i++) {
+    		var ques = '<p><input type="' + (params['multichoice'] == '1' ? 'checkbox' : 'radio') + '" name="' + this.Id + 'Answer[]" id="' + this.Id + 'Answer' + String.fromCharCode(65 + i) + '" value="'  + (params['option' + String.fromCharCode(65 + i)] == null ? (params['option' + i ] + '" /> ' + decodeURIComponent(params['option' + i])) : (params['option' + String.fromCharCode(65 + i)] + '" /> ' + decodeURIComponent(params['option' + String.fromCharCode(65 + i)]))) + '</p>';
+    		$question.append(ques);
+    	}
 
-        $object.replaceWith($question);
+    	$object.replaceWith($question);
     }
 
     this.getAnswer = function () {
