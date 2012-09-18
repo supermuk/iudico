@@ -429,7 +429,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             foreach (var file in this.templateFiles)
             {
-                File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file));
+                File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file),true);
             }
 
             var helper = new ManifestManager();
