@@ -107,7 +107,7 @@ namespace IUDICO.Security
             }
             else if (evt == LMSNotifications.ApplicationRequestEnd)
             {
-                this.ApplicationRequestEnd(data);
+                // this.ApplicationRequestEnd(data);
             }
         }
 

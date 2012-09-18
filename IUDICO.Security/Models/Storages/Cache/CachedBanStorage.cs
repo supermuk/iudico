@@ -85,12 +85,12 @@ namespace IUDICO.Security.Models.Storages.Cache
 
         public IEnumerable<Computer> GetComputers()
         {
-            return this.cachePrvoider.Get<IEnumerable<Computer>>("computers", @lockObject, () => this.storage.GetComputers(), DateTime.Now.AddDays(1), "computers");
+            return this.cachePrvoider.Get<IEnumerable<Computer>>("computers", @lockObject, () => this.storage.GetComputers().ToList(), DateTime.Now.AddDays(1), "computers");
         }
 
         public IEnumerable<Room> GetRooms()
         {
-            return this.cachePrvoider.Get<IEnumerable<Room>>("rooms", @lockObject, () => this.storage.GetRooms(), DateTime.Now.AddDays(1), "rooms");
+            return this.cachePrvoider.Get<IEnumerable<Room>>("rooms", @lockObject, () => this.storage.GetRooms().ToList(), DateTime.Now.AddDays(1), "rooms");
         }
 
         public void CreateComputer(Computer computer)

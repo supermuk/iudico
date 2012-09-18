@@ -60,7 +60,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         public IList<Discipline> GetDisciplines()
         {
             return this.cacheProvider.Get(
-                "disciplines", this.lockObject, () => this.storage.GetDisciplines(), DateTime.Now.AddDays(1), "disciplines");
+                "disciplines", this.lockObject, () => this.storage.GetDisciplines().ToList(), DateTime.Now.AddDays(1), "disciplines");
         }
 
         public IList<Discipline> GetDisciplines(Func<Discipline, bool> predicate)
@@ -88,7 +88,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.cacheProvider.Get(
                 "disciplines-" + groupId,
                 this.lockObject,
-                () => this.storage.GetDisciplinesByGroupId(groupId),
+                () => this.storage.GetDisciplinesByGroupId(groupId).ToList(),
                 DateTime.Now.AddDays(1),
                 "disciplines");
         }
@@ -129,7 +129,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.cacheProvider.Get(
                 "discipline-sharedusers-" + disciplineId,
                 @lockObject,
-                () => this.storage.GetDisciplineSharedUsers(disciplineId),
+                () => this.storage.GetDisciplineSharedUsers(disciplineId).ToList(),
                 DateTime.Now.AddDays(1),
                 "discipline-sharedusers-" + disciplineId,
                 "discpline-" + disciplineId,
@@ -141,7 +141,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.cacheProvider.Get(
                 "discipline-notsharedusers-" + disciplineId,
                 @lockObject,
-                () => this.storage.GetDisciplineNotSharedUsers(disciplineId),
+                () => this.storage.GetDisciplineNotSharedUsers(disciplineId).ToList(),
                 DateTime.Now.AddDays(1),
                 "discipline-sharedusers-" + disciplineId,
                 "discpline-" + disciplineId,
@@ -228,7 +228,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.cacheProvider.Get(
                 "topics-discipline-" + disciplineId,
                 @lockObject,
-                () => this.storage.GetTopicsByDisciplineId(disciplineId),
+                () => this.storage.GetTopicsByDisciplineId(disciplineId).ToList(),
                 DateTime.Now.AddDays(1),
                 "topics",
                 "topics-sort");
@@ -239,7 +239,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.cacheProvider.Get(
                 "topics-group-" + groupId,
                 @lockObject,
-                () => this.storage.GetTopicsByGroupId(groupId),
+                () => this.storage.GetTopicsByGroupId(groupId).ToList(),
                 DateTime.Now.AddDays(1),
                 "topics",
                 "topics-sort");
@@ -250,7 +250,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.cacheProvider.Get(
                 "topics-course-" + courseId,
                 @lockObject,
-                () => this.storage.GetTopicsByCourseId(courseId),
+                () => this.storage.GetTopicsByCourseId(courseId).ToList(),
                 DateTime.Now.AddDays(1),
                 "topics",
                 "topics-sort");
@@ -261,7 +261,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.cacheProvider.Get(
                 "topics-user-" + owner.Username,
                 @lockObject,
-                () => this.storage.GetTopicsOwnedByUser(owner),
+                () => this.storage.GetTopicsOwnedByUser(owner).ToList(),
                 DateTime.Now.AddDays(1),
                 "topics",
                 "topics-sort");
@@ -329,7 +329,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         public IList<TopicType> GetTopicTypes()
         {
             return this.cacheProvider.Get(
-                "topictypes", this.lockObject, () => this.storage.GetTopicTypes(), DateTime.Now.AddDays(1), "topictypes");
+                "topictypes", this.lockObject, () => this.storage.GetTopicTypes().ToList(), DateTime.Now.AddDays(1), "topictypes");
         }
 
         public IList<TopicType> GetTheoryTopicTypes()

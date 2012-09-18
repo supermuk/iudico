@@ -28,12 +28,12 @@ namespace IUDICO.Analytics.Models.Storage
         */
         public IEnumerable<ForecastingTree> GetAllForecastingTrees()
         {
-            return this.cacheProvider.Get("forecastingtrees", @lockObject, () => this.storage.GetAllForecastingTrees(), DateTime.Now.AddDays(1), "forecastingtrees");
+            return this.cacheProvider.Get("forecastingtrees", @lockObject, () => this.storage.GetAllForecastingTrees().ToList(), DateTime.Now.AddDays(1), "forecastingtrees");
         }
 
         public IEnumerable<ForecastingTree> GetForecastingTrees(Guid userRef)
         {
-            return this.cacheProvider.Get("forecastingtrees-" + userRef, @lockObject, () => this.storage.GetAllForecastingTrees().Where(f => f.UserRef == userRef), DateTime.Now.AddDays(1), "forecastingtrees");
+            return this.cacheProvider.Get("forecastingtrees-" + userRef, @lockObject, () => this.storage.GetAllForecastingTrees().Where(f => f.UserRef == userRef).ToList(), DateTime.Now.AddDays(1), "forecastingtrees");
         }
 
         public IEnumerable<TopicStat> GetRecommenderTopics(User user)
@@ -52,7 +52,7 @@ namespace IUDICO.Analytics.Models.Storage
 
         public IEnumerable<Tag> GetTags()
         {
-            return this.cacheProvider.Get("tags", @lockObject, () => this.storage.GetTags(), DateTime.Now.AddDays(1), "tags");
+            return this.cacheProvider.Get("tags", @lockObject, () => this.storage.GetTags().ToList(), DateTime.Now.AddDays(1), "tags");
         }
 
         public Tag GetTag(int id)

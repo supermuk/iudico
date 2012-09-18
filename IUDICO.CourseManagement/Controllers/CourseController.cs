@@ -32,11 +32,10 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Index()
         {
-            var userId = this.userService.GetUsers().Single(i => i.Username == this.User.Identity.Name).Id;
-
-            var sharedCourses = this.storage.GetCourses(userId);
-            var courses = this.storage.GetCourses(User.Identity.Name);
             var currentUser = this.userService.GetCurrentUser();
+
+            var sharedCourses = this.storage.GetCourses(currentUser.Id);
+            var courses = this.storage.GetCourses(User.Identity.Name);
             var all = sharedCourses.Union(courses);
 
             var owners = all.Select(i => i.Owner).Distinct().ToList();
