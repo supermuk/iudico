@@ -79,7 +79,7 @@ namespace IUDICO.UserManagement.Controllers
                         {
                             FormsAuthentication.SetAuthCookie(user.Username, false);
                             Logger log = Logger.Instance;
-                            log.Info(this,"OpenID user " + user.Username + " logged in.");
+                            log.Info(this, "OpenID user " + user.Username + " logged in.");
 
                             return this.Redirect("/");
                         }

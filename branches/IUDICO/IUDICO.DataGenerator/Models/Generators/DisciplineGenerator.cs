@@ -17,7 +17,7 @@ namespace IUDICO.DataGenerator.Models.Generators
 	{
       public static void PascalDiscipline(IDisciplineStorage storage, string path)
 		{
-			if (storage.GetDisciplines().Where(d => d.Name == "Pascal" && d.Owner == "OlehVukladachenko").Count() > 0)
+			if (storage.GetDisciplines().Any(d => d.Name == "Pascal" && d.Owner == "OlehVukladachenko"))
 			{
 				return;
 			}
@@ -29,7 +29,7 @@ namespace IUDICO.DataGenerator.Models.Generators
 
       public static void SeleniumTestingSystemTestDiscipline(IDisciplineStorage storage, string path)
       {
-         if (storage.GetDisciplines().Where(d => d.Name == "Testing discipline" && d.Owner == "SeleniumTeacher").Count() > 0)
+         if (storage.GetDisciplines().Any(d => d.Name == "Testing discipline" && d.Owner == "SeleniumTeacher"))
          {
             return;
          }

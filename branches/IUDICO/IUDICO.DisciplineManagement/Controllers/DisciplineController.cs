@@ -264,16 +264,13 @@ namespace IUDICO.DisciplineManagement.Controllers
 
               var importer = new ImportExportDiscipline(Storage);
 
-              //importer.Validate(savedFileName, ref this.countOfCourses, ref this.countValidCourses, ref this.countInvalidCourses);
-              if(importer.Validate(savedFileName))
+              if (importer.Validate(savedFileName))
               {
                  importer.Import(savedFileName);
               }
 
            }
 
-           //// Returns json
-           //return Content("{\"name\":\"" + r[0].Name + "\",\"type\":\"" + r[0].Type + "\",\"size\":\"" + string.Format("{0} bytes", r[0].Length) + /*"\",\"path\":\""+ savedFileName.ToString() +*/ "\"}", "application/json");
            return Content("{\"message\":\"" + "Uploading complete" + "\"}", "application/json");
         }
 
@@ -281,11 +278,6 @@ namespace IUDICO.DisciplineManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ContentResult ValidationInfo()
         {
-           //this.completeDownloading = true;
-           //this.countCourses = 0;
-           //this.countValidCourses = 0;
-           //this.countInvalidCourses = 0;
-
            return Content("{\"message\":\"" + string.Format("{0}: {1}, {2}: {3}, {4}: {5}", Localization.GetMessage("countOfCourses"), this.countOfCourses, Localization.GetMessage("countValidCourses"), this.countValidCourses, Localization.GetMessage("countInvalidCourses"), this.countInvalidCourses) + "\"}", "application/json");
            
         }

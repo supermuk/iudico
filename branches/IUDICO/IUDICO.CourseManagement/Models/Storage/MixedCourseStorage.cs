@@ -429,7 +429,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             foreach (var file in this.templateFiles)
             {
-                File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file),true);
+                File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file), true);
             }
 
             var helper = new ManifestManager();
@@ -562,9 +562,6 @@ namespace IUDICO.CourseManagement.Models.Storage
             var manifestPath = Path.Combine(courseTempPath, SCORM.ImsManifset);
 
             Zipper.ExtractZipFile(coursePath + ".zip", courseTempPath);
-
- //           var reader = new XmlTextReader(new FileStream(manifestPath, FileMode.Open));
-
 
             var manifest = Manifest.Deserialize(manifestPath);
 

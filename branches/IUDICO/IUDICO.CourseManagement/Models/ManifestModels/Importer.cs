@@ -87,12 +87,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
                 if (file.Href != resource.Href)
                 {
                    var path = Path.Combine(coursePath, file.Href);
-                   if(!Directory.GetParent(path).Exists)
+                   if (!Directory.GetParent(path).Exists)
                    {
                       Directory.CreateDirectory(Directory.GetParent(path).ToString());
                    }
-
-                   //var fileHref = file.Href.Replace("/", "\\");
 
                    File.Copy(Path.Combine(this.courseTempPath, file.Href), Path.Combine(coursePath, file.Href));
                 }
