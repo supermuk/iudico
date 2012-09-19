@@ -14,15 +14,18 @@ namespace IUDICO.DataGenerator.Models.Generators
    {
       public static void PascalCurriculum(ICurriculumStorage curriculumStorage, IDisciplineStorage disciplineStorage, IUserStorage userStorage)
       {
+         var groups = userStorage.GetGroups();
+         var disciplines = disciplineStorage.GetDisciplines();
+
          var curriculum = new Curriculum
                                        {
-                                          UserGroupRef = userStorage.GetGroups().FirstOrDefault(g => g.Name == "Демонстраційна група").Id,
-                                          DisciplineRef = disciplineStorage.GetDisciplines().FirstOrDefault(d => d.Name == "Pascal" && d.Owner == "OlehVukladachenko").Id,
+                                          UserGroupRef = groups.FirstOrDefault(g => g.Name == "Демонстраційна група").Id,
+                                          DisciplineRef = disciplines.FirstOrDefault(d => d.Name == "Pascal" && d.Owner == "OlehVukladachenko").Id,
                                           StartDate = DateTime.Now,
                                           EndDate = DateTime.Now + new TimeSpan(365, 0, 0, 0, 0)
                                        };
 
-         if (curriculumStorage.GetCurriculums().Where(c => c.DisciplineRef == curriculum.DisciplineRef && c.UserGroupRef == curriculum.UserGroupRef).Count() > 0)
+         if (curriculumStorage.GetCurriculums().Any(c => c.DisciplineRef == curriculum.DisciplineRef && c.UserGroupRef == curriculum.UserGroupRef))
          {
             return;
          }
@@ -48,15 +51,18 @@ namespace IUDICO.DataGenerator.Models.Generators
 
       public static void CurriculumForSeleniumTestingSystem(ICurriculumStorage curriculumStorage, IDisciplineStorage disciplineStorage, IUserStorage userStorage)
       {
+         var groups = userStorage.GetGroups();
+         var disciplines = disciplineStorage.GetDisciplines();
+
          var curriculums = new List<Curriculum>
                               {
                                  new Curriculum
                                     {
                                        UserGroupRef =
-                                          userStorage.GetGroups().FirstOrDefault(
+                                          groups.FirstOrDefault(
                                              g => g.Name == "Selenium testing system group").Id,
                                        DisciplineRef =
-                                          disciplineStorage.GetDisciplines().FirstOrDefault(
+                                          disciplines.FirstOrDefault(
                                              d => d.Name == "Testing discipline" && d.Owner == "SeleniumTeacher").Id,
                                        StartDate = DateTime.Now,
                                        EndDate = DateTime.Now + new TimeSpan(365, 0, 0, 0, 0)
@@ -99,10 +105,7 @@ namespace IUDICO.DataGenerator.Models.Generators
          foreach (var curriculum in curriculums)
          {
 
-            if (
-               curriculumStorage.GetCurriculums().Where(
-                  c => c.DisciplineRef == curriculum.DisciplineRef && c.UserGroupRef == curriculum.UserGroupRef).Count() >
-               0)
+            if (curriculumStorage.GetCurriculums().Any(c => c.DisciplineRef == curriculum.DisciplineRef && c.UserGroupRef == curriculum.UserGroupRef))
             {
                continue;
             }

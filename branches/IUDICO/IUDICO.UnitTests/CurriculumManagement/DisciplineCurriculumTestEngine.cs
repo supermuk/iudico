@@ -253,7 +253,7 @@ namespace IUDICO.UnitTests.CurriculumManagement
         {
             this.MockUserService.Setup(s => s.GetCurrentUser()).Returns(
                 this.UserService.GetUsers().First(user => user.Username == userName));
-            this.MockDbDisciplineStorage.Setup(x=>x.GetCurrentUser()).Returns(
+            this.MockDbDisciplineStorage.Setup(x => x.GetCurrentUser()).Returns(
                  this.UserService.GetUsers().First(user => user.Username == userName));
         }
     }

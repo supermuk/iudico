@@ -19,11 +19,13 @@ namespace IUDICO.DataGenerator.Models.Generators
 	{
 		public static void Generate(IUserStorage userStorage, IDemoStorage demoStorage)
 		{
+		   var users = userStorage.GetUsers();
+
 		   var students = demoStorage.GetStudents();
          GroupOfStudents("Демонстраційна група", students,userStorage);
 
 			var teachers = demoStorage.GetTeachers().Select(t => t)
-										.Where(t => !userStorage.GetUsers().Select(u => u.Username).Contains(t.Username));
+										.Where(t => !users.Select(u => u.Username).Contains(t.Username));
 			foreach (var t in teachers)
 			{
 				userStorage.CreateUser(t);
@@ -31,7 +33,7 @@ namespace IUDICO.DataGenerator.Models.Generators
 			}
 
 			var courseCreators = demoStorage.GetCourseCreators().Select(cc => cc)
-												.Where(cc => !userStorage.GetUsers().Select(u => u.Username).Contains(cc.Username));
+												.Where(cc => !users.Select(u => u.Username).Contains(cc.Username));
 			foreach (var cc in courseCreators)
 			{
 				userStorage.CreateUser(cc);
@@ -39,7 +41,7 @@ namespace IUDICO.DataGenerator.Models.Generators
 			}
 
 			var admins = demoStorage.GetAdministrators().Select(a => a)
-										.Where(a => !userStorage.GetUsers().Select(u => u.Username).Contains(a.Username));
+										.Where(a => !users.Select(u => u.Username).Contains(a.Username));
 			foreach (var admin in admins)
 			{
 				userStorage.CreateUser(admin);
@@ -74,47 +76,6 @@ namespace IUDICO.DataGenerator.Models.Generators
          {
             userStorage.AddUserToRole(Role.Student, userWithoutGroup);
          }
-
-         //students = new List<User>
-         //              {
-         //                 new User
-         //                    {
-         //                       Username = "SeleniumStudentDiscTimeline",
-         //                       Password = "test",
-         //                       Email = "SeleniumStudentDiscTimeline@mail.com",
-         //                       OpenId = "SeleniumStudentDiscTimeline@mail.com",
-         //                       Name = "SeleniumStudentDiscTimeline"
-         //                    },
-         //              };
-         //GroupOfStudents("Disc timeline",students,userStorage);
-
-         //students = new List<User>
-         //              {
-         //                 new User
-         //                    {
-         //                       Username = "SeleniumStudentChapterTimeline",
-         //                       Password = "test",
-         //                       Email = "SeleniumStudentChapterTimeline@mail.com",
-         //                       OpenId = "SeleniumStudentChapterTimeline@mail.com",
-         //                       Name = "SeleniumStudentChapterTimeline"
-         //                    },
-         //              };
-         //GroupOfStudents("Chapter timeline", students, userStorage);
-
-         //students = new List<User>
-         //              {
-         //                 new User
-         //                    {
-         //                       Username = "SeleniumStudentTopicTimeline",
-         //                       Password = "test",
-         //                       Email = "SeleniumStudentTopicTimeline@mail.com",
-         //                       OpenId = "SeleniumStudentTopicTimeline@mail.com",
-         //                       Name = "SeleniumStudentTopicTimeline"
-         //                    },
-         //              };
-         //GroupOfStudents("Topic timeline", students, userStorage);
-
-
 
          var teachers = new List<User>{ 
            new User()

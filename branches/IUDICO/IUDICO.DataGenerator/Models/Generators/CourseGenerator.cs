@@ -28,7 +28,7 @@ namespace IUDICO.DataGenerator.Models.Generators
 				{
 					var name = Path.GetFileNameWithoutExtension(file);
 
-					if (courseStorage.GetCourses().Where(c => c.Name == name && c.Owner == "OlehVukladachenko").Count() == 0)
+					if (!courseStorage.GetCourses().Any(c => c.Name == name && c.Owner == "OlehVukladachenko"))
 					{
 						courseStorage.Import(file, "OlehVukladachenko");
 					}
