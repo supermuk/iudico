@@ -167,9 +167,9 @@ namespace IUDICO.DisciplineManagement.Models
             Directory.CreateDirectory(tempPath);
 
 
-            foreach (var chapter in this.storage.GetChapters(x=>x.DisciplineRef == disciplineId))
+            foreach (var chapter in this.storage.GetChapters(x => x.DisciplineRef == disciplineId))
             {
-               foreach (var topic in this.storage.GetTopics(x=>x.ChapterRef == chapter.Id))
+               foreach (var topic in this.storage.GetTopics(x => x.ChapterRef == chapter.Id))
                 {
                     if (topic.TheoryCourseRef != null)
                     {

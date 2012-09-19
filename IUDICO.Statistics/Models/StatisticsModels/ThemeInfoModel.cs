@@ -123,14 +123,14 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                             this.lastAttempts.First(
                                 x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id);
                         var courseId = attemptResult.IudicoCourseRef;
-                        var answerResults = lmsService.FindService<ITestingService>().GetAnswers(attemptResult);
+                        var answerResults = this.lmsService.FindService<ITestingService>().GetAnswers(attemptResult);
 
                         var courseInfo = this.lmsService.FindService<ICourseService>().GetCourseInfo(courseId);
 
                         double maxScore = 0;
                         foreach (var node in courseInfo.NodesInfo)
                         {
-                            if (answerResults.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", "")) == node.Id))
+                            if (answerResults.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", string.Empty)) == node.Id))
                             {
                                 maxScore += node.MaxScore;
                             }

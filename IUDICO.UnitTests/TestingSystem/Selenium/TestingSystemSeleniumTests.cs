@@ -17,11 +17,11 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
       private const string AdminName = "lex";
       private const string AdminPassword = "lex";
 
-      private const string username1 = "SeleniumStudent";
-      private const string pass1 = "test";
+      private const string Username1 = "SeleniumStudent";
+      private const string Pass1 = "test";
 
-      private const string username2 = "SeleniumStudent2";
-      private const string pass2 = "test";
+      private const string Username2 = "SeleniumStudent2";
+      private const string Pass2 = "test";
 
       private string userName;
       private const string UserPassword = "password";
@@ -69,55 +69,12 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
 
          selenium.WindowMaximize();
 
-         this.Login(username1, pass1);
-
-         //this.userName = "000" + this.random.Next().ToString(CultureInfo.InvariantCulture);
-         //this.CreateUser(this.userName, UserPassword, AdminName, AdminPassword);
-         //this.userId = this.GetUserId(this.userName, AdminName, AdminPassword);
-         //this.AddToRole(this.userId, TeacherRole, AdminName, AdminPassword);
-         //this.AddToRole(this.userId, StudentRole, AdminName, AdminPassword);
-
-         //this.ImportCourse(this.courseUri, this.courseName, this.userName, UserPassword);
-
-         //string newCourseName = "000" + this.random.Next().ToString(CultureInfo.InvariantCulture);
-         //this.RenameCourse(this.courseName, newCourseName, this.userName, UserPassword);
-         //this.courseName = newCourseName;
-         //this.courseId = this.GetCourseId(this.courseName, this.userName, UserPassword);
-
-         //this.ImportCourse(this.courseUri2, this.courseName2, this.userName, UserPassword);
-
-         //string newCourseName2 = "000" + this.random.Next().ToString(CultureInfo.InvariantCulture);
-         //this.RenameCourse(this.courseName2, newCourseName2, this.userName, UserPassword);
-         //this.courseName2 = newCourseName2;
-         //this.courseId2 = this.GetCourseId(this.courseName2, this.userName, UserPassword);
-
-         //this.groupName = "000" + this.random.Next().ToString(CultureInfo.InvariantCulture);
-         //this.CreateGroup(this.groupName, this.userName, UserPassword);
-
-         //this.disciplineName = "000" + this.random.Next().ToString(CultureInfo.InvariantCulture);
-         //this.CreateDiscipline(this.disciplineName, this.userName, UserPassword);
-
-         //this.chapterName = "000" + this.random.Next().ToString(CultureInfo.InvariantCulture);
-         //this.AddChapter(this.chapterName, this.disciplineName, this.userName, UserPassword);
-
-         //this.chapterName2 = "000" + this.random.Next().ToString(CultureInfo.InvariantCulture);
-         //this.AddChapter(this.chapterName2, this.disciplineName, this.userName, UserPassword);
-
-         //this.AddCourseToChapter(this.courseName, this.chapterName, this.disciplineName, this.userName, UserPassword);
-         //this.AddCourseToChapter(this.courseName2, this.chapterName2, this.disciplineName, this.userName, UserPassword);
+         this.Login(Username1, Pass1);
       }
 
       [TearDown]
       public void TearDown()
       {
-         //this.DeleteCurriculum(this.groupName, this.userName, UserPassword);
-         //this.DeleteDiscipline(this.disciplineName, this.userName, UserPassword);
-         //this.DeleteCourse(this.courseName, this.userName, UserPassword);
-         //this.DeleteCourse(this.courseName2, this.userName, UserPassword);
-         //this.courseName = "ContentPackagingOneFilePerSCO_SCORM20043rdEdition";
-         //this.courseName2 = "SequencingRandomTest_SCORM20043rdEdition";
-         //this.DeleteGroup(this.groupName, this.userName, UserPassword);
-         //this.DeleteUser(this.userId, this.userName, AdminName, AdminPassword);
          this.Logout();
          selenium.SetSpeed("0");
       }
@@ -704,25 +661,14 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
       [Test]
       public void PlayTopicWithInvalidTopicId()
       {
-         //this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-
-         //this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-         //this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-         //this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-         //this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-
-         //this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
-
          string link = selenium.GetAttribute("//a[contains(@class,'test') and contains(@title ,'Start Testing discipline/chapter 1/topic 1')]@href").Replace("/Training/Play/", "");
          link = link.Remove(0, link.IndexOf('/'));
          this.selenium.Open("/Training/Play/" + "-1" + link);
-         //this.selenium.Open("/Training/Play/" + "-1" + "/" + this.courseId + "/" + "Test");
          selenium.WaitForPageToLoad(LoadTime);
          Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
          Assert.IsTrue(selenium.IsTextPresent("Не вдалось знайти обрану тему!"));
          Assert.IsTrue(selenium.IsElementPresent("css=a[href='/']"));
 
-         //this.selenium.Open("/Training/Play/" + "0" + "/" + this.courseId + "/" + "Test");
          this.selenium.Open("/Training/Play/" + "0" + link);
          selenium.WaitForPageToLoad(LoadTime);
          Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
@@ -733,15 +679,6 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
       [Test]
       public void PlayTopicWithInvalidCourseId()
       {
-         //this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-
-         //this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-         //this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-         //this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-         //this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-
-
-         //this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
          string link =
            selenium.GetAttribute(
               "//a[contains(@class,'test') and contains(@title ,'Start Testing discipline/chapter 1/topic 1')]@href").Replace("/Test", "");
@@ -763,15 +700,6 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
       [Test]
       public void PlayNotPreviouslyAttemptedTopic()
       {
-         //this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-
-         //this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-         //this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-         //this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-         //this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-
-
-         //this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
          string link =
             selenium.GetAttribute(
                "//a[contains(@class,'test') and contains(@title ,'Start Testing discipline/chapter 1/topic 1')]@href");
@@ -793,13 +721,6 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
       [Test]
       public void PlayTopicWithInvalidAvailabilityDueToGroupAssignment()
       {
-         //this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-         //this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-         //this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-         //this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-
-
-         //this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
          string link =
             selenium.GetAttribute(
                "//a[contains(@class,'test') and contains(@title ,'Start Testing discipline/chapter 1/topic 1')]@href");
@@ -807,7 +728,7 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
          selenium.Open("/");
          selenium.WaitForPageToLoad(LoadTime);
          this.ChangeCulture();
-         this.Login(username2, pass2);
+         this.Login(Username2, Pass2);
          this.selenium.Open(link);
          selenium.WaitForPageToLoad(LoadTime);
          Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
@@ -815,67 +736,68 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
          Assert.IsTrue(selenium.IsElementPresent("css=a[href='/']"));
          Assert.IsFalse(selenium.GetTitle() == "Проходження курсу");
       }
-
-      //[Test]
-      //public void PlayTopicWithInvalidAvailabilityDueToInvalidDisciplineTimelines()
-      //{
-      //    this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-      //    this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, "12.09.1999 4:23", this.userName, UserPassword);
-      //    this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-      //    this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-      //    this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-
-
-      //    this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
-
-      //    this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
-      //    selenium.WaitForPageToLoad(LoadTime);
-      //    Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
-      //    Assert.IsTrue(selenium.IsTextPresent("Ви не маєте права проходити дану тему!"));
-      //    Assert.IsTrue(selenium.IsElementPresent("css=a[href='/']"));
-      //    Assert.IsFalse(selenium.GetTitle() == "Проходження курсу");
-      //}
-
-      //[Test]
-      //public void PlayTopicWithInvalidAvailabilityDueToInvalidChapterTimelines()
-      //{
-      //    this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-
-      //    this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-      //    this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-      //    this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, "12.09.1999 4:23", this.userName, UserPassword);
-      //    this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-
-      //    this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
-
-      //    this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
-      //    selenium.WaitForPageToLoad(LoadTime);
-      //    Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
-      //    Assert.IsTrue(selenium.IsTextPresent("Ви не маєте права проходити дану тему!"));
-      //    Assert.IsTrue(selenium.IsElementPresent("css=a[href='/']"));
-      //    Assert.IsFalse(selenium.GetTitle() == "Проходження курсу");
-      //}
-
-      //[Test]
-      //public void PlayTopicWithInvalidAvailabilityDueToInvalidTopicTimelines()
-      //{
-      //    this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-
-      //    this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-      //    this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-      //    this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-      //    this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, "12.09.1999 4:23", this.userName, UserPassword);
+/*
+      [Test]
+      public void PlayTopicWithInvalidAvailabilityDueToInvalidDisciplineTimelines()
+      {
+         this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
+         this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, "12.09.1999 4:23", this.userName, UserPassword);
+         this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
+         this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+         this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
 
 
-      //    this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
+         this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
 
-      //    this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
-      //    selenium.WaitForPageToLoad(LoadTime);
-      //    Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
-      //    Assert.IsTrue(selenium.IsTextPresent("Ви не маєте права проходити дану тему!"));
-      //    Assert.IsTrue(selenium.IsElementPresent("css=a[href='/']"));
-      //    Assert.IsFalse(selenium.GetTitle() == "Проходження курсу");
-      //}
+         this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
+         selenium.WaitForPageToLoad(LoadTime);
+         Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
+         Assert.IsTrue(selenium.IsTextPresent("Ви не маєте права проходити дану тему!"));
+         Assert.IsTrue(selenium.IsElementPresent("css=a[href='/']"));
+         Assert.IsFalse(selenium.GetTitle() == "Проходження курсу");
+      }
+
+      [Test]
+      public void PlayTopicWithInvalidAvailabilityDueToInvalidChapterTimelines()
+      {
+         this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
+
+         this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
+         this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
+         this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, "12.09.1999 4:23", this.userName, UserPassword);
+         this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+
+         this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
+
+         this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
+         selenium.WaitForPageToLoad(LoadTime);
+         Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
+         Assert.IsTrue(selenium.IsTextPresent("Ви не маєте права проходити дану тему!"));
+         Assert.IsTrue(selenium.IsElementPresent("css=a[href='/']"));
+         Assert.IsFalse(selenium.GetTitle() == "Проходження курсу");
+      }
+
+      [Test]
+      public void PlayTopicWithInvalidAvailabilityDueToInvalidTopicTimelines()
+      {
+         this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
+
+         this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
+         this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
+         this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+         this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, "12.09.1999 4:23", this.userName, UserPassword);
+
+
+         this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
+
+         this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
+         selenium.WaitForPageToLoad(LoadTime);
+         Assert.IsTrue(selenium.IsTextPresent("Трапилась помилка"));
+         Assert.IsTrue(selenium.IsTextPresent("Ви не маєте права проходити дану тему!"));
+         Assert.IsTrue(selenium.IsElementPresent("css=a[href='/']"));
+         Assert.IsFalse(selenium.GetTitle() == "Проходження курсу");
+      }
+*/
 
       [Test]
       [Ignore]
@@ -934,327 +856,328 @@ namespace IUDICO.UnitTests.TestingSystem.Selenium
          this.WaitForText("Результати", LoadTime);
          Assert.IsTrue(selenium.IsTextPresent("Результати"));
       }
+      /*
+            [Test]
+            public void PlaySuspendedTopic()
+            {
+               //this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
 
-      //[Test]
-      //public void PlaySuspendedTopic()
-      //{
-      //   //this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-
-      //   //this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-      //   //this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-      //   //this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-      //   //this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-
-
-      //   //this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
-      //   string link =
-      //      selenium.GetAttribute(
-      //         "//a[contains(@class,'test') and contains(@title ,'Start Testing discipline/chapter 1/topic 1')]@href");
-      //   this.selenium.Open(link);
-      //   selenium.WaitForPageToLoad(LoadTime);
-
-      //   selenium.SelectFrame("player");
-      //   selenium.SelectFrame("frameLearnTask");
-      //   selenium.SelectFrame("frameContent");
-      //   Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("css=a[title='The Rules of Golf']");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.MouseUp("css=a[title='The Rules of Golf']");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("id=frameContent");
-      //   this.WaitForText("The Rules of Golf (book)", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-
-      //   selenium.Open("/");
-      //   selenium.WaitForPageToLoad(LoadTime);
-      //   this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
-      //   selenium.WaitForPageToLoad(LoadTime);
-      //   selenium.WaitForPageToLoad(LoadTime);
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.SelectFrame("player");
-      //   selenium.SelectFrame("frameLearnTask");
-      //   selenium.SelectFrame("frameContent");
-      //   this.WaitForText("The Rules of Golf (book)", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //}
-
-      //[Test]
-      //public void SuspendTopic()
-      //{
-      //   this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-
-      //   this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-      //   this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+               //this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
+               //this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
+               //this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+               //this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
 
 
-      //   this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
+               //this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
+               string link =
+                  selenium.GetAttribute(
+                     "//a[contains(@class,'test') and contains(@title ,'Start Testing discipline/chapter 1/topic 1')]@href");
+               this.selenium.Open(link);
+               selenium.WaitForPageToLoad(LoadTime);
 
-      //   this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
-      //   selenium.WaitForPageToLoad(LoadTime);
+               selenium.SelectFrame("player");
+               selenium.SelectFrame("frameLearnTask");
+               selenium.SelectFrame("frameContent");
+               Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("css=a[title='The Rules of Golf']");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.MouseUp("css=a[title='The Rules of Golf']");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("id=frameContent");
+               this.WaitForText("The Rules of Golf (book)", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
 
-      //   selenium.SelectFrame("player");
-      //   selenium.SelectFrame("frameLearnTask");
-      //   selenium.SelectFrame("frameContent");
-      //   Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("css=a[title='The Rules of Golf']");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.MouseUp("css=a[title='The Rules of Golf']");
-      //   selenium.SelectFrame("relative=parent");
-      //   selenium.SelectFrame("id=frameContent");
-      //   this.WaitForText("The Rules of Golf (book)", LoadTime);
+               selenium.Open("/");
+               selenium.WaitForPageToLoad(LoadTime);
+               this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
+               selenium.WaitForPageToLoad(LoadTime);
+               selenium.WaitForPageToLoad(LoadTime);
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.SelectFrame("player");
+               selenium.SelectFrame("frameLearnTask");
+               selenium.SelectFrame("frameContent");
+               this.WaitForText("The Rules of Golf (book)", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+            }
 
-      //   Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
+            [Test]
+            public void SuspendTopic()
+            {
+               this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
 
-      //   selenium.Open("/");
-      //   selenium.WaitForPageToLoad(LoadTime);
-      //}
-
-      //[Test]
-      //public void SubmitTopic()
-      //{
-      //   this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-
-      //   this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-      //   this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-
-
-      //   this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
-
-      //   this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
-      //   selenium.WaitForPageToLoad(LoadTime);
-
-      //   selenium.SelectFrame("player");
-      //   selenium.SelectFrame("frameLearnTask");
-      //   selenium.SelectFrame("frameContent");
-      //   Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("css=a[title='The Rules of Golf']");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.MouseUp("css=a[title='The Rules of Golf']");
-
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameContent");
-      //   this.WaitForText("The Rules of Golf (book)", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("id=aSUBMIT");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.MouseUp("id=aSUBMIT");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameContent");
-      //   this.WaitForText("Підтвердити цей курс?", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("Підтвердити цей курс?"));
-      //   selenium.Click("id=submitBtn");
-
-      //   selenium.WaitForPageToLoad(LoadTime);
-      //   selenium.WaitForPageToLoad(LoadTime);
-
-      //   this.WaitForText("Результати", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("Результати"));
-
-      //}
-
-      //[Test]
-      //public void NavigateForwardThroughTopic()
-      //{
-      //   this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-
-      //   this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-      //   this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+               this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
+               this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
+               this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+               this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
 
 
-      //   this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
+               this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
 
-      //   this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
-      //   selenium.WaitForPageToLoad(LoadTime);
+               this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
+               selenium.WaitForPageToLoad(LoadTime);
 
-      //   selenium.WaitForPageToLoad(LoadTime);
-      //   selenium.SelectFrame("player");
-      //   selenium.SelectFrame("frameLearnTask");
-      //   selenium.SelectFrame("frameContent");
-      //   Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("css=a[title='The Rules of Golf']");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.MouseUp("css=a[title='The Rules of Golf']");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameContent");
-      //   this.WaitForText("The Rules of Golf (book)", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //}
+               selenium.SelectFrame("player");
+               selenium.SelectFrame("frameLearnTask");
+               selenium.SelectFrame("frameContent");
+               Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("css=a[title='The Rules of Golf']");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.MouseUp("css=a[title='The Rules of Golf']");
+               selenium.SelectFrame("relative=parent");
+               selenium.SelectFrame("id=frameContent");
+               this.WaitForText("The Rules of Golf (book)", LoadTime);
 
-      //[Test]
-      //public void NavigateForwardOneStep()
-      //{
-      //   this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
+               Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
 
-      //   this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-      //   this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+               selenium.Open("/");
+               selenium.WaitForPageToLoad(LoadTime);
+            }
 
+            [Test]
+            public void SubmitTopic()
+            {
+               this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
 
-      //   this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
-
-      //   this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
-      //   selenium.WaitForPageToLoad(LoadTime);
-
-      //   selenium.SelectFrame("player");
-      //   selenium.SelectFrame("frameLearnTask");
-      //   selenium.SelectFrame("frameContent");
-      //   Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("css=a[title='The Rules of Golf']");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.MouseUp("css=a[title='The Rules of Golf']");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameContent");
-      //   this.WaitForText("The Rules of Golf (book)", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
-
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("css=a[title='Other Scoring Systems']");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.MouseUp("css=a[title='Other Scoring Systems']");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameContent");
-      //   this.WaitForText("Other Scoring Systems", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("Other Scoring Systems"));
-
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("css=a[title='The Rules of Golf']");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.MouseUp("css=a[title='The Rules of Golf']");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameContent");
-      //   this.WaitForText("The Rules of Golf (book)", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
-
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("css=a[title='Playing Golf Quiz']");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.MouseUp("css=a[title='Playing Golf Quiz']");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameContent");
-      //   this.WaitForText("Knowledge Check", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("Knowledge Check"));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //}
-
-      //[Test]
-      //public void NavigateChoiceToLastItemToFirst()
-      //{
-      //   this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
-
-      //   this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-      //   this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+               this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
+               this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
+               this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+               this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
 
 
-      //   this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
+               this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
 
-      //   this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
-      //   selenium.WaitForPageToLoad(LoadTime);
+               this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
+               selenium.WaitForPageToLoad(LoadTime);
 
-      //   selenium.SelectFrame("player");
-      //   selenium.SelectFrame("frameLearnTask");
-      //   selenium.SelectFrame("frameContent");
-      //   Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("css=a[title='Playing Golf Quiz']");
-      //   selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
-      //   selenium.MouseUp("css=a[title='Playing Golf Quiz']");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("id=frameContent");
-      //   this.WaitForText("Knowledge Check", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("Knowledge Check"));
+               selenium.SelectFrame("player");
+               selenium.SelectFrame("frameLearnTask");
+               selenium.SelectFrame("frameContent");
+               Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("css=a[title='The Rules of Golf']");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.MouseUp("css=a[title='The Rules of Golf']");
 
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameToc");
-      //   selenium.MouseDown("css=a[title='How to Play']");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.MouseUp("css=a[title='How to Play']");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("frameContent");
-      //   this.WaitForText("Play of the game", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("Play of the game"));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=top");
-      //}
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameContent");
+               this.WaitForText("The Rules of Golf (book)", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("id=aSUBMIT");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.MouseUp("id=aSUBMIT");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameContent");
+               this.WaitForText("Підтвердити цей курс?", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("Підтвердити цей курс?"));
+               selenium.Click("id=submitBtn");
 
-      //[Test]
-      //public void NavigateByNextPrevButtons()
-      //{
-      //   this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
+               selenium.WaitForPageToLoad(LoadTime);
+               selenium.WaitForPageToLoad(LoadTime);
 
-      //   this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
-      //   this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
-      //   this.EditCurriculumChapters(this.curriculumId, this.chapterName2, StartDate, EndDate, this.userName, UserPassword);
-      //   this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName2, StartDate, EndDate, this.userName, UserPassword);
+               this.WaitForText("Результати", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("Результати"));
 
-      //   this.topicId2 = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName2, this.userName, UserPassword);
+            }
 
-      //   this.selenium.Open("/Training/Play/" + this.topicId2 + "/" + this.courseId2 + "/" + "Test");
-      //   selenium.WaitForPageToLoad(LoadTime);
+            [Test]
+            public void NavigateForwardThroughTopic()
+            {
+               this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
 
-      //   selenium.SelectFrame("player");
-      //   selenium.SelectFrame("frameLearnTask");
-      //   selenium.SelectFrame("frameContent");
-      //   Assert.IsTrue(selenium.IsElementPresent("id=butNext"));
-      //   selenium.SelectFrame("contentFrame");
-      //   this.WaitForText("Play of the game", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("Play of the game"));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.Click("id=butNext");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.Click("id=butNext");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   Assert.IsTrue(selenium.IsElementPresent("id=butPrevious"));
-      //   selenium.Click("id=butPrevious");
-      //   selenium.WaitForFrameToLoad("frameContent", LoadTime);
-      //   selenium.SelectFrame("contentFrame");
-      //   this.WaitForText("Par", LoadTime);
-      //   Assert.IsTrue(selenium.IsTextPresent("Par"));
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=up");
-      //   selenium.SelectFrame("relative=top");
-      //}
+               this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
+               this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
+               this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+               this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+
+
+               this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
+
+               this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
+               selenium.WaitForPageToLoad(LoadTime);
+
+               selenium.WaitForPageToLoad(LoadTime);
+               selenium.SelectFrame("player");
+               selenium.SelectFrame("frameLearnTask");
+               selenium.SelectFrame("frameContent");
+               Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("css=a[title='The Rules of Golf']");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.MouseUp("css=a[title='The Rules of Golf']");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameContent");
+               this.WaitForText("The Rules of Golf (book)", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+            }
+
+            [Test]
+            public void NavigateForwardOneStep()
+            {
+               this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
+
+               this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
+               this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
+               this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+               this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+
+
+               this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
+
+               this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
+               selenium.WaitForPageToLoad(LoadTime);
+
+               selenium.SelectFrame("player");
+               selenium.SelectFrame("frameLearnTask");
+               selenium.SelectFrame("frameContent");
+               Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("css=a[title='The Rules of Golf']");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.MouseUp("css=a[title='The Rules of Golf']");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameContent");
+               this.WaitForText("The Rules of Golf (book)", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
+
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("css=a[title='Other Scoring Systems']");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.MouseUp("css=a[title='Other Scoring Systems']");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameContent");
+               this.WaitForText("Other Scoring Systems", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("Other Scoring Systems"));
+
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("css=a[title='The Rules of Golf']");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.MouseUp("css=a[title='The Rules of Golf']");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameContent");
+               this.WaitForText("The Rules of Golf (book)", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("The Rules of Golf (book)"));
+
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("css=a[title='Playing Golf Quiz']");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.MouseUp("css=a[title='Playing Golf Quiz']");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameContent");
+               this.WaitForText("Knowledge Check", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("Knowledge Check"));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+            }
+
+            [Test]
+            public void NavigateChoiceToLastItemToFirst()
+            {
+               this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
+
+               this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
+               this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
+               this.EditCurriculumChapters(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+               this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName, StartDate, EndDate, this.userName, UserPassword);
+
+
+               this.topicId = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName, this.userName, UserPassword);
+
+               this.selenium.Open("/Training/Play/" + this.topicId + "/" + this.courseId + "/" + "Test");
+               selenium.WaitForPageToLoad(LoadTime);
+
+               selenium.SelectFrame("player");
+               selenium.SelectFrame("frameLearnTask");
+               selenium.SelectFrame("frameContent");
+               Assert.IsTrue(selenium.IsTextPresent("Будь ласка, виберіть завдання, щоб продовжити проходити курс."));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("css=a[title='Playing Golf Quiz']");
+               selenium.WaitForFrameToLoad("id=frameContent", LoadTime);
+               selenium.MouseUp("css=a[title='Playing Golf Quiz']");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("id=frameContent");
+               this.WaitForText("Knowledge Check", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("Knowledge Check"));
+
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameToc");
+               selenium.MouseDown("css=a[title='How to Play']");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.MouseUp("css=a[title='How to Play']");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("frameContent");
+               this.WaitForText("Play of the game", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("Play of the game"));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=top");
+            }
+
+            [Test]
+            public void NavigateByNextPrevButtons()
+            {
+               this.AddToGroup(this.userId, this.groupName, AdminName, AdminPassword);
+
+               this.CreateCurriculum(this.groupName, this.disciplineName, StartDate, EndDate, this.userName, UserPassword);
+               this.curriculumId = this.GetCurriculumId(this.groupName, this.disciplineName, this.userName, UserPassword);
+               this.EditCurriculumChapters(this.curriculumId, this.chapterName2, StartDate, EndDate, this.userName, UserPassword);
+               this.EditCurriculumChaptersTopics(this.curriculumId, this.chapterName2, StartDate, EndDate, this.userName, UserPassword);
+
+               this.topicId2 = this.GetTopicId(this.groupName, this.disciplineName, this.chapterName2, this.userName, UserPassword);
+
+               this.selenium.Open("/Training/Play/" + this.topicId2 + "/" + this.courseId2 + "/" + "Test");
+               selenium.WaitForPageToLoad(LoadTime);
+
+               selenium.SelectFrame("player");
+               selenium.SelectFrame("frameLearnTask");
+               selenium.SelectFrame("frameContent");
+               Assert.IsTrue(selenium.IsElementPresent("id=butNext"));
+               selenium.SelectFrame("contentFrame");
+               this.WaitForText("Play of the game", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("Play of the game"));
+               selenium.SelectFrame("relative=up");
+               selenium.Click("id=butNext");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.Click("id=butNext");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               Assert.IsTrue(selenium.IsElementPresent("id=butPrevious"));
+               selenium.Click("id=butPrevious");
+               selenium.WaitForFrameToLoad("frameContent", LoadTime);
+               selenium.SelectFrame("contentFrame");
+               this.WaitForText("Par", LoadTime);
+               Assert.IsTrue(selenium.IsTextPresent("Par"));
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=up");
+               selenium.SelectFrame("relative=top");
+            }
+       */
    }
 }

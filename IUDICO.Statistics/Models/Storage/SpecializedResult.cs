@@ -169,7 +169,7 @@ namespace IUDICO.Statistics.Models.Storage
                 double maxScore = 0;
                 foreach (var node in courseInfo.NodesInfo)
                 {
-                    if (answerResults.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", "")) == node.Id))
+                    if (answerResults.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", string.Empty)) == node.Id))
                     {
                         maxScore += node.MaxScore;
                     }

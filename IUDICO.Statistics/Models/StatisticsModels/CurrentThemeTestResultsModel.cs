@@ -80,7 +80,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             double maxScore = 0;
             foreach (var node in this.courseInfo.NodesInfo)
             {
-                if (this.userAnswers.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html","")) == node.Id))
+                if (this.userAnswers.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", string.Empty)) == node.Id))
                 {
                     maxScore += node.MaxScore;
                 }
