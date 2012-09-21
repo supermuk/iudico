@@ -321,7 +321,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<Group> GetGroups()
         {
             return this.cacheProvider.Get(
-                "groups", this.lockObject, () => this.storage.GetGroups().ToList().ToList(), DateTime.Now.AddDays(1), "groups");
+                "groups", this.lockObject, () => this.storage.GetGroups().ToList(), DateTime.Now.AddDays(1), "groups");
         }
 
         public Group GetGroup(int id)

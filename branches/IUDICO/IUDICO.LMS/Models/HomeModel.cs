@@ -23,5 +23,13 @@ namespace IUDICO.LMS.Models
         public Dictionary<int, int> TopicsRatings { get; set; }
 
         public Dictionary<string, Dictionary<string, List<TopicDescription>>> GroupedTopicsDescriptions { get; set; }
+
+        public HomeModel()
+        {
+            this.Actions = new Dictionary<IPlugin, IEnumerable<Action>>();
+            this.TopicsDescriptions = new List<TopicDescription>();
+            this.TopicsRatings = new Dictionary<int, int>();
+            this.GroupedTopicsDescriptions = new Dictionary<string, Dictionary<string, List<TopicDescription>>>();
+        }
     }
 }
