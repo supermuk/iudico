@@ -103,7 +103,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// <returns></returns>
         public string GetSuccessStatus()
         {
-            return this.attempt != null ? this.attempt.SuccessStatus.ToString() : string.Empty;
+           return this.GetPercentScore() >= ((double)this.attempt.CurriculumChapterTopic.ThresholdOfSuccess) / 100 ? "passed" : "failed";
         }
 
         /// <summary>

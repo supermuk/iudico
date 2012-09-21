@@ -93,6 +93,11 @@
     <Compile Include="Models\MenuItem.cs" />
     <Compile Include="Models\Services\ICurriculumService.cs" />
     <Compile Include="Models\Shared\DisciplineManagement\Enums.cs" />
+    <Compile Include="Models\Shared\IUDICO.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IUDICO.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Models\Shared\Metadata.cs" />
     <Compile Include="Models\Notifications\CurriculumNotifications.cs" />
     <Compile Include="Models\Notifications\LMSNotifications.cs" />
@@ -109,14 +114,12 @@
     <Compile Include="Models\Services\IStatisticsService.cs" />
     <Compile Include="Models\Services\IUserService.cs" />
     <Compile Include="Models\Shared\CurriculumManagement\TopicDescription.cs" />
-    <Compile Include="Models\Shared\Poco.cs">
-      <ExcludeFromStyleCop>true</ExcludeFromStyleCop>
-    </Compile>
     <Compile Include="Models\Shared\ShareUser.cs" />
     <Compile Include="Models\Shared\Statistics\AnswerResult.cs" />
     <Compile Include="Models\Shared\Statistics\AttemptResult.cs" />
     <Compile Include="Models\Shared\Statistics\Enums.cs" />
     <Compile Include="Models\Shared\Statistics\Score.cs" />
+    <Compile Include="Models\Shared\Topic.cs" />
     <Compile Include="Models\Shared\TopicStat.cs" />
     <Compile Include="Models\TemplateMetadata\FieldTemplateMetadata.cs" />
     <Compile Include="Models\TemplateMetadata\FieldTemplateMetadataProvider.cs" />
@@ -135,6 +138,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Models\Shared\IUDICO.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>IUDICO.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>PublicSettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -145,6 +153,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Models\Shared\IUDICO.dbml.layout">
+      <DependentUpon>IUDICO.dbml</DependentUpon>
+    </None>
     <EmbeddedResource Include="Resource.en-US.resx">
       <SubType>Designer</SubType>
     </EmbeddedResource>

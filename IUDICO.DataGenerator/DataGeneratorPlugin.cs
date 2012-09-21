@@ -81,10 +81,11 @@ namespace IUDICO.DataGenerator
          switch (evt)
          {
             case LMSNotifications.ApplicationStart:
-
+               var cacheProvider = container.Resolve<ICacheProvider>();
                var userStorage = new FakeDatabaseUserStorage(container.Resolve<ILmsService>(), "lex");
+               var cachedUserStorage = new CachedUserStorage(userStorage, cacheProvider);
                var demoStorage = container.Resolve<IDemoStorage>();
-               UserGenerator.Generate(userStorage, demoStorage);
+               UserGenerator.Generate(cachedUserStorage, demoStorage);
 
                this.GeneratePascal();
 
@@ -115,14 +116,16 @@ namespace IUDICO.DataGenerator
 
       private void GenerateForTestingSystemSeleniumTests()
       {
+         var cacheProvider = container.Resolve<ICacheProvider>();
+
          IUserStorage userStorage = new FakeDatabaseUserStorage(container.Resolve<ILmsService>(), "lex");
+         IUserStorage cachedUserStorage = new CachedUserStorage(userStorage,cacheProvider);
          var demoStorage = container.Resolve<IDemoStorage>();
-         UserGenerator.GenerateForTestingSystemSeleniumTests(userStorage,demoStorage);
+         UserGenerator.GenerateForTestingSystemSeleniumTests(cachedUserStorage,demoStorage);
 
          var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
          path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Disciplines/Testing discipline.zip");
          var databaseStorage = new FakeDatabaseDisciplineStorage(container.Resolve<ILmsService>(), "SeleniumTeacher");
-         var cacheProvider = container.Resolve<ICacheProvider>();
          var storage = new CachedDisciplineStorage(databaseStorage, cacheProvider);
 
          var curriculumStorage = container.Resolve<ICurriculumStorage>();
