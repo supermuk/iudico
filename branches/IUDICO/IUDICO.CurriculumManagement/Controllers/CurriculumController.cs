@@ -146,7 +146,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             var topic = Storage.GetCurriculumChapterTopic(id);
             var model = new CreateCurriculumChapterTopicModel(
-                topic.MaxScore,
+                topic.ThresholdOfSuccess,
                 topic.BlockTopicAtTesting,
                 topic.BlockCurriculumAtTesting,
                 topic.TestStartDate,
@@ -163,7 +163,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             try
             {
                 var curriculumChapterTopic = Storage.GetCurriculumChapterTopic(id);
-                curriculumChapterTopic.MaxScore = model.MaxScore;
+                curriculumChapterTopic.ThresholdOfSuccess = model.ThresholdOfSuccess;
                 curriculumChapterTopic.BlockCurriculumAtTesting = model.BlockCurriculumAtTesting;
                 curriculumChapterTopic.BlockTopicAtTesting = model.BlockTopicAtTesting;
                 curriculumChapterTopic.TestStartDate = model.SetTestTimeline ? model.TestStartDate : (DateTime?)null;

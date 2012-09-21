@@ -45,7 +45,7 @@ namespace IUDICO.CurriculumManagement.Controllers
                         TestEndDate = Converter.ToString(item.TestEndDate),
                         TheoryStartDate = Converter.ToString(item.TheoryStartDate),
                         TheoryEndDate = Converter.ToString(item.TheoryEndDate),
-                        MaxScore = item.MaxScore,
+                        ThresholdOfSuccess = item.ThresholdOfSuccess,
                         TopicName = Storage.GetTopic(item.TopicRef).Name }));
         }
 
@@ -58,7 +58,7 @@ namespace IUDICO.CurriculumManagement.Controllers
             var curriculum = Storage.GetCurriculum(curriculumChapter.CurriculumRef);
 
             var model = new CreateCurriculumChapterTopicModel(
-                curriculumChapterTopic.MaxScore,
+                curriculumChapterTopic.ThresholdOfSuccess,
                 curriculumChapterTopic.BlockTopicAtTesting,
                 curriculumChapterTopic.BlockCurriculumAtTesting,
                 curriculumChapterTopic.TestStartDate,
@@ -80,7 +80,7 @@ namespace IUDICO.CurriculumManagement.Controllers
         public ActionResult Edit(int curriculumChapterTopicId, CreateCurriculumChapterTopicModel model)
         {
             var curriculumChapterTopic = Storage.GetCurriculumChapterTopic(curriculumChapterTopicId);
-            curriculumChapterTopic.MaxScore = model.MaxScore;
+            curriculumChapterTopic.ThresholdOfSuccess = model.ThresholdOfSuccess;
             curriculumChapterTopic.BlockCurriculumAtTesting = model.BlockCurriculumAtTesting;
             curriculumChapterTopic.BlockTopicAtTesting = model.BlockTopicAtTesting;
             curriculumChapterTopic.TestStartDate = model.SetTestTimeline ? model.TestStartDate : (DateTime?)null;
