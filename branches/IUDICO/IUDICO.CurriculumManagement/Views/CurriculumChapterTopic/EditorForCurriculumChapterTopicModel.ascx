@@ -1,32 +1,41 @@
 ﻿<%@ Assembly Name="IUDICO.CurriculumManagement" %>
 <%@ Control Language="C#" Inherits="System.Web.Mvc.ViewUserControl<IUDICO.CurriculumManagement.Models.ViewDataClasses.CreateCurriculumChapterTopicModel>" %>
 <%@ Import Namespace="IUDICO.Common" %>
-<script type="text/javascript">
-    $(document).ready(function () {
-        if (!$("#SetTestTimeline").attr('checked')) {
-            $("#divTestTimeline").hide();
-        }
-        $("#SetTestTimeline").click(function () {
-            $("#divTestTimeline").slideToggle(300);
-        });
 
-        if (!$("#SetTheoryTimeline").attr('checked')) {
-            $("#divTheoryTimeline").hide();
-        }
-        $("#SetTheoryTimeline").click(function () {
-            $("#divTheoryTimeline").slideToggle(300);
-        });
-    });
+<script type="text/javascript" src="/Scripts/jquery/ui.spinner.min.js"></script>
+
+<link href="/Content/ui.spinner.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+	$(document).ready(function () {
+		if (!$("#SetTestTimeline").attr('checked')) {
+			$("#divTestTimeline").hide();
+		}
+		$("#SetTestTimeline").click(function () {
+			$("#divTestTimeline").slideToggle(300);
+		});
+
+		if (!$("#SetTheoryTimeline").attr('checked')) {
+			$("#divTheoryTimeline").hide();
+		}
+		$("#SetTheoryTimeline").click(function () {
+			$("#divTheoryTimeline").slideToggle(300);
+		});
+
+		$("#ThresholdOfSuccess").spinner({ min: 0, max: 100 });
+	});
 </script>
+
+
 <fieldset id="">
     <legend>
         <%=Localization.GetMessage("Fields")%></legend>
     <div class="editor-label">
-        <%: Html.LabelFor(model => model.MaxScore)%>
+        <%: Html.LabelFor(model => model.ThresholdOfSuccess)%>
     </div>
     <div class="editor-field">
-        <%: Html.TextBoxFor(model => model.MaxScore)%>
-        <%: Html.ValidationMessageFor(model => model.MaxScore)%>
+			<%: Html.TextBoxFor(model => model.ThresholdOfSuccess)%>
+		   <%: Html.ValidationMessageFor(model => model.ThresholdOfSuccess)%>
     </div>
     <div class="curriculumChapterTopic_timeline1">
         <div class="editor-label">

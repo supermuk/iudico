@@ -287,6 +287,7 @@
     <Content Include="Content\themes\smoothness\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\smoothness\jquery-ui-1.7.2.custom.css" />
+    <Content Include="Content\ui.spinner.css" />
     <Content Include="Player\Frameset\Theme\1px.gif" />
     <Content Include="Player\Frameset\Theme\Error.gif" />
     <Content Include="Player\Frameset\Theme\HeadShadow.gif" />
@@ -347,6 +348,7 @@
     <Content Include="Data\CourseTemplate\sco.js" />
     <Content Include="Data\CourseTemplate\swfobject.js" />
     <Content Include="Data\CourseTemplate\updateplayer.swf" />
+    <Content Include="Scripts\jquery\ui.spinner.min.js" />
     <Content Include="Views\Shared\log.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -440,75 +442,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Plugins\Accord.dll" />
-    <Content Include="Plugins\Accord.MachineLearning.dll" />
-    <Content Include="Plugins\Accord.MachineLearning.pdb" />
-    <Content Include="Plugins\Accord.MachineLearning.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Plugins\Accord.Math.dll" />
-    <Content Include="Plugins\Accord.Math.pdb" />
-    <Content Include="Plugins\Accord.Math.xml" />
-    <Content Include="Plugins\Accord.pdb" />
-    <Content Include="Plugins\Accord.Statistics.dll" />
-    <Content Include="Plugins\Accord.Statistics.pdb" />
-    <Content Include="Plugins\Accord.Statistics.xml" />
-    <Content Include="Plugins\Accord.xml" />
-    <Content Include="Plugins\AForge.dll" />
-    <Content Include="Plugins\AForge.xml" />
-    <Content Include="Plugins\Castle.Core.dll" />
-    <Content Include="Plugins\Castle.Core.xml" />
-    <Content Include="Plugins\Castle.Windsor.dll" />
-    <Content Include="Plugins\Castle.Windsor.pdb" />
-    <Content Include="Plugins\Castle.Windsor.xml" />
-    <Content Include="Plugins\DotNetOpenAuth.dll" />
-    <Content Include="Plugins\DotNetOpenAuth.xml" />
-    <Content Include="Plugins\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="Plugins\Ionic.Zip.dll" />
-    <Content Include="Plugins\IUDICO.Analytics.dll" />
-    <Content Include="Plugins\IUDICO.Analytics.pdb" />
-    <Content Include="Plugins\IUDICO.Common.dll" />
-    <Content Include="Plugins\IUDICO.Common.pdb" />
-    <Content Include="Plugins\IUDICO.CourseManagement.dll" />
-    <Content Include="Plugins\IUDICO.CourseManagement.pdb" />
-    <Content Include="Plugins\IUDICO.CurriculumManagement.dll" />
-    <Content Include="Plugins\IUDICO.CurriculumManagement.pdb" />
-    <Content Include="Plugins\IUDICO.DataGenerator.dll" />
-    <Content Include="Plugins\IUDICO.DataGenerator.pdb" />
-    <Content Include="Plugins\IUDICO.DisciplineManagement.dll" />
-    <Content Include="Plugins\IUDICO.DisciplineManagement.pdb" />
-    <Content Include="Plugins\IUDICO.Search.dll" />
-    <Content Include="Plugins\IUDICO.Search.pdb" />
-    <Content Include="Plugins\IUDICO.Security.dll" />
-    <Content Include="Plugins\IUDICO.Security.pdb" />
-    <Content Include="Plugins\IUDICO.Statistics.dll" />
-    <Content Include="Plugins\IUDICO.Statistics.pdb" />
-    <Content Include="Plugins\IUDICO.TestingSystem.dll" />
-    <Content Include="Plugins\IUDICO.TestingSystem.pdb" />
-    <Content Include="Plugins\IUDICO.UserManagement.dll" />
-    <Content Include="Plugins\IUDICO.UserManagement.pdb" />
-    <Content Include="Plugins\Kent.Boogaart.HelperTrinity.dll" />
-    <Content Include="Plugins\Kent.Boogaart.KBCsv.dll" />
-    <Content Include="Plugins\log4net.dll" />
-    <Content Include="Plugins\log4net.xml" />
-    <Content Include="Plugins\Lucene.Net.dll" />
-    <Content Include="Plugins\Lucene.Net.xml" />
-    <Content Include="Plugins\Microsoft.LearningComponents.Compression.dll" />
-    <Content Include="Plugins\Microsoft.LearningComponents.Compression.pdb" />
-    <Content Include="Plugins\Microsoft.LearningComponents.dll" />
-    <Content Include="Plugins\Microsoft.LearningComponents.pdb" />
-    <Content Include="Plugins\Microsoft.LearningComponents.Storage.dll" />
-    <Content Include="Plugins\Microsoft.LearningComponents.Storage.pdb" />
-    <Content Include="Plugins\Microsoft.LearningComponents.xml">
-      <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Plugins\Moq.dll" />
-    <Content Include="Plugins\Moq.pdb" />
-    <Content Include="Plugins\Moq.xml" />
-    <Content Include="Plugins\SgmlReaderDll.dll" />
-    <Content Include="Plugins\SimpleLucene.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Data\Avatars\" />
     <Folder Include="Data\Courses\" />
     <Folder Include="Data\CSV\" />
@@ -516,6 +449,7 @@
     <Folder Include="Data\Index\" />
     <Folder Include="Data\PlayerPackages\" />
     <Folder Include="Data\WorkFolder\" />
+    <Folder Include="Plugins\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\ExternalTools\StyleCop\v4.7\StyleCop.targets" />

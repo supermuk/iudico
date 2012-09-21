@@ -33,7 +33,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%=Localization.GetMessage("TopicName")%>
             </th>
             <th>
-                <%=Localization.GetMessage("MaxScore")%>
+                <%=Localization.GetMessage("ThresholdOfSuccess")%>
             </th>
             <th>
                 <%=Localization.GetMessage("TestStartDate")%>
@@ -63,7 +63,7 @@ Inherits="System.Web.Mvc.ViewPage<IEnumerable<IUDICO.CurriculumManagement.Models
                 <%: item.TopicName %>
             </td>
             <td>
-                <%: item.MaxScore %>
+                <%: item.ThresholdOfSuccess %>
             </td>
             <td>
                 <%: item.TestStartDate %>
