@@ -6,7 +6,7 @@
     [TestEndDate]              DATETIME NULL,
     [TheoryStartDate]          DATETIME NULL,
     [TheoryEndDate]            DATETIME NULL,
-    [ThresholdOfSuccess]       INT      NOT NULL,
+    [ThresholdOfSuccess]       INT      DEFAULT '50' NOT NULL,
     [BlockTopicAtTesting]      BIT      NOT NULL,
     [BlockCurriculumAtTesting] BIT      NOT NULL,
     [IsDeleted]                BIT      NOT NULL
