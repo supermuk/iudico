@@ -54,7 +54,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.lmsService.FindService<IUserService>().GetUsers(item => ids.Contains(item.Id)).ToList();
         }
 
-        public User GetCurrentUser()
+        public virtual User GetCurrentUser()
         {
             return this.lmsService.FindService<IUserService>().GetCurrentUser();
         }

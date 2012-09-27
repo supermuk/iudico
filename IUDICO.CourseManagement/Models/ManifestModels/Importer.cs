@@ -83,9 +83,16 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
             foreach (var file in resource.Files)
             {
+
                 if (file.Href != resource.Href)
                 {
-                    File.Copy(Path.Combine(this.courseTempPath, file.Href), Path.Combine(coursePath, file.Href));
+                   var path = Path.Combine(coursePath, file.Href);
+                   if (!Directory.GetParent(path).Exists)
+                   {
+                      Directory.CreateDirectory(Directory.GetParent(path).ToString());
+                   }
+
+                   File.Copy(Path.Combine(this.courseTempPath, file.Href), Path.Combine(coursePath, file.Href));
                 }
             }
 
@@ -108,7 +115,13 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
             {
                 if (!File.Exists(Path.Combine(this.coursePath, file.Href)))
                 {
-                    File.Copy(Path.Combine(this.courseTempPath, file.Href), Path.Combine(this.coursePath, file.Href));
+                   var path = Path.Combine(this.coursePath, file.Href);
+                   if (!Directory.GetParent(path).Exists)
+                   {
+                      Directory.CreateDirectory(Directory.GetParent(path).ToString());
+                   }
+                   
+                   File.Copy(Path.Combine(this.courseTempPath, file.Href), Path.Combine(this.coursePath, file.Href));
                 }
             }
 

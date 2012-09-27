@@ -114,6 +114,8 @@ namespace IUDICO.UnitTests.UserManagement
             this.Setup();
             this.SetupTables();
 
+            this.MockLmsService.Setup(s => s.FindService<IUserService>().GetUsers()).Returns(DataContext.Users);
+
             this.ChangeCurrentUser("panza");
         }
 

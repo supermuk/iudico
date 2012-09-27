@@ -32,6 +32,11 @@ namespace IUDICO.CourseManagement.Models
             return this.courseStorage.GetCourse(id);
         }
 
+        public IudicoCourseInfo GetCourseInfo(int id)
+        {
+            return this.courseStorage.GetCourseInfo(id);
+        }
+
         public IEnumerable<Node> GetNodes(int courseId)
         {
             return this.courseStorage.GetNodes(courseId);
@@ -57,9 +62,24 @@ namespace IUDICO.CourseManagement.Models
             return this.courseStorage.GetNodeContents(id);
         }
 
-        public string Export(int id)
+        public string Export(int id, bool exportForPlayCourse = false)
         {
-            return this.courseStorage.Export(id);
+            return this.courseStorage.Export(id, exportForPlayCourse);
+        }
+
+        public void Import(string path, string owner)
+        {
+           this.courseStorage.Import(path, owner);
+        }
+
+        public void Import(string path, string name, string owner)
+        {
+           this.courseStorage.Import(path, name, owner);
+        }
+
+        public void Unlock(int id)
+        {
+           this.courseStorage.Parse(id);
         }
 
         #endregion

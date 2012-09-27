@@ -28,7 +28,7 @@ namespace IUDICO.Security.Models.Storages.Cache
 
         public IEnumerable<UserActivity> GetUserActivities()
         {
-            return this.cacheProvider.Get<IEnumerable<UserActivity>>("useractivities", @lockObject, () => this.storage.GetUserActivities(), DateTime.Now.AddDays(1));
+            return this.cacheProvider.Get<IEnumerable<UserActivity>>("useractivities", @lockObject, () => this.storage.GetUserActivities().ToList(), DateTime.Now.AddDays(1));
         }
     }
 }

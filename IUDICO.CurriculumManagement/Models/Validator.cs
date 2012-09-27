@@ -46,7 +46,7 @@ namespace IUDICO.CurriculumManagement.Models
             ValidateDate(data.TestStartDate, data.TestEndDate, validationStatus);
             ValidateDate(data.TheoryStartDate, data.TheoryEndDate, validationStatus);
 
-            if (data.MaxScore <= 0)
+            if (data.ThresholdOfSuccess <= 0)
             {
                 validationStatus.AddLocalizedError("MaxScoreMustBeGreaterThanZero");
             }
