@@ -145,7 +145,7 @@ namespace IUDICO.CurriculumManagement
                             {
                                 CurriculumChapterRef = curriculumChapter.Id,
                                 TopicRef = topic.Id,
-                                MaxScore = Constants.DefaultTopicMaxScore,
+                                ThresholdOfSuccess = Constants.DefaultThresholdOfSuccess,
                                 BlockTopicAtTesting = false,
                                 BlockCurriculumAtTesting = false
                             })

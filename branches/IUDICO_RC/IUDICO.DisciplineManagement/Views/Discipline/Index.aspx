@@ -67,6 +67,41 @@
                 });
             });
 
+				 $("#dialog").dialog({
+					  autoOpen: false,
+					  modal: true,
+//					  buttons: [
+//							{
+//								 text: submitName,
+//								 click: function() {
+//									  var $form = $("#dialog").find("form");
+
+//									  $.ajax({
+//											type: "post",
+//											url: $form.attr("action"),
+//											data: $form.serialize(),
+//											success: function(r) {
+//												 window[$form.attr("data-onSuccess")](r);
+//											},
+//											error: function(r) {
+//												 window[$form.attr("data-onFailure")](r);
+//											}
+//									  });
+//								 },
+//								 'class': "blueButton",
+//								 id: "DialogSubmitButton"
+//							},
+//							{
+//								 text: cancelName,
+//								 click: function() {
+//									  $(this).dialog("close");
+//								 },
+//								 'class': "blueButton"
+//							}
+//					  ]
+				 });
+
+
         }) ;
 
         function onCreateDisciplineSuccess(resp) {
@@ -301,6 +336,20 @@
             });
         }
         
+		  function importDiscipline() {
+           // openDialog("<%=Localization.GetMessage("ImportDiscipline") %>");
+				    $("#dialog").html('<span class="loading"><img src="/Content/Images/wait.gif"/></span>');
+					 $("#dialog").dialog("option", "title", "<%=Localization.GetMessage("ImportDiscipline") %>");
+					 $("#dialog").dialog("open");
+            $.get(
+                "/DisciplineAction/Import",
+                function (r) {
+                    $("#dialog").html(r);
+						  $("#dialog").dialog("open");
+                }
+            );
+        }
+
         function addDiscipline() {
             openDialog("<%=Localization.GetMessage("CreateDiscipline") %>");
 
@@ -312,7 +361,7 @@
             );
         }
 
-        function addTopic(chapterId) {
+		  function addTopic(chapterId) {
             openDialog("<%=Localization.GetMessage("CreateTopic") %>");
 
             expandRow("chapter" + chapterId, expandChapter);
@@ -448,7 +497,7 @@
     <div>
         <a href="#" onclick="addDiscipline();"><%=Localization.GetMessage("CreateNew")%></a>
         |
-        <% Html.RenderPartial("Import"); %>
+		  <a id="ImportDiscipline" href="#" onclick="importDiscipline();"><%= Localization.GetMessage("Import") %></a>
         |
         <a id="DeleteMany" href="#" style="display:none"><%=Localization.GetMessage("DeleteSelected")%></a>
     </div>

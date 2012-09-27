@@ -39,6 +39,8 @@
         toolbar: 'IUDICO',
         simple: 'Simple',
         choice: 'Choice',
-        compile: 'Compile'
+        compile: 'Compile',
+        
+        singleCase: 'Single Case'
     }
 });

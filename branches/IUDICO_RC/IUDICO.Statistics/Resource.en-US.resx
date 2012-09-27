@@ -258,4 +258,10 @@
   <data name="NoСurriculumHasBeenCreatedFor" xml:space="preserve">
     <value>No Сurricuulm Has Been Created For</value>
   </data>
+  <data name="CorrectAnswersPercentage" xml:space="preserve">
+    <value>Correct answers percentage</value>
+  </data>
+  <data name="GainedPoints" xml:space="preserve">
+    <value>Gained points</value>
+  </data>
 </root>

@@ -31,8 +31,15 @@
             <%=Localization.GetMessage(Model.GetSuccessStatus())%>
         </p>
         <p>
-            <%=Localization.GetMessage("Score")%>:
+            <%=Localization.GetMessage("GainedPoints")%>:
             <%: Model.GetScore()%>
+            /
+            <%: Model.GetMaxScore()%>
+        </p>
+        <p>
+            <%=Localization.GetMessage("CorrectAnswersPercentage")%>:
+            <%: Math.Round(Model.GetPercentScore()) %>
+            %
         </p>
         <table id="topicResultsTable">
             <thead>
@@ -47,7 +54,7 @@
                         <%=Localization.GetMessage("CorrectAnswer")%>
                     </th>
                     <th>
-                        <%=Localization.GetMessage("Score")%>
+                        <%=Localization.GetMessage("Results")%>
                     </th>
                 </tr>
             </thead>
@@ -75,6 +82,8 @@
                     </td>
                     <td>
                         <%: Model.GetUserScoreForAnswer(answer)%>
+                        /
+                        <%: Model.GetMaxScoreForAnswer(answer) %>
                     </td>
                 </tr>
                 <% }

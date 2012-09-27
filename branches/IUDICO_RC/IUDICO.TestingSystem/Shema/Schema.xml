@@ -1,226 +1,244 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <!-- Schema.xml - IUDICO extensions to the Microsoft Learning Components (MLC) base schema -->
 <StoreSchema xmlns="urn:schemas-microsoft-com:learning-components:learning-store-schema">
-  <ExtendItemType Name="PackageItem">
-    <Properties>
-      <Property Name="IudicoCourseRef" Type="Int32" Nullable="true">
-        <Default Null="true"/>
-      </Property>
-    </Properties>
-    <GrantUpdateRight>
-      <Expression>
-        CASE WHEN @PackageFormat$Changed=0 AND @Location$Changed=0 AND @Manifest$Changed=0 AND
-        EXISTS(SELECT * FROM PackageItem WHERE Id=@Id) AND
-        EXISTS(SELECT * FROM UserItem WHERE [Key]=@UserKey) THEN 1 ELSE 0 END
-      </Expression>
-    </GrantUpdateRight>
-  </ExtendItemType>
-  <ExtendItemType Name="UserItem">
-    <GrantAddRight>
-      <Expression>CASE WHEN @Key=@UserKey THEN 1 ELSE 0 END</Expression>
-    </GrantAddRight>
-  </ExtendItemType>
-  <ExtendItemType Name="AttemptItem">
-    <Properties>
-      <Property Name="IudicoCurriculumChapterTopicRef" Type="Int32" Nullable="true">
-        <Default Null="true" />
-      </Property>
-      <Property Name="IudicoTopicType" Type="Int32" Nullable="true">
-        <Default Null="true" />
-      </Property>
-    </Properties>
-    <GrantUpdateRight>
-      <Expression>1</Expression>
-    </GrantUpdateRight>
-  </ExtendItemType>
-  <ExtendRight Name="AddPackageReferenceRight">
-    <Grant>
-      <Expression>1</Expression>
-    </Grant>
-  </ExtendRight>
-  <ExtendRight Name="CreateAttemptRight">
-    <Grant>
-      <Expression>1</Expression>
-    </Grant>
-  </ExtendRight>
-  <ExtendRight Name="DeleteAttemptRight">
-    <Grant>
-      <Expression>CASE WHEN EXISTS(SELECT * FROM AttemptItem INNER JOIN UserItem ON AttemptItem.LearnerId=UserItem.Id WHERE AttemptItem.Id=@AttemptId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
-    </Grant>
-  </ExtendRight>
-  <ExtendRight Name="ExecuteSessionRight">
-    <Grant>
-      <Expression>CASE WHEN EXISTS(SELECT * FROM AttemptItem INNER JOIN UserItem ON AttemptItem.LearnerId=UserItem.Id WHERE AttemptItem.Id=@AttemptId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
-    </Grant>
-  </ExtendRight>
-  <View Name="Me">
-    <Columns>
-      <Column Name="UserId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem"/>
-      <Column Name="UserName" Type="String" />
-    </Columns>
-    <Implementation>
-      SELECT Id AS UserId,
-      Name AS UserName
-      FROM UserItem
-      WHERE [Key]=@UserKey
-    </Implementation>
-    <GrantQueryRight>
-      <Expression>1</Expression>
-    </GrantQueryRight>
-  </View>
-  <View Name="PackageIdByCourse">
-    <Parameters>
-      <Parameter Name="IudicoCourseRef" Type="Int32"/>
-    </Parameters>
-    <Columns>
-      <Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem"/>
-    </Columns>
-    <Implementation>
-      SELECT Id As PackageId
-      FROM PackageItem
-      WHERE IudicoCourseRef=@IudicoCourseRef
-    </Implementation>
-    <GrantQueryRight>
-      <Expression>1</Expression>
-    </GrantQueryRight>
-  </View>
-  <View Name="RootActivityByPackage">
-    <Parameters>
-      <Parameter Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem"/>
-    </Parameters>
-    <Columns>
-      <Column Name="RootActivity" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
-    </Columns>
-    <Implementation>
-      SELECT Id As RootActivity
-      FROM ActivityPackageItem
-      WHERE PackageId=@PackageId
-      AND ParentActivityId IS NULL
-    </Implementation>
-    <GrantQueryRight>
-      <Expression>1</Expression>
-    </GrantQueryRight>
-  </View>
-  <View Name="MyAttemptIds">
-    <Parameters>
-      <Parameter Name="OrganizationId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
-      <Parameter Name="CurriculumChapterTopicId" Type="Int32"/>
-      <Parameter Name="TopicType" Type="Int32"/>
-    </Parameters>
-    <Columns>
-      <Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
-    </Columns>
-    <Implementation>
-      SELECT AttemptItem.Id AS AttemptId
-      FROM ActivityPackageItem
-      INNER JOIN PackageItem ON ActivityPackageItem.PackageId = PackageItem.Id
-      LEFT OUTER JOIN ActivityAttemptItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
-      LEFT OUTER JOIN AttemptItem ON ActivityAttemptItem.AttemptId = AttemptItem.Id
-      INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
-      WHERE (ActivityPackageItem.ParentActivityId IS NULL)
-      AND (AttemptItem.IudicoCurriculumChapterTopicRef = @CurriculumChapterTopicId)
-      AND (AttemptItem.IudicoTopicType = @TopicType)
-      AND (ActivityPackageItem.Id = @OrganizationId)
-      AND (UserItem.[Key] = @UserKey)
-    </Implementation>
-    <GrantQueryRight>
-      <Expression>1</Expression>
-    </GrantQueryRight>
-  </View>
-  <View Name="AllAttemptsResults">
-    <Columns>
-      <Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
-      <Column Name="UserItemKey" Type="String"/>
-      <Column Name="CurriculumChapterTopicId" Type="Int32"/>
-      <Column Name="TopicType" Type="Int32" />
-      <Column Name="CompletionStatus" Type="Enum" EnumName="CompletionStatus"/>
-      <Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus"/>
-      <Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus"/>
-      <Column Name="StartedTimestamp" Type="DateTime"/>
-      <Column Name="FinishedTimestamp" Type="DateTime"/>
-      <Column Name="Score" Type="Single"/>
-    </Columns>
-    <Implementation>
-      SELECT  AttemptItem.Id AS AttemptId,
-              UserItem.[Key] AS UserItemKey,
-              AttemptItem.IudicoCurriculumChapterTopicRef as CurriculumChapterTopicId,
-              AttemptItem.IudicoTopicType as TopicType,
-              AttemptItem.CompletionStatus AS CompletionStatus,
-              AttemptItem.AttemptStatus AS AttemptStatus,
-              AttemptItem.SuccessStatus AS SuccessStatus,
-              AttemptItem.StartedTimestamp AS StartedTimestamp,
-              AttemptItem.FinishedTimestamp AS FinishedTimestamp,
-              AttemptItem.TotalPoints AS Score
-      FROM AttemptItem
-      INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
-    </Implementation>
-    <GrantQueryRight>
-      <Expression>1</Expression>
-    </GrantQueryRight>
-  </View>
-  <View Name="InteractionResultsByAttempt">
-    <Parameters>
-      <Parameter Name="AttemptIdParam" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
-    </Parameters>
-    <Columns>
-      <Column Name="ActivityAttemptId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityAttemptItem"/>
-      <Column Name="ActivityPackageId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
-      <Column Name="ActivityTitle" Type="String"/>
-      <Column Name="InteractionId" Type="ItemIdentifier" ReferencedItemTypeName="InteractionItem"/>
-      <Column Name="CompletionStatus" Type="Enum" EnumName="CompletionStatus"/>
-      <Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus"/>
-      <Column Name="LearnerResponseBool" Type="Boolean"/>
-      <Column Name="LearnerResponseString" Type="String"/>
-      <Column Name="LearnerResponseNumeric" Type="Double"/>
-      <Column Name="CorrectResponse" Type="String"/>
-      <Column Name="InteractionType" Type="Enum" EnumName="InteractionType"/>
-      <Column Name="ScaledScore" Type="Double"/>
-    </Columns>
-    <Implementation>
-      SELECT  ActivityAttemptItem.Id AS ActivityAttemptId,
-              ActivityAttemptItem.ActivityPackageId as ActivityPackageId,
-              ActivityPackageItem.Title AS ActivityTitle,
-              InteractionItem.Id AS InteractionId,
-              ActivityAttemptItem.CompletionStatus AS CompletionStatus,
-              ActivityAttemptItem.SuccessStatus AS SuccessStatus,
-              InteractionItem.LearnerResponseBool AS LearnerResponseBool,
-              InteractionItem.LearnerResponseString AS LearnerResponseString,
-              InteractionItem.LearnerResponseNumeric AS LearnerResponseNumeric,
-              CorrectResponseItem.ResponsePattern AS CorrectResponse,
-              InteractionItem.InteractionType AS InteractionType,
-              ActivityAttemptItem.ScaledScore AS ScaledScore
-      FROM  ActivityAttemptItem
-            LEFT JOIN InteractionItem ON InteractionItem.ActivityAttemptId = ActivityAttemptItem.Id
-            LEFT JOIN CorrectResponseItem ON CorrectResponseItem.InteractionId = InteractionItem.Id
-            INNER JOIN ActivityPackageItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
-      WHERE ((ActivityAttemptItem.AttemptId = @AttemptIdParam) AND (ActivityPackageItem.ResourceId IS NOT NULL))
-    </Implementation>
-    <GrantQueryRight>
-      <Expression>1</Expression>
-    </GrantQueryRight>
-  </View>
-  <View Name="SequencingLog">
-    <Parameters>
-      <Parameter Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
-    </Parameters>
-    <Columns>
-      <Column Name="Id" Type="ItemIdentifier" ReferencedItemTypeName="SequencingLogEntryItem"/>
-      <Column Name="Timestamp" Type="DateTime"/>
-      <Column Name="EventType" Type="Enum" EnumName="SequencingEventType"/>
-      <Column Name="NavigationCommand" Type="Enum" EnumName="NavigationCommand"/>
-      <Column Name="Message" Type="String"/>
-    </Columns>
-    <Implementation>
-      SELECT Id,
-             Timestamp,
-             EventType,
-             NavigationCommand,
-             Message
-      FROM SequencingLogEntryItem
-      WHERE AttemptId=@AttemptId
-    </Implementation>
-    <GrantQueryRight>
-      <Expression>CASE WHEN EXISTS(SELECT * FROM AttemptItem INNER JOIN UserItem ON AttemptItem.LearnerId=UserItem.Id WHERE AttemptItem.Id=@AttemptId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
-    </GrantQueryRight>
-  </View>
+	<ExtendItemType Name="PackageItem">
+		<Properties>
+			<Property Name="IudicoCourseRef" Type="Int32" Nullable="true">
+				<Default Null="true"/>
+			</Property>
+		</Properties>
+		<GrantUpdateRight>
+			<Expression>
+				CASE WHEN @PackageFormat$Changed=0 AND @Location$Changed=0 AND @Manifest$Changed=0 AND
+				EXISTS(SELECT * FROM PackageItem WHERE Id=@Id) AND
+				EXISTS(SELECT * FROM UserItem WHERE [Key]=@UserKey) THEN 1 ELSE 0 END
+			</Expression>
+		</GrantUpdateRight>
+	</ExtendItemType>
+	<ExtendItemType Name="UserItem">
+		<GrantAddRight>
+			<Expression>CASE WHEN @Key=@UserKey THEN 1 ELSE 0 END</Expression>
+		</GrantAddRight>
+	</ExtendItemType>
+	<ExtendItemType Name="AttemptItem">
+		<Properties>
+			<Property Name="IudicoCurriculumChapterTopicRef" Type="Int32" Nullable="true">
+				<Default Null="true" />
+			</Property>
+			<Property Name="IudicoTopicType" Type="Int32" Nullable="true">
+				<Default Null="true" />
+			</Property>
+		</Properties>
+		<GrantUpdateRight>
+			<Expression>1</Expression>
+		</GrantUpdateRight>
+	</ExtendItemType>
+	<ExtendRight Name="AddPackageReferenceRight">
+		<Grant>
+			<Expression>1</Expression>
+		</Grant>
+	</ExtendRight>
+	<ExtendRight Name="CreateAttemptRight">
+		<Grant>
+			<Expression>1</Expression>
+		</Grant>
+	</ExtendRight>
+	<ExtendRight Name="DeleteAttemptRight">
+		<Grant>
+			<Expression>CASE WHEN EXISTS(SELECT * FROM AttemptItem INNER JOIN UserItem ON AttemptItem.LearnerId=UserItem.Id WHERE AttemptItem.Id=@AttemptId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
+		</Grant>
+	</ExtendRight>
+	<ExtendRight Name="ExecuteSessionRight">
+		<Grant>
+			<Expression>CASE WHEN EXISTS(SELECT * FROM AttemptItem INNER JOIN UserItem ON AttemptItem.LearnerId=UserItem.Id WHERE AttemptItem.Id=@AttemptId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
+		</Grant>
+	</ExtendRight>
+	<View Name="Me">
+		<Columns>
+			<Column Name="UserId" Type="ItemIdentifier" ReferencedItemTypeName="UserItem"/>
+			<Column Name="UserName" Type="String" />
+		</Columns>
+		<Implementation>
+			SELECT Id AS UserId,
+			Name AS UserName
+			FROM UserItem
+			WHERE [Key]=@UserKey
+		</Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="PackageIdByCourse">
+		<Parameters>
+			<Parameter Name="IudicoCourseRef" Type="Int32"/>
+		</Parameters>
+		<Columns>
+			<Column Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem"/>
+		</Columns>
+		<Implementation>
+			SELECT Id As PackageId
+			FROM PackageItem
+			WHERE IudicoCourseRef=@IudicoCourseRef
+		</Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="RootActivityByPackage">
+		<Parameters>
+			<Parameter Name="PackageId" Type="ItemIdentifier" ReferencedItemTypeName="PackageItem"/>
+		</Parameters>
+		<Columns>
+			<Column Name="RootActivity" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
+		</Columns>
+		<Implementation>
+			SELECT Id As RootActivity
+			FROM ActivityPackageItem
+			WHERE PackageId=@PackageId
+			AND ParentActivityId IS NULL
+		</Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="MyAttemptIds">
+		<Parameters>
+			<Parameter Name="OrganizationId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
+			<Parameter Name="CurriculumChapterTopicId" Type="Int32"/>
+			<Parameter Name="TopicType" Type="Int32"/>
+		</Parameters>
+		<Columns>
+			<Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
+		</Columns>
+		<Implementation>
+			SELECT AttemptItem.Id AS AttemptId
+			FROM ActivityPackageItem
+			INNER JOIN PackageItem ON ActivityPackageItem.PackageId = PackageItem.Id
+			LEFT OUTER JOIN ActivityAttemptItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
+			LEFT OUTER JOIN AttemptItem ON ActivityAttemptItem.AttemptId = AttemptItem.Id
+			INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
+			WHERE (ActivityPackageItem.ParentActivityId IS NULL)
+			AND (AttemptItem.IudicoCurriculumChapterTopicRef = @CurriculumChapterTopicId)
+			AND (AttemptItem.IudicoTopicType = @TopicType)
+			AND (ActivityPackageItem.Id = @OrganizationId)
+			AND (UserItem.[Key] = @UserKey)
+		</Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="AllAttemptsResults">
+		<Columns>
+			<Column Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
+			<Column Name="UserItemKey" Type="String"/>
+			<Column Name="CurriculumChapterTopicId" Type="Int32"/>
+			<Column Name="TopicType" Type="Int32" />
+			<Column Name="CompletionStatus" Type="Enum" EnumName="CompletionStatus"/>
+			<Column Name="AttemptStatus" Type="Enum" EnumName="AttemptStatus"/>
+			<Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus"/>
+			<Column Name="StartedTimestamp" Type="DateTime"/>
+			<Column Name="FinishedTimestamp" Type="DateTime"/>
+			<Column Name="IudicoCourseRef" Type="Int32"/>
+			<Column Name="MinScore" Type="Single"/>
+			<Column Name="MaxScore" Type="Single"/>
+			<Column Name="RawScore" Type="Single"/>
+			<Column Name="Score" Type="Single"/>
+		</Columns>
+		<Implementation>
+			SELECT  AttemptItem.Id AS AttemptId,
+			UserItem.[Key] AS UserItemKey,
+			AttemptItem.IudicoCurriculumChapterTopicRef as CurriculumChapterTopicId,
+			AttemptItem.IudicoTopicType as TopicType,
+			AttemptItem.CompletionStatus AS CompletionStatus,
+			AttemptItem.AttemptStatus AS AttemptStatus,
+			AttemptItem.SuccessStatus AS SuccessStatus,
+			AttemptItem.StartedTimestamp AS StartedTimestamp,
+			AttemptItem.FinishedTimestamp AS FinishedTimestamp,
+			PackageItem.IudicoCourseRef AS IudicoCourseRef,
+			(SELECT SUM(MinScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MinScore,
+			(SELECT SUM(MaxScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as MaxScore,
+			(SELECT SUM(RawScore) FROM ActivityAttemptItem WHERE ActivityAttemptItem.AttemptId = AttemptItem.Id) as RawScore,
+			AttemptItem.TotalPoints AS Score
+			FROM AttemptItem
+			INNER JOIN UserItem ON AttemptItem.LearnerId = UserItem.Id
+			INNER JOIN PackageItem ON PackageItem.Id = AttemptItem.PackageId
+		</Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="InteractionResultsByAttempt">
+		<Parameters>
+			<Parameter Name="AttemptIdParam" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
+		</Parameters>
+		<Columns>
+			<Column Name="ActivityAttemptId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityAttemptItem"/>
+			<Column Name="ActivityPackageId" Type="ItemIdentifier" ReferencedItemTypeName="ActivityPackageItem"/>
+			<Column Name="ActivityTitle" Type="String"/>
+			<Column Name="InteractionId" Type="ItemIdentifier" ReferencedItemTypeName="InteractionItem"/>
+			<Column Name="CompletionStatus" Type="Enum" EnumName="CompletionStatus"/>
+			<Column Name="SuccessStatus" Type="Enum" EnumName="SuccessStatus"/>
+			<Column Name="LearnerResponseBool" Type="Boolean"/>
+			<Column Name="LearnerResponseString" Type="String"/>
+			<Column Name="LearnerResponseNumeric" Type="Double"/>
+			<Column Name="CorrectResponse" Type="String"/>
+			<Column Name="InteractionType" Type="Enum" EnumName="InteractionType"/>
+			<Column Name="MinScore" Type="Double"/>
+			<Column Name="MaxScore" Type="Double"/>
+			<Column Name="RawScore" Type="Double"/>
+			<Column Name="ScaledScore" Type="Double"/>
+			<Column Name="PrimaryResourceFromManifest" Type="String" />
+		</Columns>
+		<Implementation>
+			SELECT  ActivityAttemptItem.Id AS ActivityAttemptId,
+			ActivityAttemptItem.ActivityPackageId as ActivityPackageId,
+			ActivityPackageItem.Title AS ActivityTitle,
+			InteractionItem.Id AS InteractionId,
+			ActivityAttemptItem.CompletionStatus AS CompletionStatus,
+			ActivityAttemptItem.SuccessStatus AS SuccessStatus,
+			InteractionItem.LearnerResponseBool AS LearnerResponseBool,
+			InteractionItem.LearnerResponseString AS LearnerResponseString,
+			InteractionItem.LearnerResponseNumeric AS LearnerResponseNumeric,
+			CorrectResponseItem.ResponsePattern AS CorrectResponse,
+			InteractionItem.InteractionType AS InteractionType,
+			ActivityPackageItem.PrimaryResourceFromManifest AS PrimaryResourceFromManifest,
+			ActivityAttemptItem.MinScore AS MinScore,
+			ActivityAttemptItem.MaxScore AS MaxScore,
+			ActivityAttemptItem.RawScore AS RawScore,
+			ActivityAttemptItem.ScaledScore AS ScaledScore,
+			ActivityPackageItem.PrimaryResourceFromManifest AS PrimaryResourceFromManifest
+			FROM  ActivityAttemptItem
+			LEFT JOIN InteractionItem ON InteractionItem.ActivityAttemptId = ActivityAttemptItem.Id
+			LEFT JOIN CorrectResponseItem ON CorrectResponseItem.InteractionId = InteractionItem.Id
+			INNER JOIN ActivityPackageItem ON ActivityPackageItem.Id = ActivityAttemptItem.ActivityPackageId
+			WHERE ((ActivityAttemptItem.AttemptId = @AttemptIdParam) AND (ActivityPackageItem.ResourceId IS NOT NULL))
+		</Implementation>
+		<GrantQueryRight>
+			<Expression>1</Expression>
+		</GrantQueryRight>
+	</View>
+	<View Name="SequencingLog">
+		<Parameters>
+			<Parameter Name="AttemptId" Type="ItemIdentifier" ReferencedItemTypeName="AttemptItem"/>
+		</Parameters>
+		<Columns>
+			<Column Name="Id" Type="ItemIdentifier" ReferencedItemTypeName="SequencingLogEntryItem"/>
+			<Column Name="Timestamp" Type="DateTime"/>
+			<Column Name="EventType" Type="Enum" EnumName="SequencingEventType"/>
+			<Column Name="NavigationCommand" Type="Enum" EnumName="NavigationCommand"/>
+			<Column Name="Message" Type="String"/>
+		</Columns>
+		<Implementation>
+			SELECT Id,
+			Timestamp,
+			EventType,
+			NavigationCommand,
+			Message
+			FROM SequencingLogEntryItem
+			WHERE AttemptId=@AttemptId
+		</Implementation>
+		<GrantQueryRight>
+			<Expression>CASE WHEN EXISTS(SELECT * FROM AttemptItem INNER JOIN UserItem ON AttemptItem.LearnerId=UserItem.Id WHERE AttemptItem.Id=@AttemptId AND UserItem.[Key]=@UserKey) THEN 1 ELSE 0 END</Expression>
+		</GrantQueryRight>
+	</View>
 </StoreSchema>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.Common.Models.Shared.Statistics;
@@ -10,6 +11,7 @@ namespace IUDICO.Statistics.Models.StatisticsModels
     public class CurrentTopicTestResultsModel
     {
         private readonly AttemptResult attempt;
+        private readonly IudicoCourseInfo courseInfo;
         private readonly IEnumerable<AnswerResult> userAnswers;
         private readonly bool hasNoData;
 
@@ -26,6 +28,8 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                     this.attempt = attemptResults.Last();
                     if (this.attempt != null)
                     {
+                        this.courseInfo =
+                            lmsService.FindService<ICourseService>().GetCourseInfo(this.attempt.IudicoCourseRef);
                         this.userAnswers = lmsService.FindService<ITestingService>().GetAnswers(this.attempt);
                         
                         this.hasNoData = this.userAnswers == null;
@@ -55,19 +59,46 @@ namespace IUDICO.Statistics.Models.StatisticsModels
 
         public string GetSuccessStatus()
         {
-            return this.attempt != null ? this.attempt.SuccessStatus.ToString() : string.Empty;
+            return this.GetPercentScore() >= this.attempt.CurriculumChapterTopic.ThresholdOfSuccess ? "passed" : "failed";
         }
 
-        public string GetScore()
+        public double GetScore()
         {
-            if (this.attempt != null)
+            double totalRawScore = 0;
+            foreach (var answer in this.userAnswers)
             {
-                if (this.attempt.Score.ToPercents().HasValue == true)
-                    return Math.Round((double)this.attempt.Score.ToPercents(), 2).ToString();
+                if (answer.RawScore.HasValue)
+                {
+                    totalRawScore += answer.RawScore.Value;
+                }
             }
-
-            return string.Empty;
+            return totalRawScore;
         }
+
+        public double GetMaxScore()
+        {
+            double maxScore = 0;
+            foreach (var node in this.courseInfo.NodesInfo)
+            {
+                if (this.userAnswers.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", string.Empty)) == node.Id))
+                {
+                    maxScore += node.MaxScore;
+                }
+            }
+            return maxScore;
+        }
+
+        public double GetPercentScore()
+        {
+            double rawScore = this.GetScore();
+            double maxScore = this.GetMaxScore();
+
+            if (maxScore == 0)
+                return 0;
+
+            return rawScore / maxScore * 100;            
+        }
+
         public string GetUserAnswer(AnswerResult answerResult)
         {
             return answerResult.LearnerResponse != null ? Uri.UnescapeDataString(answerResult.LearnerResponse.ToString()) : string.Empty;

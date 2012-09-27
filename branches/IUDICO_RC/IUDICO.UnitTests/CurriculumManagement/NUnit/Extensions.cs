@@ -147,7 +147,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         
         public static CreateCurriculumChapterTopicModel ToCreateModel(this CurriculumChapterTopic curriculumChapterTopic) {
             return new CreateCurriculumChapterTopicModel(
-                curriculumChapterTopic.MaxScore,
+                curriculumChapterTopic.ThresholdOfSuccess,
                 curriculumChapterTopic.BlockTopicAtTesting,
                 curriculumChapterTopic.BlockCurriculumAtTesting,
                 curriculumChapterTopic.TestStartDate,

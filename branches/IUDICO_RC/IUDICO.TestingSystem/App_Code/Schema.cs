@@ -6539,6 +6539,10 @@ namespace IUDICO.TestingSystem.Schema
     /// <li><Fld>CompletionStatus</Fld></li>
     /// <li><Fld>CurriculumChapterTopicId</Fld></li>
     /// <li><Fld>FinishedTimestamp</Fld></li>
+    /// <li><Fld>IudicoCourseRef</Fld></li>
+    /// <li><Fld>MinScore</Fld></li>
+    /// <li><Fld>MaxScore</Fld></li>
+    /// <li><Fld>RawScore</Fld></li>
     /// <li><Fld>Score</Fld></li>
     /// <li><Fld>StartedTimestamp</Fld></li>
     /// <li><Fld>SuccessStatus</Fld></li>
@@ -6658,6 +6662,50 @@ namespace IUDICO.TestingSystem.Schema
         public const string FinishedTimestamp = "FinishedTimestamp";
 
         /// <summary>
+        /// Name of the IudicoCourseRef column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Int32
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string IudicoCourseRef = "IudicoCourseRef";
+
+        /// <summary>
+        /// Name of the MinScore column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Single
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string MinScore = "MinScore";
+
+        /// <summary>
+        /// Name of the MaxScore column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Single
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string MaxScore = "MaxScore";
+
+        /// <summary>
+        /// Name of the RawScore column on the <Typ>AllAttemptsResults</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Single
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string RawScore = "RawScore";
+
+        /// <summary>
         /// Name of the Score column on the <Typ>AllAttemptsResults</Typ> view.
         /// </summary>
         /// <remarks>
@@ -6685,6 +6733,9 @@ namespace IUDICO.TestingSystem.Schema
     /// <li><Fld>LearnerResponseBool</Fld></li>
     /// <li><Fld>LearnerResponseNumeric</Fld></li>
     /// <li><Fld>LearnerResponseString</Fld></li>
+    /// <li><Fld>MinScore</Fld></li>
+    /// <li><Fld>MaxScore</Fld></li>
+    /// <li><Fld>RawScore</Fld></li>
     /// <li><Fld>ScaledScore</Fld></li>
     /// <li><Fld>SuccessStatus</Fld></li>
     /// </ul>
@@ -6825,6 +6876,39 @@ namespace IUDICO.TestingSystem.Schema
         public const string InteractionType = "InteractionType";
 
         /// <summary>
+        /// Name of the MinScore column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Double
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string MinScore = "MinScore";
+
+        /// <summary>
+        /// Name of the MaxScore column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Double
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string MaxScore = "MaxScore";
+
+        /// <summary>
+        /// Name of the RawScore column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: Double
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string RawScore = "RawScore";
+
+        /// <summary>
         /// Name of the ScaledScore column on the <Typ>InteractionResultsByAttempt</Typ> view.
         /// </summary>
         /// <remarks>
@@ -6845,6 +6929,17 @@ namespace IUDICO.TestingSystem.Schema
         [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
         [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
         public const string AttemptIdParam = "AttemptIdParam";
+
+        /// <summary>
+        /// Name of the PrimaryResourceFromManifest column on the <Typ>InteractionResultsByAttempt</Typ> view.
+        /// </summary>
+        /// <remarks>
+        /// Column type: String
+        /// </remarks>
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1726")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1702")]
+        [SuppressMessageAttribute("Microsoft.Naming", "CA1704")]
+        public const string PrimaryResourceFromManifest = "PrimaryResourceFromManifest";
     }
 
     /// <summary>

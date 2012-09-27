@@ -486,4 +486,7 @@
   <data name="MaxScoreMustBeGreaterThanZero" xml:space="preserve">
     <value>Максимальна оцінка повинна бути більшою за нуль</value>
   </data>
+  <data name="ThresholdOfSuccess" xml:space="preserve">
+    <value>Поріг успішності (в %)</value>
+  </data>
 </root>

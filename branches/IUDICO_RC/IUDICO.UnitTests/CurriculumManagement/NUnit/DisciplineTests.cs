@@ -187,36 +187,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             AdvAssert.AreEqual(expectedNotSharedUsers, actualNotSharedUsers);
         }
 
-        [Test]
-        public void ImportExportDiscipline()
-        {
-            this.DataPreparer.CreateDisciplinesSet4();
-            var controller = GetController<DisciplineController>();
-            var filePath = controller.Export(this.DataPreparer.DisciplineIds[0]);
-
-            var fileUpload = new Mock<HttpPostedFileBase>();
-            fileUpload.SetupGet(item => item.FileName).Returns(filePath.FileName);
-            fileUpload.Setup(item => item.SaveAs(It.IsAny<string>()))
-                .Callback((string path) => File.Copy(fileUpload.Object.FileName, path));
-            controller.Import(string.Empty, fileUpload.Object);
-
-            var expectedDiscipline = DisciplineStorage.GetDiscipline(this.DataPreparer.DisciplineIds[0]);
-            var actualDiscipline = DisciplineStorage.GetDiscipline(this.DataPreparer.DisciplineIds.Last() + 1);
-            AdvAssert.AreEqual(expectedDiscipline, actualDiscipline);
-
-            var expectedChapters = DisciplineStorage.GetChapters(c => c.DisciplineRef == expectedDiscipline.Id);
-            var actualChapters = DisciplineStorage.GetChapters(c => c.DisciplineRef == actualDiscipline.Id);
-            AdvAssert.AreEqual(expectedChapters, actualChapters, false);
-
-            var expectedTopics = expectedChapters
-                .SelectMany(c => DisciplineStorage.GetTopics(t => t.ChapterRef == c.Id))
-                .ToList();
-            var actualTopics = actualChapters
-                .SelectMany(c => DisciplineStorage.GetTopics(t => t.ChapterRef == c.Id))
-                .ToList();
-            AdvAssert.AreEqual(expectedTopics, actualTopics, false);
-        }
-
          [Test]
          public void MakeDisciplineInvalid() {
              this.DataPreparer.CreateDisciplinesSet4();

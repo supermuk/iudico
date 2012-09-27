@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using IUDICO.Common;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Attributes;
@@ -10,11 +11,18 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using IUDICO.DisciplineManagement.Models.ViewDataClasses;
+using IUDICO.DisciplineManagement.Helpers;
 
 namespace IUDICO.DisciplineManagement.Controllers
 {
     public class DisciplineController : DisciplineBaseController
     {
+       private bool completeDownloading = true;
+       private int countOfCourses = 0;
+       private int countValidCourses = 0;
+       private int countInvalidCourses = 0;
+ 
+
         public DisciplineController(IDisciplineStorage disciplineStorage)
             : base(disciplineStorage)
         {
@@ -175,18 +183,103 @@ namespace IUDICO.DisciplineManagement.Controllers
             return new FilePathResult(path, "application/octet-stream") { FileDownloadName = importer.GetFileName(disciplineId) };
         }
 
+        [HttpGet]
+        [Allow(Role = Role.Teacher)]
+        public ActionResult Import()
+        {
+           return PartialView();
+        }
+
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Import(string action, HttpPostedFileBase fileUpload)
+        public ActionResult Import(HttpPostedFileBase file)
         {
-            if (fileUpload == null)
+            if (file == null)
             {
                 return View();
             }
+
             var importer = new ImportExportDiscipline(Storage);
-            importer.Import(fileUpload);
+            
+            importer.Import(file);
 
             return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public ActionResult Import(string path)
+        {
+           if (path == string.Empty)
+           {
+              return View();
+           }
+
+           var importer = new ImportExportDiscipline(Storage);
+
+           importer.Import(path);
+
+           return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Teacher)]
+        public ContentResult UploadFiles()
+        {
+          this.completeDownloading = true;
+          this.countOfCourses = 0;
+          this.countValidCourses = 0;
+          this.countInvalidCourses = 0;
+
+           var r = new List<ViewDataUploadFilesResult>();
+
+           string savedFileName = string.Empty;
+
+           if (Request.Files.Count > 1)
+           {
+                return Content("{\"message\":\"" + "You must select one file" + "\"}", "application/json");
+           }
+
+           foreach (string file in Request.Files)
+           {
+              HttpPostedFileBase hpf = Request.Files[file] as HttpPostedFileBase;
+              if (hpf.ContentLength == 0)
+                 continue;
+
+              if (Path.GetExtension(hpf.FileName) != ".zip")
+              {
+                 return Content("{\"message\":\"" + "You must select .zip file" + "\"}", "application/json");
+              }
+
+              savedFileName = Path.Combine(Server.MapPath("~/Data/Disciplines"), Path.GetFileName(hpf.FileName));
+              hpf.SaveAs(savedFileName); // Save the file
+
+              r.Add(new ViewDataUploadFilesResult()
+              {
+                 Name = hpf.FileName,
+                 Length = hpf.ContentLength,
+                 Type = hpf.ContentType
+              });
+
+              var importer = new ImportExportDiscipline(Storage);
+
+              if (importer.Validate(savedFileName))
+              {
+                 importer.Import(savedFileName);
+              }
+
+           }
+
+           return Content("{\"message\":\"" + "Uploading complete" + "\"}", "application/json");
+        }
+
+        [HttpGet]
+        [Allow(Role = Role.Teacher)]
+        public ContentResult ValidationInfo()
+        {
+           return Content("{\"message\":\"" + string.Format("{0}: {1}, {2}: {3}, {4}: {5}", Localization.GetMessage("countOfCourses"), this.countOfCourses, Localization.GetMessage("countValidCourses"), this.countValidCourses, Localization.GetMessage("countInvalidCourses"), this.countInvalidCourses) + "\"}", "application/json");
+           
         }
     }
 }

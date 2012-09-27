@@ -385,7 +385,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
                 {
                     CurriculumChapterRef = curriculumChapter.Id,
                     TopicRef = topic.Id,
-                    MaxScore = Constants.DefaultTopicMaxScore,
+                    ThresholdOfSuccess = Constants.DefaultThresholdOfSuccess,
                     BlockTopicAtTesting = false,
                     BlockCurriculumAtTesting = false
                 };
@@ -477,7 +477,7 @@ namespace IUDICO.CurriculumManagement.Models.Storage
             var db = this.GetDbContext();
             var oldTopicAssignment = GetCurriculumChapterTopic(db, curriculumChapterTopic.Id);
 
-            oldTopicAssignment.MaxScore = curriculumChapterTopic.MaxScore;
+            oldTopicAssignment.ThresholdOfSuccess = curriculumChapterTopic.ThresholdOfSuccess;
             oldTopicAssignment.BlockCurriculumAtTesting = curriculumChapterTopic.BlockCurriculumAtTesting;
             oldTopicAssignment.BlockTopicAtTesting = curriculumChapterTopic.BlockTopicAtTesting;
             oldTopicAssignment.TheoryStartDate = curriculumChapterTopic.TheoryStartDate;

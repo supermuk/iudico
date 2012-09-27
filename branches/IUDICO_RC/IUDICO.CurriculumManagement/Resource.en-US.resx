@@ -486,4 +486,7 @@
   <data name="MaxScoreMustBeGreaterThanZero" xml:space="preserve">
     <value>Maximal score must be greater than zero</value>
   </data>
+  <data name="ThresholdOfSuccess" xml:space="preserve">
+    <value>Threshold of success for topic (in %)</value>
+  </data>
 </root>

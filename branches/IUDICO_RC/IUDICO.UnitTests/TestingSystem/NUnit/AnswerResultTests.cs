@@ -30,6 +30,10 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
             const string CorrectResponse = "-328";
             InteractionType? learnerResponseType = Common.Models.Shared.Statistics.InteractionType.Numeric;
             float? scaledScore = 0.58f;
+            float? minScore = 0;
+            float? maxScore = 50;
+            float? rawScore = 29;
+           string primaryResourceFromManifest = "0.html";
 
 
             var answerResult = new AnswerResult(
@@ -43,7 +47,11 @@ namespace IUDICO.UnitTests.TestingSystem.NUnit
                 LearnerResponse,
                 CorrectResponse,
                 learnerResponseType,
-                scaledScore);
+                minScore,
+                maxScore,
+                rawScore,
+                scaledScore,
+                primaryResourceFromManifest);
 
             Assert.AreEqual(ActivityAttemptId, answerResult.ActivityAttemptId);
             Assert.AreEqual(ActivityPackageId, answerResult.ActivityPackageId);

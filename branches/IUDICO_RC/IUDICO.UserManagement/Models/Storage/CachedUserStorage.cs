@@ -61,7 +61,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<User> GetUsers()
         {
             return this.cacheProvider.Get(
-                "users", this.@lockObject, () => this.storage.GetUsers(), DateTime.Now.AddDays(1), "users");
+                "users", this.@lockObject, () => this.storage.GetUsers().ToList(), DateTime.Now.AddDays(1), "users");
         }
 
         public IEnumerable<User> GetUsers(Func<User, bool> predicate)
@@ -175,7 +175,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.cacheProvider.Get(
                 "users-group-" + group.Id,
                 this.lockObject,
-                () => this.storage.GetUsersInGroup(group),
+                () => this.storage.GetUsersInGroup(group).ToList(),
                 DateTime.Now.AddDays(1),
                 "users");
         }
@@ -185,7 +185,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.cacheProvider.Get(
                 "users-ngroup-" + group.Id,
                 this.lockObject,
-                () => this.storage.GetUsersNotInGroup(group),
+                () => this.storage.GetUsersNotInGroup(group).ToList(),
                 DateTime.Now.AddDays(1),
                 "users");
         }
@@ -253,7 +253,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.cacheProvider.Get(
                 "users-role-" + role,
                 this.lockObject,
-                () => this.storage.GetUsersInRole(role),
+                () => this.storage.GetUsersInRole(role).ToList(),
                 DateTime.Now.AddDays(1),
                 "users");
         }
@@ -263,7 +263,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.cacheProvider.Get(
                 "roles-user-" + username,
                 this.lockObject,
-                () => this.storage.GetUserRoles(username),
+                () => this.storage.GetUserRoles(username).ToList(),
                 DateTime.Now.AddDays(1),
                 "roles");
         }
@@ -289,7 +289,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.cacheProvider.Get(
                 "roles-user-avail-" + user.Id,
                 this.lockObject,
-                () => this.storage.GetRolesAvailableToUser(user),
+                () => this.storage.GetRolesAvailableToUser(user).ToList(),
                 DateTime.Now.AddDays(1),
                 "roles");
         }
@@ -321,7 +321,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<Group> GetGroups()
         {
             return this.cacheProvider.Get(
-                "groups", this.lockObject, () => this.storage.GetGroups(), DateTime.Now.AddDays(1), "groups");
+                "groups", this.lockObject, () => this.storage.GetGroups().ToList(), DateTime.Now.AddDays(1), "groups");
         }
 
         public Group GetGroup(int id)
@@ -372,7 +372,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.cacheProvider.Get(
                 "groups-user-" + user.Id,
                 this.lockObject,
-                () => this.storage.GetGroupsByUser(user),
+                () => this.storage.GetGroupsByUser(user).ToList(),
                 DateTime.Now.AddDays(1),
                 "groups",
                 "user-" + user.Id);
@@ -383,7 +383,7 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.cacheProvider.Get(
                 "groups-nuser-" + user.Id,
                 this.lockObject,
-                () => this.storage.GetGroupsAvailableToUser(user),
+                () => this.storage.GetGroupsAvailableToUser(user).ToList(),
                 DateTime.Now.AddDays(1),
                 "groups",
                 "user-" + user.Id);
