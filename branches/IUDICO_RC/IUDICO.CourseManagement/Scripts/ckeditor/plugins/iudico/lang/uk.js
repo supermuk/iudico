@@ -39,6 +39,8 @@
         type: 'Type',
         toolbar: 'IUDICO',
         simple: 'Simple',
-        compile: 'Compile'
+        compile: 'Compile',
+        
+        singleCase: 'Один варіант відповіді'
     }
 });

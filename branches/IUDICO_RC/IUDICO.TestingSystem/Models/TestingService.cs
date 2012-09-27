@@ -24,7 +24,7 @@ namespace IUDICO.TestingSystem.Models
 
         #region ITestingService interface implementation
 
-        public AttemptResult GetResult(long attemptId)
+       public AttemptResult GetResult(long attemptId)
         {
             return this.MlcProxy.GetResult(attemptId);
         }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Reflection;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Notifications;
@@ -24,8 +25,13 @@ namespace IUDICO.CourseManagement.Models.Storage
     {
         protected readonly ILmsService LmsService;
         protected readonly LinqLogger Logger;
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly string[] templateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf", "sh_main.min.js", "sh_cpp.min.js", "sh_csharp.min.js", "sh_java.min.js", "sh_xml.min.js", "sh_style.css", "wait.gif" };
+        private readonly string[] templateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", 
+
+"jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf", "sh_main.min.js", "sh_cpp.min.js", "sh_csharp.min.js", "sh_java.min.js", 
+
+"sh_xml.min.js", "sh_style.css", "wait.gif" };
 
         private const string ResourceIdForTemplateFiles = "TemplateFiles";
 
@@ -44,9 +50,9 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = new DBDataContext();
 
-            #if DEBUG
+#if DEBUG
                 db.Log = this.Logger;
-            #endif
+#endif
 
             return db;
         }
@@ -98,7 +104,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         public virtual void UpdateCourseUsers(int courseId, IEnumerable<Guid> userIds)
         {
             var db = this.GetDbContext();
-            
+
             var oldUsers = db.CourseUsers.Where(i => i.CourseRef == courseId);
             db.CourseUsers.DeleteAllOnSubmit(oldUsers);
 
@@ -114,9 +120,9 @@ namespace IUDICO.CourseManagement.Models.Storage
         public virtual void DeleteCourseUsers(Guid userId)
         {
             var db = this.GetDbContext();
-            
+
             var courseUsers = db.CourseUsers.Where(i => i.UserRef == userId);
-            
+
             db.CourseUsers.DeleteAllOnSubmit(courseUsers);
             db.SubmitChanges();
         }
@@ -144,6 +150,187 @@ namespace IUDICO.CourseManagement.Models.Storage
             this.LmsService.Inform(CourseNotifications.CourseCreate, course);
 
             return course.Id;
+        }
+
+        public virtual int AddCourseInfo(IudicoCourseInfo courseInfo)
+        {
+            var db = this.GetDbContext();
+
+            CoursesInfo ci = new CoursesInfo
+            {
+                CourseId = courseInfo.Id,
+                OverallMaxScore = (float)courseInfo.OverallMaxScore
+            };
+
+            db.CoursesInfo.InsertOnSubmit(ci);
+            db.SubmitChanges();
+
+            foreach (IudicoNodeInfo nodeInfo in courseInfo.NodesInfo)
+            {
+                NodesInfo ni = new NodesInfo
+                {
+                    CourseId = courseInfo.Id,
+                    NodeId = nodeInfo.Id,
+                    MaxScore = (float)nodeInfo.MaxScore
+                };
+
+                db.NodesInfo.InsertOnSubmit(ni);
+                db.SubmitChanges();
+
+                foreach (IudicoQuestionInfo questionInfo in nodeInfo.QuestionsInfo)
+                {
+                    QuestionsInfo qi = new QuestionsInfo
+                    {
+                        NodeId = nodeInfo.Id,
+                        Text = questionInfo.QuestionText,
+                        MaxScore = (float)questionInfo.MaxScore
+                    };
+
+                    switch (questionInfo.Type)
+                    {
+                        case IudicoQuestionType.IudicoSimple:
+                            qi.Type = 1;
+                            break;
+
+                        case IudicoQuestionType.IudicoChoice:
+                            qi.Type = 2;
+                            break;
+
+                        case IudicoQuestionType.IudicoCompile:
+                            qi.Type = 3;
+                            break;
+                    }
+
+                    db.QuestionsInfo.InsertOnSubmit(qi);
+                    db.SubmitChanges();
+
+                    switch (questionInfo.Type)
+                    {
+                        case IudicoQuestionType.IudicoSimple:
+                            SimpleQuestion sq = new SimpleQuestion
+                            {
+                                QuestionId = qi.Id,
+                                CorrectAnswer = (questionInfo as IudicoSimpleQuestion).CorrectAnswer
+                            };
+
+                            db.SimpleQuestions.InsertOnSubmit(sq);
+                            db.SubmitChanges();
+                            break;
+
+                        case IudicoQuestionType.IudicoChoice:
+                            ChoiceQuestionsCorrectChoice cqcc = new ChoiceQuestionsCorrectChoice
+                            {
+                                QuestionId = qi.Id,
+                                CorrectChoice = (questionInfo as IudicoChoiceQuestion).CorrectChoice
+                            };
+
+                            db.ChoiceQuestionsCorrectChoices.InsertOnSubmit(cqcc);
+                            db.SubmitChanges();
+
+                            foreach (var option in (questionInfo as IudicoChoiceQuestion).Options)
+                            {
+                                ChoiceQuestionsOption cqo = new ChoiceQuestionsOption
+                                {
+                                    QuestionId = qi.Id,
+                                    Option = option.Item1,
+                                    Description = option.Item2
+                                };
+
+                                db.ChoiceQuestionsOptions.InsertOnSubmit(cqo);
+                                db.SubmitChanges();
+                            }
+                            break;
+
+                        case IudicoQuestionType.IudicoCompile:
+                            for (int i = 0; i < (questionInfo as IudicoCompiledTest).NumberOfTests; ++i)
+                            {
+                                CompiledTestQuestion ctq = new CompiledTestQuestion
+                                {
+                                    QuestionId = qi.Id,
+                                    TestNumber = i,
+                                    TestInput = (questionInfo as IudicoCompiledTest).TestInputs[i].Item2,
+                                    TestOutput = (questionInfo as IudicoCompiledTest).TestOutputs[i].Item2
+                                };
+
+
+                                db.CompiledTestQuestions.InsertOnSubmit(ctq);
+                                db.SubmitChanges();
+                            }
+                            break;
+                    }
+                }
+            }
+
+            return courseInfo.Id;
+        }
+
+        public IudicoCourseInfo GetCourseInfo(int id)
+        {
+            var db = this.GetDbContext();
+
+            var courseInfo = new IudicoCourseInfo { Id = id };
+
+            var databaseNodesInfo = db.NodesInfo.Where(n => n.CourseId == id);
+            foreach (var ni in databaseNodesInfo)
+            {
+                var nodeInfo = new IudicoNodeInfo { CourseId = id, Id = ni.NodeId };
+                var databaseQuestionsInfo = db.QuestionsInfo.Where(q => q.NodeId == ni.NodeId);
+
+                foreach (var qi in databaseQuestionsInfo)
+                {
+                    IudicoQuestionInfo questionInfo = null;
+                    switch (qi.Type)
+                    {
+                        case 1:
+                            var simpleQuestion = db.SimpleQuestions.Single(q => q.QuestionId == qi.Id);
+
+                            questionInfo = new IudicoSimpleQuestion
+                            {
+                                QuestionText = qi.Text,
+                                MaxScore = qi.MaxScore,
+                                Type = IudicoQuestionType.IudicoSimple,
+                                CorrectAnswer = simpleQuestion.CorrectAnswer
+                            };
+                            break;
+
+                        case 2:
+                            var options = db.ChoiceQuestionsOptions.Where(q => q.QuestionId == qi.Id);
+                            var correctChoice = db.ChoiceQuestionsCorrectChoices.Single(q => q.QuestionId == qi.Id);
+
+                            questionInfo = new IudicoChoiceQuestion
+                            {
+                                QuestionText = qi.Text,
+                                MaxScore = qi.MaxScore,
+                                Type = IudicoQuestionType.IudicoChoice,
+                                CorrectChoice = correctChoice.CorrectChoice,
+                                Options = (from o in options
+                                           select new Tuple<string, string>(o.Option, o.Description)).ToList()
+                            };
+                            break;
+
+                        case 3:
+                            var compiledTests = db.CompiledTestQuestions.Where(q => q.QuestionId == qi.Id);
+
+                            questionInfo = new IudicoCompiledTest
+                            {
+                                QuestionText = qi.Text,
+                                MaxScore = qi.MaxScore,
+                                Type = IudicoQuestionType.IudicoCompile,
+                                TestInputs = (from ct in compiledTests
+                                              select new Tuple<string, string>("testInput" + ct.TestNumber, ct.TestInput)).ToList(),
+                                TestOutputs = (from ct in compiledTests
+                                               select new Tuple<string, string>("testOutput" + ct.TestNumber, ct.TestOutput)).ToList(),
+                            };
+                            break;
+                    }
+
+                    nodeInfo.QuestionsInfo.Add(questionInfo);
+                }
+
+                courseInfo.NodesInfo.Add(nodeInfo);
+            }
+
+            return courseInfo;
         }
 
         public virtual void UpdateCourse(int id, Course course)
@@ -207,8 +394,9 @@ namespace IUDICO.CourseManagement.Models.Storage
             db.SubmitChanges();
         }
 
-        public virtual string Export(int id)
+        public virtual string Export(int id, bool exportForPlayCourse = false)
         {
+
             var course = this.GetCourse(id);
 
             var path = this.GetCoursePath(id);
@@ -244,7 +432,15 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             foreach (var file in this.templateFiles)
             {
-                File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file));
+               try
+               {
+                  File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file), true);
+               }
+               catch (FileNotFoundException)
+               {
+                  continue;
+               }
+               
             }
 
             var helper = new ManifestManager();
@@ -265,11 +461,11 @@ namespace IUDICO.CourseManagement.Models.Storage
                 manifest.Organizations[0].Sequencing = (Sequencing)xml.DeserializeXElement(course.Sequencing);
             }
             var resource = new Resource
-                               {
-                                   Identifier = ResourceIdForTemplateFiles,
-                                   Files = this.templateFiles.Select(file => new ManifestModels.ResourceModels.File(file)).ToList(),
-                                   ScormType = ScormType.Asset
-                               };
+            {
+                Identifier = ResourceIdForTemplateFiles,
+                Files = this.templateFiles.Select(file => new ManifestModels.ResourceModels.File(file)).ToList(),
+                ScormType = ScormType.Asset
+            };
 
             manifest.Resources = ManifestManager.AddResource(manifest.Resources, resource);
 
@@ -278,13 +474,26 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             Zipper.CreateZip(path + ".zip", path);
 
+            if (exportForPlayCourse)
+            {
+                try
+                {
+                    IudicoCourseInfo ci = CourseParser.Parse(course, this);
+                    this.AddCourseInfo(ci);
+                }
+                catch (Exception ex)
+                {
+                    log.Error(string.Format("Exception message: {0}\nData: {1}\nHelp Link: {2}\nInner exception: {3}\nSource: {4}\nStack trace: {5}\nTarget site: {6}", ex.Message, ex.Data, ex.HelpLink, ex.InnerException, ex.Source, ex.StackTrace, ex.TargetSite));
+                }
+            }
+
             return path + ".zip";
         }
 
         protected Item AddSubItems(Item parentItem, Node parentNode, int courseId, ManifestManager helper, ref Manifest manifest)
         {
             var nodes = parentNode == null ? this.GetNodes(courseId) : this.GetNodes(courseId, parentNode.Id);
-            
+
             foreach (var node in nodes)
             {
                 if (node.IsFolder)
@@ -311,7 +520,7 @@ namespace IUDICO.CourseManagement.Models.Storage
                     resource.Href = node.Id + ".html";
 
                     manifest.Resources = ManifestManager.AddResource(manifest.Resources, resource);
-                 
+
                     var item = helper.CreateItem(resource.Identifier);
                     item.Title = node.Name;
 
@@ -332,15 +541,20 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var zipName = Path.GetFileNameWithoutExtension(path);
 
+            this.Import(path, zipName, owner);
+        }
+
+        public virtual void Import(string path, string courseName, string owner)
+        {
             var course = new Course
-                             {
-                                 Name = zipName,
-                                 Owner = owner,
-                                 Locked = true
-                             };
+            {
+                Name = courseName,
+                Owner = owner,
+                Locked = true
+            };
 
             this.AddCourse(course);
-            
+
             File.Copy(path, this.GetCoursePath(course.Id) + ".zip");
         }
 
@@ -360,9 +574,8 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             Zipper.ExtractZipFile(coursePath + ".zip", courseTempPath);
 
-            var reader = new XmlTextReader(new FileStream(manifestPath, FileMode.Open));
-            var manifest = Manifest.Deserialize(reader);
-            
+            var manifest = Manifest.Deserialize(manifestPath);
+
             var importer = new Importer(manifest, course, this);
 
             importer.Import();
@@ -484,7 +697,16 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             if (!node.IsFolder)
             {
-                @File.Delete(this.GetNodePath(id));
+                @File.Delete(this.GetNodePath(id) + ".html");
+            }
+            else
+            {
+                var childNodes = db.Nodes.Where(n => n.ParentId == node.Id);
+
+                foreach (var childNode in childNodes)
+                {
+                    this.DeleteNode(childNode.Id);
+                }
             }
 
             db.Nodes.DeleteOnSubmit(node);
@@ -521,22 +743,22 @@ namespace IUDICO.CourseManagement.Models.Storage
             var db = this.GetDbContext();
 
             var newnode = new Node
-                              {
-                                  CourseId = node.CourseId,
-                                  Name = node.Name,
-                                  ParentId = parentId,
-                                  IsFolder = node.IsFolder,
-                                  Position = position
-                              };
+            {
+                CourseId = node.CourseId,
+                Name = node.Name,
+                ParentId = parentId,
+                IsFolder = node.IsFolder,
+                Position = position
+            };
 
 
             this.CopyNodes(node, newnode);
 
             this.AddNode(node);
-/*
-            db.Nodes.InsertOnSubmit(newnode);
-            db.SubmitChanges();
-*/
+            /*
+                        db.Nodes.InsertOnSubmit(newnode);
+                        db.SubmitChanges();
+            */
             return newnode.Id;
         }
 
@@ -590,21 +812,48 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public virtual string GetCourseTempPath(int courseId)
         {
-            var path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+            string path = string.Empty;
+            try
+            {
+                path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+            }
+            catch
+            {
+                path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+                path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", string.Empty);
+            }
 
             return Path.Combine(path, @"Data\WorkFolder", courseId.ToString());
         }
 
         public virtual string GetTemplatesPath()
         {
-            var path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+            string path = string.Empty;
+            try
+            {
+                path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+            }
+            catch
+            {
+                path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+                path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", string.Empty);
+            }
 
             return Path.Combine(path, @"Data\CourseTemplate");
         }
 
         protected virtual string GetCoursesPath()
         {
-            var path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+            string path = string.Empty;
+            try
+            {
+                path = HttpContext.Current == null ? System.Web.Hosting.HostingEnvironment.ApplicationPhysicalPath : HttpContext.Current.Request.PhysicalApplicationPath;
+            }
+            catch
+            {
+                path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+                path = path.Replace("Plugins/IUDICO.CourseManagement.DLL", string.Empty);
+            }
 
             return Path.Combine(path, @"Data\Courses");
         }
@@ -675,7 +924,7 @@ namespace IUDICO.CourseManagement.Models.Storage
             return path;
         }
 
-        
+
         #endregion
 
         #endregion

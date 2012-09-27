@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Shared.Statistics;
 using IUDICO.Common.Models.Shared;
@@ -23,12 +24,14 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         private readonly List<AttemptResult> lastAttempts;
         private readonly IEnumerable<User> selectedGroupStudents;
         private readonly IEnumerable<CurriculumChapterTopic> selectedCurriculumChapterTopics;
+        private readonly ILmsService lmsService;
 
         #endregion
 
         public TopicInfoModel(int groupId, int curriculumId, ILmsService lmsService)
         {
             this.lastAttempts = new List<AttemptResult>();
+            this.lmsService = lmsService;
 
             this.curriculumId = curriculumId;
 
@@ -73,9 +76,8 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                         x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id);
                 if (attemptResult != null)
                 {
-                    var result = attemptResult.Score.ToPercents();
-                    
-                    return result.HasValue ? Math.Round((double)result, 2) : 0;
+                    var result = attemptResult.Score.RawScore;
+                    return result.HasValue ? result.Value : 0;
                 }
                 
                 return 0;
@@ -94,11 +96,11 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                 {
                     if (this.lastAttempts.Count(x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id) != 0)
                     {
-                        var value = this.lastAttempts.First(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id).Score.ToPercents();
+                        var value = this.lastAttempts.First(x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id).Score.RawScore;
                         
                         if (value.HasValue)
                         {
-                            result += Math.Round((double)value, 2);
+                            result += value.Value;
                         }
                     }
                 }
@@ -107,14 +109,81 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             return result;
         }
 
-        public double GetAllTopicsInSelectedDisciplineMaxMark()
+        public double GetAllTopicsInSelectedDisciplineMaxMark(User student)
         {
-            return 100 * this.selectedCurriculumChapterTopics.Count();
+            double result = 0;
+
+            if (this.lastAttempts.Count != 0)
+            {
+                foreach (var curriculumChapterTopic in this.SelectedCurriculumChapterTopics)
+                {
+                    if (this.lastAttempts.Count(x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id) != 0)
+                    {
+                        var attemptResult =
+                            this.lastAttempts.First(
+                                x => x.User.Id == student.Id & x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id);
+                        var courseId = attemptResult.IudicoCourseRef;
+                        var answerResults = this.lmsService.FindService<ITestingService>().GetAnswers(attemptResult);
+
+                        var courseInfo = this.lmsService.FindService<ICourseService>().GetCourseInfo(courseId);
+
+                        double maxScore = 0;
+                        foreach (var node in courseInfo.NodesInfo)
+                        {
+                            if (answerResults.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", string.Empty)) == node.Id))
+                            {
+                                maxScore += node.MaxScore;
+                            }
+                        }
+
+
+                        result += maxScore;
+                    }
+                }
+            }
+
+            return result;
         }
 
-        public double GetMaxResutForTopic(CurriculumChapterTopic curriculumChapterTopic)
+        public double GetMaxResutForTopic(User student, CurriculumChapterTopic curriculumChapterTopic)
         {
-            return 100;
+            if (this.AllAttempts.Count != 0)
+            {
+                var attemptResult =
+                    this.AllAttempts.SingleOrDefault(
+                        x => x.User.Id == student.Id && x.CurriculumChapterTopic.Id == curriculumChapterTopic.Id);
+                if (attemptResult != null)
+                {
+                    var answerResults = lmsService.FindService<ITestingService>().GetAnswers(attemptResult);
+                    var courseId = attemptResult.IudicoCourseRef;
+                    var courseInfo = this.lmsService.FindService<ICourseService>().GetCourseInfo(courseId);
+
+                    double maxScore = 0;
+                    foreach (var node in courseInfo.NodesInfo)
+                    {
+                        if (answerResults.Any(answer => int.Parse(answer.PrimaryResourceFromManifest.Replace(".html", "")) == node.Id))
+                        {
+                            maxScore += node.MaxScore;
+                        }
+                    }
+
+                    return maxScore;
+                }
+
+                return 0;
+            }
+
+            return 0;
+        }
+
+        public double GetPercentScore(User student)
+        {
+            var res = this.GetStudentResultForAllTopicsInSelectedDiscipline(student);
+            var resall = this.GetAllTopicsInSelectedDisciplineMaxMark(student);
+
+            if (resall == 0)
+                return 0;
+            return res / resall * 100;
         }
 
         public char Ects(double percent)

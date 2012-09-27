@@ -15,6 +15,7 @@
     <link href="<%= Html.ResolveUrl("/Content/ui-lightness/jquery-ui-1.8.20.custom.css") %>" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery-ui.css") %>" id="theme" />
     <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/jquery.fileupload-ui.css") %>" />
+    <link rel="stylesheet" href="<%= Html.ResolveUrl("~/Content/ui.multichoice.css") %>" />
 
     <script src="<%= Html.ResolveUrl("~/Scripts/lms.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.layout.js") %>" type="text/javascript"></script>
@@ -23,7 +24,8 @@
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.cookie.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.hotkeys.js") %>" type="text/javascript"></script>
     <script src="<%= Html.ResolveUrl("~/Scripts/jquery/jquery.jstree.js") %>" type="text/javascript"></script>
-    <script src="<%= Html.ResolveUrl("/Scripts/jquery/jquery-ui-1.8.5.js") %>"></script>
+    <script src="<%= Html.ResolveUrl("/Scripts/jquery/jquery-ui-1.8.5.js") %>" type="text/javascript"></script>
+    <script src="<%= Html.ResolveUrl("~/Scripts/multiChoiceWidget.js") %>" type="text/javascript"></script>
 
     <script type="text/javascript">
 
@@ -82,8 +84,9 @@
                     filebrowserFlashUploadUrl : '<%= Html.ResolveUrl("~/Scripts/ckfinder/core/connector/aspx/connector.aspx?command=QuickUpload&type=Flash") %>' + '&courseId=' + currentCourseId + '&nodeId=' + nodeId
                     
                 });
-                $.data($editor, 'node-id', nodeId);
                 
+                $.data($editor, 'node-id', nodeId);
+
                 $editor.parent('form').bind('save', function (e) {
                     //e.preventDefault();
 
@@ -94,9 +97,10 @@
                     $ckEditor.updateElement();
                     data = $ckEditor.getData();
                     $ckEditor.resetDirty();
-
                     $.post("<%: Url.Action("Edit", "Node") %>", { id: id, data: data });
                 });
+            } else {
+                $.data($editor, 'node-id', nodeId);
             }
 
             return $editor;
@@ -242,7 +246,11 @@
                                 "separator_before": false,
                                 "separator_after": false,
                                 "label": "<%=Localization.GetMessage("Delete") %>",
-                                "action": function (obj) { if (this.is_selected(obj)) { this.remove(); } else { this.remove(obj); } }
+                                "action": function (obj) { var answer = confirm("<%=String.Concat(Localization.GetMessage("AreYouSureYouWantToDelete")," ",Localization.GetMessage("SelectedNodes")) %>");
+                if (answer == false) {
+                    return false;
+                }
+                                    if (this.is_selected(obj)) { this.remove(); } else { this.remove(obj); } }
                             },
                             "cut": {
                                 "separator_before": true,
@@ -292,11 +300,6 @@
 				});
 		    })
             .bind("remove.jstree", function (e, data) {
-                var answer = confirm("<%=String.Concat(Localization.GetMessage("AreYouSureYouWantToDelete")," ",Localization.GetMessage("SelectedNodes")) %>");
-                if (answer == false) {
-                    return false;
-                }
-                
                 data.rslt.obj.each(function () {
 	                $.ajax({
 	                    async : true,

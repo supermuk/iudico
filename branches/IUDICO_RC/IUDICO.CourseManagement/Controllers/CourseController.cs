@@ -4,9 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.IO;
+using System.Xml.Serialization;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
 using IUDICO.CourseManagement.Models;
+using IUDICO.CourseManagement.Models.ManifestModels;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
 using IUDICO.CourseManagement.Models.Storage;
 using IUDICO.Common.Models.Services;
 using IUDICO.Common.Models.Attributes;
@@ -14,7 +17,7 @@ using IUDICO.Common.Models.Attributes;
 namespace IUDICO.CourseManagement.Controllers
 {
     using IUDICO.Common;
-
+   
     public class CourseController : CourseBaseController
     {
         private readonly ICourseStorage storage;
@@ -29,11 +32,10 @@ namespace IUDICO.CourseManagement.Controllers
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
         public ActionResult Index()
         {
-            var userId = this.userService.GetUsers().Single(i => i.Username == this.User.Identity.Name).Id;
-
-            var sharedCourses = this.storage.GetCourses(userId);
-            var courses = this.storage.GetCourses(User.Identity.Name);
             var currentUser = this.userService.GetCurrentUser();
+
+            var sharedCourses = this.storage.GetCourses(currentUser.Id);
+            var courses = this.storage.GetCourses(User.Identity.Name);
             var all = sharedCourses.Union(courses);
 
             var owners = all.Select(i => i.Owner).Distinct().ToList();
@@ -77,6 +79,7 @@ namespace IUDICO.CourseManagement.Controllers
                 {
                     course.Owner = this.userService.GetCurrentUser().Username;
                     var courseId = this.storage.AddCourse(course);
+                    this.ApplyDefaultPattern(course);
 
                     var model = this.ToViewCourseModel(course);
 
@@ -90,6 +93,21 @@ namespace IUDICO.CourseManagement.Controllers
                 return Json(new { success = false, html = ex.Message });
             }
 
+        }
+
+        private void ApplyDefaultPattern(Course course)
+        {
+            var xml = new XmlSerializer(typeof(Sequencing));
+
+            var xelement = course.Sequencing;
+
+            var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
+
+
+            sequencing = SequencingPatternManager.ApplyDefaultChapterSequencing(sequencing);
+
+            course.Sequencing = xml.SerializeToXElemet(sequencing);
+            this.storage.UpdateCourse(course.Id, course);
         }
 
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
@@ -191,11 +209,11 @@ namespace IUDICO.CourseManagement.Controllers
 
         [HttpPost]
         [Allow(Role = Role.Teacher | Role.CourseCreator)]
-        public JsonResult Delete(int[] courseIds)
+        public JsonResult Delete(List<int> courseIds)
         {
             try
             {
-                this.storage.DeleteCourses(new List<int>(courseIds));
+                this.storage.DeleteCourses(courseIds);
 
                 return Json(new { success = true });
             }

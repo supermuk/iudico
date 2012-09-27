@@ -30,23 +30,33 @@ namespace IUDICO.LMS.Controllers
         public ActionResult Index()
         {
             var user = MvcApplication.StaticContainer.GetService<IUserService>().GetCurrentUser();
+
+            HomeModel homeModel;
             
-            var actions = MvcApplication.LmsService.GetActions();
+            if (user.Id == System.Guid.Empty)
+            {
+                homeModel = new HomeModel();
+            }
+            else
+            {
+                var actions = MvcApplication.LmsService.GetActions();
 
-            var description = this.GetTopicsDescriptions();
+                var description = this.GetTopicsDescriptions();
 
-            var groupedTopicsDescriptions = description.GroupBy(topicDescription_ => topicDescription_.Discipline.Name).ToDictionary(x => x.Key, x => x.GroupBy(y => y.Chapter.Name).ToDictionary(z => z.Key, z => z.ToList()));
+                var groupedTopicsDescriptions = description.GroupBy(topicDescription_ => topicDescription_.Discipline.Name).ToDictionary(x => x.Key, x => x.GroupBy(y => y.Chapter.Name).ToDictionary(z => z.Key, z => z.ToList()));
 
-            var ratings = MvcApplication.StaticContainer.GetService<IUserService>().GetRatings(user, description.Select(t => t.Topic.Id).ToList());
+                var ratings = MvcApplication.StaticContainer.GetService<IUserService>().GetRatings(user, description.Select(t => t.Topic.Id).ToList());
 
-            return View(
-                new HomeModel
+                homeModel = new HomeModel
                 {
                     Actions = actions,
                     TopicsDescriptions = description,
                     GroupedTopicsDescriptions = groupedTopicsDescriptions,
                     TopicsRatings = ratings.ToDictionary(r => r.TopicId, r => r.Rating)
-                });
+                };
+            }
+
+            return View(homeModel);
         }
 
         [OutputCache(Duration = 3600, VaryByParam = "none")]

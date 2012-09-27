@@ -1,93 +1,117 @@
 ﻿namespace IUDICO.Common.Models.Shared.Statistics
 {
-    /// <summary>
-    /// Represents answer (correct and user's) per one attempt over the activity.
-    /// </summary>
-    public class AnswerResult
-    {
-        #region Public Properties
-        
-        /// <summary>
-        /// Identifier of Attempt performed over Activity (Item in manifest).
-        /// </summary>
-        public long ActivityAttemptId { get; protected set; }
+   /// <summary>
+   /// Represents answer (correct and user's) per one attempt over the activity.
+   /// </summary>
+   public class AnswerResult
+   {
+      #region Public Properties
 
-        /// <summary>
-        /// Identifier of related Activity(Item in manifest).
-        /// </summary>
-        public long ActivityPackageId { get; protected set; }
+      /// <summary>
+      /// Identifier of Attempt performed over Activity (Item in manifest).
+      /// </summary>
+      public long ActivityAttemptId { get; protected set; }
 
-        /// <summary>
-        /// Title of activity. Represents "title" attribute from manifest's item node.
-        /// </summary>
-        public string ActivityTitle { get; protected set; }
+      /// <summary>
+      /// Identifier of related Activity(Item in manifest).
+      /// </summary>
+      public long ActivityPackageId { get; protected set; }
 
-        /// <summary>
-        /// Identifier of Interaction.
-        /// </summary>
-        public long? InteractionId { get; protected set; }
-        
-        /// <summary>
-        /// Represents result of one user's attempt on one topic(course).
-        /// </summary>
-        public AttemptResult AttemptResult { get; protected set; }
-        
-        /// <summary>
-        /// Represents response (string/decimal/boolean) 
-        /// user(SCO in fact) specified while performing attempt over activity.
-        /// </summary>
-        public object LearnerResponse { get; protected set; }
-        
-        /// <summary>
-        /// String value, represents correct response, which SCO specified
-        /// while user was attempting activity.
-        /// </summary>
-        public string CorrectResponse { get; protected set; }
-        
-        /// <summary>
-        /// Type of learner response.
-        /// Consider using this while casting LearnerResponse and comparing it with CorrectResponse.
-        /// May be Null. In that case string representation for Learner Response should match best.
-        /// </summary>
-        public InteractionType? LearnerResponseType { get; protected set; }
+      /// <summary>
+      /// Title of activity. Represents "title" attribute from manifest's item node.
+      /// </summary>
+      public string ActivityTitle { get; protected set; }
 
-        /// <summary>
-        /// Completion status - SCORM related.
-        /// Indicates whether activity is completed or incompleted.
-        /// </summary>
-        public CompletionStatus CompletionStatus { get; protected set; }
+      /// <summary>
+      /// Identifier of Interaction.
+      /// </summary>
+      public long? InteractionId { get; protected set; }
 
-        /// <summary>
-        /// Success status - SCORM related.
-        /// Indicates whether activity was passed or failed.
-        /// May be Null.
-        /// </summary>
-        public SuccessStatus? SuccessStatus { get; protected set; }
+      /// <summary>
+      /// Represents result of one user's attempt on one topic(course).
+      /// </summary>
+      public AttemptResult AttemptResult { get; protected set; }
 
-        /// <summary>
-        /// Float Nullable value represents scaled score, calculated while attempting activity.
-        /// </summary>
-        public float? ScaledScore { get; protected set; }
-        
-        #endregion
+      /// <summary>
+      /// Represents response (string/decimal/boolean) 
+      /// user(SCO in fact) specified while performing attempt over activity.
+      /// </summary>
+      public object LearnerResponse { get; protected set; }
 
-        #region Constructors
+      /// <summary>
+      /// String value, represents correct response, which SCO specified
+      /// while user was attempting activity.
+      /// </summary>
+      public string CorrectResponse { get; protected set; }
 
-        public AnswerResult(long activityAttempId, long activityPackageId, string activityTitle, long? interactionId, CompletionStatus completionStatus, SuccessStatus? successStatus, AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? scaledScore)
-        {
-            this.ActivityAttemptId = activityAttempId;
-            this.ActivityPackageId = activityPackageId;
-            this.ActivityTitle = activityTitle;
-            this.InteractionId = interactionId;
-            this.CompletionStatus = completionStatus;
-            this.SuccessStatus = successStatus;
-            this.AttemptResult = attempResult;
-            this.LearnerResponse = learnerResponse;
-            this.CorrectResponse = correctResponse;
-            this.LearnerResponseType = learnerResponseType;
-            this.ScaledScore = scaledScore;
-        }
+      /// <summary>
+      /// Type of learner response.
+      /// Consider using this while casting LearnerResponse and comparing it with CorrectResponse.
+      /// May be Null. In that case string representation for Learner Response should match best.
+      /// </summary>
+      public InteractionType? LearnerResponseType { get; protected set; }
 
-        #endregion
-    }
+      /// <summary>
+      /// Completion status - SCORM related.
+      /// Indicates whether activity is completed or incompleted.
+      /// </summary>
+      public CompletionStatus CompletionStatus { get; protected set; }
+
+      /// <summary>
+      /// Success status - SCORM related.
+      /// Indicates whether activity was passed or failed.
+      /// May be Null.
+      /// </summary>
+      public SuccessStatus? SuccessStatus { get; protected set; }
+
+      /// <summary>
+      /// Float Nullable value represents miniumum score, calculated while attempting activity.
+      /// </summary>
+      public float? MinScore { get; protected set; }
+
+      /// <summary>
+      /// Float Nullable value represents maximum score, calculated while attempting activity.
+      /// </summary>
+      public float? MaxScore { get; protected set; }
+
+      /// <summary>
+      /// Float Nullable value represents raw score, calculated while attempting activity.
+      /// </summary>
+      public float? RawScore { get; protected set; }
+
+      /// <summary>
+      /// Float Nullable value represents scaled score, calculated while attempting activity.
+      /// </summary>
+      public float? ScaledScore { get; protected set; }
+
+      /// <summary>
+      /// Contains scorm course page name.
+      /// </summary>
+      public string PrimaryResourceFromManifest { get; protected set; }
+
+      #endregion
+
+      #region Constructors
+
+      public AnswerResult(long activityAttempId, long activityPackageId, string activityTitle, long? interactionId, CompletionStatus completionStatus, SuccessStatus? successStatus, AttemptResult attempResult, object learnerResponse, string correctResponse, InteractionType? learnerResponseType, float? minScore, float? maxScore, float? rawScore, float? scaledScore, string primaryResourceFromManifest)
+      {
+         this.ActivityAttemptId = activityAttempId;
+         this.ActivityPackageId = activityPackageId;
+         this.ActivityTitle = activityTitle;
+         this.InteractionId = interactionId;
+         this.CompletionStatus = completionStatus;
+         this.SuccessStatus = successStatus;
+         this.AttemptResult = attempResult;
+         this.LearnerResponse = learnerResponse;
+         this.CorrectResponse = correctResponse;
+         this.LearnerResponseType = learnerResponseType;
+         this.MinScore = minScore;
+         this.MaxScore = maxScore;
+         this.RawScore = rawScore;
+         this.ScaledScore = scaledScore;
+         this.PrimaryResourceFromManifest = primaryResourceFromManifest;
+      }
+
+      #endregion
+   }
 }

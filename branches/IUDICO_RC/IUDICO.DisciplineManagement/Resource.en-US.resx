@@ -270,4 +270,10 @@
   <data name="Create" xml:space="preserve">
     <value>Create</value>
   </data>
+  <data name="ImportDiscipline" xml:space="preserve">
+    <value>Import discipline</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
+  </data>
 </root>

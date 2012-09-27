@@ -48,7 +48,7 @@ namespace IUDICO.Statistics.Models.Storage
                                     this.lmsService.FindService<ITestingService>().GetResults(
                                         usr, curriculumChapterTopic)
                             };
-                        topicResult.Res = topicResult.GetTopicResultScore();
+                        topicResult.Res = topicResult.GetTopicResultScore(lmsServiceParam);
                         disciplineResult.TopicResults.Add(topicResult);
                     }
 

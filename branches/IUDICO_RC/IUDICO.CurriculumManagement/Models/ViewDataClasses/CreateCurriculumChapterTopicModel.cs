@@ -1,4 +1,5 @@
-﻿using IUDICO.Common.Models.Shared;
+﻿using System.ComponentModel;
+using IUDICO.Common.Models.Shared;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -6,9 +7,8 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
 {
     public class CreateCurriculumChapterTopicModel
     {
-        [LocalizedDisplayName("MaxScore")]
-        [LocalizedRequired(ErrorMessage = "MaxScoreMustBeGreaterThanZero")]
-        public int MaxScore { get; set; }
+        [LocalizedDisplayName("ThresholdOfSuccess")]
+        public int ThresholdOfSuccess { get; set; }
 
         [LocalizedDisplayName("BlockTopicAtTesting")]
         public bool BlockTopicAtTesting { get; set; }
@@ -51,7 +51,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
         }
 
         public CreateCurriculumChapterTopicModel(
-            int maxScore,
+            int thresholdOfSuccess,
             bool blockTopicAtTesting,
             bool blockCurriculumAtTesting,
             DateTime? testStartDate,
@@ -59,7 +59,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
             DateTime? theoryStartDate,
             DateTime? theoryEndDate)
         {
-            this.MaxScore = maxScore;
+            this.ThresholdOfSuccess = thresholdOfSuccess;
             this.BlockTopicAtTesting = blockTopicAtTesting;
             this.BlockCurriculumAtTesting = blockCurriculumAtTesting;
 

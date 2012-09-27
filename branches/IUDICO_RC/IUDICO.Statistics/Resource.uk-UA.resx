@@ -261,4 +261,10 @@
   <data name="String1" xml:space="preserve">
     <value> </value>
   </data>
+  <data name="CorrectAnswersPercentage" xml:space="preserve">
+    <value>Відсоток правильних відповідей</value>
+  </data>
+  <data name="GainedPoints" xml:space="preserve">
+    <value>Набрані бали</value>
+  </data>
 </root>

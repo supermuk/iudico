@@ -15,7 +15,6 @@ using IUDICO.Common.Models.Notifications;
 using IUDICO.Common.Models.Services;
 using IUDICO.UserManagement.Models;
 using IUDICO.UserManagement.Models.Storage;
-using log4net;
 
 namespace IUDICO.UserManagement.Controllers
 {
@@ -79,9 +78,8 @@ namespace IUDICO.UserManagement.Controllers
                         else
                         {
                             FormsAuthentication.SetAuthCookie(user.Username, false);
-                            
-                            ILog log = LogManager.GetLogger(typeof(AccountController));
-                            log.Info("OpenID user " + user.Username + " logged in.");
+                            Logger log = Logger.Instance;
+                            log.Info(this, "OpenID user " + user.Username + " logged in.");
 
                             return this.Redirect("/");
                         }
@@ -156,8 +154,8 @@ namespace IUDICO.UserManagement.Controllers
                 {
                     FormsAuthentication.SetAuthCookie(loginUsername, false);
 
-                    ILog log = LogManager.GetLogger(typeof(AccountController));
-                    log.Info(loginUsername + " logged in.");
+                    Logger log = Logger.Instance;
+                    log.Info(this, loginUsername + " logged in.");
 
                     return this.Redirect("/");
                 }
