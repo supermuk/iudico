@@ -396,6 +396,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public virtual string Export(int id, bool exportForPlayCourse = false)
         {
+
             var course = this.GetCourse(id);
 
             var path = this.GetCoursePath(id);
@@ -431,7 +432,15 @@ namespace IUDICO.CourseManagement.Models.Storage
 
             foreach (var file in this.templateFiles)
             {
-                File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file), true);
+               try
+               {
+                  File.Copy(Path.Combine(coursePath, file), Path.Combine(path, file), true);
+               }
+               catch (FileNotFoundException)
+               {
+                  continue;
+               }
+               
             }
 
             var helper = new ManifestManager();
