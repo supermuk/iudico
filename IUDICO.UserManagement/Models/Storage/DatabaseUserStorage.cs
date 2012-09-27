@@ -131,7 +131,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public User GetUser(Func<User, bool> predicate)
         {
             // Workaround for getting users datatable from cache if it turned on
-            return this.lmsService.FindService<IUserService>().GetUsers().SingleOrDefault(predicate);
+            return this.lmsService.FindService<IUserService>().GetUsers().Where(u=>!u.Deleted).SingleOrDefault(predicate);
         }
 
         public IEnumerable<User> GetUsers()
