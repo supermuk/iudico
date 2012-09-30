@@ -276,6 +276,8 @@ namespace IUDICO.CourseManagement.Controllers
             path = Path.Combine(path, @"Data\WorkFolder");
             path = Path.Combine(path, Guid.NewGuid().ToString());
 
+				var tempFolderPath = path;
+
             Directory.CreateDirectory(path);
 
             path = Path.Combine(path, fileUpload.FileName.Split('\\').Last());
@@ -283,6 +285,8 @@ namespace IUDICO.CourseManagement.Controllers
             fileUpload.SaveAs(path);
 
             this.storage.Import(path, this.userService.GetCurrentUser().Username);
+
+				Directory.Delete(tempFolderPath, true); 
 
             return RedirectToAction("Index");
         }

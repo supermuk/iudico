@@ -269,6 +269,7 @@ namespace IUDICO.DisciplineManagement.Controllers
                  importer.Import(savedFileName);
               }
 
+				  System.IO.File.Delete(savedFileName);
            }
 
            return Content("{\"message\":\"" + "Uploading complete" + "\"}", "application/json");
