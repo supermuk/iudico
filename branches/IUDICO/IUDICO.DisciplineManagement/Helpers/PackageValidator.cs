@@ -29,7 +29,7 @@ namespace IUDICO.DisciplineManagement.Helpers
             catch (InvalidPackageException ex)
             {
                 messages.Add(string.Format("Package is invalid.{0}", ex.Message));
-
+					 stream.Close();
                 return messages;
             }
 
@@ -50,6 +50,7 @@ namespace IUDICO.DisciplineManagement.Helpers
                 messages.Add("Package is valid.");
             }
 
+				stream.Close();
             return messages;
         }
     }

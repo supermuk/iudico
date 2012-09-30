@@ -148,6 +148,7 @@ namespace IUDICO.DisciplineManagement.Models
                     this.storage.AddTopic(topic);
                 }
             }
+				reader.Close();
         }
 
         #endregion
@@ -199,6 +200,7 @@ namespace IUDICO.DisciplineManagement.Models
             var pathToExtract = Path.Combine(GetFolderPath(), Guid.NewGuid().ToString());
             Zipper.ExtractZipFile(path, pathToExtract);
             this.Deserialize(pathToExtract);
+				Directory.Delete(pathToExtract, true);
         }
 
         public void Import(string path)
@@ -206,6 +208,7 @@ namespace IUDICO.DisciplineManagement.Models
             var pathToExtract = Path.Combine(GetFolderPath(), Guid.NewGuid().ToString());
             Zipper.ExtractZipFile(path, pathToExtract);
             this.Deserialize(pathToExtract);
+				Directory.Delete(pathToExtract, true);
         }
 
         public bool Validate(HttpPostedFileBase file)
@@ -217,18 +220,22 @@ namespace IUDICO.DisciplineManagement.Models
             var pathToExtract = Path.Combine(GetFolderPath(), Guid.NewGuid().ToString());
             Zipper.ExtractZipFile(path, pathToExtract);
 
+				if (Directory.GetFiles(pathToExtract, "*.disc").Count() == 0)
+				{
+					Directory.Delete(pathToExtract,true);
+					return false;
+				}
+
             foreach (var courseFile in Directory.GetFiles(pathToExtract, "*.zip"))
             {
                 if (!PackageValidator.Validate(courseFile).Contains("Package is valid."))
                 {
+						  Directory.Delete(pathToExtract,true);
                     return false;
                 }
             }
-            if (Directory.GetFiles(pathToExtract, "*.disc").Count() == 0)
-            {
-                return false;
-            }
-
+           
+			  Directory.Delete(pathToExtract,true);
             return true;
         }
 
@@ -239,6 +246,7 @@ namespace IUDICO.DisciplineManagement.Models
 
             if (Directory.GetFiles(pathToExtract, "*.disc").Count() == 0)
             {
+					Directory.Delete(pathToExtract,true);
                return false;
             }
 
@@ -246,10 +254,12 @@ namespace IUDICO.DisciplineManagement.Models
             {
                 if (!PackageValidator.Validate(courseFile).Contains("Package is valid."))
                 {
+						 Directory.Delete(pathToExtract,true);
                     return false;
                 }
             }
-           
+
+				Directory.Delete(pathToExtract,true);
            return true;
         }
 
@@ -282,6 +292,8 @@ namespace IUDICO.DisciplineManagement.Models
                  countInvalidCourses++;
               }
            }
+
+			  Directory.Delete(pathToExtract,true);
 
            return messages;
         }
