@@ -31,6 +31,8 @@ namespace IUDICO.CourseManagement.Helpers
             {
                 messages.Add(string.Format("Package is invalid.{0}", ex.Message));
                 valid = false;
+                reader.Dispose();
+                stream.Close();
                 return messages;
             }
 
@@ -51,6 +53,9 @@ namespace IUDICO.CourseManagement.Helpers
             {
                 messages.Add("Package is valid.");
             }
+
+            reader.Dispose();
+            stream.Close();
 
             return messages;
         }
