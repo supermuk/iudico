@@ -42,7 +42,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void PackageValidatorValidPackageTest()
         {
             var path = Path.Combine(this.root, "Valid package.zip");
-            var res = PackageValidator.Validate(path);
+            bool valid;
+            var res = PackageValidator.Validate(path, out valid);
 
             Assert.IsTrue(res.Count == 1);
         }
@@ -51,7 +52,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void PackageValidatorInvalidPackageTest()
         {
             var path = Path.Combine(this.root, "Invalid package.zip");
-            var res = PackageValidator.Validate(path);
+            bool valid;
+            var res = PackageValidator.Validate(path, out valid);
 
             Assert.IsTrue(res.Count == 6);
         }
