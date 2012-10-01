@@ -271,12 +271,20 @@ namespace IUDICO.CourseManagement.Controllers
                 return this.Validate(fileUpload);
             }
 
+            if(!fileUpload.FileName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+            {
+                var message = new List<string> {"Wrong course extension. Should be *.zip."};
+                ViewData["validateResults"] = message;
+                return View();
+            }
+
+            
             var path = HttpContext.Request.PhysicalApplicationPath;
 
             path = Path.Combine(path, @"Data\WorkFolder");
             path = Path.Combine(path, Guid.NewGuid().ToString());
 
-				var tempFolderPath = path;
+            var tempFolderPath = path;
 
             Directory.CreateDirectory(path);
 
@@ -284,9 +292,21 @@ namespace IUDICO.CourseManagement.Controllers
 
             fileUpload.SaveAs(path);
 
+            if (fileUpload.FileName.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+            {
+                bool valid;
+                var messages = Helpers.PackageValidator.Validate(path, out valid);
+
+                if(valid == false)
+                {
+                    ViewData["validateResults"] = messages;
+                    return View();
+                }
+            }
+
             this.storage.Import(path, this.userService.GetCurrentUser().Username);
 
-				Directory.Delete(tempFolderPath, true); 
+            Directory.Delete(tempFolderPath, true); 
 
             return RedirectToAction("Index");
         }
@@ -306,7 +326,8 @@ namespace IUDICO.CourseManagement.Controllers
 
             fileUpload.SaveAs(path);
 
-            ViewData["validateResults"] = Helpers.PackageValidator.Validate(path);
+            bool valid;
+            ViewData["validateResults"] = Helpers.PackageValidator.Validate(path, out valid);
 
             return View("Import");
         }
