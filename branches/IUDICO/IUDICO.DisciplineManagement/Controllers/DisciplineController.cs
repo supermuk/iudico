@@ -187,7 +187,7 @@ namespace IUDICO.DisciplineManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ActionResult Import()
         {
-           return PartialView();
+           return View();
         }
 
         [HttpPost]
@@ -227,13 +227,6 @@ namespace IUDICO.DisciplineManagement.Controllers
         [Allow(Role = Role.Teacher)]
         public ContentResult UploadFiles()
         {
-          this.completeDownloading = true;
-          this.countOfCourses = 0;
-          this.countValidCourses = 0;
-          this.countInvalidCourses = 0;
-
-           var r = new List<ViewDataUploadFilesResult>();
-
            string savedFileName = string.Empty;
 
            if (Request.Files.Count > 1)
@@ -255,32 +248,23 @@ namespace IUDICO.DisciplineManagement.Controllers
               savedFileName = Path.Combine(Server.MapPath("~/Data/Disciplines"), Path.GetFileName(hpf.FileName));
               hpf.SaveAs(savedFileName); // Save the file
 
-              r.Add(new ViewDataUploadFilesResult()
-              {
-                 Name = hpf.FileName,
-                 Length = hpf.ContentLength,
-                 Type = hpf.ContentType
-              });
-
               var importer = new ImportExportDiscipline(Storage);
 
               if (importer.Validate(savedFileName))
               {
                  importer.Import(savedFileName);
               }
+              else
+              {
+                 System.IO.File.Delete(savedFileName);
+                 return Content("{\"message\":\"" + "Invalid discipline" + "\"}", "application/json");
+              }
 
 				  System.IO.File.Delete(savedFileName);
            }
 
-           return Content("{\"message\":\"" + "Uploading complete" + "\"}", "application/json");
+           return Content("{\"message\":\"" + "complete" + "\"}", "application/json");
         }
 
-        [HttpGet]
-        [Allow(Role = Role.Teacher)]
-        public ContentResult ValidationInfo()
-        {
-           return Content("{\"message\":\"" + string.Format("{0}: {1}, {2}: {3}, {4}: {5}", Localization.GetMessage("countOfCourses"), this.countOfCourses, Localization.GetMessage("countValidCourses"), this.countValidCourses, Localization.GetMessage("countInvalidCourses"), this.countInvalidCourses) + "\"}", "application/json");
-           
-        }
     }
 }

@@ -137,7 +137,7 @@
     <Content Include="Views\Chapter\Create.ascx" />
     <Content Include="Views\Discipline\Edit.ascx" />
     <Content Include="Views\Discipline\DisciplineRow.ascx" />
-    <Content Include="Views\Discipline\Import.ascx" />
+    <Content Include="Views\Discipline\Import.aspx" />
     <Content Include="Views\Discipline\Share.ascx" />
     <Content Include="Views\Topic\Create.ascx" />
     <Content Include="Views\Topic\Edit.ascx" />
