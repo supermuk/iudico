@@ -287,6 +287,7 @@
     <Content Include="Content\themes\smoothness\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\smoothness\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Content\themes\smoothness\jquery-ui-1.7.2.custom.css" />
+    <Content Include="Content\ui.progress-bar.css" />
     <Content Include="Content\ui.spinner.css" />
     <Content Include="Player\Frameset\Theme\1px.gif" />
     <Content Include="Player\Frameset\Theme\Error.gif" />
@@ -349,6 +350,7 @@
     <Content Include="Data\CourseTemplate\swfobject.js" />
     <Content Include="Data\CourseTemplate\updateplayer.swf" />
     <Content Include="Scripts\jquery\ui.spinner.min.js" />
+    <Content Include="Scripts\progress.js" />
     <Content Include="Views\Shared\log.xml">
       <SubType>Designer</SubType>
     </Content>

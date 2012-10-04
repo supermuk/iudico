@@ -336,20 +336,6 @@
             });
         }
         
-		  function importDiscipline() {
-           // openDialog("<%=Localization.GetMessage("ImportDiscipline") %>");
-				    $("#dialog").html('<span class="loading"><img src="/Content/Images/wait.gif"/></span>');
-					 $("#dialog").dialog("option", "title", "<%=Localization.GetMessage("ImportDiscipline") %>");
-					 $("#dialog").dialog("open");
-            $.get(
-                "/DisciplineAction/Import",
-                function (r) {
-                    $("#dialog").html(r);
-						  $("#dialog").dialog("open");
-                }
-            );
-        }
-
         function addDiscipline() {
             openDialog("<%=Localization.GetMessage("CreateDiscipline") %>");
 
@@ -497,7 +483,7 @@
     <div>
         <a href="#" onclick="addDiscipline();"><%=Localization.GetMessage("CreateNew")%></a>
         |
-		  <a id="ImportDiscipline" href="#" onclick="importDiscipline();"><%= Localization.GetMessage("Import") %></a>
+		  <a  href="/DisciplineAction/Import" ><%: Localization.GetMessage("Import")%></a>
         |
         <a id="DeleteMany" href="#" style="display:none"><%=Localization.GetMessage("DeleteSelected")%></a>
     </div>
