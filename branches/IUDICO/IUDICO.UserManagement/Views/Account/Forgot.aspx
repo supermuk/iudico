@@ -12,7 +12,7 @@
     <h2><%=Localization.GetMessage("RestorePassword")%></h2>
 
     <% using (Html.BeginForm()) {%>
-        <%:Html.ValidationSummary(true)%>
+        <%:Html.ValidationSummary(false)%>
 
         <fieldset>
             <legend><%=Localization.GetMessage("Fields")%></legend>
