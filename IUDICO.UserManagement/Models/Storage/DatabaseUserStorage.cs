@@ -153,7 +153,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = this.GetDbContext();
 
-            return db.Users.Count(u => u.Username == username && u.Deleted == false) > 0;
+            return db.Users.Count(u => u.Username == username) > 0;
         }
 
         public bool UserUniqueIdAvailable(string userUniqueId, Guid userId)
@@ -229,7 +229,7 @@ namespace IUDICO.UserManagement.Models.Storage
         {
             var db = this.GetDbContext();
 
-            var user = db.Users.SingleOrDefault(u => u.Email == restorePasswordModel.Email);
+            var user = db.Users.SingleOrDefault(u => u.Username == restorePasswordModel.Username && u.Email == restorePasswordModel.Email);
             var password = this.RandomPassword();
 
             user.Password = this.EncryptPassword(password);
@@ -483,6 +483,8 @@ namespace IUDICO.UserManagement.Models.Storage
             db.SubmitChanges();
 
             this.SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your details have been changed.");
+            
+            editModel.Id = user.Id;
         }
 
         public void ChangePassword(ChangePasswordModel changePasswordModel)

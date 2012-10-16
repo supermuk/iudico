@@ -184,7 +184,7 @@ namespace IUDICO.UserManagement.Controllers
             {
                 this.ModelState.AddModelError("ConfirmPassword", "Passwords don't match");
             }
-
+            
             if (!this.storage.UserOpenIdAvailable(registerModel.OpenId, Guid.Empty))
             {
                 this.ModelState.AddModelError("OpenId", Localization.GetMessage("OpenIdError"));
@@ -210,11 +210,11 @@ namespace IUDICO.UserManagement.Controllers
         [HttpPost]
         public ActionResult Forgot(RestorePasswordModel restorePasswordModel)
         {
-            var user = this.storage.GetUser(u => u.Email == restorePasswordModel.Email);
+            var user = this.storage.GetUser(u => u.Username == restorePasswordModel.Username && u.Email == restorePasswordModel.Email);
 
             if (user == null)
             {
-                this.ModelState.AddModelError("Email", "No user with such email");
+                this.ModelState.AddModelError("NotFound", "User with such username and email combination not found");
             }
 
             if (!this.ModelState.IsValid)
