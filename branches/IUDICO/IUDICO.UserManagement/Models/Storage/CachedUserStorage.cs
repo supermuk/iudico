@@ -264,7 +264,7 @@ namespace IUDICO.UserManagement.Models.Storage
                 "roles-user-" + username,
                 this.lockObject,
                 () => this.storage.GetUserRoles(username).ToList(),
-                DateTime.Now.AddDays(1),
+                DateTime.Now,
                 "roles");
         }
 
