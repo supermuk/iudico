@@ -23,7 +23,7 @@ namespace IUDICO.UserManagement.Models.Storage
         protected ILmsService lmsService;
         protected readonly LinqLogger Logger;
         protected const string AllowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789";
-        protected const string EmailHost = "192.168.0.47";
+        protected const string EmailHost = "192.168.0.225";
         protected const int EmailPort = 25;
         protected const string EmailUser = "report@tests-ua.com";
         /*protected const string EmailPassword = "iudico2012";*/

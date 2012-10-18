@@ -121,14 +121,14 @@ namespace IUDICO.UserManagement.Models.Storage
 
             var user = this.GetUser(id);
 
-            this.cacheProvider.Invalidate("user-id-" + user.Id, "user-name" + user.Username, "users");
+            this.cacheProvider.Invalidate("user-id-" + user.Id, "user-name-" + user.Username, "users");
         }
 
         public User RestorePassword(RestorePasswordModel restorePasswordModel)
         {
             var user = this.storage.RestorePassword(restorePasswordModel);
 
-            this.cacheProvider.Invalidate("user-id-" + user.Id, "user-name" + user.Username, "users");
+            this.cacheProvider.Invalidate("user-id-" + user.Id, "user-name-" + user.Username, "users");
 
             return user;
         }
