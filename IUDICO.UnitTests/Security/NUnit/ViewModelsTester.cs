@@ -15,11 +15,9 @@
         public void RoomsViewModelTest()
         {
             var rooms = new List<string> { "room1", "room2", "room3" };
-            const string CurrentRoom = "room1";
-
             var computers = new List<string> { "computer1", "computer2", "computer3", "computer4" };
-
             var unchosenComputers = new List<string> { "comuter3" };
+            const string CurrentRoom = "room1";
 
             var roomsViewModel = new RoomsViewModel
                 {
