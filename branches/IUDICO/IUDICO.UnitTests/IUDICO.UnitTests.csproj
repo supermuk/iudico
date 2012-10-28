@@ -215,7 +215,6 @@
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="TestingSystem\Selenium\ExSelenium.cs" />
     <Compile Include="TestingSystem\Selenium\TestingSystemSeleniumTests.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="UserManagement\NUnit\ActivateUser.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -268,19 +267,12 @@
     <Compile Include="UserManagement\Selenium\Account.cs" />
     <Compile Include="UserManagement\Selenium\AvatarSeleniumTester.cs" />
     <Compile Include="UserManagement\Selenium\EditAccount.cs" />
-    <Compile Include="UserManagement\Selenium\GroupControllerTest.cs" />
     <Compile Include="UserManagement\Selenium\LoginWithOpenId.cs" />
     <Compile Include="UserManagement\Selenium\Logout.cs" />
-    <Compile Include="UserManagement\Selenium\Models.cs" />
-    <Compile Include="UserManagement\Selenium\RemoveUserFromGroup.cs" />
-    <Compile Include="UserManagement\Selenium\RestorePassword.cs" />
-    <Compile Include="UserManagement\Selenium\SeeGroupsDetails.cs" />
-    <Compile Include="UserManagement\Selenium\SeeUsersDetails.cs" />
     <Compile Include="UserManagement\Selenium\StandartLogin.cs" />
     <Compile Include="UserManagement\Selenium\Register.cs" />
     <Compile Include="UserManagement\Selenium\UniqueUserId.cs" />
     <Compile Include="UserManagement\Selenium\UpgradeSeleniumTester.cs" />
-    <Compile Include="UserManagement\Selenium\UploadAvatarTester.cs" />
     <Compile Include="UserManagement\Selenium\Users.cs" />
     <Compile Include="UserManagement\UserManagementTests.cs" />
   </ItemGroup>
