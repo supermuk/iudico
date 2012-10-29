@@ -16,6 +16,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void GetListOfUsers()
         {
+            tests = new UserManagementTests();
+
             var users = new List<User> {
                     new User { Username = "name1", Email = "mail1@mail.com", Password = "123" }, 
                     new User { Username = "name2", Email = "mail2@mail.com", Password = "321" }, 
