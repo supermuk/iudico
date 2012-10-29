@@ -136,6 +136,8 @@
     <Content Include="Views\Group\Index.aspx" />
     <Content Include="Views\User\AddToGroup.aspx" />
     <Content Include="Views\User\AddToRole.aspx" />
+    <Content Include="Views\User\AddUsersToGroup.aspx" />
+    <Content Include="Views\User\AddUsersToRole.aspx" />
     <Content Include="Views\User\Create.aspx" />
     <Content Include="Views\User\CreatedMultiple.aspx" />
     <Content Include="Views\User\CreateMultiple.aspx" />

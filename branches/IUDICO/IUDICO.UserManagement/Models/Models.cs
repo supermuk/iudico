@@ -236,4 +236,5 @@ namespace IUDICO.UserManagement.Models
       [LocalizedDisplayName("Role")]
       public int RoleRef { get; set; }
    }
+
 }
