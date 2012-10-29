@@ -19,7 +19,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         public void InvalidateUser()
         {
             // original caching
-            this.tests.Storage.GetUsers();
+            //this.tests.Storage.GetUsers();
+            tests = UserManagementTests.Update();
 
             var temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass123" };
             this.tests.Storage.CreateUser(temp);
@@ -47,13 +48,14 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.DeleteUser(u => u.Id == temp.Id);
 
             Assert.IsNull(this.tests.Storage.GetUser("name"));
-            Assert.IsNull(this.tests.Storage.GetUsers().SingleOrDefault(u => u.Username == temp.Username));
         }
 
+        [Test]
         public void InvalidateGroup()
         {
             // original caching
-            this.tests.Storage.GetGroups();
+            //this.tests.Storage.GetGroups();
+            tests = UserManagementTests.Update();
 
             var group = new Group { Id = 1254, Name = "pmp41" };
 

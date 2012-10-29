@@ -12,6 +12,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateGroupValid()
         {
+            tests = UserManagementTests.Update();
+
             var group = new Group { Id = 12578, Name = "pmp41" };
 
             this.tests.Storage.CreateGroup(group);
@@ -26,6 +28,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateGroupInvalid()
         {
+            tests = UserManagementTests.Update();
+
             var group = new Group { Id = 4567, Name = "pma51" };
 
             this.tests.Storage.CreateGroup(group);

@@ -15,6 +15,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void EditUserValid()
         {
+            tests = new UserManagementTests();
+
             var temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass123" };
 
             this.tests.Storage.CreateUser(temp);
@@ -44,6 +46,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void EditUserInvalid()
         {
+            tests = new UserManagementTests();
+
             var temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass12" };
 
             this.tests.Storage.CreateUser(temp);
@@ -67,6 +71,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [ExpectedException(typeof(InvalidOperationException))]
         public void EditUserNonExisting()
         {
+            tests = new UserManagementTests();
+
             var temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass123" };
 
             var expected = new User
@@ -86,6 +92,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void EditUserValid2()
         {
+            tests = new UserManagementTests();
+
             var temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass123" };
 
             this.tests.Storage.CreateUser(temp);
@@ -113,6 +121,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void EditAccount()
         {
+            tests = new UserManagementTests();
+
             var temp = new User { Username = "name", Email = "ip@interlogic.com.ua", Password = "pass123" };
 
             this.tests.Storage.CreateUser(temp);

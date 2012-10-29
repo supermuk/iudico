@@ -98,7 +98,7 @@ namespace IUDICO.UnitTests.UserManagement
             return (new UserComparer()).Equals(user, expected);
         }
 
-        private UserManagementTests()
+        public UserManagementTests()
         {
             this.MockDataContext = new Mock<IDataContext>();
             this.MockLmsService = new Mock<ILmsService>();
@@ -117,6 +117,11 @@ namespace IUDICO.UnitTests.UserManagement
             this.MockLmsService.Setup(s => s.FindService<IUserService>().GetUsers()).Returns(DataContext.Users);
 
             this.ChangeCurrentUser("panza");
+        }
+
+        public static UserManagementTests Update()
+        {
+            return new UserManagementTests();
         }
 
         public static UserManagementTests GetInstance()
