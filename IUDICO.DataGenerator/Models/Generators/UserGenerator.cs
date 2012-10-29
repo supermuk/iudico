@@ -61,7 +61,7 @@ namespace IUDICO.DataGenerator.Models.Generators
                                     OpenId = "SeleniumStudent@mail.com",
                                     Name = "SeleniumStudent"
                                  },
-                           };
+                           }.Select(t => t).Where(t => !userStorage.GetUsers().Select(u => u.Username).Contains(t.Username));
          GroupOfStudents("Selenium testing system group",students,userStorage);
 
          User userWithoutGroup = new User
