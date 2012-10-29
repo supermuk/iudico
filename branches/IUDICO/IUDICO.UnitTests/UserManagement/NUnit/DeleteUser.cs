@@ -14,12 +14,14 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void DeleteUserExisting()
         {
-            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
+            tests = new UserManagementTests();
+            var temp = new User { Username = "Username", Email = "usermail@mail.com", Password = "123" };
 
+            
             this.tests.Storage.CreateUser(temp);
-            this.tests.Storage.DeleteUser(u => u.Username == "name");
+            this.tests.Storage.DeleteUser(u => u.Username == "Username");
 
-            Assert.IsTrue(this.tests.Storage.GetUser(u => u.Username == "name") == null);
+            Assert.IsTrue(this.tests.Storage.GetUser(u => u.Username == "Username") == null);
         }
 
         [Test]

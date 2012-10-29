@@ -16,7 +16,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.WaitForPageToLoad(this.SeleniumWait);
             selenium.Click("//a[contains(@href, '/Account/Edit')]");
             selenium.WaitForPageToLoad(this.SeleniumWait);
-            selenium.AttachFile("name=file", "http://dl.dropbox.com/u/38366179/test.jpg");
+            selenium.AttachFile("name=file", "http://avotarov.net/picture/avatarki/2/kartinki/34-3.jpg");
             selenium.Click("//form[contains(@action, '/Account/UploadAvatar')]//input[@type='submit']");
             selenium.WaitForPageToLoad(this.SeleniumWait);
             
@@ -33,7 +33,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.WaitForPageToLoad(this.SeleniumWait);
             selenium.Click("//a[contains(@href, '/User/Edit?id=')]");
             selenium.WaitForPageToLoad(this.SeleniumWait);
-            selenium.AttachFile("name=file", "http://dl.dropbox.com/u/38366179/test2.png");
+            selenium.AttachFile("name=file", "http://avotarov.net/picture/avatarki/2/kartinki/4-3.jpg");
             selenium.Click("//form[contains(@action, '/User/UploadAvatar')]//input[@type='submit']");
             selenium.WaitForPageToLoad(this.SeleniumWait);
 

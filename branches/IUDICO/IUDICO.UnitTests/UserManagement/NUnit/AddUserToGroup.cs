@@ -16,6 +16,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void AddExistingUserToExistingGroup()
         {
+            tests = UserManagementTests.Update();
             var group = new Group { Id = 12345678, Name = "pmi31" };
             this.tests.Storage.CreateGroup(group);
             group = this.tests.Storage.GetGroup(group.Id);
@@ -29,12 +30,14 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.RemoveUserFromGroup(group, temp);
             this.tests.Storage.DeleteGroup(group.Id);
+
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 
         [Test]
         public void AddExistingUserToNonExistingGroup()
         {
+            tests = UserManagementTests.Update();
             var group = new Group { Id = 12366, Name = "pmp51" };
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
@@ -50,6 +53,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void AddNonExistingUserToExistingGroup()
         {
+            tests = UserManagementTests.Update();
             var group = new Group { Id = 1266678, Name = "pmi31" };
             this.tests.Storage.CreateGroup(group);
             group = this.tests.Storage.GetGroup(group.Id);
@@ -57,7 +61,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.AddUserToGroup(group, temp);
             Assert.IsTrue(this.tests.Storage.GetGroupsByUser(temp).Contains(group));
-            Assert.AreEqual(null, this.tests.Storage.GetUser(temp.Username));
+            Assert.IsFalse(this.tests.Storage.GetUsersInGroup(group).Contains(temp));// this.tests.Storage.GetUser(temp.Username));
 
             this.tests.Storage.DeleteGroup(group.Id);
         }
@@ -65,18 +69,20 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void AddNonExistingUserToNonExistingGroup()
         {
+            tests = UserManagementTests.Update();
             var group = new Group { Id = 12366, Name = "pmp51" };
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
             this.tests.Storage.AddUserToGroup(group, temp);
 
-            Assert.AreEqual(null, this.tests.Storage.GetUser(temp.Username));
+            Assert.IsFalse(this.tests.Storage.GetUsersInGroup(group).Contains(temp));
             Assert.AreEqual(0, this.tests.Storage.GetGroupsByUser(temp).Count());
         }
 
         [Test]
         public void GetGroupsAvailableToExistingUser()
         {
+            tests = UserManagementTests.Update();
             var group = new Group { Id = 12345678, Name = "pmi31" };
             this.tests.Storage.CreateGroup(group);
             group = this.tests.Storage.GetGroup(group.Id);
@@ -87,15 +93,18 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             Assert.IsTrue(this.tests.Storage.GetGroupsAvailableToUser(temp).Contains(group));
 
-            this.tests.Storage.DeleteGroup(group.Id);
             this.tests.Storage.DeleteUser(u => u.Username == "name");
+
+            this.tests.Storage.DeleteGroup(group.Id);
         }
 
         [Test]
         public void GetGroupsAvailableToNonExistingUser()
         {
-            this.tests.MockDatabaseStorage.Setup(s => s.GetCurrentUser()).Returns(
-                this.tests.Storage.GetUser("panza"));
+            tests = UserManagementTests.Update();
+            //this.tests.MockDatabaseStorage.Setup(s => s.GetCurrentUser()).Returns(
+            //    this.tests.Storage.GetUser("panza"));
+
 
             var group = new Group { Id = 15678, Name = "pmi31" };
             this.tests.Storage.CreateGroup(group);
@@ -104,14 +113,36 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
             Assert.IsTrue(this.tests.Storage.GetGroupsAvailableToUser(temp).Contains(group));
-            Assert.AreEqual(null, this.tests.Storage.GetUser(temp.Username));
+            Assert.IsFalse(this.tests.Storage.UsernameExists("name"));
 
             this.tests.Storage.DeleteGroup(group.Id);
         }
 
+        //[Test]
+        //public void GetGroupsAvailableToUserInGroup()
+        //{
+        //    tests = UserManagementTests.Update();
+        //    var group = new Group { Id = 12345678, Name = "pmi31" };
+        //    this.tests.Storage.CreateGroup(group);
+        //    group = this.tests.Storage.GetGroup(group.Id);
+
+        //    var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
+        //    this.tests.Storage.CreateUser(temp);
+        //    temp = this.tests.Storage.GetUser(temp.Username);
+
+        //    this.tests.Storage.AddUserToGroup(group, temp);
+
+        //    Assert.AreEqual(0, this.tests.Storage.GetGroupsAvailableToUser(temp).Count());
+
+
+        //    this.tests.Storage.RemoveUserFromGroup(group, this.tests.Storage.GetUser(temp.Username));
+        //    this.tests.Storage.DeleteGroup(group.Id);
+        //}
+
         [Test]
         public void GetUsersInGroup()
         {
+            tests = UserManagementTests.Update();
             var group = new Group { Id = 12345678, Name = "pmi31", Deleted = false };
             this.tests.Storage.CreateGroup(group);
             group = this.tests.Storage.GetGroup(group.Id);
@@ -141,6 +172,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void GetUsersNotInGroup()
         {
+            tests = UserManagementTests.Update();
             var group = new Group { Id = 12345678, Name = "pmi31", Deleted = false };
             this.tests.Storage.CreateGroup(group);
             group = this.tests.Storage.GetGroup(group.Id);
