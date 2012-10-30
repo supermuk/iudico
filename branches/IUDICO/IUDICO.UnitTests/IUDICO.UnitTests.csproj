@@ -172,7 +172,6 @@
     <Compile Include="DataGenerator\Fakes\FakeDisciplineStorage.cs" />
     <Compile Include="DataGenerator\Fakes\FakeUserStorage.cs" />
     <Compile Include="DataGenerator\NUnit\CourseGenerationTest.cs" />
-    <Compile Include="DataGenerator\NUnit\DisciplineGenerationTest.cs" />
     <Compile Include="DataGenerator\NUnit\UserGenerationTest.cs" />
     <Compile Include="LMS\NUnit\ChangingLanguageTestsTests.cs" />
     <Compile Include="LMS\NUnit\ErrorHandlingTests.cs" />
@@ -477,6 +476,12 @@
     <Content Include="CourseManagement\Data\Templates\sco.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="CourseManagement\Data\Templates\sh_cpp.min.js" />
+    <Content Include="CourseManagement\Data\Templates\sh_csharp.min.js" />
+    <Content Include="CourseManagement\Data\Templates\sh_java.min.js" />
+    <Content Include="CourseManagement\Data\Templates\sh_main.min.js" />
+    <Content Include="CourseManagement\Data\Templates\sh_style.css" />
+    <Content Include="CourseManagement\Data\Templates\sh_xml.min.js" />
     <Content Include="CourseManagement\Data\Templates\swfobject.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

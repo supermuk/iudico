@@ -85,11 +85,13 @@ namespace IUDICO.DataGenerator
                var userStorage = new FakeDatabaseUserStorage(container.Resolve<ILmsService>(), "lex");
                var cachedUserStorage = new CachedUserStorage(userStorage, cacheProvider);
                var demoStorage = container.Resolve<IDemoStorage>();
+               
                UserGenerator.Generate(cachedUserStorage, demoStorage);
 
                this.GeneratePascal();
 
                this.GenerateForTestingSystemSeleniumTests();
+
 
                break;
 
