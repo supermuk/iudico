@@ -158,6 +158,8 @@ namespace IUDICO.UnitTests.DataGenerator.Fakes
          this.MockDataContext.SetupGet(c => c.GroupUsers).Returns(mockGroupUsers);
          this.MockDataContext.SetupGet(c => c.UserRoles).Returns(mockUserRoles);
          this.MockDataContext.SetupGet(c => c.UserTopicRatings).Returns(mockUserRatings);
+
+         this.MockLmsService.Setup(l => l.FindService<IUserService>().GetUsers()).Returns(this.DataContext.Users);
       }
    }
 }

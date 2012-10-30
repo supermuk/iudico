@@ -10,7 +10,13 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     [TestFixture]
     public class UniqueUserId
     {
-        protected UserManagementTests tests = UserManagementTests.GetInstance();
+        protected UserManagementTests tests;
+
+       [SetUp]
+       public void Setup()
+       {
+          tests = new UserManagementTests();
+       }
 
         [Test]
         public void CreateUser()

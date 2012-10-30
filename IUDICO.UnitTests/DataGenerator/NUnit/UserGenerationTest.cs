@@ -24,27 +24,27 @@ namespace IUDICO.UnitTests.DataGenerator.NUnit
         [TearDown]
         public void OnTearDown()
         {
-            this.tests.Storage.DeleteGroup(this.tests.Storage.GetGroups().SingleOrDefault(g => g.Name == "Демонстраційна група").Id);
+            //this.tests.Storage.DeleteGroup(this.tests.Storage.GetGroups().SingleOrDefault(g => g.Name == "Демонстраційна група").Id);
 
-            foreach (var user in this.demoStorage.GetStudents())
-            {
-                this.tests.Storage.DeleteUser(u => u.Username == user.Username);
-            }
+            //foreach (var user in this.demoStorage.GetStudents())
+            //{
+            //    this.tests.Storage.DeleteUser(u => u.Username == user.Username);
+            //}
 
-            foreach (var user in this.demoStorage.GetTeachers())
-            {
-                this.tests.Storage.DeleteUser(u => u.Username == user.Username);
-            }
+            //foreach (var user in this.demoStorage.GetTeachers())
+            //{
+            //    this.tests.Storage.DeleteUser(u => u.Username == user.Username);
+            //}
 
-            foreach (var user in this.demoStorage.GetCourseCreators())
-            {
-                this.tests.Storage.DeleteUser(u => u.Username == user.Username);
-            }
+            //foreach (var user in this.demoStorage.GetCourseCreators())
+            //{
+            //    this.tests.Storage.DeleteUser(u => u.Username == user.Username);
+            //}
 
-            foreach (var user in this.demoStorage.GetAdministrators())
-            {
-                this.tests.Storage.DeleteUser(u => u.Username == user.Username);
-            }
+            //foreach (var user in this.demoStorage.GetAdministrators())
+            //{
+            //    this.tests.Storage.DeleteUser(u => u.Username == user.Username);
+            //}
         }
 
         [Test]
