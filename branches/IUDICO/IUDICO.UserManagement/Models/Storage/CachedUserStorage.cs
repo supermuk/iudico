@@ -61,7 +61,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<User> GetUsers()
         {
             return this.cacheProvider.Get(
-                "users", this.@lockObject, () => this.storage.GetUsers().ToList(), DateTime.Now.AddDays(1), "users");
+                "users", this.@lockObject, () => this.storage.GetUsers().ToList(), DateTime.Now, "users");
         }
 
         public IEnumerable<User> GetUsers(Func<User, bool> predicate)

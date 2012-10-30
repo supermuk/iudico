@@ -13,3 +13,6 @@ $(document).ready(function(){
 		$(this).hide();
 	});
 });
+
+window.onunload = $.rteTerminate;
+window.onbeforeunload = $.rteTerminate;
