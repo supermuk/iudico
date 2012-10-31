@@ -92,7 +92,7 @@ namespace IUDICO.DataGenerator
 
                this.GenerateForTestingSystemSeleniumTests();
 
-
+               this.GenerateForSeleniumTests();
                break;
 
          }
@@ -135,6 +135,20 @@ namespace IUDICO.DataGenerator
          var disciplineStorage = container.Resolve<IDisciplineStorage>();
          DisciplineGenerator.SeleniumTestingSystemTestDiscipline(storage, path);
          CurriculumGenerator.CurriculumForSeleniumTestingSystem(curriculumStorage, disciplineStorage, userStorage);
+      }
+
+      private void GenerateForSeleniumTests()
+      {
+
+        var cacheProvider = container.Resolve<ICacheProvider>();
+        var courseStorage = container.Resolve<ICourseStorage>();
+
+
+        CourseGenerator.GenerateAllCourses(courseStorage,cacheProvider);
+
+        var databaseStorage = new FakeDatabaseDisciplineStorage(container.Resolve<ILmsService>(), "prof3");
+        var storage = new CachedDisciplineStorage(databaseStorage, cacheProvider); 
+        DisciplineGenerator.GenerateAllDisciplines(storage);
       }
    }
 }
