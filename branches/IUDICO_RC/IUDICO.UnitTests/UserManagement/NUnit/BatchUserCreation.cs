@@ -18,7 +18,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateUsersWithValidFile()
         {
-            this.tests = UserManagementTests.GetInstance();
+            tests = UserManagementTests.Update();
 
             var path = Path.Combine(Path.GetTempPath(), "users.csv");
             const string Text = "Username,Email\nipe,ip@interlogic.com.ua\nvladykx,vladykx@gmail.com";
@@ -44,7 +44,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreateUsersWithInValidFile()
         {
-            this.tests = UserManagementTests.GetInstance();
+            tests = UserManagementTests.Update();
 
             var path = Path.Combine(Path.GetTempPath(), "users.csv");
             const string Text = "UsernamEail\nipe,ip@interlogic.com.ua\nvladykx,vladykx@gmail.com";
@@ -56,7 +56,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateUsersWithPasswordSet()
         {
-            this.tests = UserManagementTests.GetInstance();
+            tests = UserManagementTests.Update();
 
             var path = Path.Combine(Path.GetTempPath(), "users.csv");
             const string Text = "Username,Email,Password\nipe,ip@interlogic.com.ua,123\nvladykx,vladykx@gmail.com,321";
@@ -83,7 +83,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateUsersWithOpenId()
         {
-            this.tests = UserManagementTests.GetInstance();
+            tests = UserManagementTests.Update();
 
             var path = Path.Combine(Path.GetTempPath(), "users.csv");
             const string Text =
@@ -110,7 +110,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateUsersWithName()
         {
-            this.tests = UserManagementTests.GetInstance();
+            tests = UserManagementTests.Update();
             var path = Path.Combine(Path.GetTempPath(), "users.csv");
             const string Text = "Username,Email,Name\nipe,ip@interlogic.com.ua,name1\nvladykx,vladykx@gmail.com,name2";
 
@@ -135,7 +135,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateUsersWithRole()
         {
-            this.tests = UserManagementTests.GetInstance();
+            tests = UserManagementTests.Update();
 
             var path = Path.Combine(Path.GetTempPath(), "users.csv");
             const string Text =
@@ -162,10 +162,11 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateUsersDuplicate()
         {
+            tests = UserManagementTests.Update();
+
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
             this.tests.Storage.CreateUser(temp);
-            this.tests = UserManagementTests.GetInstance();
 
             var path = Path.Combine(Path.GetTempPath(), "users.csv");
             const string Text = "Username,Email\nname,mail2@mail.com";

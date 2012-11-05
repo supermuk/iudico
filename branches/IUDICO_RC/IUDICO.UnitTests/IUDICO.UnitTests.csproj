@@ -124,6 +124,7 @@
     <Compile Include="Analytics\NUnit\Quality.cs" />
     <Compile Include="Analytics\NUnit\Recommender.cs" />
     <Compile Include="Analytics\NUnit\Tags.cs" />
+    <Compile Include="Analytics\Selenium\TagsTest.cs" />
     <Compile Include="Analytics\TestMixedAnalyticsStorage.cs" />
     <Compile Include="Analytics\NUnit\TrainingSetTest.cs" />
     <Compile Include="Base\BaseControllerTest.cs" />
@@ -163,12 +164,14 @@
     <Compile Include="CurriculumManagement\NUnit\Extensions.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CurriculumManagement\Selenium\DeleteCurriculum.cs" />
+    <Compile Include="CurriculumManagement\Selenium\EditCurricilumChapterTopic.cs" />
+    <Compile Include="CurriculumManagement\Selenium\EditCurriculum.cs" />
     <Compile Include="DataGenerator\Fakes\FakeCacheProvider.cs" />
     <Compile Include="DataGenerator\Fakes\FakeCourseStorage.cs" />
     <Compile Include="DataGenerator\Fakes\FakeDisciplineStorage.cs" />
     <Compile Include="DataGenerator\Fakes\FakeUserStorage.cs" />
     <Compile Include="DataGenerator\NUnit\CourseGenerationTest.cs" />
-    <Compile Include="DataGenerator\NUnit\DisciplineGenerationTest.cs" />
     <Compile Include="DataGenerator\NUnit\UserGenerationTest.cs" />
     <Compile Include="LMS\NUnit\ChangingLanguageTestsTests.cs" />
     <Compile Include="LMS\NUnit\ErrorHandlingTests.cs" />
@@ -186,8 +189,19 @@
     <Compile Include="Security\NUnit\SecurityStorageTester.cs" />
     <Compile Include="Security\NUnit\SecurityTester.cs" />
     <Compile Include="Security\NUnit\UserActivityTester.cs" />
-    <Compile Include="Security\NUnit\ViewModelsTester.cs" />
-    <Compile Include="Security\Selenium\SecuritySeleniumTester.cs" />
+    <Compile Include="LMS\ViewModelsTester.cs" />
+    <Compile Include="Security\Selenium\Computers.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\Selenium\Rooms.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\Selenium\Security.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Security\Selenium\SecuritySeleniumTester.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="TestingSystem\NUnit\AnswerResultTests.cs" />
     <Compile Include="TestingSystem\NUnit\AttemptResultTests.cs" />
     <Compile Include="TestingSystem\NUnit\FileSystemPackageTests.cs" />
@@ -200,23 +214,56 @@
     <Compile Include="TestingSystem\NUnit\ZipPackageTests.cs" />
     <Compile Include="TestingSystem\Selenium\ExSelenium.cs" />
     <Compile Include="TestingSystem\Selenium\TestingSystemSeleniumTests.cs" />
-    <Compile Include="UserManagement\NUnit\ActivateUser.cs" />
-    <Compile Include="UserManagement\NUnit\AddUserToGroup.cs" />
-    <Compile Include="UserManagement\NUnit\Analytics.cs" />
-    <Compile Include="UserManagement\NUnit\BatchUserCreation.cs" />
-    <Compile Include="UserManagement\NUnit\ChangePassword.cs" />
-    <Compile Include="UserManagement\NUnit\ChangeUsersRole.cs" />
+    <Compile Include="UserManagement\NUnit\ActivateUser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\AddUserToGroup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\Analytics.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\BatchUserCreation.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\Cache.cs" />
+    <Compile Include="UserManagement\NUnit\ChangePassword.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\ChangeUsersRole.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\CreateNewGroup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\CreateNewUser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\DeactivateUser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\DeleteGroup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\DeleteUser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\EditGroup.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\EditUsersAccount.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\General.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\GetGroups.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserManagement\NUnit\GetUsers.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="UserManagement\NUnit\GroupControllerTest.cs" />
-    <Compile Include="UserManagement\NUnit\CreateNewGroup.cs" />
-    <Compile Include="UserManagement\NUnit\CreateNewUser.cs" />
-    <Compile Include="UserManagement\NUnit\DeactivateUser.cs" />
-    <Compile Include="UserManagement\NUnit\DeleteGroup.cs" />
-    <Compile Include="UserManagement\NUnit\DeleteUser.cs" />
-    <Compile Include="UserManagement\NUnit\EditGroup.cs" />
-    <Compile Include="UserManagement\NUnit\EditUsersAccount.cs" />
-    <Compile Include="UserManagement\NUnit\General.cs" />
-    <Compile Include="UserManagement\NUnit\GetGroups.cs" />
-    <Compile Include="UserManagement\NUnit\GetUsers.cs" />
     <Compile Include="UserManagement\NUnit\Models.cs" />
     <Compile Include="UserManagement\NUnit\Register.cs" />
     <Compile Include="UserManagement\NUnit\RemoveUserFromGroup.cs" />
@@ -227,9 +274,11 @@
     <Compile Include="UserManagement\NUnit\UploadAvatarTester.cs" />
     <Compile Include="UserManagement\Selenium\Account.cs" />
     <Compile Include="UserManagement\Selenium\AvatarSeleniumTester.cs" />
+    <Compile Include="UserManagement\Selenium\ChangePassword.cs" />
     <Compile Include="UserManagement\Selenium\EditAccount.cs" />
     <Compile Include="UserManagement\Selenium\LoginWithOpenId.cs" />
     <Compile Include="UserManagement\Selenium\Logout.cs" />
+    <Compile Include="UserManagement\Selenium\ManageGroups.cs" />
     <Compile Include="UserManagement\Selenium\StandartLogin.cs" />
     <Compile Include="UserManagement\Selenium\Register.cs" />
     <Compile Include="UserManagement\Selenium\UniqueUserId.cs" />
@@ -330,7 +379,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Analytics\Selenium\" />
     <Folder Include="CourseManagement\Data\1\0\somePath0\" />
     <Folder Include="CourseManagement\Data\1\Node\0\Images\" />
     <Folder Include="DataGenerator\Data\Tests\" />
@@ -428,6 +476,12 @@
     <Content Include="CourseManagement\Data\Templates\sco.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="CourseManagement\Data\Templates\sh_cpp.min.js" />
+    <Content Include="CourseManagement\Data\Templates\sh_csharp.min.js" />
+    <Content Include="CourseManagement\Data\Templates\sh_java.min.js" />
+    <Content Include="CourseManagement\Data\Templates\sh_main.min.js" />
+    <Content Include="CourseManagement\Data\Templates\sh_style.css" />
+    <Content Include="CourseManagement\Data\Templates\sh_xml.min.js" />
     <Content Include="CourseManagement\Data\Templates\swfobject.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

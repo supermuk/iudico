@@ -14,6 +14,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void ActivateUserExisting()
         {
+
+            tests = UserManagementTests.Update();
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
             this.tests.Storage.CreateUser(temp);
@@ -23,7 +25,6 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.ActivateUser(gg);
 
             Assert.AreEqual(this.tests.Storage.GetUser("name").IsApproved, true);
-
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 
@@ -31,6 +32,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [ExpectedException(typeof(InvalidOperationException))]
         public void ActivateUserNonExisting()
         {
+            tests = UserManagementTests.Update();
+
             var gg = Guid.NewGuid();
 
             this.tests.Storage.ActivateUser(gg);

@@ -11,19 +11,23 @@ namespace IUDICO.UnitTests.Security.Selenium
     public class SecuritySeleniumTester
     {
         private ISelenium selenium;
-
         private StringBuilder verificationErrors;
 
+        private string secretIP = "18.18.18.18";
+        private string secretUser = "user18";
+        private string secretRoom = "room18";
+
         [SetUp]
-        public void Login()
+        public void Start()
         {
-            this.selenium = new DefaultSelenium("localhost", 4444, "*firefox", ConfigurationManager.AppSettings["SELENIUM_URL"]);
+            this.selenium = new DefaultSelenium("localhost", 4444,
+                "*firefox", ConfigurationManager.AppSettings["SELENIUM_URL"]);
             this.selenium.Start();
             this.verificationErrors = new StringBuilder();
         }
 
         [TearDown]
-        public void Logout()
+        public void Finish()
         {
             try
             {
@@ -35,174 +39,105 @@ namespace IUDICO.UnitTests.Security.Selenium
             }
         }
 
+        //author: Крупич Андрій
         [Test]
         public void Test1_CreateAndDeleteComputer()
         {
-            this.selenium.Open("/");
-            this.selenium.Type("id=loginUsername", "lex");
-            this.selenium.Type("id=loginPassword", "lex");
-            this.selenium.Click("id=loginDefaultButton");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Ban / Unban");
-            this.selenium.WaitForPageToLoad("30000");
-
-            this.selenium.Click("//a[contains(@href, '/Ban/AddComputers')]");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Type("id=ComputerIP", "192.169.0.32");
-            this.selenium.Click("name=saveButton");
-            this.selenium.WaitForPageToLoad("30000");
-
-            this.selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
-            this.selenium.WaitForPageToLoad("30000");
-
-            Assert.IsTrue(this.selenium.IsTextPresent("192.169.0.32"));
-
-            this.selenium.Click("//a[contains(@href, '/Ban/DeleteComputer?computer=192.169.0.32')]");
-
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Logout");
-            this.selenium.WaitForPageToLoad("30000");
+            Computers computers = new Computers(selenium);
+            computers.Clean(secretIP);
+            computers.Add(secretIP);
+            Assert.IsTrue(computers.IsPresented(secretIP));
+            computers.Delete(secretIP);
+            Assert.IsFalse(computers.IsPresented(secretIP));
+            computers.Logout();
         }
 
+        //author: Крупич Андрій
         [Test]
-        public void Test2_BanComputer()
+        public void Test2_BanUnbanComputer()
         {
-            this.selenium.Open("/");
-            this.selenium.Type("id=loginUsername", "lex");
-            this.selenium.Type("id=loginPassword", "lex");
-            this.selenium.Click("id=loginDefaultButton");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Ban / Unban");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Add computer");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Type("id=ComputerIP", "192.169.0.32");
-            this.selenium.Click("name=saveButton");
-            this.selenium.WaitForPageToLoad("30000");
-
-            this.selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
-            this.selenium.WaitForPageToLoad("30000");
-
-            Assert.IsTrue(this.selenium.IsTextPresent("192.169.0.32"));
-
-            this.selenium.Click("//a[contains(@href, '/Ban/ComputerBan?computer=192.169.0.32')]");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("//a[contains(@href, '/Ban/ComputerUnban?computer=192.169.0.32')]");
-            this.selenium.WaitForPageToLoad("30000");      
-
-            this.selenium.Click("//a[contains(@href, '/Ban/DeleteComputer?computer=192.169.0.32')]");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Logout");
-            this.selenium.WaitForPageToLoad("30000");
+            Computers computers = new Computers(selenium);
+            computers.Clean(secretIP);
+            computers.Add(secretIP);
+            Assert.IsFalse(computers.IsBanned(secretIP));
+            computers.Ban(secretIP);
+            Assert.IsTrue(computers.IsBanned(secretIP));
+            computers.Unban(secretIP);
+            Assert.IsFalse(computers.IsBanned(secretIP));
+            computers.Delete(secretIP);
+            computers.Logout();
         }
 
-
+        //author: Крупич Андрій
         [Test]
         public void Test3_EditComputer()
         {
-            this.selenium.Open("/");
-            this.selenium.Type("id=loginUsername", "lex");
-            this.selenium.Type("id=loginPassword", "lex");
-            this.selenium.Click("id=loginDefaultButton");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Ban / Unban");            
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Add computer");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Type("id=ComputerIP", "192.169.0.32");
-            this.selenium.Click("name=saveButton");
-            this.selenium.WaitForPageToLoad("30000");
-
-            this.selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
-            this.selenium.WaitForPageToLoad("30000");
-
-            this.selenium.Click("//a[contains(@href, '/Ban/EditComputer?ComputerIP=192.169.0.32&Banned=False')]");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("name=saveButton");
-            this.selenium.WaitForPageToLoad("30000");
-
-
-            this.selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
-            this.selenium.WaitForPageToLoad("30000");
-
-            Assert.IsTrue(this.selenium.IsTextPresent("192.169.0.32"));
-
-            this.selenium.Click("//a[contains(@href, '/Ban/DeleteComputer?computer=192.169.0.32')]");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Logout");
-            this.selenium.WaitForPageToLoad("30000");
+            Computers computers = new Computers(selenium);
+            computers.Clean(secretIP);
+            computers.Add(secretIP);
+            Assert.IsFalse(computers.IsPresented(secretUser));
+            computers.Edit(secretIP, false, true, secretUser);
+            Assert.IsTrue(computers.IsPresented(secretUser));
+            Assert.IsTrue(computers.IsBanned(secretIP));
+            computers.Delete(secretIP);
+            computers.Logout();
         }
 
+        //author: Крупич Андрій
+        [Test]
+        public void Test4_NoComputerDuplicates()
+        {
+            Computers computers = new Computers(selenium);
+            computers.Clean(secretIP);
+            computers.Add(secretIP);
+            computers.GoBack();
+            computers.Add(secretIP);
+            computers.Delete(secretIP);
+            Assert.IsFalse(computers.IsPresented(secretIP));
+            computers.Logout();
+        }
+
+        //author: Крупич Андрій
         [Test]
         public void Test5_AddAndDeleteRoom()
         {
-            this.selenium.Open("/");
-            this.selenium.Type("id=loginUsername", "lex");
-            this.selenium.Type("id=loginPassword", "lex");
-            this.selenium.Click("id=loginDefaultButton");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Ban / Unban");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Add room");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Type("id=Name", "145");
-            this.selenium.Click("css=p > input[type=\"submit\"]");
-            this.selenium.WaitForPageToLoad("30000");
-
-            this.selenium.Click("//a[contains(@href, '/Ban/BanRoom')]");
-            this.selenium.WaitForPageToLoad("30000");
-
-            Assert.IsTrue(this.selenium.IsTextPresent("145"));
-
-            this.selenium.Click("//a[contains(@href, '/Ban/DeleteRoom?room=145')]");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Logout");
-            this.selenium.WaitForPageToLoad("30000");
+            Rooms rooms = new Rooms(selenium);
+            rooms.Add(secretRoom, true);
+            Assert.IsTrue(rooms.IsPresented(secretRoom));
+            Assert.IsTrue(rooms.IsAllowed(secretRoom));
+            rooms.Remove(secretRoom);
+            Assert.IsFalse(rooms.IsPresented(secretRoom));
+            rooms.Logout();
         }
 
+        //author: Крупич Андрій
         [Test]
         public void Test6_BanRoom()
         {
-            this.selenium.Open("/");
-            this.selenium.Type("id=loginUsername", "lex");
-            this.selenium.Type("id=loginPassword", "lex");
-            this.selenium.Click("id=loginDefaultButton");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Ban / Unban");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Add room");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Type("id=Name", "145");
-            this.selenium.Click("css=p > input[type=\"submit\"]");
-            this.selenium.WaitForPageToLoad("30000");
-
-            this.selenium.Click("//a[contains(@href, '/Ban/BanRoom')]");
-            this.selenium.WaitForPageToLoad("30000");
-
-            this.selenium.Click("//a[contains(@href, '/Ban/RoomUnban?room=145')]");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("//a[contains(@href, '/Ban/RoomBan?room=145')]");
-            this.selenium.WaitForPageToLoad("30000");
-
-            Assert.IsTrue(this.selenium.IsTextPresent("145"));
-
-            this.selenium.Click("//a[contains(@href, '/Ban/DeleteRoom?room=145')]");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Logout");
-            this.selenium.WaitForPageToLoad("30000");
+            Rooms rooms = new Rooms(selenium);
+            rooms.Add(secretRoom, false);
+            Assert.IsFalse(rooms.IsAllowed(secretRoom));
+            rooms.Unban(secretRoom);
+            Assert.IsTrue(rooms.IsAllowed(secretRoom));
+            rooms.Ban(secretRoom);
+            Assert.IsFalse(rooms.IsAllowed(secretRoom));
+            rooms.Remove(secretRoom);
+            rooms.Logout();
         }
 
-
+        //author: Крупич Андрій
+        [Test]
+        public void Test7_NoRoomsDuplicates()
+        {
+            Rooms rooms = new Rooms(selenium);
+            rooms.Add(secretRoom, true);
+            rooms.GoBack();
+            rooms.Add(secretRoom, false);
+            rooms.Remove(secretRoom);
+            Assert.IsFalse(rooms.IsPresented(secretRoom));
+            rooms.Logout();
+        }
+        //fails because of the bug
         [Test]
         public void Test8_OverallStats()
         {
@@ -220,8 +155,6 @@ namespace IUDICO.UnitTests.Security.Selenium
             
             this.selenium.Click("link=Logout");
             this.selenium.WaitForPageToLoad("30000");
-
-            
         }
     }
 }

@@ -15,7 +15,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void RestorePasswordExisting()
         {
-            var model = new RestorePasswordModel { Email = "ipetrovych@gmail.com" };
+            var model = new RestorePasswordModel {Username = "panza", Email = "ipetrovych@gmail.com" };
             var password = this.tests.DataContext.Users.Single(u => u.Username == "panza").Password;
 
             this.tests.Storage.RestorePassword(model);
@@ -26,10 +26,10 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(NullReferenceException))]
         public void RestorePasswordNonExisting()
         {
-            var model = new RestorePasswordModel { Email = "mail@mail.com" };
+           var model = new RestorePasswordModel { Username = "unknown", Email = "mail@mail.com" };
 
             this.tests.Storage.RestorePassword(model);
         }

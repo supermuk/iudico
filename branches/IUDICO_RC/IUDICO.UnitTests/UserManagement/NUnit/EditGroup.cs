@@ -30,21 +30,6 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         }
 
         [Test]
-        public void EditGroupExistingInvalid()
-        {
-            ////Done by Selenium test.
-            /*
-            var group = new Group { Id = 124, Name = "pmp41" };
-
-            _Tests.Storage.CreateGroup(group);
-            group = new Group { Id = 126, Name = "pmp41" };
-            _Tests.Storage.EditGroup(group.Id, group);
-            //Assert.IsTrue(group.Name == _Tests.Storage.GetGroup(group.Id).Name && group.Id == _Tests.Storage.GetGroup(group.Id).Id);
-
-            _Tests.Storage.DeleteGroup(group.Id);*/
-        }
-
-        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void EditGroupNonExisting()
         {

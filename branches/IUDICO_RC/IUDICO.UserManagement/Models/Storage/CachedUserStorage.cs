@@ -61,7 +61,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public IEnumerable<User> GetUsers()
         {
             return this.cacheProvider.Get(
-                "users", this.@lockObject, () => this.storage.GetUsers().ToList(), DateTime.Now.AddDays(1), "users");
+                "users", this.@lockObject, () => this.storage.GetUsers().ToList(), DateTime.Now, "users");
         }
 
         public IEnumerable<User> GetUsers(Func<User, bool> predicate)
@@ -121,14 +121,14 @@ namespace IUDICO.UserManagement.Models.Storage
 
             var user = this.GetUser(id);
 
-            this.cacheProvider.Invalidate("user-id-" + user.Id, "user-name" + user.Username, "users");
+            this.cacheProvider.Invalidate("user-id-" + user.Id, "user-name-" + user.Username, "users");
         }
 
         public User RestorePassword(RestorePasswordModel restorePasswordModel)
         {
             var user = this.storage.RestorePassword(restorePasswordModel);
 
-            this.cacheProvider.Invalidate("user-id-" + user.Id, "user-name" + user.Username, "users");
+            this.cacheProvider.Invalidate("user-id-" + user.Id, "user-name-" + user.Username, "users");
 
             return user;
         }
@@ -254,7 +254,7 @@ namespace IUDICO.UserManagement.Models.Storage
                 "users-role-" + role,
                 this.lockObject,
                 () => this.storage.GetUsersInRole(role).ToList(),
-                DateTime.Now.AddDays(1),
+                DateTime.Now,
                 "users");
         }
 
@@ -264,7 +264,7 @@ namespace IUDICO.UserManagement.Models.Storage
                 "roles-user-" + username,
                 this.lockObject,
                 () => this.storage.GetUserRoles(username).ToList(),
-                DateTime.Now.AddDays(1),
+                DateTime.Now,
                 "roles");
         }
 
@@ -290,7 +290,7 @@ namespace IUDICO.UserManagement.Models.Storage
                 "roles-user-avail-" + user.Id,
                 this.lockObject,
                 () => this.storage.GetRolesAvailableToUser(user).ToList(),
-                DateTime.Now.AddDays(1),
+                DateTime.Now,
                 "roles");
         }
 

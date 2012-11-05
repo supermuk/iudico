@@ -81,6 +81,14 @@ namespace IUDICO.DataGenerator.Models.Storage
 					OpenId="prof2@mail.com", 
 					Name="prof2", 
 				},
+         new User
+            {
+               Username = "prof3", 
+					Password="prof3", 
+					Email="prof3@mail.com", 
+					OpenId="prof3@mail.com", 
+					Name="prof3",
+            }
 			};
 
 		private List<User> courseCreators = new List<User>

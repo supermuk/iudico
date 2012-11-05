@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using IUDICO.Common.Models.Shared;
 
@@ -34,6 +35,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         }
 
         [Test]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void RemoveExistingUserFromNonExistingGroup()
         {
             var group = new Group { Id = 12677, Name = "pmi31" };
@@ -42,7 +44,6 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.CreateUser(temp);
             temp = this.tests.Storage.GetUser(u => u.Username == temp.Username);
 
-            this.tests.Storage.AddUserToGroup(group, temp);
             this.tests.Storage.RemoveUserFromGroup(group, temp);
             Assert.IsFalse(this.tests.Storage.GetGroupsByUser(temp).Contains(group));
 
