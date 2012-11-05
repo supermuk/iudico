@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -29,7 +30,7 @@ namespace IUDICO.UserManagement.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
-            return this.View(this.storage.GetUsers());
+            return this.View(this.storage.GetUsers().Where(u=>!u.Deleted));
         }
 
         // GET: /User/Details/5
@@ -125,7 +126,7 @@ namespace IUDICO.UserManagement.Controllers
 
                 return this.View();
             }
-            
+
             var path = this.HttpContext.Request.PhysicalApplicationPath;
 
             path = Path.Combine(path, @"Data\CSV");
@@ -217,6 +218,24 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [Allow(Role = Role.Admin)]
+        public JsonResult DeleteSelected(IEnumerable<Guid> usersIds)
+        {
+            try
+            {
+                foreach (var id in usersIds)
+                {
+                    this.storage.DeleteUser(u => u.Id == id);
+                }
+
+                return this.Json(new { success = true });
+            }
+            catch
+            {
+                return this.Json(new { success = false });
+            }
+        }
+
+        [Allow(Role = Role.Admin)]
         public ActionResult Activate(Guid id)
         {
             this.storage.ActivateUser(id);
@@ -225,11 +244,34 @@ namespace IUDICO.UserManagement.Controllers
         }
 
         [Allow(Role = Role.Admin)]
+        public JsonResult ActivateSelected(IEnumerable<Guid> usersIds)
+        {
+            foreach (var id in usersIds)
+            {
+                this.storage.ActivateUser(id);
+            }
+
+            return Json(new { success = true });
+        }
+
+        [Allow(Role = Role.Admin)]
         public ActionResult Deactivate(Guid id)
         {
             this.storage.DeactivateUser(id);
 
             return this.RedirectToAction("Index");
+        }
+
+
+        [Allow(Role = Role.Admin)]
+        public JsonResult DeactivateSelected(IEnumerable<Guid> usersIds)
+        {
+            foreach (var id in usersIds)
+            {
+                this.storage.DeactivateUser(id);
+            }
+
+            return Json(new { success = true });
         }
 
         [Allow(Role = Role.Admin)]
@@ -298,6 +340,7 @@ namespace IUDICO.UserManagement.Controllers
             return this.RedirectToAction("Details", new { Id = id });
         }
 
+
         [HttpPost]
         [Allow(Role = Role.Admin)]
         public ActionResult UploadAvatar(Guid id, HttpPostedFileBase file)
@@ -351,8 +394,7 @@ namespace IUDICO.UserManagement.Controllers
             var roleList =
                 this.storage.GetRolesAvailableToUser(user).Select(
                     r =>
-                    new SelectListItem
-                        { Text = Localization.GetMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
+                    new SelectListItem { Text = Localization.GetMessage(r.ToString()), Value = ((int)r).ToString(), Selected = false });
 
             var userRole = new UserRoleModel { RoleList = roleList };
 
@@ -398,6 +440,178 @@ namespace IUDICO.UserManagement.Controllers
 
             return this.RedirectToAction("Details", new { Id = id });
         }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult AddUsersToRole(string usersId)
+        {
+            var ids = usersId.Split(',');
+
+            List<Guid> usersIds = new List<Guid>();
+
+            foreach (var id in ids)
+            {
+                try
+                {
+                    usersIds.Add(Guid.Parse(id));
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+
+            var list = new List<Role> { Role.Student, Role.Teacher, Role.CourseCreator, Role.Admin }.Select(
+                         r =>
+                         new SelectListItem
+                         {
+                             Text = Localization.GetMessage(r.ToString()),
+                             Value = ((int)r).ToString(),
+                             Selected = false
+                         });
+
+            var userRole = new UserRoleModel { RoleList = list };
+
+            return View(userRole);
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Admin)]
+        public ActionResult AddUsersToRole(string usersId, int? roleRef)
+        {
+
+            var ids = usersId.Split(',');
+
+            List<Guid> usersIds = new List<Guid>();
+
+            foreach (var id in ids)
+            {
+                try
+                {
+                    usersIds.Add(Guid.Parse(id));
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+
+            if (roleRef == null)
+            {
+
+
+                var list = new List<Role> { Role.Student, Role.Teacher, Role.CourseCreator, Role.Admin }.Select(r =>
+                                                                                                                   new SelectListItem
+                                                                                                                   {
+                                                                                                                       Text = Localization.GetMessage(r.ToString()),
+                                                                                                                       Value = ((int)r).ToString(),
+                                                                                                                       Selected = false
+                                                                                                                   });
+
+                var userRole = new UserRoleModel { RoleList = list };
+
+                this.ModelState.AddModelError("RoleRef", Localization.GetMessage("SelectRole"));
+
+                return View(userRole);
+            }
+
+
+            var role = UserRoles.GetRole(roleRef.Value);
+
+            foreach (var id in usersIds)
+            {
+                var user = this.storage.GetUser(u => u.Id == id);
+
+                if (!this.storage.GetRolesAvailableToUser(user).Contains(role))
+                {
+                    continue;
+                }
+
+                this.storage.AddUserToRole(role, user);
+            }
+
+            LmsService.Inform(LMSNotifications.ActionsChanged);
+
+            return RedirectToAction("Index");
+        }
+
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult AddUsersToGroup(string usersId)
+        {
+            var ids = usersId.Split(',');
+
+            List<Guid> usersIds = new List<Guid>();
+
+            foreach (var id in ids)
+            {
+                try
+                {
+                    usersIds.Add(Guid.Parse(id));
+                }
+                catch (Exception)
+                {
+
+                }
+
+            }
+
+
+            var groupList =
+                this.storage.GetGroups().Select(
+                    g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+
+            var userGroup = new UserGroupModel { GroupList = groupList };
+
+            return this.View(userGroup);
+        }
+
+        [HttpPost]
+        [Allow(Role = Role.Admin)]
+        public ActionResult AddUsersToGroup(string usersId, int? groupRef)
+        {
+
+            var ids = usersId.Split(',');
+
+            List<Guid> usersIds = new List<Guid>();
+
+            foreach (var id in ids)
+            {
+                try
+                {
+                    usersIds.Add(Guid.Parse(id));
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+
+            if (groupRef == null)
+            {
+                var groupList =
+                    this.storage.GetGroups().Select(
+                    g => new SelectListItem { Text = g.Name, Value = g.Id.ToString(), Selected = false });
+
+                var userGroup = new UserGroupModel { GroupList = groupList };
+
+                this.ModelState.AddModelError("GroupRef", Localization.GetMessage("SelectGroup"));
+
+                return this.View(userGroup);
+            }
+
+            var group = this.storage.GetGroup(groupRef.Value);
+
+            var users = this.storage.GetUsers().Where(u => usersIds.Contains(u.Id) && this.storage.GetGroupsAvailableToUser(u).Any(g => g.Id == group.Id)).ToList();
+
+            foreach (var user in users)
+            {
+                this.storage.AddUserToGroup(group, user);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
 
         [HttpPost]
         [Allow(Role = Role.Admin)]

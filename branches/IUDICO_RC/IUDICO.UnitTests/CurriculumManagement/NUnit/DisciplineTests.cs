@@ -187,16 +187,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             AdvAssert.AreEqual(expectedNotSharedUsers, actualNotSharedUsers);
         }
 
-         [Test]
-         public void MakeDisciplineInvalid() {
-             this.DataPreparer.CreateDisciplinesSet4();
-             var disciplineId = this.DataPreparer.DisciplineIds[0];             
-             this.DisciplineStorage.MakeDisciplinesInvalid(1);
-             var chapterIds = this.DisciplineStorage.GetTopicsByCourseId(1).Select(item => item.ChapterRef);
-             var disciplineIds = this.DisciplineStorage.GetChapters(chapterIds).Select(item => item.DisciplineRef).ToList();
-             disciplineIds.ForEach(id => Assert.IsFalse(this.DisciplineStorage.GetDiscipline(id).IsValid));
-         }
-
         #endregion
 
         #region Chapter tests
@@ -455,15 +445,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
             this.DisciplineStorage.UpdateTopic(wrongTopic);
             Assert.AreEqual(true, this.DisciplineStorage.GetDiscipline(this.DisciplineStorage.GetChapter(wrongTopic.ChapterRef).DisciplineRef).IsValid);
-
-            wrongTopic = newTopicF();
-            wrongTopic.Id = topicIds[0];
-            wrongTopic.TheoryCourseRef = null;
-            wrongTopic.TestCourseRef = this.CourseService.GetCourse(4).Id;
-            wrongTopic.ChapterRef = this.DataPreparer.GetTopics()[0].ChapterRef;
-
-            this.DisciplineStorage.UpdateTopic(wrongTopic);
-            Assert.AreEqual(false, this.DisciplineStorage.GetDiscipline(this.DisciplineStorage.GetChapter(wrongTopic.ChapterRef).DisciplineRef).IsValid);
         }
 
         [Test]

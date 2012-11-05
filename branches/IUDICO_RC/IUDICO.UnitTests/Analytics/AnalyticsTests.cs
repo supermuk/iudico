@@ -148,6 +148,11 @@ namespace IUDICO.UnitTests.Analytics
             this.SetupServices();
         }
 
+        public static void Reset()
+        {
+            instance = new AnalyticsTests(); 
+        }
+
         public static AnalyticsTests GetInstance()
         {
             return instance ?? (instance = new AnalyticsTests());

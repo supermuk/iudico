@@ -402,4 +402,22 @@
   <data name="NotValidEmail" xml:space="preserve">
     <value>Емейл не є валідним</value>
   </data>
+  <data name="ActivateSelected" xml:space="preserve">
+    <value>Активувати користувачів</value>
+  </data>
+  <data name="AddToGroupSelected" xml:space="preserve">
+    <value>Добавити до групи</value>
+  </data>
+  <data name="AddToRoleSelected" xml:space="preserve">
+    <value>Добавити до ролі</value>
+  </data>
+  <data name="DeactivateSelected" xml:space="preserve">
+    <value>Деактивувати користувачів</value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Видалити вибраних користувачів</value>
+  </data>
+  <data name="PleaseSelectUsers" xml:space="preserve">
+    <value>Будьласка виберіть користувачів</value>
+  </data>
 </root>

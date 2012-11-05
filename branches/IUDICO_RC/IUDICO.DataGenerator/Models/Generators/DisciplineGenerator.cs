@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Reflection;
@@ -39,5 +40,29 @@ namespace IUDICO.DataGenerator.Models.Generators
 
       }
 
+      public static void GenerateAllDisciplines(IDisciplineStorage storage)
+      {
+         ImportExportDiscipline importer = new ImportExportDiscipline(storage);
+
+         var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+         path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Disciplines/");
+
+         if (Directory.Exists(path))
+         {
+           var files = Directory.GetFiles(path, "*.zip");
+
+            foreach (var file in files)
+            {
+               var name = Path.GetFileNameWithoutExtension(file);
+
+               if (storage.GetDisciplines().Any(d => d.Name == name && d.Owner == "prof3"))
+               {
+                  return;
+               }
+
+               importer.Import(file);
+            }
+         }
+      }
 	}
 }

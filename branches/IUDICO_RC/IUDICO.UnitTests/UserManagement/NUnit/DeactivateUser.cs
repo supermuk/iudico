@@ -14,6 +14,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void DeactivateUserExisting()
         {
+            tests = new UserManagementTests();
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
             this.tests.Storage.CreateUser(temp);
@@ -24,8 +25,6 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.DeactivateUser(gg);
 
             Assert.AreEqual(this.tests.Storage.GetUser(u => u.Username == "name").IsApproved, false);
-
-            this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 
         [Test]

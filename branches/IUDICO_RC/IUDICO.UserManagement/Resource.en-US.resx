@@ -402,4 +402,22 @@
   <data name="NotValidEmail" xml:space="preserve">
     <value>Not a valid email</value>
   </data>
+  <data name="ActivateSelected" xml:space="preserve">
+    <value>Activate selected users</value>
+  </data>
+  <data name="AddToGroupSelected" xml:space="preserve">
+    <value>Add users to group</value>
+  </data>
+  <data name="AddToRoleSelected" xml:space="preserve">
+    <value>Add users to role</value>
+  </data>
+  <data name="DeactivateSelected" xml:space="preserve">
+    <value>Deactivate selected users</value>
+  </data>
+  <data name="DeleteSelected" xml:space="preserve">
+    <value>Delete selected users</value>
+  </data>
+  <data name="PleaseSelectUsers" xml:space="preserve">
+    <value>Please select users</value>
+  </data>
 </root>

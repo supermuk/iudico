@@ -12,6 +12,13 @@ namespace IUDICO.UnitTests.Analytics.NUnit
     {
         private AnalyticsTests tests = AnalyticsTests.GetInstance();
 
+        [SetUp]
+        public virtual void SetupTest()
+        {
+            AnalyticsTests.Reset();
+            this.tests = AnalyticsTests.GetInstance();
+        }
+
         [Test]
         public void GetTopicScores()
         {

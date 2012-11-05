@@ -16,6 +16,16 @@
         <%:Html.ActionLink(Localization.GetMessage("CreateNewUser"), "Create")%>
         |
         <%:Html.ActionLink(Localization.GetMessage("CreateNewUsers"), "CreateMultiple")%>
+        |
+        <a id="ActivateSelected" href="#"><%: Localization.GetMessage("ActivateSelected")%></a>
+        |
+        <a id="DeactivateSelected" href="#"><%: Localization.GetMessage("DeactivateSelected")%></a>
+        |
+        <a id="AddToRoleSelected" onclick="addUsersToRole();"><%: Localization.GetMessage("AddToRoleSelected")%></a>
+        |
+        <a id="AddToGroupSelected" onclick="addUsersToGroup()"><%: Localization.GetMessage("AddToGroupSelected")%></a>
+        |
+        <a id="DeleteSelected" href="#"><%: Localization.GetMessage("DeleteSelected")%></a>
     </p>
 
     <div id="catalog" dir="<%=Html.ResolveUrl("/Content/images/status_icon_delete.png")%> ">
@@ -35,6 +45,9 @@
         <table id="myDataTable" class="display">
             <thead>
                 <tr>
+                    <th class="checkboxColumn">
+                        <input type="checkbox" id="UsersCheckAll" />
+                    </th>
                     <th>
                         <%=Localization.GetMessage("FullName")%>
                     </th>
@@ -65,6 +78,9 @@
                     foreach (var item in Model)
                     {%>
                 <tr id="<%:item.Id%>">
+                     <td class="userCheck">
+                        <input type="checkbox" id="<%= item.Id %>" />
+                    </td>
                     <td>
                         <%:item.Name%>
                     </td>
@@ -100,36 +116,10 @@
                         <%:item.GroupsLine%>
                     </td>
                     <td>
-                        <%
-            if (item.IsApproved)
-            {%>
-                        <%:Html.ActionLink(Localization.GetMessage("Deactivate"), "Deactivate",
-                                                  new {id = item.Id})%>
-                        |
-                        <%
-            }
-            else
-            {%>
-                        <%:Html.ActionLink(Localization.GetMessage("Activate"), "Activate", new {id = item.Id})%>
-                        |
-                        <%
-            }%>
+
                         <%:Html.ActionLink(Localization.GetMessage("Edit"), "Edit", new {id = item.Id})%>
                         |
                         <%:Html.ActionLink(Localization.GetMessage("Details"), "Details", new {id = item.Id})%>
-                        |
-                        <%:Html.ActionLink(Localization.GetMessage("AddToRole"), "AddToRole", new {id = item.Id})%>
-                        |
-                        <%:Html.ActionLink(Localization.GetMessage("AddToGroup"), "AddToGroup", new {id = item.Id})%>
-                        |
-                        <%:Ajax.ActionLink(Localization.GetMessage("Delete"), "Delete", new {id = item.Id},
-                                              new AjaxOptions
-                                                  {
-                                                      Confirm =
-                                                          String.Concat(Localization.GetMessage("AreYouSureYouWantToDelete"),"\"") + item.Username + "\"?",
-                                                      HttpMethod = "Delete",
-                                                      OnSuccess = "removeRow"
-                                                  })%>
                     </td>
                 </tr>
                 <%
@@ -140,7 +130,7 @@
 
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
-    <script language="javascript" type="text/javascript">
+	<script language="javascript" type="text/javascript">
 
 
         $(function () {
@@ -246,6 +236,45 @@
             });
         }
 
+		     function onAddUsersToRoleSuccess(resp) {
+			     if (resp.success) {
+				     $("#dialog").dialog("close");
+				     window.location.reload(true); // TODO : fix adding course if table is empty.
+			     } else {
+				     fillDialogInner(resp.html, " ", " ");
+			     }
+		     }
+
+		     function addUsersToRole() {
+        		var usersId = $("input:checked:not(id$='UsersCheckAll')").map(function () {
+					return $(this).attr('id');
+				});
+
+				if (usersId.length == 0) {
+					alert("<%=Localization.GetMessage("PleaseSelectUsers") %>");
+                    
+					return false;
+				}
+
+				window.location = actionUrlForRole.replace('PLACEHOLDER', usersId.toArray());
+        }
+		     	function addUsersToGroup() {
+        		var usersId = $("input:checked:not(id$='UsersCheckAll')").map(function () {
+					return $(this).attr('id');
+				});
+
+				if (usersId.length == 0) {
+					alert("<%=Localization.GetMessage("PleaseSelectUsers") %>");
+                    
+					return false;
+				}
+
+				window.location = actionUrlForGroup.replace('PLACEHOLDER', usersId.toArray());
+
+        }
+			 var actionUrlForRole = '<%= Url.Action("AddUsersToRole", "User", new { usersId = "PLACEHOLDER" } ) %>';
+			 var actionUrlForGroup = '<%= Url.Action("AddUsersToGroup", "User", new { usersId = "PLACEHOLDER" } ) %>';
+			     
     </script>
     <script language="javascript" type="text/javascript">
 
@@ -257,6 +286,7 @@
                 "bSort": true,
                 "bAutoWidth": false,
                 "aoColumns": [
+                { "bSortable": false },
                 null,
                 null,
                 null,
@@ -320,6 +350,111 @@
             $(".role").click(function () {
                 dataTable.fnFilter($(this).text());
             });
+
+
+            $("input[id$='UsersCheckAll']").click(function () {
+                var $boxes = $("td input:checkbox:not(id$='UsersCheckAll')");
+                if (this.checked) {
+                    $boxes.attr("checked", "checked");
+                } else {
+                    $boxes.removeAttr("checked");
+                }
+            });
+
+            $("td input:checkbox:not(id$='UsersCheckAll')").click(function () {
+                if ($("td input:checkbox:not(id$='UsersCheckAll')").length == $("td input:checked:not(id$='UsersCheckAll')").length) {
+                    $('input[id$="UsersCheckAll"]').attr('checked', true);
+                } else {
+                    $('input[id$="UsersCheckAll"]').attr('checked', false);
+                }
+            });
+
+            $("#ActivateSelected").click(function () {
+                var ids = $("input:checked:not(id$='UsersCheckAll')").map(function () {
+                    return $(this).attr('id');
+                });
+
+                if (ids.length == 0) {
+                    alert("<%=Localization.GetMessage("PleaseSelectUsers") %>");
+                    
+                    return false;
+                }
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/User/ActivateSelected",
+                    traditional: true,
+                    data: { usersIds: ids.toArray() },
+                    success: function(r) {
+                        if (r.success) {
+                            window.location = "/User/Index";
+                        } else {
+                            alert("<%=Localization.GetMessage("ErrorOccuredDuringProccessingRequest") %>");
+                        }
+                    }
+                });
+                });
+            
+              $("#DeactivateSelected").click(function () {
+                var ids = $("input:checked:not(id$='UsersCheckAll')").map(function () {
+                    return $(this).attr('id');
+                });
+
+                if (ids.length == 0) {
+                    alert("<%=Localization.GetMessage("PleaseSelectUsers") %>");
+                    
+                    return false;
+                }
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/User/DeactivateSelected",
+                    traditional: true,
+                    data: { usersIds: ids.toArray() },
+                    success: function(r) {
+                        if (r.success) {
+                            window.location = "/User/Index";
+                        } else {
+                            alert("<%=Localization.GetMessage("ErrorOccuredDuringProccessingRequest") %>");
+                        }
+                    }
+                });
+                });
+            
+            $("#DeleteSelected").click(function () {
+                var ids = $("input:checked:not(id$='UsersCheckAll')").map(function () {
+                    return $(this).attr('id');
+                });
+
+                if (ids.length == 0) {
+                    alert("<%=Localization.GetMessage("PleaseSelectUsers") %>");
+                    
+                    return false;
+                }
+
+                 var answer = confirm("<%=Localization.GetMessage("AreYouSureYouWantDelete") %>" + ids.length + "<%=Localization.GetMessage("selectedUsers") %>");
+
+                if (answer == false) {
+                    return false;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/User/DeleteSelected",
+                    traditional: true,
+                    data: { usersIds: ids.toArray() },
+                    success: function(r) {
+                        if (r.success) {
+                            window.location = "/User/Index";
+                        } else {
+                            alert("<%=Localization.GetMessage("ErrorOccuredDuringProccessingRequest") %>");
+                        }
+                    }
+                });
+                });
+	        
         });
         
     </script>

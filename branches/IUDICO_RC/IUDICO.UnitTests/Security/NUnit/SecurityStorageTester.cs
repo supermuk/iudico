@@ -24,6 +24,7 @@
             this.SecurityStorage.CreateUserActivity(userActivity);
 
             Assert.AreEqual(1, this.SecurityStorage.GetUserActivities().Count());
+            Assert.True(this.SecurityStorage.GetUserActivities().Contains(userActivity));
         }
     }
 }

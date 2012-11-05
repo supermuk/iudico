@@ -2,6 +2,8 @@
 
 using NUnit.Framework;
 
+using IUDICO.Common.Models.Shared;
+
 using IUDICO.UserManagement.Models.Storage;
 
 namespace IUDICO.UnitTests.UserManagement.NUnit
@@ -25,9 +27,15 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void GetCurrentUser()
         {
-            var storage = new DatabaseUserStorage(this.tests.LmsService);
+            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
-            Assert.IsTrue(storage.GetCurrentUser().Username == null);
+            this.tests.Storage.CreateUser(temp);
+
+            this.tests.Storage.ActivateUser(this.tests.Storage.GetUser("name").Id);
+
+            tests.ChangeCurrentUser("name");
+
+            Assert.IsTrue(tests.Storage.GetCurrentUser().Username== "name");
         }
 
         [Test]
@@ -47,19 +55,6 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             storage.EditAccount(new EditModel());
         }
 
-        [Test]
-        public void GetPath()
-        {
-            var storage = new DatabaseUserStorage(this.tests.LmsService);
-
-            try
-            {
-                storage.DeleteAvatar(Guid.NewGuid());
-            }
-            catch
-            {
-            }
-        }
 
         [Test]
         public void UsernameExistsCached()

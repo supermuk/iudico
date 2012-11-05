@@ -148,6 +148,7 @@ namespace IUDICO.DisciplineManagement.Models
                     this.storage.AddTopic(topic);
                 }
             }
+            reader.Close();
         }
 
         #endregion
@@ -169,7 +170,7 @@ namespace IUDICO.DisciplineManagement.Models
 
             foreach (var chapter in this.storage.GetChapters(x => x.DisciplineRef == disciplineId))
             {
-               foreach (var topic in this.storage.GetTopics(x => x.ChapterRef == chapter.Id))
+                foreach (var topic in this.storage.GetTopics(x => x.ChapterRef == chapter.Id))
                 {
                     if (topic.TheoryCourseRef != null)
                     {
@@ -199,6 +200,7 @@ namespace IUDICO.DisciplineManagement.Models
             var pathToExtract = Path.Combine(GetFolderPath(), Guid.NewGuid().ToString());
             Zipper.ExtractZipFile(path, pathToExtract);
             this.Deserialize(pathToExtract);
+            Directory.Delete(pathToExtract, true);
         }
 
         public void Import(string path)
@@ -206,6 +208,7 @@ namespace IUDICO.DisciplineManagement.Models
             var pathToExtract = Path.Combine(GetFolderPath(), Guid.NewGuid().ToString());
             Zipper.ExtractZipFile(path, pathToExtract);
             this.Deserialize(pathToExtract);
+            Directory.Delete(pathToExtract, true);
         }
 
         public bool Validate(HttpPostedFileBase file)
@@ -217,18 +220,22 @@ namespace IUDICO.DisciplineManagement.Models
             var pathToExtract = Path.Combine(GetFolderPath(), Guid.NewGuid().ToString());
             Zipper.ExtractZipFile(path, pathToExtract);
 
+            if (Directory.GetFiles(pathToExtract, "*.disc").Count() == 0)
+            {
+                Directory.Delete(pathToExtract, true);
+                return false;
+            }
+
             foreach (var courseFile in Directory.GetFiles(pathToExtract, "*.zip"))
             {
                 if (!PackageValidator.Validate(courseFile).Contains("Package is valid."))
                 {
+                    Directory.Delete(pathToExtract, true);
                     return false;
                 }
             }
-            if (Directory.GetFiles(pathToExtract, "*.disc").Count() == 0)
-            {
-                return false;
-            }
 
+            Directory.Delete(pathToExtract, true);
             return true;
         }
 
@@ -239,51 +246,56 @@ namespace IUDICO.DisciplineManagement.Models
 
             if (Directory.GetFiles(pathToExtract, "*.disc").Count() == 0)
             {
-               return false;
+                Directory.Delete(pathToExtract, true);
+                return false;
             }
 
             foreach (var courseFile in Directory.GetFiles(pathToExtract, "*.zip"))
             {
                 if (!PackageValidator.Validate(courseFile).Contains("Package is valid."))
                 {
+                    Directory.Delete(pathToExtract, true);
                     return false;
                 }
             }
-           
-           return true;
+
+            Directory.Delete(pathToExtract, true);
+            return true;
         }
 
         public List<string> Validate(string path, ref int countCourses, ref int countValidCourses, ref int countInvalidCourses)
         {
-           List<string> messages = new List<string>();
+            List<string> messages = new List<string>();
 
-           var pathToExtract = Path.Combine(GetFolderPath(), Guid.NewGuid().ToString());
-           Zipper.ExtractZipFile(path, pathToExtract);
+            var pathToExtract = Path.Combine(GetFolderPath(), Guid.NewGuid().ToString());
+            Zipper.ExtractZipFile(path, pathToExtract);
 
-           if (Directory.GetFiles(pathToExtract, "*.disc").Count() == 0)
-           {
-              messages.Add("Archive doesn't contain file with .disc extension");
-           }
+            if (Directory.GetFiles(pathToExtract, "*.disc").Count() == 0)
+            {
+                messages.Add("Archive doesn't contain file with .disc extension");
+            }
 
-           string[] files = Directory.GetFiles(pathToExtract, "*.zip");
-           countCourses = files.Count();
+            string[] files = Directory.GetFiles(pathToExtract, "*.zip");
+            countCourses = files.Count();
 
-           foreach (var courseFile in files)
-           {
-              List<string> courseMessages = PackageValidator.Validate(courseFile);
-              messages.AddRange(courseMessages.AsEnumerable());
+            foreach (var courseFile in files)
+            {
+                List<string> courseMessages = PackageValidator.Validate(courseFile);
+                messages.AddRange(courseMessages.AsEnumerable());
 
-              if (courseMessages.Contains("Package is valid."))
-              {
-                 countValidCourses++;
-              }
-              else
-              {
-                 countInvalidCourses++;
-              }
-           }
+                if (courseMessages.Contains("Package is valid."))
+                {
+                    countValidCourses++;
+                }
+                else
+                {
+                    countInvalidCourses++;
+                }
+            }
 
-           return messages;
+            Directory.Delete(pathToExtract, true);
+
+            return messages;
         }
 
         #endregion

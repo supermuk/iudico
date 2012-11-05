@@ -9,6 +9,12 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
     {
         protected UserManagementTests tests = UserManagementTests.GetInstance();
 
+       public void SetUp()
+       {
+          this.tests = new UserManagementTests();
+       }
+
+
         [Test]
         public void GetUserExisting()
         {
@@ -16,7 +22,10 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             this.tests.Storage.CreateUser(temp);
 
-            Assert.AreEqual(temp, this.tests.Storage.GetUser(u => u.Username == "name"));
+           var user = this.tests.Storage.GetUser(u => u.Username == "name");
+            Assert.AreEqual(temp.Username, user.Username);
+            Assert.AreEqual(temp.Email, user.Email);
+            Assert.AreEqual(temp.Password, user.Password);
 
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }

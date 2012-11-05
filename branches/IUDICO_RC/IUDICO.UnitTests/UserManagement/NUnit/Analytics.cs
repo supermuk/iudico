@@ -18,15 +18,32 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void RateTopic()
         {
+            tests = UserManagementTests.Update();
+            var user = new User { Username = "name", Email = "mail1@mail.com", Password = "123" };
+            this.tests.Storage.CreateUser(user);
+
+            var gg = this.tests.Storage.GetUser("name").Id;
+            this.tests.Storage.ActivateUser(gg);
+
+            this.tests.ChangeCurrentUser("name");
             var userId = this.tests.Storage.GetCurrentUser().Id;
 
             this.tests.Storage.RateTopic(5, 1);
-            Assert.IsTrue(this.tests.MockDataContext.Object.UserTopicRatings.Any(r => r.Rating == 5 && r.TopicId == 1 && r.UserId == userId));
+            //Assert.AreEqual(1, this.tests.MockDataContext.Object.UserTopicRatings.Count());
+
+            Assert.IsTrue(this.tests.MockDataContext.Object.UserTopicRatings.Any(r => r.Rating == 5));
+            Assert.IsTrue(this.tests.MockDataContext.Object.UserTopicRatings.Any(r => r.TopicId == 1));
+            Assert.IsTrue(this.tests.MockDataContext.Object.UserTopicRatings.Any(r => r.UserId == userId));
+            //Assert.IsTrue(this.tests.MockDataContext.Object.UserTopicRatings.Any(r => r.Rating == 5 && r.TopicId == 1 && r.UserId == userId));
+            this.tests.ChangeCurrentUser("panza");
+            this.tests.Storage.DeleteUser(u => u.Username == "name");
+
         }
 
         [Test]
         public void UpdateUserAverage()
         {
+            tests = UserManagementTests.Update();
             var user = new User { Username = "name1", Email = "mail1@mail.com", Password = "123" };
             this.tests.Storage.CreateUser(user);
             
@@ -49,6 +66,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
 
             Assert.IsTrue(testUser.TestsTotal == 1);
             Assert.IsTrue(testUser.TestsSum == 90);
+
+            this.tests.Storage.DeleteUser(u => u.Username == "name1");
         }
     }
 }
