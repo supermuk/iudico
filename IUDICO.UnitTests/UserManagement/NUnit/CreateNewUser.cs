@@ -14,6 +14,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateUserValid()
         {
+            tests = new UserManagementTests();
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
             this.tests.Storage.CreateUser(temp);
@@ -21,14 +22,13 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var expected = this.tests.Storage.GetUser(u => u.Username == "name");
 
             Assert.IsTrue(temp.Username == expected.Username && temp.Email == expected.Email);
-
-            this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void CreateUserInvalid()
         {
+            tests = new UserManagementTests();
             var temp = new User { Username = "name", Email = "mail@mail.com" };
 
             this.tests.Storage.CreateUser(temp);
@@ -43,6 +43,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void CreateDuplicateUser()
         {
+            tests = new UserManagementTests();
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
             this.tests.Storage.CreateUser(temp);
@@ -54,8 +55,6 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var expected = this.tests.Storage.GetUser(u => u.Username == "name");
 
             Assert.IsTrue("mail@mail.com" == expected.Email);
-
-            this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
     }
 }

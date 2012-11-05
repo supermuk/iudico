@@ -17,6 +17,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void AddUserToRole()
         {
+            tests = UserManagementTests.Update();
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
             this.tests.Storage.CreateUser(temp);
@@ -35,6 +36,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void RemoveUserFromRole()
         {
+            tests = UserManagementTests.Update();
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
             this.tests.Storage.CreateUser(temp);
@@ -52,6 +54,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void AddExistingUsersToRoles()
         {
+            tests = UserManagementTests.Update();
             var users = new List<User> {
                     new User { Username = "name1", Email = "mail1@mail.com", Password = "123" }, 
                     new User { Username = "name2", Email = "mail2@mail.com", Password = "123" }, 
@@ -84,6 +87,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [ExpectedException(typeof(NullReferenceException))]
         public void AddNonExistingUsersToRoles()
         {
+            tests = UserManagementTests.Update();
             var users = new List<User> {
                     new User { Username = "name12", Email = "mail1@mail.com", Password = "123" }, 
                     new User { Username = "name22", Email = "mail2@mail.com", Password = "123" }, 
@@ -107,6 +111,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void RemoveExistingUsersFromRoles()
         {
+            tests = UserManagementTests.Update();
             var users = new List<User> {
                     new User { Username = "name122", Email = "mail1@mail.com", Password = "123" }, 
                     new User { Username = "name233", Email = "mail2@mail.com", Password = "123" }, 
@@ -138,6 +143,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [ExpectedException(typeof(NullReferenceException))]
         public void RemoveNonExistingUsersFromRoles()
         {
+            tests = UserManagementTests.Update();
             var users = new List<User> {
                     new User { Username = "name12", Email = "mail1@mail.com", Password = "123" }, 
                     new User { Username = "name22", Email = "mail2@mail.com", Password = "123" }, 
@@ -163,6 +169,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void RolesAvailableToUser()
         {
+            tests = UserManagementTests.Update();
             this.tests.Storage.CreateUser(new User { Username = "name123", Email = "mail1@mail.com", Password = "123" });
 
             this.tests.Storage.AddUserToRole(Role.Teacher, this.tests.Storage.GetUser("name123"));
@@ -177,6 +184,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void GetUsersInRole()
         {
+            tests = UserManagementTests.Update();
             this.tests.Storage.CreateUser(new User { Username = "name123", Email = "mail1@mail.com", Password = "123" });
 
             this.tests.Storage.AddUserToRole(Role.Teacher, this.tests.Storage.GetUser("name123"));
@@ -191,7 +199,20 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         [Test]
         public void PromotedToAdmin()
         {
-            
+            tests = UserManagementTests.Update();
+            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
+
+            this.tests.Storage.CreateUser(temp);
+
+            temp = this.tests.Storage.GetUser(temp.Username);
+
+            const Role Role = Role.Admin;
+            this.tests.Storage.AddUserToRole(Role, temp);
+
+            Assert.IsTrue(this.tests.Storage.GetUserRoles(temp.Username).Contains(Role));
+
+            this.tests.Storage.RemoveUserFromRole(Role, temp);
+            this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
     }
 }

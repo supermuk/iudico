@@ -7,10 +7,11 @@ namespace IUDICO.CourseManagement.Helpers
 {
     public static class PackageValidator
     {
-        public static List<string> Validate(string path)
+        public static List<string> Validate(string path, out bool valid)
         {
             var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
             var reader = PackageReader.Create(stream);
+            valid = true;
 
             var settings = new PackageValidatorSettings(
                 ValidationBehavior.LogWarning,
@@ -29,7 +30,9 @@ namespace IUDICO.CourseManagement.Helpers
             catch (InvalidPackageException ex)
             {
                 messages.Add(string.Format("Package is invalid.{0}", ex.Message));
-
+                valid = false;
+                reader.Dispose();
+                stream.Close();
                 return messages;
             }
 
@@ -37,6 +40,7 @@ namespace IUDICO.CourseManagement.Helpers
             {
                 if (result.IsError)
                 {
+                    valid = false;
                     messages.Add(string.Format("MLC Error: {0}", result.Message));
                 }
                 else
@@ -49,6 +53,9 @@ namespace IUDICO.CourseManagement.Helpers
             {
                 messages.Add("Package is valid.");
             }
+
+            reader.Dispose();
+            stream.Close();
 
             return messages;
         }

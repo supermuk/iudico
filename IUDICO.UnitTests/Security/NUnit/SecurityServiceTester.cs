@@ -28,29 +28,7 @@
             return new SecurityService(this.BanStorage);
         }
 
-        private HttpRequestBase GetGoodRequest()
-        {
-            var mockRequest = new Mock<HttpRequestBase>();
-            mockRequest.SetupGet(x => x.ContentLength).Returns(100);
-
-            var vars = new NameValueCollection();
-            vars.Add("REMOTE_ADDR", "100.100.100.100");
-
-            mockRequest.SetupGet(r => r.ServerVariables).Returns(vars);
-
-            var routeData = new RouteData();
-            routeData.Values.Add("action", "Banned");
-
-            var httpContext = new Mock<HttpContextBase>();
-
-            var rc = new RequestContext(httpContext.Object, routeData);
-
-            mockRequest.Setup(r => r.RequestContext).Returns(rc);
-
-            return mockRequest.Object;
-        }
-
-        private HttpRequestBase GetBadRequest()
+        private HttpRequestBase GetRequest(string value)
         {
             var mockRequest = new Mock<HttpRequestBase>();
             mockRequest.SetupGet(x => x.ContentLength).Returns(1000);
@@ -61,10 +39,9 @@
             mockRequest.SetupGet(r => r.ServerVariables).Returns(vars);
 
             var routeData = new RouteData();
-            routeData.Values.Add("action", "!Banned");
+            routeData.Values.Add("action", value);
 
             var httpContext = new Mock<HttpContextBase>();
-
             var rc = new RequestContext(httpContext.Object, routeData);
 
             mockRequest.Setup(r => r.RequestContext).Returns(rc);
@@ -72,11 +49,12 @@
             return mockRequest.Object;
         }
 
+        //author: Фай Роман
         [Test]
         public void Test_CheckRequestSafety()
         {
-            var goodRequest = this.GetGoodRequest();
-            var badRequest = this.GetBadRequest();
+            var goodRequest = this.GetRequest("Banned");
+            var badRequest = this.GetRequest("!Banned");
             var securityService = this.GetSecurityService_Real();
 
             Assert.IsTrue(securityService.CheckRequestSafety(goodRequest));

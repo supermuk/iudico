@@ -11,102 +11,117 @@
     [TestFixture]
     internal class UserActivityTester : SecurityTester
     {
+        public User CreateUser(string id, string name, bool approved)
+        {
+            return new User { UserId = id, Name = name, IsApproved = approved };
+        }
+        public void AddUserStats(OverallViewModel model, User user, int totalRequests,
+            int todayRequests, DateTime lastActivity)
+        {
+            model.AddUserStats(user, totalRequests, todayRequests, lastActivity);
+        }
+
+        //author: Фай Роман
         [Test]
         public void GetOverallNumberOfRequestsTest()
         {
             var overallViewModel = new OverallViewModel("1");
+            // create users
+            var tempUser1 = CreateUser("user1", "User1", true);
+            var tempUser2 = CreateUser("user2", "User2", true );
 
-            var tempUser1 = new User { UserId = "user1", Name = "User1", IsApproved = true };
-
-            var tempUser2 = new User { UserId = "user2", Name = "User2", IsApproved = true };
-
-            // Must be zero;
+            // must be zero
             Assert.AreEqual(overallViewModel.GetOverallNumberOfRequests(), 0);
 
-            overallViewModel.AddUserStats(tempUser1, 120, 70, DateTime.Today);
+            //add their stats
+            AddUserStats(overallViewModel, tempUser1, 120, 70, DateTime.Today);
+            AddUserStats(overallViewModel, tempUser2, 60, 60, DateTime.Today);
 
-            overallViewModel.AddUserStats(tempUser2, 60, 60, DateTime.Today);
-
-            // Check if request of all users are summed;
+            // check if all requests are summed
             Assert.AreEqual(overallViewModel.GetOverallNumberOfRequests(), 180);
         }
 
+        //author: Фай Роман
         [Test]
         public void GetOverallNumberOfRequestsForTodayTest()
         {
             var overallViewModel = new OverallViewModel();
+            //create users
+            var tempUser1 = CreateUser("User1", "User1", true );
+            var tempUser2 = CreateUser("User2", "User2", true );
 
-            var tempUser1 = new User { UserId = "User1", Name = "User1", IsApproved = true };
-
-            var tempUser2 = new User { UserId = "User2", Name = "User2", IsApproved = true };
-
+            // must be zero
             Assert.AreEqual(overallViewModel.GetOverallNumberOfRequestsForToday(), 0);
 
-            overallViewModel.AddUserStats(tempUser1, 120, 70, DateTime.Today);
+            //add their stats
+            AddUserStats(overallViewModel, tempUser1, 120, 70, DateTime.Today);
+            AddUserStats(overallViewModel, tempUser2, 60, 60, DateTime.Today);
 
-            overallViewModel.AddUserStats(tempUser2, 60, 60, DateTime.Today);
-
+            // check if today requests are summed
             Assert.AreEqual(130, overallViewModel.GetOverallNumberOfRequestsForToday());
         }
 
+        //author: Фай Роман
         [Test]
         public void AddUserStatsTest()
         {
             var overallViewModel = new OverallViewModel("1");
+            //create user
+            var tempUser = CreateUser("User1", "User1", true );
 
-            var tempUser = new User { UserId = "User1", Name = "User1", IsApproved = true };
-
+            // must be zero
             Assert.AreEqual(overallViewModel.GetOverallNumberOfRequests(), 0);
 
-            overallViewModel.AddUserStats(tempUser, 120, 70, DateTime.Today);
+            //add stats
+            AddUserStats(overallViewModel, tempUser, 120, 70, DateTime.Today);
 
             Assert.True(overallViewModel.GetStats().Count(s => s.User.UserId == "User1") == 1);
-
             Assert.AreEqual(overallViewModel.GetOverallNumberOfRequests(), 120);
         }
 
+        //author: Фай Роман
         [Test]
         public void GetStatsTest()
         {
             var overallViewModel = new OverallViewModel("1");
+            //create user
+            var tempUser = CreateUser("user1", "User1", true );
 
-            var tempUser = new User { UserId = "user1", Name = "User1", IsApproved = true };
-
-            overallViewModel.AddUserStats(tempUser, 120, 70, DateTime.Today);
+            //add stats
+            AddUserStats(overallViewModel, tempUser, 120, 70, DateTime.Today);
 
             Assert.True(overallViewModel.GetStats().Count(s => s.User.UserId == "user1") == 1);
-
             Assert.True(overallViewModel.GetStats().Count(s => s.User.UserId == "user15") == 0);
         }
 
+        //author: Фай Роман
         [Test]
         public void GetUserActivityTest()
         {
             var overallViewModel = new OverallViewModel("1");
+            //create users
+            var tempUser1 = CreateUser("user1", "User1", true );
+            var tempUser2 = CreateUser("user2", "User2", true );
 
-            var tempUser1 = new User { UserId = "user1", Name = "User1", IsApproved = true };
-
-            var tempUser2 = new User { UserId = "user2", Name = "User2", IsApproved = true };
-
-            overallViewModel.AddUserStats(tempUser1, 120, 70, DateTime.Today);
-
-            overallViewModel.AddUserStats(tempUser2, 60, 60, DateTime.Today);
+            //add their stats
+            AddUserStats(overallViewModel, tempUser1, 120, 70, DateTime.Today);
+            AddUserStats(overallViewModel, tempUser2, 60, 60, DateTime.Today);
 
             Assert.True(overallViewModel.GetUserActivity("user1").Sum(s => s.TotalNumberOfRequests) == 120);
         }
 
+        //author: Фай Роман
         [Test]
         public void GetUserActivityForTodayTest()
         {
             var overallViewModel = new OverallViewModel("1");
+            //create users
+            var tempUser1 = CreateUser("user1", "User1", true );
+            var tempUser2 = CreateUser("user2", "User2", true );
 
-            var tempUser1 = new User { UserId = "user1", Name = "User1", IsApproved = true };
-
-            var tempUser2 = new User { UserId = "user2", Name = "User2", IsApproved = true };
-
-            overallViewModel.AddUserStats(tempUser1, 120, 70, DateTime.Today);
-
-            overallViewModel.AddUserStats(tempUser2, 60, 60, DateTime.Today);
+            //add their stats
+            AddUserStats(overallViewModel, tempUser1, 120, 70, DateTime.Today);
+            AddUserStats(overallViewModel, tempUser2, 60, 60, DateTime.Today);
 
             Assert.True(overallViewModel.GetUserActivityForToday("user1").Sum(s => s.TodayNumberOfRequests) == 70);
         }

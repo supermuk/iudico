@@ -42,5 +42,33 @@ namespace IUDICO.DataGenerator.Models.Generators
 				}
 			}
 		}
+      
+      public static void GenerateAllCourses(ICourseStorage courseStorage, ICacheProvider cacheProvider)
+      {
+
+         var path = (new System.Uri(Assembly.GetExecutingAssembly().CodeBase)).AbsolutePath;
+         path = path.Replace("IUDICO.LMS/Plugins/IUDICO.DataGenerator.DLL", "IUDICO.DataGenerator/Content/Courses/");
+
+         if (Directory.Exists(path))
+         {
+            var files = Directory.GetFiles(path, "*.zip",SearchOption.TopDirectoryOnly);
+
+            foreach (var file in files)
+            {
+               var name = Path.GetFileNameWithoutExtension(file);
+
+               if (!courseStorage.GetCourses().Any(c => c.Name == name && c.Owner == "prof3"))
+               {
+                  courseStorage.Import(file, "prof3");
+                  Course course = courseStorage.GetCourses().SingleOrDefault(c => c.Name == name && c.Owner == "prof3");
+                  if (course != null && course.Locked.Value)
+                  {
+                     courseStorage.Parse(course.Id);
+                     cacheProvider.Invalidate("course-" + course.Id, "courses");
+                  }
+               }
+            }
+         }
+      }
 	}
 }
