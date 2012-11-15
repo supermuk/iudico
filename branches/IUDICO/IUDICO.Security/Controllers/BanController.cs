@@ -94,14 +94,15 @@ namespace IUDICO.Security.Controllers
                 {
                     IpAddress = viewModel.ComputerIP,
                     Banned = viewModel.Banned,
-                    CurrentUser = viewModel.CurrentUser
+                    CurrentUser = viewModel.CurrentUser,
                 });
 
             var viewModel1 = new EditComputersViewModel(
                     comp.IpAddress,
                     (comp.RoomRef != null) ? comp.Room.Name : "N/A",
                     comp.Banned,
-                    comp.CurrentUser);
+                    comp.CurrentUser,
+                    this.BanStorage);
 
             return View(viewModel1);
         }
