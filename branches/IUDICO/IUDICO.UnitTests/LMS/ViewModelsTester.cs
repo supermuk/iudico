@@ -7,6 +7,9 @@
 
     using IUDICO.Common.Models.Shared;
     using IUDICO.Security.ViewModels.Ban;
+    using IUDICO.Security.Models.Storages;
+
+    using Moq;
 
     [TestFixture]
     internal class ViewModelsTester
@@ -36,7 +39,9 @@
         [Test]
         public void EditComputersViewModel()
         {
-            var editComputersViewModel = new EditComputersViewModel("999.999.888.777", "room1", false, "user1");
+            var mock = new Mock<IBanStorage>();
+
+            var editComputersViewModel = new EditComputersViewModel("999.999.888.777", "room1", false, "user1", mock.Object);
 
             var viewModel = new EditComputersViewModel
                 {

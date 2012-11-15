@@ -23,12 +23,13 @@ namespace IUDICO.Security.ViewModels.Ban
         public EditComputersViewModel() {
             this.BanStorage = new DatabaseBanStorage();
         }
-        public EditComputersViewModel(string cip, string room, bool banned, string curUser) 
+        public EditComputersViewModel(string cip, string room, bool banned, string curUser, IBanStorage storage) 
         {
             this.ComputerIP = cip;
             this.Room = room;
             this.Banned = banned;
             this.CurrentUser = curUser;
+            this.BanStorage = storage;
         }
 
         public EditComputersViewModel(Computer computer)
