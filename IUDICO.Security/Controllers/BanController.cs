@@ -82,7 +82,22 @@ namespace IUDICO.Security.Controllers
             return View(viewModel);
         }
 
+        [HttpGet]
+        public ActionResult EditComputer(string computerIp)
+        {
+            var computer = this.BanStorage.GetComputer(computerIp);
 
+            var viewModel = new EditComputersViewModel(
+                    computer.IpAddress,
+                    (computer.RoomRef != null) ? computer.Room.Name : "N/A",
+                    computer.Banned,
+                    computer.CurrentUser,
+                    this.BanStorage);
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
         public ActionResult EditComputer(EditComputersViewModel viewModel)
         {
             var comp = this.BanStorage.GetComputer(viewModel.ComputerIP);
@@ -97,14 +112,7 @@ namespace IUDICO.Security.Controllers
                     CurrentUser = viewModel.CurrentUser,
                 });
 
-            var viewModel1 = new EditComputersViewModel(
-                    comp.IpAddress,
-                    (comp.RoomRef != null) ? comp.Room.Name : "N/A",
-                    comp.Banned,
-                    comp.CurrentUser,
-                    this.BanStorage);
-
-            return View(viewModel1);
+            return RedirectToAction("EditComputers");
         }
 
         [Allow(Role = Role.Admin)]

@@ -8,14 +8,18 @@
 	EditComputer
 </asp:Content>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <fieldset>
+<asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">    
+    <style type="text/css">
+        h3 {color: red}
+    </style>
 
+    <fieldset>
+        
     <h2>Edit Computer</h2>
     
     <% using(Html.BeginForm())
-            { %>
-                <p>Computer IP</p> <%= Html.TextBoxFor(x => x.ComputerIP)%> 
+            { %> 
+                <h3><%=Html.DisplayTextFor(x => x.ComputerIP) %></h3>       
                 <p>Room</p> <%= Html.DropDownListFor(x => x.Room, new SelectList(Model.BanStorage.GetRooms().Select(r => r.Name)),
                              Model.Room != null ? Model.Room : "Select room") %>
                 <p>Banned</p> <%= Html.CheckBoxFor(x => x.Banned)%> 
