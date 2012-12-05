@@ -57,7 +57,7 @@ namespace IUDICO.Security.Controllers
                 viewModel.State = Models.ViewModelState.View;
             }
 
-            return View(viewModel);
+            return RedirectToAction("EditComputers");
         }
 
         [Allow(Role = Role.Admin)]
@@ -152,7 +152,7 @@ namespace IUDICO.Security.Controllers
         }
 
         [Allow(Role = Role.Admin)]
-        public ActionResult BanComputer()
+        public ActionResult EditComputers()
         {
             var viewModel = new BanComputerViewModel();
             viewModel.Computers = this.BanStorage.GetComputers().ToList();
@@ -164,14 +164,14 @@ namespace IUDICO.Security.Controllers
         public ActionResult ComputerBan(string computer)
         {
             this.BanStorage.BanComputer(this.BanStorage.GetComputer(computer));
-            return RedirectToAction("BanComputer");
+            return RedirectToAction("EditComputers");
         }
 
         [Allow(Role = Role.Admin)]
         public ActionResult ComputerUnban(string computer)
         {
             this.BanStorage.UnbanComputer(this.BanStorage.GetComputer(computer));
-            return RedirectToAction("BanComputer");   
+            return RedirectToAction("EditComputers");   
         }
 
         [Allow(Role = Role.Admin)]
@@ -214,7 +214,7 @@ namespace IUDICO.Security.Controllers
         public ActionResult DeleteComputer(string computer)
         {
             this.BanStorage.DeleteComputer(this.BanStorage.GetComputer(computer));
-            return RedirectToAction("BanComputer");
+            return RedirectToAction("EditComputers");
         }
 
         public ActionResult Banned()

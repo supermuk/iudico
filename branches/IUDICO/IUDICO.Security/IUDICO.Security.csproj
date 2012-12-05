@@ -76,7 +76,7 @@
     <Content Include="Scripts\jquery\jquery.tmpl.min.js" />
     <Content Include="Views\Ban\AddRoom.aspx" />
     <Content Include="Views\Ban\AddComputers.aspx" />
-    <Content Include="Views\Ban\BanComputer.aspx" />
+    <Content Include="Views\Ban\EditComputers.aspx" />
     <Content Include="Views\Ban\Banned.aspx" />
     <Content Include="Views\Ban\BanRoom.aspx" />
     <Content Include="Views\Ban\EditComputer.aspx" />
