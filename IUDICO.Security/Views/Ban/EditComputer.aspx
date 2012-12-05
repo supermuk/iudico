@@ -26,7 +26,7 @@
 
            <% }%>
     </fieldset>  
-<%Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "BanComputer", "Ban")); %>            
+<%Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "EditComputers", "Ban")); %>            
 
 </asp:Content>
 
