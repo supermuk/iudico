@@ -100,5 +100,5 @@
     </div>
     </fieldset>
     <% } %>
-    <%= Html.ActionLink(Localization.GetMessage("BackToList"), "BanRoom", "Ban") %>
+    <%= Html.ActionLink(Localization.GetMessage("BackToList"), "EditRooms", "Ban") %>
 </asp:Content>
