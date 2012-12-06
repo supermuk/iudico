@@ -46,9 +46,12 @@
                     <%:Html.ActionLink(Localization.GetMessage("Ban"), "ComputerBan", new { computer = item.IpAddress })%> 
                 <% } %> 
             </td>
-        <//tr>
+        </tr>
         <%} %>
     </table>
+    
+    <p></p>
+
     <%= Html.ActionLink(Localization.GetMessage("BackToBan"), "Index", "Ban") %>
 
 

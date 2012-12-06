@@ -78,7 +78,7 @@
     <Content Include="Views\Ban\AddComputers.aspx" />
     <Content Include="Views\Ban\EditComputers.aspx" />
     <Content Include="Views\Ban\Banned.aspx" />
-    <Content Include="Views\Ban\BanRoom.aspx" />
+    <Content Include="Views\Ban\EditRooms.aspx" />
     <Content Include="Views\Ban\EditComputer.aspx" />
     <Content Include="Views\Ban\EditRoom.aspx" />
     <Content Include="Views\Ban\Index.aspx" />

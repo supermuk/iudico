@@ -52,9 +52,7 @@ namespace IUDICO.Security.Models.Storages.Cache
         {
             this.storage.EditComputer(ip, banned, currentUser);
 
-            var computer = this.storage.GetComputer(ip);
-
-            this.cachePrvoider.Invalidate("computers", "computer-" + computer.IpAddress);
+            this.cachePrvoider.Invalidate("computers", "computer-" + ip);
         }
 
         public void BanRoom(Room room)
