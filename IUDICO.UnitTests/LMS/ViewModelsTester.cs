@@ -39,9 +39,7 @@
         [Test]
         public void EditComputersViewModel()
         {
-            var mock = new Mock<IBanStorage>();
-
-            var editComputersViewModel = new EditComputersViewModel("999.999.888.777", "room1", false, "user1", mock.Object);
+            var editComputersViewModel = new EditComputersViewModel("999.999.888.777", "room1", false, "user1", new List<string>());
 
             var viewModel = new EditComputersViewModel
                 {

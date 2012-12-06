@@ -92,7 +92,7 @@ namespace IUDICO.Security.Controllers
                     (computer.RoomRef != null) ? computer.Room.Name : "N/A",
                     computer.Banned,
                     computer.CurrentUser,
-                    this.BanStorage);
+                    this.BanStorage.GetRooms().Select(r => r.Name));
 
             return View(viewModel);
         }
