@@ -100,17 +100,9 @@ namespace IUDICO.Security.Controllers
         [HttpPost]
         public ActionResult EditComputer(EditComputersViewModel viewModel)
         {
-            var comp = this.BanStorage.GetComputer(viewModel.ComputerIP);
+            //var comp = this.BanStorage.GetComputer(viewModel.ComputerIP);
 
-            this.BanStorage.DeleteComputer(comp);
-
-            this.BanStorage.CreateComputer(
-                new Computer
-                {
-                    IpAddress = viewModel.ComputerIP,
-                    Banned = viewModel.Banned,
-                    CurrentUser = viewModel.CurrentUser,
-                });
+            this.BanStorage.EditComputer(viewModel.ComputerIP, viewModel.Banned, viewModel.CurrentUser);
 
             return RedirectToAction("EditComputers");
         }

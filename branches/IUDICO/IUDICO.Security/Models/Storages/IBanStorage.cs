@@ -14,6 +14,7 @@ namespace IUDICO.Security.Models.Storages
         void DetachComputer(Computer computer);
         void BanComputer(Computer computer);
         void UnbanComputer(Computer computer);
+        void EditComputer(string ip, bool banned, string currentUser);
         void BanRoom(Room room);
         void UnbanRoom(Room room);
         
