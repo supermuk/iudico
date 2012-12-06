@@ -20,7 +20,7 @@
     <% using(Html.BeginForm())
             { %> 
                 <h3><%=Html.DisplayTextFor(x => x.ComputerIP) %></h3>       
-                <p>Room</p> <%= Html.DropDownListFor(x => x.Room, new SelectList(Model.BanStorage.GetRooms().Select(r => r.Name)),
+                <p>Room</p> <%= Html.DropDownListFor(x => x.Room, new SelectList(Model.AllRooms),
                              Model.Room != null ? Model.Room : "Select room") %>
                 <p>Banned</p> <%= Html.CheckBoxFor(x => x.Banned)%> 
                 <p>Current User </p><%=Html.TextBoxFor(x => x.CurrentUser)%>
