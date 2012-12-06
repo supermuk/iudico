@@ -9,6 +9,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
     <h2><%=Localization.GetMessage("Edit computers")%></h2>
+    
+    <%= Html.ActionLink("Add computer", "AddComputers", "Ban") %>
+    <p></p>
 
      <table>
         <tr>
