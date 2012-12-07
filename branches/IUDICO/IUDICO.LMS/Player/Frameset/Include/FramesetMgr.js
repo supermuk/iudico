@@ -16,7 +16,7 @@ NAVOPEN_FRAME = "frameNavOpen";
 // TITLE_FRAME = "frameTitle";
 TOC_FRAME = "frameToc";
 MAIN_FRAME = "frameLearnTask";
-PARENTUI_FRAMESET = "framesetParentUI"
+PARENTUI_FRAMESET = "framesetParentUI";
 
 // Commands
 CMD_NEXT = "N";
@@ -184,8 +184,9 @@ function FM_RegisterFrameLoad(frameName) {
             this.RegisterReadyStateChange();
 
             // Update all the ui controls
-            UpdateNavVisibility(this.m_showNext, this.m_showPrevious, this.m_showAbandon, this.m_showExit, this.m_showSave);
-
+            //UpdateNavVisibility(this.m_showNext, this.m_showPrevious, this.m_showAbandon, this.m_showExit, this.m_showSave);
+            UpdateNavVisibility(this.m_showNext, this.m_showPrevious, this.m_showAbandon, this.m_showExit, false);
+	        
             this.ShowActivityId(this.m_activityId);    // tell TOC about the activity
 
             // If there was an error in server processing, don't render content frame. Instead, show error message.
@@ -235,6 +236,7 @@ function FM_WaitForContentCompleted(iCount) {
 
     this.m_waitForContentCount = iCount;
     this.DebugLog("WaitForContentCompleted: End. m_waitForContentCount = " + this.m_waitForContentCount);
+	
 }
 
 function FM_ReadyStateReceived() {
@@ -540,16 +542,16 @@ function UpdateNavVisibility(showNext, showPrevious, showAbandon, showExit, show
     var frame = GetOpenNavFrame();
     var navDoc = frame.document;
 
-    SetVisibility(navDoc.getElementById("imgNext"), showNext);
-    SetVisibility(navDoc.getElementById("imgPrevious"), showPrevious);
-    SetVisibility(navDoc.getElementById("imgSave"), showSave);
+//    SetVisibility(navDoc.getElementById("imgNext"), showNext);
+//    SetVisibility(navDoc.getElementById("imgPrevious"), showPrevious);
+    //SetVisibility(navDoc.getElementById("imgSave"), showSave);
 
     frame = GetClosedNavFrame();
     navDoc = frame.contentWindow.document;
 
-    SetVisibility(navDoc.getElementById("divNext"), showNext);
-    SetVisibility(navDoc.getElementById("divPrevious"), showPrevious);
-    SetVisibility(navDoc.getElementById("divSave"), showSave);
+//    SetVisibility(navDoc.getElementById("divNext"), showNext);
+//    SetVisibility(navDoc.getElementById("divPrevious"), showPrevious);
+    //SetVisibility(navDoc.getElementById("divSave"), showSave);
 }
 
 // Helper function to set the visibility style of a div based on showUI.
