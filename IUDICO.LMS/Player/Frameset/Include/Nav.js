@@ -287,4 +287,5 @@ function OnLoad( frameName )
     frameMgr = API_GetFramesetManager();
     // Register with framemanager that loading is complete
     frameMgr.RegisterFrameLoad(frameName);
+	
 }
