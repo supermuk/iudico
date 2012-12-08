@@ -64,6 +64,21 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return this.lmsService.FindService<ICourseService>().GetCourses(this.GetCurrentUser()).ToList();
         }
 
+        public void Import(string path, string courseName)
+        {
+            this.lmsService.FindService<ICourseService>().Import(path, courseName, this.GetCurrentUser().Username);
+        }
+
+        public void Unlock(int id)
+        {
+            this.lmsService.FindService<ICourseService>().Unlock(id);
+        }
+
+        public string Export(int id)
+        {
+            return lmsService.FindService<ICourseService>().Export(id);
+        }
+
         public Course GetCourse(int id)
         {
             return this.lmsService.FindService<ICourseService>().GetCourse(id);
