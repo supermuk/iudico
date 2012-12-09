@@ -49,13 +49,18 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Create(Tag tag)
         {
-            if (ModelState.IsValid)
+            try
             {
-                this.storage.CreateTag(tag);
-
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    this.storage.CreateTag(tag);
+                    return RedirectToAction("Index");
+                }
             }
-
+            catch
+            {
+                this.ModelState.AddModelError("Name", "Tag with such name already exists.");
+            }
             return View(tag);
         }
 
@@ -73,14 +78,19 @@ namespace IUDICO.Analytics.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Edit(int id, Tag tag)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return View(tag);
+                if (ModelState.IsValid)
+                {
+                    this.storage.EditTag(id, tag);
+                    return RedirectToAction("Index");
+                }
             }
-
-            this.storage.EditTag(id, tag);
-
-            return RedirectToAction("Index");
+            catch
+            {
+                this.ModelState.AddModelError("Name", "Tag with such name already exists.");
+            }
+            return View(tag);
         }
 
         // DELETE: /Features/Delete/5
@@ -93,11 +103,11 @@ namespace IUDICO.Analytics.Controllers
             {
                 this.storage.DeleteTag(id);
 
-                return Json(new { status = true });
+                return Json(new { Message = "true" });
             }
             catch
             {
-                return Json(new { status = false });
+                return Json(new { Message = "false" });
             }
         }
 
