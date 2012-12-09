@@ -57,7 +57,11 @@ namespace IUDICO.Analytics.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch
+            catch (InvalidTagNameException)
+            {
+                this.ModelState.AddModelError("Name", "Tag name should start with letter.");
+            }
+            catch (DuplicateTagNameException)
             {
                 this.ModelState.AddModelError("Name", "Tag with such name already exists.");
             }
@@ -86,7 +90,11 @@ namespace IUDICO.Analytics.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch
+            catch (InvalidTagNameException)
+            {
+                this.ModelState.AddModelError("Name", "Tag name should start with a letter.");
+            }
+            catch (DuplicateTagNameException)
             {
                 this.ModelState.AddModelError("Name", "Tag with such name already exists.");
             }

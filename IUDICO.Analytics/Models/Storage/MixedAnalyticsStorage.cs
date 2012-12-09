@@ -425,16 +425,21 @@ namespace IUDICO.Analytics.Models.Storage
                 return new ViewTagDetails(tag, topics);
             }
         }
-
+       
         public void CreateTag(Tag tag)
         {
             using (var d = this.GetDbContext())
             {
                 var t = d.Tags.Select(x=>x.Name).ToList();
-               
+
+                if (!Char.IsLetter(tag.Name.First()))
+                {
+                    throw new InvalidTagNameException("Tag name should start with a letter");
+                }
+
                 if (t.Contains(tag.Name))
                 {
-                    throw new Exception("Tag with such name already exists.");
+                    throw new DuplicateTagNameException("Tag with such name already exists.");
                 }
                 else
                 {
@@ -455,9 +460,13 @@ namespace IUDICO.Analytics.Models.Storage
             {
                 var t = d.Tags.Select(x => x.Name).ToList();
 
+                if (!Char.IsLetter(tag.Name.First()))
+                {
+                    throw new InvalidTagNameException("Tag name should start with a letter");
+                }
                 if (t.Contains(tag.Name))
                 {
-                    throw new Exception("Tag with such name already exists.");
+                    throw new DuplicateTagNameException("Tag with such name already exists.");
                 }
                 else
                 {
@@ -699,5 +708,13 @@ namespace IUDICO.Analytics.Models.Storage
         }
 
         #endregion
+    }
+    public class InvalidTagNameException : Exception
+    {
+        public InvalidTagNameException(string Message) : base(Message) { }
+    }
+    public class DuplicateTagNameException : Exception
+    {
+        public DuplicateTagNameException(string Message) : base(Message) { }
     }
 }
