@@ -52,7 +52,7 @@
     <script type="text/javascript" language="javascript">
         function onSuccess(result) {
             var data = result.get_object();
-            if (data.Message == "true") {
+            if (data.Message == true) {
                 window.location = window.location;
             } else {
                 alert("Can't delete tag, which has topics assigned to it");
