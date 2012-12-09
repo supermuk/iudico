@@ -103,11 +103,11 @@ namespace IUDICO.Analytics.Controllers
             {
                 this.storage.DeleteTag(id);
 
-                return Json(new { Message = "true" });
+                return Json(new { Message = true });
             }
             catch
             {
-                return Json(new { Message = "false" });
+                return Json(new { Message = false });
             }
         }
 
