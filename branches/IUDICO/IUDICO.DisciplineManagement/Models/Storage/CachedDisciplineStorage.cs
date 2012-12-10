@@ -202,16 +202,16 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return updatedChapter;
         }
 
-        public void DeleteChapter(int id)
+        public void DeleteChapter(int id, bool disciplineDeleting = false)
         {
-            this.storage.DeleteChapter(id);
+            this.storage.DeleteChapter(id, disciplineDeleting);
 
             this.cacheProvider.Invalidate("chaprters", "chapter-" + id);
         }
 
-        public void DeleteChapters(IEnumerable<int> ids)
+        public void DeleteChapters(IEnumerable<int> ids, bool disciplineDeleting = false)
         {
-            this.storage.DeleteChapters(ids);
+            this.storage.DeleteChapters(ids, disciplineDeleting);
 
             this.cacheProvider.Invalidate("chaprters");
             this.cacheProvider.Invalidate(ids.Select(id => "chapter-" + id).ToArray());
@@ -301,18 +301,18 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             return updatedTopic;
         }
 
-        public void DeleteTopic(int id)
+        public void DeleteTopic(int id, bool chapterDeleting = false)
         {
             var chapter = this.storage.GetChapter(this.storage.GetTopic(id).ChapterRef);
-            this.storage.DeleteTopic(id);            
+            this.storage.DeleteTopic(id, chapterDeleting);            
             this.cacheProvider.Invalidate("disciplines", "discipline-" + chapter.DisciplineRef);
 
             this.cacheProvider.Invalidate("topics", "topic-" + id);
         }
 
-        public void DeleteTopics(IEnumerable<int> ids)
+        public void DeleteTopics(IEnumerable<int> ids, bool chapterDeleting = false)
         {
-            this.storage.DeleteTopics(ids);
+            this.storage.DeleteTopics(ids, chapterDeleting);
 
             this.cacheProvider.Invalidate("topics");
             this.cacheProvider.Invalidate(ids.Select(id => "topic-" + id).ToArray());
