@@ -89,7 +89,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public virtual Course GetCourse(int id)
         {
-            return this.GetDbContext().Courses.Single(c => c.Id == id);
+            return this.GetDbContext().Courses.Single(c => c.Id == id && c.Deleted == false);
         }
 
         public virtual IEnumerable<User> GetCourseUsers(int courseId)
@@ -337,7 +337,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = this.GetDbContext();
 
-            var oldCourse = db.Courses.Single(c => c.Id == id);
+            var oldCourse = db.Courses.Single(c => c.Id == id && c.Deleted == false);
 
             oldCourse.Name = course.Name;
             oldCourse.Updated = DateTime.Now;
@@ -359,7 +359,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         public virtual void DeleteCourse(int id)
         {
             var db = this.GetDbContext();
-            var course = db.Courses.Single(c => c.Id == id);
+            var course = db.Courses.Single(c => c.Id == id && c.Deleted == false);
 
             if (course.Owner != this.LmsService.FindService<IUserService>().GetCurrentUser().Username)
             {

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
-
+using System.Net.Mime;
 using IUDICO.CourseManagement.Helpers;
 
 using NUnit.Framework;
@@ -13,12 +13,10 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
     public class HelpersTest : BaseCourseManagementTest
     {
         [Test]
-        [Category("CreateZipTest")]
         public void CreateZipTest()
         {
             var folder = Path.Combine(this.root, @"New Folder");
-
-            var zip = Path.Combine(this.root, "1.zip");
+            var zip = Path.Combine(this.root, @"1.zip");
 
             Zipper.CreateZip(zip, folder);
 
@@ -26,10 +24,9 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         }
 
         [Test]
-        [Category("CreateZipTest")]
         public void ExtractZipFileTest()
         {
-            var folder = Path.Combine(this.root, "Zipped Folder");
+            var folder = Path.Combine(this.root, @"Zipped Folder");
 
             var zip = Path.Combine(this.root, @"Zipped Folder.zip");
 
@@ -41,7 +38,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void PackageValidatorValidPackageTest()
         {
-            var path = Path.Combine(this.root, "Valid package.zip");
+            var path = Path.Combine(this.root, @"Valid package.zip");
             bool valid;
             var res = PackageValidator.Validate(path, out valid);
 
@@ -51,7 +48,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void PackageValidatorInvalidPackageTest()
         {
-            var path = Path.Combine(this.root, "Invalid package.zip");
+            var path = Path.Combine(this.root, @"Invalid package.zip");
             bool valid;
             var res = PackageValidator.Validate(path, out valid);
 
@@ -61,8 +58,8 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperDirectoryCopyTest()
         {
-            var from = Path.Combine(this.root, "New Folder");
-            var to = Path.Combine(this.root, "New Folder Copy" + Guid.NewGuid());
+            var from = Path.Combine(this.root, @"New Folder");
+            var to = Path.Combine(this.root, @"New Folder Copy" + Guid.NewGuid());
 
             Directory.CreateDirectory(to);
 
@@ -74,7 +71,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperDirectoryCreateTest()
         {
-            var dir = Path.Combine(this.root, "New Folder Create");
+            var dir = Path.Combine(this.root, @"New Folder Create");
 
             FileHelper.DirectoryCreate(dir);
 
@@ -84,7 +81,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperDirectoryExistsTest()
         {
-            var dir = Path.Combine(this.root, "New Folder");
+            var dir = Path.Combine(this.root, @"New Folder");
 
             Assert.IsTrue(FileHelper.DirectoryExists(dir));
         }
@@ -92,7 +89,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperDirectoryNotExistsTest()
         {
-            var dir = Path.Combine(this.root, "Not Existing New Folder");
+            var dir = Path.Combine(this.root, @"Not Existing New Folder");
 
             Assert.IsFalse(FileHelper.DirectoryExists(dir));
         }
@@ -100,7 +97,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperDirectoryGetFilesTest()
         {
-            var dir = Path.Combine(this.root, "New Folder");
+            var dir = Path.Combine(this.root, @"New Folder");
             var file = Path.Combine(dir, "New Document.txt");
 
             var res = FileHelper.DirectoryGetFiles(dir).ToArray();
@@ -111,7 +108,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void FileHelperFileWriteTest()
         {
-            var file = Path.Combine(this.root, "New Document Write.txt");
+            var file = Path.Combine(this.root, @"New Document Write.txt");
 
             FileHelper.FileWrite(file, "test");
 
