@@ -81,7 +81,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
         [Test]
         public void CreateDisciplineWithoutNameTest()
         {
-            this.DefaultLogin("prof2", "prof2");
+            this.DefaultLogin("prof", "prof");
 
             this.selenium.Click("//a[contains(@href,'/DisciplineAction')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);

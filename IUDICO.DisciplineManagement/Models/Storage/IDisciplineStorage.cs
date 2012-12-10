@@ -151,13 +151,13 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// Deletes the chapter.
         /// </summary>
         /// <param name="id">The id.</param>
-        void DeleteChapter(int id);
+        void DeleteChapter(int id, bool disciplineDeleting = false);
 
         /// <summary>
         /// Deletes the chapters.
         /// </summary>
         /// <param name="ids">The ids.</param>
-        void DeleteChapters(IEnumerable<int> ids);
+        void DeleteChapters(IEnumerable<int> ids, bool disciplineDeleting = false);
 
         #endregion
 
@@ -224,13 +224,13 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         /// Deletes the topic.
         /// </summary>
         /// <param name="id">The id.</param>
-        void DeleteTopic(int id);
+        void DeleteTopic(int id, bool chapterDeleting = false);
 
         /// <summary>
         /// Deletes the topics.
         /// </summary>
         /// <param name="ids">The ids.</param>
-        void DeleteTopics(IEnumerable<int> ids);
+        void DeleteTopics(IEnumerable<int> ids, bool chapterDeleting = false);
 
         /// <summary>
         /// Topics up.

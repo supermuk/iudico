@@ -192,7 +192,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             // delete chapters
             var chapterIds = this.GetChapters(item => item.DisciplineRef == id).Select(item => item.Id);
-            this.DeleteChapters(chapterIds);
+            this.DeleteChapters(chapterIds, true);
 
             this.lmsService.Inform(DisciplineNotifications.DisciplineDeleting, discipline);
 
@@ -323,6 +323,8 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             db.SubmitChanges();
 
             this.lmsService.Inform(DisciplineNotifications.ChapterCreated, chapter);
+
+            this.UpdateDiscipline(chapter.Discipline);
             return chapter.Id;
         }
 
@@ -334,27 +336,35 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             oldChapter.Name = chapter.Name;
             oldChapter.Updated = DateTime.Now;
 
-            db.SubmitChanges();
+            db.SubmitChanges(); 
+            
+            this.UpdateDiscipline(oldChapter.Discipline);
             return oldChapter;
         }
 
-        public void DeleteChapter(int id)
+        public void DeleteChapter(int id, bool disciplineDeleting = false)
         {
             var db = this.GetDbContext();
             var chapter = GetChapter(db, id);
 
             // delete corresponding topics
             var topicIds = GetTopics(item => item.ChapterRef == id).Select(item => item.Id);
-            this.DeleteTopics(topicIds);
+            this.DeleteTopics(topicIds, true);
 
             this.lmsService.Inform(DisciplineNotifications.ChapterDeleting, chapter);
             chapter.IsDeleted = true;
+
             db.SubmitChanges();
+
+            if (!disciplineDeleting)
+            {
+                this.UpdateDiscipline(chapter.Discipline);
+            }
         }
 
-        public void DeleteChapters(IEnumerable<int> ids)
+        public void DeleteChapters(IEnumerable<int> ids, bool disciplineDeleting = false)
         {
-            ids.ForEach(this.DeleteChapter);
+            ids.ForEach(i => this.DeleteChapter(i, disciplineDeleting));
         }
 
         #endregion
@@ -422,9 +432,10 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             db.SubmitChanges();
 
             topic.SortOrder = topic.Id;
-            this.UpdateTopic(topic);
 
             this.lmsService.Inform(DisciplineNotifications.TopicCreated, topic);
+
+            this.UpdateChapter(topic.Chapter);
             return topic.Id;
         }
 
@@ -456,10 +467,11 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             data[1] = updatingTopic;
             this.lmsService.Inform(DisciplineNotifications.TopicEdited, data);
 
+            this.UpdateChapter(updatingTopic.Chapter);
             return updatingTopic;
         }
 
-        public void DeleteTopic(int id)
+        public void DeleteTopic(int id, bool chapterDeleting = false)
         {
             var db = this.GetDbContext();
             var topic = GetTopic(db, id);
@@ -475,11 +487,16 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             this.lmsService.Inform(DisciplineNotifications.DisciplineIsValidChange, discipline);
 
             this.lmsService.Inform(DisciplineNotifications.TopicDeleted, topic);
+
+            if (!chapterDeleting)
+            {
+                this.UpdateChapter(topic.Chapter);
+            }
         }
 
-        public void DeleteTopics(IEnumerable<int> ids)
+        public void DeleteTopics(IEnumerable<int> ids, bool chapterDeleting = false)
         {
-            ids.ForEach(this.DeleteTopic);
+            ids.ForEach(i => this.DeleteTopic(i, chapterDeleting));
         }
 
         public Topic TopicUp(int topicId)
@@ -497,7 +514,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
                 db.SubmitChanges();
             }
-
+            this.UpdateChapter(topic.Chapter);
             return topic;
         }
 
@@ -516,7 +533,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
                 db.SubmitChanges();
             }
-
+            this.UpdateChapter(topic.Chapter);
             return topic;
         }
 
