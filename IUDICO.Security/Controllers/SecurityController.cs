@@ -19,7 +19,7 @@ namespace IUDICO.Security.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult Index()
         {
-            return View(new IndexViewModel());
+            return RedirectToAction("Index", "Ban");
         }
     }
 }

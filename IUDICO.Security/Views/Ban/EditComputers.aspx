@@ -8,7 +8,10 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
 
-    <h2><%=Localization.GetMessage("Ban computer")%></h2>
+    <h2><%=Localization.GetMessage("Edit computers")%></h2>
+    
+    <%= Html.ActionLink("Add computer", "AddComputers", "Ban") %>
+    <p></p>
 
      <table>
         <tr>
@@ -43,9 +46,12 @@
                     <%:Html.ActionLink(Localization.GetMessage("Ban"), "ComputerBan", new { computer = item.IpAddress })%> 
                 <% } %> 
             </td>
-        <//tr>
+        </tr>
         <%} %>
     </table>
+    
+    <p></p>
+
     <%= Html.ActionLink(Localization.GetMessage("BackToBan"), "Index", "Ban") %>
 
 
