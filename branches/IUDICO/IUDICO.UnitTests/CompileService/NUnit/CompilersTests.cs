@@ -2,15 +2,15 @@
 using System.IO;
 
 using CompileSystem.Classes.Compiling;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
 using NUnit.Framework;
 
 using Assert = NUnit.Framework.Assert;
 
 namespace IUDICO.UnitTests.CompileService.NUnit
 {
+  using Microsoft.VisualStudio.TestTools.UnitTesting;
+  using CompileSystem.Classes.Compiling;
+
     [TestFixture]
     public class CompilersTests
     {
@@ -102,15 +102,15 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             compilers.Load();
             Assert.AreEqual(compilers.Count, 0);
 
-            compilers = new Compilers("TestCompilers");
+            compilers = new Compilers("Compilers");
             compilers.Load();
-            Assert.AreEqual(compilers.Count, 2);
+            Assert.AreEqual(compilers.Count, 5);
         }
 
         [Test]
         public void ParseTest()
         {
-            var correctXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CPP8.xml");
+            var correctXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\CPP8.xml");
 
             // TODO: check it
             var compilersArr = new Compilers("Compilers");
@@ -120,25 +120,39 @@ namespace IUDICO.UnitTests.CompileService.NUnit
         }
 
         [Test]
-        [global::NUnit.Framework.ExpectedException(typeof(Exception))]
         public void CompilersParseBadXmlTest()
         {
-            var incorrectXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CSharp.xml");
+            var incorrectXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CSharp\CSharp.xml");
+            try
+            {
+              var tempCompilers = new Compilers("Compilers");
+              var privateObject = new PrivateObject(tempCompilers, new PrivateType(typeof(Compilers)));
 
-            var tempCompilers = new Compilers("Compilers");
-            var privateObject = new PrivateObject(tempCompilers, new PrivateType(typeof(Compilers)));
-
-            privateObject.Invoke("Parse", incorrectXmlFilePath);
+              privateObject.Invoke("Parse", incorrectXmlFilePath);
+            }
+            catch (Exception)
+            {
+              Assert.AreEqual(true, true);
+            }
         }
-
         [Test]
-        [global::NUnit.Framework.ExpectedException(typeof(Exception))]
-        public void CompilersLoadTwoXmlTest()
+        public void AddDuplicateCompilerTest()
         {
-            var compilers = new Compilers("BadCompilers");
+          var firstCompilers = new Compilers("Compilers");
+          firstCompilers.Load();
+          firstCompilers.AddCompiler(firstCompilers.GetCompiler("CPP8"));
+          //compilers must be unique. same compiler can not be added.
+          Assert.AreEqual(firstCompilers.Count,5);
+        }
+        [Test]
+        [ExpectedException(typeof(Exception))]
+        public void AddInvalidCompilerTest()
+        {
+            //create compilers with bad path
+            var compilers = new Compilers("NoFolderCompilers");
+            //try to initialize them
             compilers.Load();
         }
-
         [Test]
         [global::NUnit.Framework.ExpectedException(typeof(Exception))]
         public void CompilersAddNullCompilerTest()

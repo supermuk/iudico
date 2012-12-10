@@ -3,7 +3,11 @@ using System.IO;
 
 using CompileSystem.Classes.Compiling;
 using CompileSystem.Classes.Testing;
+using CompileSystem;
+using NUnit.Framework;
 
+using Assert = NUnit.Framework.Assert;
+using CompileSystem.Classes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace IUDICO.UnitTests.CompileService.UnitTests
@@ -195,7 +199,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         /// <summary>
         /// A test for GetCompilers
         /// </summary>
-        [TestMethod]
+        [Test]
         public void GetCompilersTest()
         {
             var target = new Compilers("Directory");
@@ -244,9 +248,9 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             // compiler folder with correct information
             try
             {
-                compilers = new Compilers("TestCompilers");
+                compilers = new Compilers("Compilers");
                 compilers.Load();
-                Assert.AreEqual(compilers.Count, 2);
+                Assert.AreEqual(compilers.Count, 5);
             }
             catch (Exception)
             {
@@ -260,8 +264,8 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         [TestMethod]
         public void ParseTest()
         {
-            var correctXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CPP8.xml");
-            var incorrectXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"TestCompilers\CSharp.xml");
+            var correctXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CPP8\CPP8.xml");
+            var incorrectXmlFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Compilers\CsSharp\CSharp.xml");
 
             var compilers = new Compilers("Compilers");
             var privateObject = new PrivateObject(compilers, new PrivateType(typeof(Compilers)));
@@ -313,29 +317,36 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             var filePath = Helper.CreateFileForCompilation(
                 CompileServiceLanguageSourceCode.CPPCorrectSourceCode, compiler.Extension);
             string output, error;
-            bool result;
+            bool result=true;
             try
             {
                 result = compiler.Compile("BadFileName", out output, out error);
-                Assert.AreEqual(true, false);
+                result = false;
             }
             catch (Exception)
             {
-                Assert.AreEqual(true, true);
+                Assert.AreEqual(true,result);
             }
+            result = compiler.Compile(filePath, out output, out error);
 
             try
             {
                 result = compiler.Compile(filePath, out output, out error);
-                Assert.AreEqual(true, result);
             }
             catch (Exception)
             {
-                Assert.AreEqual(true, false);
+              result = false;
             }
-
+             Assert.AreEqual(true, result);
             // remove file
-            File.Delete(filePath);
+            try
+            {
+              File.Delete(filePath);
+            }
+            catch (Exception)
+            {
+              Assert.AreEqual(true, false);
+            }
         }
 
         #endregion
@@ -482,6 +493,15 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
         /// A test for Compile
         /// </summary>
         [TestMethod]
+        public void CompileServiceCheckTest()
+        {
+          var complieService = new CompileService();
+          Assert.AreEqual(complieService.Check(),"Check");
+        }
+        /// <summary>
+        /// A test for Compile
+        /// </summary>
+        [TestMethod]
         public void CompileServiceTest()
         {
             var compileService = new CompileService();
@@ -547,7 +567,7 @@ namespace IUDICO.UnitTests.CompileService.UnitTests
             }
             catch (Exception)
             {
-                Assert.AreEqual(true, false);
+                Assert.AreEqual(false, true);
             }
         }
 
