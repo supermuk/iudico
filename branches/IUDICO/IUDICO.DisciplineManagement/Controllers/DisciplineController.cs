@@ -34,7 +34,7 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
             var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
             var model = disciplines.Select(item => item.ToViewDisciplineModel(Validator.GetValidationError(item)));
-            return View(model);
+            return View(model.OrderByDescending(i => i.Discipline.Updated).AsEnumerable());
         }
 
         [HttpGet]
