@@ -10,10 +10,10 @@
     <script type="text/javascript" src="./Include/Nav.js"> </script>
 </head>
 <body onload="OnLoad(NAVOPEN_FRAME);">
-    <div class="ShellTitleServices">
-        <img id="imgPrevious" class="Command" title="<%=PreviousTitleHtml%>" alt="<%=PreviousTitleHtml%>" src="Theme/Prev.png" />
+	<div class="ShellTitleServices">
+        <!--img id="imgPrevious" class="Command" title="<%=PreviousTitleHtml%>" alt="<%=PreviousTitleHtml%>" src="Theme/Prev.png" />
         <img id="imgNext" class="Command" title="<%=NextTitleHtml%>" alt="<%=NextTitleHtml%>" src="Theme/Next.png" />
-        <img id="imgSave" class="Command" title="<%=SaveTitleHtml%>" alt="<%=SaveTitleHtml%>" src="Theme/Save.png" />
+        <!--img id="imgSave" class="Command" title="<%=SaveTitleHtml%>" alt="<%=SaveTitleHtml%>" src="Theme/Save.png" /-->
     </div>
 </body>
 </html>

@@ -15,6 +15,9 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         User GetCurrentUser();
         IList<Course> GetCourses();
         Course GetCourse(int id);
+        void Import(string path, string courseName);
+        void Unlock(int id);
+        string Export(int id);
         IList<Group> GetGroups();
         IList<Curriculum> GetCurriculums(Func<Curriculum, bool> predicate);
 

@@ -425,13 +425,27 @@ namespace IUDICO.Analytics.Models.Storage
                 return new ViewTagDetails(tag, topics);
             }
         }
-
+       
         public void CreateTag(Tag tag)
         {
             using (var d = this.GetDbContext())
             {
-                d.Tags.InsertOnSubmit(tag);
-                d.SubmitChanges();
+                var t = d.Tags.Select(x=>x.Name).ToList();
+
+                if (!Char.IsLetter(tag.Name.First()))
+                {
+                    throw new InvalidTagNameException("Tag name should start with a letter");
+                }
+
+                if (t.Contains(tag.Name))
+                {
+                    throw new DuplicateTagNameException("Tag with such name already exists.");
+                }
+                else
+                {
+                    d.Tags.InsertOnSubmit(tag);
+                    d.SubmitChanges();
+                }
             }
         }
 
@@ -444,11 +458,23 @@ namespace IUDICO.Analytics.Models.Storage
         {
             using (var d = this.GetDbContext())
             {
-                var oldTag = d.Tags.SingleOrDefault(f => f.Id == id);
+                var t = d.Tags.Select(x => x.Name).ToList();
 
-                oldTag.Name = tag.Name;
-
-                d.SubmitChanges();
+                if (!Char.IsLetter(tag.Name.First()))
+                {
+                    throw new InvalidTagNameException("Tag name should start with a letter");
+                }
+                if (t.Contains(tag.Name))
+                {
+                    throw new DuplicateTagNameException("Tag with such name already exists.");
+                }
+                else
+                {
+                    var oldTag = d.Tags.SingleOrDefault(f => f.Id == id);
+                    oldTag.Name = tag.Name;
+                    d.SubmitChanges();
+                }
+                
             }
         }
 
@@ -456,14 +482,17 @@ namespace IUDICO.Analytics.Models.Storage
         {
             using (var d = this.GetDbContext())
             {
+                
                 var containsFeatures = d.TopicTags.Any(tf => tf.TagId == id);
 
                 if (containsFeatures)
                 {
                     throw new Exception("Can't delete tag, which has topics assigned to it");
                 }
-
-                d.Tags.DeleteOnSubmit(d.Tags.SingleOrDefault(f => f.Id == id));
+                var tag = d.Tags.SingleOrDefault(f => f.Id == id);
+                
+                d.Tags.DeleteOnSubmit(tag);
+                d.SubmitChanges();
             }
         }
 
@@ -679,5 +708,13 @@ namespace IUDICO.Analytics.Models.Storage
         }
 
         #endregion
+    }
+    public class InvalidTagNameException : Exception
+    {
+        public InvalidTagNameException(string Message) : base(Message) { }
+    }
+    public class DuplicateTagNameException : Exception
+    {
+        public DuplicateTagNameException(string Message) : base(Message) { }
     }
 }

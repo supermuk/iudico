@@ -28,7 +28,7 @@
         %>
        
     </fieldset>
-    <%Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "BanRoom", "Ban")); %>
+    <%Writer.Write(Html.ActionLink(Localization.GetMessage("BackToList"), "EditRooms", "Ban")); %>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>

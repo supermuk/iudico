@@ -256,6 +256,12 @@ namespace Microsoft.LearningComponents.Frameset
                                             this.ActivityHasChanged = true;
                                             this.LoadContentFrame = true;
                                         }
+                                        else
+                                        {
+                                           this.ActivityHasChanged = true;
+                                           this.LoadContentFrame = true;
+                                           continue;
+                                        }
                                     }
                                     else
                                     {
@@ -289,6 +295,12 @@ namespace Microsoft.LearningComponents.Frameset
                                             MoveToPreviousActivity(this.Session);
                                             this.ActivityHasChanged = true;
                                             this.LoadContentFrame = true;
+                                        }
+                                        else
+                                        {
+                                           this.ActivityHasChanged = true;
+                                           this.LoadContentFrame = true;
+                                           continue;
                                         }
                                     }
                                     else

@@ -55,8 +55,8 @@ namespace IUDICO.Security.Models.Storages.Database
             using (var context = this.NewContext())
             {
                 var curRoom = GetRoom(context, room.Name);
-                var curComp = context.Computers.FirstOrDefault(i => i.IpAddress == computer.IpAddress);
-                curComp.Room = curRoom;
+                var curComp = context.Computers.SingleOrDefault(i => i.IpAddress == computer.IpAddress);
+                curComp.RoomRef = curRoom.Id;
                 context.SubmitChanges();                
             }
         }
@@ -87,6 +87,22 @@ namespace IUDICO.Security.Models.Storages.Database
             {
                 var r = context.Computers.SingleOrDefault(x => x.IpAddress == computer.IpAddress);
                 r.Banned = false;
+                context.SubmitChanges();
+            }
+        }
+
+        public void EditComputer(string ip, bool banned, string currentUser)
+        {
+            using (var context = this.NewContext())
+            {
+                var computer = context.Computers.SingleOrDefault(c => c.IpAddress == ip);
+
+                if(computer != null)
+                {
+                    computer.Banned = banned;
+                    computer.CurrentUser = currentUser;
+                }
+
                 context.SubmitChanges();
             }
         }

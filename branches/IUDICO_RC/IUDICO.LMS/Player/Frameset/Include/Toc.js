@@ -146,6 +146,7 @@ function ResetToPreviousSelection()
     SetCurrentElement(g_previousActivityId);
 }
 
+
 function body_onclick(e)
 {   
    var e = e || window.event;

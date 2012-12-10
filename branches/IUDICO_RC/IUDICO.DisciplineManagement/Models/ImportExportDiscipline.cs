@@ -15,7 +15,7 @@ namespace IUDICO.DisciplineManagement.Models
     public class ImportExportDiscipline
     {
         private readonly IDisciplineStorage storage;
-        private readonly ICourseService courseService;
+        //private readonly ICourseService courseService;
 
         private static string BasePath
         {
@@ -38,10 +38,10 @@ namespace IUDICO.DisciplineManagement.Models
         {
             this.storage = storage;
 
-            FieldInfo fld = storage.GetType().GetField("storage", BindingFlags.Instance | BindingFlags.NonPublic);
-            var databaseStorage = fld.GetValue(this.storage);
-            FieldInfo field = databaseStorage.GetType().GetField("lmsService", BindingFlags.Instance | BindingFlags.NonPublic);
-            this.courseService = (field.GetValue(databaseStorage) as ILmsService).FindService<ICourseService>();
+            //FieldInfo fld = this.storage.GetType().GetField("storage", BindingFlags.Instance | BindingFlags.NonPublic);
+            //var databaseStorage = fld.GetValue(this.storage);
+            //FieldInfo field = databaseStorage.GetType().GetField("lmsService", BindingFlags.Instance | BindingFlags.NonPublic);
+            //this.courseService = (field.GetValue(databaseStorage) as ILmsService).FindService<ICourseService>();
         }
 
         #region Private helpers
@@ -78,11 +78,11 @@ namespace IUDICO.DisciplineManagement.Models
                                     Name = topic.Name,
                                     TestCourseName = topic.TestCourseRef == null ?
                                                                          string.Empty :
-                                                                         string.Format("{0}-Test_{1}", this.courseService.GetCourse((int)topic.TestCourseRef).Name, (int)topic.TestCourseRef),
+                                                                         string.Format("{0}-Test_{1}", storage.GetCourse((int)topic.TestCourseRef).Name, (int)topic.TestCourseRef),
                                     TestTopicTypeRef = topic.TestTopicTypeRef,
                                     TheoryCourseName = topic.TheoryCourseRef == null ?
                                                                          string.Empty :
-                                                                         string.Format("{0}-Theory_{1}", this.courseService.GetCourse((int)topic.TheoryCourseRef).Name, (int)topic.TheoryCourseRef),
+                                                                         string.Format("{0}-Theory_{1}", storage.GetCourse((int)topic.TheoryCourseRef).Name, (int)topic.TheoryCourseRef),
                                     TheoryTopicTypeRef = topic.TheoryTopicTypeRef
                                 }).ToList()
                     }).ToList()
@@ -131,18 +131,18 @@ namespace IUDICO.DisciplineManagement.Models
                     if (topicDto.TestCourseName != string.Empty)
                     {
                         var testCourseName = topicDto.TestCourseName.Remove(topicDto.TestCourseName.IndexOf("-Test_"));
-                        this.courseService.Import(Path.Combine(path, topicDto.TestCourseName + ".zip"), testCourseName, currentUser);
-                        var id = this.courseService.GetCourses(this.storage.GetCurrentUser()).Where(c => c.Name == testCourseName).Max(c => c.Id);
-                        this.courseService.Unlock(id);
+                        storage.Import(Path.Combine(path, topicDto.TestCourseName + ".zip"), testCourseName);
+                        var id = this.storage.GetCourses().Where(c => c.Name == testCourseName).Max(c => c.Id);
+                        this.storage.Unlock(id);
                         topic.TestCourseRef = id;
                     }
 
                     if (topicDto.TheoryCourseName != string.Empty)
                     {
                         var theoryCourseName = topicDto.TheoryCourseName.Remove(topicDto.TheoryCourseName.IndexOf("-Theory_"));
-                        this.courseService.Import(Path.Combine(path, topicDto.TheoryCourseName + ".zip"), theoryCourseName, currentUser);
-                        var id = this.courseService.GetCourses(this.storage.GetCurrentUser()).Where(c => c.Name == theoryCourseName).Max(c => c.Id);
-                        this.courseService.Unlock(id);
+                        this.storage.Import(Path.Combine(path, topicDto.TheoryCourseName + ".zip"), theoryCourseName);
+                        var id = this.storage.GetCourses().Where(c => c.Name == theoryCourseName).Max(c => c.Id);
+                        this.storage.Unlock(id);
                         topic.TheoryCourseRef = id;
                     }
                     this.storage.AddTopic(topic);
@@ -174,11 +174,11 @@ namespace IUDICO.DisciplineManagement.Models
                 {
                     if (topic.TheoryCourseRef != null)
                     {
-                        File.Copy(this.courseService.Export((int)topic.TheoryCourseRef), Path.Combine(tempPath, string.Format("{0}-Theory_{1}.zip", this.courseService.GetCourse((int)topic.TheoryCourseRef).Name, (int)topic.TheoryCourseRef)));
+                        File.Copy(this.storage.Export((int)topic.TheoryCourseRef), Path.Combine(tempPath, string.Format("{0}-Theory_{1}.zip", this.storage.GetCourse((int)topic.TheoryCourseRef).Name, (int)topic.TheoryCourseRef)));
                     }
                     if (topic.TestCourseRef != null)
                     {
-                        File.Copy(this.courseService.Export((int)topic.TestCourseRef), Path.Combine(tempPath, string.Format("{0}-Test_{1}.zip", this.courseService.GetCourse((int)topic.TestCourseRef).Name, (int)topic.TestCourseRef)));
+                        File.Copy(this.storage.Export((int)topic.TestCourseRef), Path.Combine(tempPath, string.Format("{0}-Test_{1}.zip", this.storage.GetCourse((int)topic.TestCourseRef).Name, (int)topic.TestCourseRef)));
                     }
                 }
             }
