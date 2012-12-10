@@ -324,7 +324,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             this.lmsService.Inform(DisciplineNotifications.ChapterCreated, chapter);
 
-            this.UpdateDiscipline(chapter.Discipline);
+            this.UpdateDiscipline(GetDiscipline(chapter.DisciplineRef));
             return chapter.Id;
         }
 
@@ -338,7 +338,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             db.SubmitChanges(); 
             
-            this.UpdateDiscipline(oldChapter.Discipline);
+            this.UpdateDiscipline(GetDiscipline(oldChapter.DisciplineRef));
             return oldChapter;
         }
 
@@ -358,7 +358,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             if (!disciplineDeleting)
             {
-                this.UpdateDiscipline(chapter.Discipline);
+                this.UpdateDiscipline(GetDiscipline(chapter.DisciplineRef));
             }
         }
 
@@ -435,7 +435,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             this.lmsService.Inform(DisciplineNotifications.TopicCreated, topic);
 
-            this.UpdateChapter(topic.Chapter);
+            this.UpdateChapter(GetChapter(topic.ChapterRef));
             return topic.Id;
         }
 
@@ -467,7 +467,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             data[1] = updatingTopic;
             this.lmsService.Inform(DisciplineNotifications.TopicEdited, data);
 
-            this.UpdateChapter(updatingTopic.Chapter);
+            this.UpdateChapter(GetChapter(updatingTopic.ChapterRef));
             return updatingTopic;
         }
 
@@ -490,7 +490,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             if (!chapterDeleting)
             {
-                this.UpdateChapter(topic.Chapter);
+                this.UpdateChapter(GetChapter(topic.ChapterRef));
             }
         }
 
@@ -514,7 +514,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
                 db.SubmitChanges();
             }
-            this.UpdateChapter(topic.Chapter);
+            this.UpdateChapter(GetChapter(topic.ChapterRef));
             return topic;
         }
 
@@ -533,7 +533,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
                 db.SubmitChanges();
             }
-            this.UpdateChapter(topic.Chapter);
+            this.UpdateChapter(GetChapter(topic.ChapterRef));
             return topic;
         }
 
