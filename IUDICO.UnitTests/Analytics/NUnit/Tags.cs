@@ -40,6 +40,23 @@ namespace IUDICO.UnitTests.Analytics.NUnit
         public void GetTagDetails()
         {
             Assert.AreEqual(this.tests.Storage.GetTagDetails(3).Tag.Name, "C#");
+        } 		
+
+        [Test]
+        public void CreateDuplicateTagTest()
+        {
+            var tag1 = new Tag { Id = 1, Name = "C++" };
+            var tag2 = new Tag { Id = 1, Name = "CC+" };
+            try
+            {
+                this.tests.Storage.CreateTag(tag1);
+                this.tests.Storage.CreateTag(tag2);
+            }
+            catch (Exception ex)
+            {
+                Assert.Pass();
+            }
+            Assert.Fail();
         }
     }
 }

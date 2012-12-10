@@ -71,7 +71,53 @@ namespace IUDICO.UnitTests.Analytics.Selenium
         }
 
         [Test]
-        public void CreateNewInvalidTagTest()
+        public void CreateBlankTagTest()
+        {
+            // Log In as 'lex' (with 'administrator' role permisions) and navigate to 'Tags' page.
+            NavigateToTagsManagerPage("lex", "lex");
+
+            // Click on 'Create new tag' link.
+            this.selenium.Click("//a[contains(@href,'/Tags/Create')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            //Nothing typed - blank tag
+
+            // Click 'Create' button
+            this.selenium.Click("//p/input[@type='submit']");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            bool isCreatePage = this.selenium.GetLocation().Contains("/Tags/Create");
+
+            //Check if we stay on create page with error message or go to /Tags page
+            Assert.IsTrue(isCreatePage); 
+        }
+
+        
+        [Test]
+        public void CreateNewTagInvalidTest()
+        {
+            // Log In as 'lex' (with 'administrator' role permisions) and navigate to 'Tags' page.
+            NavigateToTagsManagerPage("lex", "lex");
+
+            // Click on 'Create new tag' link.
+            this.selenium.Click("//a[contains(@href,'/Tags/Create')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            // Enter duplicate Tag name
+            this.selenium.Type("//input[@id='Name']", "8 is a number");
+
+            // Click 'Create' button
+            this.selenium.Click("//p/input[@type='submit']");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            bool isCreatePage = this.selenium.GetLocation().Contains("/Tags/Create");
+
+            //Check if we stay on create page with error message or go to /Tags page
+            Assert.IsTrue(isCreatePage);
+        }
+
+        [Test]
+        public void CreateDuplicateTagTest()
         {
             // Log In as 'lex' (with 'administrator' role permisions) and navigate to 'Tags' page.
             NavigateToTagsManagerPage("lex", "lex");
@@ -83,16 +129,17 @@ namespace IUDICO.UnitTests.Analytics.Selenium
             this.selenium.Click("//a[contains(@href,'/Tags/Create')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            // Enter valid Tag name
+            // Enter duplicate Tag name
             this.selenium.Type("//input[@id='Name']", nameOfExistingTags);
 
             // Click 'Create' button
             this.selenium.Click("//p/input[@type='submit']");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            // Verify that error message appear
-            Assert.Fail(); 
-            // This test should fail because there are not error messages at 'Create New Tag' page
+            bool isCreatePage = this.selenium.GetLocation().Contains("/Tags/Create");
+
+            //Check if we stay on create page with error message or go to /Tags page
+            Assert.IsTrue(isCreatePage);
         }
 
         [Test]
@@ -119,6 +166,27 @@ namespace IUDICO.UnitTests.Analytics.Selenium
             // Verify that new Tag name was successfully saved
             String currentTagName = this.selenium.GetText("//table/tbody/tr[2]/td[1]");
             Assert.AreEqual(currentTagName, newTagName);
+        }
+
+        [Test]
+        public void DeleteTagTest()
+        {
+            // Log In as 'lex' (with 'administrator' role permisions) and navigate to 'Tags' page.
+            NavigateToTagsManagerPage("lex", "lex");
+
+            //Save number of tags before deletion
+            decimal numberOfExistingTags = this.selenium.GetXpathCount("//table/tbody/tr") - 1;
+
+            // Click on 'Delete' link for first Tag.
+            //this.selenium.Click("//a[contains(@href,'/Tags/Delete?id=1')]");
+            this.selenium.Click("//a[contains(text(),'Delete')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            //Save number of tags after deletion
+            decimal numberOfExistingTagsAfterDeletion = this.selenium.GetXpathCount("//table/tbody/tr") - 1;
+
+            //Verify that number of existing tags are decrease
+            Assert.AreEqual(numberOfExistingTags - 1, numberOfExistingTagsAfterDeletion);
         }
 
         [Test]
@@ -182,13 +250,22 @@ namespace IUDICO.UnitTests.Analytics.Selenium
             // Log In as 'lex' (with 'administrator' role permisions) and navigate to 'Recomender' page.
             NavigateToRecomenderPage("lex", "lex");
 
-            // Click on 'User Scores' link.
-            this.selenium.Click("//a[contains(@href,'/Recommender/UserScores')]");
-            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            try
+            {
+                // Click on 'User Scores' link.
+                this.selenium.Click("//a[contains(@href,'/Recommender/UserScores')]");
+                this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            // Click on 'Update User Scores' link for first Topic
-            this.selenium.Click("//a[contains(@href,'/Recommender/UpdateUser?id=152fd215-53fd-432c-a171-6ff53489311c')]");
-            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+                // Click on 'Update User Scores' link for first Topic
+                //this.selenium.Click("//a[contains(@href,'/Recommender/UpdateUser?id=23239a30-e014-42b5-94c2-26e282397334')]");
+                this.selenium.Click("//a[contains(text(),'Update User Scores')]");
+                this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail();
+            }
+            Assert.Pass();
         }
 
         [Test]
