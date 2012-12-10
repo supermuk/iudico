@@ -177,12 +177,12 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.membProvider.CreateUser(string.Empty, string.Empty, string.Empty, string.Empty, string.Empty, false, new object(), out status);
         }
 
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void OpenIdMembershipProviderGetUser1()
-        {
-            this.membProvider.GetUser(this.tests.Storage.GetCurrentUser().Id, false);
-        }
+        //[Test]
+        //[ExpectedException(typeof(ArgumentException))]
+        //public void OpenIdMembershipProviderGetUser1()
+        //{
+        //    this.membProvider.GetUser(this.tests.Storage.GetCurrentUser().Id, false);
+        //}
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
@@ -218,25 +218,26 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.membProvider.FindUsersByEmail(string.Empty, 0, 100, out total);
         }
 
-        [Test]
-        public void OpenIdMembershipProvider()
-        {
-            this.membProvider.GetPassword(string.Empty, string.Empty);
-            this.membProvider.ChangePassword(string.Empty, string.Empty, string.Empty);
-            this.membProvider.ChangePassword(this.tests.Storage.GetCurrentUser().Username, string.Empty, string.Empty);
-            this.membProvider.ValidateUser(string.Empty, string.Empty);
-            this.membProvider.GetUserNameByEmail(this.tests.Storage.GetCurrentUser().Email);
-            this.membProvider.DeleteUser(string.Empty, false);
+        //[Test]
+        //[Ignore]
+        //public void OpenIdMembershipProvider()
+        //{
+        //    this.membProvider.GetPassword(string.Empty, string.Empty);
+        //    this.membProvider.ChangePassword(string.Empty, string.Empty, string.Empty);
+        //    this.membProvider.ChangePassword(this.tests.Storage.GetCurrentUser().Username, string.Empty, string.Empty);
+        //    this.membProvider.ValidateUser(string.Empty, string.Empty);
+        //    this.membProvider.GetUserNameByEmail(this.tests.Storage.GetCurrentUser().Email);
+        //    this.membProvider.DeleteUser(string.Empty, false);
 
-            var a = this.membProvider.EnablePasswordRetrieval;
-            var b = this.membProvider.EnablePasswordReset;
-            var c = this.membProvider.RequiresQuestionAndAnswer;
-            var d = this.membProvider.MaxInvalidPasswordAttempts;
-            var e = this.membProvider.PasswordAttemptWindow;
-            var f = this.membProvider.RequiresUniqueEmail;
-            var g = this.membProvider.MinRequiredPasswordLength;
-            var h = this.membProvider.MinRequiredNonAlphanumericCharacters;
-            var i = this.membProvider.PasswordStrengthRegularExpression;
-        }
+        //    var a = this.membProvider.EnablePasswordRetrieval;
+        //    var b = this.membProvider.EnablePasswordReset;
+        //    var c = this.membProvider.RequiresQuestionAndAnswer;
+        //    var d = this.membProvider.MaxInvalidPasswordAttempts;
+        //    var e = this.membProvider.PasswordAttemptWindow;
+        //    var f = this.membProvider.RequiresUniqueEmail;
+        //    var g = this.membProvider.MinRequiredPasswordLength;
+        //    var h = this.membProvider.MinRequiredNonAlphanumericCharacters;
+        //    var i = this.membProvider.PasswordStrengthRegularExpression;
+        //}
     }
 }
