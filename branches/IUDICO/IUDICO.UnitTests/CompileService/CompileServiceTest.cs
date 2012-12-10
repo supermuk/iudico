@@ -851,7 +851,7 @@ namespace IUDICO.UnitTests.CompileService
         /// </summary>
         [TestMethod]
         [HostType("ASP.NET")]
-        [AspNetDevelopmentServerHost("D:\\IUDICO\\IUDICO.CompileSystem", "/")]
+        [AspNetDevelopmentServerHost("C:\\IUDICO\\IUDICO.CompileSystem", "/")]
         [UrlToTest("http://localhost:1345/")]
         public void CorrectCSInputOutputValueCompileTest()
         {

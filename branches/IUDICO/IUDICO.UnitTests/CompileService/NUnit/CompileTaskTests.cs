@@ -8,6 +8,7 @@ using NUnit.Framework;
 namespace IUDICO.UnitTests.CompileService.NUnit
 {
     using CompileSystem.Classes;
+  using CompileSystem.Classes.Testing;
 
     [TestFixture]
     public class CompileTastTests
@@ -59,11 +60,20 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             var compileTask = new CompileTask(null, sourceCodeFilePath);
         }
 
-        [Test]
+          [Test]
         [ExpectedException(typeof(FileNotFoundException))]
         public void CompileTaskBadPathTest()
         {
             var compileTask = new CompileTask(this.compiler, "BadFilePath");
         }
+        
+          [Test]
+        [ExpectedException(typeof(FileNotFoundException))]
+          public void CheckCompileFileAvailabilityTest()
+        {
+          Tester.Test("Bad File Path", "5 5", "55", 2000, 3000);
+
+        }
+
     }
 }
