@@ -165,14 +165,19 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CurriculumManagement\Selenium\DeleteCurriculum.cs" />
+    <Compile Include="CurriculumManagement\Selenium\DeleteDiscipline.cs" />
     <Compile Include="CurriculumManagement\Selenium\EditCurricilumChapterTopic.cs" />
     <Compile Include="CurriculumManagement\Selenium\EditCurriculum.cs" />
+    <Compile Include="CurriculumManagement\Selenium\EditDiscipline.cs" />
+    <Compile Include="CurriculumManagement\Selenium\ExportDiscipline.cs" />
+    <Compile Include="CurriculumManagement\Selenium\ShareDiscipline.cs" />
     <Compile Include="DataGenerator\Fakes\FakeCacheProvider.cs" />
     <Compile Include="DataGenerator\Fakes\FakeCourseStorage.cs" />
     <Compile Include="DataGenerator\Fakes\FakeDisciplineStorage.cs" />
     <Compile Include="DataGenerator\Fakes\FakeUserStorage.cs" />
     <Compile Include="DataGenerator\NUnit\CourseGenerationTest.cs" />
     <Compile Include="DataGenerator\NUnit\UserGenerationTest.cs" />
+    <Compile Include="CurriculumManagement\Selenium\CreateDiscipline.cs" />
     <Compile Include="LMS\NUnit\ChangingLanguageTestsTests.cs" />
     <Compile Include="LMS\NUnit\ErrorHandlingTests.cs" />
     <Compile Include="LMS\NUnit\GenerateActions.cs" />

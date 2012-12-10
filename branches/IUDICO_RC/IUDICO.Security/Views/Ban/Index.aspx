@@ -10,15 +10,11 @@
     
     <h4><%= Model.GetMessage("Computer") %></h4>
     <ul>
-        <li> <%= Html.ActionLink(Model.GetMessage("Add computer"), "AddComputers", "Ban") %> </li>
-        <li> <%= Html.ActionLink(Model.GetMessage("Edit computer"), "BanComputer", "Ban") %> </li>
-        <li> <%= Html.ActionLink(Model.GetMessage("Ban computer"), "BanComputer", "Ban") %> </li>
+        <li> <%= Html.ActionLink(Model.GetMessage("Edit computers"), "EditComputers", "Ban") %> </li>
     </ul>
             
     <h4><%= Model.GetMessage("Room") %></h4>
     <ul>
-        <li> <%= Html.ActionLink(Model.GetMessage("Add room"), "AddRoom", "Ban") %> </li>
-        <li> <%= Html.ActionLink(Model.GetMessage("Edit room"), "EditRoom", "Ban") %> </li>
-        <li> <%= Html.ActionLink(Model.GetMessage("Ban room"), "BanRoom", "Ban") %> </li>
+        <li> <%= Html.ActionLink(Model.GetMessage("Edit rooms"), "EditRooms", "Ban") %> </li>
     </ul>    
 </asp:Content>

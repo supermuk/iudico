@@ -26,13 +26,28 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         }
 
         public IList<Course> GetCourses()
-        {
+        {                        
             return this.storage.GetCourses();
         }
 
         public Course GetCourse(int id)
         {
             return this.storage.GetCourse(id);
+        }
+
+        public void Import(string path, string courseName)
+        {
+            this.storage.Import(path, courseName);
+        }
+
+        public void Unlock(int id)
+        {
+            this.storage.Unlock(id);
+        }
+
+        public string Export(int id)
+        {
+            return this.storage.Export(id);
         }
 
         public IList<Group> GetGroups()

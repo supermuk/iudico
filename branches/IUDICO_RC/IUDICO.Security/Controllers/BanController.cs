@@ -28,6 +28,7 @@ namespace IUDICO.Security.Controllers
         }
 
         [Allow(Role = Role.Admin)]
+        [HttpGet]
         public ActionResult AddComputers()
         {
             return View(new AddComputerViewModel());
@@ -57,9 +58,10 @@ namespace IUDICO.Security.Controllers
                 viewModel.State = Models.ViewModelState.View;
             }
 
-            return View(viewModel);
+            return RedirectToAction("EditComputers");
         }
 
+        [HttpGet]
         [Allow(Role = Role.Admin)]
         public ActionResult AddRoom()
         {
@@ -79,31 +81,34 @@ namespace IUDICO.Security.Controllers
                     this.BanStorage.CreateRoom(newRoom);
                 }
             }
+            return RedirectToAction("EditRooms", "Ban");
+        }
+
+        [HttpGet]
+        [Allow(Role = Role.Admin)]
+        public ActionResult EditComputer(string computerIp)
+        {
+            var computer = this.BanStorage.GetComputer(computerIp);
+
+            var viewModel = new EditComputersViewModel(
+                    computer.IpAddress,
+                    (computer.RoomRef != null) ? computer.Room.Name : "N/A",
+                    computer.Banned,
+                    computer.CurrentUser,
+                    this.BanStorage.GetRooms().Select(r => r.Name));
+
             return View(viewModel);
         }
 
-
+        [HttpPost]
+        [Allow(Role = Role.Admin)]
         public ActionResult EditComputer(EditComputersViewModel viewModel)
         {
-            var comp = this.BanStorage.GetComputer(viewModel.ComputerIP);
+            //var comp = this.BanStorage.GetComputer(viewModel.ComputerIP);
 
-            this.BanStorage.DeleteComputer(comp);
+            this.BanStorage.EditComputer(viewModel.ComputerIP, viewModel.Banned, viewModel.CurrentUser);
 
-            this.BanStorage.CreateComputer(
-                new Computer
-                {
-                    IpAddress = viewModel.ComputerIP,
-                    Banned = viewModel.Banned,
-                    CurrentUser = viewModel.CurrentUser
-                });
-
-            var viewModel1 = new EditComputersViewModel(
-                    comp.IpAddress,
-                    (comp.RoomRef != null) ? comp.Room.Name : "N/A",
-                    comp.Banned,
-                    comp.CurrentUser);
-
-            return View(viewModel1);
+            return RedirectToAction("EditComputers");
         }
 
         [Allow(Role = Role.Admin)]
@@ -151,7 +156,7 @@ namespace IUDICO.Security.Controllers
         }
 
         [Allow(Role = Role.Admin)]
-        public ActionResult BanComputer()
+        public ActionResult EditComputers()
         {
             var viewModel = new BanComputerViewModel();
             viewModel.Computers = this.BanStorage.GetComputers().ToList();
@@ -163,57 +168,51 @@ namespace IUDICO.Security.Controllers
         public ActionResult ComputerBan(string computer)
         {
             this.BanStorage.BanComputer(this.BanStorage.GetComputer(computer));
-            return RedirectToAction("BanComputer");
+            return RedirectToAction("EditComputers");
         }
 
         [Allow(Role = Role.Admin)]
         public ActionResult ComputerUnban(string computer)
         {
             this.BanStorage.UnbanComputer(this.BanStorage.GetComputer(computer));
-            return RedirectToAction("BanComputer");   
+            return RedirectToAction("EditComputers");   
         }
 
         [Allow(Role = Role.Admin)]
-        public ActionResult BanRoom()
+        public ActionResult EditRooms()
         {
             var viewModel = new BanRoomViewModel();
             viewModel.Rooms = this.BanStorage.GetRooms().ToList();
 
-            return View("BanRoom", viewModel);
+            return View(viewModel);
         }
 
         [Allow(Role = Role.Admin)]
         public ActionResult RoomBan(string room)
         { 
-            var viewModel = new BanRoomViewModel();
             this.BanStorage.BanRoom(this.BanStorage.GetRoom(room));
-            viewModel.Rooms = this.BanStorage.GetRooms().ToList();
-            return View("BanRoom", viewModel);
+            return RedirectToAction("EditRooms", "Ban");
         }
 
         [Allow(Role = Role.Admin)]
         public ActionResult RoomUnban(string room)
         {
-            var viewModel = new BanRoomViewModel();
             this.BanStorage.UnbanRoom(this.BanStorage.GetRoom(room));
-            viewModel.Rooms = this.BanStorage.GetRooms().ToList();
-            return View("BanRoom", viewModel);
+            return RedirectToAction("EditRooms", "Ban");
         }
 
         [Allow(Role = Role.Admin)]
         public ActionResult DeleteRoom(string room)
         {
-            var viewModel = new BanRoomViewModel();
             this.BanStorage.DeleteRoom(this.BanStorage.GetRoom(room));
-            viewModel.Rooms = this.BanStorage.GetRooms().ToList();
-            return View("BanRoom", viewModel);
+            return RedirectToAction("EditRooms", "Ban");
         }
 
         [Allow(Role = Role.Admin)]
         public ActionResult DeleteComputer(string computer)
         {
             this.BanStorage.DeleteComputer(this.BanStorage.GetComputer(computer));
-            return RedirectToAction("BanComputer");
+            return RedirectToAction("EditComputers");
         }
 
         public ActionResult Banned()

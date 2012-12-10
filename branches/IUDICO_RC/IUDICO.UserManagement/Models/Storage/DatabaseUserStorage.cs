@@ -489,6 +489,10 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public void ChangePassword(ChangePasswordModel changePasswordModel)
         {
+            if (changePasswordModel.NewPassword == "")
+            {
+                throw new Exception("Password can't be empty.");
+            }
             var db = this.GetDbContext();
 
             var user = db.Users.Single(u => u.Username == this.GetIdentityName() && u.Deleted == false);

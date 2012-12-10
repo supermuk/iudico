@@ -48,6 +48,13 @@ namespace IUDICO.Security.Models.Storages.Cache
             this.cachePrvoider.Invalidate("computers", "computer-" + computer.IpAddress);
         }
 
+        public void EditComputer(string ip, bool banned, string currentUser)
+        {
+            this.storage.EditComputer(ip, banned, currentUser);
+
+            this.cachePrvoider.Invalidate("computers", "computer-" + ip);
+        }
+
         public void BanRoom(Room room)
         {
             this.storage.BanRoom(room);
