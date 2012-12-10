@@ -16,16 +16,16 @@
                 "bJQueryUI": true,
                 "sPaginationType": "full_numbers",
                 iDisplayLength: 200,
-                "bSort": false,
+                "bSort": true,
                 "bPaginate": false,
                 "bLengthChange": false,
                 "bFilter": false,
                 "bAutoWidth": false,
                 "aoColumns": [
                     { "bSortable": false },
-                    { "bSortable": false },
-                    { "bSortable": false },
-                    { "bSortable": false },
+                    { "bSortable": true },
+                    { "bSortable": true },
+                    { "bSortable": true },
                     { "bSortable": false }
                 ]
             });
@@ -282,7 +282,7 @@
                 success: function (r) {
                     if (r.success == true) {
                         $("#discipline" + id).remove();
-                        $(".child-of-discipline" + id).remove();
+                        $(".child-of-discipline" + id).remove(); 
                     }
                     else {
                         alert("<%=Localization.GetMessage("ErrorOccuredDuringProcessingRequestErrorMessage") %> " + r.message);
