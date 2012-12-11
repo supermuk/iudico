@@ -556,6 +556,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             this.AddCourse(course);
 
             File.Copy(path, this.GetCoursePath(course.Id) + ".zip");
+
+            this.Parse(course.Id);
         }
 
         public virtual void Parse(int courseId)
@@ -591,6 +593,21 @@ namespace IUDICO.CourseManagement.Models.Storage
             db = this.GetDbContext();
             course = db.Courses.Single(c => c.Id == courseId);
             course.Locked = false;
+
+            var xml = new XmlSerializer(typeof(Sequencing));
+
+            // try to apply sequencing from imported course
+            try
+            {
+                var sequencing = manifest.SequencingCollection.Sequencings[0];
+                course.Sequencing = xml.SerializeToXElemet(sequencing);
+            }
+            catch (Exception) // apply default sequencing if any errors occured
+            {
+                var sequencing = new Sequencing();
+                sequencing = SequencingPatternManager.ApplyDefaultChapterSequencing(sequencing);
+                course.Sequencing = xml.SerializeToXElemet(sequencing);
+            }
 
             db.SubmitChanges();
         }
