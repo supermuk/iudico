@@ -191,6 +191,59 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             AdvAssert.AreEqual(expectedNotSharedUsers, actualNotSharedUsers);
         }
 
+        [Test]
+        public void ExportTest()
+        {
+            //creating discipline
+            var controller = this.GetController<DisciplineController>();
+            var disciplineIds = this.DataPreparer.CreateDisciplinesSet1();
+
+            //exporting into .zip file
+            var path = controller.Export(disciplineIds[0]);
+
+            //exctracting into temp folder
+            Zipper.ExtractZipFile(path.FileName, Path.GetTempPath());
+
+            //deserializing
+            var reader = new FileStream(Path.GetTempPath() + "\\" + this.DisciplineStorage.GetDiscipline(disciplineIds[0]).Name + ".disc", FileMode.Open);
+            var serializer = new XmlSerializer(typeof(DisciplineDto));
+            var deserializedDiscipline = (DisciplineDto)serializer.Deserialize(reader);
+            Discipline excpectedDiscipline = this.DisciplineStorage.GetDiscipline(disciplineIds[0]);
+
+            //checking if created discipline is similar to exported one
+            Assert.AreEqual(deserializedDiscipline.Name, excpectedDiscipline.Name);
+            Assert.AreEqual(deserializedDiscipline.Chapters.Count, excpectedDiscipline.Chapters.Count);
+            for (int i = 0; i < excpectedDiscipline.Chapters.Count; i++)
+            {
+                Assert.AreEqual(excpectedDiscipline.Chapters[i], deserializedDiscipline.Chapters[i]);
+            }
+        }
+
+        [Test]
+        public void ImportTest()
+        {
+            //importing test discipline
+            var controller = this.GetController<DisciplineController>();
+            var path = "..\\..\\CurriculumManagement\\NUnit\\Discipline1.zip";
+            ImportExportDiscipline imExDisc = new ImportExportDiscipline(this.DisciplineStorage);
+            Assert.IsTrue(imExDisc.Validate(path));
+            controller.Import(path);
+
+            //gets imported and expected disciplines
+            var importedDiscipline = this.DisciplineStorage.GetDisciplines().Last();
+            var disciplineIds = this.DataPreparer.CreateDisciplinesSet1();
+            var excpectedDiscipline = this.DisciplineStorage.GetDisciplines()[disciplineIds[0] - 1];
+
+            //checks if imported and excpected are similar
+            Assert.AreEqual(importedDiscipline.Name, excpectedDiscipline.Name);
+            Assert.AreEqual(importedDiscipline.Owner, excpectedDiscipline.Owner);
+            Assert.AreEqual(importedDiscipline.IsValid, excpectedDiscipline.IsValid);
+            Assert.AreEqual(importedDiscipline.IsDeleted, excpectedDiscipline.IsDeleted);
+            Assert.AreEqual(importedDiscipline.Chapters, excpectedDiscipline.Chapters);
+            Assert.AreEqual(importedDiscipline.Curriculums, excpectedDiscipline.Curriculums);
+            Assert.AreNotEqual(importedDiscipline.Id, excpectedDiscipline.Id);
+        }
+
         #endregion
 
         #region Chapter tests
@@ -526,59 +579,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.AreEqual(oldSortOrder1, this.DisciplineStorage.GetTopic(topic2.Id).SortOrder);
         }
 
-		[Test]
-		public void ExportTest()
-		{
-			//creating discipline
-			var controller = this.GetController<DisciplineController>();
-			var disciplineIds = this.DataPreparer.CreateDisciplinesSet1();
-			
-			//exporting into .zip file
-			var path = controller.Export(disciplineIds[0]);
-			
-			//exctracting into temp folder
-			Zipper.ExtractZipFile(path.FileName, Path.GetTempPath());
-			
-			//deserializing
-			var reader = new FileStream(Path.GetTempPath() + "\\" + this.DisciplineStorage.GetDiscipline(disciplineIds[0]).Name + ".disc", FileMode.Open);
-			var serializer = new XmlSerializer(typeof(DisciplineDto));
-			var deserializedDiscipline = (DisciplineDto)serializer.Deserialize(reader);
-			Discipline excpectedDiscipline = this.DisciplineStorage.GetDiscipline(disciplineIds[0]);
-			
-			//checking if created discipline is similar to exported one
-			Assert.AreEqual(deserializedDiscipline.Name, excpectedDiscipline.Name);
-			Assert.AreEqual(deserializedDiscipline.Chapters.Count, excpectedDiscipline.Chapters.Count);
-			for (int i = 0; i < excpectedDiscipline.Chapters.Count; i++)
-			{
-				Assert.AreEqual(excpectedDiscipline.Chapters[i], deserializedDiscipline.Chapters[i]);
-			}
-		}
-		
-		[Test]
-		public void ImportTest()
-		{
-			//importing test discipline
-			var controller = this.GetController<DisciplineController>();
-			var path = "..\\..\\CurriculumManagement\\NUnit\\Discipline1.zip";
-			ImportExportDiscipline imExDisc = new ImportExportDiscipline(this.DisciplineStorage);
-            Assert.IsTrue(imExDisc.Validate(path));
-			controller.Import(path);
-
-			//gets imported and expected disciplines
-			var importedDiscipline = this.DisciplineStorage.GetDisciplines().Last();
-			var disciplineIds = this.DataPreparer.CreateDisciplinesSet1();
-			var excpectedDiscipline = this.DisciplineStorage.GetDisciplines()[disciplineIds[0] - 1];
-			
-			//checks if imported and excpected are similar
-			Assert.AreEqual(importedDiscipline.Name, excpectedDiscipline.Name);
-			Assert.AreEqual(importedDiscipline.Owner, excpectedDiscipline.Owner);
-			Assert.AreEqual(importedDiscipline.IsValid, excpectedDiscipline.IsValid);
-			Assert.AreEqual(importedDiscipline.IsDeleted, excpectedDiscipline.IsDeleted);
-			Assert.AreEqual(importedDiscipline.Chapters, excpectedDiscipline.Chapters);
-			Assert.AreEqual(importedDiscipline.Curriculums, excpectedDiscipline.Curriculums);
-			Assert.AreNotEqual(importedDiscipline.Id, excpectedDiscipline.Id);
-		}
-
-        #endregion
+		#endregion
     }
 }
