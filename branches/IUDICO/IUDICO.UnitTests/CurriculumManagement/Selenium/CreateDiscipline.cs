@@ -179,6 +179,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
 
 			this.selenium.Click(
 					"//table[@id='disciplines']//tr[contains(.,'MyNewChapter')]//a[contains(text(),'Add topic')]");
+            Thread.Sleep(SleepTime);
+
 			this.selenium.Type("id=TopicName", "MyNewTopic");
 			this.selenium.Select("id=TestCourseId", "Test without course");
 			this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
