@@ -1,5 +1,6 @@
 #labels Featured
 = Contact Information =
+Up to date list can be seen in commiters list of the project and SVN logs
 
 *currently working on a project:* 
 || # || *Name* || *Phone* || *Skype ID* || *E-Mail* ||
