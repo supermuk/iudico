@@ -34,6 +34,6 @@ Up to date list can be seen in commiters list of the project and SVN logs
 || 28  || Ivan Shelest || 
 
 *worked on the project:*
-|| # || *Name* || *Phone*  ||
+|| # || *Name* || 
 || 1 || Andrew Hymytsya ||
 || 2 || Oleg Mukutyuk || 
