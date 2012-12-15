@@ -30,7 +30,8 @@
     </TargetConnectionString>
     <TargetDatabase>
     </TargetDatabase>
-    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>    <SuppressWarnings>
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <SuppressWarnings>
     </SuppressWarnings>
     <DeploymentConfigFile>Properties\Database.sqldeployment</DeploymentConfigFile>
     <SqlCommandVariablesFile>Properties\Database.sqlcmdvars</SqlCommandVariablesFile>
@@ -332,9 +333,6 @@
       <SubType>Code</SubType>
       <AnsiNulls>On</AnsiNulls>
       <QuotedIdentifier>On</QuotedIdentifier>
-    </Build>
-    <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_Computers_Rooms.fkey.sql">
-      <SubType>Code</SubType>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\PK_Rooms.pkey.sql">
       <SubType>Code</SubType>
@@ -759,6 +757,9 @@
       <SubType>Code</SubType>
     </Build>
     <Build Include="Schema Objects\Schemas\dbo\Tables\Keys\FK_QuestionsInfo_QuestionsInfo.fkey.sql">
+      <SubType>Code</SubType>
+    </Build>
+    <Build Include="Schema Objects\Schemas\dbo\Tables\RoomAttachments.table.sql">
       <SubType>Code</SubType>
     </Build>
   </ItemGroup>

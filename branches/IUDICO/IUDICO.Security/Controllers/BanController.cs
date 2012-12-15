@@ -90,12 +90,49 @@ namespace IUDICO.Security.Controllers
         {
             var computer = this.BanStorage.GetComputer(computerIp);
 
-            var viewModel = new EditComputersViewModel(
-                    computer.IpAddress,
-                    (computer.RoomRef != null) ? computer.Room.Name : "N/A",
-                    computer.Banned,
-                    computer.CurrentUser,
-                    this.BanStorage.GetRooms().Select(r => r.Name));
+            var room = this.BanStorage.GetRoom(computer);
+
+            var name = "N/A";
+
+            if(room != null)
+            {
+                name = room.Name;
+            }
+
+            var viewModel = new EditComputersViewModel(computerIp, name, computer.Banned, computer.CurrentUser,
+                                                       new List<string> {"N/A"}.Concat(
+                                                           this.BanStorage.GetRooms().Select(r => r.Name)));
+            
+            return View(viewModel);
+        }
+
+        [Allow(Role = Role.Admin)]
+        public ActionResult EditComputers()
+        {
+            var computers = this.BanStorage.GetComputers().ToList();
+
+            var attachments = this.BanStorage.GetRoomAttachments().ToList();
+
+            var list = new List<ComputerWithAttachmentViewModel>();
+
+            foreach (var computer in computers)
+            {
+                if (attachments.SingleOrDefault(a => a.ComputerIp == computer.IpAddress) != null)
+                {
+                    var roomId = attachments.SingleOrDefault(a => a.ComputerIp == computer.IpAddress).RoomId;
+
+                    var roomName = this.BanStorage.GetRoom(roomId).Name;
+
+                    list.Add(new ComputerWithAttachmentViewModel { Computer = computer, RoomName = roomName });
+                }
+
+                else
+                {
+                    list.Add(new ComputerWithAttachmentViewModel { Computer = computer });
+                }
+            }
+
+            var viewModel = new BanComputerViewModel { Computers = list };
 
             return View(viewModel);
         }
@@ -104,9 +141,16 @@ namespace IUDICO.Security.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult EditComputer(EditComputersViewModel viewModel)
         {
-            //var comp = this.BanStorage.GetComputer(viewModel.ComputerIP);
-
             this.BanStorage.EditComputer(viewModel.ComputerIP, viewModel.Banned, viewModel.CurrentUser);
+
+            if(viewModel.Room != "N/A")
+            {
+                this.BanStorage.AttachComputerToRoom(this.BanStorage.GetComputer(viewModel.ComputerIP), this.BanStorage.GetRoom(viewModel.Room));
+            }
+            else
+            {
+                this.BanStorage.DetachComputer(this.BanStorage.GetComputer(viewModel.ComputerIP));
+            }
 
             return RedirectToAction("EditComputers");
         }
@@ -124,11 +168,15 @@ namespace IUDICO.Security.Controllers
         [Allow(Role = Role.Admin)]
         public ActionResult EditRoom(string currentRoom)
         {
-            var viewModel = new RoomsViewModel();
-            viewModel.CurrentRoom = currentRoom;
-            viewModel.Rooms = this.BanStorage.GetRooms().Select(i => i.Name).ToList();
-            viewModel.Computers = this.BanStorage.GetRoom(currentRoom).Computers.Select(c => c.IpAddress).ToList();
-            viewModel.UnchoosenComputers = this.BanStorage.GetComputers().Where(i => i.Room == null).Select(x => x.IpAddress).ToList();
+            var attachments = this.BanStorage.GetRoomAttachments();
+
+            var viewModel = new RoomsViewModel
+                                {
+                                    CurrentRoom = currentRoom,
+                                    Rooms = this.BanStorage.GetRooms().Select(i => i.Name).ToList(),
+                                    Computers = this.BanStorage.GetComputers().Select(c => c.IpAddress).ToList()
+                                };
+            viewModel.UnchoosenComputers = viewModel.Computers.Where(c => attachments.Count(a => a.ComputerIp == c) == 0).ToList();
 
             return View(viewModel);
         }
@@ -142,26 +190,23 @@ namespace IUDICO.Security.Controllers
             var computers = compArray.Split(',');
             foreach (string computer in computers)
             {
-                var tempComp = this.BanStorage.GetComputer(computer);   
-                if (tempComp.RoomRef == null)
+                var tempComp = this.BanStorage.GetComputer(computer);
+   
+                if(this.BanStorage.GetAttachment(computer) == null)
+                {
                     this.BanStorage.AttachComputerToRoom(tempComp, room);
+                }
             }
             computers = unchoosenComputers.Split(',');
             foreach (string comp in computers)
             {
                 var computer = this.BanStorage.GetComputer(comp);
-                if (computer.RoomRef != null)
+
+                if (this.BanStorage.GetAttachment(computer) != null)
+                {
                     this.BanStorage.DetachComputer(computer);
+                }
             }
-        }
-
-        [Allow(Role = Role.Admin)]
-        public ActionResult EditComputers()
-        {
-            var viewModel = new BanComputerViewModel();
-            viewModel.Computers = this.BanStorage.GetComputers().ToList();
-
-            return View(viewModel);
         }
 
         [Allow(Role = Role.Admin)]
