@@ -24,26 +24,26 @@
         <% foreach (var item in Model.Computers)
            { %>
         <tr>
-            <td> <%: item.IpAddress%> </td>
-            <td> <% if (item.RoomRef != null)
+            <td> <%: item.Computer.IpAddress%> </td>
+            <td> <% if (item.RoomName != null)
                    { %>
-                    <%: Html.Label(item.Room.Name)%> 
+                    <%: Html.Label(item.RoomName)%> 
                 <% }
                    else
                    { %>
                     <%: Html.Label("None")%> 
                 <% } %>  </td>
-            <td> <%: item.CurrentUser%> </td>
-            <td> <%: item.Banned %> </td>
-            <td> <%= Html.ActionLink(Localization.GetMessage("Edit"), "EditComputer",new IUDICO.Security.ViewModels.Ban.EditComputersViewModel(new IUDICO.Security.Models.Storages.Database.DatabaseBanStorage().GetComputer(item.IpAddress)) )%> | 
-                 <%= Html.ActionLink(Localization.GetMessage("Delete"), "DeleteComputer", new { computer = item.IpAddress })%>| 
-                 <% if (item.Banned)
+            <td> <%: item.Computer.CurrentUser%> </td>
+            <td> <%: item.Computer.Banned %> </td>
+            <td> <%= Html.ActionLink(Localization.GetMessage("Edit"), "EditComputer", new { computerIp = item.Computer.IpAddress })%> | 
+                 <%= Html.ActionLink(Localization.GetMessage("Delete"), "DeleteComputer", new { computer = item.Computer.IpAddress })%>| 
+                 <% if (item.Computer.Banned)
                    { %>
-                    <%: Html.ActionLink(Localization.GetMessage("Unban"), "ComputerUnban", new { computer = item.IpAddress })%> 
+                    <%: Html.ActionLink(Localization.GetMessage("Unban"), "ComputerUnban", new { computer = item.Computer.IpAddress })%> 
                 <% }
                    else
                    { %>
-                    <%:Html.ActionLink(Localization.GetMessage("Ban"), "ComputerBan", new { computer = item.IpAddress })%> 
+                    <%:Html.ActionLink(Localization.GetMessage("Ban"), "ComputerBan", new { computer = item.Computer.IpAddress })%> 
                 <% } %> 
             </td>
         </tr>

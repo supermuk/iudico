@@ -31,23 +31,5 @@ namespace IUDICO.Security.ViewModels.Ban
             this.CurrentUser = curUser;
             this.AllRooms = rooms;
         }
-
-        public EditComputersViewModel(Computer computer)
-        {
-            this.ComputerIP = computer.IpAddress;
-
-            if (computer.RoomRef != null)
-            {
-                this.Room = computer.Room.Name;
-            }
-            
-            this.Banned = computer.Banned;
-
-            if (computer.CurrentUser != null)
-            {
-                this.CurrentUser = computer.CurrentUser;
-            }
-            
-        }
     }
 }
