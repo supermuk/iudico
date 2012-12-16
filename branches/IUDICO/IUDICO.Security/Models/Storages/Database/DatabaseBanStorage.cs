@@ -54,6 +54,13 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = this.NewContext())
             {
+                var oldAttachment = context.RoomAttachments.SingleOrDefault(a => (a.ComputerIp == computer.IpAddress) && (a.RoomId != room.Id));
+
+                if(oldAttachment != null)
+                {
+                    context.RoomAttachments.DeleteOnSubmit(oldAttachment);
+                }
+
                 var attachment =
                     context.RoomAttachments.FirstOrDefault(a => (a.ComputerIp == computer.IpAddress) && (a.RoomId == room.Id));
 
