@@ -54,22 +54,23 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = this.NewContext())
             {
-                var oldAttachment = context.RoomAttachments.SingleOrDefault(a => (a.ComputerIp == computer.IpAddress) && (a.RoomId != room.Id));
+                var attachment = context.RoomAttachments.SingleOrDefault(a => a.ComputerIp == computer.IpAddress);
 
-                if(oldAttachment != null)
+                if(attachment != null)
                 {
-                    context.RoomAttachments.DeleteOnSubmit(oldAttachment);
+                    if(attachment.RoomId == room.Id)
+                    {
+                        return;
+                    }
+
+                    attachment.RoomId = room.Id;
                 }
-
-                var attachment =
-                    context.RoomAttachments.FirstOrDefault(a => (a.ComputerIp == computer.IpAddress) && (a.RoomId == room.Id));
-
-                if(attachment == null)
+                else
                 {
                     context.RoomAttachments.InsertOnSubmit(new RoomAttachment {ComputerIp = computer.IpAddress, RoomId = room.Id});
-
-                    context.SubmitChanges();
                 }
+
+                context.SubmitChanges();
             }
         }
 
