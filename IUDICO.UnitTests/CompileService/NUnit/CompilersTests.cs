@@ -8,6 +8,7 @@ using Assert = NUnit.Framework.Assert;
 
 namespace IUDICO.UnitTests.CompileService.NUnit
 {
+  using CompileSystem;
   using Microsoft.VisualStudio.TestTools.UnitTesting;
   using CompileSystem.Classes.Compiling;
 
@@ -104,7 +105,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
 
             compilers = new Compilers("Compilers");
             compilers.Load();
-            Assert.AreEqual(compilers.Count, 5);
+            Assert.AreEqual(compilers.Count, 4);
         }
 
         [Test]
@@ -142,7 +143,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
           firstCompilers.Load();
           firstCompilers.AddCompiler(firstCompilers.GetCompiler("CPP8"));
           //compilers must be unique. same compiler can not be added.
-          Assert.AreEqual(firstCompilers.Count,5);
+          Assert.AreEqual(firstCompilers.Count,4);
         }
         [Test]
         [ExpectedException(typeof(Exception))]

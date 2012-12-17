@@ -6,6 +6,7 @@ using NUnit.Framework;
 namespace IUDICO.UnitTests.CompileService.NUnit
 {
     using CompileSystem.Classes;
+    using CompileSystem;
 
     [TestFixture]
     public class HelperTests
