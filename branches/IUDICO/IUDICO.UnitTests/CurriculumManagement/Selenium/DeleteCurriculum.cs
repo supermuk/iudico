@@ -11,7 +11,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
     [TestFixture]
     public class DeleteCurriculum : SimpleWebTest
     {
-        private const int SleepTime = 8000;
+        private const int SleepTime = 10000;
 
         /// <summary>
         /// Author - Volodymyr Vinichuk
@@ -42,8 +42,11 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             this.selenium.Click("xpath=(//input[@value='Create'])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            Thread.Sleep(SleepTime);//my
             var isPresent = this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Демонстраційна група')]")
                 && this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Discipline2')]");
+            
+            Assert.IsTrue(isPresent);//my
 
             this.selenium.Click("xpath=//tr[contains(.,'Discipline2')]//input");
 
@@ -92,6 +95,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             }
         }
 
+
         /// <summary>
         /// Author Volodymyr Vinichuk
         /// </summary>
@@ -125,6 +129,10 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             Thread.Sleep(SleepTime);
             this.selenium.Click("xpath=(//input[@value='Create'])");
 
+            //this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            Thread.Sleep(SleepTime);
+
             var isPresent = this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Демонстраційна група')]")
                 && this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Discipline3')]");
 
@@ -135,11 +143,13 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             {
                 selenium.GetAlert();
             }
+
+            this.selenium.Select("id=DisciplineId", "label=Discipline3");
+            this.selenium.Select("id=GroupId", "value=1");
             this.selenium.Type("id=EndDate", "10/29/2100 08:10 AM");
             this.selenium.Click("xpath=(//input[@value='Create'])");
 
-            this.selenium.Refresh();
-            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            Thread.Sleep(SleepTime);
 
             this.selenium.Click("xpath=//tr[contains(.,'Discipline3')]//input");
             this.selenium.Click("//a[contains(@id, 'DeleteMany')]");
