@@ -11,7 +11,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
     [TestFixture]
     public class DeleteCurriculum : SimpleWebTest
     {
-        private const int SleepTime = 4000;
+        private const int SleepTime = 8000;
 
         /// <summary>
         /// Author - Volodymyr Vinichuk
