@@ -89,7 +89,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public virtual Course GetCourse(int id)
         {
-            return this.GetDbContext().Courses.Single(c => c.Id == id && c.Deleted == false);
+            return this.GetDbContext().Courses.SingleOrDefault(c => c.Id == id && c.Deleted == false);
         }
 
         public virtual IEnumerable<User> GetCourseUsers(int courseId)
