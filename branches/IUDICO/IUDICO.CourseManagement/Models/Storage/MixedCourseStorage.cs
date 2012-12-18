@@ -31,7 +31,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
 "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf", "sh_main.min.js", "sh_cpp.min.js", "sh_csharp.min.js", "sh_java.min.js", 
 
-"sh_xml.min.js", "sh_style.css", "wait.gif" };
+"sh_xml.min.js", "sh_style.css", "wait.gif",  "Minified.css", "Minified.js" };
 
         private const string ResourceIdForTemplateFiles = "TemplateFiles";
 
