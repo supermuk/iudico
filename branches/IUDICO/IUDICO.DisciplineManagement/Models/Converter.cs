@@ -96,28 +96,32 @@ namespace IUDICO.DisciplineManagement.Models
         public static ViewTopicModel ToViewTopicModel(this Topic topic, IDisciplineStorage storage)
         {
             return new ViewTopicModel
-            {
-                Id = topic.Id,
-                ChapterId = topic.ChapterRef,
-                Created = ToString(topic.Created),
-                Updated = ToString(topic.Updated),
-                TestCourseName =
-                    topic.TestCourseRef.HasValue && topic.TestCourseRef != Constants.TestWithoutCourseId
-                        ? storage.GetCourse(topic.TestCourseRef.Value).Name
-                        : string.Empty,
-                TestTopicType = topic.TestTopicTypeRef.HasValue
-                                    ? ToString(
-                                        storage.GetTopicType(topic.TestTopicTypeRef.Value))
-                                    : string.Empty,
-                TheoryCourseName = topic.TheoryCourseRef.HasValue
-                                       ? storage.GetCourse(topic.TheoryCourseRef.Value).Name
-                                       : string.Empty,
-                TheoryTopicType = topic.TheoryTopicTypeRef.HasValue
-                                      ? ToString(
-                                          storage.GetTopicType(topic.TheoryTopicTypeRef.Value))
-                                      : string.Empty,
-                TopicName = topic.Name
-            };
+                       {
+                           Id = topic.Id,
+                           ChapterId = topic.ChapterRef,
+                           Created = ToString(topic.Created),
+                           Updated = ToString(topic.Updated),
+                           TestCourseName =
+                               topic.TestCourseRef.HasValue && topic.TestCourseRef != Constants.TestWithoutCourseId
+                                   ? (storage.GetCourse(topic.TestCourseRef.Value) == null
+                                          ? Localization.GetMessage("course deleted")
+                                          : storage.GetCourse(topic.TestCourseRef.Value).Name)
+                                   : string.Empty,
+                           TestTopicType = topic.TestTopicTypeRef.HasValue
+                                               ? ToString(
+                                                   storage.GetTopicType(topic.TestTopicTypeRef.Value))
+                                               : string.Empty,
+                           TheoryCourseName = topic.TheoryCourseRef.HasValue
+                                                  ? (storage.GetCourse(topic.TheoryCourseRef.Value) == null
+                                                         ? Localization.GetMessage("course deleted")
+                                                         : storage.GetCourse(topic.TheoryCourseRef.Value).Name)
+                                                  : string.Empty,
+                           TheoryTopicType = topic.TheoryTopicTypeRef.HasValue
+                                                 ? ToString(
+                                                     storage.GetTopicType(topic.TheoryTopicTypeRef.Value))
+                                                 : string.Empty,
+                           TopicName = topic.Name
+                       };
         }
     }
 }
