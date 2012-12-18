@@ -11,7 +11,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
     [TestFixture]
     public class DeleteCurriculum : SimpleWebTest
     {
-        private const int SleepTime = 10000;
+        private const int SleepTime = 8000;
 
         /// <summary>
         /// Author - Volodymyr Vinichuk
@@ -40,7 +40,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             this.selenium.Select("id=DisciplineId", "label=Discipline2");
             this.selenium.Select("id=GroupId", "value=1");
             this.selenium.Click("xpath=(//input[@value='Create'])");
-            this.selenium.Refresh();
+            //this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             Thread.Sleep(SleepTime);//my
             var isPresent = this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Демонстраційна група')]")
