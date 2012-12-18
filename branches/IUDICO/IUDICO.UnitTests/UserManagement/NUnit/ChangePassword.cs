@@ -98,6 +98,57 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             Assert.Fail();
         }
 
+        [Test]
+        [ExpectedException(typeof(Exception), ExpectedMessage = "Password can't be empty.")]
+        public void ChangePasswordWithBlankNewPassword()
+        {
+            this.tests = UserManagementTests.Update();
+            var model = new ChangePasswordModel { OldPassword = "123", ConfirmPassword = "321", NewPassword = string.Empty };
+            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
+
+            this.tests.ChangeCurrentUser("panza");
+            this.tests.Storage.CreateUser(temp);
+            this.tests.ChangeCurrentUser("name");
+
+            this.tests.Storage.ChangePassword(model);
+
+            this.tests.Storage.DeleteUser(u => u.Username == "name");
+        }
+
+        [Test]
+        [ExpectedException(typeof(Exception), ExpectedMessage = "Password confirmation can't be empty.")]
+        public void ChangePasswordWithBlankConfirmPassword()
+        {
+            this.tests = UserManagementTests.Update();
+            var model = new ChangePasswordModel { OldPassword = "123", ConfirmPassword = string.Empty, NewPassword = "321" };
+            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
+
+            this.tests.ChangeCurrentUser("panza");
+            this.tests.Storage.CreateUser(temp);
+            this.tests.ChangeCurrentUser("name");
+
+            this.tests.Storage.ChangePassword(model);
+
+            this.tests.Storage.DeleteUser(u => u.Username == "name");
+        }
+
+        [Test]
+        [ExpectedException(typeof(Exception), ExpectedMessage = "New password should be the same as password confirmation.")]
+        public void ChangePasswordWithInvalidConfirmPassword()
+        {
+            this.tests = UserManagementTests.Update();
+            var model = new ChangePasswordModel { OldPassword = "123", ConfirmPassword = "111", NewPassword = "321" };
+            var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
+
+            this.tests.ChangeCurrentUser("panza");
+            this.tests.Storage.CreateUser(temp);
+            this.tests.ChangeCurrentUser("name");
+
+            this.tests.Storage.ChangePassword(model);
+
+            this.tests.Storage.DeleteUser(u => u.Username == "name");
+        }
+
         //[Test]
         //public void ChangePasswordIncorrect()
         //{

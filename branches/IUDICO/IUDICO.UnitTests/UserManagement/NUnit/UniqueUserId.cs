@@ -77,6 +77,12 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         }
 
         [Test]
+        public void UniqueOpenIdAvailablity1()
+        {
+            Assert.True(this.tests.Storage.UserOpenIdAvailable(string.Empty, Guid.NewGuid()));
+        }
+
+        [Test]
         public void EditUser()
         {
             const string UserId = "UniqueUserId_EditUser";
