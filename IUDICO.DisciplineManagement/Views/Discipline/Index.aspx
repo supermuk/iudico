@@ -176,6 +176,7 @@
             }
         }
         
+
         function onEditChapterSuccess(resp) {
             if(resp.success) {
                 var newRow = $(resp.chapterRow);
@@ -313,14 +314,17 @@
                 }
             });
         }
-    	
+    	function exportInvalidDiscipline() {
+    	    alert("<%=Localization.GetMessage("ExportInvalideDisciplineIsUnavailable") %>");
+    	    window.location.reload(true);
+    	}
         function deleteTopic(id) {
             var answer = confirm("<%=Localization.GetMessage("AreYouSureYouWantDeleteSelectedTopic") %>");
 
             if (answer == false) {
                 return;
             }
-
+            
             $.ajax({
                 type: "post",
                 url: "/TopicAction/DeleteItem",

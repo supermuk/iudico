@@ -180,7 +180,8 @@ namespace IUDICO.DisciplineManagement.Controllers
             var importer = new ImportExportDiscipline(Storage);
             var path = importer.Export(disciplineId);
 
-            return new FilePathResult(path, "application/octet-stream") { FileDownloadName = importer.GetFileName(disciplineId) };
+            return new FilePathResult(path, "application/octet-stream")
+                        {FileDownloadName = importer.GetFileName(disciplineId)};
         }
 
         [HttpGet]

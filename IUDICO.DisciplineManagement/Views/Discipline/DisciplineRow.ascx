@@ -13,9 +13,16 @@
 		    |
             <a href="#" onclick="editDiscipline(<%: Model.Discipline.Id %>);"><%=Localization.GetMessage("Edit")%></a>
 		    | 
-				    <a href="#" onclick="shareDiscipline(<%: Model.Discipline.Id %>)"><%=Localization.GetMessage("Share")%></a>
-		    |
-				    <%: Html.ActionLink(Localization.GetMessage("Export"), "Export", new { DisciplineID = Model.Discipline.Id })%>
+				    <a href="#" onclick="shareDiscipline(<%: Model.Discipline.Id %>)"><%=Localization.GetMessage("Share")%></a> 
+		    |       
+            <%if(Model.Error == string.Empty)
+            {%>
+    	        <%: Html.ActionLink(Localization.GetMessage("Export"), "Export", new { DisciplineID = Model.Discipline.Id })%>
+            <%}
+            else
+            {%>
+                 <a href="javascript:void(0)" onclick="exportInvalidDiscipline()"><%=Localization.GetMessage("Export")%></a>    
+            <%}%>
 		    |
 		    <a href="#" onclick="deleteDiscipline(<%: Model.Discipline.Id %>)"><%=Localization.GetMessage("Delete")%></a>
 		    </div>
