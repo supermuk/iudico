@@ -182,6 +182,10 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Home\Index.aspx" />
+    <Content Include="packages.config" />
+    <None Include="SciptCompressorProject.proj">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Scripts\jquery\jquery-1.4.1-vsdoc.js">
     </None>
     <None Include="Scripts\jquery\jquery-1.4.1.js">
@@ -312,6 +316,10 @@
     <Content Include="Player\Frameset\Theme\TocOpen.gif" />
     <Content Include="Player\Frameset\Theme\TocOpenHover.gif" />
     <Content Include="Player\Frameset\Theme\TopShadow.gif" />
+    <Content Include="Player\jquery.livequery.js" />
+    <Content Include="Player\qunit.css" />
+    <Content Include="Player\qunit.js" />
+    <Content Include="Player\tests.htm" />
     <Content Include="Scripts\ajax-dialog.js" />
     <Content Include="Scripts\CheckStyle.js" />
     <Content Include="Scripts\jquery\jquery-ui.js" />
@@ -487,7 +495,10 @@
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
-    <PreBuildEvent>
-    </PreBuildEvent>
+    <PreBuildEvent>$(MSBuildBinPath)\msbuild $(ProjectDir)SciptCompressorProject.proj</PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
 </Project>
