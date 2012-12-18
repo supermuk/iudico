@@ -16,9 +16,16 @@ namespace IUDICO.UnitTests.Analytics.NUnit
         [Test]
         public void CreateTag()
         {
-            var tag = new Tag { Id = 1, Name = "C++" };
+            int id = 1;
+            while (this.tests.Storage.GetTag(id) != null)
+            {
+                ++id;
+            }
+            var tag = new Tag { Id = id, Name = "Test tag name" };
+            int count = this.tests.Storage.GetTags().Count();
             this.tests.Storage.CreateTag(tag);
-            Assert.AreEqual(this.tests.Storage.GetTags().Count(), 5);
+            Assert.AreEqual(this.tests.Storage.GetTags().Count(), count + 1);
+            this.tests.Storage.DeleteTag(id);
         }
         [Test]
         public void EditTag()
@@ -40,7 +47,7 @@ namespace IUDICO.UnitTests.Analytics.NUnit
         public void GetTagDetails()
         {
             Assert.AreEqual(this.tests.Storage.GetTagDetails(3).Tag.Name, "C#");
-        } 		
+        }
 
         [Test]
         public void CreateDuplicateTagTest()
@@ -52,7 +59,7 @@ namespace IUDICO.UnitTests.Analytics.NUnit
                 this.tests.Storage.CreateTag(tag1);
                 this.tests.Storage.CreateTag(tag2);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 Assert.Pass();
             }
