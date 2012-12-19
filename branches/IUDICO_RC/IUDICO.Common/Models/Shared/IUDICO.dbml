@@ -49,8 +49,6 @@
       <Column Name="IpAddress" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Banned" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="CurrentUser" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="RoomRef" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="Room_Computer" Member="Room" ThisKey="RoomRef" OtherKey="Id" Type="Room" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Courses" Member="Courses">
@@ -268,7 +266,6 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Allowed" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Association Name="Room_Computer" Member="Computers" ThisKey="Id" OtherKey="RoomRef" Type="Computer" />
     </Type>
   </Table>
   <Table Name="dbo.SharedDisciplines" Member="SharedDisciplines">
@@ -393,6 +390,12 @@
       <Column Name="TagId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
       <Column Name="Score" Type="System.Single" DbType="Real NOT NULL" CanBeNull="false" />
       <Association Name="Tag_UserScore" Member="Tag" ThisKey="TagId" OtherKey="Id" Type="Tag" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.RoomAttachments" Member="RoomAttachments">
+    <Type Name="RoomAttachment">
+      <Column Name="RoomRef" Member="RoomId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ComputerRef" Member="ComputerIp" Type="System.String" DbType="NVarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

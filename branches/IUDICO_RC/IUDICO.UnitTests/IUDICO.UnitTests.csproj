@@ -148,6 +148,7 @@
     <Compile Include="CourseManagement\CourseManagmentTest.cs" />
     <Compile Include="CourseManagement\BaseCourseManagementTest.cs" />
     <Compile Include="CourseManagement\NUnit\DateFormatConverterTests.cs" />
+    <Compile Include="CourseManagement\NUnit\CourseStorageTest.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestManagerTest.cs" />
     <Compile Include="CourseManagement\NUnit\ManifestModelsTest.cs" />
     <Compile Include="CourseManagement\NUnit\MixedCourseStorageTest.cs" />
@@ -357,6 +358,8 @@
     <None Include="CourseManagement\Data\20.zip">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="CurriculumManagement\NUnit\Discipline1.zip" />
+    <None Include="CurriculumManagement\NUnit\Discipline2.zip" />
     <None Include="DataGenerator\Data\Courses\Pascal\1-5.Tests.zip" />
     <None Include="DataGenerator\Data\Courses\Pascal\1.Вступ до інформатики.zip" />
     <None Include="DataGenerator\Data\Courses\Pascal\10.Процедурні типи.zip" />

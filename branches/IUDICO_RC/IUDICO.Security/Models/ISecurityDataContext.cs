@@ -12,5 +12,6 @@ namespace IUDICO.Security.Models
         IMockableTable<Room> Rooms { get; }
         IMockableTable<Computer> Computers { get; }
         IMockableTable<UserActivity> UserActivities { get; }
+        IMockableTable<RoomAttachment> RoomAttachments { get; } 
     }
 }

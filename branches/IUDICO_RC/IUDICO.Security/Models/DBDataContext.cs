@@ -64,6 +64,11 @@ namespace IUDICO.Security.Models
             }
         }
 
+        public System.Data.Linq.Table<RoomAttachment> RoomAttachments
+        {
+            get { return this.GetTable<RoomAttachment>(); }
+        }
+
         public System.Data.Linq.Table<UserActivity> UserActivities
         {
             get

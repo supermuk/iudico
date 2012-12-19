@@ -10,7 +10,8 @@ namespace IUDICO.UnitTests.CompileService.NUnit
     using CompileSystem.Classes;
 
     [TestFixture]
-    public class CompilerTests
+    public class 
+      CompilerTests
     {
         private readonly Compiler compiler = new Compiler
             {

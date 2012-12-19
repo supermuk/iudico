@@ -13,7 +13,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [Test]
         public void CreateWithValidData()
         {
-            this.DefaultLogin("lex", "prof");
+            this.DefaultLogin("prof", "prof");
             selenium.WaitForPageToLoad(this.SeleniumWait);
             selenium.Click("//a[contains(@href, '/Group/Index')]");
             selenium.WaitForPageToLoad(this.SeleniumWait);
@@ -29,7 +29,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [Test]
         public void CreateWithInvalidData()
         {
-            this.DefaultLogin("lex", "prof");
+            this.DefaultLogin("prof", "prof");
             selenium.WaitForPageToLoad(this.SeleniumWait);
             selenium.Click("//a[contains(@href, '/Group/Index')]");
             selenium.WaitForPageToLoad(this.SeleniumWait);
@@ -41,8 +41,5 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 
             Assert.IsTrue(this.selenium.IsElementPresent("//span[contains(.,'Name is required')]"));
         }
-
-
-        
     }
 }

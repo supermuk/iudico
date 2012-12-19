@@ -489,13 +489,34 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public void ChangePassword(ChangePasswordModel changePasswordModel)
         {
-            if (changePasswordModel.NewPassword == "")
+            if (changePasswordModel.NewPassword == string.Empty)
             {
                 throw new Exception("Password can't be empty.");
             }
+
+            if (changePasswordModel.NewPassword != changePasswordModel.ConfirmPassword)
+            {
+                throw new Exception("New password should be the same as password confirmation.");
+            }
+
+            if (changePasswordModel.ConfirmPassword == string.Empty)
+            {
+                throw new Exception("Password confirmation can't be empty.");
+            }
+
+            if (changePasswordModel.OldPassword == string.Empty)
+            {
+                throw new Exception("Old password can't be empty.");
+            }
+            
             var db = this.GetDbContext();
 
             var user = db.Users.Single(u => u.Username == this.GetIdentityName() && u.Deleted == false);
+            
+            if (this.EncryptPassword(changePasswordModel.OldPassword) != user.Password)
+            {
+                throw new Exception("Old password is wrong.");
+            }
 
             user.Password = this.EncryptPassword(changePasswordModel.NewPassword);
 
