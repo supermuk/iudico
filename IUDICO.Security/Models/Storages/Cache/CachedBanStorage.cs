@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Caching;
-using System.Diagnostics;
 
 namespace IUDICO.Security.Models.Storages.Cache
 {
@@ -59,7 +57,8 @@ namespace IUDICO.Security.Models.Storages.Cache
         {
             this.storage.BanRoom(room);
 
-            var computers = room.Computers.Select(s => "computer-" + s.IpAddress);
+            //REDO
+            var computers = this.storage.GetComputers().Select(s => "computer-" + s.IpAddress);
 
             this.cachePrvoider.Invalidate(computers.ToArray());
             this.cachePrvoider.Invalidate("computers", "room-" + room.Name, "rooms");
@@ -69,7 +68,8 @@ namespace IUDICO.Security.Models.Storages.Cache
         {
             this.storage.UnbanRoom(room);
 
-            var computers = room.Computers.Select(s => "computer-" + s.IpAddress);
+            //REDO
+            var computers = this.storage.GetComputers().Select(s => "computer-" + s.IpAddress);
 
             this.cachePrvoider.Invalidate(computers.ToArray());
             this.cachePrvoider.Invalidate("computers", "room-" + room.Name, "rooms");
@@ -90,6 +90,21 @@ namespace IUDICO.Security.Models.Storages.Cache
             return this.cachePrvoider.Get<Room>("room-" + id, @lockObject, () => this.storage.GetRoom(id), DateTime.Now.AddDays(1), "room-" + id, "rooms");
         }
 
+        public Room GetRoom(Computer computer)
+        {
+            return this.storage.GetRoom(computer);
+        }
+
+        public RoomAttachment GetAttachment(string computerIp)
+        {
+            return this.storage.GetAttachment(computerIp);
+        }
+
+        public RoomAttachment GetAttachment(Computer computer)
+        {
+            return this.storage.GetAttachment(computer);
+        }
+
         public IEnumerable<Computer> GetComputers()
         {
             return this.cachePrvoider.Get<IEnumerable<Computer>>("computers", @lockObject, () => this.storage.GetComputers().ToList(), DateTime.Now.AddDays(1), "computers");
@@ -98,6 +113,16 @@ namespace IUDICO.Security.Models.Storages.Cache
         public IEnumerable<Room> GetRooms()
         {
             return this.cachePrvoider.Get<IEnumerable<Room>>("rooms", @lockObject, () => this.storage.GetRooms().ToList(), DateTime.Now.AddDays(1), "rooms");
+        }
+
+        public IEnumerable<Computer> ComputersAttachedToRoom(Room room)
+        {
+            return this.storage.ComputersAttachedToRoom(room);
+        }
+
+        public IEnumerable<RoomAttachment> GetRoomAttachments()
+        {
+            return this.storage.GetRoomAttachments();
         }
 
         public void CreateComputer(Computer computer)

@@ -66,6 +66,8 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var result = this.groupController.Create(group) as ViewResult;
 
             Assert.IsNotNull(result);
+
+            var p = Path.GetFileNameWithoutExtension(result.ViewName);
             Assert.AreEqual("Create", Path.GetFileNameWithoutExtension(result.ViewName));
         }
     }

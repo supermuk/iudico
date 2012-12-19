@@ -80,11 +80,31 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            //check
+            // check
             Assert.IsTrue(this.selenium.IsElementPresent("//table//tr[contains(.,'51')]"));
             Assert.IsTrue(this.selenium.IsElementPresent("//table//tr[contains(.,'True')]"));
 
+            this.selenium.Click("//a[contains(@href,'/DisciplineAction')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            this.selenium.Click("//table[@id='disciplines']//tr[contains(.,'Discipline1')]//a[contains(text(),'Delete')]");
+            this.selenium.GetConfirmation();
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+            Thread.Sleep(SleepTime);
+            Assert.IsFalse(this.selenium.IsElementPresent("xpath=//tr[contains(.,'Discipline1')]"));
 
+            try
+            {
+                this.Logout();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
         }
 
     }

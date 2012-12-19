@@ -76,10 +76,10 @@
     <Content Include="Scripts\jquery\jquery.tmpl.min.js" />
     <Content Include="Views\Ban\AddRoom.aspx" />
     <Content Include="Views\Ban\AddComputers.aspx" />
-    <Content Include="Views\Ban\EditComputers.aspx" />
-    <Content Include="Views\Ban\Banned.aspx" />
-    <Content Include="Views\Ban\EditRooms.aspx" />
     <Content Include="Views\Ban\EditComputer.aspx" />
+    <Content Include="Views\Ban\Banned.aspx" />
+    <Content Include="Views\Ban\EditComputers.aspx" />
+    <Content Include="Views\Ban\EditRooms.aspx" />
     <Content Include="Views\Ban\EditRoom.aspx" />
     <Content Include="Views\Ban\Index.aspx" />
     <Content Include="Views\Security\Index.aspx" />
@@ -118,6 +118,7 @@
     <Compile Include="ViewModels\Ban\BanComputerViewModel.cs" />
     <Compile Include="ViewModels\Ban\BanRoomViewModel.cs" />
     <Compile Include="ViewModels\Ban\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Ban\ComputerWithAttachmentViewModel.cs" />
     <Compile Include="ViewModels\Ban\EditComputersViewModel.cs" />
     <Compile Include="ViewModels\Ban\IndexViewModel.cs" />
     <Compile Include="ViewModels\Ban\RoomsViewModel.cs" />

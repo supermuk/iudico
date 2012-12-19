@@ -13,10 +13,6 @@ namespace IUDICO.Security.Models
     {
         partial void OnCreated()
         {
-            DataLoadOptions opts = new DataLoadOptions();
-            opts.LoadWith<Room>(r => r.Computers);
-            
-            LoadOptions = opts;
         }
 
         IMockableTable<Room> ISecurityDataContext.Rooms
@@ -32,6 +28,14 @@ namespace IUDICO.Security.Models
         IMockableTable<UserActivity> ISecurityDataContext.UserActivities
         {
             get { return new MockableTable<UserActivity>(this.UserActivities); }
+        }
+
+        IMockableTable<RoomAttachment> ISecurityDataContext.RoomAttachments
+        {
+            get
+            {
+                return new MockableTable<RoomAttachment>(this.RoomAttachments);
+            }
         }
     }
 }

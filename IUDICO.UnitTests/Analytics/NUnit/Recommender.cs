@@ -34,7 +34,7 @@ namespace IUDICO.UnitTests.Analytics.NUnit
         [Test]
         public void GetUserScores()
         {
-            var userScore = this.tests.Storage.GetUserScores().First();
+            var userScore = this.tests.Storage.GetUserScores().Where(u => u.Key.Id == this.tests.UserId).First();
 
             Assert.IsTrue(userScore.Value.Count() == this.tests.DataContext.UserScores.Count(t => t.UserId == this.tests.UserId));
             Assert.IsTrue(userScore.Value.Sum(t => t.Score) == this.tests.DataContext.UserScores.Where(t => t.UserId == this.tests.UserId).Sum(t => t.Score));

@@ -54,10 +54,23 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = this.NewContext())
             {
-                var curRoom = GetRoom(context, room.Name);
-                var curComp = context.Computers.SingleOrDefault(i => i.IpAddress == computer.IpAddress);
-                curComp.RoomRef = curRoom.Id;
-                context.SubmitChanges();                
+                var attachment = context.RoomAttachments.SingleOrDefault(a => a.ComputerIp == computer.IpAddress);
+
+                if (attachment != null)
+                {
+                    if (attachment.RoomId == room.Id)
+                    {
+                        return;
+                    }
+
+                    attachment.RoomId = room.Id;
+                }
+                else
+                {
+                    context.RoomAttachments.InsertOnSubmit(new RoomAttachment {ComputerIp = computer.IpAddress, RoomId = room.Id});
+                }
+
+                context.SubmitChanges();
             }
         }
 
@@ -65,9 +78,14 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = this.NewContext())
             {
-                var curComp = context.Computers.FirstOrDefault(i => i.IpAddress == computer.IpAddress);
-                curComp.RoomRef = null;
-                context.SubmitChanges();
+                var attachment = context.RoomAttachments.SingleOrDefault(a => a.ComputerIp == computer.IpAddress);
+
+                if (attachment != null)
+                {
+                    context.RoomAttachments.DeleteOnSubmit(attachment);
+
+                    context.SubmitChanges();
+                }
             }
         }
 
@@ -97,7 +115,7 @@ namespace IUDICO.Security.Models.Storages.Database
             {
                 var computer = context.Computers.SingleOrDefault(c => c.IpAddress == ip);
 
-                if(computer != null)
+                if (computer != null)
                 {
                     computer.Banned = banned;
                     computer.CurrentUser = currentUser;
@@ -111,12 +129,13 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = this.NewContext())
             {
-                var r = context.Rooms.SingleOrDefault(x => x.Id == room.Id);
-                r.Allowed = false;
+                var computers = context.RoomAttachments.Where(a => a.RoomId == room.Id).Select(a => a.ComputerIp);
 
-                foreach (Computer comp in r.Computers)
-                    comp.Banned = true;
-                    
+                computers.ForEach(c => context.Computers.Single(x => x.IpAddress == c).Banned = true);
+
+                var room1 = context.Rooms.Single(r => r.Id == room.Id);
+                room1.Allowed = false;
+
                 context.SubmitChanges();
             }
         }
@@ -125,8 +144,12 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = this.NewContext())
             {
-                var r = context.Rooms.SingleOrDefault(x => x.Id == room.Id);
-                r.Allowed = true;
+                var computers = context.RoomAttachments.Where(a => a.RoomId == room.Id).Select(a => a.ComputerIp);
+
+                computers.ForEach(c => context.Computers.Single(x => x.IpAddress == c).Banned = false);
+
+                var room1 = context.Rooms.Single(r => r.Id == room.Id);
+                room1.Allowed = true;
 
                 context.SubmitChanges();
             }
@@ -156,14 +179,55 @@ namespace IUDICO.Security.Models.Storages.Database
             }
         }
 
-        public Room GetRoom(ISecurityDataContext context, string name)
-        {   
-                return context.Rooms.FirstOrDefault(room => room.Name == name);            
+        public Room GetRoom(Computer computer)
+        {
+            using (var context = this.NewContext())
+            {
+                var attachment = context.RoomAttachments.SingleOrDefault(a => a.ComputerIp == computer.IpAddress);
+
+                if(attachment != null)
+                {
+                    return context.Rooms.SingleOrDefault(r => r.Id == attachment.RoomId);
+                }
+
+                return null;
+            }
+        }
+
+        public RoomAttachment GetAttachment(string computerIp)
+        {
+            using (var context = this.NewContext())
+            {
+                return context.RoomAttachments.SingleOrDefault(a => a.ComputerIp == computerIp);
+            }
+        }
+
+        public RoomAttachment GetAttachment(Computer computer)
+        {
+            using (var context = this.NewContext())
+            {
+                return context.RoomAttachments.SingleOrDefault(a => a.ComputerIp == computer.IpAddress);
+            }
         }
 
         public IEnumerable<Room> GetRooms()
         {
             return this.NewContext().Rooms;
+        }
+
+        public IEnumerable<Computer> ComputersAttachedToRoom(Room room)
+        {
+            using (var context =this.NewContext())
+            {
+                return
+                    context.RoomAttachments.Where(a => a.RoomId == room.Id).Select(
+                        a => context.Computers.SingleOrDefault(c => c.IpAddress == a.ComputerIp));
+            }
+        }
+
+        public IEnumerable<RoomAttachment> GetRoomAttachments()
+        {
+            return this.NewContext().RoomAttachments;
         }
 
         public IEnumerable<Computer> GetComputers()

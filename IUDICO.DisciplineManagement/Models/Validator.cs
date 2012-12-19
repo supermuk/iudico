@@ -68,62 +68,83 @@ namespace IUDICO.DisciplineManagement.Models
 
         public string GetValidationError(Discipline discipline)
         {
-            string error = Localization.GetMessage("CorrectTopics");
+            string errorTopic = Localization.GetMessage("CorrectTopics");
+            string errorChapter = Localization.GetMessage("CorrectChapters");
             var chapters = this._storage.GetDiscipline(discipline.Id).Chapters.Where(item => !item.IsDeleted);
-            var count = 0;
+            var countTopic = 0;
+            var countChapter = 0;
             foreach (var chapter in chapters)
             {
                 var topics = chapter.Topics.Where(item => !item.IsDeleted);
+                var theoryCourseRefs = topics.Select(item => item.TheoryCourseRef).Where(item => item.HasValue);
+                var testCourseRefs = topics.Select(item => item.TestCourseRef).Where(item => item.HasValue);
+                var union = theoryCourseRefs.Union(testCourseRefs);
+                if(union.Count() != theoryCourseRefs.Count() + testCourseRefs.Count())
+                {
+                    if (countChapter == 0)
+                    {
+                        errorChapter += " " + chapter.Name;
+                    }
+                    else
+                    {
+                        errorChapter += ", " + chapter.Name;
+                    }
+                    countChapter++;
+                }
                 foreach (var topic in topics)
                 {
                     if (topic.TheoryCourseRef == null && topic.TestCourseRef == null)
                     {
-                        if (count == 0)
+                        if (countTopic == 0)
                         {
-                            error += " " + topic.Name;
+                            errorTopic    += " " + topic.Name;
                         }
                         else
                         {
-                            error += ", " + topic.Name;
+                            errorTopic += ", " + topic.Name;
                         }
-                        count++;
+                        countTopic++;
                     }
                     else
                     {
                         if (topic.TheoryCourseRef != null)
                         {
-                            if (this._storage.GetCourse((int)topic.TheoryCourseRef).Deleted == true)
+                            if (this._storage.GetCourse((int)topic.TheoryCourseRef) == null)
                             {
-                                if (count == 0)
+                                if (countTopic == 0)
                                 {
-                                    error += " " + topic.Name;
+                                    errorTopic += " " + topic.Name;
                                 }
                                 else
                                 {
-                                    error += ", " + topic.Name;
+                                    errorTopic += ", " + topic.Name;
                                 }
-                                count++;
+                                countTopic++;
                             }
                         }
                         else if ((int)topic.TestCourseRef != -1)
                         {
-                            if (this._storage.GetCourse((int)topic.TestCourseRef).Deleted == true)
+                            if (this._storage.GetCourse((int)topic.TestCourseRef) == null)
                             {
-                                if (count == 0)
+                                if (countTopic == 0)
                                 {
-                                    error += " " + topic.Name;
+                                    errorTopic += " " + topic.Name;
                                 }
                                 else
                                 {
-                                    error += ", " + topic.Name;
+                                    errorTopic += ", " + topic.Name;
                                 }
-                                count++;
+                                countTopic++;
                             }
                         }
                     }
                 }
             }
-            return error;
+            if (countChapter != 0 && countTopic != 0)
+            {
+                return errorChapter + "; " + errorTopic;
+            }
+            return countChapter != 0 ? errorChapter : errorTopic;
         }
     }
 }

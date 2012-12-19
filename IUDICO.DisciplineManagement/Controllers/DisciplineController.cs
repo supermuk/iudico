@@ -34,7 +34,7 @@ namespace IUDICO.DisciplineManagement.Controllers
         {
             var disciplines = Storage.GetDisciplines(Storage.GetCurrentUser());
             var model = disciplines.Select(item => item.ToViewDisciplineModel(Validator.GetValidationError(item)));
-            return View(model);
+            return View(model.OrderByDescending(i => i.Discipline.Updated).AsEnumerable());
         }
 
         [HttpGet]
@@ -180,7 +180,8 @@ namespace IUDICO.DisciplineManagement.Controllers
             var importer = new ImportExportDiscipline(Storage);
             var path = importer.Export(disciplineId);
 
-            return new FilePathResult(path, "application/octet-stream") { FileDownloadName = importer.GetFileName(disciplineId) };
+            return new FilePathResult(path, "application/octet-stream")
+                        {FileDownloadName = importer.GetFileName(disciplineId)};
         }
 
         [HttpGet]

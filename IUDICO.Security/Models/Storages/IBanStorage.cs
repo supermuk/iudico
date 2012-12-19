@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using IUDICO.Common.Models;
+﻿using System.Collections.Generic;
 using IUDICO.Common.Models.Shared;
 
 namespace IUDICO.Security.Models.Storages
@@ -21,8 +16,13 @@ namespace IUDICO.Security.Models.Storages
         Computer GetComputer(string compAddress);
         Room GetRoom(string name);
         Room GetRoom(int id);
+        Room GetRoom(Computer computer);
+        RoomAttachment GetAttachment(string computerIp);
+        RoomAttachment GetAttachment(Computer computer);
         IEnumerable<Computer> GetComputers();
         IEnumerable<Room> GetRooms();
+        IEnumerable<Computer> ComputersAttachedToRoom(Room room);
+        IEnumerable<RoomAttachment> GetRoomAttachments(); 
         
         void CreateComputer(Computer computer);
         void CreateRoom(Room room);

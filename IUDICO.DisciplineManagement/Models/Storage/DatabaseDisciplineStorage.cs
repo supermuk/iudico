@@ -175,6 +175,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             updatingDiscipline.Name = discipline.Name;
             updatingDiscipline.Updated = DateTime.Now;
+            updatingDiscipline.IsValid = this.IsDisciplineValid(discipline);
             db.SubmitChanges();
 
             var data = new object[2];
@@ -192,7 +193,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
             // delete chapters
             var chapterIds = this.GetChapters(item => item.DisciplineRef == id).Select(item => item.Id);
-            this.DeleteChapters(chapterIds);
+            this.DeleteChapters(chapterIds, true);
 
             this.lmsService.Inform(DisciplineNotifications.DisciplineDeleting, discipline);
 
@@ -210,6 +211,14 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             var chapters = this.GetChapters(item => item.DisciplineRef == discipline.Id);
             foreach (var chapter in chapters) {
                 var topics = this.GetTopics(item => item.ChapterRef == chapter.Id);
+                var theoryCourseRefs =
+                    topics.Select(item => item.TheoryCourseRef).Where(item => item.HasValue && item.Value >= 0);
+                var testCourseRefs = topics.Select(item => item.TestCourseRef).Where(item => item.HasValue && item.Value >= 0);
+                var union = theoryCourseRefs.Distinct().Union(testCourseRefs.Distinct());
+                if(union.Count() != theoryCourseRefs.Count() + testCourseRefs.Count())
+                {
+                    return false;
+                }
                 foreach (var topic in topics) {
                     if (topic.TheoryCourseRef == null && topic.TestCourseRef == null) {
                         return false;
@@ -323,6 +332,8 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             db.SubmitChanges();
 
             this.lmsService.Inform(DisciplineNotifications.ChapterCreated, chapter);
+
+            this.UpdateDiscipline(GetDiscipline(chapter.DisciplineRef));
             return chapter.Id;
         }
 
@@ -335,26 +346,34 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             oldChapter.Updated = DateTime.Now;
 
             db.SubmitChanges();
+
+            this.UpdateDiscipline(GetDiscipline(oldChapter.DisciplineRef));
             return oldChapter;
         }
 
-        public void DeleteChapter(int id)
+        public void DeleteChapter(int id, bool disciplineDeleting = false)
         {
             var db = this.GetDbContext();
             var chapter = GetChapter(db, id);
 
             // delete corresponding topics
             var topicIds = GetTopics(item => item.ChapterRef == id).Select(item => item.Id);
-            this.DeleteTopics(topicIds);
+            this.DeleteTopics(topicIds, true);
 
             this.lmsService.Inform(DisciplineNotifications.ChapterDeleting, chapter);
             chapter.IsDeleted = true;
+
             db.SubmitChanges();
+
+            if (!disciplineDeleting)
+            {
+                this.UpdateDiscipline(GetDiscipline(chapter.DisciplineRef));
+            }
         }
 
-        public void DeleteChapters(IEnumerable<int> ids)
+        public void DeleteChapters(IEnumerable<int> ids, bool disciplineDeleting = false)
         {
-            ids.ForEach(this.DeleteChapter);
+            ids.ForEach(i => this.DeleteChapter(i, disciplineDeleting));
         }
 
         #endregion
@@ -422,9 +441,10 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             db.SubmitChanges();
 
             topic.SortOrder = topic.Id;
-            this.UpdateTopic(topic);
 
             this.lmsService.Inform(DisciplineNotifications.TopicCreated, topic);
+
+            this.UpdateChapter(GetChapter(topic.ChapterRef));
             return topic.Id;
         }
 
@@ -456,10 +476,11 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             data[1] = updatingTopic;
             this.lmsService.Inform(DisciplineNotifications.TopicEdited, data);
 
+            this.UpdateChapter(GetChapter(updatingTopic.ChapterRef));
             return updatingTopic;
         }
 
-        public void DeleteTopic(int id)
+        public void DeleteTopic(int id, bool chapterDeleting = false)
         {
             var db = this.GetDbContext();
             var topic = GetTopic(db, id);
@@ -475,11 +496,16 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             this.lmsService.Inform(DisciplineNotifications.DisciplineIsValidChange, discipline);
 
             this.lmsService.Inform(DisciplineNotifications.TopicDeleted, topic);
+
+            if (!chapterDeleting)
+            {
+                this.UpdateChapter(GetChapter(topic.ChapterRef));
+            }
         }
 
-        public void DeleteTopics(IEnumerable<int> ids)
+        public void DeleteTopics(IEnumerable<int> ids, bool chapterDeleting = false)
         {
-            ids.ForEach(this.DeleteTopic);
+            ids.ForEach(i => this.DeleteTopic(i, chapterDeleting));
         }
 
         public Topic TopicUp(int topicId)
@@ -497,7 +523,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
                 db.SubmitChanges();
             }
-
+            this.UpdateChapter(GetChapter(topic.ChapterRef));
             return topic;
         }
 
@@ -516,7 +542,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
                 db.SubmitChanges();
             }
-
+            this.UpdateChapter(GetChapter(topic.ChapterRef));
             return topic;
         }
 

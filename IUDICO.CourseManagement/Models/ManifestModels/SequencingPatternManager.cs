@@ -7,10 +7,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
     {
         public static Sequencing ApplyDefaultChapterSequencing(Sequencing sequencing)
         {
-            if (sequencing.ControlMode == null)
-            {
-                sequencing.ControlMode = new ControlMode();
-            }
+            sequencing.ControlMode = new ControlMode();
+            sequencing.LimitConditions = null;
+            sequencing.RandomizationControls = null;
+
             sequencing.ControlMode.Choice = true;
             sequencing.ControlMode.Flow = true;
 
@@ -19,20 +19,16 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
         public static Sequencing ApplyControlChapterSequencing(Sequencing sequencing)
         {
-            if (sequencing.ControlMode == null)
-            {
-                sequencing.ControlMode = new ControlMode();
-            }
+            sequencing.ControlMode = new ControlMode();
+            sequencing.LimitConditions = new LimitConditions();
+            sequencing.RandomizationControls = null;
+
             sequencing.ControlMode.Choice = false;
             sequencing.ControlMode.Flow = true;
             sequencing.ControlMode.ForwardOnly = true;
             sequencing.ControlMode.ChoiceExit = false;
 
 
-            if (sequencing.LimitConditions == null)
-            {
-                sequencing.LimitConditions = new LimitConditions();
-            }
             sequencing.LimitConditions.AttemptLimit = 1;
 
             return sequencing;
@@ -40,10 +36,10 @@ namespace IUDICO.CourseManagement.Models.ManifestModels
 
         public static Sequencing ApplyRandomSetSequencingPattern(Sequencing sequencing, int selectCount)
         {
-            if (sequencing.RandomizationControls == null)
-            {
-                sequencing.RandomizationControls = new RandomizationControls();
-            }
+            sequencing.RandomizationControls = new RandomizationControls();
+            sequencing.ControlMode = new ControlMode();
+            sequencing.LimitConditions = null;
+
             sequencing.RandomizationControls.ReorderChildren = true;
             sequencing.RandomizationControls.SelectionTiming = Timing.Once;
             sequencing.RandomizationControls.SelectCount = selectCount;
