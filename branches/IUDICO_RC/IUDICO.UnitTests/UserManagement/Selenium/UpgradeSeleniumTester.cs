@@ -17,21 +17,19 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
 
             Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }
-
         
         [Test]
         public void LoginAsTeacher()
-        {
-            
+        {   
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "prof");
-            selenium.Type("//input[@id='loginPassword']", "lex");
+            selenium.Type("//input[@id='loginPassword']", "prof");
             selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
-            Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
-             
+
+            Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));    
         }
 
         //[Test]
@@ -53,10 +51,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         [Test]
         public void CheckTeacherRolesAfterUpgrade()
         {
-            
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "prof");
-            selenium.Type("//input[@id='loginPassword']", "lex");
+            selenium.Type("//input[@id='loginPassword']", "prof");
             selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Account/Index')]");
@@ -65,8 +62,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Click("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]");
             selenium.WaitForPageToLoad("30000");
 
-            Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
-             
+            Assert.IsFalse(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]")); 
         }
 
         [Test]
@@ -75,7 +71,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "prof");
-            selenium.Type("//input[@id='loginPassword']", "lex");
+            selenium.Type("//input[@id='loginPassword']", "prof");
             selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Account/Index')]");
@@ -97,7 +93,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "prof");
-            selenium.Type("//input[@id='loginPassword']", "lex");
+            selenium.Type("//input[@id='loginPassword']", "prof");
             selenium.Click("//form[contains(@action, '/Account/LoginDefault')]/input[3]");
             selenium.WaitForPageToLoad("30000");
             selenium.Click("//a[contains(@href, '/Account/Index')]");

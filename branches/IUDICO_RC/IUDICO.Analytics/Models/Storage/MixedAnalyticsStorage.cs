@@ -242,17 +242,20 @@ namespace IUDICO.Analytics.Models.Storage
 
         #endregion
 
-        #region Get Topic Validity Score
+        #region Quality
 
         public GroupTopicStat GetGroupTopicStatistic(Topic topic, Group group)
         {
+            //Всі результати по топіку
             var results = this.GetResults(topic);
 
+            //Результати учнів тільки даної групи
             var groupResults = results.Where(r => r.User.GroupUsers.Select(g => g.GroupRef)
                                       .Contains(group.Id))
+                                      .Where(s => s.Score.ToPercents()!=null)
                                       .Select(r => new UserRating(r.User, r.Score.ToPercents().Value))
                                       .ToList();
-
+            
             var usersParticipated = groupResults.Select(g => g.User).ToList();
             var n = usersParticipated.Count();
 

@@ -31,7 +31,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
 "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf", "sh_main.min.js", "sh_cpp.min.js", "sh_csharp.min.js", "sh_java.min.js", 
 
-"sh_xml.min.js", "sh_style.css", "wait.gif" };
+"sh_xml.min.js", "sh_style.css", "wait.gif",  "Minified.css", "Minified.js" };
 
         private const string ResourceIdForTemplateFiles = "TemplateFiles";
 
@@ -89,7 +89,7 @@ namespace IUDICO.CourseManagement.Models.Storage
 
         public virtual Course GetCourse(int id)
         {
-            return this.GetDbContext().Courses.Single(c => c.Id == id);
+            return this.GetDbContext().Courses.SingleOrDefault(c => c.Id == id && c.Deleted == false);
         }
 
         public virtual IEnumerable<User> GetCourseUsers(int courseId)
@@ -337,7 +337,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         {
             var db = this.GetDbContext();
 
-            var oldCourse = db.Courses.Single(c => c.Id == id);
+            var oldCourse = db.Courses.Single(c => c.Id == id && c.Deleted == false);
 
             oldCourse.Name = course.Name;
             oldCourse.Updated = DateTime.Now;
@@ -359,7 +359,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         public virtual void DeleteCourse(int id)
         {
             var db = this.GetDbContext();
-            var course = db.Courses.Single(c => c.Id == id);
+            var course = db.Courses.Single(c => c.Id == id && c.Deleted == false);
 
             if (course.Owner != this.LmsService.FindService<IUserService>().GetCurrentUser().Username)
             {
@@ -556,6 +556,8 @@ namespace IUDICO.CourseManagement.Models.Storage
             this.AddCourse(course);
 
             File.Copy(path, this.GetCoursePath(course.Id) + ".zip");
+
+            this.Parse(course.Id);
         }
 
         public virtual void Parse(int courseId)
@@ -591,6 +593,21 @@ namespace IUDICO.CourseManagement.Models.Storage
             db = this.GetDbContext();
             course = db.Courses.Single(c => c.Id == courseId);
             course.Locked = false;
+
+            var xml = new XmlSerializer(typeof(Sequencing));
+
+            // try to apply sequencing from imported course
+            try
+            {
+                var sequencing = manifest.SequencingCollection.Sequencings[0];
+                course.Sequencing = xml.SerializeToXElemet(sequencing);
+            }
+            catch (Exception) // apply default sequencing if any errors occured
+            {
+                var sequencing = new Sequencing();
+                sequencing = SequencingPatternManager.ApplyDefaultChapterSequencing(sequencing);
+                course.Sequencing = xml.SerializeToXElemet(sequencing);
+            }
 
             db.SubmitChanges();
         }

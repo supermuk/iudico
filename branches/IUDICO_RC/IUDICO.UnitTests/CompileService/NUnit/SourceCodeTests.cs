@@ -23,7 +23,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
                 CompileServiceHelper.MemoryLimit);
             Assert.AreEqual(CompileServiceHelper.AcceptedTestResult, actualResult);
         }
-
+        [Test]
         public void IncorrectCPPSourceCodeTest()
         {
             var actualResult = this.compileService.Compile(
@@ -46,13 +46,13 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             var actualResult = this.compileService.Compile(
                 CompileServiceLanguageSourceCode.JavaCorrectSourceCode, 
                 CompileServiceHelper.JavaLanguageName, 
-                CompileServiceHelper.EmptyInput, 
-                CompileServiceHelper.EmptyOutput, 
+                CompileServiceHelper.Input, 
+                CompileServiceHelper.Output, 
                 CompileServiceHelper.TimeLimit, 
                 CompileServiceHelper.MemoryLimit);
             Assert.AreEqual(CompileServiceHelper.AcceptedTestResult, actualResult);
         }
-
+        [Test]
         public void IncorrectJavaSourceCodeTest()
         {
             var actualResult = this.compileService.Compile(
