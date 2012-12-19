@@ -56,9 +56,9 @@ namespace IUDICO.Security.Models.Storages.Database
             {
                 var attachment = context.RoomAttachments.SingleOrDefault(a => a.ComputerIp == computer.IpAddress);
 
-                if(attachment != null)
+                if (attachment != null)
                 {
-                    if(attachment.RoomId == room.Id)
+                    if (attachment.RoomId == room.Id)
                     {
                         return;
                     }
@@ -80,7 +80,7 @@ namespace IUDICO.Security.Models.Storages.Database
             {
                 var attachment = context.RoomAttachments.SingleOrDefault(a => a.ComputerIp == computer.IpAddress);
 
-                if(attachment != null)
+                if (attachment != null)
                 {
                     context.RoomAttachments.DeleteOnSubmit(attachment);
 
@@ -115,7 +115,7 @@ namespace IUDICO.Security.Models.Storages.Database
             {
                 var computer = context.Computers.SingleOrDefault(c => c.IpAddress == ip);
 
-                if(computer != null)
+                if (computer != null)
                 {
                     computer.Banned = banned;
                     computer.CurrentUser = currentUser;
