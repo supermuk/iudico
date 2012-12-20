@@ -240,6 +240,14 @@ namespace IUDICO.CourseManagement.Controllers
             {
                 this.currentCourse.Sequencing = xml.SerializeToXElemet(sequencing);
                 this.storage.UpdateCourse(this.currentCourse.Id, this.currentCourse);
+
+                // logic to update all nodes sequencing
+                var courseNodes = this.storage.GetAllNodes(this.currentCourse.Id);
+                foreach (var courseNode in courseNodes)
+                {
+                    courseNode.Sequencing = xml.SerializeToXElemet(sequencing);
+                    this.storage.UpdateNode(courseNode.Id, courseNode);
+                }
             }
             else
             {
