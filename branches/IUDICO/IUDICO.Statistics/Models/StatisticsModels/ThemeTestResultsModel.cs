@@ -48,7 +48,11 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         {
             if (attemptId != -1)
             {
-                this.attempt = attList.First(c => c.AttemptId == attemptId);
+                // hotfix: added checking of Course id
+                this.attempt =
+                    attList.FirstOrDefault(
+                        c =>
+                        c.AttemptId == attemptId && c.CurriculumChapterTopic.Topic.TestCourseRef == c.IudicoCourseRef);
                 if (this.attempt != null)
                 {
                     this.userAnswers = lmsService.FindService<ITestingService>().GetAnswers(this.attempt);

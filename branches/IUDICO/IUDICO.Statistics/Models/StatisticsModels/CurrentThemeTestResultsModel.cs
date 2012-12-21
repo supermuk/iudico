@@ -22,10 +22,11 @@ namespace IUDICO.Statistics.Models.StatisticsModels
             if (currenUser != null & curriculumChapterTopic != null)
             {
                 var attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, curriculumChapterTopic, topicType).ToList();
-                if (attemptResults.Count() >= 1)
+                if (attemptResults.Any())
                 {
-
-                    this.attempt = attemptResults.Last();
+                    // hotfix: added checking of Course id
+                    this.attempt =
+                        attemptResults.FirstOrDefault(x => x.CurriculumChapterTopic.Topic.TestCourseRef == x.IudicoCourseRef);
                     if (this.attempt != null)
                     {
                         this.courseInfo =

@@ -45,9 +45,12 @@ namespace IUDICO.Statistics.Models.StatisticsModels
                                  where temp != null 
                                  select temp)
             {
-                var filteredTemp = temp.OrderBy(attempt => attempt.StartTime);
-                if (filteredTemp.Count() != 0)
-                    this.lastAttempts.Add(filteredTemp.First());
+                // hotfix: added checking of Course id
+                var attempt = temp.Where(x => x.CurriculumChapterTopic.Topic.TestCourseRef == x.IudicoCourseRef);
+                if (attempt.Any())
+                {
+                    this.lastAttempts.Add(attempt.First());
+                }
             }
         }
 
