@@ -22,8 +22,20 @@
             <%: Model.GetUserName()%>
         </p>
         <p>
+            <%=Localization.GetMessage("Group")%>:
+            <%: Model.GetGroupName()%>
+        </p>
+        <p>
             <%=Localization.GetMessage("Topic")%>:
             <%: Model.GetTopicName()%>
+        </p>
+        <p>
+            <%=Localization.GetMessage("DateTimeStarted")%>:
+            <%: Model.DateTimeStarted()%>
+        </p>
+        <p>
+            <%=Localization.GetMessage("DateTimeFinished")%>:
+            <%: Model.DateTimeFinished()%>
         </p>
         <p>
             <%=Localization.GetMessage("Success")%>:

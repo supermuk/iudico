@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.DisciplineManagement;
 using IUDICO.Common.Models.Shared.Statistics;
 
@@ -14,18 +15,21 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         private readonly IudicoCourseInfo courseInfo;
         private readonly IEnumerable<AnswerResult> userAnswers;
         private readonly bool hasNoData;
+        private readonly Group group;
 
-        public CurrentTopicTestResultsModel(int curriculumChapterTopicId, TopicTypeEnum topicType, ILmsService lmsService)
+        public CurrentTopicTestResultsModel(int curriculumChapterTopicId, TopicTypeEnum topicType, int groupId, ILmsService lmsService)
         {
+            this.group = lmsService.FindService<IUserService>().GetGroup(groupId);
             var currenUser = lmsService.FindService<IUserService>().GetCurrentUser();
             var curriculumChapterTopic = lmsService.FindService<ICurriculumService>().GetCurriculumChapterTopicById(curriculumChapterTopicId);
             if (currenUser != null & curriculumChapterTopic != null)
             {
                 var attemptResults = lmsService.FindService<ITestingService>().GetResults(currenUser, curriculumChapterTopic, topicType).ToList();
-                if (attemptResults.Count() >= 1)
+                if (attemptResults.Any())
                 {
-
-                    this.attempt = attemptResults.Last();
+                    // hotfix: added checking of Course id
+                    this.attempt =
+                        attemptResults.FirstOrDefault(x => x.CurriculumChapterTopic.Topic.TestCourseRef == x.IudicoCourseRef);
                     if (this.attempt != null)
                     {
                         this.courseInfo =
@@ -102,6 +106,21 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         public string GetUserAnswer(AnswerResult answerResult)
         {
             return answerResult.LearnerResponse != null ? Uri.UnescapeDataString(answerResult.LearnerResponse.ToString()) : string.Empty;
+        }
+
+        public DateTime DateTimeStarted()
+        {
+            return this.attempt.StartTime ?? DateTime.MinValue;
+        }
+
+        public DateTime DateTimeFinished()
+        {
+            return this.attempt.FinishTime ?? DateTime.MinValue;
+        }
+
+        public string GetGroupName()
+        {
+            return this.group.Name;
         }
 
         public bool NoData()
