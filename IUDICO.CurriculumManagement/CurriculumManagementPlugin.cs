@@ -152,6 +152,29 @@ namespace IUDICO.CurriculumManagement
                         .ToList()
                         .ForEach(item => curriculumStorage.AddCurriculumChapterTopic(item));
                     break;
+                case DisciplineNotifications.TopicEdited:
+                    var updatedTopic = (Topic)data[0];
+
+
+                    curriculumStorage.GetCurriculumChapterTopics(item => item.TopicRef == updatedTopic.Id)
+                                     .Select(curriculumTopic => new CurriculumChapterTopic
+                                     {
+                                         CurriculumChapterRef = curriculumTopic.Id,
+                                         TopicRef = updatedTopic.Id,
+                                         ThresholdOfSuccess = curriculumTopic.ThresholdOfSuccess,
+                                         BlockTopicAtTesting = curriculumTopic.BlockTopicAtTesting,
+                                         BlockCurriculumAtTesting = curriculumTopic.BlockCurriculumAtTesting,
+                                         CurriculumChapter = curriculumTopic.CurriculumChapter,
+                                         IsDeleted = curriculumTopic.IsDeleted,
+                                         Id = curriculumTopic.Id,
+                                         TestEndDate = curriculumTopic.TestEndDate,
+                                         TestStartDate = curriculumTopic.TestStartDate,
+                                         TheoryEndDate = curriculumTopic.TheoryEndDate,
+                                         TheoryStartDate = curriculumTopic.TheoryStartDate,
+                                         Topic = updatedTopic
+                                     })
+                                     .ToList().ForEach(curriculumStorage.UpdateCurriculumChapterTopic);
+                    break;
                 case DisciplineNotifications.TopicDeleting:
                     // delete corresponding curriculum chapter topics
                     var topicId = ((Topic)data[0]).Id;

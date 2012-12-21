@@ -4,6 +4,7 @@ using System.Linq;
 
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
+using IUDICO.Common.Models.Shared;
 using IUDICO.Common.Models.Shared.Statistics;
 
 namespace IUDICO.Statistics.Models.StatisticsModels
@@ -34,6 +35,8 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// </summary>
         private readonly bool hasNoData;
 
+        private readonly Group group;
+
         #endregion
 
         #region Constructor
@@ -44,11 +47,16 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// <param name="attemptId">id of attempt to show</param>
         /// <param name="attList">list of attempts from Session Context</param>
         /// <param name="lmsService">ILmsService for conection to Testing System</param>
-        public TopicTestResultsModel(long attemptId, IEnumerable<AttemptResult> attList, ILmsService lmsService)
+        public TopicTestResultsModel(long attemptId, IEnumerable<AttemptResult> attList, int groupId, ILmsService lmsService)
         {
             if (attemptId != -1)
             {
-                this.attempt = attList.First(c => c.AttemptId == attemptId);
+                this.group = lmsService.FindService<IUserService>().GetGroup(groupId);
+                // hotfix: added checking of Course id
+                this.attempt =
+                    attList.FirstOrDefault(
+                        c =>
+                        c.AttemptId == attemptId && c.CurriculumChapterTopic.Topic.TestCourseRef == c.IudicoCourseRef);
                 if (this.attempt != null)
                 {
                     this.userAnswers = lmsService.FindService<ITestingService>().GetAnswers(this.attempt);
@@ -165,10 +173,9 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// <returns></returns>
         public double GetUserScoreForAnswer(AnswerResult answerResult)
         {
-            if (answerResult.RawScore != null)
+            if (answerResult.RawScore.HasValue)
             {
-                if (answerResult.RawScore.HasValue)
-                    return answerResult.RawScore.Value;
+                return answerResult.RawScore.Value;
             }
 
             return 0;
@@ -181,13 +188,27 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         /// <returns></returns>
         public double GetMaxScoreForAnswer(AnswerResult answerResult)
         {
-            if (answerResult.MaxScore != null)
+            if (answerResult.MaxScore.HasValue)
             {
-                if (answerResult.MaxScore.HasValue)
-                    return answerResult.MaxScore.Value;
+                return answerResult.MaxScore.Value;
             }
 
             return 0;
+        }
+
+        public DateTime DateTimeStarted()
+        {
+            return this.attempt.StartTime ?? DateTime.MinValue;
+        }
+
+        public DateTime DateTimeFinished()
+        {
+            return this.attempt.FinishTime ?? DateTime.MinValue;
+        }
+
+        public string GetGroupName()
+        {
+            return this.group.Name;
         }
 
         /// <summary>

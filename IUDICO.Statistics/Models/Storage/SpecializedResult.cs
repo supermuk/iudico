@@ -157,10 +157,23 @@ namespace IUDICO.Statistics.Models.Storage
             }
             else
             {
-                this.Res = this.AttemptResults.First(x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id).Score.RawScore;
+                // hotfix: added checking of Course id
                 var attemptResult =
-                    this.AttemptResults.First(
-                        x => x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id);
+                    this.AttemptResults.FirstOrDefault(
+                        x =>
+                        x.User.Id == this.user.Id & x.CurriculumChapterTopic.Id == this.curriculumChapterTopic.Id &
+                        x.CurriculumChapterTopic.Topic.TestCourseRef == x.IudicoCourseRef);
+
+                if (attemptResult == null)
+                {
+                    this.Res = 0.0;
+                    this.ResMax = 0.0;
+
+                    return this.Res;
+                }
+
+                this.Res = attemptResult.Score.RawScore;
+
                 var answerResults = lmsService.FindService<ITestingService>().GetAnswers(attemptResult);
 
                 int iudicoCourseRef = attemptResult.IudicoCourseRef;
