@@ -95,7 +95,8 @@ namespace IUDICO.Statistics.Controllers
         [HttpPost]
         public ActionResult TopicTestResults(long attemptId)
         {
-            var model = new TopicTestResultsModel(attemptId, (List<AttemptResult>)HttpContext.Session["Attempts"], LmsService);
+            var groupId = (int)HttpContext.Session["SelectedGroupId"];
+            var model = new TopicTestResultsModel(attemptId, (List<AttemptResult>)HttpContext.Session["Attempts"], groupId, LmsService);
             return View(model);
         }
 
@@ -103,7 +104,8 @@ namespace IUDICO.Statistics.Controllers
         [HttpGet]
         public ActionResult CurrentTopicTestResults(int curriculumChapterTopicId, TopicTypeEnum topicType)
         {
-            var model = new CurrentTopicTestResultsModel(curriculumChapterTopicId, topicType, LmsService);
+            var groupId = (int)HttpContext.Session["SelectedGroupId"];
+            var model = new CurrentTopicTestResultsModel(curriculumChapterTopicId, topicType, groupId, LmsService);
             return View(model);
         }
     }
