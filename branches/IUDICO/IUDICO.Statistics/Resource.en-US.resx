@@ -264,4 +264,13 @@
   <data name="GainedPoints" xml:space="preserve">
     <value>Gained points</value>
   </data>
+  <data name="DateTimeFinished" xml:space="preserve">
+    <value>End time</value>
+  </data>
+  <data name="DateTimeStarted" xml:space="preserve">
+    <value>Start time</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
 </root>
