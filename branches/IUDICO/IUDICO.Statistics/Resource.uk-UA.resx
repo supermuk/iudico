@@ -267,4 +267,13 @@
   <data name="GainedPoints" xml:space="preserve">
     <value>Набрані бали</value>
   </data>
+  <data name="DateTimeFinished" xml:space="preserve">
+    <value>Час закінчення</value>
+  </data>
+  <data name="DateTimeStarted" xml:space="preserve">
+    <value>Час початку</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Група</value>
+  </data>
 </root>
