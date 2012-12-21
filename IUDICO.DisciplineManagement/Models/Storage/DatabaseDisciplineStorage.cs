@@ -453,10 +453,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             var db = this.GetDbContext();
             var data = new object[2];
             var updatingTopic = GetTopic(db, topic.Id);
-            var oldTopic = new Topic
-            {
-                Id = updatingTopic.Id
-            };
 
             updatingTopic.Name = topic.Name;
             updatingTopic.SortOrder = topic.SortOrder;
@@ -472,8 +468,7 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             db.SubmitChanges();
 
             this.lmsService.Inform(DisciplineNotifications.DisciplineIsValidChange, discipline);
-            data[0] = oldTopic;
-            data[1] = updatingTopic;
+            data[0] = updatingTopic;
             this.lmsService.Inform(DisciplineNotifications.TopicEdited, data);
 
             this.UpdateChapter(GetChapter(updatingTopic.ChapterRef));
