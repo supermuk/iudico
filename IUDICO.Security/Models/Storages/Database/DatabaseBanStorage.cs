@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using IUDICO.Common.Models;
 using IUDICO.Common.Models.Services;
-using IUDICO.Common.Models.Interfaces;
 using IUDICO.Common.Models.Shared;
-using System.Data.Linq;
-using System.Diagnostics;
 
 namespace IUDICO.Security.Models.Storages.Database
 {
     public class DatabaseBanStorage : IBanStorage
     {
         protected readonly ILmsService LmsService;
-        private readonly Func<ISecurityDataContext> CreateIDataContext;
+        private readonly Func<ISecurityDataContext> createIDataContext;
         protected readonly LinqLogger Logger;
 
         public DatabaseBanStorage()
         {
-            this.CreateIDataContext = () =>
+            this.createIDataContext = () =>
             {
                 return new DBDataContext();
             };
@@ -30,7 +25,7 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             this.LmsService = lmsService;
             this.Logger = logger;
-            this.CreateIDataContext = () =>
+            this.createIDataContext = () =>
                 {
                     var db = new DBDataContext();
 
@@ -42,10 +37,10 @@ namespace IUDICO.Security.Models.Storages.Database
                 };
         }
 
-        public DatabaseBanStorage(ILmsService lmsService, Func<ISecurityDataContext> createIDataContext)
+        public DatabaseBanStorage(ILmsService lmsService, Func<ISecurityDataContext> createIDataContextArg)
         {
             this.LmsService = lmsService;
-            this.CreateIDataContext = createIDataContext;
+            this.createIDataContext = createIDataContextArg;
         }
 
         #region IBanStorage
@@ -185,7 +180,7 @@ namespace IUDICO.Security.Models.Storages.Database
             {
                 var attachment = context.RoomAttachments.SingleOrDefault(a => a.ComputerIp == computer.IpAddress);
 
-                if(attachment != null)
+                if (attachment != null)
                 {
                     return context.Rooms.SingleOrDefault(r => r.Id == attachment.RoomId);
                 }
@@ -217,7 +212,7 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public IEnumerable<Computer> ComputersAttachedToRoom(Room room)
         {
-            using (var context =this.NewContext())
+            using (var context = this.NewContext())
             {
                 return
                     context.RoomAttachments.Where(a => a.RoomId == room.Id).Select(
@@ -285,7 +280,7 @@ namespace IUDICO.Security.Models.Storages.Database
         {
             using (var context = this.NewContext())
             {
-                return context.Computers.Where(c => c.IpAddress == compAddress && c.Banned == true).Count() > 0;
+                return context.Computers.Count(c => c.IpAddress == compAddress && c.Banned) > 0;
             }
         }
 
@@ -293,7 +288,7 @@ namespace IUDICO.Security.Models.Storages.Database
 
         protected ISecurityDataContext NewContext()
         {
-            return this.CreateIDataContext();
+            return this.createIDataContext();
         }
     }
 }
