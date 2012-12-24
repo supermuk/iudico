@@ -314,10 +314,7 @@
                 }
             });
         }
-    	function exportInvalidDiscipline() {
-    	    alert("<%=Localization.GetMessage("ExportInvalideDisciplineIsUnavailable") %>");
-    	    window.location.reload(true);
-    	}
+
         function deleteTopic(id) {
             var answer = confirm("<%=Localization.GetMessage("AreYouSureYouWantDeleteSelectedTopic") %>");
 
@@ -470,6 +467,10 @@
                 alert(resp.message);
             }
         }
+        
+        function exportInvalidDiscipline() {
+    	    alert("<%=Localization.GetMessage("ExportInvalideDisciplineIsUnavailable") %>");
+    	}
     </script>
 </asp:Content>
 
