@@ -211,14 +211,6 @@ namespace IUDICO.DisciplineManagement.Models.Storage
             var chapters = this.GetChapters(item => item.DisciplineRef == discipline.Id);
             foreach (var chapter in chapters) {
                 var topics = this.GetTopics(item => item.ChapterRef == chapter.Id);
-                var theoryCourseRefs =
-                    topics.Select(item => item.TheoryCourseRef).Where(item => item.HasValue && item.Value >= 0);
-                var testCourseRefs = topics.Select(item => item.TestCourseRef).Where(item => item.HasValue && item.Value >= 0);
-                var union = theoryCourseRefs.Distinct().Union(testCourseRefs.Distinct());
-                if(union.Count() != theoryCourseRefs.Count() + testCourseRefs.Count())
-                {
-                    return false;
-                }
                 foreach (var topic in topics) {
                     if (topic.TheoryCourseRef == null && topic.TestCourseRef == null) {
                         return false;
