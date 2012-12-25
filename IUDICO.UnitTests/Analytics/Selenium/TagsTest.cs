@@ -222,6 +222,22 @@ namespace IUDICO.UnitTests.Analytics.Selenium
 
             // Save number of tags before deletion
             decimal numberOfExistingTags = this.selenium.GetXpathCount("//table/tbody/tr") - 1;
+            if (numberOfExistingTags == 0)
+            {
+                // name of valid tag
+                string tagName = "New Test Tag ";
+
+                // Click on 'Create new tag' link.
+                this.selenium.Click("//a[contains(@href,'/Tags/Create')]");
+                this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+                // Enter valid Tag name
+                this.selenium.Type("//input[@id='Name']", tagName);
+
+                // Click 'Create' button
+                this.selenium.Click("//p/input[@type='submit']");
+                this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            }
 
             // Click on 'Delete' link for first Tag.
             // this.selenium.Click("//a[contains(@href,'/Tags/Delete?id=1')]");
@@ -333,7 +349,6 @@ namespace IUDICO.UnitTests.Analytics.Selenium
                 this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
                 // Click on 'Update User Scores' link for first Topic
-                // this.selenium.Click("//a[contains(@href,'/Recommender/UpdateUser?id=23239a30-e014-42b5-94c2-26e282397334')]");
                 this.selenium.Click("//a[contains(text(),'Update User Scores')]");
                 this.selenium.WaitForPageToLoad(this.SeleniumWait);
             }
@@ -361,6 +376,29 @@ namespace IUDICO.UnitTests.Analytics.Selenium
 
         [Test]
         public void TopicQualityTest()
+        {
+            // Log In as 'lex' (with 'administrator' role permisions) and navigate to 'Discipline and Topic Quality' page.
+            // Log in with credentials
+            this.DefaultLogin("lex", "lex");
+
+            // Navigate to 'Analytics' plugin page. Click on 'Analytics' button in top menu.
+            this.selenium.Click("//a[contains(@href,'/Analytics')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            // Navigate to Tags manager page. Click on 'Tags' link.
+            this.selenium.Click("//a[contains(@href,'/Quality')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            // Select Topic 'Pascal'.
+            this.selenium.Click("xpath=(//input[@name='selectDisciplineId'])[2]");
+
+            // Click 'Select' button.
+            this.selenium.Click("//input[@type='submit']");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+        }
+
+        [Test]
+        public void ViewDisciplineQualityTest()
         {
             // Log In as 'lex' (with 'administrator' role permisions) and navigate to 'Discipline and Topic Quality' page.
             // Log in with credentials
