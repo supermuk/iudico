@@ -28,79 +28,46 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         private string path = Path.Combine(ConfigurationManager.AppSettings["RootTestFolder"], @"CourseManagement\\Data\\tempCourse.zip");
         private string fileToDel = Path.Combine(ConfigurationManager.AppSettings["RootTestFolder"], @"CourseManagement\\Data\\0.zip");
 
-        [Test]
-        // import changes the count of courses
-        public void ImportTest1()
+        [TearDown]
+        public void FileClose()
         {
-            int beginAmount = tests.Storage.GetCourses().Count();
-
-            this.tests.Storage.Import(path, "Course1", "lex");
-
-            int endAmount = tests.Storage.GetCourses().Count();
-
             this.tests.Storage.DeleteCourse(0);
             File.Delete(fileToDel);
+        }
 
+        [Test]
+        // import changes the count of courses
+        public void ImportTest()
+        {
+            int beginAmount = tests.Storage.GetCourses().Count();
+            this.tests.Storage.Import(path, "Course1", "lex");
+            int endAmount = tests.Storage.GetCourses().Count();
             Assert.IsTrue(beginAmount < endAmount);         
         }
 
         [Test]
         // import the course with the name
-        public void ImportTest2()
+        public void ImportNamedCourse()
         {
             this.tests.Storage.Import(path, "Course1", "lex");
             var tmp = this.tests.Storage.GetCourse(0);
-
-            this.tests.Storage.DeleteCourse(0);
-            File.Delete(fileToDel);
-
             Assert.IsTrue(tmp.Name == "Course1" && tmp.Owner == "lex");          
         }
         
         [Test]
         // import the course without the name
-        public void ImportTest3()
+        public void ImportUnnamedCourse()
         {
             this.tests.Storage.Import(path, "lex");
-
             Assert.IsTrue(path.Contains(this.tests.Storage.GetCourse(0).Name));
-
-            this.tests.Storage.DeleteCourse(0);
-            File.Delete(fileToDel);
         }
 
         [Test]
         // creating the folder with the imported test
-        public void ImportTest4()
+        public void ImportCreatesTheItem()
         {
             this.tests.Storage.Import(path, "Course1", "lex");
-
             Assert.IsTrue(File.Exists(fileToDel));
-
-            this.tests.Storage.DeleteCourse(0);
-            File.Delete(fileToDel);
-            
         }
-
-         [Test]
-         // importing many courses
-         public void ImportTest5()
-         {
-             int beginAmount = this.tests.Storage.GetCourses().Count();
-             string name = "Course";
-             for(int i=0;i<5;i++)
-             {
-                 this.tests.Storage.Import(path,name + i.ToString(),"lex");
-                 File.Delete(fileToDel);
-             }
-             int endAmount = this.tests.Storage.GetCourses().Count();
-
-             Assert.IsTrue(endAmount - beginAmount == 5);
-
-             List<int> id= new List<int>(){0,0,0,0,0};
-
-             this.tests.Storage.DeleteCourses(id);
-         }
-
     }
 }
