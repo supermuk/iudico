@@ -31,12 +31,19 @@ namespace IUDICO.UnitTests.Analytics.NUnit
             }
         }
 
+        /// <summary>
+        /// Author - Pohlod Yaroslav
+        /// </summary>
         [Test]
         public void GetUserScores()
         {
+            // Get scores of current user for testing
             var userScore = this.tests.Storage.GetUserScores().Where(u => u.Key.Id == this.tests.UserId).First();
 
+            // Verify that scores count of tested user is same as this count at DataContext
             Assert.IsTrue(userScore.Value.Count() == this.tests.DataContext.UserScores.Count(t => t.UserId == this.tests.UserId));
+
+            // Verify that scores summa of tested user is same as this summa at DataContext
             Assert.IsTrue(userScore.Value.Sum(t => t.Score) == this.tests.DataContext.UserScores.Where(t => t.UserId == this.tests.UserId).Sum(t => t.Score));
         }
 

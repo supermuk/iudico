@@ -27,6 +27,7 @@ namespace IUDICO.UnitTests.Analytics.NUnit
             Assert.AreEqual(this.tests.Storage.GetTags().Count(), count + 1);
             this.tests.Storage.DeleteTag(id);
         }
+
         [Test]
         public void EditTag()
         {
@@ -49,20 +50,27 @@ namespace IUDICO.UnitTests.Analytics.NUnit
             Assert.AreEqual(this.tests.Storage.GetTagDetails(3).Tag.Name, "C#");
         }
 
+        /// <summary>
+        /// Author - Pohlod Yaroslav
+        /// </summary>
         [Test]
         public void CreateDuplicateTagTest()
         {
+            // Create 2 same tags for test
             var tag1 = new Tag { Id = 1, Name = "C++" };
-            var tag2 = new Tag { Id = 1, Name = "CC+" };
+            var tag2 = new Tag { Id = 1, Name = "C++" };
             try
             {
+                //try to create both tags
                 this.tests.Storage.CreateTag(tag1);
                 this.tests.Storage.CreateTag(tag2);
             }
             catch (Exception)
             {
+                // Pass test if was thrown excepton about duplicate.
                 Assert.Pass();
             }
+            // Exception wasn`t thrown
             Assert.Fail();
         }
     }
