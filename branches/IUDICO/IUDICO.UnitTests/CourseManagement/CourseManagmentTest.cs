@@ -126,6 +126,7 @@
 
             this._MockUserStorage = new Mock<DatabaseUserStorage>(this._MockLmsService.Object);
             this._MockDatabaseStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this._MockDataContext.Object);
+            this._MockDatabaseStorage.Setup(c => c.GetCourseTempPath(It.IsAny<int>())).Returns(@"CourseManagement\Data\WorkFolder");
             this._MockUserStorage.Protected().Setup<IUDICO.UserManagement.Models.IDataContext>("GetDbContext").Returns(
                 this._MockUserDataContext.Object);
             this._HttpPostedFileBase = new Mock<HttpPostedFileBase>();
@@ -149,8 +150,10 @@
         {
             this._MockDatabaseStorage.CallBase = true;
             this._MockDatabaseStorage.Protected().Setup<string>("GetCoursesPath").Returns(this._CourseStoragePath);
+            
             this._MockDatabaseStorage.Setup(c => c.GetTemplatesPath()).Returns(
                 Path.Combine(this._CourseStoragePath, "Templates"));
+
             this._MockUserDataContext.SetupGet(c => c.Users).Returns(new MemoryTable<User>(this.mockUserData));
 
             var userService = new Mock<IUserService>();
