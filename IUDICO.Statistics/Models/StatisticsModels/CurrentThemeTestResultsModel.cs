@@ -15,11 +15,9 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         private readonly IudicoCourseInfo courseInfo;
         private readonly IEnumerable<AnswerResult> userAnswers;
         private readonly bool hasNoData;
-        private readonly Group group;
 
-        public CurrentTopicTestResultsModel(int curriculumChapterTopicId, TopicTypeEnum topicType, int groupId, ILmsService lmsService)
+        public CurrentTopicTestResultsModel(int curriculumChapterTopicId, TopicTypeEnum topicType, ILmsService lmsService)
         {
-            this.group = lmsService.FindService<IUserService>().GetGroup(groupId);
             var currenUser = lmsService.FindService<IUserService>().GetCurrentUser();
             var curriculumChapterTopic = lmsService.FindService<ICurriculumService>().GetCurriculumChapterTopicById(curriculumChapterTopicId);
             if (currenUser != null & curriculumChapterTopic != null)
@@ -116,11 +114,6 @@ namespace IUDICO.Statistics.Models.StatisticsModels
         public DateTime DateTimeFinished()
         {
             return this.attempt.FinishTime ?? DateTime.MinValue;
-        }
-
-        public string GetGroupName()
-        {
-            return this.group.Name;
         }
 
         public bool NoData()
