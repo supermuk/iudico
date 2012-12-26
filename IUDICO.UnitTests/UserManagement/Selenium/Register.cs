@@ -43,6 +43,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             Assert.IsTrue(this.selenium.GetLocation().EndsWith("/Account/Register"));
         }
 
+        /// <summary>
+        /// Author - Yarema Kipetskiy
+        /// </summary>
         [Test]
         public void CreateDuplicateUser()
         {
