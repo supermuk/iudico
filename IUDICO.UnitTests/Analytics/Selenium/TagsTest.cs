@@ -77,6 +77,9 @@ namespace IUDICO.UnitTests.Analytics.Selenium
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
         }
 
+        /// <summary>
+        /// Author - Pohlod Yaroslav
+        /// </summary>
         [Test]
         public void CreateBlankTagTest()
         {
@@ -95,11 +98,18 @@ namespace IUDICO.UnitTests.Analytics.Selenium
 
             bool isCreatePage = this.selenium.GetLocation().Contains("/Tags/Create");
 
+            // Back to list with tags
+            this.selenium.Click("//a[contains(@href,'/Tags')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
             // Check if we stay on create page with error message or go to /Tags page
             Assert.IsTrue(isCreatePage); 
         }
 
-        
+
+        /// <summary>
+        /// Author - Pohlod Yaroslav
+        /// </summary>
         [Test]
         public void CreateNewTagInvalidTest()
         {
@@ -123,6 +133,9 @@ namespace IUDICO.UnitTests.Analytics.Selenium
             Assert.IsTrue(isCreatePage);
         }
 
+        /// <summary>
+        /// Author - Pohlod Yaroslav
+        /// </summary>
         [Test]
         public void CreateDuplicateTagTest()
         {
@@ -214,6 +227,9 @@ namespace IUDICO.UnitTests.Analytics.Selenium
             Assert.AreEqual(currentTagName, newTagName);
         }
 
+        /// <summary>
+        /// Author - Pohlod Yaroslav
+        /// </summary>
         [Test]
         public void DeleteTagTest()
         {
@@ -336,6 +352,9 @@ namespace IUDICO.UnitTests.Analytics.Selenium
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
         }
 
+        /// <summary>
+        /// Author - Pohlod Yaroslav
+        /// </summary>
         [Test]
         public void UpdateOneUserScoresTest()
         {
@@ -397,6 +416,9 @@ namespace IUDICO.UnitTests.Analytics.Selenium
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
         }
 
+        /// <summary>
+        /// Author - Pohlod Yaroslav
+        /// </summary>
         [Test]
         public void ViewDisciplineQualityTest()
         {
