@@ -76,6 +76,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.DeleteUser(u => u.Username == Username);
         }
 
+        /// <summary>
+        /// Author - Yarema Kipetskiy
+        /// </summary>
         [Test]
         public void UniqueOpenIdAvailablity1()
         {
