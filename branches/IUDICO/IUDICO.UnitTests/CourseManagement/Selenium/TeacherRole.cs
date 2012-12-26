@@ -155,6 +155,10 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//div[contains(text(),'forEditContent')]");
             this.selenium.WaitForPageToLoad((3 * this.seleniumWait).ToString());
 
+            this.CreateNode();
+
+            this.selenium.Click("//a[contains(text(),'Node')]");
+            
             this.selenium.Click("//a[contains(@href, '/Course')]");
             try
             {
@@ -164,7 +168,259 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             {
                 // Ignore errors if unable to close the browser
             }
+        }
 
+        [Test]
+        public void CreateNodeTest()
+        {
+
+            this.DefaultLogin("prof", "prof");
+
+            this.selenium.Click("//a[contains(@href,'/Course')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DeleteAllCourses();
+
+            this.selenium.Click("//a[contains(@onclick, 'addCourse();')]");
+            Thread.Sleep(SleepTime);
+            this.selenium.Type("id=Name", "forEditContent");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//div[contains(text(),'forEditContent')]");
+            this.selenium.WaitForPageToLoad((3 * this.seleniumWait).ToString());
+
+            this.CreateNode();
+
+            this.selenium.Click("//a[contains(text(),'Node')]");
+
+            this.selenium.Click("//a[contains(@href, '/Course')]");
+            try
+            {
+                this.Logout();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+        }
+
+        [Test]
+        public void CreateBlankNodeTest()
+        {
+
+            this.DefaultLogin("prof", "prof");
+
+            this.selenium.Click("//a[contains(@href,'/Course')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DeleteAllCourses();
+
+            this.selenium.Click("//a[contains(@onclick, 'addCourse();')]");
+            Thread.Sleep(SleepTime);
+            this.selenium.Type("id=Name", "forEditContent");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//div[contains(text(),'forEditContent')]");
+            this.selenium.WaitForPageToLoad((3 * this.seleniumWait).ToString());
+
+            this.selenium.ContextMenuAt("//a[contains(text(),'Root')]", "20, 10");
+            this.selenium.MouseDown("//a[contains(text(),'Create Node')]");
+            this.selenium.MouseUp("//a[contains(text(),'Create Node')]");
+            this.selenium.TypeKeys("//input[@value='New node']", @"\13");
+
+            //this.selenium.Click("//a[contains(text(),'New node')]");
+            
+            this.selenium.Click("//a[contains(@href, '/Course')]");
+            try
+            {
+                this.Logout();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+        }
+
+        [Test]
+        public void RenameNodeTest()//!!!!!!!!!!!!!!1
+        {
+
+            this.DefaultLogin("prof", "prof");
+
+            this.selenium.Click("//a[contains(@href,'/Course')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DeleteAllCourses();
+
+            this.selenium.Click("//a[contains(@onclick, 'addCourse();')]");
+            Thread.Sleep(SleepTime);
+            this.selenium.Type("id=Name", "forEditContent");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//div[contains(text(),'forEditContent')]");
+            this.selenium.WaitForPageToLoad((3 * this.seleniumWait).ToString());
+
+            this.CreateNode();
+            Thread.Sleep(SleepTime);
+
+            this.selenium.Click("//a[contains(text(),'Node')]");
+            this.selenium.ContextMenuAt("//a[contains(text(),'Node')]", "20, 10");
+            this.selenium.MouseDown("//a[contains(text(),'Rename')]");
+            this.selenium.MouseUp("//a[contains(text(),'Rename')]");
+            this.selenium.Type("//input[@value='New node']", "RenamedNode");
+            this.selenium.TypeKeys("//input[@value='New node']", @"/13");
+
+            //this.selenium.Click("//a[contains(text(),'RenamedNode')]");
+
+            this.selenium.Click("//a[contains(@href, '/Course')]");
+            try
+            {
+                this.Logout();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+        }
+
+        [Test]
+        public void DeleteNodeTest()
+        {
+
+            this.DefaultLogin("prof", "prof");
+
+            this.selenium.Click("//a[contains(@href,'/Course')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DeleteAllCourses();
+
+            this.selenium.Click("//a[contains(@onclick, 'addCourse();')]");
+            Thread.Sleep(SleepTime);
+            this.selenium.Type("id=Name", "forEditContent");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//div[contains(text(),'forEditContent')]");
+            this.selenium.WaitForPageToLoad((3 * this.seleniumWait).ToString());
+
+            this.CreateNode();
+
+            this.selenium.Click("//a[contains(text(),'Node')]");
+            this.selenium.ContextMenuAt("//a[contains(text(),'Node')]", "20, 10");
+            this.selenium.MouseDown("//a[contains(text(),'Delete')]");
+            this.selenium.MouseUp("//a[contains(text(),'Delete')]");
+            this.selenium.GetConfirmation();
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
+            try
+            {
+                this.selenium.Click("//a[contains(text(),'Node')]");
+                Assert.Fail("Node was not deleted");
+            }
+            catch(Exception ex)
+            {
+                if (ex.Message == "ERROR: Element //a[contains(text(),'Node')] not found")
+                {
+                    Assert.Pass();
+                }
+                else
+                {
+                    Assert.Fail(ex.Message);
+                }
+                //ignore
+            }
+
+            this.selenium.Click("//a[contains(@href, '/Course')]");
+            try
+            {
+                //this.Logout();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+        }
+
+        [Test]
+        public void PreviewNodeTest()//!!!!!!!!!!!!!!1
+        {
+
+            this.DefaultLogin("prof", "prof");
+
+            this.selenium.Click("//a[contains(@href,'/Course')]");
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+
+            this.DeleteAllCourses();
+
+            this.selenium.Click("//a[contains(@onclick, 'addCourse();')]");
+            Thread.Sleep(SleepTime);
+            this.selenium.Type("id=Name", "forEditContent");
+            this.selenium.Click("xpath=(//div[contains(@class,'ui-dialog-buttonset')]//button[1])");
+            this.selenium.Refresh();
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+            this.selenium.Click("xpath=//tr[contains(.,'forEdit')]//div[contains(text(),'forEditContent')]");
+            this.selenium.WaitForPageToLoad((3 * this.seleniumWait).ToString());
+
+            this.CreateNode();
+
+            this.selenium.Click("//a[contains(text(),'Node')]");
+            this.selenium.ContextMenuAt("//a[contains(text(),'Node')]", "20, 10");
+            this.selenium.MouseDown("//a[contains(text(),'Preview')]");
+            this.selenium.MouseUp("//a[contains(text(),'Preview')]");
+            Thread.Sleep(SleepTime);
+            while (selenium.IsAlertPresent())
+            {
+                selenium.GetAlert();
+            }
+
+            //this.selenium.Click("//input[@id='ScoSubmit']");
+
+            this.selenium.Click("//a[contains(@href, '/Course')]");
+            try
+            {
+                this.Logout();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
+        }
+
+        private void CreateNode()
+        {
+            this.selenium.ContextMenuAt("//a[contains(text(),'Root')]", "20, 10");
+            this.selenium.MouseDown("//a[contains(text(),'Create Node')]");
+            this.selenium.MouseUp("//a[contains(text(),'Create Node')]");
+            this.selenium.Type("//input[@value='New node']", "Node");
+            this.selenium.TypeKeys("//input[@value='New node']", @"\13");
         }
 
         [Test]
