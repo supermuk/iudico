@@ -325,20 +325,38 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
 
         #region Test Import Methods
 
+        /// <summary>
+        /// Author - Oleh Garasymchuk
+        /// </summary>
         [Test]
         [Category("ImportMethods")]
+        //importing the unnamed course
         public void Import()
         {
+            // path of course
             var path = Path.Combine(ConfigurationManager.AppSettings["RootTestFolder"], @"CourseManagement\\Data\\20.zip");
 
+            //count of courses before the import
+            int beginAmount = tests.Storage.GetCourses().Count();
+
+            //importimg the course
             this.Storage.Import(path, "lex");
 
+            //count of courses after the import
+            int endAmount = tests.Storage.GetCourses().Count();
+            Assert.IsTrue(beginAmount < endAmount);
+
+            //Getting all courses with the owner "lex" from db
             var courses = this.Storage.GetCourses("lex");
+
+            // Getting from "courses" course with the name "20"
             var course = courses.Single(i => i.Name == "20");
+
             Assert.AreEqual("lex", course.Owner);
-            Assert.AreEqual(true, course.Locked);
+            Assert.AreEqual(false, course.Locked);
 
             path = Path.Combine(ConfigurationManager.AppSettings["RootTestFolder"], @"CourseManagement\\Data\\0.zip");
+            // Watching was the folder for course created
             Assert.IsTrue(File.Exists(path));
 
             File.Delete(path);

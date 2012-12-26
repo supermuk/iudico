@@ -25,49 +25,35 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
     public class CourseStorageTest : BaseCourseManagementTest
     {
         private CourseManagementTest tests = CourseManagementTest.GetInstance();
+        // field with the path to new course
         private string path = Path.Combine(ConfigurationManager.AppSettings["RootTestFolder"], @"CourseManagement\\Data\\tempCourse.zip");
+
+        // field with the folder to delete after tests ending
         private string fileToDel = Path.Combine(ConfigurationManager.AppSettings["RootTestFolder"], @"CourseManagement\\Data\\0.zip");
 
         [TearDown]
+        // deleting the added course and folder after every test 
         public void FileClose()
         {
             this.tests.Storage.DeleteCourse(0);
             File.Delete(fileToDel);
         }
 
-        [Test]
-        // import changes the count of courses
-        public void ImportTest()
-        {
-            int beginAmount = tests.Storage.GetCourses().Count();
-            this.tests.Storage.Import(path, "Course1", "lex");
-            int endAmount = tests.Storage.GetCourses().Count();
-            Assert.IsTrue(beginAmount < endAmount);         
-        }
-
+        /// <summary>
+        /// Author - Oleh Garasymchuk
+        /// </summary>
         [Test]
         // import the course with the name
         public void ImportNamedCourse()
         {
+            // importing named course
             this.tests.Storage.Import(path, "Course1", "lex");
+            // getting this course
             var tmp = this.tests.Storage.GetCourse(0);
-            Assert.IsTrue(tmp.Name == "Course1" && tmp.Owner == "lex");          
-        }
-        
-        [Test]
-        // import the course without the name
-        public void ImportUnnamedCourse()
-        {
-            this.tests.Storage.Import(path, "lex");
-            Assert.IsTrue(path.Contains(this.tests.Storage.GetCourse(0).Name));
+
+            // Watching the name and owner
+            Assert.IsTrue(tmp.Name == "Course1" && tmp.Owner == "lex");
         }
 
-        [Test]
-        // creating the folder with the imported test
-        public void ImportCreatesTheItem()
-        {
-            this.tests.Storage.Import(path, "Course1", "lex");
-            Assert.IsTrue(File.Exists(fileToDel));
-        }
     }
 }
