@@ -22,10 +22,6 @@
             <%: Model.GetUserName()%>
         </p>
         <p>
-            <%=Localization.GetMessage("Group")%>:
-            <%: Model.GetGroupName()%>
-        </p>
-        <p>
             <%=Localization.GetMessage("Topic")%>:
             <%: Model.GetTopicName()%>
         </p>

@@ -104,8 +104,7 @@ namespace IUDICO.Statistics.Controllers
         [HttpGet]
         public ActionResult CurrentTopicTestResults(int curriculumChapterTopicId, TopicTypeEnum topicType)
         {
-            var groupId = (int)HttpContext.Session["SelectedGroupId"];
-            var model = new CurrentTopicTestResultsModel(curriculumChapterTopicId, topicType, groupId, LmsService);
+            var model = new CurrentTopicTestResultsModel(curriculumChapterTopicId, topicType, LmsService);
             return View(model);
         }
     }
