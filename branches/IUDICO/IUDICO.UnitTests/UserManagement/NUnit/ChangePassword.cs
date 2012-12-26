@@ -31,6 +31,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         }
         
         /// <summary>
+        /// Author - Yarema Kipetskiy
         /// Incorrect old password.
         /// </summary>
         [Test]
@@ -65,6 +66,7 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         }
 
         /// <summary>
+        /// Author - Yarema Kipetskiy
         /// Empty old password.
         /// </summary>
         [Test]
@@ -98,6 +100,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             Assert.Fail();
         }
 
+        /// <summary>
+        /// Author - Yarema Kipetskiy
+        /// </summary>
         [Test]
         [ExpectedException(typeof(Exception), ExpectedMessage = "Password can't be empty.")]
         public void ChangePasswordWithBlankNewPassword()
@@ -115,6 +120,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 
+        /// <summary>
+        /// Author - Yarema Kipetskiy
+        /// </summary>
         [Test]
         [ExpectedException(typeof(Exception), ExpectedMessage = "Password confirmation can't be empty.")]
         public void ChangePasswordWithBlankConfirmPassword()
@@ -132,6 +140,9 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 
+        /// <summary>
+        /// Author - Yarema Kipetskiy
+        /// </summary>
         [Test]
         [ExpectedException(typeof(Exception), ExpectedMessage = "New password should be the same as password confirmation.")]
         public void ChangePasswordWithInvalidConfirmPassword()
