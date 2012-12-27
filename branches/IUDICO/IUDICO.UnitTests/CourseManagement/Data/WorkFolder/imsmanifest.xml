@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:adlnav="http://www.adlnet.org/xsd/adlnav_v1p3" xmlns:adlseq="http://www.adlnet.org/xsd/adlseq_v1p3" xmlns:adlcp="http://www.adlnet.org/xsd/adlcp_v1p3" xmlns:imsss="http://www.imsglobal.org/xsd/imsss" identifier="MANIFEST" xmlns="http://www.imsglobal.org/xsd/imscp_v1p1">
+  <metadata>
+    <schema>ADL SCORM</schema>
+    <schemaversion>2004 4th Edition</schemaversion>
+  </metadata>
+  <organizations default="NEW_COURSE0">
+    <organization identifier="NEW_COURSE0" objectivesGlobalToSystem="true" sharedDataGlobalToSystem="true">
+      <title>tempCourse</title>
+      <imsss:sequencing>
+        <imsss:controlMode choice="true" choiceExit="true" flow="true" forwardOnly="false" useCurrentAttemptObjectiveInfo="false" useCurrentAttemptProgressInfo="false" />
+      </imsss:sequencing>
+    </organization>
+  </organizations>
+  <resources>
+    <resource identifier="TemplateFiles" type="webcontent" adlcp:scormType="asset">
+      <file href="api.js" />
+      <file href="checkplayer.js" />
+      <file href="flensed.js" />
+      <file href="flXHR.js" />
+      <file href="flXHR.swf" />
+      <file href="iudico.css" />
+      <file href="iudico.js" />
+      <file href="jquery-1.5.2.min.js" />
+      <file href="jquery.flXHRproxy.js" />
+      <file href="jquery.xhr.js" />
+      <file href="questions.js" />
+      <file href="sco.js" />
+      <file href="swfobject.js" />
+      <file href="updateplayer.swf" />
+      <file href="sh_main.min.js" />
+      <file href="sh_cpp.min.js" />
+      <file href="sh_csharp.min.js" />
+      <file href="sh_java.min.js" />
+      <file href="sh_xml.min.js" />
+      <file href="sh_style.css" />
+      <file href="wait.gif" />
+    </resource>
+  </resources>
+</manifest>
