@@ -126,7 +126,9 @@
 
             this._MockUserStorage = new Mock<DatabaseUserStorage>(this._MockLmsService.Object);
             this._MockDatabaseStorage.Protected().Setup<IDataContext>("GetDbContext").Returns(this._MockDataContext.Object);
-            this._MockDatabaseStorage.Setup(c => c.GetCourseTempPath(It.IsAny<int>())).Returns(@"CourseManagement\Data\WorkFolder");
+            string path = Path.Combine(ConfigurationManager.AppSettings["RootTestFolder"],
+                                       @"CourseManagement\Data\WorkFolder");
+            this._MockDatabaseStorage.Setup(c => c.GetCourseTempPath(It.IsAny<int>())).Returns(path);
             this._MockUserStorage.Protected().Setup<IUDICO.UserManagement.Models.IDataContext>("GetDbContext").Returns(
                 this._MockUserDataContext.Object);
             this._HttpPostedFileBase = new Mock<HttpPostedFileBase>();
