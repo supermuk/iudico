@@ -12,7 +12,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
           private const int SleepTime = 8000;
 
         /// <summary>
-        /// Author - Khrystyna Makar
+        /// Author - Volodymyr Vinichuk
         /// </summary>
         [Test]
         public void EditCurriculumChapterTopic()
