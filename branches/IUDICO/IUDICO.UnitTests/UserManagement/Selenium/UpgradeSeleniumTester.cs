@@ -18,6 +18,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             Assert.IsFalse(this.selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));
         }
         
+        /// <summary>
+        /// fixed - Yarema Kipetskiy
+        /// </summary>
         [Test]
         public void LoginAsTeacher()
         {   
@@ -48,6 +51,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
              
         //}
 
+        /// <summary>
+        /// fixed - Yarema Kipetskiy
+        /// </summary>
         [Test]
         public void CheckTeacherRolesAfterUpgrade()
         {
