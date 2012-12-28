@@ -10,6 +10,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
     [TestFixture]
     public class ManageGroups : SimpleWebTest
     {
+        /// <summary>
+        /// fixed - Yarema Kipetskiy
+        /// </summary>
         [Test]
         public void CreateWithValidData()
         {
