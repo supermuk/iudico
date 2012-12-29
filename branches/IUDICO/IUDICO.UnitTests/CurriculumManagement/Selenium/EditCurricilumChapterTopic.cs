@@ -61,8 +61,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             this.selenium.Click("xpath=(//input[@value='Create'])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            var isPresent = this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Демонстраційна група')]")
-                && this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Discipline1')]");
+            var isPresent = this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Демонстраційна група')]");
             Assert.IsTrue(isPresent);
             // edit chapter timelines
             this.selenium.Click("//table[@id='curriculumsTable']//tr[contains(.,'Discipline1')]//a[contains(text(),'Edit chapter timelines')]");
