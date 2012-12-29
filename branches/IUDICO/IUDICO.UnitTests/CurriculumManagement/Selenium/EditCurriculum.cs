@@ -54,8 +54,8 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             this.selenium.Click("xpath=(//input[@value='Update'])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            Thread.Sleep(SleepTime);
             var isPresent2 = this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Selenium testing system group')]");
-
             Assert.IsTrue(isPresent2);
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
@@ -201,7 +201,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             this.selenium.Type("id=EndDate", "10/29/2013 08:10 AM");
             this.selenium.Click("xpath=(//input[@value='Create'])");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            Thread.Sleep(SleepTime);
             var isPresent = (this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Not specified')]"))
                 && this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Discipline1')]");
 
