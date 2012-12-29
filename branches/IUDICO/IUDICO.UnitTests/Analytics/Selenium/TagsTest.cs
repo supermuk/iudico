@@ -434,12 +434,21 @@ namespace IUDICO.UnitTests.Analytics.Selenium
             this.selenium.Click("//a[contains(@href,'/Quality')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
-            // Select Topic 'Pascal'.
-            this.selenium.Click("xpath=(//input[@name='selectDisciplineId'])[2]");
+            // check if there are no elements to test
+            //if (!this.selenium.IsElementPresent("xpath=(//input[@name='selectDisciplineId'])[1]"))
+            if(!this.selenium.IsElementPresent("xpath=(//input[@type='radio'])"))
+            {
+                Assert.Fail("There are no disciplines to check(list is empty)");
+            }
+            else
+            {
+                // Select first topic from the list.
+                this.selenium.Click("xpath=(//input[@name='selectDisciplineId'])[1]");
 
-            // Click 'Select' button.
-            this.selenium.Click("//input[@type='submit']");
-            this.selenium.WaitForPageToLoad(this.SeleniumWait);
+                // Click 'Select' button.
+                this.selenium.Click("//input[@type='submit']");
+                this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            }
         }
     }
 }
