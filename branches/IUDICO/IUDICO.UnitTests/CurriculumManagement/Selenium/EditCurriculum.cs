@@ -40,7 +40,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             this.selenium.Click("//a[contains(@href,'/Curriculum/Create')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Select("id=DisciplineId", "label=Discipline1");
-            this.selenium.Select("id=GroupId", "value=1");
+            this.selenium.Select("id=GroupId", "label=Демонстраційна група");
             this.selenium.Click("xpath=(//input[@value='Create'])");
 
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
@@ -50,18 +50,16 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             //editing curriculum
             this.selenium.Click("//table[@id='curriculumsTable']//tr[contains(.,'Discipline1')]//a[contains(@href,'Edit')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            this.selenium.Select("id=GroupId", "value=2");
+            this.selenium.Select("id=GroupId", "label=Selenium testing system group");
             this.selenium.Click("xpath=(//input[@value='Update'])");
-            this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            Thread.Sleep(SleepTime);
             var isPresent2 = this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Selenium testing system group')]");
             Assert.IsTrue(isPresent2);
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//table[@id='curriculumsTable']//tr[contains(.,'Discipline1')]//a[contains(@href,'Edit')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            this.selenium.Select("id=GroupId", "value=1");
+            this.selenium.Select("id=GroupId", "label=Демонстраційна група");
 
             this.selenium.Click("xpath=(//input[@value='Update'])");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
