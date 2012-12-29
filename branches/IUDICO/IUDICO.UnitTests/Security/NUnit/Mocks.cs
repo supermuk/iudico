@@ -53,6 +53,7 @@ namespace IUDICO.UnitTests.Security.NUnit
         {
             this.mockSecurityDataContext.SetupGet(c => c.Computers).Returns(CreateComputers());
             this.mockSecurityDataContext.SetupGet(c => c.Rooms).Returns(CreateRooms());
+            this.mockSecurityDataContext.SetupGet(c => c.RoomAttachments).Returns(CreateRoomAttachments());
             this.mockSecurityDataContext.SetupGet(c => c.UserActivities).Returns(CreateUserActivities());
         }
 
@@ -67,6 +68,7 @@ namespace IUDICO.UnitTests.Security.NUnit
 
             this.mockSecurityDataContext.SetupGet(c => c.Computers).Returns(CreateComputers());
             this.mockSecurityDataContext.SetupGet(c => c.Rooms).Returns(CreateRooms());
+            this.mockSecurityDataContext.SetupGet(c => c.RoomAttachments).Returns(CreateRoomAttachments());
             this.mockSecurityDataContext.SetupGet(c => c.UserActivities).Returns(CreateUserActivities());
         }
 
@@ -103,6 +105,13 @@ namespace IUDICO.UnitTests.Security.NUnit
             var rooms = new[] { new Room { Id = 1, Name = "tester", Allowed = true } };
 
             return new MemoryTable<Room>(rooms);
+        }
+
+        private static IMockableTable<RoomAttachment> CreateRoomAttachments()
+        {
+            var roomAttachments = new[] { new RoomAttachment { ComputerIp = "100.100.100.100", RoomId = 1 } };
+
+            return new MemoryTable<RoomAttachment>(roomAttachments);
         }
 
         private static IMockableTable<UserActivity> CreateUserActivities()

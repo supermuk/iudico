@@ -84,8 +84,8 @@ namespace IUDICO.Security
             */
 
             routes.MapRoute(
-                "Ban",
-                "Ban/{action}",
+                "Edit",
+                "Edit/{action}",
                 new { controller = "Ban" });
             
             routes.MapRoute(
