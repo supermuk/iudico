@@ -4,9 +4,15 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Xml.Serialization;//
 
+using IUDICO.Common.Models;//
 using IUDICO.Common.Models.Shared;
+using IUDICO.CourseManagement.Models;//
 using IUDICO.CourseManagement.Models.Storage;
+using IUDICO.CourseManagement.Models.ManifestModels;//
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;//
+using IUDICO.Common.Controllers;//
 
 using NUnit.Framework;
 
@@ -416,5 +422,229 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         #endregion
 
         #endregion
+
+        #region Test Couse Editor methods
+
+        const int ID = 100;
+
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
+        [Test]
+        public void CreateNodeTest()
+        {
+            try
+            {
+                var course = this.Storage.GetCourse(1);
+                Node SomeNode = new Node();
+                SomeNode.Name = "SomeNode";
+                SomeNode.CourseId = course.Id;
+                SomeNode.Course = course;
+                SomeNode.Id = ID;
+                this.Storage.AddNode(SomeNode);
+
+                var node = this.Storage.GetNode(ID);
+            }
+            catch(Exception ex)
+            {
+                Assert.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
+        [Test]
+        public void RenameNodeTest()
+        {
+            var course = this.Storage.GetCourse(1);
+            Node SomeNode = new Node();
+            SomeNode.Name = "SomeNode";
+            SomeNode.CourseId = course.Id;
+            SomeNode.Course = course;
+            SomeNode.Id = ID;
+            this.Storage.AddNode(SomeNode);
+
+            var node = this.Storage.GetNode(ID);
+            node.Name = "RenamedNode";
+
+            if (this.Storage.GetNode(ID).Name == "RenamedNode")
+            {
+                Assert.Pass();
+            }
+            else
+            {
+                Assert.Fail("Node was not  renamed.");
+            }
+        }
+
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
+        [Test]
+        public void DeleteNodeTest()
+        {
+            var course = this.Storage.GetCourse(1);
+            Node SomeNode = new Node();
+            SomeNode.Name = "SomeNode";
+            SomeNode.CourseId = course.Id;
+            SomeNode.Course = course;
+            SomeNode.Id = ID;
+            this.Storage.AddNode(SomeNode);
+
+            this.Storage.DeleteNode(ID);
+
+            try
+            {
+                var node = this.Storage.GetNode(ID);
+                Assert.Fail("Node was not deleted");
+            }
+            catch//(Exception ex)
+            {
+                Assert.Pass();
+            }
+        }
+
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
+        [Test]
+        public void PreviewNodeTest()
+        {
+            try
+            {
+                var course = this.Storage.GetCourse(1);
+                Node SomeNode = new Node();
+                SomeNode.Name = "SomeNode";
+                SomeNode.CourseId = course.Id;
+                SomeNode.Course = course;
+                SomeNode.Id = 100;
+                var id = this.Storage.AddNode(SomeNode);
+
+                this.Storage.GetPreviewNodePath(100);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
+        [Test]
+        public void ShowPropertiesTest([Values("ControlMode",
+                                               "LimitConditions",
+                                               "ConstrainedChoiceConsiderations",
+                                               "RandomizationControls",
+                                               "DeliveryControls")]
+                                                                string type)
+        {
+            try
+            {
+                var course = this.Storage.GetCourse(1);
+                Node SomeNode = new Node();
+                SomeNode.Name = "SomeNode";
+                SomeNode.CourseId = course.Id;
+                SomeNode.Course = course;
+                SomeNode.Id = ID;
+                this.Storage.AddNode(SomeNode);
+
+                var xml = new XmlSerializer(typeof(Sequencing));
+                var xelement = this.Storage.GetNode(ID).Sequencing;
+                var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
+
+                NodeProperty model;
+                if (type == "ControlMode")
+                {
+                    model = sequencing.ControlMode ?? new ControlMode();
+                }
+                else if (type == "LimitConditions")
+                {
+                    model = sequencing.LimitConditions ?? new LimitConditions();
+                }
+                else if (type == "ConstrainedChoiceConsiderations")
+                {
+                    model = sequencing.ConstrainedChoiceConsiderations ?? new ConstrainedChoiceConsiderations();
+                }
+                else if (type == "RandomizationControls")
+                {
+                    model = sequencing.RandomizationControls ?? new RandomizationControls();
+                }
+                else if (type == "DeliveryControls")
+                {
+                    model = sequencing.DeliveryControls ?? new DeliveryControls();
+                }
+                //else if (type == "RollupRules")
+                //{
+                //    model = sequencing.RollupRules ?? new RollupRules();
+                //}
+                //else if (type == "RollupConsiderations")
+                //{
+                //    model = sequencing.RollupConsiderations ?? new RollupConsiderations();
+                //}
+                else
+                {
+                    throw new NotImplementedException();
+                }
+
+                model.CourseId = course.Id;
+                model.NodeId = ID;
+                model.Type = type;
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
+        [Test]
+        public void ApplyPatternTest([Values(SequencingPattern.ControlChapterSequencingPattern, 
+                                             SequencingPattern.RandomSetSequencingPattern, 
+                                             SequencingPattern.OrganizationDefaultSequencingPattern)]
+                                                                            SequencingPattern pattern)
+        {
+            try
+            {
+                var course = this.Storage.GetCourse(1);
+                Node SomeNode = new Node();
+                SomeNode.Name = "SomeNode";
+                SomeNode.CourseId = course.Id;
+                SomeNode.Course = course;
+                SomeNode.Id = ID;
+                this.Storage.AddNode(SomeNode);
+
+                var xml = new XmlSerializer(typeof(Sequencing));
+                var node = this.Storage.GetNode(ID);
+                var xelement = node.Sequencing;
+                var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
+
+                //sequencing = SequencingPatternManager.ApplyControlChapterSequencing(sequencing);
+
+                switch (pattern)
+                {
+                    case SequencingPattern.ControlChapterSequencingPattern:
+                        sequencing = SequencingPatternManager.ApplyControlChapterSequencing(sequencing);
+                        break;
+                    case SequencingPattern.RandomSetSequencingPattern:
+                        sequencing = SequencingPatternManager.ApplyRandomSetSequencingPattern(sequencing, 1);
+                        break;
+                    case SequencingPattern.OrganizationDefaultSequencingPattern:
+                        sequencing = SequencingPatternManager.ApplyDefaultChapterSequencing(sequencing);
+                        break;
+                }
+                node.Sequencing = xml.SerializeToXElemet(sequencing);
+                this.Storage.UpdateNode(ID, node);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+            }
+        }
+
+        #endregion 
     }
 }
