@@ -232,20 +232,26 @@ namespace IUDICO.Security.Models.Storages.Database
 
         public void CreateComputer(Computer computer)
         {
-            using (var context = this.NewContext())
+            if (this.GetComputers().Contains(computer) == false)
             {
-                context.Computers.InsertOnSubmit(computer);
-                context.SubmitChanges();
-            }
+                using (var context = this.NewContext())
+                {
+                    context.Computers.InsertOnSubmit(computer);
+                    context.SubmitChanges();
+                }
+            }           
         }
 
         public void CreateRoom(Room room)
         {
-            using (var context = this.NewContext())
+            if (this.GetRooms().Contains(room) == false)
             {
-                context.Rooms.InsertOnSubmit(room);
-                context.SubmitChanges();
-            }
+                using (var context = this.NewContext())
+                {
+                    context.Rooms.InsertOnSubmit(room);
+                    context.SubmitChanges();
+                }              
+            }          
         }
 
         public void DeleteComputer(Computer computer)
@@ -256,6 +262,13 @@ namespace IUDICO.Security.Models.Storages.Database
                 if (ccomputer != null)
                 {
                     context.Computers.DeleteOnSubmit(ccomputer);
+                }
+
+                var attachment = context.RoomAttachments.Where(a => a.ComputerIp == computer.IpAddress);
+
+                foreach (var roomAttachment in attachment)
+                {
+                    context.RoomAttachments.DeleteOnSubmit(roomAttachment);
                 }
 
                 context.SubmitChanges();

@@ -1,40 +1,46 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using IUDICO.Common.Models.Shared;
 using NUnit.Framework;
 
 namespace IUDICO.UnitTests.Security.NUnit
 {
-    //[TestFixture]
+    [TestFixture]
     internal class BanStorageTester : SecurityTester
     {
-        //[SetUp]
-        //public void Setup()
-        //{
-        //}
         public Computer AddComputer(bool isBanned, string ip)
         {
             return new Computer { Banned = isBanned, IpAddress = ip };
         }
+
         public Room AddRoom(int id, string name, bool allowed)
         {
             return new Room { Id = id, Name = name, Allowed = allowed };
         }
 
+        private Computer computer;
+
+        private Room room;
+
+        [SetUp]
+        public void Setup()
+        {
+            this.computer = new Computer { IpAddress = "999.999.999.999", Banned = false };
+
+            this.room = new Room { Name = "999", Allowed = true };
+        }
+
         //author: Фай Роман
         [Test]
         public void CreateComputerTest()
-        {
-            // create computer
-            var computer = AddComputer(false, "999.999.999.999");
+        {           
             // add computers to storage
             this.BanStorage.CreateComputer(new Computer());
             this.BanStorage.CreateComputer(new Computer());
             this.BanStorage.CreateComputer(new Computer());
-            this.BanStorage.CreateComputer(computer);
+            this.BanStorage.CreateComputer(this.computer);
 
             Assert.AreEqual(5, this.BanStorage.GetComputers().Count());
-            Assert.True(this.BanStorage.GetComputers().Contains(computer));
+            Assert.True(this.BanStorage.GetComputers().Contains(this.computer));
         }
 
         //author: Фай Роман
@@ -57,14 +63,13 @@ namespace IUDICO.UnitTests.Security.NUnit
         [Test]
         public void AttachComputerToRoom()
         {
-            var computer = this.BanStorage.GetComputers().First();
-            var room = this.BanStorage.GetRooms().First();
+            this.BanStorage.CreateComputer(this.computer);
+            this.BanStorage.CreateRoom(this.room);
 
-            BanStorage.AttachComputerToRoom(computer, room);
-            // computer.RoomRef = room.Id;
 
-            //REDO
-            //Assert.AreEqual(room.Id, computer.Room.Id);
+            BanStorage.AttachComputerToRoom(this.computer, this.room);
+            
+            Assert.AreEqual(this.BanStorage.ComputersAttachedToRoom(this.room).Contains(this.computer), true);
         }
 
         //author: Фай Роман
