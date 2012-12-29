@@ -10,14 +10,20 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
     {
         private const int SleepTime = 8000;
 
+        /// <summary>
+        /// Author - Kachmar Oleg
+        /// </summary>
         [Test]
         public void DeleteDisciplineTest()
         {
+            // logging in
             this.DefaultLogin("prof", "prof");
 
+            // moving to disciplines
             this.selenium.Click("//a[contains(@href,'/DisciplineAction')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
+            // checks if present disciplines to delete
             var isPresent =
                 this.selenium.IsElementPresent("//table[@id='disciplines']//tr[contains(.,'DisciplineForDelete')]");
             while (isPresent)
@@ -36,8 +42,11 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
                 isPresent =
                     this.selenium.IsElementPresent("//table[@id='disciplines']//tr[contains(.,'DisciplineForDelete')]");
             }
+
+            // checks if deleted succesfully
             Assert.IsFalse(isPresent);
 
+            // adds discipline
             this.selenium.Click("//a[contains(@onclick, 'addDiscipline();')]");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "DisciplineForDelete");
@@ -50,19 +59,20 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             }
             Thread.Sleep(SleepTime);
 
-
+            // checks if present discipline to delete
             isPresent =
                 this.selenium.IsElementPresent(
                     "//table[@id='disciplines']//tr//td[contains(.,'DisciplineForDelete')]");
             Assert.IsTrue(isPresent);
 
+            // deletes discipline to delete
             this.selenium.Click(
                 "//table[@id='disciplines']//tr[contains(.,'DisciplineForDelete')]//a[contains(text(),'Delete')]");
             this.selenium.GetConfirmation();
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
  
-
+            // checks if delted successfully
             isPresent =
                 this.selenium.IsElementPresent("//table[@id='disciplines']//tr[contains(.,'DisciplineForDelete')]");
             Assert.IsFalse(isPresent);
@@ -77,16 +87,21 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             }
         }
 
+        /// <summary>
+        /// Author - Kachmar Oleg
+        /// </summary>
         [Test]
         public void DeleteAllDisciplinesTest()
         {
+            // delete all disciplines
             this.DeleteAllDisciplines("prof", "prof");
 
+            // checks if deleted successfully
             var isPresent =
                 this.selenium.IsElementPresent("//table[@id='disciplines']//tr[contains(.,'Delete')]");
-            
             Assert.IsFalse(isPresent);
-
+            
+            // checks the same thing
             isPresent =
                 this.selenium.IsElementPresent(
                     "//table[@id='disciplines']//tr//td[contains(.,'No data available in table')]");
@@ -102,13 +117,19 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             }
         }
 
+        /// <summary>
+        /// Author - Kachmar Oleg
+        /// </summary>
         public void DeleteAllDisciplines(string username, string password)
         {
+            // logging in
             this.DefaultLogin(username, password);
 
+            // moving to disciplines
             this.selenium.Click("//a[contains(@href,'/DisciplineAction')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
+            // delete all disciplines
             var isPresent =
                 this.selenium.IsElementPresent("//table[@id='disciplines']//tr[contains(.,'Delete')]");
             while (isPresent)
@@ -126,7 +147,9 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
 
                 isPresent =
                     this.selenium.IsElementPresent("//table[@id='disciplines']//tr[contains(.,'Delete')]");
-            }   
+            }
+            // checks if deleted successfully
+            Assert.IsFalse(isPresent);
         }
     }
 }

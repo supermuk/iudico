@@ -33,8 +33,11 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
         #region Discipline tests
 
+        /// <summary>
+        /// Author - Zotov Oleksandr, Garbuch Markiyan
+        /// </summary>
         [Test]
-        public void AddDiscipline()
+        public void CreateDisciplineTest()
         {
             var expectedItems = this.DataPreparer.GetDisciplines();
             var controller = this.GetController<DisciplineController>();
@@ -100,29 +103,47 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             AdvAssert.AreEqual(new[] { expectedItemF() }, actualItems);
         }
 
+        /// <summary>
+        /// Author - Zotov Oleksandr, Garbuch Markiyan
+        /// </summary>
         [Test]
-        public void UpdateDiscipline()
+        public void EditDisciplineTest()
         {
+            // create disciplines
             var ids = this.DataPreparer.CreateDisciplinesSet1();
             var controller = this.GetController<DisciplineController>();
+
+            // create new Discipline
             Func<Discipline> newDisciplineF =
                 () =>
                 new Discipline
                     {
                        Name = "NewDiscipline", Owner = Users.Ozo, IsValid = false, IsDeleted = true, Id = ids[1] 
                     };
+
+            // save old discipline
+            Discipline tempDiscipline = this.DataPreparer.GetDisciplines()[1];
+
+            // edits disciplines with id ids[1] with data from newDisicplineF
             controller.Edit(ids[1], newDisciplineF());
 
+            // checks if successful editing
             var expected = newDisciplineF();
             var actual = this.DisciplineStorage.GetDiscipline(ids[1]);
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(Users.Panza, actual.Owner);
             Assert.AreEqual(true, actual.IsValid);
             Assert.AreEqual(false, actual.IsDeleted);
+
+            // undo changes
+            controller.Edit(ids[1], tempDiscipline);
         }
 
+        /// <summary>
+        /// Author - Zotov Oleksandr, Garbuch Markiyan
+        /// </summary>
         [Test]
-        public void DeleteDisciplines()
+        public void DeleteDisciplineTest()
         {
             this.DataPreparer.CreateDisciplinesSet3();
             var disciplineIds = this.DataPreparer.DisciplineIds;
@@ -157,40 +178,65 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.IsTrue(result.Data.ToString().ToLower().Contains("success = false"));
         }
 
+        /// <summary>
+        /// Author - Zotov Oleksandr, Garbuch Markiyan
+        /// </summary>
         [Test]
-        public void ShareDiscipline()
+        public void ShareDisciplineTest()
         {
             var ids = this.DataPreparer.CreateDisciplinesSet1();
             var controller = GetController<DisciplineController>();
-            // before sharing
+
+            // gets data before sharing
             var expectedSharedUsers = new List<User>();
             var expectedNotSharedUsers = new List<User> { this.GetUser(Users.Ozo) };
             var actualSharedUsers = this.DisciplineStorage.GetDisciplineSharedUsers(ids[0]);
             var actualNotSharedUsers = this.DisciplineStorage.GetDisciplineNotSharedUsers(ids[0]);
+
+            // checks if data before sharing was generated correctly
             AdvAssert.AreEqual(expectedSharedUsers, actualSharedUsers);
             AdvAssert.AreEqual(expectedNotSharedUsers, actualNotSharedUsers);
 
             // after sharing
             expectedSharedUsers = new List<User> { this.GetUser(Users.Ozo) };
             expectedNotSharedUsers = new List<User>();
+
+            // share 
             var result = controller.Share(ids[0], expectedSharedUsers.Select(u => u.Id).ToList());
+
+            // checks if success sharing
             Assert.IsTrue(result.Data.ToString().ToLower().Contains("success = true"));
+
+            // gets currect data
             actualSharedUsers = this.DisciplineStorage.GetDisciplineSharedUsers(ids[0]);
             actualNotSharedUsers = this.DisciplineStorage.GetDisciplineNotSharedUsers(ids[0]);
+
+            // checks if same as expected
             AdvAssert.AreEqual(expectedSharedUsers, actualSharedUsers);
             AdvAssert.AreEqual(expectedNotSharedUsers, actualNotSharedUsers);
 
             // after unsharing
             expectedSharedUsers = new List<User>();
             expectedNotSharedUsers = new List<User> { this.GetUser(Users.Ozo) };
+
+            // unshare
             result = controller.Share(ids[0], null);
+
+            // checks if succes unsharing
             Assert.IsTrue(result.Data.ToString().ToLower().Contains("success = true"));
+
+            // gets current data
             actualSharedUsers = this.DisciplineStorage.GetDisciplineSharedUsers(ids[0]);
             actualNotSharedUsers = this.DisciplineStorage.GetDisciplineNotSharedUsers(ids[0]);
+
+            // checks if same as expected
             AdvAssert.AreEqual(expectedSharedUsers, actualSharedUsers);
             AdvAssert.AreEqual(expectedNotSharedUsers, actualNotSharedUsers);
         }
 
+        /// <summary>
+        /// Author - Chopenko Vitaliy
+        /// </summary>
         [Test]
         public void ExportTest()
         {
@@ -219,14 +265,21 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             }
         }
 
+        /// <summary>
+        /// Author - Chopenko Vitaliy
+        /// </summary>
         [Test]
         public void ImportTest()
         {
-            // importing test discipline
+            // importing test discipline preparations
             var controller = this.GetController<DisciplineController>();
-            var path = "..\\..\\CurriculumManagement\\NUnit\\Discipline1.zip";
+            var path = "..\\..\\CurriculumManagement\\DisciplineManagement\\NUnit\\Discipline1.zip";
             ImportExportDiscipline imExDisc = new ImportExportDiscipline(this.DisciplineStorage);
+
+            // checks if valid file to import
             Assert.IsTrue(imExDisc.Validate(path));
+
+            // importing
             controller.Import(path);
 
             // gets imported and expected disciplines
@@ -234,7 +287,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             var disciplineIds = this.DataPreparer.CreateDisciplinesSet1();
             var excpectedDiscipline = this.DisciplineStorage.GetDisciplines()[disciplineIds[0] - 1];
 
-            // checks if imported and excpected are similar
+            // checks if imported and expected are similar
             Assert.AreEqual(importedDiscipline.Name, excpectedDiscipline.Name);
             Assert.AreEqual(importedDiscipline.Owner, excpectedDiscipline.Owner);
             Assert.AreEqual(importedDiscipline.IsValid, excpectedDiscipline.IsValid);
@@ -244,14 +297,21 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             Assert.AreNotEqual(importedDiscipline.Id, excpectedDiscipline.Id);
         }
 
+        /// <summary>
+        /// Author - Chopenko Vitaliy
+        /// </summary>
         [Test]
         public void ImportTestWithChapter()
         {
-            // importing test discipline
+            // importing test discipline preparations
             var controller = this.GetController<DisciplineController>();
-            var path = "..\\..\\CurriculumManagement\\NUnit\\Discipline2.zip";
+            var path = "..\\..\\CurriculumManagement\\DisciplineManagement\\NUnit\\Discipline2.zip";
             ImportExportDiscipline imExDisc = new ImportExportDiscipline(this.DisciplineStorage);
+
+            // checks if valid file to import
             Assert.IsTrue(imExDisc.Validate(path));
+
+            //importing
             controller.Import(path);
 
             // gets imported and expected disciplines
@@ -259,7 +319,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
             var disciplineIds = this.DataPreparer.CreateDisciplinesSet3();
             var excpectedDiscipline = this.DisciplineStorage.GetDisciplines()[disciplineIds[0] - 1];
 
-            // checks if imported and excpected are similar
+            // checks if imported and expected are similar
             Assert.AreEqual(importedDiscipline.Name, excpectedDiscipline.Name);
             Assert.AreEqual(importedDiscipline.Owner, excpectedDiscipline.Owner);
             Assert.AreEqual(importedDiscipline.IsValid, excpectedDiscipline.IsValid);
@@ -272,7 +332,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
         [Test]
         public void PackageValidatorTest()
         {
-            var result = IUDICO.DisciplineManagement.Helpers.PackageValidator.Validate("..\\..\\CurriculumManagement\\NUnit\\Discipline2.zip");
+            var result = IUDICO.DisciplineManagement.Helpers.PackageValidator.Validate("..\\..\\CurriculumManagement\\DisciplineManagement\\NUnit\\Discipline2.zip");
             Assert.AreEqual(result.Count, 1);
         }
 
@@ -490,11 +550,11 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
             Func<Topic> newTopicF = () => new Topic
             {
-                SortOrder = 3,
-                TestCourseRef = null,
-                TestTopicTypeRef = null,
-                TheoryCourseRef = this.CourseService.GetCourse(2).Id,
-                TheoryTopicTypeRef = this.DisciplineStorage.GetTheoryTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id,
+                SortOrder = 2,
+                TestCourseRef = -1,
+                TestTopicTypeRef = this.DisciplineStorage.GetTestTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.TestWithoutCourse).Id,
+                TheoryCourseRef = null,
+                TheoryTopicTypeRef = null,
                 Name = "NewTopic",
                 ChapterRef = 100,
                 IsDeleted = true
@@ -513,7 +573,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.NUnit
 
             var wrongTopic = newTopicF();
             wrongTopic.Id = topicIds[1];
-            wrongTopic.TheoryCourseRef = null;
+            wrongTopic.TestCourseRef = null;
             wrongTopic.ChapterRef = this.DataPreparer.GetTopics()[1].ChapterRef;
 
             this.DisciplineStorage.UpdateTopic(wrongTopic);
