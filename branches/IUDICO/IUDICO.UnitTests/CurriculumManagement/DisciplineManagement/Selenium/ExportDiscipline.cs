@@ -10,14 +10,20 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
     {
         private const int SleepTime = 8000;
 
+        /// <summary>
+        /// Author - Kachmar Oleg
+        /// </summary>
         [Test]
         public void ExportDisciplineTest()
         {
+            // logging in
             this.DefaultLogin("prof", "prof");
 
+            // moving to disciplines
             this.selenium.Click("//a[contains(@href,'/DisciplineAction')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
+            // checks if present discipline for export. if yes, deletes it.
             var isPresent =
                 this.selenium.IsElementPresent("//table[@id='disciplines']//tr[contains(.,'ExportDiscipline')]");
             while (isPresent)
@@ -36,8 +42,10 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
                 isPresent =
                     this.selenium.IsElementPresent("//table[@id='disciplines']//tr[contains(.,'ExportDiscipline')]");
             }
+            // checks if deleted successfully
             Assert.IsFalse(isPresent);
 
+            // adds discipline for export
             this.selenium.Click("//a[contains(@onclick, 'addDiscipline();')]");
             Thread.Sleep(SleepTime);
             this.selenium.Type("id=Name", "ExportDiscipline");
@@ -50,12 +58,13 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             }
             Thread.Sleep(SleepTime);
 
-
+            // checks if added successfully
             isPresent =
                 this.selenium.IsElementPresent(
                     "//table[@id='disciplines']//tr//td[contains(.,'ExportDiscipline')]");
             Assert.IsTrue(isPresent);
 
+            // export discipline
             this.selenium.Click("//table[@id='disciplines']//tr[contains(.,'ExportDiscipline')]//a[contains(text(),'Export')]");
 
             try

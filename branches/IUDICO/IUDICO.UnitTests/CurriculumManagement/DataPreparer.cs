@@ -165,10 +165,10 @@ namespace IUDICO.UnitTests.CurriculumManagement
             topics.AddRange(this.ChapterIds.Select(i => new Topic
             {
                 SortOrder = 3,
-                TestCourseRef = null,
-                TestTopicTypeRef = null,
-                TheoryCourseRef = this.courseService.GetCourse(2).Id,
-                TheoryTopicTypeRef = this.disciplineStorage.GetTheoryTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Theory).Id,
+                TestCourseRef = this.courseService.GetCourse(3).Id,
+                TestTopicTypeRef = this.disciplineStorage.GetTestTopicTypes().First(item => item.ToTopicTypeEnum() == TopicTypeEnum.Test).Id,
+                TheoryCourseRef = null,
+                TheoryTopicTypeRef = null,
                 Name = string.Format("TopicC{0}", i),
                 ChapterRef = i,
             })
