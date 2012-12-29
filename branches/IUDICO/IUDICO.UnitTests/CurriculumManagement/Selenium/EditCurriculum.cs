@@ -38,24 +38,22 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             this.selenium.Click("//a[contains(@href,'/Curriculum')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href,'/Curriculum/Create')]");
-            Thread.Sleep(SleepTime);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Select("id=DisciplineId", "label=Discipline1");
             this.selenium.Select("id=GroupId", "value=1");
             this.selenium.Click("xpath=(//input[@value='Create'])");
 
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            Thread.Sleep(SleepTime);
             var isPresent = this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Демонстраційна група')]");
             Assert.IsTrue(isPresent);
 
             //editing curriculum
             this.selenium.Click("//table[@id='curriculumsTable']//tr[contains(.,'Discipline1')]//a[contains(@href,'Edit')]");
-            Thread.Sleep(SleepTime);
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Select("id=GroupId", "value=2");
             this.selenium.Click("xpath=(//input[@value='Update'])");
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            Thread.Sleep(SleepTime);
             var isPresent2 =
                 this.selenium.IsElementPresent(
                     "//table[@id='curriculumsTable']//tr[contains(.,'Selenium testing system group')]");
@@ -64,12 +62,11 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
             this.selenium.Refresh();
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//table[@id='curriculumsTable']//tr[contains(.,'Discipline1')]//a[contains(@href,'Edit')]");
-            Thread.Sleep(SleepTime); 
+            this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Select("id=GroupId", "value=1");
 
             this.selenium.Click("xpath=(//input[@value='Update'])");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
-            Thread.Sleep(SleepTime);
             var isPresent4 = this.selenium.IsElementPresent("//table[@id='curriculumsTable']//tr[contains(.,'Демонстраційна група')]");
 
             Assert.IsTrue(isPresent4);
