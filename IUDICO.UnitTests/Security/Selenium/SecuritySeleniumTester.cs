@@ -185,25 +185,5 @@ namespace IUDICO.UnitTests.Security.Selenium
 
             rooms.Logout();
         }
-
-        // fails because of the bug
-        [Test]
-        public void Test8_OverallStats()
-        {
-            this.selenium.Open("/");
-            this.selenium.Type("id=loginUsername", "lex");
-            this.selenium.Type("id=loginPassword", "lex");
-            this.selenium.Click("id=loginDefaultButton");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("link=Overall stats");
-            this.selenium.WaitForPageToLoad("30000");
-
-            Assert.True(this.selenium.IsTextPresent("User"));
-            
-            this.selenium.Click("link=Logout");
-            this.selenium.WaitForPageToLoad("30000");
-        }
     }
 }

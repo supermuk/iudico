@@ -37,9 +37,6 @@ namespace IUDICO.UnitTests.Security.Selenium
             }
             this.selenium.Click("css=p > input[type=\"submit\"]");
             this.selenium.WaitForPageToLoad("30000");
-
-            /*this.selenium.Click("//a[contains(@href, '/Edit/EditRooms')]");
-            this.selenium.WaitForPageToLoad("30000");*/
         }
 
         /// <summary>
@@ -49,6 +46,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         {
             this.selenium.Click("//a[contains(@href," +
                 "'/Edit/DeleteRoom?room=" + room + "')]");
+
             this.selenium.WaitForPageToLoad("30000");
         }
 
@@ -59,6 +57,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         {
             this.selenium.Click("//a[contains(@href," +
                 "'/Edit/RoomUnban?room=" + room + "')]");
+
             this.selenium.WaitForPageToLoad("30000");
         }
 
@@ -69,6 +68,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         {
             this.selenium.Click("//a[contains(@href," +
                 "'/Edit/RoomBan?room=" + room + "')]");
+
             this.selenium.WaitForPageToLoad("30000");
         }
 
