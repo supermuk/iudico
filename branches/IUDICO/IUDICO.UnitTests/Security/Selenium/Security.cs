@@ -27,9 +27,13 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Login()
         {
             this.selenium.Open("/");
+
             this.selenium.Type("id=loginUsername", "lex");
+
             this.selenium.Type("id=loginPassword", "lex");
+
             this.selenium.Click("id=loginDefaultButton");
+
             this.selenium.WaitForPageToLoad("30000");
         }
 
