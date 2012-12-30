@@ -4,15 +4,16 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
-using System.Xml.Serialization;//
+using System.Xml.Serialization;
 
-using IUDICO.Common.Models;//
+using IUDICO.Common.Models;
 using IUDICO.Common.Models.Shared;
-using IUDICO.CourseManagement.Models;//
+using IUDICO.CourseManagement.Models;
 using IUDICO.CourseManagement.Models.Storage;
-using IUDICO.CourseManagement.Models.ManifestModels;//
-using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;//
-using IUDICO.Common.Controllers;//
+using IUDICO.CourseManagement.Models.ManifestModels;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels;
+using IUDICO.CourseManagement.Models.ManifestModels.SequencingModels.RollupModels;
+using IUDICO.Common.Controllers;
 
 using NUnit.Framework;
 
@@ -428,6 +429,20 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         const int ID = 100;
 
         /// <summary>
+        /// Create new node with id = ID and add it in storage.
+        /// </summary>
+        private void createNode()
+        {
+            var course = this.Storage.GetCourse(1);
+            Node someNode = new Node();
+            someNode.Name = "SomeNode";
+            someNode.CourseId = course.Id;
+            someNode.Course = course;
+            someNode.Id = ID;
+            this.Storage.AddNode(someNode);
+        }
+
+        /// <summary>
         /// Author - Lutsiv Oleg
         /// </summary>
         [Test]
@@ -435,17 +450,11 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         {
             try
             {
-                var course = this.Storage.GetCourse(1);
-                Node SomeNode = new Node();
-                SomeNode.Name = "SomeNode";
-                SomeNode.CourseId = course.Id;
-                SomeNode.Course = course;
-                SomeNode.Id = ID;
-                this.Storage.AddNode(SomeNode);
+                this.createNode();
 
                 var node = this.Storage.GetNode(ID);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Assert.Fail(ex.Message);
             }
@@ -457,13 +466,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void RenameNodeTest()
         {
-            var course = this.Storage.GetCourse(1);
-            Node SomeNode = new Node();
-            SomeNode.Name = "SomeNode";
-            SomeNode.CourseId = course.Id;
-            SomeNode.Course = course;
-            SomeNode.Id = ID;
-            this.Storage.AddNode(SomeNode);
+            this.createNode();
 
             var node = this.Storage.GetNode(ID);
             node.Name = "RenamedNode";
@@ -484,13 +487,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void DeleteNodeTest()
         {
-            var course = this.Storage.GetCourse(1);
-            Node SomeNode = new Node();
-            SomeNode.Name = "SomeNode";
-            SomeNode.CourseId = course.Id;
-            SomeNode.Course = course;
-            SomeNode.Id = ID;
-            this.Storage.AddNode(SomeNode);
+            this.createNode();
 
             this.Storage.DeleteNode(ID);
 
@@ -499,7 +496,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                 var node = this.Storage.GetNode(ID);
                 Assert.Fail("Node was not deleted");
             }
-            catch//(Exception ex)
+            catch
             {
                 Assert.Pass();
             }
@@ -513,13 +510,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         {
             try
             {
-                var course = this.Storage.GetCourse(1);
-                Node SomeNode = new Node();
-                SomeNode.Name = "SomeNode";
-                SomeNode.CourseId = course.Id;
-                SomeNode.Course = course;
-                SomeNode.Id = 100;
-                var id = this.Storage.AddNode(SomeNode);
+                this.createNode();
 
                 this.Storage.GetPreviewNodePath(100);
             }
@@ -537,18 +528,14 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                                                "LimitConditions",
                                                "ConstrainedChoiceConsiderations",
                                                "RandomizationControls",
-                                               "DeliveryControls")]
-                                                                string type)
+                                               "DeliveryControls",
+                                               "RollupRules",
+                                               "RollupConsiderations")]
+                                       string type)
         {
             try
             {
-                var course = this.Storage.GetCourse(1);
-                Node SomeNode = new Node();
-                SomeNode.Name = "SomeNode";
-                SomeNode.CourseId = course.Id;
-                SomeNode.Course = course;
-                SomeNode.Id = ID;
-                this.Storage.AddNode(SomeNode);
+                this.createNode();
 
                 var xml = new XmlSerializer(typeof(Sequencing));
                 var xelement = this.Storage.GetNode(ID).Sequencing;
@@ -575,20 +562,20 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                 {
                     model = sequencing.DeliveryControls ?? new DeliveryControls();
                 }
-                //else if (type == "RollupRules")
-                //{
-                //    model = sequencing.RollupRules ?? new RollupRules();
-                //}
-                //else if (type == "RollupConsiderations")
-                //{
-                //    model = sequencing.RollupConsiderations ?? new RollupConsiderations();
-                //}
+                else if (type == "RollupRules")
+                {
+                    model = sequencing.RollupRules ?? new RollupRules();
+                }
+                else if (type == "RollupConsiderations")
+                {
+                    model = sequencing.RollupConsiderations ?? new RollupConsiderations();
+                }
                 else
                 {
                     throw new NotImplementedException();
                 }
 
-                model.CourseId = course.Id;
+                model.CourseId = 1;
                 model.NodeId = ID;
                 model.Type = type;
             }
@@ -605,24 +592,16 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         public void ApplyPatternTest([Values(SequencingPattern.ControlChapterSequencingPattern, 
                                              SequencingPattern.RandomSetSequencingPattern, 
                                              SequencingPattern.OrganizationDefaultSequencingPattern)]
-                                                                            SequencingPattern pattern)
+                                     SequencingPattern pattern)
         {
             try
             {
-                var course = this.Storage.GetCourse(1);
-                Node SomeNode = new Node();
-                SomeNode.Name = "SomeNode";
-                SomeNode.CourseId = course.Id;
-                SomeNode.Course = course;
-                SomeNode.Id = ID;
-                this.Storage.AddNode(SomeNode);
+                this.createNode();
 
                 var xml = new XmlSerializer(typeof(Sequencing));
                 var node = this.Storage.GetNode(ID);
                 var xelement = node.Sequencing;
                 var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
-
-                //sequencing = SequencingPatternManager.ApplyControlChapterSequencing(sequencing);
 
                 switch (pattern)
                 {
@@ -645,6 +624,6 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             }
         }
 
-        #endregion 
+        #endregion  EditPropertiesTest
     }
 }
