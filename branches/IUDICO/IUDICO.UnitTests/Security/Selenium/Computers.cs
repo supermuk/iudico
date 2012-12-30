@@ -21,11 +21,12 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Clean(String ip)
         {
             GoToList();
+
             while (this.selenium.IsTextPresent(ip))
             {
                 Delete(ip);
             }
-            GoBack();
+            //GoBack();
         }
 
         /// <summary>
@@ -33,12 +34,18 @@ namespace IUDICO.UnitTests.Security.Selenium
         /// </summary>
         public void Add(string ip)
         {
-            this.selenium.Click("//a[contains(@href, '/Ban/AddComputers')]");
+            /*this.selenium.Click("//a[contains(@href, '/Edit/EditComputers')]");
+            this.selenium.WaitForPageToLoad("30000");*/
+
+            //this.GoToList();
+
+            this.selenium.Click("//a[contains(@href, '/Edit/AddComputers')]");
             this.selenium.WaitForPageToLoad("30000");
+
             this.selenium.Type("id=ComputerIP", ip);
             this.selenium.Click("name=saveButton");
             this.selenium.WaitForPageToLoad("30000");
-            GoToList();
+            //GoToList();
         }
 
         /// <summary>
@@ -47,7 +54,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Delete(string ip)
         {
             this.selenium.Click("//a[contains(@href, " +
-                    "'/Ban/DeleteComputer?computer=" + ip + "')]");
+                    "'/Edit/DeleteComputer?computer=" + ip + "')]");
             this.selenium.WaitForPageToLoad("30000");
         }
 
@@ -57,7 +64,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         /// </summary>
         public void GoToList()
         {
-            this.selenium.Click("//a[contains(@href, '/Ban/BanComputer')]");
+            this.selenium.Click("//a[contains(@href, '/Edit/EditComputers')]");
             this.selenium.WaitForPageToLoad("30000");
         }
 
@@ -67,7 +74,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Ban(string ip)
         {
             this.selenium.Click("//a[contains(@href," +
-                "'/Ban/ComputerBan?computer=" + ip + "')]");
+                "'/Edit/ComputerBan?computer=" + ip + "')]");
             this.selenium.WaitForPageToLoad("30000");
         }
 
@@ -77,7 +84,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Unban(string ip)
         {
             this.selenium.Click("//a[contains(@href," +
-                "'/Ban/ComputerUnban?computer=" + ip + "')]");
+                "'/Edit/ComputerUnban?computer=" + ip + "')]");
             this.selenium.WaitForPageToLoad("30000");
         }
 
@@ -86,9 +93,10 @@ namespace IUDICO.UnitTests.Security.Selenium
         /// </summary>
         public void Edit(string ip, bool wasBanned, bool willBeBanned, string user)
         {
-            this.selenium.Click("//a[contains(@href, '/Ban/EditComputer?ComputerIP="
-                + ip + "&Banned=" + (wasBanned ? "True" : "False") + "')]");
+            this.selenium.Click("//a[contains(@href, '/Edit/EditComputer?computerIp="
+                + ip + "')]");
             this.selenium.WaitForPageToLoad("30000");
+
             if (willBeBanned)
             {
                 this.selenium.Check("name=Banned");
@@ -100,7 +108,7 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium.Type("id=CurrentUser", user);
             this.selenium.Click("name=saveButton");
             this.selenium.WaitForPageToLoad("30000");
-            GoToList();
+            //GoToList();
         }
 
         /// <summary>

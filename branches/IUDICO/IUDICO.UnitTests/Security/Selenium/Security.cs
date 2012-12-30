@@ -19,7 +19,6 @@ namespace IUDICO.UnitTests.Security.Selenium
             this.selenium = selenium;
             Login();
             SwitchToSecurity();
-            ClickBanUnban();
         }
 
         /// <summary>
@@ -40,15 +39,6 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void SwitchToSecurity()
         {
             this.selenium.Click("link=Security");
-            this.selenium.WaitForPageToLoad("30000");
-        }
-
-        /// <summary>
-        /// Click link Ban/Unban on Security tab.
-        /// </summary>
-        public void ClickBanUnban()
-        {
-            this.selenium.Click("link=Ban / Unban");
             this.selenium.WaitForPageToLoad("30000");
         }
 

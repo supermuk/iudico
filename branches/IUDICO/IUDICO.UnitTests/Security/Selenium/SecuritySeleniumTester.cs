@@ -20,9 +20,11 @@ namespace IUDICO.UnitTests.Security.Selenium
         [SetUp]
         public void Start()
         {
-            this.selenium = new DefaultSelenium("localhost", 4444,
-                "*firefox", ConfigurationManager.AppSettings["SELENIUM_URL"]);
+            this.selenium = new DefaultSelenium(
+                "localhost", 4444, "*firefox", ConfigurationManager.AppSettings["SELENIUM_URL"]);
+
             this.selenium.Start();
+
             this.verificationErrors = new StringBuilder();
         }
 
@@ -39,105 +41,152 @@ namespace IUDICO.UnitTests.Security.Selenium
             }
         }
 
-        //author: Крупич Андрій
+        // author: Крупич Андрій
         [Test]
         public void Test1_CreateAndDeleteComputer()
         {
-            Computers computers = new Computers(selenium);
-            computers.Clean(secretIP);
-            computers.Add(secretIP);
-            Assert.IsTrue(computers.IsPresented(secretIP));
-            computers.Delete(secretIP);
-            Assert.IsFalse(computers.IsPresented(secretIP));
+            var computers = new Computers(this.selenium);
+
+            computers.Clean(this.secretIP);
+
+            computers.Add(this.secretIP);
+
+            Assert.IsTrue(computers.IsPresented(this.secretIP));
+
+            computers.Delete(this.secretIP);
+
+            Assert.IsFalse(computers.IsPresented(this.secretIP));
+
             computers.Logout();
         }
 
-        //author: Крупич Андрій
+        // author: Крупич Андрій
         [Test]
         public void Test2_BanUnbanComputer()
         {
-            Computers computers = new Computers(selenium);
-            computers.Clean(secretIP);
-            computers.Add(secretIP);
-            Assert.IsFalse(computers.IsBanned(secretIP));
-            computers.Ban(secretIP);
-            Assert.IsTrue(computers.IsBanned(secretIP));
-            computers.Unban(secretIP);
-            Assert.IsFalse(computers.IsBanned(secretIP));
-            computers.Delete(secretIP);
+            var computers = new Computers(this.selenium);
+
+            computers.Clean(this.secretIP);
+
+            computers.Add(this.secretIP);
+
+            Assert.IsFalse(computers.IsBanned(this.secretIP));
+
+            computers.Ban(this.secretIP);
+
+            Assert.IsTrue(computers.IsBanned(this.secretIP));
+
+            computers.Unban(this.secretIP);
+
+            Assert.IsFalse(computers.IsBanned(this.secretIP));
+
+            computers.Delete(this.secretIP);
+
             computers.Logout();
         }
 
-        //author: Крупич Андрій
+        // author: Крупич Андрій
         [Test]
         public void Test3_EditComputer()
         {
-            Computers computers = new Computers(selenium);
-            computers.Clean(secretIP);
-            computers.Add(secretIP);
-            Assert.IsFalse(computers.IsPresented(secretUser));
-            computers.Edit(secretIP, false, true, secretUser);
-            Assert.IsTrue(computers.IsPresented(secretUser));
-            Assert.IsTrue(computers.IsBanned(secretIP));
-            computers.Delete(secretIP);
+            var computers = new Computers(this.selenium);
+
+            computers.Clean(this.secretIP);
+
+            computers.Add(this.secretIP);
+
+            Assert.IsFalse(computers.IsPresented(this.secretUser));
+
+            computers.Edit(this.secretIP, false, true, this.secretUser);
+
+            Assert.IsTrue(computers.IsPresented(this.secretUser));
+            Assert.IsTrue(computers.IsBanned(this.secretIP));
+
+            computers.Delete(this.secretIP);
+
             computers.Logout();
         }
 
-        //author: Крупич Андрій
+        // author: Крупич Андрій
         [Test]
         public void Test4_NoComputerDuplicates()
         {
-            Computers computers = new Computers(selenium);
-            computers.Clean(secretIP);
-            computers.Add(secretIP);
-            computers.GoBack();
-            computers.Add(secretIP);
-            computers.Delete(secretIP);
-            Assert.IsFalse(computers.IsPresented(secretIP));
+            var computers = new Computers(this.selenium);
+
+            computers.Clean(this.secretIP);
+
+            computers.Add(this.secretIP);
+
+            computers.Add(this.secretIP);
+
+            computers.Delete(this.secretIP);
+
+            Assert.IsFalse(computers.IsPresented(this.secretIP));
+
             computers.Logout();
         }
 
-        //author: Крупич Андрій
+        // author: Крупич Андрій
         [Test]
         public void Test5_AddAndDeleteRoom()
         {
-            Rooms rooms = new Rooms(selenium);
-            rooms.Add(secretRoom, true);
-            Assert.IsTrue(rooms.IsPresented(secretRoom));
-            Assert.IsTrue(rooms.IsAllowed(secretRoom));
-            rooms.Remove(secretRoom);
-            Assert.IsFalse(rooms.IsPresented(secretRoom));
+            var rooms = new Rooms(this.selenium);
+
+            rooms.Add(this.secretRoom, true);
+
+            Assert.IsTrue(rooms.IsPresented(this.secretRoom));
+            Assert.IsTrue(rooms.IsAllowed(this.secretRoom));
+
+            rooms.Remove(this.secretRoom);
+
+            Assert.IsFalse(rooms.IsPresented(this.secretRoom));
+
             rooms.Logout();
         }
 
-        //author: Крупич Андрій
+        // author: Крупич Андрій
         [Test]
         public void Test6_BanRoom()
         {
-            Rooms rooms = new Rooms(selenium);
-            rooms.Add(secretRoom, false);
-            Assert.IsFalse(rooms.IsAllowed(secretRoom));
-            rooms.Unban(secretRoom);
-            Assert.IsTrue(rooms.IsAllowed(secretRoom));
-            rooms.Ban(secretRoom);
-            Assert.IsFalse(rooms.IsAllowed(secretRoom));
-            rooms.Remove(secretRoom);
+            var rooms = new Rooms(this.selenium);
+
+            rooms.Add(this.secretRoom, false);
+
+            Assert.IsFalse(rooms.IsAllowed(this.secretRoom));
+
+            rooms.Unban(this.secretRoom);
+
+            Assert.IsTrue(rooms.IsAllowed(this.secretRoom));
+
+            rooms.Ban(this.secretRoom);
+
+            Assert.IsFalse(rooms.IsAllowed(this.secretRoom));
+
+            rooms.Remove(this.secretRoom);
+
             rooms.Logout();
         }
 
-        //author: Крупич Андрій
+        // author: Крупич Андрій
         [Test]
         public void Test7_NoRoomsDuplicates()
         {
-            Rooms rooms = new Rooms(selenium);
-            rooms.Add(secretRoom, true);
+            var rooms = new Rooms(this.selenium);
+
+            rooms.Add(this.secretRoom, true);
+
             rooms.GoBack();
-            rooms.Add(secretRoom, false);
-            rooms.Remove(secretRoom);
-            Assert.IsFalse(rooms.IsPresented(secretRoom));
+
+            rooms.Add(this.secretRoom, false);
+
+            rooms.Remove(this.secretRoom);
+
+            Assert.IsFalse(rooms.IsPresented(this.secretRoom));
+
             rooms.Logout();
         }
-        //fails because of the bug
+
+        // fails because of the bug
         [Test]
         public void Test8_OverallStats()
         {

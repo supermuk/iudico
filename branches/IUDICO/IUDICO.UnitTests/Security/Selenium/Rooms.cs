@@ -20,8 +20,12 @@ namespace IUDICO.UnitTests.Security.Selenium
         /// </summary>
         public void Add(string room, bool allowed)
         {
+            this.selenium.Click("//a[contains(@href, '/Edit/EditRooms')]");
+            this.selenium.WaitForPageToLoad("30000");
+
             this.selenium.Click("link=Add room");
             this.selenium.WaitForPageToLoad("30000");
+
             this.selenium.Type("id=Name", room);
             if (allowed)
             {
@@ -33,8 +37,9 @@ namespace IUDICO.UnitTests.Security.Selenium
             }
             this.selenium.Click("css=p > input[type=\"submit\"]");
             this.selenium.WaitForPageToLoad("30000");
-            this.selenium.Click("//a[contains(@href, '/Ban/BanRoom')]");
-            this.selenium.WaitForPageToLoad("30000");
+
+            /*this.selenium.Click("//a[contains(@href, '/Edit/EditRooms')]");
+            this.selenium.WaitForPageToLoad("30000");*/
         }
 
         /// <summary>
@@ -43,7 +48,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Remove(string room)
         {
             this.selenium.Click("//a[contains(@href," +
-                "'/Ban/DeleteRoom?room=" + room + "')]");
+                "'/Edit/DeleteRoom?room=" + room + "')]");
             this.selenium.WaitForPageToLoad("30000");
         }
 
@@ -53,7 +58,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Unban(string room)
         {
             this.selenium.Click("//a[contains(@href," +
-                "'/Ban/RoomUnban?room=" + room + "')]");
+                "'/Edit/RoomUnban?room=" + room + "')]");
             this.selenium.WaitForPageToLoad("30000");
         }
 
@@ -63,7 +68,7 @@ namespace IUDICO.UnitTests.Security.Selenium
         public void Ban(string room)
         {
             this.selenium.Click("//a[contains(@href," +
-                "'/Ban/RoomBan?room=" + room + "')]");
+                "'/Edit/RoomBan?room=" + room + "')]");
             this.selenium.WaitForPageToLoad("30000");
         }
 
