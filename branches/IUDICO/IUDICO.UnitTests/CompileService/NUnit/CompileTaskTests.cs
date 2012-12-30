@@ -67,12 +67,14 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             var compileTask = new CompileTask(this.compiler, "BadFilePath");
         }
         
-          [Test]
+        /// <summary>
+        /// author - Alexander Tymchenko -
+        /// </summary>
+        [Test]
         [ExpectedException(typeof(FileNotFoundException))]
           public void CheckCompileFileAvailabilityTest()
         {
           Tester.Test("Bad File Path", "5 5", "55", 2000, 3000);
-
         }
 
     }

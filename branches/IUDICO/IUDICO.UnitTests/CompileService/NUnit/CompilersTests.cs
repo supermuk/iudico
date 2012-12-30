@@ -136,15 +136,24 @@ namespace IUDICO.UnitTests.CompileService.NUnit
               Assert.AreEqual(true, true);
             }
         }
+        /// <summary>
+        /// author - Alexander Tymchenko - 
+        /// </summary>
         [Test]
         public void AddDuplicateCompilerTest()
         {
+          //creating Compilers from compilers folder
           var firstCompilers = new Compilers("Compilers");
+          //initialization
           firstCompilers.Load();
+          //trying to add compiler of CPP8 which actually is in Compilers right now !
           firstCompilers.AddCompiler(firstCompilers.GetCompiler("CPP8"));
-          //compilers must be unique. same compiler can not be added.
+          //compilers must be unique. same compiler can not be added, thats why test fails yet.
           Assert.AreEqual(firstCompilers.Count,4);
         }
+      /// <summary>
+      /// author - Alexander Tymchenko
+      /// </summary>
         [Test]
         [ExpectedException(typeof(Exception))]
         public void AddInvalidCompilerTest()
@@ -153,6 +162,7 @@ namespace IUDICO.UnitTests.CompileService.NUnit
             var compilers = new Compilers("NoFolderCompilers");
             //try to initialize them
             compilers.Load();
+           //there is no Assert, because in this test we are expecting an exception.
         }
         [Test]
         [global::NUnit.Framework.ExpectedException(typeof(Exception))]
