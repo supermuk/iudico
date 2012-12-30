@@ -170,6 +170,9 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             }
         }
 
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
         [Test]
         public void CreateNodeTest()
         {
@@ -195,6 +198,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.WaitForPageToLoad((3 * this.seleniumWait).ToString());
 
             this.CreateNode();
+            this.selenium.Click("//h1[contains(text(),'Editing Course')]"); //Editing Course "forEditContent"</h1>
 
             this.selenium.Click("//a[contains(text(),'Node')]");
 
@@ -209,6 +213,9 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             }
         }
 
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
         [Test]
         public void CreateBlankNodeTest()
         {
@@ -238,7 +245,7 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.MouseUp("//a[contains(text(),'Create Node')]");
             this.selenium.TypeKeys("//input[@value='New node']", @"\13");
 
-            //this.selenium.Click("//a[contains(text(),'New node')]");
+            this.selenium.Click("//a[contains(text(),'New node')]");
             
             this.selenium.Click("//a[contains(@href, '/Course')]");
             try
@@ -251,8 +258,11 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             }
         }
 
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
         [Test]
-        public void RenameNodeTest()//!!!!!!!!!!!!!!1
+        public void RenameNodeTest()
         {
 
             this.DefaultLogin("prof", "prof");
@@ -282,8 +292,8 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             this.selenium.ContextMenuAt("//a[contains(text(),'Node')]", "20, 10");
             this.selenium.MouseDown("//a[contains(text(),'Rename')]");
             this.selenium.MouseUp("//a[contains(text(),'Rename')]");
-            this.selenium.Type("//input[@value='New node']", "RenamedNode");
-            this.selenium.TypeKeys("//input[@value='New node']", @"/13");
+            this.selenium.Type("//input[@value='Node']", "RenamedNode");
+            this.selenium.TypeKeys("//input[@value='Node']", @"/13");
 
             //this.selenium.Click("//a[contains(text(),'RenamedNode')]");
 
@@ -298,6 +308,9 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             }
         }
 
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
         [Test]
         public void DeleteNodeTest()
         {
@@ -351,13 +364,12 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
                 {
                     Assert.Fail(ex.Message);
                 }
-                //ignore
             }
 
             this.selenium.Click("//a[contains(@href, '/Course')]");
             try
             {
-                //this.Logout();
+                this.Logout();
             }
             catch (Exception)
             {
@@ -365,10 +377,12 @@ namespace IUDICO.UnitTests.CourseManagement.Selenium
             }
         }
 
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
         [Test]
-        public void PreviewNodeTest()//!!!!!!!!!!!!!!1
+        public void PreviewNodeTest()
         {
-
             this.DefaultLogin("prof", "prof");
 
             this.selenium.Click("//a[contains(@href,'/Course')]");
