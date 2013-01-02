@@ -53,6 +53,10 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
               // create curriculum
               this.selenium.Refresh();
               this.selenium.WaitForPageToLoad(this.SeleniumWait);
+              while (selenium.IsAlertPresent())
+              {
+                  selenium.GetAlert();
+              }
               this.selenium.Click("//a[contains(@href,'/Curriculum')]");
               this.selenium.WaitForPageToLoad(this.SeleniumWait);
               this.selenium.Click("//a[contains(@href,'/Curriculum/Create')]");
