@@ -28,34 +28,42 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         }
 
         /// <summary>
+        /// fixed - Yarema Kipetskiy.
         /// With blank old, new and password confirmation
         /// </summary>
         [Test]
-        public void WithInvalidData()
+        public void ChangeBlankPasswordTest()
         {
+            // Signing in.
             this.DefaultLogin();
+            // Navigating to change password page.
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/ChangePassword')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            // Entering no data in fields.
             this.selenium.Type("id=OldPassword", string.Empty);
             this.selenium.Type("id=NewPassword", string.Empty);
             this.selenium.Type("id=ConfirmPassword", string.Empty);
+            // Trying to change password.
             this.selenium.Click("//input[@value='Change']");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
+            // Verifying if all messages are present.
             Assert.IsTrue(this.selenium.IsTextPresent(Localization.GetMessage("OldPasswordRequired", "IUDICO.UserManagement")));
             Assert.IsTrue(this.selenium.IsTextPresent(Localization.GetMessage("NewPasswordRequired", "IUDICO.UserManagement")));
             Assert.IsTrue(this.selenium.IsTextPresent(Localization.GetMessage("ConfirmPasswordRequired", "IUDICO.UserManagement")));
         }
 
         /// <summary>
+        /// fixed - Yarema Kipetskiy
         /// With blank old password
         /// </summary>
         [Test]
-        public void WithInvalidData1()
+        public void ChangePasswordWithInvalidData1()
         {
             this.DefaultLogin();
+            // Trying to change password with empty old password.
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/ChangePassword')]");
@@ -66,6 +74,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             this.selenium.Click("//input[@value='Change']");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
+            // Verifying if page contains necessary message.
             Assert.IsTrue(this.selenium.IsTextPresent(Localization.GetMessage("OldPasswordRequired", "IUDICO.UserManagement")));
         }
 
