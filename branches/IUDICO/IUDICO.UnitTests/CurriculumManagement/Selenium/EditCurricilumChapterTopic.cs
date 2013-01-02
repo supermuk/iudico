@@ -98,9 +98,6 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
                   selenium.GetAlert();
               }
 
-              //check right removing
-              Assert.IsFalse(this.selenium.IsElementPresent("xpath=//tr[contains(.,'DisciplineForEditChapterTopic')]"));
-
               try
               {
                   this.Logout();
