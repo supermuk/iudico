@@ -47,21 +47,25 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         /// Author - Yarema Kipetskiy
         /// </summary>
         [Test]
-        public void CreateDuplicateUser()
+        public void CreateDuplicateUserTest()
         {
+            // Navigating to registration page.
             this.selenium.Open("/");
             this.selenium.Click("//a[contains(@href, '/Account/Register')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
 
             var guid = Guid.NewGuid();
             var name = guid.ToString().Replace('-', '_').Substring(0, 12);
+            // Entering all required data about new user.
             this.selenium.Type("id=Username", "lex");
             this.selenium.Type("id=Password", "1");
             this.selenium.Type("id=ConfirmPassword", "1");
             this.selenium.Type("id=Email", "CreateDuplicatUser@UniqueUserId.com");
             this.selenium.Type("id=Name", "name");
+            // Trying to register user with not available username.
             this.selenium.Click("//input[@value='Register']");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            // Verufiyng if message is present.
             Assert.IsTrue(this.selenium.IsTextPresent("User with such username already exists"));
         }
     }

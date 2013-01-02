@@ -41,12 +41,15 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var group = new Group { Id = 12677, Name = "pmi31" };
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
+            // Creating new user
             this.tests.Storage.CreateUser(temp);
             temp = this.tests.Storage.GetUser(u => u.Username == temp.Username);
 
+            // Removing existing user from nonexisting group
             this.tests.Storage.RemoveUserFromGroup(group, temp);
             Assert.IsFalse(this.tests.Storage.GetGroupsByUser(temp).Contains(group));
 
+            // Deleting created user.
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 

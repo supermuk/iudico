@@ -34,24 +34,32 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.DeleteUser(u => u.Username == Username);
         }
 
+        /// <summary>
+        /// fixed - Yarema Kipetskiy.
+        /// </summary>
         [Test]
-        public void UniqueOpenIdAvailablity()
+        public void UniqueOpenIdAvailablityTest()
         {
             const string OpenId = "UniqueUserId_UniqueIdAvailablity";
             const string Username = OpenId + "_";
 
+            // Verifying if openId is available.
             Assert.True(this.tests.Storage.UserOpenIdAvailable(OpenId, Guid.NewGuid()));
 
+            // Creating new user.
             this.tests.Storage.CreateUser(
                 new User { Name = "OpenId Id Availablity", Username = Username, Password = "123456", OpenId = OpenId });
 
             var created = this.tests.Storage.GetUser(u => u.Username == Username);
 
+            // Verifying if new user was correctly created.
             Assert.AreEqual(created.OpenId, OpenId);
+            // Verifying OpenId aviability.
             Assert.True(this.tests.Storage.UserOpenIdAvailable("no such id", created.Id));
             Assert.True(this.tests.Storage.UserOpenIdAvailable(OpenId, created.Id));
             Assert.False(this.tests.Storage.UserOpenIdAvailable(OpenId, Guid.NewGuid()));
 
+            // Deleting user.
             this.tests.Storage.DeleteUser(u => u.Username == Username);
         }
 
@@ -74,15 +82,6 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             Assert.False(this.tests.Storage.UserUniqueIdAvailable(UserId, Guid.NewGuid()));
 
             this.tests.Storage.DeleteUser(u => u.Username == Username);
-        }
-
-        /// <summary>
-        /// Author - Yarema Kipetskiy
-        /// </summary>
-        [Test]
-        public void UniqueOpenIdAvailablity1()
-        {
-            Assert.True(this.tests.Storage.UserOpenIdAvailable(string.Empty, Guid.NewGuid()));
         }
 
         [Test]

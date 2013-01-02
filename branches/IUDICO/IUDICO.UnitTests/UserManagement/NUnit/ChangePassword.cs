@@ -35,34 +35,24 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
         /// Incorrect old password.
         /// </summary>
         [Test]
+        [ExpectedException(typeof(Exception), ExpectedMessage = "Old password is wrong.")]
         public void ChangePasswordWithInvalidDataTest()
         {
             this.tests = UserManagementTests.Update();
             var model = new ChangePasswordModel { OldPassword = "111", ConfirmPassword = "321", NewPassword = "321" };
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
+            // Creating new user.
             this.tests.ChangeCurrentUser("panza");
             this.tests.Storage.CreateUser(temp);
             this.tests.ChangeCurrentUser("name");
 
-            try
-            {
-                this.tests.Storage.ChangePassword(model);
-            }
-            catch (Exception e)
-            {
-                this.tests.Storage.DeleteUser(u => u.Username == "name");
 
-                if (e.Message == "Old password is wrong.")
-                {
-                    Assert.Pass();
-                }
-
-                Assert.Fail();
-            }
-
+            // Trying to change password with wrong old password entered.
+            this.tests.Storage.ChangePassword(model);
+            
+            // Deleting xreated user.
             this.tests.Storage.DeleteUser(u => u.Username == "name");
-            Assert.Fail();
         }
 
         /// <summary>
@@ -77,12 +67,15 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             var model = new ChangePasswordModel { OldPassword = string.Empty, ConfirmPassword = "321", NewPassword = "321" };
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
 
+            // Creating new user.
             this.tests.ChangeCurrentUser("panza");
             this.tests.Storage.CreateUser(temp);
             this.tests.ChangeCurrentUser("name");
             
+            // Trying to change password with blank old passwird entered.
             this.tests.Storage.ChangePassword(model);
             
+            // Deleting created user.
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 

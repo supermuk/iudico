@@ -22,8 +22,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         /// fixed - Yarema Kipetskiy
         /// </summary>
         [Test]
-        public void LoginAsTeacher()
+        public void LoginAsTeacherTest()
         {   
+            // Signing in as a teacher.
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "prof");
             selenium.Type("//input[@id='loginPassword']", "prof");
@@ -32,6 +33,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
 
+            // Verifying if page contains "upgrade to admin" element.
             Assert.IsTrue(selenium.IsElementPresent("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]"));    
         }
 
@@ -55,8 +57,9 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         /// fixed - Yarema Kipetskiy
         /// </summary>
         [Test]
-        public void CheckTeacherRolesAfterUpgrade()
+        public void CheckTeacherRolesAfterUpgradeTest()
         {
+            // Signing in as a teacher.
             selenium.Open("/");
             selenium.Type("//input[@id='loginUsername']", "prof");
             selenium.Type("//input[@id='loginPassword']", "prof");
@@ -65,6 +68,7 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
             selenium.Click("//a[contains(@href, '/Account/Index')]");
             selenium.WaitForPageToLoad("30000");
 
+            // Upgrading to admin.
             selenium.Click("//a[contains(@href, '/Account/TeacherToAdminUpgrade')]");
             selenium.WaitForPageToLoad("30000");
 

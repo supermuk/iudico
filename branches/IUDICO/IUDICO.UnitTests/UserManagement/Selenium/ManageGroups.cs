@@ -14,10 +14,12 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         /// fixed - Yarema Kipetskiy
         /// </summary>
         [Test]
-        public void CreateWithValidData()
+        public void CreateWithValidDataTest()
         {
+            // Signing in as a teacher.
             this.DefaultLogin("prof", "prof");
             selenium.WaitForPageToLoad(this.SeleniumWait);
+            // Creating new group wuth valid data.
             selenium.Click("//a[contains(@href, '/Group/Index')]");
             selenium.WaitForPageToLoad(this.SeleniumWait);
             selenium.Click("//a[contains(@href, '/Group/Create')]");
