@@ -51,8 +51,10 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
                   selenium.GetAlert();
               }
               // create curriculum
+              this.selenium.Refresh();
+              this.selenium.WaitForPageToLoad(this.SeleniumWait);
               this.selenium.Click("//a[contains(@href,'/Curriculum')]");
-              Thread.Sleep(SleepTime);
+              this.selenium.WaitForPageToLoad(this.SeleniumWait);
               this.selenium.Click("//a[contains(@href,'/Curriculum/Create')]");
               this.selenium.WaitForPageToLoad(this.SeleniumWait);
               this.selenium.Select("id=DisciplineId", "label=EditChapterTopicDiscipline");
