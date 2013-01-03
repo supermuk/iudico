@@ -276,5 +276,11 @@ namespace IUDICO.DisciplineManagement.Models.Storage
         IList<TopicType> GetTestTopicTypes();
 
         #endregion
+
+        #region Help methods
+
+        void DateUpdating(int topicId);
+
+        #endregion
     }
 }

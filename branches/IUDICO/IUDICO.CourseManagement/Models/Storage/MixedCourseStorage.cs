@@ -344,6 +344,12 @@ namespace IUDICO.CourseManagement.Models.Storage
             oldCourse.Sequencing = course.Sequencing;
             oldCourse.UpdatedBy = this.LmsService.FindService<IUserService>().GetCurrentUser().Username;
 
+            var topics =
+                this.LmsService.FindService<IDisciplineService>().GetTopics().Where(
+                    item => item.TestCourseRef == oldCourse.Id || item.TheoryCourseRef == oldCourse.Id);
+            topics.ForEach(topic => this.LmsService.FindService<IDisciplineService>().DateUpdating(topic.Id));
+
+
             db.SubmitChanges();
 
             course.Updated = oldCourse.Updated;
