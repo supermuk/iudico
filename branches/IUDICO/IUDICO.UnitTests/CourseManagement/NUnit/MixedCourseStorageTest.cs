@@ -4,6 +4,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using System.Xml.Serialization;
 
 using IUDICO.Common.Models;
@@ -433,12 +434,17 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         /// </summary>
         private void createNode()
         {
+            // get course with id=1
             var course = this.Storage.GetCourse(1);
+            // create new node
             Node someNode = new Node();
             someNode.Name = "SomeNode";
+            // set course and couse id
             someNode.CourseId = course.Id;
             someNode.Course = course;
+            // set id
             someNode.Id = ID;
+            // add node to storage
             this.Storage.AddNode(someNode);
         }
 
@@ -450,7 +456,35 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         {
             try
             {
+                // create new node with name "SomeNode", id=ID, courseId=1, and add it to storage
                 this.createNode();
+                // try get node with id = ID, if error - throw exeption
+                var node = this.Storage.GetNode(ID);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
+        [Test]
+        public void CreateBlankNodeTest()
+        {
+            try
+            {
+                // get couse
+                var course = this.Storage.GetCourse(1);
+                // create new node
+                Node someNode = new Node();
+                // sei node id
+                someNode.Id = ID;
+                // set node course
+                someNode.Course = course;
+                // add node to storage
+                this.Storage.AddNode(someNode);
 
                 var node = this.Storage.GetNode(ID);
             }
@@ -466,11 +500,13 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void RenameNodeTest()
         {
+            // create new node with name "SomeNode", id=ID, courseId=1, and add it to storage
             this.createNode();
-
+            // try get node with id = ID, if error - throw exeption
             var node = this.Storage.GetNode(ID);
+            // rename node
             node.Name = "RenamedNode";
-
+            // if node is renamed test passed, else - failed
             if (this.Storage.GetNode(ID).Name == "RenamedNode")
             {
                 Assert.Pass();
@@ -487,17 +523,21 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         public void DeleteNodeTest()
         {
+            // create new node with name "SomeNode", id=ID, courseId=1, and add it to storage
             this.createNode();
-
+            // delete node with id=ID
             this.Storage.DeleteNode(ID);
 
             try
             {
+                // try get deleted node
                 var node = this.Storage.GetNode(ID);
+                // if node isn't deleted
                 Assert.Fail("Node was not deleted");
             }
             catch
             {
+                // if node is deleted
                 Assert.Pass();
             }
         }
@@ -510,8 +550,9 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         {
             try
             {
+                // create new node with name "SomeNode", id=ID, courseId=1, and add it to storage
                 this.createNode();
-
+                // try to get preview nod path
                 this.Storage.GetPreviewNodePath(100);
             }
             catch (Exception ex)
@@ -535,13 +576,17 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         {
             try
             {
+                // create new node with name "SomeNode", id=ID, courseId=1, and add it to storage
                 this.createNode();
-
+                // create new xml serializer
                 var xml = new XmlSerializer(typeof(Sequencing));
+                // get Sequencing from node with id = ID
                 var xelement = this.Storage.GetNode(ID).Sequencing;
+                // deserialize sequencing from xelement
                 var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
-
+                // new model
                 NodeProperty model;
+                // for different types get node property and initialise model
                 if (type == "ControlMode")
                 {
                     model = sequencing.ControlMode ?? new ControlMode();
@@ -575,9 +620,9 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                     throw new NotImplementedException();
                 }
 
-                model.CourseId = 1;
-                model.NodeId = ID;
-                model.Type = type;
+                //model.CourseId = 1;
+                //model.NodeId = ID;
+                //model.Type = type;
             }
             catch (Exception ex)
             {
@@ -596,13 +641,17 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         {
             try
             {
+                // create new node with name "SomeNode", id=ID, courseId=1, and add it to storage
                 this.createNode();
-
-                var xml = new XmlSerializer(typeof(Sequencing));
+                // get node with id = ID
                 var node = this.Storage.GetNode(ID);
-                var xelement = node.Sequencing;
+                // create new xml serializer
+                var xml = new XmlSerializer(typeof(Sequencing));
+                // get Sequencing from node with id = ID
+                var xelement = this.Storage.GetNode(ID).Sequencing;
+                // deserialize sequencing from xelement
                 var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
-
+                // for different patterns type apply different patterns
                 switch (pattern)
                 {
                     case SequencingPattern.ControlChapterSequencingPattern:
@@ -615,7 +664,9 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
                         sequencing = SequencingPatternManager.ApplyDefaultChapterSequencing(sequencing);
                         break;
                 }
+                // serialize sequencing
                 node.Sequencing = xml.SerializeToXElemet(sequencing);
+                // try update node
                 this.Storage.UpdateNode(ID, node);
             }
             catch (Exception ex)
@@ -624,6 +675,90 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             }
         }
 
-        #endregion  EditPropertiesTest
+        /// <summary>
+        /// Author - Lutsiv Oleg
+        /// </summary>
+        [Test]
+        public void EditPropertiesTest([Values("ControlMode",
+                                               "LimitConditions",
+                                               "ConstrainedChoiceConsiderations",
+                                               "RandomizationControls",
+                                               "DeliveryControls",
+                                               "RollupRules",
+                                               "RollupConsiderations")]
+                                       string type)
+        {
+            try
+            {
+                // create new node with name "SomeNode", id=ID, courseId=1, and add it to storage
+                this.createNode();
+                // create new xml serializer
+                var xml = new XmlSerializer(typeof(Sequencing));
+                // get Sequencing from node with id = ID
+                var xelement = this.Storage.GetNode(ID).Sequencing;
+                // deserialize sequencing from xelement
+                var sequencing = xelement == null ? new Sequencing() : (Sequencing)xml.DeserializeXElement(xelement);
+                // new model
+                object model;
+                // for different type initialise sequencing property
+                if (type == "ControlMode")
+                {
+                    model = new ControlMode();
+                    
+                    //TryUpdateModel(model as ControlMode);
+                    sequencing.ControlMode = model as ControlMode;
+                }
+                else if (type == "LimitConditions")
+                {
+                    model = new LimitConditions();
+                    //TryUpdateModel(model as LimitConditions);
+                    sequencing.LimitConditions = model as LimitConditions;
+                }
+                else if (type == "ConstrainedChoiceConsiderations")
+                {
+                    model = new ConstrainedChoiceConsiderations();
+                    //TryUpdateModel(model as ConstrainedChoiceConsiderations);
+                    sequencing.ConstrainedChoiceConsiderations = model as ConstrainedChoiceConsiderations;
+                }
+                else if (type == "RandomizationControls")
+                {
+                    model = new RandomizationControls();
+                    //TryUpdateModel(model as RandomizationControls);
+                    sequencing.RandomizationControls = model as RandomizationControls;
+                }
+                else if (type == "DeliveryControls")
+                {
+                    model = new DeliveryControls();
+                    //TryUpdateModel(model as DeliveryControls);
+                    sequencing.DeliveryControls = model as DeliveryControls;
+                }
+                else if (type == "RollupRules")
+                {
+                    model = new RollupRules();
+                    //TryUpdateModel(model as RollupRules);
+                    sequencing.RollupRules = model as RollupRules;
+                }
+                else if (type == "RollupConsiderations")
+                {
+                    model = new RollupConsiderations();
+                    //TryUpdateModel(model as RollupConsiderations);
+                    sequencing.RollupConsiderations = model as RollupConsiderations;
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+                // serialize sequencing
+                xelement = xml.SerializeToXElemet(sequencing);
+                // update node
+                this.Storage.UpdateNode(ID, this.Storage.GetNode(ID));
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(ex.Message);
+            }
+        }
+
+        #endregion  
     }
 }
