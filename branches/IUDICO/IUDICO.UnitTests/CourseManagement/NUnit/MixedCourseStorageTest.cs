@@ -338,7 +338,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
         [Test]
         [Category("ImportMethods")]
         //importing the unnamed course
-        public void Import()
+        public void ImportTest()
         {
             // path of course
             var path = Path.Combine(ConfigurationManager.AppSettings["RootTestFolder"], @"CourseManagement\\Data\\20.zip");
@@ -360,7 +360,7 @@ namespace IUDICO.UnitTests.CourseManagement.NUnit
             var course = courses.Single(i => i.Name == "20");
 
             Assert.AreEqual("lex", course.Owner);
-            Assert.AreEqual(false, course.Locked);
+            Assert.AreEqual(true, course.Locked);
 
             path = Path.Combine(ConfigurationManager.AppSettings["RootTestFolder"], @"CourseManagement\\Data\\0.zip");
             // Watching was the folder for course created
