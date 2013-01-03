@@ -104,7 +104,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
         /// Author Volodymyr Vinichuk
         /// </summary>
         [Test]
-        public void DeleteCurriculumTestWithTimeline()
+        public void DeleteCurriculumTestWithTimelineTest()
         {
             //log in
             this.DefaultLogin("prof", "prof");
@@ -195,7 +195,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
         /// Author - Mariana Khljebyk
         /// </summary>
         [Test]
-        public void DeleteCurriculumTestWithEditStartDate()
+        public void DeleteCurriculumTestWithEditStartDateTest()
         {
             this.DefaultLogin("prof", "prof");
 
@@ -261,7 +261,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
         /// Author - Mariana Khljebyk
         /// </summary>
         [Test]
-        public void DeleteCurriculumTestWithEditEndDate()
+        public void DeleteCurriculumTestWithEditEndDateTest()
         {
             this.DefaultLogin("prof", "prof");
 
@@ -328,7 +328,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
         /// Author - Mariana Khljebyk
         /// </summary>
         [Test]
-        public void DeleteCurriculumTestWithEditTimeline()
+        public void DeleteCurriculumTestWithEditTimelineTest()
         {
             this.DefaultLogin("prof", "prof");
 
