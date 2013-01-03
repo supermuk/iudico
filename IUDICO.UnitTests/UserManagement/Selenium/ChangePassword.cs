@@ -60,14 +60,16 @@ namespace IUDICO.UnitTests.UserManagement.Selenium
         /// With blank old password
         /// </summary>
         [Test]
-        public void ChangePasswordWithInvalidData1()
+        public void ChangePasswordWithInvalidData1Test()
         {
+            // Signing in.
             this.DefaultLogin();
-            // Trying to change password with empty old password.
+            // Navigating to the change password page.
             this.selenium.Click("//a[contains(@href, '/Account/Index')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
             this.selenium.Click("//a[contains(@href, '/Account/ChangePassword')]");
             this.selenium.WaitForPageToLoad(this.SeleniumWait);
+            // Trying to change password with empty old password.
             this.selenium.Type("id=OldPassword", string.Empty);
             this.selenium.Type("id=NewPassword", "lex");
             this.selenium.Type("id=ConfirmPassword", "lex");
