@@ -96,7 +96,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
         /// Editing only timeLine 
         /// </summary>
         [Test]
-        public void EditCurriculumTestWithTimeLine()
+        public void EditCurriculumTestWithTimeLineTest()
         {
             //login
             this.DefaultLogin("prof", "prof");
@@ -170,7 +170,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
         /// Author - Volodymyr Vinichuk
         /// </summary>
         [Test]
-        public void EditCurriculumTestWithEditStartDate()
+        public void EditCurriculumTestWithEditStartDateTest()
         {
             // log in
             this.DefaultLogin("prof", "prof");
@@ -257,7 +257,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
         /// Author - Volodymyr Vinichuk
         /// </summary>
         [Test]
-        public void EditCurriculumTestWithEditEndDate()
+        public void EditCurriculumTestWithEditEndDateTest()
         {
             // log in
             this.DefaultLogin("prof", "prof");
@@ -348,7 +348,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
         /// Author - Volodymyr Vinichuk
         /// </summary>
         [Test]
-        public void EditCurriculumTestWithEditStartAndEndDate()
+        public void EditCurriculumTestWithEditStartAndEndDateTest()
         {
             // log in
             this.DefaultLogin("prof", "prof");

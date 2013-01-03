@@ -15,7 +15,7 @@ namespace IUDICO.UnitTests.CurriculumManagement.Selenium
           /// Author - Volodymyr Vinichuk
           /// </summary>
           [Test]
-          public void EditCurriculumChapterTopic()
+          public void EditCurriculumChapterTopicTest()
           {
               this.DefaultLogin("prof", "prof");
 
