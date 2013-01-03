@@ -65,13 +65,13 @@ namespace IUDICO.DisciplineManagement.Models
             }
 
             var chapterId = data.Id == 0 ? data.ChapterRef : _storage.GetTopic(data.Id).ChapterRef;
-            var topics = _storage.GetTopics(item => item.ChapterRef == chapterId);
+            var topics = _storage.GetTopics(item => item.ChapterRef == chapterId).Where(i => i.Id != data.Id);
             var theoryCourseRefs =
                 topics.Select(item => item.TheoryCourseRef).Where(item => item.HasValue && item.Value >= 0);
             var testCourseRefs =
                 topics.Select(item => item.TestCourseRef).Where(item => item.HasValue && item.Value >= 0);
             var union = theoryCourseRefs.Union(testCourseRefs);
-            if (union.Contains(data.TestCourseRef) || union.Contains(data.TheoryCourseRef))
+            if (union.Contains(data.TestCourseRef) || union.Contains(data.TheoryCourseRef) || data.TestCourseRef == data.TheoryCourseRef)
             {
                 validationStatus.AddLocalizedError("TopicWithSuchCourseIsPresent");
             }

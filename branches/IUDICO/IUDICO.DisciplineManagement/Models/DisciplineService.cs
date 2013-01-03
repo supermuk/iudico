@@ -117,6 +117,10 @@ namespace IUDICO.DisciplineManagement.Models
             return this.disciplineStorage.GetTestTopicTypes();
         }
 
+        public void DateUpdating(int topicId)
+        {
+            this.disciplineStorage.DateUpdating(topicId);
+        }
         #endregion
     }
 }

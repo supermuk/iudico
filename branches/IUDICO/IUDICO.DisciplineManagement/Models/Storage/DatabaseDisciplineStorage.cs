@@ -562,6 +562,22 @@ namespace IUDICO.DisciplineManagement.Models.Storage
 
         #endregion
 
+        #region Help methods
+
+        public void DateUpdating(int topicId)
+        {
+            var db = this.GetDbContext();
+            var topic = GetTopic(db, topicId);
+
+            var chapter = GetChapter(db, topic.ChapterRef);
+            var discipline = GetDiscipline(db, chapter.DisciplineRef);
+            discipline.Updated = chapter.Updated = topic.Updated = DateTime.Now;
+
+            db.SubmitChanges();
+        }
+
+        #endregion
+
         #endregion
     }
 }
