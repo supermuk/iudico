@@ -34,9 +34,12 @@ namespace IUDICO.UnitTests.UserManagement.NUnit
             this.tests.Storage.DeleteUser(u => u.Username == "name");
         }
 
+        /// <summary>
+        /// fixed - Yarema Kipetskiy
+        /// </summary>
         [Test]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void RemoveExistingUserFromNonExistingGroup()
+        public void RemoveExistingUserFromNonExistingGroupTest()
         {
             var group = new Group { Id = 12677, Name = "pmi31" };
             var temp = new User { Username = "name", Email = "mail@mail.com", Password = "123" };
