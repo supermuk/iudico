@@ -359,5 +359,14 @@ namespace IUDICO.DisciplineManagement.Models.Storage
                 .Where(item => item.ToTopicTypeEnum() == TopicTypeEnum.Test ||
                 item.ToTopicTypeEnum() == TopicTypeEnum.TestWithoutCourse).ToList();
         }
+
+        public void DateUpdating(int topicId)
+        {
+            this.storage.DateUpdating(topicId);
+            var chapter = this.storage.GetChapter(this.storage.GetTopic(topicId).ChapterRef);
+            this.cacheProvider.Invalidate("disciplines", "discipline-" + chapter.DisciplineRef);
+
+            this.cacheProvider.Invalidate("topics", "topic-" + topicId);
+        }
     }
 }

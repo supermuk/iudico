@@ -62,5 +62,11 @@ namespace IUDICO.Common.Models.Services
         IEnumerable<Topic> GetTopicsByGroupId(int groupId);
 
         #endregion
+
+        #region Help methods
+
+        void DateUpdating(int topicId);
+
+        #endregion
     }
 }
