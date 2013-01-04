@@ -11,6 +11,7 @@ namespace IUDICO.CurriculumManagement.Models.ViewDataClasses
     public class ViewCurriculumChapterTopicModel
     {
         public int Id { get; set; }
+        public int CurriculumChapterRef { get; set; }
         public int ThresholdOfSuccess { get; set; }
         public bool BlockTopicAtTesting { get; set; }
         public bool BlockCurriculumAtTesting { get; set; }

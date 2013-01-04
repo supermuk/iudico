@@ -747,7 +747,7 @@ select option.added
     color: #8A8989;
     font-size: 0.8em;
 }
-.disciplineName 
+.disciplineName, .curriculum-important-field
 {
     cursor: pointer;
     color: #00060D;
@@ -788,11 +788,76 @@ select option.added
     text-transform: uppercase;
     margin-right: 10px;
 }
+.buged-curriculum {
+	 background-color: #fdabab;
+}
+.buged-curriculum:hover {
+	 background-color: #fd9797;
+}
+.svg {
+	 position: absolute;
+	 left: 3px;
+	 top: 5px;
+	 width: 120px;
+}
+#curriculumsTable td:nth-of-type(5), #curriculumsTable td:nth-of-type(6) {
+	 width: 100px;
+}
+#curriculumsTable td {
+	 position: relative;
+}
+#showErrorsLink {
+	 color: #68736e;
+}
 .headerValue a {
     color: #3679BD;
 }
 .backLink {
     padding:10px 0px;
+}
+.curriculum-chapter-name {
+	 color: #37618C;
+	 font-size: 1.5em;
+	 cursor: pointer;
+}
+.warning-message-back {
+	 background-color: black;
+	 opacity: 0.8;
+	 -moz-opacity: 0.8;
+	 display: table-cell;
+	 text-align: center;
+	 position: fixed;
+	 height: 100%;
+	 width: 100%;
+	 left: 0;
+	 top: 0;
+}
+.warning-message-wrapper {
+	 text-align: center;
+	 position: fixed;
+	 height: 100%;
+	 width: 100%;
+	 padding-top: 25%;
+	 left: 0;
+	 top: 0;
+}
+.warning-message {
+	 height: 60px;
+	 text-align: center;
+	 background-color: white;
+	 margin: -50px 10% 0;
+	 padding-top: 40px;
+	 border-radius: 15px;
+	 -moz-border-radius: 15px;
+	 -webkit-border-radius: 15px;
+}
+#warningMessage {
+	 cursor: pointer;
+}
+.warning-message legend {
+	 padding: 0;
+	 width: 100%;
+	 text-align: center;
 }
 
 /* SHAREUSERS

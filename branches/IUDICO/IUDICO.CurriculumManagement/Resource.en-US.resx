@@ -489,4 +489,13 @@
   <data name="ThresholdOfSuccess" xml:space="preserve">
     <value>Threshold of success for topic (in %)</value>
   </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Ok</value>
+  </data>
+  <data name="Topic" xml:space="preserve">
+    <value>Topic</value>
+  </data>
+  <data name="RemoveTimelines" xml:space="preserve">
+    <value>Remove timelilnes</value>
+  </data>
 </root>
