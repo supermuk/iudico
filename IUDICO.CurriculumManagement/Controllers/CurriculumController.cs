@@ -36,10 +36,16 @@ namespace IUDICO.CurriculumManagement.Controllers
                 }));
         }
 
+        [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult ValidationErrors(int curriculumId) {
-            var curriculum = Storage.GetCurriculum(curriculumId);
-            return PartialView("ValidationErrors", Validator.GetCurriculumValidation(curriculum));
+        public JsonResult ValidationErrors(int curriculumId) {
+            try {
+                var curriculum = Storage.GetCurriculum(curriculumId);
+                var validationResult = Validator.GetCurriculumValidation(curriculum);
+                return Json(new { success = true, errors = validationResult.Errors, errorsText = PartialViewAsString("ValidationErrors", validationResult.ErrorsText) });
+            } catch (Exception ex) {
+                return Json(new {success = false, error = ex.Message});
+            }
         }
 
         [HttpGet]
@@ -48,25 +54,41 @@ namespace IUDICO.CurriculumManagement.Controllers
         {
             var model = new Curriculum().ToCreateCurriculumModel(Storage, true);
 
-            return View(model);
+            return PartialView(model);
         }
 
         [HttpPost]
-        [Allow(Role = Role.Teacher)]
-        public ActionResult Create(CreateCurriculumModel model)
-        {
-            var curriculum = new Curriculum();
-            curriculum.UpdateFromModel(model);
+        [Allow( Role = Role.Teacher )]
+        public JsonResult Create( CreateCurriculumModel model ) {
+            try {
+                var curriculum = new Curriculum();
+                curriculum.UpdateFromModel(model);
 
-            AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum).Errors);
+                AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum).Errors);
 
-            if (ModelState.IsValid)
-            {
-                Storage.AddCurriculum(curriculum);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid) {
+                    var id = Storage.AddCurriculum(curriculum);
+                    var createdCurriculum = Storage.GetCurriculum(id);
+                    return Json(new {
+                        success = true,
+                        curriculumRow = PartialViewAsString("CurriculumRow", new ViewCurriculumModel {
+                            Id = createdCurriculum.Id,
+                            GroupName = Storage.GetGroup(createdCurriculum.UserGroupRef) != null ? Storage.GetGroup(createdCurriculum.UserGroupRef).Name : string.Empty,
+                            DisciplineName = Storage.GetDiscipline(createdCurriculum.DisciplineRef).Name,
+                            StartDate = Converter.ToString(createdCurriculum.StartDate),
+                            EndDate = Converter.ToString(createdCurriculum.EndDate),
+                            IsValid = createdCurriculum.IsValid
+                            })
+                        });
+                }
+                model = curriculum.ToCreateCurriculumModel(Storage, true);
+                return Json(new {
+                    success = false,
+                    html = PartialViewAsString("Create", model)
+                    });
+            } catch (Exception ex) {
+                return Json(new {success = false, html = ex.Message});
             }
-            model = curriculum.ToCreateCurriculumModel(Storage, true);
-            return View(model);
         }
 
         [HttpGet]
@@ -77,26 +99,49 @@ namespace IUDICO.CurriculumManagement.Controllers
             var model = curriculum.ToCreateCurriculumModel(Storage, false);
 
             ViewData["DisciplineName"] = Storage.GetDiscipline(curriculum.DisciplineRef).Name;
-            return View(model);
+            return PartialView(model);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int curriculumId, CreateCurriculumModel model)
+        public JsonResult Edit(int curriculumId, CreateCurriculumModel model)
         {
-            var curriculum = Storage.GetCurriculum(curriculumId);
-            curriculum.UpdateFromModel(model);
-            curriculum.DisciplineRef = curriculum.DisciplineRef;
+           try {
+              var curriculum = Storage.GetCurriculum(curriculumId);
+              curriculum.UpdateFromModel(model);
+              curriculum.DisciplineRef = curriculum.DisciplineRef;
 
-            AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum).Errors);
+              AddValidationErrorsToModelState(Validator.ValidateCurriculum(curriculum).Errors);
 
-            if (ModelState.IsValid)
-            {
-                Storage.UpdateCurriculum(curriculum);
-                return RedirectToRoute("Curriculums", new { action = "Index" });
-            }
-            model = curriculum.ToCreateCurriculumModel(Storage, false);
-            return View(model);
+              if (ModelState.IsValid) {
+                 Storage.UpdateCurriculum(curriculum);
+                 var updatedCurriculum = Storage.GetCurriculum(curriculumId);
+                 return Json(new {
+                    success = true,
+                    curriculumId = curriculumId,
+                    curriculumRow = PartialViewAsString("CurriculumRow", new ViewCurriculumModel {
+                       Id = updatedCurriculum.Id,
+                       GroupName = Storage.GetGroup(updatedCurriculum.UserGroupRef) != null ? Storage.GetGroup(updatedCurriculum.UserGroupRef).Name : string.Empty,
+                       DisciplineName = Storage.GetDiscipline(updatedCurriculum.DisciplineRef).Name,
+                       StartDate = Converter.ToString(updatedCurriculum.StartDate),
+                       EndDate = Converter.ToString(updatedCurriculum.EndDate),
+                       IsValid = updatedCurriculum.IsValid
+                    })
+                 });
+              }
+              model = curriculum.ToCreateCurriculumModel(Storage, false);
+              return Json(new {
+                 success = false,
+                 curriculumId = curriculumId,
+                 html = PartialViewAsString("Edit", model)
+              });
+           } catch (Exception ex) {
+              return Json(new {
+                 success = false,
+                 curriculumId = curriculumId,
+                 html = ex.Message
+              });
+           }
         }
 
         [HttpPost]

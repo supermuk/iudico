@@ -21,26 +21,38 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         }
 
+        [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Index(int curriculumId)
+        public JsonResult GetCurriculumChapters(int parentId)
         {
-            var curriculum = Storage.GetCurriculum(curriculumId);
-            var discipline = Storage.GetDiscipline(curriculum.DisciplineRef);
-            var group = Storage.GetGroup(curriculum.UserGroupRef);
-            var model = Storage.GetCurriculumChapters(item => item.CurriculumRef == curriculumId)
-                .Select(item => new ViewCurriculumChapterModel
-                    {
-                        Id = item.Id,
-                        StartDate = Converter.ToString(item.StartDate),
-                        EndDate = Converter.ToString(item.EndDate),
-                        ChapterName = Storage.GetChapter((int)item.ChapterRef).Name
-                    });
+           try {
+              var curriculum = Storage.GetCurriculum(parentId);
+              var discipline = Storage.GetDiscipline(curriculum.DisciplineRef);
+              var group = Storage.GetGroup(curriculum.UserGroupRef);
+              var model = Storage.GetCurriculumChapters(item => item.CurriculumRef == parentId)
+                                 .Select(item => new ViewCurriculumChapterModel {
+                                    Id = item.Id,
+                                    CurriculumRef = item.CurriculumRef,
+                                    HaveTimelines = item.StartDate != (DateTime?)null,
+                                    StartDate = Converter.ToString(item.StartDate),
+                                    EndDate = Converter.ToString(item.EndDate),
+                                    ChapterName = Storage.GetChapter((int) item.ChapterRef).Name
+                                 });
+              var partialViews = model.Select(item => PartialViewAsString("CurriculumChapterRow", item)).ToArray();
 
-            ViewData["GroupName"] = group != null ? group.Name : Localization.GetMessage("GroupNotExist");
-            ViewData["Discipline"] = discipline;
-            ViewData["DisciplineName"] = discipline.Name;
-            
-            return View(model);
+              //ViewData["GroupName"] = group != null ? group.Name : Localization.GetMessage("GroupNotExist");
+              //ViewData["Discipline"] = discipline;
+              //ViewData["DisciplineName"] = discipline.Name;
+
+              return Json(new {
+                 success = true,
+                 items = partialViews
+              });
+           } catch (Exception ex) {
+              return Json(new {
+                 success = false
+              });
+           }
         }
 
         [HttpGet]
@@ -57,25 +69,54 @@ namespace IUDICO.CurriculumManagement.Controllers
             ViewData["GroupName"] = group != null ? group.Name : string.Empty;
             ViewData["DisciplineName"] = discipline.Name;
             
-            return View(model);
+            return PartialView(model);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Edit(int curriculumChapterId, CreateCurriculumChapterModel model)
+        public JsonResult Edit(int curriculumChapterId, CreateCurriculumChapterModel model)
         {
+           try {
             var curriculumChapter = Storage.GetCurriculumChapter(curriculumChapterId);
-            curriculumChapter.StartDate = model.SetTimeline ? model.StartDate : (DateTime?)null;
-            curriculumChapter.EndDate = model.SetTimeline ? model.EndDate : (DateTime?)null;
+            model.SetTimeline = true;
+            curriculumChapter.StartDate = model.StartDate;
+            curriculumChapter.EndDate = model.EndDate;
 
             AddValidationErrorsToModelState(Validator.ValidateCurriculumChapter(curriculumChapter).Errors);
 
             if (ModelState.IsValid)
             {
                 Storage.UpdateCurriculumChapter(curriculumChapter);
-                return RedirectToRoute("CurriculumChapters", new { action = "Index", CurriculumId = Session["CurriculumId"] });
+                return Json(new { success = true, curriculumChapterId = curriculumChapterId, 
+                   curriculumChapterRow = PartialViewAsString("CurriculumChapterRow", new ViewCurriculumChapterModel {
+                      Id = curriculumChapterId,
+                      CurriculumRef = curriculumChapter.CurriculumRef,
+                      ChapterName = curriculumChapter.Chapter.Name,
+                      HaveTimelines = model.SetTimeline,
+                      StartDate = curriculumChapter.StartDate.ToString(),
+                      EndDate = curriculumChapter.EndDate.ToString()
+                   }),
+                   curriculumInfo = new { Id = curriculumChapter.CurriculumRef, IsValid = Storage.GetCurriculum(curriculumChapter.CurriculumRef).IsValid }
+                });
             }
-            return View(model);
+              return Json(new {success = false, curriculumChapterId = curriculumChapterId, html = PartialViewAsString("Edit", model)});
+           } catch (Exception ex) {
+              return Json(new { success = false, html = ex.Message });
+           }
+        }
+
+        [HttpPost]
+        [Allow( Role = Role.Teacher )]
+        public JsonResult RemoveChapterTimelines( int curriculumChapterId ) {
+           try {
+              var curriculumChapter = Storage.GetCurriculumChapter(curriculumChapterId);
+              curriculumChapter.StartDate = null;
+              curriculumChapter.EndDate = null;
+              Storage.UpdateCurriculumChapter(curriculumChapter);
+              return Json(new {success = true});
+           } catch (Exception ex) {
+              return Json(new {success = false, error = ex.Message});
+           }
         }
     }
 }
