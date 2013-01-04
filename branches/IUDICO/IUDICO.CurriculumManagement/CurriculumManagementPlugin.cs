@@ -84,6 +84,11 @@ namespace IUDICO.CurriculumManagement
                 new { controller = "CurriculumChapter" });
 
             routes.MapRoute(
+                "CurriculumChapterAction",
+                "CurriculumChapter/{action}",
+                new { controller = "CurriculumChapter" });
+
+            routes.MapRoute(
                 "CurriculumChapters",
                 "Curriculum/{CurriculumId}/CurriculumChapter/{action}",
                 new { controller = "CurriculumChapter" });
@@ -91,6 +96,11 @@ namespace IUDICO.CurriculumManagement
             routes.MapRoute(
                 "CurriculumChapterTopic",
                 "CurriculumChapterTopic/{CurriculumChapterTopicId}/{action}",
+                new { controller = "CurriculumChapterTopic" });
+
+            routes.MapRoute(
+                "CurriculumChapterTopicAction",
+                "CurriculumChapterTopic/{action}",
                 new { controller = "CurriculumChapterTopic" });
 
             routes.MapRoute(

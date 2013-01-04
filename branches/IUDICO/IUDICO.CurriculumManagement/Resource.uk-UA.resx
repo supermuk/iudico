@@ -489,4 +489,13 @@
   <data name="ThresholdOfSuccess" xml:space="preserve">
     <value>Поріг успішності (в %)</value>
   </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Згода</value>
+  </data>
+  <data name="Topic" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="RemoveTimelines" xml:space="preserve">
+    <value>Видалити часові межі</value>
+  </data>
 </root>

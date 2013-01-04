@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IUDICO.Common;
 using IUDICO.Common.Models.Shared;
+using IUDICO.CurriculumManagement.Models.Enums;
 using IUDICO.CurriculumManagement.Models.Storage;
 
 namespace IUDICO.CurriculumManagement.Models
@@ -93,15 +94,17 @@ namespace IUDICO.CurriculumManagement.Models
             return validationStatus;
         }
 
-        public Dictionary<string, string> GetCurriculumValidation(Curriculum curriculum) {
-            var errors = new Dictionary<string, string>();
+        public ValidationErrorList GetCurriculumValidation(Curriculum curriculum) {
+            var errors = new ValidationErrorList {Errors = new List<ValidationError>(), ErrorsText = new List<string>()};
             
             if (this.Storage.GetGroup(curriculum.UserGroupRef) == null) {
-                errors.Add(Localization.GetMessage("ChooseGroup"), "/Curriculum/" + curriculum.Id + "/Edit");
+                errors.ErrorsText.Add(Localization.GetMessage("ChooseGroup"));
+                errors.Errors.Add(new ValidationError { Type = ValidationErrorType.Group});
             }
 
             if (!this.Storage.GetDiscipline(curriculum.DisciplineRef).IsValid) {
-                errors.Add(Localization.GetMessage("DisciplineIsInvalid"), "/Discipline/Index");
+                errors.ErrorsText.Add(Localization.GetMessage("DisciplineIsInvalid"));
+                errors.Errors.Add(new ValidationError { Type = ValidationErrorType.Discipline});
             }
 
             var curriculumChapters = this.Storage.GetCurriculumChapters(item => item.CurriculumRef == curriculum.Id);
@@ -110,7 +113,15 @@ namespace IUDICO.CurriculumManagement.Models
             {
                 if (curriculumChapter.StartDate < curriculum.StartDate || curriculumChapter.EndDate > curriculum.EndDate)
                 {
-                    errors.Add(Localization.GetMessage("ChapterTimelineOut") + " - " + curriculumChapter.Chapter.Name, "/CurriculumChapter/" + curriculumChapter.Id + "/Edit");
+                    errors.ErrorsText.Add(Localization.GetMessage("ChapterTimelineOut") + " - " + curriculumChapter.Chapter.Name);
+                    errors.Errors.Add(new ValidationError {
+                       Type = ValidationErrorType.ChapterTimeline,
+                       ErrorData = new {
+                          CurriculumChapterId = curriculumChapter.Id,
+                          StartDateErr = curriculumChapter.StartDate < curriculum.StartDate,
+                          EndDateErr = curriculumChapter.EndDate > curriculum.EndDate
+                      }
+                   });
                 }
             
                 var curriculumChapterTopics = this.Storage.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapter.Id);
@@ -123,14 +134,36 @@ namespace IUDICO.CurriculumManagement.Models
                         || curriculumChapter.EndDate < curriculumChapterTopic.TheoryEndDate
                         || curriculumChapter.EndDate < curriculumChapterTopic.TestEndDate)
                     {
-                        errors.Add(Localization.GetMessage("TopicTimelineOut") + " - " + curriculumChapterTopic.Topic.Name, "/CurriculumChapterTopic/" + curriculumChapterTopic.Id + "/Edit");
+                        errors.ErrorsText.Add(Localization.GetMessage("TopicTimelineOut") + " - " + curriculumChapterTopic.Topic.Name);
+                        errors.Errors.Add(new ValidationError {
+                           Type = ValidationErrorType.TopicTimelineOutOfChapter,
+                           ErrorData = new {
+                              CurriculumChapterId = curriculumChapter.Id,
+                              CurriculumChapterTopicId = curriculumChapterTopic.Id,
+                              StartDateErr = curriculumChapter.StartDate > curriculumChapterTopic.TestStartDate
+                                             || curriculumChapter.StartDate > curriculumChapterTopic.TheoryStartDate,
+                              EndDateErr = curriculumChapter.EndDate < curriculumChapterTopic.TheoryEndDate
+                                             || curriculumChapter.EndDate < curriculumChapterTopic.TestEndDate
+                          }
+                       });
                     }
                     else if (curriculum.StartDate > curriculumChapterTopic.TestStartDate
                         || curriculum.StartDate > curriculumChapterTopic.TheoryStartDate
                         || curriculum.EndDate < curriculumChapterTopic.TheoryEndDate
                         || curriculum.EndDate < curriculumChapterTopic.TestEndDate)
                     {
-                        errors.Add(Localization.GetMessage("TopicTimelineOutOfCurriculum") + " - " + curriculumChapterTopic.Topic.Name, "/CurriculumChapterTopic/" + curriculumChapterTopic.Id + "/Edit");
+                        errors.ErrorsText.Add(Localization.GetMessage("TopicTimelineOutOfCurriculum") + " - " + curriculumChapterTopic.Topic.Name);
+                        errors.Errors.Add(new ValidationError {
+                           Type = ValidationErrorType.TopicTimelineOutOfCurriculum,
+                           ErrorData = new {
+                              CurriculumChapterId = curriculumChapter.Id,
+                              CurriculumChapterTopicId = curriculumChapterTopic.Id,
+                              StartDateErr = curriculum.StartDate > curriculumChapterTopic.TestStartDate
+                                             || curriculum.StartDate > curriculumChapterTopic.TheoryStartDate,
+                              EndDateErr = curriculum.EndDate < curriculumChapterTopic.TheoryEndDate
+                                             || curriculum.EndDate < curriculumChapterTopic.TestEndDate
+                           }
+                        });
                     }
                 }
             }
@@ -149,7 +182,7 @@ namespace IUDICO.CurriculumManagement.Models
             }
             else if (endDate.HasValue)
             {
-                if (startDate > endDate)
+                if (startDate >= endDate)
                 {
                     validationStatus.AddLocalizedError("StartDateMustLessThanEndDate");
                 }

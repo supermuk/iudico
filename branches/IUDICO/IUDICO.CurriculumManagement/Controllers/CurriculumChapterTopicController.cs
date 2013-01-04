@@ -22,31 +22,37 @@ namespace IUDICO.CurriculumManagement.Controllers
 
         }
 
+        [HttpPost]
         [Allow(Role = Role.Teacher)]
-        public ActionResult Index(int curriculumChapterId)
+        public JsonResult GetCurriculumChapterTopics(int parentId)
         {
-            var curriculumChapter = Storage.GetCurriculumChapter(curriculumChapterId);
-            var curriculum = Storage.GetCurriculum(curriculumChapter.CurriculumRef);
-            var curriculumChapterTopics = Storage.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == curriculumChapterId);
-            var discipline = Storage.GetDiscipline(curriculum.DisciplineRef);
-
-            ViewData["DisciplineId"] = discipline.Id;
-            ViewData["DisciplineName"] = discipline.Name;
-            ViewData["CurriculumId"] = curriculum.Id;
-            ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef) != null ? Storage.GetGroup(curriculum.UserGroupRef).Name : Localization.GetMessage("GroupNotExist");
-            ViewData["ChapterName"] = Storage.GetChapter(curriculumChapter.ChapterRef).Name;
-            return View(
-                curriculumChapterTopics.Select(item => new ViewCurriculumChapterTopicModel
-                    {
-                        Id = item.Id,
-                        BlockCurriculumAtTesting = item.BlockCurriculumAtTesting,
-                        BlockTopicAtTesting = item.BlockTopicAtTesting,
-                        TestStartDate = Converter.ToString(item.TestStartDate),
-                        TestEndDate = Converter.ToString(item.TestEndDate),
-                        TheoryStartDate = Converter.ToString(item.TheoryStartDate),
-                        TheoryEndDate = Converter.ToString(item.TheoryEndDate),
-                        ThresholdOfSuccess = item.ThresholdOfSuccess,
-                        TopicName = Storage.GetTopic(item.TopicRef).Name }));
+           try {
+                var curriculumChapter = Storage.GetCurriculumChapter(parentId);
+                var curriculum = Storage.GetCurriculum(curriculumChapter.CurriculumRef);
+                var curriculumChapterTopics = Storage.GetCurriculumChapterTopics(item => item.CurriculumChapterRef == parentId);
+                var discipline = Storage.GetDiscipline(curriculum.DisciplineRef);
+                ViewData["DisciplineId"] = discipline.Id;
+                ViewData["DisciplineName"] = discipline.Name;
+                ViewData["CurriculumId"] = curriculum.Id;
+                ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef) != null ? Storage.GetGroup(curriculum.UserGroupRef).Name : Localization.GetMessage("GroupNotExist");
+                ViewData["ChapterName"] = Storage.GetChapter(curriculumChapter.ChapterRef).Name;
+                var model = curriculumChapterTopics.Select(item => new ViewCurriculumChapterTopicModel {
+                   Id = item.Id,
+                   CurriculumChapterRef = item.CurriculumChapterRef,
+                   BlockCurriculumAtTesting = item.BlockCurriculumAtTesting,
+                   BlockTopicAtTesting = item.BlockTopicAtTesting,
+                   TestStartDate = Converter.ToString(item.TestStartDate),
+                   TestEndDate = Converter.ToString(item.TestEndDate),
+                   TheoryStartDate = Converter.ToString(item.TheoryStartDate),
+                   TheoryEndDate = Converter.ToString(item.TheoryEndDate),
+                   ThresholdOfSuccess = item.ThresholdOfSuccess,
+                   TopicName = Storage.GetTopic(item.TopicRef).Name
+                });
+                var partialViews = model.Select(item => PartialViewAsString("CurriculumChapterTopicRow", item)).ToArray();
+                return Json(new {success = true, items = partialViews});
+           } catch (Exception ex) {
+                return Json(new {success = false});
+           }
         }
 
         [HttpGet]
@@ -68,34 +74,51 @@ namespace IUDICO.CurriculumManagement.Controllers
 
             Session["CurriculumChapterId"] = curriculumChapter.Id;
             ViewData["GroupName"] = Storage.GetGroup(curriculum.UserGroupRef) != null ? Storage.GetGroup(curriculum.UserGroupRef).Name : Localization.GetMessage("GroupNotExist");
-            ViewData["DisciplineName"] = Storage.GetDiscipline(curriculum.DisciplineRef).Name;
-            ViewData["CurriculumId"] = curriculum.Id;
             ViewData["ChapterName"] = Storage.GetChapter(curriculumChapter.ChapterRef).Name;
-            ViewData["TopicName"] = Storage.GetTopic(curriculumChapterTopic.TopicRef).Name;
-            return View(model);
+            return PartialView(model);
         }
 
         [HttpPost]
         [Allow(Role = Role.Teacher)]
         public ActionResult Edit(int curriculumChapterTopicId, CreateCurriculumChapterTopicModel model)
         {
-            var curriculumChapterTopic = Storage.GetCurriculumChapterTopic(curriculumChapterTopicId);
-            curriculumChapterTopic.ThresholdOfSuccess = model.ThresholdOfSuccess;
-            curriculumChapterTopic.BlockCurriculumAtTesting = model.BlockCurriculumAtTesting;
-            curriculumChapterTopic.BlockTopicAtTesting = model.BlockTopicAtTesting;
-            curriculumChapterTopic.TestStartDate = model.SetTestTimeline ? model.TestStartDate : (DateTime?)null;
-            curriculumChapterTopic.TestEndDate = model.SetTestTimeline ? model.TestEndDate : (DateTime?)null;
-            curriculumChapterTopic.TheoryStartDate = model.SetTheoryTimeline ? model.TheoryStartDate : (DateTime?)null;
-            curriculumChapterTopic.TheoryEndDate = model.SetTheoryTimeline ? model.TheoryEndDate : (DateTime?)null;
+           try {
+              var curriculumChapterTopic = Storage.GetCurriculumChapterTopic(curriculumChapterTopicId);
+              curriculumChapterTopic.ThresholdOfSuccess = model.ThresholdOfSuccess;
+              curriculumChapterTopic.BlockCurriculumAtTesting = model.BlockCurriculumAtTesting;
+              curriculumChapterTopic.BlockTopicAtTesting = model.BlockTopicAtTesting;
+              curriculumChapterTopic.TestStartDate = model.SetTestTimeline ? model.TestStartDate : (DateTime?) null;
+              curriculumChapterTopic.TestEndDate = model.SetTestTimeline ? model.TestEndDate : (DateTime?) null;
+              curriculumChapterTopic.TheoryStartDate = model.SetTheoryTimeline ? model.TheoryStartDate : (DateTime?) null;
+              curriculumChapterTopic.TheoryEndDate = model.SetTheoryTimeline ? model.TheoryEndDate : (DateTime?) null;
 
-            AddValidationErrorsToModelState(Validator.ValidateCurriculumChapterTopic(curriculumChapterTopic).Errors);
+              AddValidationErrorsToModelState(Validator.ValidateCurriculumChapterTopic(curriculumChapterTopic).Errors);
 
-            if (ModelState.IsValid)
-            {
-                Storage.UpdateCurriculumChapterTopic(curriculumChapterTopic);
-                return RedirectToRoute("CurriculumChapterTopics", new { action = "Index", CurriculumChapterId = Session["CurriculumChapterId"] });
-            }
-            return View(model);
+              if (ModelState.IsValid) {
+                 Storage.UpdateCurriculumChapterTopic(curriculumChapterTopic);
+                 var curriculum = Storage.GetCurriculum(Storage.GetCurriculumChapter(curriculumChapterTopic.CurriculumChapterRef).CurriculumRef);
+                 return Json(new {
+                    success = true,
+                    curriculumChapterTopicId = curriculumChapterTopicId,
+                    curriculumChapterTopicRow = PartialViewAsString("CurriculumChapterTopicRow", new ViewCurriculumChapterTopicModel {
+                       Id = curriculumChapterTopic.Id,
+                       CurriculumChapterRef = curriculumChapterTopic.CurriculumChapterRef,
+                       BlockCurriculumAtTesting = curriculumChapterTopic.BlockCurriculumAtTesting,
+                       BlockTopicAtTesting = curriculumChapterTopic.BlockTopicAtTesting,
+                       TestStartDate = Converter.ToString(curriculumChapterTopic.TestStartDate),
+                       TestEndDate = Converter.ToString(curriculumChapterTopic.TestEndDate),
+                       TheoryStartDate = Converter.ToString(curriculumChapterTopic.TheoryStartDate),
+                       TheoryEndDate = Converter.ToString(curriculumChapterTopic.TheoryEndDate),
+                       ThresholdOfSuccess = curriculumChapterTopic.ThresholdOfSuccess,
+                       TopicName = Storage.GetTopic(curriculumChapterTopic.TopicRef).Name
+                    }),
+                    curriculumInfo = new { Id = curriculum.Id, IsValid = curriculum.IsValid }
+                 });
+              }
+              return Json(new {success = false, curriculumChapterTopicId = curriculumChapterTopicId, html = PartialViewAsString("Edit", model)});
+           } catch (Exception ex) {
+              return Json(new {success = false, html = ex.Message});
+           }
         }
     }
 }

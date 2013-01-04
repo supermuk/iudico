@@ -14,6 +14,7 @@
     <AssemblyName>IUDICO.CurriculumManagement</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -69,9 +70,12 @@
     <Compile Include="CurriculumManagementPlugin.cs" />
     <Compile Include="Models\Constants.cs" />
     <Compile Include="Models\DBDataContext.cs" />
+    <Compile Include="Models\Enums\ValidationErrorType.cs" />
     <Compile Include="Models\IDataContext.cs" />
     <Compile Include="Models\Storage\CachedCurriculumStorage.cs" />
     <Compile Include="Models\Utils.cs" />
+    <Compile Include="Models\ValidationError.cs" />
+    <Compile Include="Models\ValidationErrorList.cs" />
     <Compile Include="Models\ValidationStatus.cs" />
     <Compile Include="Models\Validator.cs" />
     <Compile Include="Models\ViewDataClasses\CreateCurriculumChapterTopicModel.cs">
@@ -92,18 +96,42 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\CurriculumChapterTopic\Edit.aspx" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\svg\jquery.svg.css" />
+    <Content Include="Scripts\CurriculumMain.js" />
+    <Content Include="Scripts\jquery-1.4.1-vsdoc.js" />
+    <Content Include="Scripts\jquery-1.4.1.js" />
+    <Content Include="Scripts\jquery-1.4.1.min.js" />
+    <Content Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\MicrosoftAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcAjax.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
+    <Content Include="Scripts\MicrosoftMvcValidation.js" />
+    <Content Include="Scripts\svg\jquery.svg.js" />
+    <Content Include="Scripts\treetable\images\toggle-collapse-dark.png" />
+    <Content Include="Scripts\treetable\images\toggle-collapse-light.png" />
+    <Content Include="Scripts\treetable\images\toggle-expand-dark.png" />
+    <Content Include="Scripts\treetable\images\toggle-expand-light.png" />
+    <Content Include="Scripts\treetable\javascripts\jquery.treeTable.js" />
+    <Content Include="Scripts\treetable\javascripts\jquery.treeTable.min.js" />
+    <Content Include="Scripts\treetable\stylesheets\jquery.treeTable.css" />
+    <Content Include="Views\CurriculumChapterTopic\CurriculumChapterTopicRow.ascx" />
+    <Content Include="Views\CurriculumChapterTopic\Edit.ascx" />
     <Content Include="Views\CurriculumChapterTopic\EditorForCurriculumChapterTopicModel.ascx" />
-    <Content Include="Views\CurriculumChapter\Edit.aspx" />
+    <Content Include="Views\CurriculumChapter\CurriculumChapterRow.ascx" />
+    <Content Include="Views\CurriculumChapter\Edit.ascx" />
     <Content Include="Views\CurriculumChapter\EditorForCurriculumChapterModel.ascx" />
-    <Content Include="Views\CurriculumChapter\Index.aspx" />
-    <Content Include="Views\Curriculum\Create.aspx" />
+    <Content Include="Views\Curriculum\Create.ascx" />
+    <Content Include="Views\Curriculum\CurriculumRow.ascx" />
     <Content Include="Views\Curriculum\Details.aspx" />
+    <Content Include="Views\Curriculum\Edit.ascx" />
     <Content Include="Views\Curriculum\EditorForCurriculumModel.ascx" />
-    <Content Include="Views\Curriculum\Edit.aspx" />
     <Content Include="Views\Curriculum\EditTopic.ascx" />
     <Content Include="Views\Curriculum\Index.aspx" />
-    <Content Include="Views\CurriculumChapterTopic\Index.aspx" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IUDICO.Common\IUDICO.Common.csproj">
@@ -123,9 +151,7 @@
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\Enums\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Views\Curriculum\ValidationErrors.ascx" />
     <Content Include="Views\Web.config" />
