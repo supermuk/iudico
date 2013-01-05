@@ -290,7 +290,11 @@ function compiledTest($object, id) {
         }
 
         $object.replaceWith($question);
-		window.sh_highlightDocument();
+        try {
+            window.sh_highlightDocument();  
+        }
+        catch (e) {
+        }
     }
 
     this.check = function () {

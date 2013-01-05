@@ -23,6 +23,7 @@
       <JavaScriptFiles Include="Data\CourseTemplate\sh_csharp.min.js"/>
       <JavaScriptFiles Include="Data\CourseTemplate\sh_java.min.js"/>
       <JavaScriptFiles Include="Data\CourseTemplate\sh_xml.min.js"/>
+      <JavaScriptFiles Include="Data\CourseTemplate\sh_pascal.min.js"/>
       <JavaScriptFiles Include="Data\CourseTemplate\jquery.xhr.js"/>
       <JavaScriptFiles Include="Data\CourseTemplate\flXHR.js"/>
       <JavaScriptFiles Include="Data\CourseTemplate\jquery.flXHRproxy.js"/>
