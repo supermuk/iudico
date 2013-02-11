@@ -9,7 +9,6 @@ namespace IUDICO.DataGenerator.Models.Storage
 {
 	public class DemoStorage: IDemoStorage
 	{
-		
 		private List<User> students = new List<User>
 		{
 			new User 
