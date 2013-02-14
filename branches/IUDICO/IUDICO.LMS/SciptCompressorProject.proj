@@ -17,7 +17,9 @@
       <!-- Single files, listed in order of dependency -->
       <CssFiles Include="Data\CourseTemplate\iudico.css"/>
       <CssFiles Include="Data\CourseTemplate\sh_style.css"/>
+      <CssFiles Include="Data\CourseTemplate\jquery-ui.custom.css"/>
       <JavaScriptFiles Include="Data\CourseTemplate\jquery-1.5.2.min.js"/>
+      <JavaScriptFiles Include="Data\CourseTemplate\jquery-ui.min.js"/>
       <JavaScriptFiles Include="Data\CourseTemplate\sh_main.min.js"/>
       <JavaScriptFiles Include="Data\CourseTemplate\sh_cpp.min.js"/>
       <JavaScriptFiles Include="Data\CourseTemplate\sh_csharp.min.js"/>

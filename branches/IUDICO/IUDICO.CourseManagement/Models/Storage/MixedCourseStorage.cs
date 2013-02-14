@@ -27,7 +27,7 @@ namespace IUDICO.CourseManagement.Models.Storage
         protected readonly LinqLogger Logger;
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly string[] templateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", 
+        private readonly string[] templateFiles = { "api.js", "checkplayer.js", "flensed.js", "flXHR.js", "flXHR.swf", "iudico.css", "iudico.js", "jquery-1.5.2.min.js", "jquery-ui.min.js", "jquery-ui.custom.css",
 
 "jquery.flXHRproxy.js", "jquery.xhr.js", "questions.js", "sco.js", "swfobject.js", "updateplayer.swf", "sh_main.min.js", "sh_cpp.min.js", "sh_csharp.min.js", "sh_java.min.js", 
 

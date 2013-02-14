@@ -12,7 +12,12 @@ $(document).ready(function(){
 	}).bind("ajaxError", function() {
 		$(this).hide();
 	});
+    var divList = document.getElementsByTagName('div');
+    for (var i = 0; i < divList.length; i++) {
+        if (divList[i].attributes['id'] && divList[i].attributes['id'].value.contains('tabs')) {
+            $('#'+divList[i].attributes['id'].value).tabs();
+        }
+     }
 });
-
 window.onunload = $.rteTerminate;
 window.onbeforeunload = $.rteTerminate;
