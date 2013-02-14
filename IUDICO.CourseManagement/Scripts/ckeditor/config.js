@@ -10,7 +10,7 @@ CKEDITOR.editorConfig = function (config) {
     // config.language = 'fr';
     // config.uiColor = '#AADC6E';
 
-    config.extraPlugins = 'iudico,save,syntaxhighlight,spoiler,switchtoolbar';
+    config.extraPlugins = 'iudico,save,syntaxhighlight,spoiler,switchtoolbar,codeTab';
     config.font_names =
             'Arial/Arial, Helvetica, sans-serif;' +
             'Comic Sans MS/Comic Sans MS, cursive;' +
@@ -41,7 +41,7 @@ CKEDITOR.editorConfig = function (config) {
 	    ['TextColor', 'BGColor'],
 	    ['Maximize', 'ShowBlocks', '-', 'About'],
         ['iudico-simple', 'iudico-choice', 'iudico-compile'],
-        ['Code', 'Spoiler', '-', 'SwitchToolbar']
+        ['Code', 'CodeTab', 'Spoiler', '-', 'SwitchToolbar']
     ];
 
     CKEDITOR.config.toolbar_IUDICOSmall =

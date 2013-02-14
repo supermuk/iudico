@@ -186,6 +186,10 @@
     <Content Include="Content\ui.multichoice.css" />
     <Content Include="Libraries\SgmlReaderDll.dll" />
     <Content Include="Scripts\ckeditor\ckeditor.js" />
+    <Content Include="Scripts\ckeditor\plugins\codeTab\images\icon.PNG" />
+    <Content Include="Scripts\ckeditor\plugins\codeTab\lang\en.js" />
+    <Content Include="Scripts\ckeditor\plugins\codeTab\lang\uk.js" />
+    <Content Include="Scripts\ckeditor\plugins\codeTab\plugin.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\lang\en.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\lang\uk.js" />
     <Content Include="Scripts\ckeditor\plugins\spoiler\logo.gif" />
@@ -1257,7 +1261,6 @@
     <Content Include="Scripts\ckeditor\_source\plugins\tabletools\plugin.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\table\dialogs\table.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\table\plugin.js" />
-    <Content Include="Scripts\ckeditor\_source\plugins\tab\plugin.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\templates\dialogs\templates.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\templates\plugin.js" />
     <Content Include="Scripts\ckeditor\_source\plugins\templates\templates\default.js" />
