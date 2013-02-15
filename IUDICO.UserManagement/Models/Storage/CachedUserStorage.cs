@@ -12,11 +12,6 @@ namespace IUDICO.UserManagement.Models.Storage
 
     public class CachedUserStorage : IUserStorage
     {
-        // TODO: fix
-        // GetUser(email)
-        // RestorePassword(User)
-        // methods User instead of username/id
-
         private readonly ICacheProvider cacheProvider;
         private readonly IUserStorage storage;
         private readonly object lockObject = new object();
@@ -39,7 +34,6 @@ namespace IUDICO.UserManagement.Models.Storage
                 key = HttpContext.Current.User.Identity.Name;
             }
 
-            ////var user = _cacheProvider.["user-" + key] as User;
             return this.cacheProvider.Get(
                 "user-name-" + key,
                 this.@lockObject,
@@ -104,7 +98,6 @@ namespace IUDICO.UserManagement.Models.Storage
             return this.storage.UserOpenIdAvailable(openId, id);
         }
 
-        // TODO: rewrite interface method
         public void ActivateUser(Guid id)
         {
             this.storage.ActivateUser(id);
@@ -114,7 +107,6 @@ namespace IUDICO.UserManagement.Models.Storage
             this.cacheProvider.Invalidate("user-id-" + user.Id, "user-name-" + user.Username, "users");
         }
 
-        // TODO: rewrite interface method
         public void DeactivateUser(Guid id)
         {
             this.storage.DeactivateUser(id);
@@ -279,7 +271,6 @@ namespace IUDICO.UserManagement.Models.Storage
         public void AddUserToRole(Role role, User user)
         {
             this.storage.AddUserToRole(role, user);
-
             this.cacheProvider.Invalidate(
                 "role-" + role, "user-id-" + user.Id, "user-name-" + user.Username, "users", "roles");
         }

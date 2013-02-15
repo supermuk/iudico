@@ -20,8 +20,6 @@ namespace IUDICO.UserManagement.Models
          this.Email = user.Email;
          this.Roles = roles;
          this.Groups = groups;
-         /*Groups = user.Groups;
-         Roles = user.Roles;*/
          this.UserId = user.UserId;
       }
 
@@ -61,12 +59,8 @@ namespace IUDICO.UserManagement.Models
       public AdminDetailsModel(User user, IEnumerable<Role> roles, IEnumerable<Group> groups)
          : base(user, roles, groups)
       {
-         ////Id = user.Id;
          this.IsApproved = user.IsApproved;
       }
-
-      ////[ScaffoldColumn(false)]
-      ////public Guid Id { get; set; }
 
       [LocalizedDisplayName("Activated")]
       [DataType(DataType.Text)]

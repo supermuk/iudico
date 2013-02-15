@@ -26,7 +26,6 @@ namespace IUDICO.UserManagement.Models.Storage
         protected const string EmailHost = "192.168.0.225";
         protected const int EmailPort = 25;
         protected const string EmailUser = "report@tests-ua.com";
-        /*protected const string EmailPassword = "iudico2012";*/
 
         public DatabaseUserStorage(ILmsService lmsService, LinqLogger logger)
         {
@@ -77,7 +76,6 @@ namespace IUDICO.UserManagement.Models.Storage
                 EnableSsl = false,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                /*Credentials = new NetworkCredential(EmailUser, EmailPassword),*/
             };
 
             client.SendAsync(message, null);
@@ -130,7 +128,6 @@ namespace IUDICO.UserManagement.Models.Storage
 
         public User GetUser(Func<User, bool> predicate)
         {
-            // Workaround for getting users datatable from cache if it turned on
             return this.lmsService.FindService<IUserService>().GetUsers().Where(u=>!u.Deleted).SingleOrDefault(predicate);
         }
 
@@ -192,10 +189,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public void ActivateUser(Guid id)
         {
             var db = this.GetDbContext();
-
-            ////var user = GetUser(id);
             var user = db.Users.Single(u => u.Id == id);
-            ////db.Users.Attach(user);
 
             user.IsApproved = true;
             user.ApprovedBy = this.GetCurrentUser().Id;
@@ -206,10 +200,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public void DeactivateUser(Guid id)
         {
             var db = this.GetDbContext();
-
-            ////var user = GetUser(id);
             var user = db.Users.Single(u => u.Id == id);
-            ////db.Users.Attach(user);
 
             user.IsApproved = false;
             user.ApprovedBy = null;
@@ -228,14 +219,10 @@ namespace IUDICO.UserManagement.Models.Storage
         public User RestorePassword(RestorePasswordModel restorePasswordModel)
         {
             var db = this.GetDbContext();
-
             var user = db.Users.SingleOrDefault(u => u.Username == restorePasswordModel.Username && u.Email == restorePasswordModel.Email);
             var password = this.RandomPassword();
-
             user.Password = this.EncryptPassword(password);
-
             db.SubmitChanges();
-
             this.SendEmail("admin@iudico", user.Email, "Iudico Notification", "Your password has been changed:" + password);
 
             return user;
@@ -354,10 +341,7 @@ namespace IUDICO.UserManagement.Models.Storage
         public void EditUser(Guid id, User user)
         {
             var db = this.GetDbContext();
-            ////var oldUser = GetUser(id);
             var oldUser = db.Users.Single(u => u.Id == id);
-
-            ////db.Users.Attach(oldUser);
 
             oldUser.Name = user.Name;
 
@@ -379,11 +363,8 @@ namespace IUDICO.UserManagement.Models.Storage
         public void EditUser(Guid id, EditUserModel user)
         {
             var db = this.GetDbContext();
-            ////var oldUser = GetUser(id);
-            ////var newUser = GetUser(id);
             var newUser = db.Users.Single(u => u.Id == id);
 
-            ////db.Users.Attach(newUser);
             object[] data = new object[2];
 
             newUser.Name = user.Name;
@@ -398,8 +379,6 @@ namespace IUDICO.UserManagement.Models.Storage
             newUser.UserId = user.UserId;
 
             db.SubmitChanges();
-            ////data[0] = oldUser;
-            ////data[1] = newUser;
             this.lmsService.Inform(UserNotifications.UserEdit, newUser);
         }
 
@@ -789,13 +768,11 @@ namespace IUDICO.UserManagement.Models.Storage
 
             if (fileInfo.Exists)
             {
-                // if the file had been removed successfully
                 fileInfo.Delete();
-                return 1;
+                return 1;  // if the file had been removed successfully
             }
 
-            // if there was no file with such name in directory
-            return -1;
+            return -1; // if there was no file with such name in directory
         }
 
         #endregion

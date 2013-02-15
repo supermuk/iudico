@@ -35,7 +35,6 @@ namespace IUDICO.UserManagement
                     .Configure(c => c.LifeStyle.Transient
                                         .Named(c.Implementation.Name)),
                 Component.For<IPlugin>().Instance(this).LifeStyle.Is(LifestyleType.Singleton),
-                ////Component.For<IPlugin>().ImplementedBy<UserManagementPlugin>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IUserStorage>().ImplementedBy<CachedUserStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IUserStorage>().ImplementedBy<DatabaseUserStorage>().LifeStyle.Is(LifestyleType.Singleton),
                 Component.For<IUserService>().ImplementedBy<UserService>().LifeStyle.Is(LifestyleType.Singleton),

@@ -45,9 +45,9 @@ namespace IUDICO.UserManagement.Models
             return this.userStorage.GetGroup(id);
         }
 
-        public IEnumerable<UserTopicRating> GetRatings(User user, IEnumerable<int> topicIds)
+        public IEnumerable<UserTopicRating> GetRatings(User user, IEnumerable<int> topicId)
         {
-            return this.userStorage.GetRatings(user, topicIds);
+            return this.userStorage.GetRatings(user, topicId);
         }
 
         public IEnumerable<User> GetUsersByGroup(Group group)

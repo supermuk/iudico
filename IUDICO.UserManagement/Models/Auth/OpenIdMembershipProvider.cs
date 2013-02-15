@@ -17,11 +17,6 @@ namespace IUDICO.UserManagement.Models.Auth
             this.userStorage = userStorage;
         }
 
-        /*protected string GetConfigValue(string configValue, string defaultValue)
-        {
-            return string.IsNullOrEmpty(configValue) ? defaultValue : configValue;
-        }*/
-
         public MembershipCreateStatus CreateUser(string username, string password, string email, string openId, bool isApproved)
         {
             try
@@ -94,15 +89,7 @@ namespace IUDICO.UserManagement.Models.Auth
         public override bool ValidateUser(string username, string password)
         {
             var user = this.userStorage.GetUser(username);
-
             return user != null && user.Password == this.userStorage.EncryptPassword(password);
-            /*
-            var user =
-                this.userStorage.GetUser(
-                    u => u.Username == username && u.Password == this.userStorage.EncryptPassword(password));
-
-            return user != null && !user.Deleted;
-             */
         }
 
         public override bool UnlockUser(string userName)
@@ -113,13 +100,11 @@ namespace IUDICO.UserManagement.Models.Auth
         public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
         {
             return this.GetMembershipUser(this.userStorage.GetUser((Guid)providerUserKey));
-            // return this.GetMembershipUser(this.userStorage.GetUser(u => u.Id == (Guid)providerUserKey));
         }
 
         public override MembershipUser GetUser(string username, bool userIsOnline)
         {
             return this.GetMembershipUser(this.userStorage.GetUser(username));
-            // return this.GetMembershipUser(this.userStorage.GetUser(u => u.Username == username));
         }
 
         public MembershipUser GetMembershipUser(User user)
