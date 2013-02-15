@@ -70,9 +70,6 @@ namespace IUDICO.UserManagement.Models.Auth
 
         public override string[] FindUsersInRole(string roleName, string usernameToMatch)
         {
-            /*var role = GetRole(roleName);
-
-            return _UserStorage.GetUsers(u => u.Role == role && u.Username.Contains(usernameToMatch)).Select(u => u.Username).ToArray();*/
             throw new NotImplementedException();
         }
 
